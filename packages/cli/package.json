@@ -1,0 +1,16 @@
+{
+  "name": "@senvenli/cli",
+  "version": "0.0.0",
+  "description": "Write Senvenli UI theme files from a preset code or options.",
+  "license": "MIT",
+  "type": "module",
+  "bin": { "senvenli-ui": "./dist/index.js" },
+  "files": ["dist"],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "@senvenli/tokens": "workspace:*"
+  }
+}

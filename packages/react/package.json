@@ -1,0 +1,11 @@
+{
+  "name": "@senvenli/react",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Senvenli UI web components (React Aria Components + Tailwind v4).",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "typecheck": "tsc -p ../../tsconfig.base.json --noEmit src/index.ts"
+  }
+}

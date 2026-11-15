@@ -1,0 +1,67 @@
+#!/usr/bin/env node
+import { writeFileSync } from "node:fs";
+import { parseArgs } from "node:util";
+import { createTheme, decodePreset, toCSS, toNative, type ThemeInput } from "@senvenli/tokens";
+
+const USAGE = `Usage: senvenli-ui theme [preset-code] [options]
+
+Options:
+  --primary, --secondary, --tertiary <color>   Brand colors (#hex or oklch()); all optional
+  --radius <rem>                               Base radius, e.g. 0.5
+  --density <compact|default|comfortable>
+  --border-width <0|1|2>
+  --out <file>                                 Default: theme.css (or theme.ts with --native)
+  --native                                     Write a React Native theme instead of CSS
+  --tailwind                                   Add a Tailwind v4 @theme inline block`;
+
+function main(argv: string[]): number {
+  const { positionals, values } = parseArgs({
+    args: argv,
+    allowPositionals: true,
+    options: {
+      primary: { type: "string" },
+      secondary: { type: "string" },
+      tertiary: { type: "string" },
+      radius: { type: "string" },
+      density: { type: "string" },
+      "border-width": { type: "string" },
+      out: { type: "string" },
+      native: { type: "boolean" },
+      tailwind: { type: "boolean" },
+      help: { type: "boolean", short: "h" },
+    },
+  });
+  const [command, code] = positionals;
+  if (values.help || command !== "theme") {
+    console.log(USAGE);
+    return values.help ? 0 : 1;
+  }
+  let input: ThemeInput = {};
+  if (code) {
+    const decoded = decodePreset(code);
+    if (!decoded) {
+      console.error(`Invalid preset code: ${code}`);
+      return 1;
+    }
+    input = decoded;
+  }
+  for (const role of ["primary", "secondary", "tertiary"] as const) {
+    if (values[role]) input[role] = values[role];
+  }
+  if (values.radius) input.radius = Number(values.radius);
+  if (values.density) input.density = values.density as ThemeInput["density"];
+  if (values["border-width"]) input.borderWidth = Number(values["border-width"]) as ThemeInput["borderWidth"];
+
+  const theme = createTheme(input);
+  const out = values.out ?? (values.native ? "theme.ts" : "theme.css");
+  const body = values.native
+    ? `export const theme = ${JSON.stringify(toNative(theme), null, 2)} as const;\n`
+    : toCSS(theme, { tailwind: values.tailwind });
+  writeFileSync(out, body);
+  const failing = theme.checks.filter((c) => !c.pass).length;
+  console.log(`Wrote ${out}. ${failing ? `${failing} pairs below AA.` : "All pairs meet WCAG AA."}`);
+  if (theme.adjusted.length) console.log(`Adjusted for contrast: ${theme.adjusted.join(", ")}`);
+  return 0;
+}
+
+process.exitCode = main(process.argv.slice(2));

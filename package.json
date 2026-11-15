@@ -1,0 +1,18 @@
+{
+  "name": "senvenli-ui-monorepo",
+  "private": true,
+  "type": "module",
+  "license": "MIT",
+  "packageManager": "pnpm@11.9.0",
+  "scripts": {
+    "build": "pnpm -r --filter ./packages/** build",
+    "test": "vitest run",
+    "typecheck": "pnpm -r typecheck",
+    "dev": "pnpm --filter site dev"
+  },
+  "devDependencies": {
+    "@types/node": "^26.1.1",
+    "typescript": "^5",
+    "vitest": "^4.1.10"
+  }
+}
