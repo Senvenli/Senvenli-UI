@@ -12,7 +12,7 @@ A generic, themeable design system for React.
 | Package | What it is | Status |
 |---|---|---|
 | [`@senvenli/tokens`](packages/tokens) | Platform-neutral theme engine: inputs → tokens → CSS / native hex theme | v0, working |
-| [`@senvenli/react`](packages/react) | Web components (React Aria Components + Tailwind v4) | Planned: extraction in progress |
+| [`@senvenli/react`](packages/react) | Web components (React Aria Components + Tailwind v4) | Scaffold: provider, strings, base CSS; components being extracted |
 | [`@senvenli/cli`](packages/cli) | `senvenli-ui theme <code>` writes your theme files | v0, working |
 | [`@senvenli/mcp`](packages/mcp) | MCP server for AI-agent development | Planned |
 | [`site`](site) | Docs site and theme builder (design.senvenli.com) | Preview |
