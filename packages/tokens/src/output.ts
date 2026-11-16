@@ -53,7 +53,7 @@ export interface NativeTheme {
   fontMono: string;
 }
 
-/** Hex colors and pixel values for React Native. */
+/** Hex colors and pixel values for native apps (iOS, Android) or any non-CSS consumer. */
 export function toNative(theme: Theme): NativeTheme {
   const hexes = (tokens: ModeTokens) =>
     Object.fromEntries((Object.keys(tokens) as TokenName[]).map((n) => [n, formatHex(tokens[n])])) as Record<TokenName, string>;

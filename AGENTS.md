@@ -4,5 +4,5 @@
 - The default theme is neutral: soft black and white (`#fcfcfb` / `#0c0c0b`). Never use pure `#000` or `#fff`.
 - Design rules: no focus rings (focus = the control's border takes the focus color), sentence case (no uppercase tracked labels), no gradients or glows, flat surfaces with no border at rest. Default font is Geist, weights 400/500. Use American spelling.
 - Every color pair the engine emits must meet WCAG AA (4.5:1 for text, 3:1 for focus). `pnpm test` runs a hue sweep; never weaken it to make a change pass.
-- Web and React Native components share names and props (React Aria vocabulary: `onPress`, `isDisabled`, `variant`, `size`).
+- Components use the React Aria vocabulary for props (`onPress`, `isDisabled`, `variant`, `size`). There is no React Native package: mobile apps use their platform's native look and share only the tokens.
 - Run `pnpm test` and `pnpm typecheck` before pushing.

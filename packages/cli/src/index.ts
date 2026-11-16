@@ -11,7 +11,7 @@ Options:
   --density <compact|default|comfortable>
   --border-width <0|1|2>
   --out <file>                                 Default: theme.css (or theme.ts with --native)
-  --native                                     Write a React Native theme instead of CSS
+  --native                                     Write theme.json (hex colors) for native apps instead of CSS
   --tailwind                                   Add a Tailwind v4 @theme inline block`;
 
 function main(argv: string[]): number {
@@ -53,9 +53,9 @@ function main(argv: string[]): number {
   if (values["border-width"]) input.borderWidth = Number(values["border-width"]) as ThemeInput["borderWidth"];
 
   const theme = createTheme(input);
-  const out = values.out ?? (values.native ? "theme.ts" : "theme.css");
+  const out = values.out ?? (values.native ? "theme.json" : "theme.css");
   const body = values.native
-    ? `export const theme = ${JSON.stringify(toNative(theme), null, 2)} as const;\n`
+    ? `${JSON.stringify(toNative(theme), null, 2)}\n`
     : toCSS(theme, { tailwind: values.tailwind });
   writeFileSync(out, body);
   const failing = theme.checks.filter((c) => !c.pass).length;
