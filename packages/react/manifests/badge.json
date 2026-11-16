@@ -71,9 +71,9 @@
         "tone": {
           "type": "string",
           "enum": [
-            "neutral",
-            "brand",
             "danger",
+            "brand",
+            "neutral",
             "inverse"
           ],
           "description": "`danger` only for counts that need action now (overdue, unpaid)."
@@ -95,9 +95,9 @@
         "schema": {
           "type": "string",
           "enum": [
-            "neutral",
-            "brand",
             "danger",
+            "brand",
+            "neutral",
             "inverse"
           ]
         }

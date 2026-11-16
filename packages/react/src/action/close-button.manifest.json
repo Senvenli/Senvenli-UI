@@ -1,0 +1,37 @@
+{
+  "$schema": "../../manifest/component.schema.json",
+  "kind": "component",
+  "family": "action",
+  "status": "alpha",
+  "import": "@senvenli/react/action",
+  "name": "close-button",
+  "title": "Close button",
+  "exports": [
+    "CloseButton"
+  ],
+  "description": "The icon-only button that closes a dialog, sheet, banner or panel, named \"Close\" in the current language.",
+  "keywords": [
+    "close",
+    "dismiss",
+    "x"
+  ],
+  "usage": {
+    "when": [
+      "Closing a surface that can be dismissed."
+    ]
+  },
+  "a11y": {
+    "builtIn": [
+      "Named \"Close\" from the component strings."
+    ],
+    "youProvide": [
+      "A more specific `label` when several close buttons share a view."
+    ]
+  },
+  "related": [
+    "button"
+  ],
+  "genui": {
+    "expose": false
+  }
+}

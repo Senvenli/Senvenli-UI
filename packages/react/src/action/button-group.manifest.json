@@ -1,0 +1,39 @@
+{
+  "$schema": "../../manifest/component.schema.json",
+  "kind": "component",
+  "family": "action",
+  "status": "alpha",
+  "import": "@senvenli/react/action",
+  "name": "button-group",
+  "title": "Button group",
+  "exports": [
+    "ButtonGroup"
+  ],
+  "description": "Groups related buttons into one control, or joins a main action with its options as a split button.",
+  "keywords": [
+    "group",
+    "split button",
+    "toolbar",
+    "actions"
+  ],
+  "usage": {
+    "when": [
+      "Two to four related actions belong together.",
+      "A main action has a menu of variants (split)."
+    ]
+  },
+  "a11y": {
+    "builtIn": [
+      "Exposed as a group."
+    ],
+    "youProvide": [
+      "An `aria-label` that names the group."
+    ]
+  },
+  "related": [
+    "button"
+  ],
+  "genui": {
+    "expose": false
+  }
+}

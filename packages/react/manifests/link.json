@@ -1,0 +1,765 @@
+{
+  "$schema": "https://design.senvenli.com/schema/component.full.json",
+  "kind": "component",
+  "family": "action",
+  "status": "alpha",
+  "import": "@senvenli/react/action",
+  "name": "link",
+  "title": "Link",
+  "exports": [
+    "Link"
+  ],
+  "description": "Text that goes to another page, inline in running text or as a standalone subtle link.",
+  "keywords": [
+    "link",
+    "anchor",
+    "href",
+    "navigation"
+  ],
+  "usage": {
+    "when": [
+      "Going to another page from within text or a footer."
+    ],
+    "instead": [
+      {
+        "use": "link-button",
+        "when": "The link is a call to action that should look like a button."
+      }
+    ]
+  },
+  "guidance": [
+    {
+      "rule": "Name the destination; never \"click here\"."
+    }
+  ],
+  "a11y": {
+    "keyboard": [
+      {
+        "keys": "Enter",
+        "does": "Follows the link."
+      }
+    ],
+    "builtIn": [
+      "External links open in a new tab safely and say so to screen readers."
+    ],
+    "youProvide": [
+      "Link text that makes sense on its own."
+    ]
+  },
+  "related": [
+    "link-button"
+  ],
+  "genui": {
+    "expose": true,
+    "description": "A text link to another page. Children name the destination; set isExternal for other sites.",
+    "props": [
+      "href",
+      "variant",
+      "isExternal"
+    ],
+    "children": "text",
+    "schema": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "href": {
+          "type": "string",
+          "description": "A URL to link to. See [MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#href)."
+        },
+        "variant": {
+          "type": "string",
+          "enum": [
+            "default",
+            "inline",
+            "subtle"
+          ],
+          "description": "`inline` in running text (always underlined), `subtle` in footers and legal rows."
+        },
+        "isExternal": {
+          "type": "boolean",
+          "description": "Opens in a new tab with `noopener noreferrer` and shows the 12px `arrow-up-right`."
+        }
+      }
+    }
+  },
+  "source": [
+    "src/action/link.tsx"
+  ],
+  "props": {
+    "Link": [
+      {
+        "name": "suppressHydrationWarning",
+        "type": "boolean",
+        "required": false,
+        "description": "A React-only flag that suppresses the warning React normally logs when an element's\nserver-rendered content doesn't match the client render during hydration. See [React\ndocs](https://react.dev/reference/react-dom/client/hydrateRoot#suppressing-unavoidable-hydration-mismatch-errors).",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "autoFocus",
+        "type": "boolean",
+        "required": false,
+        "description": "Whether the element should receive focus on render.",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "dir",
+        "type": "string",
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "hidden",
+        "type": "boolean",
+        "required": false,
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "id",
+        "type": "string",
+        "required": false,
+        "description": "The element's unique identifier. See\n[MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/id).",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "lang",
+        "type": "string",
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "slot",
+        "type": "string",
+        "required": false,
+        "description": "A slot name for the component. Slots allow the component to receive props from a parent\ncomponent. An explicit `null` value indicates that the local props completely override all\nprops received from a parent.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "translate",
+        "type": "\"yes\" | \"no\"",
+        "required": false,
+        "schema": {
+          "type": "string",
+          "enum": [
+            "yes",
+            "no"
+          ]
+        }
+      },
+      {
+        "name": "rel",
+        "type": "string",
+        "required": false,
+        "description": "The relationship between the linked resource and the current page. See\n[MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/rel).",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "inert",
+        "type": "boolean",
+        "required": false,
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "aria-describedby",
+        "type": "string",
+        "required": false,
+        "description": "Identifies the element (or elements) that describes the object.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "aria-details",
+        "type": "string",
+        "required": false,
+        "description": "Identifies the element (or elements) that provide a detailed, extended description for the\nobject.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "aria-label",
+        "type": "string",
+        "required": false,
+        "description": "Defines a string value that labels the current element.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "aria-labelledby",
+        "type": "string",
+        "required": false,
+        "description": "Identifies the element (or elements) that labels the current element.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "onFocus",
+        "type": "(e: FocusEvent<Element, Element>) => void",
+        "required": false,
+        "description": "Handler that is called when the element receives focus."
+      },
+      {
+        "name": "onBlur",
+        "type": "(e: FocusEvent<Element, Element>) => void",
+        "required": false,
+        "description": "Handler that is called when the element loses focus."
+      },
+      {
+        "name": "onKeyDown",
+        "type": "(e: KeyboardEvent) => void",
+        "required": false,
+        "description": "Handler that is called when a key is pressed."
+      },
+      {
+        "name": "onKeyUp",
+        "type": "(e: KeyboardEvent) => void",
+        "required": false,
+        "description": "Handler that is called when a key is released."
+      },
+      {
+        "name": "onAuxClick",
+        "type": "MouseEventHandler<HTMLAnchorElement>",
+        "required": false
+      },
+      {
+        "name": "onAuxClickCapture",
+        "type": "MouseEventHandler<HTMLAnchorElement>",
+        "required": false
+      },
+      {
+        "name": "onClick",
+        "type": "(e: MouseEvent<FocusableElement, MouseEvent>) => void",
+        "required": false,
+        "description": "**Not recommended – use `onPress` instead.** `onClick` is an alias for `onPress`\nprovided for compatibility with other libraries. `onPress` provides\nadditional event details for non-mouse interactions."
+      },
+      {
+        "name": "onClickCapture",
+        "type": "MouseEventHandler<HTMLAnchorElement>",
+        "required": false
+      },
+      {
+        "name": "onContextMenu",
+        "type": "MouseEventHandler<HTMLAnchorElement>",
+        "required": false
+      },
+      {
+        "name": "onContextMenuCapture",
+        "type": "MouseEventHandler<HTMLAnchorElement>",
+        "required": false
+      },
+      {
+        "name": "onDoubleClick",
+        "type": "MouseEventHandler<HTMLAnchorElement>",
+        "required": false
+      },
+      {
+        "name": "onDoubleClickCapture",
+        "type": "MouseEventHandler<HTMLAnchorElement>",
+        "required": false
+      },
+      {
+        "name": "onMouseDown",
+        "type": "MouseEventHandler<HTMLAnchorElement>",
+        "required": false
+      },
+      {
+        "name": "onMouseDownCapture",
+        "type": "MouseEventHandler<HTMLAnchorElement>",
+        "required": false
+      },
+      {
+        "name": "onMouseEnter",
+        "type": "MouseEventHandler<HTMLAnchorElement>",
+        "required": false
+      },
+      {
+        "name": "onMouseLeave",
+        "type": "MouseEventHandler<HTMLAnchorElement>",
+        "required": false
+      },
+      {
+        "name": "onMouseMove",
+        "type": "MouseEventHandler<HTMLAnchorElement>",
+        "required": false
+      },
+      {
+        "name": "onMouseMoveCapture",
+        "type": "MouseEventHandler<HTMLAnchorElement>",
+        "required": false
+      },
+      {
+        "name": "onMouseOut",
+        "type": "MouseEventHandler<HTMLAnchorElement>",
+        "required": false
+      },
+      {
+        "name": "onMouseOutCapture",
+        "type": "MouseEventHandler<HTMLAnchorElement>",
+        "required": false
+      },
+      {
+        "name": "onMouseOver",
+        "type": "MouseEventHandler<HTMLAnchorElement>",
+        "required": false
+      },
+      {
+        "name": "onMouseOverCapture",
+        "type": "MouseEventHandler<HTMLAnchorElement>",
+        "required": false
+      },
+      {
+        "name": "onMouseUp",
+        "type": "MouseEventHandler<HTMLAnchorElement>",
+        "required": false
+      },
+      {
+        "name": "onMouseUpCapture",
+        "type": "MouseEventHandler<HTMLAnchorElement>",
+        "required": false
+      },
+      {
+        "name": "onTouchCancel",
+        "type": "TouchEventHandler<HTMLAnchorElement>",
+        "required": false
+      },
+      {
+        "name": "onTouchCancelCapture",
+        "type": "TouchEventHandler<HTMLAnchorElement>",
+        "required": false
+      },
+      {
+        "name": "onTouchEnd",
+        "type": "TouchEventHandler<HTMLAnchorElement>",
+        "required": false
+      },
+      {
+        "name": "onTouchEndCapture",
+        "type": "TouchEventHandler<HTMLAnchorElement>",
+        "required": false
+      },
+      {
+        "name": "onTouchMove",
+        "type": "TouchEventHandler<HTMLAnchorElement>",
+        "required": false
+      },
+      {
+        "name": "onTouchMoveCapture",
+        "type": "TouchEventHandler<HTMLAnchorElement>",
+        "required": false
+      },
+      {
+        "name": "onTouchStart",
+        "type": "TouchEventHandler<HTMLAnchorElement>",
+        "required": false
+      },
+      {
+        "name": "onTouchStartCapture",
+        "type": "TouchEventHandler<HTMLAnchorElement>",
+        "required": false
+      },
+      {
+        "name": "onPointerDown",
+        "type": "PointerEventHandler<HTMLAnchorElement>",
+        "required": false
+      },
+      {
+        "name": "onPointerDownCapture",
+        "type": "PointerEventHandler<HTMLAnchorElement>",
+        "required": false
+      },
+      {
+        "name": "onPointerMove",
+        "type": "PointerEventHandler<HTMLAnchorElement>",
+        "required": false
+      },
+      {
+        "name": "onPointerMoveCapture",
+        "type": "PointerEventHandler<HTMLAnchorElement>",
+        "required": false
+      },
+      {
+        "name": "onPointerUp",
+        "type": "PointerEventHandler<HTMLAnchorElement>",
+        "required": false
+      },
+      {
+        "name": "onPointerUpCapture",
+        "type": "PointerEventHandler<HTMLAnchorElement>",
+        "required": false
+      },
+      {
+        "name": "onPointerCancel",
+        "type": "PointerEventHandler<HTMLAnchorElement>",
+        "required": false
+      },
+      {
+        "name": "onPointerCancelCapture",
+        "type": "PointerEventHandler<HTMLAnchorElement>",
+        "required": false
+      },
+      {
+        "name": "onPointerEnter",
+        "type": "PointerEventHandler<HTMLAnchorElement>",
+        "required": false
+      },
+      {
+        "name": "onPointerLeave",
+        "type": "PointerEventHandler<HTMLAnchorElement>",
+        "required": false
+      },
+      {
+        "name": "onPointerOver",
+        "type": "PointerEventHandler<HTMLAnchorElement>",
+        "required": false
+      },
+      {
+        "name": "onPointerOverCapture",
+        "type": "PointerEventHandler<HTMLAnchorElement>",
+        "required": false
+      },
+      {
+        "name": "onPointerOut",
+        "type": "PointerEventHandler<HTMLAnchorElement>",
+        "required": false
+      },
+      {
+        "name": "onPointerOutCapture",
+        "type": "PointerEventHandler<HTMLAnchorElement>",
+        "required": false
+      },
+      {
+        "name": "onGotPointerCapture",
+        "type": "PointerEventHandler<HTMLAnchorElement>",
+        "required": false
+      },
+      {
+        "name": "onGotPointerCaptureCapture",
+        "type": "PointerEventHandler<HTMLAnchorElement>",
+        "required": false
+      },
+      {
+        "name": "onLostPointerCapture",
+        "type": "PointerEventHandler<HTMLAnchorElement>",
+        "required": false
+      },
+      {
+        "name": "onLostPointerCaptureCapture",
+        "type": "PointerEventHandler<HTMLAnchorElement>",
+        "required": false
+      },
+      {
+        "name": "onScroll",
+        "type": "UIEventHandler<HTMLAnchorElement>",
+        "required": false
+      },
+      {
+        "name": "onScrollCapture",
+        "type": "UIEventHandler<HTMLAnchorElement>",
+        "required": false
+      },
+      {
+        "name": "onWheel",
+        "type": "WheelEventHandler<HTMLAnchorElement>",
+        "required": false
+      },
+      {
+        "name": "onWheelCapture",
+        "type": "WheelEventHandler<HTMLAnchorElement>",
+        "required": false
+      },
+      {
+        "name": "onAnimationStart",
+        "type": "AnimationEventHandler<HTMLAnchorElement>",
+        "required": false
+      },
+      {
+        "name": "onAnimationStartCapture",
+        "type": "AnimationEventHandler<HTMLAnchorElement>",
+        "required": false
+      },
+      {
+        "name": "onAnimationEnd",
+        "type": "AnimationEventHandler<HTMLAnchorElement>",
+        "required": false
+      },
+      {
+        "name": "onAnimationEndCapture",
+        "type": "AnimationEventHandler<HTMLAnchorElement>",
+        "required": false
+      },
+      {
+        "name": "onAnimationIteration",
+        "type": "AnimationEventHandler<HTMLAnchorElement>",
+        "required": false
+      },
+      {
+        "name": "onAnimationIterationCapture",
+        "type": "AnimationEventHandler<HTMLAnchorElement>",
+        "required": false
+      },
+      {
+        "name": "onTransitionCancel",
+        "type": "TransitionEventHandler<HTMLAnchorElement>",
+        "required": false
+      },
+      {
+        "name": "onTransitionCancelCapture",
+        "type": "TransitionEventHandler<HTMLAnchorElement>",
+        "required": false
+      },
+      {
+        "name": "onTransitionEnd",
+        "type": "TransitionEventHandler<HTMLAnchorElement>",
+        "required": false
+      },
+      {
+        "name": "onTransitionEndCapture",
+        "type": "TransitionEventHandler<HTMLAnchorElement>",
+        "required": false
+      },
+      {
+        "name": "onTransitionRun",
+        "type": "TransitionEventHandler<HTMLAnchorElement>",
+        "required": false
+      },
+      {
+        "name": "onTransitionRunCapture",
+        "type": "TransitionEventHandler<HTMLAnchorElement>",
+        "required": false
+      },
+      {
+        "name": "onTransitionStart",
+        "type": "TransitionEventHandler<HTMLAnchorElement>",
+        "required": false
+      },
+      {
+        "name": "onTransitionStartCapture",
+        "type": "TransitionEventHandler<HTMLAnchorElement>",
+        "required": false
+      },
+      {
+        "name": "href",
+        "type": "string",
+        "required": false,
+        "description": "A URL to link to. See [MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#href).",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "isDisabled",
+        "type": "boolean",
+        "required": false,
+        "description": "Whether the link is disabled.",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "onPress",
+        "type": "(e: PressEvent) => void",
+        "required": false,
+        "description": "Handler that is called when the press is released over the target."
+      },
+      {
+        "name": "onPressStart",
+        "type": "(e: PressEvent) => void",
+        "required": false,
+        "description": "Handler that is called when a press interaction starts."
+      },
+      {
+        "name": "onPressEnd",
+        "type": "(e: PressEvent) => void",
+        "required": false,
+        "description": "Handler that is called when a press interaction ends, either\nover the target or when the pointer leaves the target."
+      },
+      {
+        "name": "onPressChange",
+        "type": "(isPressed: boolean) => void",
+        "required": false,
+        "description": "Handler that is called when the press state changes."
+      },
+      {
+        "name": "onPressUp",
+        "type": "(e: PressEvent) => void",
+        "required": false,
+        "description": "Handler that is called when a press is released over the target, regardless of\nwhether it started on the target or not."
+      },
+      {
+        "name": "onFocusChange",
+        "type": "(isFocused: boolean) => void",
+        "required": false,
+        "description": "Handler that is called when the element's focus status changes."
+      },
+      {
+        "name": "onHoverStart",
+        "type": "(e: HoverEvent) => void",
+        "required": false,
+        "description": "Handler that is called when a hover interaction starts."
+      },
+      {
+        "name": "onHoverEnd",
+        "type": "(e: HoverEvent) => void",
+        "required": false,
+        "description": "Handler that is called when a hover interaction ends."
+      },
+      {
+        "name": "onHoverChange",
+        "type": "(isHovering: boolean) => void",
+        "required": false,
+        "description": "Handler that is called when the hover state changes."
+      },
+      {
+        "name": "render",
+        "type": "(props: DetailedHTMLProps<LinkWithRequiredHref, HTMLAnchorElement> | DetailedHTMLProps<HTMLAttributes<HTMLSpanElement>, HTMLSpanElement>, renderProps: LinkRenderProps) => ReactElement<unknown, string | JSXElementConstructor<any>>",
+        "required": false,
+        "description": "Overrides the default DOM element with a custom render function.\nThis allows rendering existing components with built-in styles and behaviors\nsuch as router links, animation libraries, and pre-styled components.\n\nNote: You can check if `'href' in props` in order to tell whether to render an `<a>` element.\n\nRequirements:\n\n- You must render the expected element type (e.g. if `<a>` is expected, you cannot render a\n  `<button>`).\n- Only a single root DOM element can be rendered (no fragments).\n- You must pass through props and ref to the underlying DOM element, merging with your own prop\n  as appropriate."
+      },
+      {
+        "name": "download",
+        "type": "string | boolean",
+        "required": false,
+        "description": "Causes the browser to download the linked URL. A string may be provided to suggest a file name.\nSee [MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#download)."
+      },
+      {
+        "name": "hrefLang",
+        "type": "string",
+        "required": false,
+        "description": "Hints at the human language of the linked URL.\nSee[MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#hreflang).",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "ping",
+        "type": "string",
+        "required": false,
+        "description": "A space-separated list of URLs to ping when the link is followed. See\n[MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#ping).",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "referrerPolicy",
+        "type": "HTMLAttributeReferrerPolicy",
+        "required": false,
+        "description": "How much of the referrer to send when following the link. See\n[MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#referrerpolicy).",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "",
+            "no-referrer",
+            "no-referrer-when-downgrade",
+            "origin",
+            "origin-when-cross-origin",
+            "same-origin",
+            "strict-origin",
+            "strict-origin-when-cross-origin",
+            "unsafe-url"
+          ]
+        }
+      },
+      {
+        "name": "children",
+        "type": "React.ReactNode",
+        "required": true,
+        "description": "Names the destination (\"the terms of service\"), never \"click here\"."
+      },
+      {
+        "name": "variant",
+        "type": "LinkVariant",
+        "required": false,
+        "default": "\"default\"",
+        "description": "`inline` in running text (always underlined), `subtle` in footers and legal rows.",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "default",
+            "inline",
+            "subtle"
+          ]
+        }
+      },
+      {
+        "name": "isExternal",
+        "type": "boolean",
+        "required": false,
+        "description": "Opens in a new tab with `noopener noreferrer` and shows the 12px `arrow-up-right`.",
+        "schema": {
+          "type": "boolean"
+        }
+      }
+    ]
+  },
+  "tokens": [
+    "ds-background-brand-bold",
+    "ds-background-brand-bold-hovered",
+    "ds-background-brand-bold-pressed",
+    "ds-background-danger-bold",
+    "ds-background-danger-bold-hovered",
+    "ds-background-disabled",
+    "ds-background-neutral",
+    "ds-background-neutral-hovered",
+    "ds-background-neutral-pressed",
+    "ds-background-neutral-subtle-hovered",
+    "ds-background-selected",
+    "ds-background-selected-hovered",
+    "ds-background-selected-pressed",
+    "ds-border",
+    "ds-border-bold",
+    "ds-border-focused",
+    "ds-border-selected",
+    "ds-easing-standard",
+    "ds-link",
+    "ds-link-pressed",
+    "ds-radius-medium",
+    "ds-size-control",
+    "ds-size-control-compact",
+    "ds-size-control-large",
+    "ds-size-icon",
+    "ds-space-025",
+    "ds-space-050",
+    "ds-space-075",
+    "ds-space-100",
+    "ds-space-150",
+    "ds-space-200",
+    "ds-text",
+    "ds-text-disabled",
+    "ds-text-on-brand",
+    "ds-text-on-danger",
+    "ds-text-subtle"
+  ],
+  "strings": [
+    "newTab"
+  ],
+  "quality": {
+    "tests": true,
+    "a11y": false,
+    "docs": false,
+    "visual": false,
+    "dark": false,
+    "rtl": false,
+    "mcp": true,
+    "generic": true
+  }
+}

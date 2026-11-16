@@ -1,5 +1,174 @@
 [
   {
+    "name": "button-group",
+    "title": "Button group",
+    "family": "action",
+    "status": "alpha",
+    "description": "Groups related buttons into one control, or joins a main action with its options as a split button.",
+    "keywords": [
+      "group",
+      "split button",
+      "toolbar",
+      "actions"
+    ],
+    "import": "@senvenli/react/action",
+    "exports": [
+      "ButtonGroup"
+    ],
+    "genui": false
+  },
+  {
+    "name": "button",
+    "title": "Button",
+    "family": "action",
+    "status": "alpha",
+    "description": "Starts an action on this page or submits a form.",
+    "keywords": [
+      "button",
+      "action",
+      "submit",
+      "cta",
+      "press"
+    ],
+    "import": "@senvenli/react/action",
+    "exports": [
+      "Button"
+    ],
+    "genui": true
+  },
+  {
+    "name": "close-button",
+    "title": "Close button",
+    "family": "action",
+    "status": "alpha",
+    "description": "The icon-only button that closes a dialog, sheet, banner or panel, named \"Close\" in the current language.",
+    "keywords": [
+      "close",
+      "dismiss",
+      "x"
+    ],
+    "import": "@senvenli/react/action",
+    "exports": [
+      "CloseButton"
+    ],
+    "genui": false
+  },
+  {
+    "name": "fab",
+    "title": "Floating action button",
+    "family": "action",
+    "status": "alpha",
+    "description": "Keeps one task reachable over scrolling content, as a button or a link, collapsing to its icon on phones.",
+    "keywords": [
+      "fab",
+      "floating",
+      "action",
+      "sticky"
+    ],
+    "import": "@senvenli/react/action",
+    "exports": [
+      "Fab"
+    ],
+    "genui": false
+  },
+  {
+    "name": "file-upload",
+    "title": "File upload",
+    "family": "action",
+    "status": "alpha",
+    "description": "Pick files with a button or by dropping them, validate size and type, and show each file with its progress or error.",
+    "keywords": [
+      "upload",
+      "file",
+      "drop",
+      "attachment",
+      "dropzone"
+    ],
+    "import": "@senvenli/react/action",
+    "exports": [
+      "FileTrigger",
+      "DropZone",
+      "FileList",
+      "FileRow"
+    ],
+    "genui": false
+  },
+  {
+    "name": "link-button",
+    "title": "Link button",
+    "family": "action",
+    "status": "alpha",
+    "description": "A link that looks like a button: a call to action that goes to another page.",
+    "keywords": [
+      "link",
+      "button",
+      "cta",
+      "navigation",
+      "href"
+    ],
+    "import": "@senvenli/react/action",
+    "exports": [
+      "LinkButton"
+    ],
+    "genui": true
+  },
+  {
+    "name": "link",
+    "title": "Link",
+    "family": "action",
+    "status": "alpha",
+    "description": "Text that goes to another page, inline in running text or as a standalone subtle link.",
+    "keywords": [
+      "link",
+      "anchor",
+      "href",
+      "navigation"
+    ],
+    "import": "@senvenli/react/action",
+    "exports": [
+      "Link"
+    ],
+    "genui": true
+  },
+  {
+    "name": "theme-toggle",
+    "title": "Theme toggle",
+    "family": "action",
+    "status": "alpha",
+    "description": "Lets people choose system, light or dark theme, stored per device and applied before first paint.",
+    "keywords": [
+      "theme",
+      "dark mode",
+      "light mode",
+      "appearance"
+    ],
+    "import": "@senvenli/react/action",
+    "exports": [
+      "ThemeToggle"
+    ],
+    "genui": false
+  },
+  {
+    "name": "toggle-button",
+    "title": "Toggle button",
+    "family": "action",
+    "status": "alpha",
+    "description": "A button that stays pressed or not, alone or in a group where one or several options are on.",
+    "keywords": [
+      "toggle",
+      "pressed",
+      "switch",
+      "segmented",
+      "toolbar"
+    ],
+    "import": "@senvenli/react/action",
+    "exports": [
+      "ToggleButton",
+      "ToggleGroup"
+    ],
+    "genui": false
+  },
+  {
     "name": "avatar",
     "title": "Avatar",
     "family": "display",

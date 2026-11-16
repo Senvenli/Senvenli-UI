@@ -73,10 +73,10 @@
         "tone": {
           "type": "string",
           "enum": [
-            "brand",
-            "danger",
             "default",
             "subtle",
+            "danger",
+            "brand",
             "warning",
             "success",
             "information",
@@ -130,10 +130,10 @@
         "schema": {
           "type": "string",
           "enum": [
-            "brand",
-            "danger",
             "default",
             "subtle",
+            "danger",
+            "brand",
             "warning",
             "success",
             "information",

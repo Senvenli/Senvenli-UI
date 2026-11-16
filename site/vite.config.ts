@@ -11,6 +11,7 @@ export default defineConfig({
     alias: [
       { find: "@senvenli/tokens", replacement: src("../packages/tokens/src/index.ts") },
       { find: "@senvenli/react/display", replacement: src("../packages/react/src/display/index.ts") },
+      { find: "@senvenli/react/action", replacement: src("../packages/react/src/action/index.ts") },
       { find: /^@senvenli\/react$/, replacement: src("../packages/react/src/index.ts") },
     ],
   },

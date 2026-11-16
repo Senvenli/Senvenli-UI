@@ -73,20 +73,20 @@
         "size": {
           "type": "string",
           "enum": [
-            "small",
+            "default",
             "large",
-            "default"
+            "small"
           ],
           "description": "`small` 12px, `default` 16px, `large` 20px (`ds-size-icon-*`)."
         },
         "color": {
           "type": "string",
           "enum": [
-            "brand",
-            "danger",
             "default",
             "inherit",
             "subtle",
+            "danger",
+            "brand",
             "warning",
             "success",
             "information"
@@ -126,9 +126,9 @@
         "schema": {
           "type": "string",
           "enum": [
-            "small",
+            "default",
             "large",
-            "default"
+            "small"
           ]
         }
       },
@@ -140,11 +140,11 @@
         "schema": {
           "type": "string",
           "enum": [
-            "brand",
-            "danger",
             "default",
             "inherit",
             "subtle",
+            "danger",
+            "brand",
             "warning",
             "success",
             "information"

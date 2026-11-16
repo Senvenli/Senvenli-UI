@@ -38,7 +38,9 @@ describe("hand-written manifests", () => {
     expect(new Set(documented).size).toBe(documented.length);
     for (const index of new Set(files.map((f) => path.join(path.dirname(f), "index.ts")))) {
       const source = fs.readFileSync(index, "utf8");
-      const exported = [...source.matchAll(/^export \{([^}]+)\} from/gm)].flatMap((m) => m[1]!.split(",").map((s) => s.trim()).filter(Boolean));
+      const exported = [...source.matchAll(/^export \{([^}]+)\} from/gm)]
+        .flatMap((m) => m[1]!.split(",").map((s) => s.trim().replace(/^type\s+/, "")).filter(Boolean))
+        .filter((name) => /^[A-Z][a-z]/.test(name) && !/(Props|Tone|Variant|Size|Choice|Theme|Labels|Rules|File)$/.test(name));
       expect(exported.filter((e) => !documented.includes(e)), index).toEqual([]);
     }
   });

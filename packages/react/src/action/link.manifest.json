@@ -1,0 +1,62 @@
+{
+  "$schema": "../../manifest/component.schema.json",
+  "kind": "component",
+  "family": "action",
+  "status": "alpha",
+  "import": "@senvenli/react/action",
+  "name": "link",
+  "title": "Link",
+  "exports": [
+    "Link"
+  ],
+  "description": "Text that goes to another page, inline in running text or as a standalone subtle link.",
+  "keywords": [
+    "link",
+    "anchor",
+    "href",
+    "navigation"
+  ],
+  "usage": {
+    "when": [
+      "Going to another page from within text or a footer."
+    ],
+    "instead": [
+      {
+        "use": "link-button",
+        "when": "The link is a call to action that should look like a button."
+      }
+    ]
+  },
+  "guidance": [
+    {
+      "rule": "Name the destination; never \"click here\"."
+    }
+  ],
+  "a11y": {
+    "keyboard": [
+      {
+        "keys": "Enter",
+        "does": "Follows the link."
+      }
+    ],
+    "builtIn": [
+      "External links open in a new tab safely and say so to screen readers."
+    ],
+    "youProvide": [
+      "Link text that makes sense on its own."
+    ]
+  },
+  "related": [
+    "link-button"
+  ],
+  "genui": {
+    "expose": true,
+    "description": "A text link to another page. Children name the destination; set isExternal for other sites.",
+    "props": [
+      "href",
+      "variant",
+      "isExternal"
+    ],
+    "children": "text"
+  }
+}

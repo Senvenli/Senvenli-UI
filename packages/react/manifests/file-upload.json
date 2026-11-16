@@ -1,0 +1,692 @@
+{
+  "$schema": "https://design.senvenli.com/schema/component.full.json",
+  "kind": "component",
+  "family": "action",
+  "status": "alpha",
+  "import": "@senvenli/react/action",
+  "name": "file-upload",
+  "title": "File upload",
+  "exports": [
+    "FileTrigger",
+    "DropZone",
+    "FileList",
+    "FileRow"
+  ],
+  "description": "Pick files with a button or by dropping them, validate size and type, and show each file with its progress or error.",
+  "keywords": [
+    "upload",
+    "file",
+    "drop",
+    "attachment",
+    "dropzone"
+  ],
+  "usage": {
+    "when": [
+      "People add documents or photos to a form or record."
+    ]
+  },
+  "a11y": {
+    "keyboard": [
+      {
+        "keys": "Enter, Space",
+        "does": "Opens the file picker from the trigger or drop zone."
+      }
+    ],
+    "builtIn": [
+      "Rejected files explain why (size, type, count).",
+      "Upload progress is exposed as a progress bar."
+    ],
+    "youProvide": [
+      "A label that says what to add."
+    ]
+  },
+  "related": [
+    "button"
+  ],
+  "genui": {
+    "expose": false
+  },
+  "source": [
+    "src/action/files.tsx"
+  ],
+  "props": {
+    "FileTrigger": [
+      {
+        "name": "suppressHydrationWarning",
+        "type": "boolean",
+        "required": false,
+        "description": "A React-only flag that suppresses the warning React normally logs when an element's\nserver-rendered content doesn't match the client render during hydration. See [React\ndocs](https://react.dev/reference/react-dom/client/hydrateRoot#suppressing-unavoidable-hydration-mismatch-errors).",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "dir",
+        "type": "string",
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "hidden",
+        "type": "boolean",
+        "required": false,
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "lang",
+        "type": "string",
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "translate",
+        "type": "\"yes\" | \"no\"",
+        "required": false,
+        "schema": {
+          "type": "string",
+          "enum": [
+            "yes",
+            "no"
+          ]
+        }
+      },
+      {
+        "name": "inert",
+        "type": "boolean",
+        "required": false,
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "children",
+        "type": "ReactNode & ReactElement<unknown, string | JSXElementConstructor<any>>",
+        "required": true,
+        "description": "The children of the component.\nThe control that opens the picker: a DS Button or Link."
+      },
+      {
+        "name": "onAuxClick",
+        "type": "MouseEventHandler<HTMLInputElement>",
+        "required": false
+      },
+      {
+        "name": "onAuxClickCapture",
+        "type": "MouseEventHandler<HTMLInputElement>",
+        "required": false
+      },
+      {
+        "name": "onClick",
+        "type": "MouseEventHandler<HTMLInputElement>",
+        "required": false
+      },
+      {
+        "name": "onClickCapture",
+        "type": "MouseEventHandler<HTMLInputElement>",
+        "required": false
+      },
+      {
+        "name": "onContextMenu",
+        "type": "MouseEventHandler<HTMLInputElement>",
+        "required": false
+      },
+      {
+        "name": "onContextMenuCapture",
+        "type": "MouseEventHandler<HTMLInputElement>",
+        "required": false
+      },
+      {
+        "name": "onDoubleClick",
+        "type": "MouseEventHandler<HTMLInputElement>",
+        "required": false
+      },
+      {
+        "name": "onDoubleClickCapture",
+        "type": "MouseEventHandler<HTMLInputElement>",
+        "required": false
+      },
+      {
+        "name": "onMouseDown",
+        "type": "MouseEventHandler<HTMLInputElement>",
+        "required": false
+      },
+      {
+        "name": "onMouseDownCapture",
+        "type": "MouseEventHandler<HTMLInputElement>",
+        "required": false
+      },
+      {
+        "name": "onMouseEnter",
+        "type": "MouseEventHandler<HTMLInputElement>",
+        "required": false
+      },
+      {
+        "name": "onMouseLeave",
+        "type": "MouseEventHandler<HTMLInputElement>",
+        "required": false
+      },
+      {
+        "name": "onMouseMove",
+        "type": "MouseEventHandler<HTMLInputElement>",
+        "required": false
+      },
+      {
+        "name": "onMouseMoveCapture",
+        "type": "MouseEventHandler<HTMLInputElement>",
+        "required": false
+      },
+      {
+        "name": "onMouseOut",
+        "type": "MouseEventHandler<HTMLInputElement>",
+        "required": false
+      },
+      {
+        "name": "onMouseOutCapture",
+        "type": "MouseEventHandler<HTMLInputElement>",
+        "required": false
+      },
+      {
+        "name": "onMouseOver",
+        "type": "MouseEventHandler<HTMLInputElement>",
+        "required": false
+      },
+      {
+        "name": "onMouseOverCapture",
+        "type": "MouseEventHandler<HTMLInputElement>",
+        "required": false
+      },
+      {
+        "name": "onMouseUp",
+        "type": "MouseEventHandler<HTMLInputElement>",
+        "required": false
+      },
+      {
+        "name": "onMouseUpCapture",
+        "type": "MouseEventHandler<HTMLInputElement>",
+        "required": false
+      },
+      {
+        "name": "onTouchCancel",
+        "type": "TouchEventHandler<HTMLInputElement>",
+        "required": false
+      },
+      {
+        "name": "onTouchCancelCapture",
+        "type": "TouchEventHandler<HTMLInputElement>",
+        "required": false
+      },
+      {
+        "name": "onTouchEnd",
+        "type": "TouchEventHandler<HTMLInputElement>",
+        "required": false
+      },
+      {
+        "name": "onTouchEndCapture",
+        "type": "TouchEventHandler<HTMLInputElement>",
+        "required": false
+      },
+      {
+        "name": "onTouchMove",
+        "type": "TouchEventHandler<HTMLInputElement>",
+        "required": false
+      },
+      {
+        "name": "onTouchMoveCapture",
+        "type": "TouchEventHandler<HTMLInputElement>",
+        "required": false
+      },
+      {
+        "name": "onTouchStart",
+        "type": "TouchEventHandler<HTMLInputElement>",
+        "required": false
+      },
+      {
+        "name": "onTouchStartCapture",
+        "type": "TouchEventHandler<HTMLInputElement>",
+        "required": false
+      },
+      {
+        "name": "onPointerDown",
+        "type": "PointerEventHandler<HTMLInputElement>",
+        "required": false
+      },
+      {
+        "name": "onPointerDownCapture",
+        "type": "PointerEventHandler<HTMLInputElement>",
+        "required": false
+      },
+      {
+        "name": "onPointerMove",
+        "type": "PointerEventHandler<HTMLInputElement>",
+        "required": false
+      },
+      {
+        "name": "onPointerMoveCapture",
+        "type": "PointerEventHandler<HTMLInputElement>",
+        "required": false
+      },
+      {
+        "name": "onPointerUp",
+        "type": "PointerEventHandler<HTMLInputElement>",
+        "required": false
+      },
+      {
+        "name": "onPointerUpCapture",
+        "type": "PointerEventHandler<HTMLInputElement>",
+        "required": false
+      },
+      {
+        "name": "onPointerCancel",
+        "type": "PointerEventHandler<HTMLInputElement>",
+        "required": false
+      },
+      {
+        "name": "onPointerCancelCapture",
+        "type": "PointerEventHandler<HTMLInputElement>",
+        "required": false
+      },
+      {
+        "name": "onPointerEnter",
+        "type": "PointerEventHandler<HTMLInputElement>",
+        "required": false
+      },
+      {
+        "name": "onPointerLeave",
+        "type": "PointerEventHandler<HTMLInputElement>",
+        "required": false
+      },
+      {
+        "name": "onPointerOver",
+        "type": "PointerEventHandler<HTMLInputElement>",
+        "required": false
+      },
+      {
+        "name": "onPointerOverCapture",
+        "type": "PointerEventHandler<HTMLInputElement>",
+        "required": false
+      },
+      {
+        "name": "onPointerOut",
+        "type": "PointerEventHandler<HTMLInputElement>",
+        "required": false
+      },
+      {
+        "name": "onPointerOutCapture",
+        "type": "PointerEventHandler<HTMLInputElement>",
+        "required": false
+      },
+      {
+        "name": "onGotPointerCapture",
+        "type": "PointerEventHandler<HTMLInputElement>",
+        "required": false
+      },
+      {
+        "name": "onGotPointerCaptureCapture",
+        "type": "PointerEventHandler<HTMLInputElement>",
+        "required": false
+      },
+      {
+        "name": "onLostPointerCapture",
+        "type": "PointerEventHandler<HTMLInputElement>",
+        "required": false
+      },
+      {
+        "name": "onLostPointerCaptureCapture",
+        "type": "PointerEventHandler<HTMLInputElement>",
+        "required": false
+      },
+      {
+        "name": "onScroll",
+        "type": "UIEventHandler<HTMLInputElement>",
+        "required": false
+      },
+      {
+        "name": "onScrollCapture",
+        "type": "UIEventHandler<HTMLInputElement>",
+        "required": false
+      },
+      {
+        "name": "onWheel",
+        "type": "WheelEventHandler<HTMLInputElement>",
+        "required": false
+      },
+      {
+        "name": "onWheelCapture",
+        "type": "WheelEventHandler<HTMLInputElement>",
+        "required": false
+      },
+      {
+        "name": "onAnimationStart",
+        "type": "AnimationEventHandler<HTMLInputElement>",
+        "required": false
+      },
+      {
+        "name": "onAnimationStartCapture",
+        "type": "AnimationEventHandler<HTMLInputElement>",
+        "required": false
+      },
+      {
+        "name": "onAnimationEnd",
+        "type": "AnimationEventHandler<HTMLInputElement>",
+        "required": false
+      },
+      {
+        "name": "onAnimationEndCapture",
+        "type": "AnimationEventHandler<HTMLInputElement>",
+        "required": false
+      },
+      {
+        "name": "onAnimationIteration",
+        "type": "AnimationEventHandler<HTMLInputElement>",
+        "required": false
+      },
+      {
+        "name": "onAnimationIterationCapture",
+        "type": "AnimationEventHandler<HTMLInputElement>",
+        "required": false
+      },
+      {
+        "name": "onTransitionCancel",
+        "type": "TransitionEventHandler<HTMLInputElement>",
+        "required": false
+      },
+      {
+        "name": "onTransitionCancelCapture",
+        "type": "TransitionEventHandler<HTMLInputElement>",
+        "required": false
+      },
+      {
+        "name": "onTransitionEnd",
+        "type": "TransitionEventHandler<HTMLInputElement>",
+        "required": false
+      },
+      {
+        "name": "onTransitionEndCapture",
+        "type": "TransitionEventHandler<HTMLInputElement>",
+        "required": false
+      },
+      {
+        "name": "onTransitionRun",
+        "type": "TransitionEventHandler<HTMLInputElement>",
+        "required": false
+      },
+      {
+        "name": "onTransitionRunCapture",
+        "type": "TransitionEventHandler<HTMLInputElement>",
+        "required": false
+      },
+      {
+        "name": "onTransitionStart",
+        "type": "TransitionEventHandler<HTMLInputElement>",
+        "required": false
+      },
+      {
+        "name": "onTransitionStartCapture",
+        "type": "TransitionEventHandler<HTMLInputElement>",
+        "required": false
+      },
+      {
+        "name": "allowsMultiple",
+        "type": "boolean",
+        "required": false,
+        "description": "Whether multiple files can be selected.",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "defaultCamera",
+        "type": "\"user\" | \"environment\"",
+        "required": false,
+        "description": "Specifies the use of a media capture mechanism to capture the media on the spot.",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "user",
+            "environment"
+          ]
+        }
+      },
+      {
+        "name": "acceptDirectory",
+        "type": "boolean",
+        "required": false,
+        "description": "Enables the selection of directories instead of individual files.",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "acceptedFileTypes",
+        "type": "readonly string[]",
+        "required": false,
+        "description": "MIME types or extensions: \"image/jpeg\", \"image/*\", \".heic\", \"application/pdf\"."
+      },
+      {
+        "name": "maxSize",
+        "type": "number",
+        "required": false,
+        "description": "Bytes.",
+        "schema": {
+          "type": "number"
+        }
+      },
+      {
+        "name": "onSelect",
+        "type": "(files: File[]) => void",
+        "required": false,
+        "description": "Files that passed the rules."
+      },
+      {
+        "name": "onReject",
+        "type": "(rejected: RejectedFile[]) => void",
+        "required": false,
+        "description": "Files that did not, each with its reason."
+      }
+    ],
+    "DropZone": [
+      {
+        "name": "acceptedFileTypes",
+        "type": "readonly string[]",
+        "required": false,
+        "description": "MIME types or extensions: \"image/jpeg\", \"image/*\", \".heic\", \"application/pdf\"."
+      },
+      {
+        "name": "maxSize",
+        "type": "number",
+        "required": false,
+        "description": "Bytes.",
+        "schema": {
+          "type": "number"
+        }
+      },
+      {
+        "name": "label",
+        "type": "string",
+        "required": true,
+        "description": "What to drop, as a call to action: \"Drag your photos here\".",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "typesLabel",
+        "type": "string",
+        "required": false,
+        "description": "The accepted types as people read them (\"JPG, PNG, HEIC\"); the size limit is added.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "allowsMultiple",
+        "type": "boolean",
+        "required": false,
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "onSelect",
+        "type": "(files: File[]) => void",
+        "required": false
+      },
+      {
+        "name": "onReject",
+        "type": "(rejected: RejectedFile[]) => void",
+        "required": false
+      },
+      {
+        "name": "isDisabled",
+        "type": "boolean",
+        "required": false,
+        "schema": {
+          "type": "boolean"
+        }
+      }
+    ],
+    "FileList": [
+      {
+        "name": "children",
+        "type": "React.ReactNode",
+        "required": true
+      },
+      {
+        "name": "aria-label",
+        "type": "string",
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      }
+    ],
+    "FileRow": [
+      {
+        "name": "file",
+        "type": "File",
+        "required": false,
+        "description": "The picked file; photos get a thumbnail at once, before upload ends."
+      },
+      {
+        "name": "name",
+        "type": "string",
+        "required": false,
+        "description": "Shown name and size when there is no File object (a stored document).",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "size",
+        "type": "number",
+        "required": false,
+        "schema": {
+          "type": "number"
+        }
+      },
+      {
+        "name": "progress",
+        "type": "number",
+        "required": false,
+        "description": "0–1 while uploading; omit when done.",
+        "schema": {
+          "type": "number"
+        }
+      },
+      {
+        "name": "error",
+        "type": "string",
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "onCancel",
+        "type": "() => void",
+        "required": false
+      },
+      {
+        "name": "onRemove",
+        "type": "() => void",
+        "required": false
+      },
+      {
+        "name": "onReplace",
+        "type": "() => void",
+        "required": false
+      }
+    ]
+  },
+  "tokens": [
+    "ds-background-brand-bold",
+    "ds-background-brand-bold-hovered",
+    "ds-background-brand-bold-pressed",
+    "ds-background-danger-bold",
+    "ds-background-danger-bold-hovered",
+    "ds-background-disabled",
+    "ds-background-neutral",
+    "ds-background-neutral-hovered",
+    "ds-background-neutral-pressed",
+    "ds-background-neutral-subtle-hovered",
+    "ds-background-selected",
+    "ds-background-selected-hovered",
+    "ds-background-selected-pressed",
+    "ds-border",
+    "ds-border-bold",
+    "ds-border-focused",
+    "ds-border-selected",
+    "ds-easing-standard",
+    "ds-link",
+    "ds-link-pressed",
+    "ds-radius-full",
+    "ds-radius-large",
+    "ds-radius-medium",
+    "ds-shadow-raised",
+    "ds-size-control",
+    "ds-size-control-compact",
+    "ds-size-control-large",
+    "ds-size-icon",
+    "ds-space-050",
+    "ds-space-075",
+    "ds-space-100",
+    "ds-space-150",
+    "ds-space-200",
+    "ds-space-400",
+    "ds-surface-raised",
+    "ds-surface-sunken",
+    "ds-text",
+    "ds-text-danger",
+    "ds-text-disabled",
+    "ds-text-on-brand",
+    "ds-text-on-danger",
+    "ds-text-subtle",
+    "ds-text-subtlest"
+  ],
+  "strings": [
+    "cancelUpload",
+    "chooseFiles",
+    "onlyOne",
+    "removeFile",
+    "replace",
+    "tooLarge",
+    "upTo",
+    "uploaded",
+    "wrongType"
+  ],
+  "quality": {
+    "tests": true,
+    "a11y": false,
+    "docs": false,
+    "visual": false,
+    "dark": false,
+    "rtl": false,
+    "mcp": true,
+    "generic": true
+  }
+}

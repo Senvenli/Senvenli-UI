@@ -1,0 +1,44 @@
+{
+  "$schema": "../../manifest/component.schema.json",
+  "kind": "component",
+  "family": "action",
+  "status": "alpha",
+  "import": "@senvenli/react/action",
+  "name": "fab",
+  "title": "Floating action button",
+  "exports": [
+    "Fab"
+  ],
+  "description": "Keeps one task reachable over scrolling content, as a button or a link, collapsing to its icon on phones.",
+  "keywords": [
+    "fab",
+    "floating",
+    "action",
+    "sticky"
+  ],
+  "usage": {
+    "when": [
+      "One main task must stay reachable while people scroll: contact, new item."
+    ]
+  },
+  "guidance": [
+    {
+      "rule": "At most one per screen; never over a dialog or sheet."
+    }
+  ],
+  "a11y": {
+    "builtIn": [
+      "Keeps its label as the accessible name when collapsed to an icon.",
+      "Links that open a new tab say so."
+    ],
+    "youProvide": [
+      "A verb label for the task."
+    ]
+  },
+  "related": [
+    "button"
+  ],
+  "genui": {
+    "expose": false
+  }
+}

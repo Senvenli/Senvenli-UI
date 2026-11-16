@@ -1,0 +1,81 @@
+{
+  "$schema": "../../manifest/component.schema.json",
+  "kind": "component",
+  "family": "action",
+  "status": "alpha",
+  "import": "@senvenli/react/action",
+  "name": "button",
+  "title": "Button",
+  "exports": [
+    "Button"
+  ],
+  "description": "Starts an action on this page or submits a form.",
+  "keywords": [
+    "button",
+    "action",
+    "submit",
+    "cta",
+    "press"
+  ],
+  "usage": {
+    "when": [
+      "The press changes something on this page: save, send, open a dialog."
+    ],
+    "instead": [
+      {
+        "use": "link-button",
+        "when": "The press goes to another page."
+      },
+      {
+        "use": "link",
+        "when": "The action sits inside running text."
+      }
+    ]
+  },
+  "guidance": [
+    {
+      "rule": "One primary button per view."
+    },
+    {
+      "rule": "Use danger only to confirm a destructive step."
+    },
+    {
+      "rule": "Label with a verb in sentence case: \"Save changes\"."
+    }
+  ],
+  "a11y": {
+    "keyboard": [
+      {
+        "keys": "Enter, Space",
+        "does": "Presses the button."
+      }
+    ],
+    "builtIn": [
+      "Pending and disabled states are exposed to assistive technology.",
+      "A 44px hit area under coarse pointers without changing the layout."
+    ],
+    "youProvide": [
+      "An `aria-label` when the button shows only an icon."
+    ]
+  },
+  "related": [
+    "link-button",
+    "button-group",
+    "toggle-button"
+  ],
+  "genui": {
+    "expose": true,
+    "description": "A button for an action on this page. Use variant primary for the one main action; danger only to confirm a destructive step. Emits press.",
+    "props": [
+      "variant",
+      "size",
+      "iconBefore",
+      "iconAfter",
+      "isDisabled"
+    ],
+    "children": "text",
+    "events": [
+      "press"
+    ]
+  }
+}

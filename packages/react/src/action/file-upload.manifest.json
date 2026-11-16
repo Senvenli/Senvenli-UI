@@ -1,0 +1,49 @@
+{
+  "$schema": "../../manifest/component.schema.json",
+  "kind": "component",
+  "family": "action",
+  "status": "alpha",
+  "import": "@senvenli/react/action",
+  "name": "file-upload",
+  "title": "File upload",
+  "exports": [
+    "FileTrigger",
+    "DropZone",
+    "FileList",
+    "FileRow"
+  ],
+  "description": "Pick files with a button or by dropping them, validate size and type, and show each file with its progress or error.",
+  "keywords": [
+    "upload",
+    "file",
+    "drop",
+    "attachment",
+    "dropzone"
+  ],
+  "usage": {
+    "when": [
+      "People add documents or photos to a form or record."
+    ]
+  },
+  "a11y": {
+    "keyboard": [
+      {
+        "keys": "Enter, Space",
+        "does": "Opens the file picker from the trigger or drop zone."
+      }
+    ],
+    "builtIn": [
+      "Rejected files explain why (size, type, count).",
+      "Upload progress is exposed as a progress bar."
+    ],
+    "youProvide": [
+      "A label that says what to add."
+    ]
+  },
+  "related": [
+    "button"
+  ],
+  "genui": {
+    "expose": false
+  }
+}
