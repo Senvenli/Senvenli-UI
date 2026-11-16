@@ -1,0 +1,52 @@
+{
+  "$schema": "../../manifest/component.schema.json",
+  "kind": "component",
+  "family": "display",
+  "status": "alpha",
+  "import": "@senvenli/react/display",
+  "name": "separator",
+  "title": "Separator",
+  "exports": [
+    "Separator"
+  ],
+  "description": "A thin line between groups that spacing alone does not separate, optionally with a short label.",
+  "keywords": [
+    "divider",
+    "rule",
+    "line",
+    "hr"
+  ],
+  "usage": {
+    "when": [
+      "Two groups of content need a visible boundary.",
+      "An \"or\" between alternative sign-in methods."
+    ],
+    "instead": [
+      {
+        "use": "card",
+        "when": "The groups are separate objects; give each its own card."
+      }
+    ]
+  },
+  "guidance": [
+    {
+      "rule": "Prefer space over lines; add a separator only when space is not enough."
+    }
+  ],
+  "a11y": {
+    "builtIn": [
+      "Exposed as a separator with its orientation."
+    ],
+    "youProvide": [
+      "`decorative` when the line only decorates."
+    ]
+  },
+  "genui": {
+    "expose": true,
+    "description": "A divider line between groups; children are an optional short label such as \"or\".",
+    "props": [
+      "orientation"
+    ],
+    "children": "text"
+  }
+}

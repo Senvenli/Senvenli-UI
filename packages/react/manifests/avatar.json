@@ -1,0 +1,235 @@
+{
+  "$schema": "https://design.senvenli.com/schema/component.json",
+  "kind": "component",
+  "family": "display",
+  "status": "alpha",
+  "import": "@senvenli/react/display",
+  "name": "avatar",
+  "title": "Avatar",
+  "exports": [
+    "Avatar",
+    "AvatarGroup"
+  ],
+  "description": "A person or a company shown by photo, initials or icon, alone or in a stacked group.",
+  "keywords": [
+    "user",
+    "profile",
+    "picture",
+    "initials",
+    "people",
+    "team"
+  ],
+  "usage": {
+    "when": [
+      "Identifying who did something or who belongs to something."
+    ],
+    "instead": [
+      {
+        "use": "icon",
+        "when": "The object is not a person or a company."
+      }
+    ]
+  },
+  "guidance": [
+    {
+      "rule": "Use circles for people and squares for companies."
+    }
+  ],
+  "a11y": {
+    "builtIn": [
+      "Named by `name`; presence is announced as online.",
+      "AvatarGroup announces how many more people are hidden."
+    ],
+    "youProvide": [
+      "An `aria-label` on AvatarGroup that names the group."
+    ]
+  },
+  "related": [
+    "badge"
+  ],
+  "genui": {
+    "expose": true,
+    "description": "A person (circle) or company (square) by name; initials are drawn from the name.",
+    "props": [
+      "name",
+      "size",
+      "shape",
+      "presence"
+    ],
+    "children": "none",
+    "schema": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The person's or company's name: the initials and the accessible name."
+        },
+        "size": {
+          "type": "string",
+          "enum": [
+            "small",
+            "medium",
+            "large"
+          ]
+        },
+        "shape": {
+          "type": "string",
+          "enum": [
+            "circle",
+            "square"
+          ],
+          "description": "`circle` for people, `square` for companies and logos (contained, never stretched)."
+        },
+        "presence": {
+          "type": "string",
+          "enum": [
+            "online"
+          ],
+          "description": "Shows the 10px online dot and says \"online\" in the name."
+        }
+      },
+      "required": [
+        "name"
+      ]
+    }
+  },
+  "source": [
+    "src/display/avatar.tsx"
+  ],
+  "props": {
+    "Avatar": [
+      {
+        "name": "name",
+        "type": "string",
+        "required": true,
+        "description": "The person's or company's name: the initials and the accessible name.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "src",
+        "type": "string",
+        "required": false,
+        "description": "Photo or company logo; initials (or the icon) show until it loads and if it fails.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "size",
+        "type": "AvatarSize",
+        "required": false,
+        "schema": {
+          "type": "string",
+          "enum": [
+            "small",
+            "medium",
+            "large"
+          ]
+        }
+      },
+      {
+        "name": "shape",
+        "type": "AvatarShape",
+        "required": false,
+        "default": "\"circle\"",
+        "description": "`circle` for people, `square` for companies and logos (contained, never stretched).",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "circle",
+            "square"
+          ]
+        }
+      },
+      {
+        "name": "presence",
+        "type": "\"online\"",
+        "required": false,
+        "description": "Shows the 10px online dot and says \"online\" in the name.",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "online"
+          ]
+        }
+      }
+    ],
+    "AvatarGroup": [
+      {
+        "name": "children",
+        "type": "React.ReactNode",
+        "required": true,
+        "description": "Avatars; past `max` they fold into a \"+N\" avatar."
+      },
+      {
+        "name": "max",
+        "type": "number",
+        "required": false,
+        "default": "4",
+        "description": "How many show before the \"+N\"; default 4.",
+        "schema": {
+          "type": "number"
+        }
+      },
+      {
+        "name": "size",
+        "type": "AvatarSize",
+        "required": false,
+        "default": "\"medium\"",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "small",
+            "medium",
+            "large"
+          ]
+        }
+      },
+      {
+        "name": "aria-label",
+        "type": "string",
+        "required": false,
+        "description": "Names the group (\"Team members\").",
+        "schema": {
+          "type": "string"
+        }
+      }
+    ]
+  },
+  "tokens": [
+    "ds-background-brand-subtle",
+    "ds-background-information",
+    "ds-background-neutral",
+    "ds-background-success",
+    "ds-icon-success",
+    "ds-radius-full",
+    "ds-radius-medium",
+    "ds-space-100",
+    "ds-space-300",
+    "ds-space-400",
+    "ds-space-600",
+    "ds-surface",
+    "ds-surface-sunken",
+    "ds-text-brand",
+    "ds-text-information",
+    "ds-text-subtle",
+    "ds-text-success"
+  ],
+  "strings": [
+    "morePeople",
+    "online"
+  ],
+  "quality": {
+    "tests": false,
+    "a11y": false,
+    "docs": false,
+    "visual": false,
+    "dark": false,
+    "rtl": false,
+    "mcp": true,
+    "generic": true
+  }
+}

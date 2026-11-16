@@ -1,0 +1,197 @@
+{
+  "$schema": "https://design.senvenli.com/schema/component.json",
+  "kind": "component",
+  "family": "display",
+  "status": "alpha",
+  "import": "@senvenli/react/display",
+  "name": "icon",
+  "title": "Icon",
+  "exports": [
+    "Icon"
+  ],
+  "description": "Draws any Lucide icon by name, sized and colored with theme tokens.",
+  "keywords": [
+    "icon",
+    "glyph",
+    "symbol",
+    "lucide",
+    "svg"
+  ],
+  "usage": {
+    "when": [
+      "A symbol helps people scan or recognize an action, status or object.",
+      "An icon-only control needs a picture; give it a label."
+    ],
+    "instead": [
+      {
+        "use": "lozenge",
+        "when": "The status needs a word, not only a symbol."
+      }
+    ]
+  },
+  "guidance": [
+    {
+      "rule": "Pair icons with text unless the meaning is universal; give a standalone icon a label."
+    },
+    {
+      "rule": "Use the semantic colors (danger, success…) only when the icon carries that meaning."
+    }
+  ],
+  "a11y": {
+    "builtIn": [
+      "Decorative (hidden from assistive technology) when it has no label.",
+      "Exposed as an image named by `label` when it has one.",
+      "Directional icons mirror on right-to-left pages."
+    ],
+    "youProvide": [
+      "A `label` when the icon carries meaning on its own."
+    ]
+  },
+  "related": [
+    "badge",
+    "lozenge"
+  ],
+  "genui": {
+    "expose": true,
+    "description": "A Lucide icon by kebab-case name. Use beside text; give `label` only when the icon stands alone and carries meaning.",
+    "props": [
+      "name",
+      "size",
+      "color",
+      "label"
+    ],
+    "children": "none",
+    "schema": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string",
+          "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
+          "description": "Any Lucide name, kebab-case (\"house\", \"search\", \"calendar-range\")."
+        },
+        "size": {
+          "type": "string",
+          "enum": [
+            "small",
+            "large",
+            "default"
+          ],
+          "description": "`small` 12px, `default` 16px, `large` 20px (`ds-size-icon-*`)."
+        },
+        "color": {
+          "type": "string",
+          "enum": [
+            "brand",
+            "danger",
+            "default",
+            "inherit",
+            "subtle",
+            "warning",
+            "success",
+            "information"
+          ],
+          "description": "`inherit` (default) takes the text colour around it; the others are the `ds-icon-*` tokens."
+        },
+        "label": {
+          "type": "string",
+          "description": "The accessible name for an icon that carries meaning on its own. Without\nit the icon is decorative and hidden from assistive technology, which is\nright when text next to it already says the same thing."
+        }
+      },
+      "required": [
+        "name"
+      ]
+    }
+  },
+  "source": [
+    "src/display/icon.tsx"
+  ],
+  "props": {
+    "Icon": [
+      {
+        "name": "name",
+        "type": "IconName",
+        "required": true,
+        "description": "Any Lucide name, kebab-case (\"house\", \"search\", \"calendar-range\").",
+        "schema": {
+          "type": "string",
+          "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+        }
+      },
+      {
+        "name": "size",
+        "type": "IconSize",
+        "required": false,
+        "description": "`small` 12px, `default` 16px, `large` 20px (`ds-size-icon-*`).",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "small",
+            "large",
+            "default"
+          ]
+        }
+      },
+      {
+        "name": "color",
+        "type": "IconColor",
+        "required": false,
+        "description": "`inherit` (default) takes the text colour around it; the others are the `ds-icon-*` tokens.",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "brand",
+            "danger",
+            "default",
+            "inherit",
+            "subtle",
+            "warning",
+            "success",
+            "information"
+          ]
+        }
+      },
+      {
+        "name": "label",
+        "type": "string",
+        "required": false,
+        "description": "The accessible name for an icon that carries meaning on its own. Without\nit the icon is decorative and hidden from assistive technology, which is\nright when text next to it already says the same thing.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "isDirectional",
+        "type": "boolean",
+        "required": false,
+        "description": "Mirrors the icon on an RTL page. Left out, the names in `DIRECTIONAL_ICONS` (arrows and\nchevrons that point along the reading direction, undo/redo, send, sign in/out) mirror and every other\nicon stays as drawn. `true` mirrors any icon; `false` keeps a directional one as drawn (a compass arrow,\na \"swipe left\" hint).",
+        "schema": {
+          "type": "boolean"
+        }
+      }
+    ]
+  },
+  "tokens": [
+    "ds-icon",
+    "ds-icon-brand",
+    "ds-icon-danger",
+    "ds-icon-information",
+    "ds-icon-subtle",
+    "ds-icon-success",
+    "ds-icon-warning",
+    "ds-size-icon",
+    "ds-size-icon-large",
+    "ds-size-icon-small"
+  ],
+  "strings": [],
+  "quality": {
+    "tests": true,
+    "a11y": false,
+    "docs": false,
+    "visual": false,
+    "dark": false,
+    "rtl": false,
+    "mcp": true,
+    "generic": true
+  }
+}

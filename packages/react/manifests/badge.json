@@ -1,0 +1,176 @@
+{
+  "$schema": "https://design.senvenli.com/schema/component.json",
+  "kind": "component",
+  "family": "display",
+  "status": "alpha",
+  "import": "@senvenli/react/display",
+  "name": "badge",
+  "title": "Badge",
+  "exports": [
+    "Badge",
+    "BadgeAnchor"
+  ],
+  "description": "A count or an unread dot next to a label or on an icon.",
+  "keywords": [
+    "count",
+    "counter",
+    "notification",
+    "unread",
+    "dot"
+  ],
+  "usage": {
+    "when": [
+      "Showing how many items need attention."
+    ],
+    "instead": [
+      {
+        "use": "lozenge",
+        "when": "The status is a word, not a number."
+      }
+    ]
+  },
+  "guidance": [
+    {
+      "rule": "Use `danger` only for counts that need action now."
+    }
+  ],
+  "a11y": {
+    "builtIn": [
+      "Counts above `max` show as \"max+\".",
+      "On an icon the badge is hidden; the control's label must say the count."
+    ],
+    "youProvide": [
+      "The count in the control's accessible name when the badge sits on an icon."
+    ]
+  },
+  "related": [
+    "lozenge",
+    "icon"
+  ],
+  "genui": {
+    "expose": true,
+    "description": "A numeric count next to a label. Use lozenge for status words.",
+    "props": [
+      "value",
+      "max",
+      "tone"
+    ],
+    "children": "none",
+    "schema": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "value": {
+          "type": "number",
+          "description": "The count; nothing renders at 0."
+        },
+        "max": {
+          "type": "number",
+          "description": "Above it shows \"max+\"; default 99, or 9 on an icon."
+        },
+        "tone": {
+          "type": "string",
+          "enum": [
+            "neutral",
+            "brand",
+            "danger",
+            "inverse"
+          ],
+          "description": "`danger` only for counts that need action now (overdue, unpaid)."
+        }
+      }
+    }
+  },
+  "source": [
+    "src/display/badge.tsx"
+  ],
+  "props": {
+    "Badge": [
+      {
+        "name": "tone",
+        "type": "BadgeTone",
+        "required": false,
+        "default": "\"neutral\"",
+        "description": "`danger` only for counts that need action now (overdue, unpaid).",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "neutral",
+            "brand",
+            "danger",
+            "inverse"
+          ]
+        }
+      },
+      {
+        "name": "isOnIcon",
+        "type": "boolean",
+        "required": false,
+        "description": "On an icon inside `BadgeAnchor`: corner placement, and hidden from screen readers (the control's label says it).",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "value",
+        "type": "number",
+        "required": false,
+        "description": "The count; nothing renders at 0.",
+        "schema": {
+          "type": "number"
+        }
+      },
+      {
+        "name": "max",
+        "type": "number",
+        "required": false,
+        "description": "Above it shows \"max+\"; default 99, or 9 on an icon.",
+        "schema": {
+          "type": "number"
+        }
+      },
+      {
+        "name": "isDot",
+        "type": "true",
+        "required": false,
+        "description": "An 8px unread marker without a number; hidden from screen readers, so the text or label next to it says \"new\".",
+        "schema": {
+          "type": "boolean"
+        }
+      }
+    ],
+    "BadgeAnchor": [
+      {
+        "name": "children",
+        "type": "React.ReactNode",
+        "required": true
+      }
+    ]
+  },
+  "tokens": [
+    "ds-background-brand-bold",
+    "ds-background-danger-bold",
+    "ds-background-neutral",
+    "ds-background-neutral-bold",
+    "ds-icon-danger",
+    "ds-radius-full",
+    "ds-space-050",
+    "ds-space-100",
+    "ds-surface",
+    "ds-text",
+    "ds-text-inverse",
+    "ds-text-on-brand",
+    "ds-text-on-danger"
+  ],
+  "strings": [],
+  "quality": {
+    "tests": false,
+    "a11y": false,
+    "docs": false,
+    "visual": false,
+    "dark": false,
+    "rtl": false,
+    "mcp": true,
+    "generic": true
+  }
+}

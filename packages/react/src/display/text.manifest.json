@@ -1,0 +1,61 @@
+{
+  "$schema": "../../manifest/component.schema.json",
+  "kind": "component",
+  "family": "display",
+  "status": "alpha",
+  "import": "@senvenli/react/display",
+  "name": "text",
+  "title": "Text",
+  "exports": [
+    "Text",
+    "Prose"
+  ],
+  "description": "Body copy, captions and inline text on the type scale, plus Prose for long rich text.",
+  "keywords": [
+    "paragraph",
+    "body",
+    "caption",
+    "copy",
+    "typography",
+    "prose"
+  ],
+  "usage": {
+    "when": [
+      "Any run of app text: descriptions, help text, captions, numbers.",
+      "Prose: long formatted content such as articles or terms."
+    ],
+    "instead": [
+      {
+        "use": "heading",
+        "when": "The words title a page or section."
+      }
+    ]
+  },
+  "guidance": [
+    {
+      "rule": "Keep legal and body text at `body` or larger; use `subtle` and `subtlest` tones for secondary text only."
+    }
+  ],
+  "a11y": {
+    "builtIn": [
+      "Tones meet WCAG AA contrast on every surface token."
+    ],
+    "youProvide": [
+      "`elementType=\"p\"` for paragraphs so the text has the right semantics."
+    ]
+  },
+  "related": [
+    "heading"
+  ],
+  "genui": {
+    "expose": true,
+    "description": "A run of body text. Use `tone` for meaning (danger, success…) and `subtle` for secondary text.",
+    "props": [
+      "size",
+      "tone",
+      "weight",
+      "elementType"
+    ],
+    "children": "text"
+  }
+}

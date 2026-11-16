@@ -65,7 +65,7 @@ const TEXT_TONE: Record<TextTone, string> = {
 export type TextProps = {
   size?: TextSize;
   tone?: TextTone;
-  weight?: "regular" | "semibold";
+  weight?: "regular" | "medium";
   /** `p` for a paragraph (kept under ~70 characters a line), `span` inline, `div` for a block. */
   elementType?: "span" | "p" | "div";
   /** Lines up figures in columns and changing values. */
@@ -82,7 +82,7 @@ export function Text({ size = "body", tone = "default", weight = "regular", elem
       className={cn(
         TEXT_SIZE[size],
         TEXT_TONE[tone],
-        weight === "semibold" && "font-semibold",
+        weight === "medium" && "font-medium",
         elementType === "p" && "m-0 max-w-[70ch]",
         isNumeric && "tabular-nums",
       )}
@@ -93,7 +93,7 @@ export function Text({ size = "body", tone = "default", weight = "regular", elem
 }
 
 /**
- * Long-form text styled from the type tokens: help pages, rental terms, email
+ * Long-form text styled from the type tokens: help pages, terms of service, email
  * bodies. 62ch measure, body-large; h2/h3, lists, quotes, inline code and
  * links inside follow the design. Children are rendered HTML or Markdown output.
  */
@@ -111,7 +111,7 @@ export function Prose({ children }: { children: React.ReactNode }) {
         "[&_li+li]:mt-ds-050 [&_li>p:last-child]:mb-0 [&_blockquote>p:last-child]:mb-0",
         "[&_blockquote]:mx-0 [&_blockquote]:mt-0 [&_blockquote]:mb-ds-200 [&_blockquote]:border-s-2 [&_blockquote]:border-ds-border-bold [&_blockquote]:ps-ds-200 [&_blockquote]:text-ds-text-subtle",
         "[&_code]:rounded-ds-xsmall [&_code]:bg-ds-background-neutral [&_code]:px-ds-050 [&_code]:py-px [&_code]:font-ds-mono [&_code]:text-code",
-        "[&_strong]:font-semibold",
+        "[&_strong]:font-medium",
         "[&_a]:text-ds-link [&_a]:underline [&_a]:underline-offset-3",
       )}
     >

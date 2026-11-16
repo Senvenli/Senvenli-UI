@@ -57,7 +57,7 @@ const COLOR: Record<IconColor, string> = {
 };
 
 export type IconProps = {
-  /** Any Lucide name, kebab-case ("car", "key-round", "calendar-range"). */
+  /** Any Lucide name, kebab-case ("house", "search", "calendar-range"). */
   name: IconName;
   /** `small` 12px, `default` 16px, `large` 20px (`ds-size-icon-*`). */
   size?: IconSize;

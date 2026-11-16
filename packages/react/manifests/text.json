@@ -1,0 +1,227 @@
+{
+  "$schema": "https://design.senvenli.com/schema/component.json",
+  "kind": "component",
+  "family": "display",
+  "status": "alpha",
+  "import": "@senvenli/react/display",
+  "name": "text",
+  "title": "Text",
+  "exports": [
+    "Text",
+    "Prose"
+  ],
+  "description": "Body copy, captions and inline text on the type scale, plus Prose for long rich text.",
+  "keywords": [
+    "paragraph",
+    "body",
+    "caption",
+    "copy",
+    "typography",
+    "prose"
+  ],
+  "usage": {
+    "when": [
+      "Any run of app text: descriptions, help text, captions, numbers.",
+      "Prose: long formatted content such as articles or terms."
+    ],
+    "instead": [
+      {
+        "use": "heading",
+        "when": "The words title a page or section."
+      }
+    ]
+  },
+  "guidance": [
+    {
+      "rule": "Keep legal and body text at `body` or larger; use `subtle` and `subtlest` tones for secondary text only."
+    }
+  ],
+  "a11y": {
+    "builtIn": [
+      "Tones meet WCAG AA contrast on every surface token."
+    ],
+    "youProvide": [
+      "`elementType=\"p\"` for paragraphs so the text has the right semantics."
+    ]
+  },
+  "related": [
+    "heading"
+  ],
+  "genui": {
+    "expose": true,
+    "description": "A run of body text. Use `tone` for meaning (danger, success…) and `subtle` for secondary text.",
+    "props": [
+      "size",
+      "tone",
+      "weight",
+      "elementType"
+    ],
+    "children": "text",
+    "schema": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "size": {
+          "type": "string",
+          "enum": [
+            "code",
+            "body-large",
+            "body",
+            "body-small"
+          ]
+        },
+        "tone": {
+          "type": "string",
+          "enum": [
+            "brand",
+            "danger",
+            "default",
+            "subtle",
+            "warning",
+            "success",
+            "information",
+            "subtlest"
+          ]
+        },
+        "weight": {
+          "type": "string",
+          "enum": [
+            "medium",
+            "regular"
+          ]
+        },
+        "elementType": {
+          "type": "string",
+          "enum": [
+            "div",
+            "span",
+            "p"
+          ],
+          "description": "`p` for a paragraph (kept under ~70 characters a line), `span` inline, `div` for a block."
+        }
+      }
+    }
+  },
+  "source": [
+    "src/display/typography.tsx"
+  ],
+  "props": {
+    "Text": [
+      {
+        "name": "size",
+        "type": "TextSize",
+        "required": false,
+        "default": "\"body\"",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "code",
+            "body-large",
+            "body",
+            "body-small"
+          ]
+        }
+      },
+      {
+        "name": "tone",
+        "type": "TextTone",
+        "required": false,
+        "default": "\"default\"",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "brand",
+            "danger",
+            "default",
+            "subtle",
+            "warning",
+            "success",
+            "information",
+            "subtlest"
+          ]
+        }
+      },
+      {
+        "name": "weight",
+        "type": "\"medium\" | \"regular\"",
+        "required": false,
+        "default": "\"regular\"",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "medium",
+            "regular"
+          ]
+        }
+      },
+      {
+        "name": "elementType",
+        "type": "\"div\" | \"span\" | \"p\"",
+        "required": false,
+        "default": "\"span\"",
+        "description": "`p` for a paragraph (kept under ~70 characters a line), `span` inline, `div` for a block.",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "div",
+            "span",
+            "p"
+          ]
+        }
+      },
+      {
+        "name": "isNumeric",
+        "type": "boolean",
+        "required": false,
+        "description": "Lines up figures in columns and changing values.",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "children",
+        "type": "React.ReactNode",
+        "required": true
+      }
+    ],
+    "Prose": [
+      {
+        "name": "children",
+        "type": "React.ReactNode",
+        "required": true
+      }
+    ]
+  },
+  "tokens": [
+    "ds-background-neutral",
+    "ds-border-bold",
+    "ds-link",
+    "ds-radius-xsmall",
+    "ds-space-050",
+    "ds-space-100",
+    "ds-space-200",
+    "ds-space-250",
+    "ds-space-300",
+    "ds-space-400",
+    "ds-text",
+    "ds-text-brand",
+    "ds-text-danger",
+    "ds-text-information",
+    "ds-text-subtle",
+    "ds-text-subtlest",
+    "ds-text-success",
+    "ds-text-warning",
+    "font-ds-mono"
+  ],
+  "strings": [],
+  "quality": {
+    "tests": false,
+    "a11y": false,
+    "docs": false,
+    "visual": false,
+    "dark": false,
+    "rtl": false,
+    "mcp": true,
+    "generic": true
+  }
+}

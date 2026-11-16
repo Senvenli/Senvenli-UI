@@ -18,7 +18,7 @@ const TONE: Record<BadgeTone, string> = {
 const CORNER = "absolute -top-1 -end-1.5 ring-2 ring-ds-surface";
 
 type BadgeBase = {
-  /** `danger` only for counts that need action now (gecikenler, ödenmemiş). */
+  /** `danger` only for counts that need action now (overdue, unpaid). */
   tone?: BadgeTone;
   /** On an icon inside `BadgeAnchor`: corner placement, and hidden from screen readers (the control's label says it). */
   isOnIcon?: boolean;
@@ -44,7 +44,7 @@ export type BadgeProps = BadgeBase &
 /**
  * A count or an unread marker next to a label or on an icon. Counts only:
  * status words are Lozenge. On an icon, the control's `aria-label` must
- * include the count ("Bildirimler, 9+ okunmamış").
+ * include the count ("Notifications, 9+ unread").
  */
 export function Badge({ value, max, tone = "neutral", isDot, isOnIcon }: BadgeProps) {
   const { locale } = useLocale();
@@ -68,7 +68,7 @@ export function Badge({ value, max, tone = "neutral", isDot, isOnIcon }: BadgePr
       data-tone={tone}
       aria-hidden={isOnIcon || undefined}
       className={cn(
-        "inline-grid h-[18px] min-w-[18px] shrink-0 place-items-center rounded-ds-full px-[5px] text-[11px] leading-none font-semibold tabular-nums",
+        "inline-grid h-[18px] min-w-[18px] shrink-0 place-items-center rounded-ds-full px-[5px] text-[11px] leading-none font-medium tabular-nums",
         TONE[tone],
         isOnIcon && CORNER,
       )}

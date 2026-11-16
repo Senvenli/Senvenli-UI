@@ -8,13 +8,15 @@
     "build": "pnpm -r --filter ./packages/** build",
     "test": "vitest run",
     "typecheck": "pnpm -r typecheck",
-    "dev": "pnpm --filter site dev"
+    "dev": "pnpm --filter site dev",
+    "manifests": "UPDATE_MANIFESTS=1 vitest run packages/react/src/manifest"
   },
   "devDependencies": {
     "@types/node": "^26.1.1",
     "typescript": "^5",
     "vitest": "^4.1.10",
     "jsdom": "^27.4.0",
-    "@testing-library/react": "^16.3.2"
+    "@testing-library/react": "^16.3.2",
+    "ajv": "^8.17.1"
   }
 }

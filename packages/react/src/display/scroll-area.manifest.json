@@ -1,0 +1,42 @@
+{
+  "$schema": "../../manifest/component.schema.json",
+  "kind": "component",
+  "family": "display",
+  "status": "alpha",
+  "import": "@senvenli/react/display",
+  "name": "scroll-area",
+  "title": "Scroll area",
+  "exports": [
+    "ScrollArea"
+  ],
+  "description": "A region that scrolls inside a height limit with thin themed scrollbars, keyboard reachable.",
+  "keywords": [
+    "scroll",
+    "overflow",
+    "scrollbar",
+    "pane",
+    "list"
+  ],
+  "usage": {
+    "when": [
+      "A long list or pane must stay within a fixed height."
+    ]
+  },
+  "a11y": {
+    "keyboard": [
+      {
+        "keys": "Tab",
+        "does": "Moves focus into the region so arrow keys scroll it."
+      }
+    ],
+    "builtIn": [
+      "The region is focusable and announced by its label."
+    ],
+    "youProvide": [
+      "An `aria-label` that names the region."
+    ]
+  },
+  "genui": {
+    "expose": false
+  }
+}
