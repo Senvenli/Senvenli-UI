@@ -1,0 +1,7 @@
+/* Tailwind v4 + Senvenli UI. The theme values are replaced at runtime by the builder;
+   ds-theme.css only gives Tailwind the token names (generated with the CLI). */
+@import "tailwindcss";
+@import "./ds-theme.css";
+@import "../../packages/react/styles/theme.css";
+@import "../../packages/react/styles/base.css";
+@source "../../packages/react/src";

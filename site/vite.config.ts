@@ -1,13 +1,18 @@
 import { fileURLToPath } from "node:url";
+import tailwindcss from "@tailwindcss/vite";
 import react from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
 
+const src = (path: string) => fileURLToPath(new URL(path, import.meta.url));
+
 export default defineConfig({
-  plugins: [react()],
+  plugins: [react(), tailwindcss()],
   resolve: {
-    alias: {
-      "@senvenli/tokens": fileURLToPath(new URL("../packages/tokens/src/index.ts", import.meta.url)),
-    },
+    alias: [
+      { find: "@senvenli/tokens", replacement: src("../packages/tokens/src/index.ts") },
+      { find: "@senvenli/react/display", replacement: src("../packages/react/src/display/index.ts") },
+      { find: /^@senvenli\/react$/, replacement: src("../packages/react/src/index.ts") },
+    ],
   },
   server: { port: 5173, strictPort: true },
 });

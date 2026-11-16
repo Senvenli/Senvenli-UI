@@ -14,11 +14,17 @@
       "types": "./dist/index.d.ts",
       "default": "./dist/index.js"
     },
+    "./display": {
+      "types": "./dist/display/index.d.ts",
+      "default": "./dist/display/index.js"
+    },
+    "./theme.css": "./styles/theme.css",
     "./base.css": "./styles/base.css"
   },
   "files": [
     "dist",
-    "styles"
+    "styles",
+    "scripts"
   ],
   "scripts": {
     "build": "tsc -p tsconfig.json",

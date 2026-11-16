@@ -1,0 +1,20 @@
+// Icon: every Lucide icon by name, shipped with the package; apps never import lucide-react.
+export { Icon } from "./icon";
+export type { IconProps } from "./icon";
+export type { IconColor, IconName, IconSize } from "./icon-names";
+export { Card, CardBody, CardFooter, CardHeader, CardMedia } from "./card";
+export type { CardHeaderProps, CardHeadingLevel, CardMediaProps, CardProps, CardVariant } from "./card";
+export { Avatar, AvatarGroup } from "./avatar";
+export type { AvatarGroupProps, AvatarProps, AvatarShape, AvatarSize } from "./avatar";
+export { Badge, BadgeAnchor } from "./badge";
+export type { BadgeProps, BadgeTone } from "./badge";
+export { Lozenge } from "./lozenge";
+export type { LozengeAppearance, LozengeProps, LozengeTone } from "./lozenge";
+export { Separator } from "./separator";
+export type { SeparatorProps } from "./separator";
+export { Kbd, ModifierKbd } from "./kbd";
+export type { KbdProps } from "./kbd";
+export { Heading, Prose, Text } from "./typography";
+export type { HeadingLevel, HeadingProps, HeadingSize, TextProps, TextSize, TextTone } from "./typography";
+export { ScrollArea } from "./scroll-area";
+export type { ScrollAreaProps } from "./scroll-area";
