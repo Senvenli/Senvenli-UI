@@ -16,6 +16,7 @@ import {
   Separator,
   Text,
 } from "@senvenli/react/display";
+import { Button, ButtonGroup, CloseButton, Link, LinkButton, ThemeToggle, ToggleButton, ToggleGroup } from "@senvenli/react/action";
 
 const PEOPLE = ["Ada Lovelace", "Grace Hopper", "Alan Turing", "Katherine Johnson", "Linus Torvalds", "Margaret Hamilton"];
 
@@ -124,6 +125,69 @@ export function ComponentsPreview() {
               <Text tone="subtle">
                 Search with <ModifierKbd /> <Kbd>K</Kbd>, close with <Kbd label="Escape">Esc</Kbd>.
               </Text>
+            </div>
+          </CardBody>
+        </Card>
+
+        <Card>
+          <CardHeader title="Button" subtitle="Variants and sizes" />
+          <CardBody>
+            <div className="flex flex-col gap-ds-200">
+              <div className="flex flex-wrap items-center gap-ds-100">
+                <Button variant="primary">Save changes</Button>
+                <Button>Cancel</Button>
+                <Button variant="subtle">Skip</Button>
+                <Button variant="danger">Delete</Button>
+                <Button variant="link">Learn more</Button>
+              </div>
+              <div className="flex flex-wrap items-center gap-ds-100">
+                <Button variant="primary" size="large" iconBefore="plus">
+                  Create invoice
+                </Button>
+                <Button size="compact" iconAfter="download">
+                  Export
+                </Button>
+                <Button iconOnly iconBefore="settings" aria-label="Settings" />
+                <Button isDisabled>Disabled</Button>
+              </div>
+              <ButtonGroup aria-label="Send" variant="split">
+                <Button variant="primary">Send invoice</Button>
+                <Button variant="primary" iconOnly iconBefore="chevron-down" aria-label="More send options" />
+              </ButtonGroup>
+            </div>
+          </CardBody>
+        </Card>
+
+        <Card>
+          <CardHeader title="Links and toggles" subtitle="LinkButton, Link, ToggleGroup, ThemeToggle" />
+          <CardBody>
+            <div className="flex flex-col gap-ds-200">
+              <div className="flex flex-wrap items-center gap-ds-100">
+                <LinkButton href="#" variant="primary" iconBefore="plus">
+                  Add product
+                </LinkButton>
+                <LinkButton href="#">View all</LinkButton>
+                <CloseButton />
+              </div>
+              <Text>
+                Read <Link href="#" variant="inline">the terms of service</Link> or visit{" "}
+                <Link href="https://example.com" isExternal>
+                  our docs
+                </Link>
+                .
+              </Text>
+              <ToggleGroup label="Text alignment" selectionMode="single" defaultSelectedKeys={["left"]}>
+                <ToggleButton id="left" icon="align-left">
+                  Left
+                </ToggleButton>
+                <ToggleButton id="center" icon="align-center">
+                  Center
+                </ToggleButton>
+                <ToggleButton id="right" icon="align-right">
+                  Right
+                </ToggleButton>
+              </ToggleGroup>
+              <ThemeToggle />
             </div>
           </CardBody>
         </Card>

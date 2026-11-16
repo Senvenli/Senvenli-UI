@@ -1,0 +1,40 @@
+{
+  "$schema": "../../manifest/component.schema.json",
+  "kind": "component",
+  "family": "action",
+  "status": "alpha",
+  "import": "@senvenli/react/action",
+  "name": "theme-toggle",
+  "title": "Theme toggle",
+  "exports": [
+    "ThemeToggle"
+  ],
+  "description": "Lets people choose system, light or dark theme, stored per device and applied before first paint.",
+  "keywords": [
+    "theme",
+    "dark mode",
+    "light mode",
+    "appearance"
+  ],
+  "usage": {
+    "when": [
+      "An app or site offers light and dark themes."
+    ]
+  },
+  "a11y": {
+    "keyboard": [
+      {
+        "keys": "Arrow keys",
+        "does": "Moves between and selects the options."
+      }
+    ],
+    "builtIn": [
+      "One tab stop; a radio group named \"Theme\".",
+      "System says which theme is in effect now."
+    ],
+    "youProvide": []
+  },
+  "genui": {
+    "expose": false
+  }
+}

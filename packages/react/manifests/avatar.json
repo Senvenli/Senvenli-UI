@@ -68,9 +68,9 @@
         "size": {
           "type": "string",
           "enum": [
+            "large",
             "small",
-            "medium",
-            "large"
+            "medium"
           ]
         },
         "shape": {
@@ -124,9 +124,9 @@
         "schema": {
           "type": "string",
           "enum": [
+            "large",
             "small",
-            "medium",
-            "large"
+            "medium"
           ]
         }
       },
@@ -182,9 +182,9 @@
         "schema": {
           "type": "string",
           "enum": [
+            "large",
             "small",
-            "medium",
-            "large"
+            "medium"
           ]
         }
       },
@@ -204,9 +204,18 @@
     "ds-background-information",
     "ds-background-neutral",
     "ds-background-success",
+    "ds-icon",
+    "ds-icon-brand",
+    "ds-icon-danger",
+    "ds-icon-information",
+    "ds-icon-subtle",
     "ds-icon-success",
+    "ds-icon-warning",
     "ds-radius-full",
     "ds-radius-medium",
+    "ds-size-icon",
+    "ds-size-icon-large",
+    "ds-size-icon-small",
     "ds-space-100",
     "ds-space-300",
     "ds-space-400",

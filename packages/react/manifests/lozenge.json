@@ -64,9 +64,9 @@
         "tone": {
           "type": "string",
           "enum": [
-            "neutral",
-            "brand",
             "danger",
+            "brand",
+            "neutral",
             "warning",
             "success",
             "information"
@@ -108,9 +108,9 @@
         "schema": {
           "type": "string",
           "enum": [
-            "neutral",
-            "brand",
             "danger",
+            "brand",
+            "neutral",
             "warning",
             "success",
             "information"

@@ -76,15 +76,15 @@
       },
       {
         "name": "orientation",
-        "type": "\"vertical\" | \"horizontal\" | \"both\"",
+        "type": "\"both\" | \"horizontal\" | \"vertical\"",
         "required": false,
         "default": "\"vertical\"",
         "schema": {
           "type": "string",
           "enum": [
-            "vertical",
+            "both",
             "horizontal",
-            "both"
+            "vertical"
           ]
         }
       }

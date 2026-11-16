@@ -653,7 +653,7 @@ const COMMAND_PALETTE: Strings = {
   en: "Command palette",
 };
 const COMMAND_SEARCH: Strings = {
-  en: "Search records, plates or actions",
+  en: "Search records or actions",
 };
 const RECENT_RECORDS: Strings = {
   en: "Recent",

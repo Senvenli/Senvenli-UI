@@ -20,7 +20,11 @@
     },
     "./theme.css": "./styles/theme.css",
     "./base.css": "./styles/base.css",
-    "./manifests/*": "./manifests/*"
+    "./manifests/*": "./manifests/*",
+    "./action": {
+      "types": "./dist/action/index.d.ts",
+      "default": "./dist/action/index.js"
+    }
   },
   "files": [
     "dist",

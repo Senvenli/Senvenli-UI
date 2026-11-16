@@ -1,0 +1,57 @@
+{
+  "$schema": "../../manifest/component.schema.json",
+  "kind": "component",
+  "family": "action",
+  "status": "alpha",
+  "import": "@senvenli/react/action",
+  "name": "toggle-button",
+  "title": "Toggle button",
+  "exports": [
+    "ToggleButton",
+    "ToggleGroup"
+  ],
+  "description": "A button that stays pressed or not, alone or in a group where one or several options are on.",
+  "keywords": [
+    "toggle",
+    "pressed",
+    "switch",
+    "segmented",
+    "toolbar"
+  ],
+  "usage": {
+    "when": [
+      "Turning a formatting or view option on and off.",
+      "Picking options from a short group (ToggleGroup)."
+    ],
+    "instead": [
+      {
+        "use": "switch",
+        "when": "The choice is a setting that applies immediately."
+      }
+    ]
+  },
+  "a11y": {
+    "keyboard": [
+      {
+        "keys": "Space, Enter",
+        "does": "Toggles the button."
+      },
+      {
+        "keys": "Arrow keys",
+        "does": "Moves between buttons in a group."
+      }
+    ],
+    "builtIn": [
+      "The pressed state is announced; the label never changes with the state."
+    ],
+    "youProvide": [
+      "A `label` that names a ToggleGroup."
+    ]
+  },
+  "related": [
+    "button"
+  ],
+  "genui": {
+    "expose": false
+  }
+}

@@ -1,0 +1,153 @@
+{
+  "$schema": "https://design.senvenli.com/schema/component.full.json",
+  "kind": "component",
+  "family": "action",
+  "status": "alpha",
+  "import": "@senvenli/react/action",
+  "name": "fab",
+  "title": "Floating action button",
+  "exports": [
+    "Fab"
+  ],
+  "description": "Keeps one task reachable over scrolling content, as a button or a link, collapsing to its icon on phones.",
+  "keywords": [
+    "fab",
+    "floating",
+    "action",
+    "sticky"
+  ],
+  "usage": {
+    "when": [
+      "One main task must stay reachable while people scroll: contact, new item."
+    ]
+  },
+  "guidance": [
+    {
+      "rule": "At most one per screen; never over a dialog or sheet."
+    }
+  ],
+  "a11y": {
+    "builtIn": [
+      "Keeps its label as the accessible name when collapsed to an icon.",
+      "Links that open a new tab say so."
+    ],
+    "youProvide": [
+      "A verb label for the task."
+    ]
+  },
+  "related": [
+    "button"
+  ],
+  "genui": {
+    "expose": false
+  },
+  "source": [
+    "src/action/fab.tsx"
+  ],
+  "props": {
+    "Fab": [
+      {
+        "name": "label",
+        "type": "string",
+        "required": true,
+        "description": "The task, as a verb (\"Contact us\", \"New order\"); also the name when icon-only.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "icon",
+        "type": "IconName",
+        "required": true,
+        "description": "Lucide icon name (\"message-circle\", \"calendar-plus\").",
+        "schema": {
+          "type": "string",
+          "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+        }
+      },
+      {
+        "name": "tone",
+        "type": "\"brand\"",
+        "required": false,
+        "default": "\"brand\"",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "brand"
+          ]
+        }
+      },
+      {
+        "name": "onPress",
+        "type": "(event: PressEvent) => void",
+        "required": false
+      },
+      {
+        "name": "href",
+        "type": "string",
+        "required": false,
+        "description": "A link (a chat or contact URL) instead of an action; it opens in a new tab unless `target` says otherwise.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "target",
+        "type": "HTMLAttributeAnchorTarget",
+        "required": false,
+        "default": "\"_blank\"",
+        "description": "Where `href` opens. `_blank` (default) follows Link's external convention: `noopener noreferrer` and the\nnew-tab words for screen readers. `_self` keeps an in-app link in the page, through the host router."
+      },
+      {
+        "name": "placement",
+        "type": "\"inline\" | \"fixed\"",
+        "required": false,
+        "default": "\"fixed\"",
+        "description": "`fixed` (default): bottom-end above the safe area. `inline`: in the flow (previews, docs).",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "inline",
+            "fixed"
+          ]
+        }
+      },
+      {
+        "name": "collapseOnScroll",
+        "type": "boolean",
+        "required": false,
+        "default": "true",
+        "description": "Collapse to icon-only on phones after the first scroll (default true).",
+        "schema": {
+          "type": "boolean"
+        }
+      }
+    ]
+  },
+  "tokens": [
+    "ds-background-brand-bold",
+    "ds-background-brand-bold-hovered",
+    "ds-background-brand-bold-pressed",
+    "ds-easing-standard",
+    "ds-radius-full",
+    "ds-shadow-overlay",
+    "ds-space-100",
+    "ds-space-150",
+    "ds-space-250",
+    "ds-space-300",
+    "ds-text-on-brand"
+  ],
+  "strings": [
+    "newTab"
+  ],
+  "quality": {
+    "tests": true,
+    "a11y": false,
+    "docs": false,
+    "visual": false,
+    "dark": false,
+    "rtl": false,
+    "mcp": true,
+    "generic": true
+  }
+}

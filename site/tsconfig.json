@@ -13,6 +13,9 @@
       ],
       "@senvenli/react/display": [
         "../packages/react/src/display/index.ts"
+      ],
+      "@senvenli/react/action": [
+        "../packages/react/src/action/index.ts"
       ]
     },
     "noUncheckedIndexedAccess": false

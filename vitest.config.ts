@@ -10,6 +10,8 @@ export default defineConfig({
   },
   test: {
     environment: "jsdom",
+    // Testing Library cleans up after each test only when test globals exist.
+    globals: true,
     include: ["packages/*/src/**/*.test.{ts,tsx}"],
   },
 });

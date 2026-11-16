@@ -198,6 +198,23 @@ export function stringsIn(source: string): string[] {
 
 // ---------------------------------------------------------------------------
 
+/** `files` plus every `./module` they import from the same family directory, transitively. */
+function localClosure(files: string[], familyDir: string): string[] {
+  const seen = new Set<string>();
+  const queue = [...files];
+  while (queue.length) {
+    const file = queue.pop()!;
+    if (seen.has(file)) continue;
+    seen.add(file);
+    for (const m of fs.readFileSync(file, "utf8").matchAll(/from\s+["']\.\/([a-z0-9-]+)["']/g)) {
+      const base = path.join(familyDir, m[1]!);
+      const next = [".tsx", ".ts"].map((ext) => base + ext).find((f) => fs.existsSync(f));
+      if (next && !next.endsWith(".manifest.json")) queue.push(next);
+    }
+  }
+  return [...seen].sort();
+}
+
 export interface BuildContext {
   /** Token variable names that exist (engine CSS + static theme). */
   knownTokens: Set<string>;
@@ -220,7 +237,8 @@ export function buildManifests(ctx: BuildContext): BuildResult {
     const familyDir = path.dirname(file);
     const decls = hand.exports.map((name) => ({ name, decl: findDeclaration(program, familyDir, name) }));
     const sourceFiles = [...new Set(decls.map((d) => d.decl.file))].sort();
-    const sources = sourceFiles.map((f) => fs.readFileSync(f, "utf8"));
+    // Scan the declaring files plus the family-local modules they import (./styles, ./touch-target…).
+    const sources = localClosure(sourceFiles, familyDir).map((f) => fs.readFileSync(f, "utf8"));
 
     const props: Record<string, PropDoc[]> = {};
     for (const { name, decl } of decls) props[name] = propsOf(checker, decl);

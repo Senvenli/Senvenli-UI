@@ -55,8 +55,8 @@
         "orientation": {
           "type": "string",
           "enum": [
-            "vertical",
-            "horizontal"
+            "horizontal",
+            "vertical"
           ]
         }
       }
@@ -69,14 +69,14 @@
     "Separator": [
       {
         "name": "orientation",
-        "type": "\"vertical\" | \"horizontal\"",
+        "type": "\"horizontal\" | \"vertical\"",
         "required": false,
         "default": "\"horizontal\"",
         "schema": {
           "type": "string",
           "enum": [
-            "vertical",
-            "horizontal"
+            "horizontal",
+            "vertical"
           ]
         }
       },
