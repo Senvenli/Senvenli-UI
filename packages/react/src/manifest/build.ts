@@ -247,7 +247,7 @@ export function buildManifests(ctx: BuildContext): BuildResult {
 
     const manifest: ComponentManifest = {
       ...hand,
-      $schema: "https://design.senvenli.com/schema/component.json",
+      $schema: "https://design.senvenli.com/schema/component.full.json",
       source: sourceFiles.map((f) => path.relative(PACKAGE_ROOT, f).split(path.sep).join("/")),
       props,
       tokens,

@@ -1,5 +1,5 @@
 {
-  "$schema": "https://design.senvenli.com/schema/component.json",
+  "$schema": "https://design.senvenli.com/schema/component.full.json",
   "kind": "component",
   "family": "display",
   "status": "alpha",

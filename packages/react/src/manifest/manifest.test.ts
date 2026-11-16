@@ -76,6 +76,32 @@ describe("generated manifests", () => {
     }
   });
 
+  it("match the full (generated) schema", () => {
+    const full = JSON.parse(fs.readFileSync(path.join(PACKAGE_ROOT, "manifest/component.full.schema.json"), "utf8"));
+    const validate = new Ajv({ allErrors: true }).compile(full);
+    for (const m of result.manifests) {
+      validate(m);
+      expect(validate.errors ?? [], `${m.name}: ${JSON.stringify(validate.errors)}`).toEqual([]);
+    }
+  });
+
+  it("name genui children by the slug of an exposed manifest", () => {
+    const exposed = new Set(result.manifests.filter((m) => m.genui?.expose).map((m) => m.name));
+    for (const m of result.manifests) {
+      const children = m.genui?.children;
+      if (Array.isArray(children)) expect(children.filter((c) => !exposed.has(c)), m.name).toEqual([]);
+    }
+  });
+
+  it("export every listed component from the manifest's import path", () => {
+    for (const m of result.manifests) {
+      const subpath = m.import.replace(/^@senvenli\/react\/?/, "");
+      const index = fs.readFileSync(path.join(PACKAGE_ROOT, "src", subpath || ".", "index.ts"), "utf8");
+      const exported = [...index.matchAll(/^export \{([^}]+)\} from/gm)].flatMap((x) => x[1]!.split(",").map((s) => s.trim()));
+      expect(m.exports.filter((e) => !exported.includes(e)), m.name).toEqual([]);
+    }
+  });
+
   it("are generic", () => {
     expect(result.manifests.filter((m) => !m.quality.generic).map((m) => m.name)).toEqual([]);
   });
