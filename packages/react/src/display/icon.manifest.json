@@ -1,0 +1,65 @@
+{
+  "$schema": "../../manifest/component.schema.json",
+  "kind": "component",
+  "family": "display",
+  "status": "alpha",
+  "import": "@senvenli/react/display",
+  "name": "icon",
+  "title": "Icon",
+  "exports": [
+    "Icon"
+  ],
+  "description": "Draws any Lucide icon by name, sized and colored with theme tokens.",
+  "keywords": [
+    "icon",
+    "glyph",
+    "symbol",
+    "lucide",
+    "svg"
+  ],
+  "usage": {
+    "when": [
+      "A symbol helps people scan or recognize an action, status or object.",
+      "An icon-only control needs a picture; give it a label."
+    ],
+    "instead": [
+      {
+        "use": "lozenge",
+        "when": "The status needs a word, not only a symbol."
+      }
+    ]
+  },
+  "guidance": [
+    {
+      "rule": "Pair icons with text unless the meaning is universal; give a standalone icon a label."
+    },
+    {
+      "rule": "Use the semantic colors (danger, success…) only when the icon carries that meaning."
+    }
+  ],
+  "a11y": {
+    "builtIn": [
+      "Decorative (hidden from assistive technology) when it has no label.",
+      "Exposed as an image named by `label` when it has one.",
+      "Directional icons mirror on right-to-left pages."
+    ],
+    "youProvide": [
+      "A `label` when the icon carries meaning on its own."
+    ]
+  },
+  "related": [
+    "badge",
+    "lozenge"
+  ],
+  "genui": {
+    "expose": true,
+    "description": "A Lucide icon by kebab-case name. Use beside text; give `label` only when the icon stands alone and carries meaning.",
+    "props": [
+      "name",
+      "size",
+      "color",
+      "label"
+    ],
+    "children": "none"
+  }
+}

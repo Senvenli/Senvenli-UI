@@ -1,0 +1,382 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://design.senvenli.com/schema/component.full.json",
+  "title": "Senvenli UI component manifest (generated, full)",
+  "description": "The built manifest in packages/react/manifests/<name>.json: the hand-written fields plus generated source, props, tokens, strings, quality and genui.schema. This is the contract the docs site, MCP and generative UI read.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "$schema",
+    "kind",
+    "name",
+    "title",
+    "family",
+    "description",
+    "keywords",
+    "status",
+    "exports",
+    "import",
+    "usage",
+    "a11y",
+    "source",
+    "props",
+    "tokens",
+    "strings",
+    "quality"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "kind": {
+      "enum": [
+        "component",
+        "pattern"
+      ]
+    },
+    "name": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]*$",
+      "description": "Slug: URL, MCP id, CLI name."
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1
+    },
+    "family": {
+      "enum": [
+        "action",
+        "brand",
+        "charts",
+        "collection",
+        "color",
+        "date",
+        "display",
+        "feedback",
+        "form",
+        "layout",
+        "navigation",
+        "overlay",
+        "selection"
+      ]
+    },
+    "description": {
+      "type": "string",
+      "minLength": 10,
+      "description": "One sentence: what it is for."
+    },
+    "keywords": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "status": {
+      "enum": [
+        "alpha",
+        "beta",
+        "stable",
+        "deprecated"
+      ]
+    },
+    "replacedBy": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "exports": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^[A-Z][A-Za-z0-9]*$"
+      },
+      "description": "Components documented on this page; the first is the main one."
+    },
+    "import": {
+      "type": "string",
+      "pattern": "^@senvenli/react(/[a-z-]+)?$"
+    },
+    "usage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "when"
+      ],
+      "properties": {
+        "when": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1
+        },
+        "instead": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "use",
+              "when"
+            ],
+            "properties": {
+              "use": {
+                "type": "string"
+              },
+              "when": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "guidance": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "rule"
+        ],
+        "properties": {
+          "rule": {
+            "type": "string"
+          },
+          "do": {
+            "type": "string"
+          },
+          "avoid": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "a11y": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "builtIn",
+        "youProvide"
+      ],
+      "properties": {
+        "keyboard": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "keys",
+              "does"
+            ],
+            "properties": {
+              "keys": {
+                "type": "string"
+              },
+              "does": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "builtIn": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "youProvide": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "related": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z][a-z0-9-]*$"
+      },
+      "uniqueItems": true
+    },
+    "genui": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "expose"
+      ],
+      "properties": {
+        "expose": {
+          "type": "boolean"
+        },
+        "description": {
+          "type": "string",
+          "description": "For the model: what it is and when not to use it."
+        },
+        "props": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^([A-Z][A-Za-z0-9]*\\.)?[a-z][A-Za-z0-9]*$"
+          },
+          "description": "Ordered allow-list. A bare name is a prop of the main export; Export.prop pulls a prop from a part (flattening)."
+        },
+        "children": {
+          "oneOf": [
+            {
+              "enum": [
+                "none",
+                "text"
+              ]
+            },
+            {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "minItems": 1
+            }
+          ],
+          "description": "\"none\", \"text\", or a list of manifest slugs (\"heading\", \"text\") of components with genui.expose. The slug is also the node `type` in generative UI specs."
+        },
+        "events": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "press",
+              "change",
+              "submit"
+            ]
+          }
+        },
+        "examples": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "schema": {
+          "type": "object"
+        }
+      },
+      "if": {
+        "properties": {
+          "expose": {
+            "const": true
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "expose",
+          "description",
+          "props",
+          "children"
+        ]
+      }
+    },
+    "source": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1
+    },
+    "props": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "name",
+            "type",
+            "required"
+          ],
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "type": {
+              "type": "string"
+            },
+            "required": {
+              "type": "boolean"
+            },
+            "default": {
+              "type": "string"
+            },
+            "description": {
+              "type": "string"
+            },
+            "schema": {
+              "type": "object"
+            }
+          }
+        }
+      }
+    },
+    "tokens": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^(ds|font-ds)-[a-z0-9-]+$"
+      }
+    },
+    "strings": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "quality": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "tests",
+        "a11y",
+        "docs",
+        "visual",
+        "dark",
+        "rtl",
+        "mcp",
+        "generic"
+      ],
+      "properties": {
+        "tests": {
+          "type": "boolean"
+        },
+        "a11y": {
+          "type": "boolean"
+        },
+        "docs": {
+          "type": "boolean"
+        },
+        "visual": {
+          "type": "boolean"
+        },
+        "dark": {
+          "type": "boolean"
+        },
+        "rtl": {
+          "type": "boolean"
+        },
+        "mcp": {
+          "type": "boolean"
+        },
+        "generic": {
+          "type": "boolean"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,69 @@
+{
+  "$schema": "../../manifest/component.schema.json",
+  "kind": "component",
+  "family": "display",
+  "status": "alpha",
+  "import": "@senvenli/react/display",
+  "name": "card",
+  "title": "Card",
+  "exports": [
+    "Card",
+    "CardHeader",
+    "CardBody",
+    "CardFooter",
+    "CardMedia"
+  ],
+  "description": "A surface that groups related content about one object, optionally a link or a button as a whole.",
+  "keywords": [
+    "panel",
+    "tile",
+    "container",
+    "surface",
+    "box"
+  ],
+  "usage": {
+    "when": [
+      "Grouping content about one object on a page.",
+      "A whole tile that opens a page (href) or a panel (onPress)."
+    ],
+    "instead": [
+      {
+        "use": "separator",
+        "when": "Only a boundary between groups is needed."
+      }
+    ]
+  },
+  "guidance": [
+    {
+      "rule": "An interactive card holds no controls except the header menu."
+    }
+  ],
+  "a11y": {
+    "builtIn": [
+      "An interactive card is one focusable element named by its header title."
+    ],
+    "youProvide": [
+      "A CardHeader title, or `aria-label` on an interactive card without one."
+    ]
+  },
+  "related": [
+    "separator"
+  ],
+  "genui": {
+    "expose": true,
+    "description": "A surface grouping content about one object. Put a heading and text inside; do not nest cards.",
+    "props": [
+      "variant",
+      "isCompact"
+    ],
+    "children": [
+      "heading",
+      "text",
+      "lozenge",
+      "badge",
+      "avatar",
+      "separator",
+      "icon"
+    ]
+  }
+}

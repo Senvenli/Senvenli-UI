@@ -1,0 +1,61 @@
+{
+  "$schema": "../../manifest/component.schema.json",
+  "kind": "component",
+  "family": "display",
+  "status": "alpha",
+  "import": "@senvenli/react/display",
+  "name": "avatar",
+  "title": "Avatar",
+  "exports": [
+    "Avatar",
+    "AvatarGroup"
+  ],
+  "description": "A person or a company shown by photo, initials or icon, alone or in a stacked group.",
+  "keywords": [
+    "user",
+    "profile",
+    "picture",
+    "initials",
+    "people",
+    "team"
+  ],
+  "usage": {
+    "when": [
+      "Identifying who did something or who belongs to something."
+    ],
+    "instead": [
+      {
+        "use": "icon",
+        "when": "The object is not a person or a company."
+      }
+    ]
+  },
+  "guidance": [
+    {
+      "rule": "Use circles for people and squares for companies."
+    }
+  ],
+  "a11y": {
+    "builtIn": [
+      "Named by `name`; presence is announced as online.",
+      "AvatarGroup announces how many more people are hidden."
+    ],
+    "youProvide": [
+      "An `aria-label` on AvatarGroup that names the group."
+    ]
+  },
+  "related": [
+    "badge"
+  ],
+  "genui": {
+    "expose": true,
+    "description": "A person (circle) or company (square) by name; initials are drawn from the name.",
+    "props": [
+      "name",
+      "size",
+      "shape",
+      "presence"
+    ],
+    "children": "none"
+  }
+}

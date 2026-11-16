@@ -1,0 +1,56 @@
+{
+  "$schema": "../../manifest/component.schema.json",
+  "kind": "component",
+  "family": "display",
+  "status": "alpha",
+  "import": "@senvenli/react/display",
+  "name": "heading",
+  "title": "Heading",
+  "exports": [
+    "Heading"
+  ],
+  "description": "A page or section title on the type scale, with its HTML level separate from its size.",
+  "keywords": [
+    "title",
+    "headline",
+    "h1",
+    "h2",
+    "typography"
+  ],
+  "usage": {
+    "when": [
+      "Naming a page, a section or a group of content."
+    ],
+    "instead": [
+      {
+        "use": "text",
+        "when": "The words are body copy, labels or captions."
+      }
+    ]
+  },
+  "guidance": [
+    {
+      "rule": "One level-1 heading per page; never skip levels for looks, use `size` instead."
+    }
+  ],
+  "a11y": {
+    "builtIn": [
+      "Renders the real h1–h6 element for `level`, so the outline stays correct."
+    ],
+    "youProvide": [
+      "Levels that follow the page structure."
+    ]
+  },
+  "related": [
+    "text"
+  ],
+  "genui": {
+    "expose": true,
+    "description": "A title. `level` is the document outline (1 for the page title); `size` only changes the look.",
+    "props": [
+      "level",
+      "size"
+    ],
+    "children": "text"
+  }
+}

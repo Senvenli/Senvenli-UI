@@ -1,0 +1,201 @@
+[
+  {
+    "name": "avatar",
+    "title": "Avatar",
+    "family": "display",
+    "status": "alpha",
+    "description": "A person or a company shown by photo, initials or icon, alone or in a stacked group.",
+    "keywords": [
+      "user",
+      "profile",
+      "picture",
+      "initials",
+      "people",
+      "team"
+    ],
+    "import": "@senvenli/react/display",
+    "exports": [
+      "Avatar",
+      "AvatarGroup"
+    ],
+    "genui": true
+  },
+  {
+    "name": "badge",
+    "title": "Badge",
+    "family": "display",
+    "status": "alpha",
+    "description": "A count or an unread dot next to a label or on an icon.",
+    "keywords": [
+      "count",
+      "counter",
+      "notification",
+      "unread",
+      "dot"
+    ],
+    "import": "@senvenli/react/display",
+    "exports": [
+      "Badge",
+      "BadgeAnchor"
+    ],
+    "genui": true
+  },
+  {
+    "name": "card",
+    "title": "Card",
+    "family": "display",
+    "status": "alpha",
+    "description": "A surface that groups related content about one object, optionally a link or a button as a whole.",
+    "keywords": [
+      "panel",
+      "tile",
+      "container",
+      "surface",
+      "box"
+    ],
+    "import": "@senvenli/react/display",
+    "exports": [
+      "Card",
+      "CardHeader",
+      "CardBody",
+      "CardFooter",
+      "CardMedia"
+    ],
+    "genui": true
+  },
+  {
+    "name": "heading",
+    "title": "Heading",
+    "family": "display",
+    "status": "alpha",
+    "description": "A page or section title on the type scale, with its HTML level separate from its size.",
+    "keywords": [
+      "title",
+      "headline",
+      "h1",
+      "h2",
+      "typography"
+    ],
+    "import": "@senvenli/react/display",
+    "exports": [
+      "Heading"
+    ],
+    "genui": true
+  },
+  {
+    "name": "icon",
+    "title": "Icon",
+    "family": "display",
+    "status": "alpha",
+    "description": "Draws any Lucide icon by name, sized and colored with theme tokens.",
+    "keywords": [
+      "icon",
+      "glyph",
+      "symbol",
+      "lucide",
+      "svg"
+    ],
+    "import": "@senvenli/react/display",
+    "exports": [
+      "Icon"
+    ],
+    "genui": true
+  },
+  {
+    "name": "kbd",
+    "title": "Kbd",
+    "family": "display",
+    "status": "alpha",
+    "description": "A keyboard key or shortcut shown as a keycap in help text, menus and tooltips.",
+    "keywords": [
+      "keyboard",
+      "shortcut",
+      "hotkey",
+      "key"
+    ],
+    "import": "@senvenli/react/display",
+    "exports": [
+      "Kbd",
+      "ModifierKbd"
+    ],
+    "genui": false
+  },
+  {
+    "name": "lozenge",
+    "title": "Lozenge",
+    "family": "display",
+    "status": "alpha",
+    "description": "A short status word in a colored pill, one meaning per tone.",
+    "keywords": [
+      "status",
+      "tag",
+      "label",
+      "pill",
+      "chip",
+      "state"
+    ],
+    "import": "@senvenli/react/display",
+    "exports": [
+      "Lozenge"
+    ],
+    "genui": true
+  },
+  {
+    "name": "scroll-area",
+    "title": "Scroll area",
+    "family": "display",
+    "status": "alpha",
+    "description": "A region that scrolls inside a height limit with thin themed scrollbars, keyboard reachable.",
+    "keywords": [
+      "scroll",
+      "overflow",
+      "scrollbar",
+      "pane",
+      "list"
+    ],
+    "import": "@senvenli/react/display",
+    "exports": [
+      "ScrollArea"
+    ],
+    "genui": false
+  },
+  {
+    "name": "separator",
+    "title": "Separator",
+    "family": "display",
+    "status": "alpha",
+    "description": "A thin line between groups that spacing alone does not separate, optionally with a short label.",
+    "keywords": [
+      "divider",
+      "rule",
+      "line",
+      "hr"
+    ],
+    "import": "@senvenli/react/display",
+    "exports": [
+      "Separator"
+    ],
+    "genui": true
+  },
+  {
+    "name": "text",
+    "title": "Text",
+    "family": "display",
+    "status": "alpha",
+    "description": "Body copy, captions and inline text on the type scale, plus Prose for long rich text.",
+    "keywords": [
+      "paragraph",
+      "body",
+      "caption",
+      "copy",
+      "typography",
+      "prose"
+    ],
+    "import": "@senvenli/react/display",
+    "exports": [
+      "Text",
+      "Prose"
+    ],
+    "genui": true
+  }
+]

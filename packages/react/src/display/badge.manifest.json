@@ -1,0 +1,60 @@
+{
+  "$schema": "../../manifest/component.schema.json",
+  "kind": "component",
+  "family": "display",
+  "status": "alpha",
+  "import": "@senvenli/react/display",
+  "name": "badge",
+  "title": "Badge",
+  "exports": [
+    "Badge",
+    "BadgeAnchor"
+  ],
+  "description": "A count or an unread dot next to a label or on an icon.",
+  "keywords": [
+    "count",
+    "counter",
+    "notification",
+    "unread",
+    "dot"
+  ],
+  "usage": {
+    "when": [
+      "Showing how many items need attention."
+    ],
+    "instead": [
+      {
+        "use": "lozenge",
+        "when": "The status is a word, not a number."
+      }
+    ]
+  },
+  "guidance": [
+    {
+      "rule": "Use `danger` only for counts that need action now."
+    }
+  ],
+  "a11y": {
+    "builtIn": [
+      "Counts above `max` show as \"max+\".",
+      "On an icon the badge is hidden; the control's label must say the count."
+    ],
+    "youProvide": [
+      "The count in the control's accessible name when the badge sits on an icon."
+    ]
+  },
+  "related": [
+    "lozenge",
+    "icon"
+  ],
+  "genui": {
+    "expose": true,
+    "description": "A numeric count next to a label. Use lozenge for status words.",
+    "props": [
+      "value",
+      "max",
+      "tone"
+    ],
+    "children": "none"
+  }
+}

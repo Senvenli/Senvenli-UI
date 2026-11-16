@@ -19,12 +19,15 @@
       "default": "./dist/display/index.js"
     },
     "./theme.css": "./styles/theme.css",
-    "./base.css": "./styles/base.css"
+    "./base.css": "./styles/base.css",
+    "./manifests/*": "./manifests/*"
   },
   "files": [
     "dist",
-    "styles",
-    "scripts"
+    "manifest",
+    "manifests",
+    "scripts",
+    "styles"
   ],
   "scripts": {
     "build": "tsc -p tsconfig.json",

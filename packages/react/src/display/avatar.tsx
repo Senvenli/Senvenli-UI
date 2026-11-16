@@ -90,7 +90,7 @@ export function Avatar({ name, src, size: ownSize, shape = "circle", presence }:
       data-size={size}
       data-status={status}
       className={cn(
-        "relative inline-grid shrink-0 place-items-center font-semibold leading-none select-none",
+        "relative inline-grid shrink-0 place-items-center font-medium leading-none select-none",
         shape === "square" ? "rounded-ds-medium" : "rounded-ds-full",
         SIZE[size],
         initials ? tintOf(name) : NEUTRAL,
@@ -130,7 +130,7 @@ export type AvatarGroupProps = {
   /** How many show before the "+N"; default 4. */
   max?: number;
   size?: AvatarSize;
-  /** Names the group ("Şube personeli"). */
+  /** Names the group ("Team members"). */
   "aria-label"?: string;
 };
 
@@ -149,7 +149,7 @@ export function AvatarGroup({ children, max = 4, size = "medium", "aria-label": 
             role="img"
             aria-label={morePeopleLabel(locale, rest)}
             data-slot="avatar-group-more"
-            className={cn("relative inline-grid shrink-0 place-items-center rounded-ds-full font-semibold leading-none tabular-nums ring-2 ring-ds-surface", SIZE[size], NEUTRAL)}
+            className={cn("relative inline-grid shrink-0 place-items-center rounded-ds-full font-medium leading-none tabular-nums ring-2 ring-ds-surface", SIZE[size], NEUTRAL)}
           >
             {/* Isolated so an RTL page keeps "+4" rather than "4+". */}
             <bdi aria-hidden>+{new Intl.NumberFormat(locale).format(rest)}</bdi>

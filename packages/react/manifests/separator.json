@@ -1,0 +1,116 @@
+{
+  "$schema": "https://design.senvenli.com/schema/component.full.json",
+  "kind": "component",
+  "family": "display",
+  "status": "alpha",
+  "import": "@senvenli/react/display",
+  "name": "separator",
+  "title": "Separator",
+  "exports": [
+    "Separator"
+  ],
+  "description": "A thin line between groups that spacing alone does not separate, optionally with a short label.",
+  "keywords": [
+    "divider",
+    "rule",
+    "line",
+    "hr"
+  ],
+  "usage": {
+    "when": [
+      "Two groups of content need a visible boundary.",
+      "An \"or\" between alternative sign-in methods."
+    ],
+    "instead": [
+      {
+        "use": "card",
+        "when": "The groups are separate objects; give each its own card."
+      }
+    ]
+  },
+  "guidance": [
+    {
+      "rule": "Prefer space over lines; add a separator only when space is not enough."
+    }
+  ],
+  "a11y": {
+    "builtIn": [
+      "Exposed as a separator with its orientation."
+    ],
+    "youProvide": [
+      "`decorative` when the line only decorates."
+    ]
+  },
+  "genui": {
+    "expose": true,
+    "description": "A divider line between groups; children are an optional short label such as \"or\".",
+    "props": [
+      "orientation"
+    ],
+    "children": "text",
+    "schema": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "orientation": {
+          "type": "string",
+          "enum": [
+            "vertical",
+            "horizontal"
+          ]
+        }
+      }
+    }
+  },
+  "source": [
+    "src/display/separator.tsx"
+  ],
+  "props": {
+    "Separator": [
+      {
+        "name": "orientation",
+        "type": "\"vertical\" | \"horizontal\"",
+        "required": false,
+        "default": "\"horizontal\"",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "vertical",
+            "horizontal"
+          ]
+        }
+      },
+      {
+        "name": "children",
+        "type": "React.ReactNode",
+        "required": false,
+        "description": "A label in the line (\"veya e-posta ile devam edin\"), for auth forms only, not section titles. Always horizontal."
+      },
+      {
+        "name": "decorative",
+        "type": "boolean",
+        "required": false,
+        "description": "Hides it from assistive tech when it only decorates.",
+        "schema": {
+          "type": "boolean"
+        }
+      }
+    ]
+  },
+  "tokens": [
+    "ds-border",
+    "ds-space-150",
+    "ds-text-subtlest"
+  ],
+  "strings": [],
+  "quality": {
+    "tests": false,
+    "a11y": false,
+    "docs": false,
+    "visual": false,
+    "dark": false,
+    "rtl": false,
+    "mcp": true,
+    "generic": true
+  }
+}

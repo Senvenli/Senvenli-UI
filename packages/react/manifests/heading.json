@@ -1,0 +1,181 @@
+{
+  "$schema": "https://design.senvenli.com/schema/component.full.json",
+  "kind": "component",
+  "family": "display",
+  "status": "alpha",
+  "import": "@senvenli/react/display",
+  "name": "heading",
+  "title": "Heading",
+  "exports": [
+    "Heading"
+  ],
+  "description": "A page or section title on the type scale, with its HTML level separate from its size.",
+  "keywords": [
+    "title",
+    "headline",
+    "h1",
+    "h2",
+    "typography"
+  ],
+  "usage": {
+    "when": [
+      "Naming a page, a section or a group of content."
+    ],
+    "instead": [
+      {
+        "use": "text",
+        "when": "The words are body copy, labels or captions."
+      }
+    ]
+  },
+  "guidance": [
+    {
+      "rule": "One level-1 heading per page; never skip levels for looks, use `size` instead."
+    }
+  ],
+  "a11y": {
+    "builtIn": [
+      "Renders the real h1–h6 element for `level`, so the outline stays correct."
+    ],
+    "youProvide": [
+      "Levels that follow the page structure."
+    ]
+  },
+  "related": [
+    "text"
+  ],
+  "genui": {
+    "expose": true,
+    "description": "A title. `level` is the document outline (1 for the page title); `size` only changes the look.",
+    "props": [
+      "level",
+      "size"
+    ],
+    "children": "text",
+    "schema": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "level": {
+          "type": "number",
+          "enum": [
+            2,
+            3,
+            4,
+            5,
+            6,
+            1
+          ],
+          "description": "The place in the document outline (h1–h6)."
+        },
+        "size": {
+          "type": "string",
+          "enum": [
+            "display-large",
+            "display-medium",
+            "heading-xxlarge",
+            "heading-xlarge",
+            "heading-large",
+            "heading-medium",
+            "heading-small",
+            "heading-xsmall",
+            "heading-xxsmall"
+          ],
+          "description": "The look, set apart from the level. `display-*` is for the Website hero and section titles only."
+        }
+      },
+      "required": [
+        "level"
+      ]
+    }
+  },
+  "source": [
+    "src/display/typography.tsx"
+  ],
+  "props": {
+    "Heading": [
+      {
+        "name": "level",
+        "type": "HeadingLevel",
+        "required": true,
+        "description": "The place in the document outline (h1–h6).",
+        "schema": {
+          "type": "number",
+          "enum": [
+            2,
+            3,
+            4,
+            5,
+            6,
+            1
+          ]
+        }
+      },
+      {
+        "name": "size",
+        "type": "HeadingSize",
+        "required": false,
+        "description": "The look, set apart from the level. `display-*` is for the Website hero and section titles only.",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "display-large",
+            "display-medium",
+            "heading-xxlarge",
+            "heading-xlarge",
+            "heading-large",
+            "heading-medium",
+            "heading-small",
+            "heading-xsmall",
+            "heading-xxsmall"
+          ]
+        }
+      },
+      {
+        "name": "children",
+        "type": "React.ReactNode",
+        "required": true
+      },
+      {
+        "name": "id",
+        "type": "string",
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      }
+    ]
+  },
+  "tokens": [
+    "ds-background-neutral",
+    "ds-border-bold",
+    "ds-link",
+    "ds-radius-xsmall",
+    "ds-space-050",
+    "ds-space-100",
+    "ds-space-200",
+    "ds-space-250",
+    "ds-space-300",
+    "ds-space-400",
+    "ds-text",
+    "ds-text-brand",
+    "ds-text-danger",
+    "ds-text-information",
+    "ds-text-subtle",
+    "ds-text-subtlest",
+    "ds-text-success",
+    "ds-text-warning",
+    "font-ds-mono"
+  ],
+  "strings": [],
+  "quality": {
+    "tests": false,
+    "a11y": false,
+    "docs": false,
+    "visual": false,
+    "dark": false,
+    "rtl": false,
+    "mcp": true,
+    "generic": true
+  }
+}

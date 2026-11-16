@@ -1,0 +1,261 @@
+{
+  "$schema": "https://design.senvenli.com/schema/component.full.json",
+  "kind": "component",
+  "family": "display",
+  "status": "alpha",
+  "import": "@senvenli/react/display",
+  "name": "card",
+  "title": "Card",
+  "exports": [
+    "Card",
+    "CardHeader",
+    "CardBody",
+    "CardFooter",
+    "CardMedia"
+  ],
+  "description": "A surface that groups related content about one object, optionally a link or a button as a whole.",
+  "keywords": [
+    "panel",
+    "tile",
+    "container",
+    "surface",
+    "box"
+  ],
+  "usage": {
+    "when": [
+      "Grouping content about one object on a page.",
+      "A whole tile that opens a page (href) or a panel (onPress)."
+    ],
+    "instead": [
+      {
+        "use": "separator",
+        "when": "Only a boundary between groups is needed."
+      }
+    ]
+  },
+  "guidance": [
+    {
+      "rule": "An interactive card holds no controls except the header menu."
+    }
+  ],
+  "a11y": {
+    "builtIn": [
+      "An interactive card is one focusable element named by its header title."
+    ],
+    "youProvide": [
+      "A CardHeader title, or `aria-label` on an interactive card without one."
+    ]
+  },
+  "related": [
+    "separator"
+  ],
+  "genui": {
+    "expose": true,
+    "description": "A surface grouping content about one object. Put a heading and text inside; do not nest cards.",
+    "props": [
+      "variant",
+      "isCompact"
+    ],
+    "children": [
+      "heading",
+      "text",
+      "lozenge",
+      "badge",
+      "avatar",
+      "separator",
+      "icon"
+    ],
+    "schema": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "variant": {
+          "type": "string",
+          "enum": [
+            "raised",
+            "outline",
+            "sunken"
+          ],
+          "description": "`raised` on the page · `outline` inside cards and settings groups · `sunken` for summaries and code."
+        },
+        "isCompact": {
+          "type": "boolean",
+          "description": "16px padding instead of 24px."
+        }
+      }
+    }
+  },
+  "source": [
+    "src/display/card.tsx"
+  ],
+  "props": {
+    "Card": [
+      {
+        "name": "variant",
+        "type": "CardVariant",
+        "required": false,
+        "description": "`raised` on the page · `outline` inside cards and settings groups · `sunken` for summaries and code.",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "raised",
+            "outline",
+            "sunken"
+          ]
+        }
+      },
+      {
+        "name": "isCompact",
+        "type": "boolean",
+        "required": false,
+        "description": "16px padding instead of 24px.",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "children",
+        "type": "React.ReactNode",
+        "required": true,
+        "description": "Header, media, body and footer parts."
+      },
+      {
+        "name": "aria-label",
+        "type": "string",
+        "required": false,
+        "description": "The card's name when it is interactive and has no CardHeader title.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "href",
+        "type": "string",
+        "required": false,
+        "description": "The whole card is a link (the interactive card): one focusable element named by its title.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "onPress",
+        "type": "() => void",
+        "required": false,
+        "description": "The whole card is a button (opens a panel rather than a page)."
+      }
+    ],
+    "CardHeader": [
+      {
+        "name": "title",
+        "type": "React.ReactNode",
+        "required": true
+      },
+      {
+        "name": "subtitle",
+        "type": "React.ReactNode",
+        "required": false
+      },
+      {
+        "name": "headingLevel",
+        "type": "CardHeadingLevel",
+        "required": false,
+        "default": "3",
+        "description": "Heading level of the title; default 3.",
+        "schema": {
+          "type": "number",
+          "enum": [
+            2,
+            3,
+            4,
+            5,
+            6
+          ]
+        }
+      },
+      {
+        "name": "menu",
+        "type": "React.ReactNode",
+        "required": false,
+        "description": "A subtle menu button (`Button variant=\"subtle\" iconOnly`); stays clickable above an interactive card."
+      }
+    ],
+    "CardBody": [
+      {
+        "name": "children",
+        "type": "React.ReactNode",
+        "required": true
+      }
+    ],
+    "CardFooter": [
+      {
+        "name": "children",
+        "type": "React.ReactNode",
+        "required": true
+      }
+    ],
+    "CardMedia": [
+      {
+        "name": "src",
+        "type": "string",
+        "required": false,
+        "description": "The photo, flush to the card edges at 16:9 and covering the frame.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "alt",
+        "type": "string",
+        "required": false,
+        "default": "\"\"",
+        "description": "Describes the photo; \"\" when the title already says what it shows.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "fallbackIcon",
+        "type": "IconName",
+        "required": false,
+        "default": "\"image\"",
+        "description": "Shown on `ds-surface-sunken` when there is no photo.",
+        "schema": {
+          "type": "string",
+          "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+        }
+      }
+    ]
+  },
+  "tokens": [
+    "ds-border",
+    "ds-border-focused",
+    "ds-border-selected",
+    "ds-easing-standard",
+    "ds-icon-subtle",
+    "ds-radius-large",
+    "ds-shadow-overlay",
+    "ds-shadow-raised",
+    "ds-space-025",
+    "ds-space-050",
+    "ds-space-100",
+    "ds-space-150",
+    "ds-space-200",
+    "ds-space-300",
+    "ds-surface-hovered",
+    "ds-surface-raised",
+    "ds-surface-sunken",
+    "ds-text",
+    "ds-text-subtlest"
+  ],
+  "strings": [],
+  "quality": {
+    "tests": false,
+    "a11y": false,
+    "docs": false,
+    "visual": false,
+    "dark": false,
+    "rtl": false,
+    "mcp": true,
+    "generic": true
+  }
+}

@@ -1,0 +1,78 @@
+{
+  "$schema": "https://design.senvenli.com/schema/component.full.json",
+  "kind": "component",
+  "family": "display",
+  "status": "alpha",
+  "import": "@senvenli/react/display",
+  "name": "kbd",
+  "title": "Kbd",
+  "exports": [
+    "Kbd",
+    "ModifierKbd"
+  ],
+  "description": "A keyboard key or shortcut shown as a keycap in help text, menus and tooltips.",
+  "keywords": [
+    "keyboard",
+    "shortcut",
+    "hotkey",
+    "key"
+  ],
+  "usage": {
+    "when": [
+      "Telling people which key or shortcut does something."
+    ]
+  },
+  "a11y": {
+    "builtIn": [
+      "ModifierKbd shows ⌘ on Apple platforms and Ctrl elsewhere."
+    ],
+    "youProvide": [
+      "A `label` for glyph keys a screen reader may skip (\"Command\" for ⌘)."
+    ]
+  },
+  "genui": {
+    "expose": false
+  },
+  "source": [
+    "src/display/kbd.tsx"
+  ],
+  "props": {
+    "Kbd": [
+      {
+        "name": "children",
+        "type": "React.ReactNode",
+        "required": true,
+        "description": "One key per Kbd; a shortcut is several Kbd separated by a space."
+      },
+      {
+        "name": "label",
+        "type": "string",
+        "required": false,
+        "description": "What a screen reader says instead of a glyph it may skip (\"Command\" for ⌘); the glyph is then hidden.",
+        "schema": {
+          "type": "string"
+        }
+      }
+    ],
+    "ModifierKbd": []
+  },
+  "tokens": [
+    "ds-border",
+    "ds-border-bold",
+    "ds-radius-xsmall",
+    "ds-surface-raised",
+    "ds-text-subtle",
+    "font-ds-mono"
+  ],
+  "strings": [],
+  "quality": {
+    "tests": false,
+    "a11y": false,
+    "docs": false,
+    "visual": false,
+    "dark": false,
+    "rtl": false,
+    "mcp": true,
+    "generic": true
+  }
+}

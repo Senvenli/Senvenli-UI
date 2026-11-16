@@ -23,12 +23,12 @@ const BOLD: Record<LozengeTone, string> = {
 };
 
 export type LozengeProps = {
-  /** The status word, sentence case ("Ödeme bekliyor"); the word carries the meaning, never the colour. */
+  /** The status word, sentence case ("Payment pending"); the word carries the meaning, never the colour. */
   children: React.ReactNode;
   /**
-   * One meaning per tone: information (Onaylandı, Kirada) · brand (Teslim edildi) · success
-   * (Tamamlandı, Müsait, Ödendi) · warning (Ödeme bekliyor, Bakımda) · danger (İptal, Hasarlı,
-   * Gecikmiş) · neutral (Taslak, Pasif).
+   * One meaning per tone: information (Approved, In progress) · brand (Featured) · success
+   * (Completed, Available, Paid) · warning (Payment pending, Under review) · danger (Canceled,
+   * Failed, Overdue) · neutral (Draft, Inactive).
    */
   tone?: LozengeTone;
   /** `bold` for the one status on the screen that needs attention now. */
@@ -45,7 +45,7 @@ export function Lozenge({ children, tone = "neutral", appearance = "subtle", has
       data-tone={tone}
       data-appearance={appearance}
       className={cn(
-        "inline-flex h-5 shrink-0 items-center gap-ds-050 rounded-ds-xsmall px-ds-075 text-body-small font-semibold whitespace-nowrap",
+        "inline-flex h-5 shrink-0 items-center gap-ds-050 rounded-ds-xsmall px-ds-075 text-body-small font-medium whitespace-nowrap",
         appearance === "bold" ? BOLD[tone] : SUBTLE[tone],
       )}
     >
