@@ -4,7 +4,21 @@
     "jsx": "react-jsx",
     "noEmit": true,
     "allowImportingTsExtensions": true,
-    "paths": { "@senvenli/tokens": ["../packages/tokens/src/index.ts"] }
+    "paths": {
+      "@senvenli/tokens": [
+        "../packages/tokens/src/index.ts"
+      ],
+      "@senvenli/react": [
+        "../packages/react/src/index.ts"
+      ],
+      "@senvenli/react/display": [
+        "../packages/react/src/display/index.ts"
+      ]
+    },
+    "noUncheckedIndexedAccess": false
   },
-  "include": ["src", "vite.config.ts"]
+  "include": [
+    "src",
+    "vite.config.ts"
+  ]
 }

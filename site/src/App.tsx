@@ -12,6 +12,7 @@ import {
   type ThemeInput,
 } from "@senvenli/tokens";
 import { useEffect, useMemo, useState } from "react";
+import { ComponentsPreview } from "./ComponentsPreview";
 
 const PRESETS: Array<{ name: string; input: ThemeInput }> = [
   { name: "Neutral", input: {} },
@@ -285,6 +286,10 @@ export function App() {
                   </li>
                 ))}
               </ul>
+            </div>
+
+            <div className="card-wide">
+              <ComponentsPreview />
             </div>
 
             <div className="card card-wide">

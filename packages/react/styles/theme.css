@@ -1,0 +1,143 @@
+/*
+ * @senvenli/react static theme: everything that does not depend on the theme
+ * inputs (type scale, elevation, motion). Colors, spacing, sizes and radii come
+ * from the generated theme CSS (@senvenli/tokens). Import order:
+ *
+ *   @import "tailwindcss";
+ *   @import "./theme.css";                 generated: npx senvenli-ui theme <code> --tailwind
+ *   @import "@senvenli/react/theme.css";   this file
+ *   @import "@senvenli/react/base.css";
+ *   @source "../node_modules/@senvenli/react/dist";
+ */
+
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *, .dark, .dark *));
+
+:root,
+[data-theme="light"] {
+  --ds-shadow-raised: 0 1px 2px rgba(60, 44, 16, 0.04), 0 2px 6px rgba(60, 44, 16, 0.04), 0 8px 24px rgba(60, 44, 16, 0.06);
+  --ds-shadow-overflow: 0 0 8px rgba(20, 18, 15, 0.12), 0 0 1px rgba(20, 18, 15, 0.16);
+  --ds-shadow-overlay: 0 2px 4px rgba(60, 44, 16, 0.05), 0 8px 16px rgba(60, 44, 16, 0.06), 0 24px 48px rgba(60, 44, 16, 0.1);
+}
+
+[data-theme="dark"],
+.dark {
+  /* Soft black and white, never pure #000/#fff. */
+  --ds-shadow-raised: 0 0 0 1px rgba(252, 252, 251, 0.03), 0 8px 24px rgba(7, 7, 6, 0.18);
+  --ds-shadow-overflow: 0 0 12px rgba(7, 7, 6, 0.56), 0 0 1px rgba(7, 7, 6, 0.8);
+  --ds-shadow-overlay: 0 0 0 1px rgba(252, 252, 251, 0.05), 0 24px 48px rgba(7, 7, 6, 0.32);
+}
+
+:root {
+  --ds-duration-instant: 80ms;
+  --ds-duration-fast: 140ms;
+  --ds-duration-medium: 220ms;
+  --ds-duration-slow: 320ms;
+  --ds-easing-standard: cubic-bezier(0.2, 0, 0, 1);
+  --ds-easing-enter: cubic-bezier(0.4, 1, 0.6, 1);
+  --ds-easing-exit: cubic-bezier(0.4, 0, 1, 1);
+  --font-code-block: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --ds-duration-fast: 0ms;
+    --ds-duration-medium: 0ms;
+    --ds-duration-slow: 0ms;
+  }
+}
+
+@theme inline {
+  --shadow-ds-raised: var(--ds-shadow-raised);
+  --shadow-ds-overflow: var(--ds-shadow-overflow);
+  --shadow-ds-overlay: var(--ds-shadow-overlay);
+  --ease-ds-standard: var(--ds-easing-standard);
+  --ease-ds-enter: var(--ds-easing-enter);
+  --ease-ds-exit: var(--ds-easing-exit);
+  --font-ds-code-block: var(--font-code-block);
+  --text-display-large: 56px;
+  --text-display-large--line-height: 60px;
+  --text-display-large--font-weight: 500;
+  --text-display-large--letter-spacing: -0.04em;
+  --text-display-medium: 44px;
+  --text-display-medium--line-height: 48px;
+  --text-display-medium--font-weight: 500;
+  --text-display-medium--letter-spacing: -0.02em;
+  --text-heading-xxlarge: 32px;
+  --text-heading-xxlarge--line-height: 36px;
+  --text-heading-xxlarge--font-weight: 500;
+  --text-heading-xxlarge--letter-spacing: -0.02em;
+  --text-heading-xlarge: 28px;
+  --text-heading-xlarge--line-height: 32px;
+  --text-heading-xlarge--font-weight: 500;
+  --text-heading-xlarge--letter-spacing: -0.02em;
+  --text-heading-large: 24px;
+  --text-heading-large--line-height: 28px;
+  --text-heading-large--font-weight: 500;
+  --text-heading-large--letter-spacing: -0.02em;
+  --text-heading-medium: 20px;
+  --text-heading-medium--line-height: 24px;
+  --text-heading-medium--font-weight: 500;
+  --text-heading-medium--letter-spacing: -0.005em;
+  --text-heading-small: 16px;
+  --text-heading-small--line-height: 20px;
+  --text-heading-small--font-weight: 500;
+  --text-heading-xsmall: 14px;
+  --text-heading-xsmall--line-height: 20px;
+  --text-heading-xsmall--font-weight: 500;
+  --text-heading-xxsmall: 12px;
+  --text-heading-xxsmall--line-height: 16px;
+  --text-heading-xxsmall--font-weight: 500;
+  --text-body-large: 16px;
+  --text-body-large--line-height: 24px;
+  --text-body-large--font-weight: 400;
+  --text-body: 14px;
+  --text-body--line-height: 20px;
+  --text-body--font-weight: 400;
+  --text-body-strong: 14px;
+  --text-body-strong--line-height: 20px;
+  --text-body-strong--font-weight: 500;
+  --text-body-small: 12px;
+  --text-body-small--line-height: 16px;
+  --text-body-small--font-weight: 400;
+  --text-metric-large: 28px;
+  --text-metric-large--line-height: 32px;
+  --text-metric-large--font-weight: 500;
+  --text-metric-large--letter-spacing: -0.02em;
+  --text-metric-medium: 20px;
+  --text-metric-medium--line-height: 24px;
+  --text-metric-medium--font-weight: 500;
+  --text-metric-small: 14px;
+  --text-metric-small--line-height: 20px;
+  --text-metric-small--font-weight: 500;
+  --text-code: 13px;
+  --text-code--line-height: 20px;
+  --text-code--font-weight: 400;
+}
+
+@utility text-metric-large {
+  --tw-numeric-spacing: tabular-nums;
+  font-variant-numeric: var(--tw-ordinal,) var(--tw-slashed-zero,) var(--tw-numeric-figure,) var(--tw-numeric-spacing,) var(--tw-numeric-fraction,);
+}
+@utility text-metric-medium {
+  --tw-numeric-spacing: tabular-nums;
+  font-variant-numeric: var(--tw-ordinal,) var(--tw-slashed-zero,) var(--tw-numeric-figure,) var(--tw-numeric-spacing,) var(--tw-numeric-fraction,);
+}
+@utility text-metric-small {
+  --tw-numeric-spacing: tabular-nums;
+  font-variant-numeric: var(--tw-ordinal,) var(--tw-slashed-zero,) var(--tw-numeric-figure,) var(--tw-numeric-spacing,) var(--tw-numeric-fraction,);
+}
+@utility text-code {
+  --tw-numeric-spacing: tabular-nums;
+  font-variant-numeric: var(--tw-ordinal,) var(--tw-slashed-zero,) var(--tw-numeric-figure,) var(--tw-numeric-spacing,) var(--tw-numeric-fraction,);
+}
+
+/* Arabic: letter-spacing pulls joined letters apart, so every tracking step is zero on an Arabic page. */
+:root:lang(ar) {
+  --text-display-large--letter-spacing: 0;
+  --text-display-medium--letter-spacing: 0;
+  --text-heading-xxlarge--letter-spacing: 0;
+  --text-heading-xlarge--letter-spacing: 0;
+  --text-heading-large--letter-spacing: 0;
+  --text-heading-medium--letter-spacing: 0;
+  --text-metric-large--letter-spacing: 0;
+}
