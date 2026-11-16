@@ -1,31 +1,46 @@
 import { describe, expect, it } from "vitest";
-import { createTheme, decodePreset, encodePreset, formatHex, PAPER, INK, toCSS, toNative } from "./index.js";
+import { createTheme, decodePreset, encodePreset, formatHex, INK, layoutTokens, PAPER, toCSS, toNative } from "./index.js";
 
 const failures = (input: Parameters<typeof createTheme>[0]) =>
-  createTheme(input).checks.filter((c) => !c.pass).map((c) => `${c.mode} ${c.foreground}/${c.background} ${c.ratio.toFixed(2)}`);
+  createTheme(input)
+    .checks.filter((c) => !c.pass)
+    .map((c) => `${c.mode} ${c.foreground}/${c.background} ${c.ratio.toFixed(2)}`);
 
 describe("default theme", () => {
   it("passes every AA check with no input", () => {
     expect(failures({})).toEqual([]);
   });
 
-  it("uses soft black and white, never pure", () => {
+  it("keeps the neutral surfaces and text of the existing system", () => {
     const t = toNative(createTheme());
-    expect(t.light.background).toBe("#fcfcfb");
-    expect(t.dark.background).toBe("#0c0c0b");
+    expect(t.light["ds-surface"]).toBe("#fcfcfb");
+    expect(t.dark["ds-surface"]).toBe("#0c0c0b");
+    expect(t.light["ds-text"]).toBe("#2a2825");
+    expect(t.dark["ds-text"]).toBe("#e6e4e0");
+    expect(t.light["ds-background-neutral"]).toBe("#f4f3f1");
+    expect(t.light["ds-background-brand-bold"]).toBe("#1f1e1c");
+  });
+
+  it("never uses pure black or white", () => {
+    const t = toNative(createTheme());
     for (const mode of [t.light, t.dark]) {
-      for (const value of Object.values(mode)) {
-        expect(value).not.toBe("#000000");
-        expect(value).not.toBe("#ffffff");
+      for (const [name, value] of Object.entries(mode)) {
+        expect([name, value.slice(0, 7)]).not.toEqual([name, "#000000"]);
+        expect([name, value.slice(0, 7)]).not.toEqual([name, "#ffffff"]);
       }
     }
+  });
+
+  it("emits the same token names in light and dark", () => {
+    const t = createTheme();
+    expect(Object.keys(t.dark).sort()).toEqual(Object.keys(t.light).sort());
   });
 });
 
 describe("brand colors", () => {
-  it("keeps a color that already passes", () => {
+  it("keeps a primary that already passes", () => {
     const t = createTheme({ primary: "#996a00" });
-    expect(formatHex(t.light.primary)).toBe("#996a00");
+    expect(formatHex(t.light["ds-background-brand-bold"]!)).toBe("#996a00");
     expect(t.adjusted).toEqual([]);
   });
 
@@ -35,13 +50,19 @@ describe("brand colors", () => {
     expect(failures({ primary: "#7c66dc" })).toEqual([]);
   });
 
+  it("tints neutral buttons with the secondary color and keeps them readable", () => {
+    const t = createTheme({ secondary: "#1268ae" });
+    expect(t.light["ds-background-neutral"]!.h).toBeCloseTo(t.light["ds-background-secondary-bold"]!.h, 0);
+    expect(failures({ secondary: "#1268ae" })).toEqual([]);
+  });
+
   it("passes AA across a hue, lightness and chroma sweep", () => {
     const bad: string[] = [];
     for (let h = 0; h < 360; h += 15) {
       for (const l of [0.25, 0.45, 0.65, 0.85, 0.97]) {
         for (const c of [0.03, 0.12, 0.24]) {
           const color = `oklch(${l} ${c} ${h})`;
-          const f = failures({ primary: color, secondary: color, tertiary: color, success: color });
+          const f = failures({ primary: color, secondary: color, tertiary: color, success: color, warning: color });
           if (f.length) bad.push(`${color}: ${f.join(", ")}`);
         }
       }
@@ -55,6 +76,25 @@ describe("brand colors", () => {
   });
 });
 
+describe("layout", () => {
+  it("matches the existing scale at the default radius and density", () => {
+    const l = Object.fromEntries(layoutTokens(createTheme().layout));
+    expect(l["ds-radius-xsmall"]).toBe("0.125rem");
+    expect(l["ds-radius-medium"]).toBe("0.625rem");
+    expect(l["ds-radius-large"]).toBe("1rem");
+    expect(l["ds-space-200"]).toBe("16px");
+    expect(l["ds-size-control"]).toBe("36px");
+    expect(l["ds-border-width"]).toBe("1px");
+  });
+
+  it("scales spacing and control heights with density, not icons", () => {
+    const l = Object.fromEntries(layoutTokens(createTheme({ density: "compact" }).layout));
+    expect(l["ds-space-200"]).toBe("14px");
+    expect(l["ds-size-control"]).toBe("31.5px");
+    expect(l["ds-size-icon"]).toBe("16px");
+  });
+});
+
 describe("outputs", () => {
   it("round-trips a preset code", () => {
     const input = { primary: "#996a00", radius: 0.5, density: "compact" as const, borderWidth: 2 as const };
@@ -62,12 +102,15 @@ describe("outputs", () => {
     expect(decodePreset("garbage")).toBeNull();
   });
 
-  it("emits light and dark CSS variables", () => {
+  it("emits ds- prefixed CSS variables and the Tailwind mapping", () => {
     const css = toCSS(createTheme({ primary: "#1268ae" }), { tailwind: true });
-    expect(css).toContain(":root {");
-    expect(css).toContain("--primary: oklch(");
-    expect(css).toContain('.dark, [data-theme="dark"] {');
-    expect(css).toContain("--color-primary: var(--primary);");
+    expect(css).toContain(':root, [data-theme="light"] {');
+    expect(css).toContain("--ds-background-brand-bold: oklch(");
+    expect(css).toContain('[data-theme="dark"], .dark {');
+    expect(css).toContain("--color-ds-surface: var(--ds-surface);");
+    expect(css).toContain("--spacing-ds-200: var(--ds-space-200);");
+    expect(css).toContain("--radius-ds-medium: var(--ds-radius-medium);");
+    expect(css).toMatch(/--ds-border: oklch\([^)]* \/ 0\.08\);/);
   });
 
   it("exposes paper and ink", () => {

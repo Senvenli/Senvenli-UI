@@ -23,6 +23,32 @@ const PRESETS: Array<{ name: string; input: ThemeInput }> = [
 
 const ROLE_LABEL: Record<BrandRole, string> = { primary: "Primary", secondary: "Secondary", tertiary: "Tertiary" };
 
+/** The bold fill token each brand role drives. */
+const ROLE_TOKEN: Record<BrandRole, string> = {
+  primary: "ds-background-brand-bold",
+  secondary: "ds-background-secondary-bold",
+  tertiary: "ds-background-tertiary-bold",
+};
+
+const SWATCHES = [
+  "ds-surface",
+  "ds-surface-raised",
+  "ds-surface-sunken",
+  "ds-background-neutral",
+  "ds-text",
+  "ds-text-subtle",
+  "ds-border-focused",
+  "ds-background-brand-bold",
+  "ds-background-selected",
+  "ds-text-brand",
+  "ds-background-secondary-bold",
+  "ds-background-tertiary-bold",
+  "ds-background-success-bold",
+  "ds-background-warning-bold",
+  "ds-background-danger-bold",
+  "ds-background-information-bold",
+];
+
 function readInitial(): ThemeInput {
   const code = new URLSearchParams(window.location.search).get("p");
   return (code && decodePreset(code)) || {};
@@ -106,7 +132,7 @@ export function App() {
                 <button key={p.name} className="chip" onClick={() => setInput(p.input)}>
                   <span
                     className="chip-dot"
-                    style={{ background: formatHex(createTheme(p.input).light.primary) }}
+                    style={{ background: formatHex(createTheme(p.input).light[ROLE_TOKEN.primary]!) }}
                     aria-hidden="true"
                   />
                   {p.name}
@@ -120,7 +146,9 @@ export function App() {
             <p className="hint">All optional. Leave a color empty to keep the neutral default.</p>
             {BRAND_ROLES.map((role) => {
               const value = input[role];
-              const shown = value ? formatHex(createTheme({ [role]: value })[`light`][role]) : formatHex(mode[role]);
+              const shown = value
+                ? formatHex(createTheme({ [role]: value }).light[ROLE_TOKEN[role]]!)
+                : formatHex(mode[ROLE_TOKEN[role]]!);
               return (
                 <div className="field-row" key={role}>
                   <label className="field-label" htmlFor={`color-${role}`}>
@@ -199,8 +227,11 @@ export function App() {
               <h3>Buttons</h3>
               <div className="row">
                 <button className="btn btn-primary">Save changes</button>
-                <button className="btn btn-secondary">Cancel</button>
-                <button className="btn btn-tertiary">Options</button>
+                <button className="btn btn-neutral">Cancel</button>
+              </div>
+              <div className="row">
+                <button className="btn btn-secondary">Secondary</button>
+                <button className="btn btn-tertiary">Tertiary</button>
               </div>
               <div className="row">
                 <button className="btn btn-soft">Soft</button>
@@ -259,15 +290,13 @@ export function App() {
             <div className="card card-wide">
               <h3>Tokens</h3>
               <div className="swatches">
-                {(["background", "surface", "muted", "border", "foreground", "focus", "primary", "secondary", "tertiary", "success", "warning", "danger", "info"] as const).map(
-                  (name) => (
-                    <div key={name} className="swatch">
-                      <span className="swatch-color" style={{ background: `var(--${name})` }} />
-                      <span className="swatch-name">{name}</span>
-                      <span className="swatch-value">{formatHex(mode[name])}</span>
-                    </div>
-                  ),
-                )}
+                {SWATCHES.map((name) => (
+                  <div key={name} className="swatch">
+                    <span className="swatch-color" style={{ background: `var(--${name})` }} />
+                    <span className="swatch-name">{name.replace(/^ds-/, "")}</span>
+                    <span className="swatch-value">{formatHex(mode[name]!)}</span>
+                  </div>
+                ))}
               </div>
             </div>
 

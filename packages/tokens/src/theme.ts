@@ -1,4 +1,11 @@
-import { contrast, parseColor, toGamut, type OKLCH } from "./color.js";
+import { contrast, parseColor, rgba, toGamut, type OKLCH } from "./color.js";
+
+/**
+ * The theme engine. A project gives a few optional inputs; the engine returns
+ * every semantic `ds-*` color token components use, for light and dark, with
+ * WCAG AA guaranteed for every text pair it emits (3:1 for focus and
+ * non-text marks).
+ */
 
 /** Brand roles a project may color. All optional: the default is neutral. */
 export const BRAND_ROLES = ["primary", "secondary", "tertiary"] as const;
@@ -12,6 +19,7 @@ export type Role = (typeof ROLES)[number];
 
 export type Density = "compact" | "default" | "comfortable";
 export type BorderWidth = 0 | 1 | 2;
+export type Mode = "light" | "dark";
 
 /**
  * What a project gives. Every field is optional; an empty object is the
@@ -25,7 +33,7 @@ export interface ThemeInput {
   warning?: string;
   danger?: string;
   info?: string;
-  /** Base corner radius in rem. Default 0.625. */
+  /** Base corner radius in rem (the "medium" radius). Default 0.625. */
   radius?: number;
   density?: Density;
   borderWidth?: BorderWidth;
@@ -33,30 +41,12 @@ export interface ThemeInput {
   fontMono?: string;
 }
 
-export const NEUTRAL_TOKENS = [
-  "background",
-  "foreground",
-  "surface",
-  "surface-foreground",
-  "muted",
-  "muted-foreground",
-  "border",
-  "input",
-  "focus",
-] as const;
-
-export const ROLE_SUFFIXES = ["", "-foreground", "-hover", "-soft", "-soft-foreground"] as const;
-
-export type TokenName =
-  | (typeof NEUTRAL_TOKENS)[number]
-  | `${Role}${(typeof ROLE_SUFFIXES)[number]}`;
-
-export type ModeTokens = Record<TokenName, OKLCH>;
+export type ModeTokens = Record<string, OKLCH>;
 
 export interface ContrastCheck {
-  mode: "light" | "dark";
-  foreground: TokenName;
-  background: TokenName;
+  mode: Mode;
+  foreground: string;
+  background: string;
   ratio: number;
   required: number;
   pass: boolean;
@@ -76,12 +66,11 @@ export interface Theme {
   light: ModeTokens;
   dark: ModeTokens;
   layout: Layout;
-  /** Roles whose given color was moved to reach AA; the raw value is kept in `input`. */
+  /** Roles whose given color was moved to reach AA; the raw value stays in `input`. */
   adjusted: Role[];
   checks: ContrastCheck[];
 }
 
-/** WCAG AA thresholds. */
 export const AA_TEXT = 4.5;
 export const AA_NON_TEXT = 3;
 
@@ -91,18 +80,52 @@ const hex = (value: string): OKLCH => {
   return parsed;
 };
 
-/** The soft black and white every default derives from. Never pure #000/#fff. */
+/** The soft black and white the default theme is built on. Never pure #000/#fff. */
 export const PAPER = hex("#fcfcfb");
 export const INK = hex("#0c0c0b");
-const NEUTRAL_HUE = PAPER.h;
+/** The lightest surface (cards, inputs): one step above the page, still not pure white. */
+const WHITE = hex("#fefefd");
+const DARKEST = hex("#070706");
 
-const neutral = (l: number, c = 0.0015): OKLCH => ({ l, c, h: NEUTRAL_HUE });
+/** Warm neutral ramp (hue ~85, near-zero chroma). */
+const NEUTRAL = {
+  50: PAPER,
+  100: hex("#f8f8f6"),
+  150: hex("#f4f3f1"),
+  200: hex("#ecebe8"),
+  300: hex("#e6e4e0"),
+  400: hex("#a09c95"),
+  500: hex("#8c8a86"),
+  600: hex("#6b6964"),
+  700: hex("#68645e"),
+  800: hex("#3a3834"),
+  850: hex("#2a2825"),
+  900: hex("#1f1e1c"),
+  950: hex("#161615"),
+  1000: INK,
+  1100: DARKEST,
+} as const;
 
-const STATUS_DEFAULTS: Record<StatusRole, OKLCH> = {
-  success: { l: 0.52, c: 0.13, h: 150 },
-  warning: { l: 0.78, c: 0.15, h: 78 },
-  danger: { l: 0.55, c: 0.2, h: 27 },
-  info: { l: 0.52, c: 0.14, h: 250 },
+/** Status defaults: the bold fill per mode. */
+const STATUS_DEFAULTS: Record<StatusRole, Record<Mode, OKLCH>> = {
+  success: { light: hex("#12853e"), dark: hex("#59b972") },
+  warning: { light: hex("#ea832e"), dark: hex("#ea832e") },
+  danger: { light: hex("#c52c2a"), dark: hex("#c52c2a") },
+  info: { light: hex("#246ec4"), dark: hex("#5da3fc") },
+};
+
+/** Which text color sits on a status bold fill (paper or ink), per mode. */
+const STATUS_ON: Record<StatusRole, Record<Mode, "paper" | "ink">> = {
+  success: { light: "paper", dark: "ink" },
+  warning: { light: "ink", dark: "ink" },
+  danger: { light: "paper", dark: "paper" },
+  info: { light: "paper", dark: "ink" },
+};
+
+/** Fixed chart series 2 to 5 (series 1 follows the primary color). */
+const CHARTS: Record<Mode, OKLCH[]> = {
+  light: [hex("#246ec4"), hex("#009a9a"), hex("#9470cd"), hex("#c96805")],
+  dark: [hex("#91c1ff"), hex("#80cecd"), hex("#c7b0f4"), hex("#f9a971")],
 };
 
 export const DEFAULT_LAYOUT: Layout = {
@@ -117,150 +140,225 @@ export const DEFAULT_LAYOUT: Layout = {
 const DENSITY_SCALE: Record<Density, number> = { compact: 0.875, default: 1, comfortable: 1.125 };
 
 const clamp = (n: number, lo: number, hi: number) => Math.min(hi, Math.max(lo, n));
+const withL = (color: OKLCH, l: number): OKLCH => toGamut({ ...color, l: clamp(l, 0, 1) });
 
 /**
  * Move `color`'s lightness in `direction` until it reaches `required` contrast
- * against `against`. Hue and chroma are kept (chroma shrinks only through
- * gamut mapping). Returns the first passing color.
+ * against every color in `against`. Hue is kept; chroma shrinks only through
+ * gamut mapping.
  */
-function solveLightness(color: OKLCH, against: OKLCH, required: number, direction: 1 | -1): OKLCH {
+function solve(color: OKLCH, against: OKLCH[], required: number, direction: 1 | -1): OKLCH {
   let current = toGamut(color);
-  for (let i = 0; i < 200 && contrast(current, against) < required; i++) {
-    const l = clamp(current.l + direction * 0.005, 0, 1);
-    current = toGamut({ ...color, l });
+  const ok = (c: OKLCH) => against.every((a) => contrast(c, a) >= required);
+  for (let i = 0; i < 400 && !ok(current); i++) {
+    const l = clamp(current.l + direction * 0.0025, 0, 1);
+    current = withL(color, l);
     if (l === 0 || l === 1) break;
   }
   return current;
 }
 
-/** Pick the readable foreground (paper or ink) for a fill; nudge the fill if neither reaches AA. */
-function fillWithForeground(fill: OKLCH): { fill: OKLCH; foreground: OKLCH } {
-  const f = toGamut(fill);
-  const onPaper = contrast(f, PAPER);
-  const onInk = contrast(f, INK);
-  const foreground = onPaper >= onInk ? PAPER : INK;
-  if (Math.max(onPaper, onInk) >= AA_TEXT) return { fill: f, foreground };
-  // Paper text wants a darker fill; ink text wants a lighter one.
-  const solved = solveLightness(f, foreground, AA_TEXT, foreground === PAPER ? -1 : 1);
-  return { fill: solved, foreground };
-}
-
 /**
- * Hover state: a small lightness step toward the middle (light fills darken,
- * dark fills lighten), kept at AA and never reaching pure black or white.
+ * A bold fill and the text that sits on it. The text is paper or ink:
+ * `prefer` forces one, otherwise the higher-contrast one wins. If the text
+ * does not reach AA the fill's lightness moves until it does.
  */
-function hoverOf(fill: OKLCH, foreground: OKLCH): OKLCH {
-  const preferred = fill.l > 0.6 ? -1 : 1;
-  for (const step of [0.06, 0.045, 0.03, 0.015]) {
-    for (const dir of [preferred, -preferred] as const) {
-      const candidate = toGamut({ ...fill, l: clamp(fill.l + dir * step, 0.1, 0.985) });
-      if (contrast(candidate, foreground) >= AA_TEXT) return candidate;
-    }
-  }
-  return fill;
+function boldFill(base: OKLCH, prefer?: "paper" | "ink"): { fill: OKLCH; on: OKLCH } {
+  const fill = toGamut(base);
+  const on = prefer ? (prefer === "paper" ? PAPER : INK) : contrast(fill, PAPER) >= contrast(fill, INK) ? PAPER : INK;
+  return { fill: solve(fill, [on], AA_TEXT, on === PAPER ? -1 : 1), on };
 }
 
-interface ModeContext {
-  mode: "light" | "dark";
-  background: OKLCH;
-  tokens: Partial<ModeTokens>;
+/** Hover and pressed: steps away from the text color, so contrast only grows. */
+function steps(fill: OKLCH, on: OKLCH): [OKLCH, OKLCH] {
+  const dir = on === PAPER ? -1 : 1;
+  return [withL(fill, clamp(fill.l + dir * 0.06, 0.08, 0.97)), withL(fill, clamp(fill.l + dir * 0.12, 0.06, 0.98))];
 }
 
-function deriveRole(
-  ctx: ModeContext,
-  role: Role,
-  given: OKLCH | null,
-  base: OKLCH,
-): { adjusted: boolean } {
-  const light = ctx.mode === "light";
-  const t = ctx.tokens;
-  let fill: OKLCH;
-  let foreground: OKLCH;
-  let adjusted = false;
-
-  if (!given && (role === "primary" || role === "secondary" || role === "tertiary")) {
-    // Neutral defaults (shadcn-neutral-like).
-    if (role === "primary") {
-      fill = light ? neutral(0.22, 0.002) : neutral(0.93);
-      foreground = light ? PAPER : INK;
-    } else {
-      fill = light ? neutral(role === "secondary" ? 0.94 : 0.955) : neutral(role === "secondary" ? 0.28 : 0.25);
-      foreground = light ? INK : PAPER;
-    }
-  } else {
-    const source = given ?? base;
-    const wanted = light ? source : { ...source, l: clamp(source.l, 0.62, 0.86) };
-    const solved = fillWithForeground(wanted);
-    fill = solved.fill;
-    foreground = solved.foreground;
-    adjusted = light && given !== null && Math.abs(solved.fill.l - toGamut(given).l) > 0.004;
-  }
-
-  const hue = (given ?? base).h;
-  const chroma = given || STATUS_ROLES.includes(role as StatusRole) ? (given ?? base).c : 0.0015;
-  const soft = toGamut(
-    light ? { l: 0.955, c: Math.min(chroma, 0.035), h: hue } : { l: 0.26, c: Math.min(chroma, 0.045), h: hue },
-  );
-  const softForeground = solveLightness(
-    light ? { l: 0.42, c: Math.min(chroma, 0.16), h: hue } : { l: 0.84, c: Math.min(chroma, 0.12), h: hue },
-    soft,
-    AA_TEXT,
-    light ? -1 : 1,
-  );
-
-  t[role] = fill;
-  t[`${role}-foreground`] = foreground;
-  t[`${role}-hover`] = hoverOf(fill, foreground);
-  t[`${role}-soft`] = soft;
-  t[`${role}-soft-foreground`] = softForeground;
-  return { adjusted };
+interface Scale {
+  bold: OKLCH;
+  boldHovered: OKLCH;
+  boldPressed: OKLCH;
+  on: OKLCH;
+  subtle: OKLCH;
+  subtleHovered: OKLCH;
+  subtlePressed: OKLCH;
+  text: OKLCH;
+  textPressed: OKLCH;
+  /** Non-text mark (borders, icons, chart lines): 3:1 against the page. */
+  mark: OKLCH;
 }
 
-function deriveMode(mode: "light" | "dark", colors: Partial<Record<Role, OKLCH>>, adjusted: Set<Role>): ModeTokens {
+function scale(mode: Mode, base: OKLCH, surfaces: OKLCH[], prefer?: "paper" | "ink"): Scale {
   const light = mode === "light";
-  const background = light ? PAPER : INK;
-  const foreground = light ? INK : neutral(0.96);
-  const t: Partial<ModeTokens> = {};
-  t.background = background;
-  t.foreground = foreground;
-  t.surface = light ? neutral(0.997, 0.0008) : neutral(0.19);
-  t["surface-foreground"] = foreground;
-  t.muted = light ? neutral(0.955) : neutral(0.25);
-  // Muted text must read on both the page and muted surfaces.
-  const mutedText = solveLightness(neutral(light ? 0.52 : 0.7), t.muted, AA_TEXT, light ? -1 : 1);
-  t["muted-foreground"] = solveLightness(mutedText, background, AA_TEXT, light ? -1 : 1);
-  t.border = light ? neutral(0.915) : neutral(0.28);
-  t.input = light ? neutral(0.885) : neutral(0.33);
-
-  const ctx: ModeContext = { mode, background, tokens: t };
-  for (const role of ROLES) {
-    const base = STATUS_DEFAULTS[role as StatusRole] ?? neutral(0.5);
-    const result = deriveRole(ctx, role, colors[role] ?? null, base);
-    if (result.adjusted) adjusted.add(role);
-  }
-
-  // Focus is the border color a focused control takes: the primary color,
-  // moved until it is 3:1 against the page.
-  const focusStart = colors.primary ? (t.primary as OKLCH) : foreground;
-  t.focus = solveLightness(focusStart, background, AA_NON_TEXT, light ? -1 : 1);
-  return t as ModeTokens;
+  const { fill: bold, on } = boldFill(base, prefer);
+  const [boldHovered, boldPressed] = steps(bold, on);
+  const tint = (l: number, cMax: number) => toGamut({ l, c: Math.min(base.c, cMax), h: base.h });
+  const subtle = light ? tint(0.965, 0.035) : tint(0.24, 0.05);
+  const subtleHovered = light ? tint(0.94, 0.04) : tint(0.28, 0.055);
+  const subtlePressed = light ? tint(0.915, 0.045) : tint(0.32, 0.06);
+  const dir = light ? -1 : 1;
+  const text = solve(tint(light ? 0.47 : 0.8, light ? 0.16 : 0.12), [subtlePressed, ...surfaces], AA_TEXT, dir);
+  const textPressed = withL(text, text.l + dir * 0.08);
+  const mark = solve(bold, surfaces, AA_NON_TEXT, dir);
+  return { bold, boldHovered, boldPressed, on, subtle, subtleHovered, subtlePressed, text, textPressed, mark };
 }
 
-function checksFor(mode: "light" | "dark", t: ModeTokens): ContrastCheck[] {
-  const pairs: Array<[TokenName, TokenName, number]> = [
-    ["foreground", "background", AA_TEXT],
-    ["surface-foreground", "surface", AA_TEXT],
-    ["muted-foreground", "background", AA_TEXT],
-    ["muted-foreground", "muted", AA_TEXT],
-    ["focus", "background", AA_NON_TEXT],
-  ];
-  for (const role of ROLES) {
-    pairs.push([`${role}-foreground`, role, AA_TEXT]);
-    pairs.push([`${role}-foreground`, `${role}-hover`, AA_TEXT]);
-    pairs.push([`${role}-soft-foreground`, `${role}-soft`, AA_TEXT]);
+const NEUTRAL_HUE = NEUTRAL[500].h;
+const grey = (l: number): OKLCH => ({ l, c: 0.002, h: NEUTRAL_HUE });
+
+/** Default bases for brand roles when the project gives no color. */
+const BRAND_DEFAULTS: Record<BrandRole, Record<Mode, OKLCH>> = {
+  primary: { light: NEUTRAL[900], dark: NEUTRAL[150] },
+  secondary: { light: grey(0.42), dark: grey(0.8) },
+  tertiary: { light: grey(0.55), dark: grey(0.68) },
+};
+
+function deriveMode(mode: Mode, colors: Partial<Record<Role, OKLCH>>, adjusted: Set<Role>): ModeTokens {
+  const light = mode === "light";
+  const t: ModeTokens = {};
+
+  // Surfaces and neutral text.
+  t["ds-surface"] = light ? NEUTRAL[50] : NEUTRAL[1000];
+  t["ds-surface-sunken"] = light ? NEUTRAL[150] : NEUTRAL[1100];
+  t["ds-surface-raised"] = light ? WHITE : NEUTRAL[950];
+  t["ds-surface-overlay"] = light ? WHITE : NEUTRAL[900];
+  t["ds-surface-hovered"] = light ? NEUTRAL[100] : NEUTRAL[850];
+  t["ds-blanket"] = light ? rgba(20, 18, 15, 0.48) : rgba(7, 7, 6, 0.6);
+  t["ds-text"] = light ? NEUTRAL[850] : NEUTRAL[300];
+  t["ds-text-subtle"] = light ? NEUTRAL[700] : NEUTRAL[400];
+  t["ds-text-subtlest"] = light ? NEUTRAL[600] : NEUTRAL[500];
+  t["ds-text-disabled"] = light ? NEUTRAL[400] : NEUTRAL[700];
+  t["ds-text-inverse"] = light ? WHITE : NEUTRAL[1100];
+  t["ds-background-segment-selected"] = light ? WHITE : NEUTRAL[700];
+  t["ds-background-neutral-subtle-hovered"] = light ? NEUTRAL[150] : NEUTRAL[850];
+  t["ds-background-neutral-bold"] = light ? NEUTRAL[900] : NEUTRAL[150];
+  t["ds-background-input"] = light ? WHITE : hex("#121211");
+  t["ds-background-input-hovered"] = light ? NEUTRAL[50] : NEUTRAL[1000];
+  t["ds-background-disabled"] = light ? NEUTRAL[150] : NEUTRAL[900];
+  t["ds-border"] = light ? rgba(40, 32, 18, 0.08) : rgba(232, 228, 220, 0.07);
+  t["ds-border-bold"] = light ? rgba(40, 32, 18, 0.16) : rgba(232, 228, 220, 0.14);
+  t["ds-icon"] = light ? NEUTRAL[800] : NEUTRAL[300];
+  t["ds-icon-subtle"] = light ? NEUTRAL[600] : NEUTRAL[500];
+  t["ds-chart-neutral"] = light ? NEUTRAL[500] : NEUTRAL[600];
+
+  const surfaces = [t["ds-surface"], t["ds-surface-raised"]] as OKLCH[];
+  // A given color is used as-is in light mode; in dark mode it is lifted so
+  // the fill stands out on the dark page (e.g. gold-700 -> a brighter gold).
+  const given = (role: Role): OKLCH | undefined => {
+    const c = colors[role];
+    return c && !light ? { ...c, l: clamp(c.l, 0.62, 0.86) } : c;
+  };
+  const base = (role: BrandRole) => given(role) ?? BRAND_DEFAULTS[role][mode];
+  const flag = (role: Role, s: Scale, given: OKLCH | undefined) => {
+    // Any lightness move by the solver (its step is 0.0025) counts as an adjustment.
+    if (light && given && Math.abs(s.bold.l - toGamut(given).l) > 0.001) adjusted.add(role);
+  };
+
+  // Primary = the brand.
+  const brand = scale(mode, base("primary"), surfaces);
+  flag("primary", brand, colors.primary);
+  t["ds-background-brand-bold"] = brand.bold;
+  t["ds-background-brand-bold-hovered"] = brand.boldHovered;
+  t["ds-background-brand-bold-pressed"] = brand.boldPressed;
+  t["ds-text-on-brand"] = brand.on;
+  t["ds-background-brand-subtle"] = brand.subtle;
+  t["ds-background-selected"] = brand.subtle;
+  t["ds-background-selected-hovered"] = brand.subtleHovered;
+  t["ds-background-selected-pressed"] = brand.subtlePressed;
+  t["ds-text-brand"] = brand.text;
+  t["ds-link"] = brand.text;
+  t["ds-link-pressed"] = brand.textPressed;
+  t["ds-border-selected"] = brand.mark;
+  t["ds-border-focused"] = brand.mark;
+  t["ds-icon-brand"] = brand.mark;
+  t["ds-chart-1"] = brand.mark;
+
+  // Secondary and tertiary: their own scales.
+  for (const role of ["secondary", "tertiary"] as const) {
+    const s = scale(mode, base(role), surfaces);
+    flag(role, s, colors[role]);
+    t[`ds-background-${role}-bold`] = s.bold;
+    t[`ds-background-${role}-bold-hovered`] = s.boldHovered;
+    t[`ds-background-${role}-bold-pressed`] = s.boldPressed;
+    t[`ds-text-on-${role}`] = s.on;
+    t[`ds-background-${role}`] = s.subtle;
+    t[`ds-background-${role}-hovered`] = s.subtleHovered;
+    t[`ds-background-${role}-pressed`] = s.subtlePressed;
+    t[`ds-text-${role}`] = s.text;
+    t[`ds-border-${role}`] = s.mark;
+    t[`ds-icon-${role}`] = s.mark;
   }
+
+  // Neutral buttons: grey by default, tinted by the secondary color when given.
+  const text = t["ds-text"] as OKLCH;
+  if (colors.secondary) {
+    const tint = (l: number) => toGamut({ l, c: Math.min(colors.secondary!.c, light ? 0.03 : 0.04), h: colors.secondary!.h });
+    const dir = light ? 1 : -1; // away from the text color
+    t["ds-background-neutral"] = solve(tint(light ? 0.945 : 0.25), [text], AA_TEXT, dir);
+    t["ds-background-neutral-hovered"] = solve(tint(light ? 0.92 : 0.29), [text], AA_TEXT, dir);
+    t["ds-background-neutral-pressed"] = solve(tint(light ? 0.895 : 0.33), [text], AA_TEXT, dir);
+  } else {
+    t["ds-background-neutral"] = light ? NEUTRAL[150] : NEUTRAL[850];
+    t["ds-background-neutral-hovered"] = light ? NEUTRAL[200] : NEUTRAL[800];
+    t["ds-background-neutral-pressed"] = light ? NEUTRAL[300] : hex("#45433f");
+  }
+  // New-feature callouts follow the tertiary color.
+  t["ds-background-discovery"] = t["ds-background-tertiary"] as OKLCH;
+
+  // Status.
+  const statusName: Record<StatusRole, string> = { success: "success", warning: "warning", danger: "danger", info: "information" };
+  for (const role of STATUS_ROLES) {
+    const s = scale(mode, given(role) ?? STATUS_DEFAULTS[role][mode], surfaces, STATUS_ON[role][mode]);
+    flag(role, s, colors[role]);
+    const n = statusName[role];
+    t[`ds-background-${n}`] = s.subtle;
+    t[`ds-background-${n}-bold`] = s.bold;
+    t[`ds-background-${n}-bold-hovered`] = s.boldHovered;
+    t[`ds-text-${n}`] = s.text;
+    t[`ds-text-on-${n}`] = s.on;
+    t[`ds-border-${n}`] = s.mark;
+    t[`ds-icon-${n}`] = s.mark;
+  }
+  // Shared label for the success and information bold fills.
+  t["ds-text-on-bold"] = t["ds-text-on-success"] as OKLCH;
+
+  // Charts.
+  CHARTS[mode].forEach((c, i) => {
+    t[`ds-chart-${i + 2}`] = c;
+  });
+  return t;
+}
+
+/** Every text pair (4.5:1) and non-text mark (3:1) the engine promises. */
+function checksFor(mode: Mode, t: ModeTokens): ContrastCheck[] {
+  const pairs: Array<[string, string, number]> = [];
+  const text = (fg: string, ...bgs: string[]) => bgs.forEach((bg) => pairs.push([fg, bg, AA_TEXT]));
+  const mark = (fg: string, ...bgs: string[]) => bgs.forEach((bg) => pairs.push([fg, bg, AA_NON_TEXT]));
+  const surfaces = ["ds-surface", "ds-surface-raised", "ds-surface-overlay", "ds-surface-sunken"];
+
+  text("ds-text", ...surfaces, "ds-background-neutral", "ds-background-neutral-hovered", "ds-background-neutral-pressed");
+  text("ds-text", "ds-background-selected", "ds-background-selected-hovered", "ds-background-selected-pressed");
+  text("ds-text-subtle", "ds-surface", "ds-surface-raised");
+  text("ds-text-subtlest", "ds-surface", "ds-surface-raised");
+  text("ds-text-inverse", "ds-background-neutral-bold");
+  text("ds-text-on-brand", "ds-background-brand-bold", "ds-background-brand-bold-hovered", "ds-background-brand-bold-pressed");
+  text("ds-text-brand", "ds-surface", "ds-surface-raised", "ds-background-selected-pressed");
+  text("ds-link", "ds-surface", "ds-surface-raised");
+  mark("ds-border-focused", "ds-surface", "ds-surface-raised");
+  for (const role of ["secondary", "tertiary"]) {
+    text(`ds-text-on-${role}`, `ds-background-${role}-bold`, `ds-background-${role}-bold-hovered`, `ds-background-${role}-bold-pressed`);
+    text(`ds-text-${role}`, "ds-surface", `ds-background-${role}`, `ds-background-${role}-pressed`);
+  }
+  for (const n of ["success", "warning", "danger", "information"]) {
+    text(`ds-text-${n}`, "ds-surface", "ds-surface-raised", `ds-background-${n}`);
+    text(`ds-text-on-${n}`, `ds-background-${n}-bold`, `ds-background-${n}-bold-hovered`);
+    mark(`ds-icon-${n}`, "ds-surface");
+  }
+  text("ds-text-on-bold", "ds-background-success-bold", "ds-background-information-bold");
+
   return pairs.map(([fg, bg, required]) => {
-    const ratio = contrast(t[fg], t[bg]);
+    const ratio = contrast(t[fg] as OKLCH, t[bg] as OKLCH);
     return { mode, foreground: fg, background: bg, ratio, required, pass: ratio >= required };
   });
 }

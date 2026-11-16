@@ -5,7 +5,8 @@
  */
 
 export type RGB = { r: number; g: number; b: number }; // 0..1
-export type OKLCH = { l: number; c: number; h: number }; // l 0..1, c >= 0, h degrees
+/** l 0..1, c >= 0, h degrees; optional alpha 0..1 (omitted = opaque). */
+export type OKLCH = { l: number; c: number; h: number; alpha?: number };
 
 const clamp01 = (n: number) => Math.min(1, Math.max(0, n));
 
@@ -130,15 +131,24 @@ export function parseColor(input: string | null | undefined): OKLCH | null {
 
 const round = (n: number, digits: number) => Number(n.toFixed(digits));
 
+const hasAlpha = (color: OKLCH) => color.alpha !== undefined && color.alpha < 1;
+
 export function formatOklch(color: OKLCH): string {
   const g = toGamut(color);
   const c = round(g.c, 4);
   const h = c === 0 ? 0 : round(g.h, 2);
-  return `oklch(${round(g.l, 4)} ${c} ${h})`;
+  const alpha = hasAlpha(color) ? ` / ${round(color.alpha as number, 3)}` : "";
+  return `oklch(${round(g.l, 4)} ${c} ${h}${alpha})`;
 }
 
+/** `#rrggbb`, or `#rrggbbaa` for a translucent color. */
 export function formatHex(color: OKLCH): string {
   const { r, g, b } = oklchToRgb(color);
   const hex = (v: number) => Math.round(v * 255).toString(16).padStart(2, "0");
-  return `#${hex(r)}${hex(g)}${hex(b)}`;
+  return `#${hex(r)}${hex(g)}${hex(b)}${hasAlpha(color) ? hex(color.alpha as number) : ""}`;
+}
+
+/** An sRGB color with alpha, for the few translucent tokens (borders, scrims). */
+export function rgba(r: number, g: number, b: number, alpha: number): OKLCH {
+  return { ...rgbToOklch({ r: r / 255, g: g / 255, b: b / 255 }), alpha };
 }
