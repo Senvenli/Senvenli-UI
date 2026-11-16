@@ -1,7 +1,7 @@
 {
   "name": "@senvenli/tokens",
   "version": "0.0.0",
-  "description": "Platform-neutral theme engine for Senvenli UI: a few optional inputs to a full, WCAG AA token set for web and React Native.",
+  "description": "Platform-neutral theme engine for Senvenli UI: a few optional inputs to a full, WCAG AA token set for web (CSS) and native apps (hex).",
   "license": "MIT",
   "type": "module",
   "main": "./dist/index.js",

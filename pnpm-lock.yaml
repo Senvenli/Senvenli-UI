@@ -28,8 +28,6 @@ importers:
 
   packages/react: {}
 
-  packages/react-native: {}
-
   packages/tokens: {}
 
   site:

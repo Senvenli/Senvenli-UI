@@ -71,7 +71,7 @@ export function App() {
     tab === "css"
       ? css
       : tab === "native"
-        ? `export const theme = ${JSON.stringify(toNative(theme), null, 2)};\n`
+        ? `${JSON.stringify(toNative(theme), null, 2)}\n`
         : `npx senvenli-ui theme ${code}\n\n${window.location.origin}/?p=${code}\n`;
 
   const copy = async () => {
@@ -277,7 +277,7 @@ export function App() {
                   {(
                     [
                       ["css", "CSS"],
-                      ["native", "React Native"],
+                      ["native", "Native (hex)"],
                       ["code", "Preset code"],
                     ] as const
                   ).map(([key, label]) => (
