@@ -34,6 +34,9 @@
       ],
       "@senvenli/react/navigation": [
         "../packages/react/src/navigation/index.ts"
+      ],
+      "@senvenli/react/date": [
+        "../packages/react/src/date/index.ts"
       ]
     },
     "noUncheckedIndexedAccess": false

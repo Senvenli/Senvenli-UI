@@ -1,4 +1,4 @@
-import { intlLocale } from "./intl-locale";
+import { aliasSourcesOf, intlLocale } from "./intl-locale";
 
 export { contentLang, formatDateTime, hasIntlData, intlLocale } from "./intl-locale";
 
@@ -138,21 +138,11 @@ const ERROR_CODE: Strings = {
 const SELECTED: Strings = {
   en: "Selected",
 };
-const OR_SIMILAR: Strings = {
-  en: "or similar",
-};
-const PER_DAY: Strings = {
-  en: "/ day",
-};
 const ONLINE: Strings = {
   en: "online",
 };
 const MORE_PEOPLE: Strings = {
   en: "{count} more",
-};
-/** Seat counts by plural category (Intl.PluralRules); `other` is the fallback. */
-const SEATS: Record<string, Partial<Record<Intl.LDMLPluralRule, string>>> = {
-  en: { one: "{n} seat", other: "{n} seats" },
 };
 const DELTA_UP: Strings = {
   en: "up {value}",
@@ -241,22 +231,22 @@ const DATE_UNAVAILABLE: Strings = {
 const TODAY: Strings = {
   en: "Today",
 };
-const PICKUP: Strings = {
-  en: "Pickup",
+const RANGE_START: Strings = {
+  en: "Start",
 };
-const RETURN: Strings = {
-  en: "Return",
+const RANGE_END: Strings = {
+  en: "End",
 };
-const PICKUP_TIME: Strings = {
-  en: "Pickup time",
+const RANGE_START_TIME: Strings = {
+  en: "Start time",
 };
-const RETURN_TIME: Strings = {
-  en: "Return time",
+const RANGE_END_TIME: Strings = {
+  en: "End time",
 };
 /**
  * A date, a date and time, or a time typed in part: {parts} is the missing parts, each in the form the
  * sentence takes it (the object of "enter": see DATE_PART_NAMES), listed with `datePartsLabel`. One sentence per kind of
- * field, so the subject agrees with what is incomplete ("Datum nije potpun", "Datum i vrijeme nisu potpuni").
+ * field, so the subject can agree with what is incomplete in languages that need it.
  */
 const DATE_INCOMPLETE: Strings = {
   en: "Incomplete date: enter {parts}, or clear the field.",
@@ -270,12 +260,10 @@ const TIME_INCOMPLETE: Strings = {
 /** The parts of a date or time a field may miss (React Aria's segment types; an era is never typed in the DS). */
 export type DatePartName = "day" | "month" | "year" | "hour" | "minute" | "second" | "dayPeriod";
 /**
- * Each part as the object of "enter" in DATE_INCOMPLETE and its siblings, not the nominative name Intl
- * gives ("unesite godinu", not "godina"; "συμπληρώστε τον μήνα", not "μήνας"; "ayı girin"; Ijekavian "mjesec" in me,
- * bs and hr): accusative, with the article where the language puts one on a known thing (en, el, ro, sq, bg, tr's
- * definite accusative). Macedonian keeps the bare noun: a definite object would need a clitic ("внесете го месецот")
- * that changes with the list. The AM/PM segment of a 12-hour clock is named only when the hour is typed and it is not,
- * as a noun ("ÖÖ/ÖS bilgisini", "την ένδειξη π.μ./μ.μ.") so no second "or" stands in a sentence that ends in one.
+ * Each part as the object of "enter" in DATE_INCOMPLETE and its siblings: in many languages that is not the
+ * nominative name Intl gives (an accusative, often with an article), so apps register the form their sentence needs
+ * (`registerDsStrings(locale, { dateParts })`). The AM/PM segment of a 12-hour clock is named only when the hour is typed
+ * and it is not.
  */
 const DATE_PART_NAMES: Record<string, Record<DatePartName, string>> = {
   en: { day: "the day", month: "the month", year: "the year", hour: "the hour", minute: "the minutes", second: "the seconds", dayPeriod: "AM/PM" },
@@ -288,11 +276,8 @@ const LIST_AND: Record<string, [string, string]> = {
   en: [" and ", ", and "],
 };
 /**
- * "{month} has {n} days" for a day past the month's end (31.11),. {month} is the DS's own month name
- * (MONTH_HAS_DAYS_MONTHS) in the form this sentence takes it, never Intl's: Chromium has no month names for sq, mk or bs
- * (it gave the host's "Kasım", "M11"), and Intl's form is the nominative or a genitive where the sentence needs another
- * ("Ο μήνας Νοεμβρίου"). The count is 28, 29 or 30 in a Gregorian month, so one plural form per locale holds
- * ("30 de zile" in ro, "дней" in ru, "dana" in me, bs, hr and sr).
+ * "{month} has {n} days" for a day past the month's end (31.11). {month} is a registered month name (`months`) in the
+ * form the sentence takes it, else Intl's long month name in the locale.
  */
 const MONTH_HAS_DAYS: Strings = {
   en: "{month} has {n} days.",
@@ -318,7 +303,7 @@ const PREVIEW: Strings = {
   en: "Preview",
 };
 const PREVIEW_ACTION: Strings = {
-  en: "Book",
+  en: "Get started",
 };
 /** "{ratio}" is the measured contrast, formatted by the caller ("3,3:1"). */
 const LOW_IN_LIGHT: Strings = {
@@ -699,10 +684,18 @@ const registered = new Set<string>(["en"]);
 
 /** The table key for a locale: a registered exact tag ("pt-BR"), else its language ("pt"), else English. */
 function tableKey(locale: string): string {
-  const lower = locale.toLowerCase();
-  for (const key of registered) if (key.toLowerCase() === lower) return key;
-  const language = lower.split(/[-_]/)[0] ?? "en";
-  return registered.has(language) ? language : "en";
+  const find = (tag: string): string | undefined => {
+    const lower = tag.toLowerCase();
+    for (const key of registered) if (key.toLowerCase() === lower) return key;
+    const language = lower.split(/[-_]/)[0] ?? "en";
+    return registered.has(language) ? language : undefined;
+  };
+  // Inside components the locale is the alias target (`registerLocaleAliases`); its strings live under the app tag.
+  for (const source of aliasSourcesOf(locale)) {
+    const key = find(source);
+    if (key) return key;
+  }
+  return find(locale) ?? "en";
 }
 
 /** Whether components have their own words for a locale; others fall back to English. */
@@ -711,18 +704,29 @@ export function hasDsStrings(locale: string): boolean {
 }
 
 export type DsStringKey = keyof typeof DS_STRINGS;
-export type DsStringsInput = Partial<Record<DsStringKey, string>> & { strength?: [string, string, string] };
+export type DsStringsInput = Partial<Record<DsStringKey, string>> & {
+  strength?: [string, string, string];
+  /** Month names in the form `monthHasDays` uses ("{month} has {n} days."), January first. */
+  months?: readonly string[];
+  /** The parts of a date as the object of "enter" in the incomplete-date sentences. */
+  dateParts?: Record<DatePartName, string>;
+  /** How the missing parts are joined: [between two, before the last of three or more]. */
+  listAnd?: [string, string];
+};
 
 /**
  * Add a language: give the component strings for `locale` (any subset; missing ones stay English).
  * Call once at startup, before rendering, for every locale the app supports.
  *
- *   registerDsStrings("tr", { close: "Kapat", optional: "(isteğe bağlı)" });
+ *   registerDsStrings("de", { close: "Schließen", optional: "(optional)" });
  */
 export function registerDsStrings(locale: string, strings: DsStringsInput): void {
   const tables = DS_STRINGS as unknown as Record<string, Record<string, string>>;
   for (const [key, value] of Object.entries(strings)) {
     if (key === "strength" && Array.isArray(value)) STRENGTH[locale] = value as [string, string, string];
+    else if (key === "months" && Array.isArray(value)) MONTH_HAS_DAYS_MONTHS[locale] = value as readonly string[];
+    else if (key === "dateParts" && value && typeof value === "object") DATE_PART_NAMES[locale] = value as Record<DatePartName, string>;
+    else if (key === "listAnd" && Array.isArray(value)) LIST_AND[locale] = value as [string, string];
     else if (typeof value === "string" && tables[key]) tables[key]![locale] = value;
   }
   registered.add(locale);
@@ -778,16 +782,9 @@ export const actionFailedLabel = (locale: string) => pick(ACTION_FAILED, locale)
 export const retryLabel = (locale: string) => pick(RETRY, locale);
 export const errorCodeLabel = (locale: string) => pick(ERROR_CODE, locale);
 export const selectedLabel = (locale: string) => pick(SELECTED, locale);
-export const orSimilarLabel = (locale: string) => pick(OR_SIMILAR, locale);
-export const perDayLabel = (locale: string) => pick(PER_DAY, locale);
 export const onlineLabel = (locale: string) => pick(ONLINE, locale);
 export const morePeopleLabel = (locale: string, count: number) =>
   pick(MORE_PEOPLE, locale).replace("{count}", formatCount(locale, count));
-export function seatsLabel(locale: string, count: number): string {
-  const forms = SEATS[tableKey(locale)] ?? SEATS.en;
-  const category = new Intl.PluralRules(intlLocale(locale)).select(count);
-  return (forms[category] ?? forms.other ?? "{n}").replace("{n}", formatCount(locale, count));
-}
 export const deltaLabel = (locale: string, direction: "up" | "down" | "flat", value: string) =>
   direction === "flat" ? pick(NO_CHANGE, locale) : pick(direction === "up" ? DELTA_UP : DELTA_DOWN, locale).replace("{value}", value);
 export const notSetLabel = (locale: string) => pick(NOT_SET, locale);
@@ -816,11 +813,11 @@ export const thisMonthLabel = (locale: string) => pick(THIS_MONTH, locale);
 export const dateMinLabel = (locale: string, date: string, isMonth = false) => pick(isMonth ? MONTH_MIN : DATE_MIN, locale).replace("{date}", date);
 export const dateMaxLabel = (locale: string, date: string, isMonth = false) => pick(isMonth ? MONTH_MAX : DATE_MAX, locale).replace("{date}", date);
 export const dateUnavailableLabel = (locale: string) => pick(DATE_UNAVAILABLE, locale);
-export const pickupLabel = (locale: string) => pick(PICKUP, locale);
-export const returnLabel = (locale: string) => pick(RETURN, locale);
-export const pickupTimeLabel = (locale: string) => pick(PICKUP_TIME, locale);
-export const returnTimeLabel = (locale: string) => pick(RETURN_TIME, locale);
-/** The missing parts, in the given order, as the object of the incomplete sentence ("günü ve ayı", "dan, mjesec i godinu"). */
+export const rangeStartLabel = (locale: string) => pick(RANGE_START, locale);
+export const rangeEndLabel = (locale: string) => pick(RANGE_END, locale);
+export const rangeStartTimeLabel = (locale: string) => pick(RANGE_START_TIME, locale);
+export const rangeEndTimeLabel = (locale: string) => pick(RANGE_END_TIME, locale);
+/** The missing parts, in the given order, as the object of the incomplete sentence ("the day and the month", "the day, the month, and the year"). */
 export function datePartsLabel(locale: string, parts: readonly DatePartName[]): string {
   const key = tableKey(locale);
   const names = DATE_PART_NAMES[key] ?? DATE_PART_NAMES.en!;
@@ -831,20 +828,23 @@ export function datePartsLabel(locale: string, parts: readonly DatePartName[]): 
   // Arabic lists take the Arabic comma ("اليوم، الشهر والسنة"); its "و" joins the next word with no space.
   return words.slice(0, -1).join(key === "ar" ? "، " : ", ") + last + words[words.length - 1];
 }
-/** "Tarih eksik: ayı girin ya da alanı boşaltın.": a date (`date`), a date and time (`dateTime`) or a time (`time`) typed in part. */
+/** "Incomplete date: enter the month, or clear the field.": a date (`date`), a date and time (`dateTime`) or a time (`time`) typed in part. */
 export const dateIncompleteLabel = (locale: string, parts: readonly DatePartName[], kind: "date" | "dateTime" | "time" = "date") =>
   pick(kind === "time" ? TIME_INCOMPLETE : kind === "dateTime" ? DATE_TIME_INCOMPLETE : DATE_INCOMPLETE, locale).replace("{parts}", datePartsLabel(locale, parts));
 /**
- * "Kasım 30 gün çeker.", "В ноябре 30 дней.": a day past the end of a month that has `days` days. `month`
- * is the Gregorian month (1–12), named with the DS's own words; left out (a field in another calendar), the sentence says
- * "this month". A locale without DS words reads the whole sentence in English, as every DS string does: no month name or
- * digit from its own Intl data in an English sentence. The count is written in Western Arabic digits, the numbering
- * system of every product and phase-1 locale and of English, so it never depends on the runtime's locale data either.
+ * "November has 30 days.": a day past the end of a month that has `days` days. `month` is the Gregorian month
+ * (1–12); left out (a field in another calendar), the sentence says "this month". A locale without its own sentence
+ * reads the whole sentence in English, with an English month name. The count is written in Western Arabic digits.
  */
 export function monthHasDaysLabel(locale: string, days: number, month?: number): string {
-  const key = hasDsStrings(locale) ? tableKey(locale) : "en";
-  const name = month !== undefined ? MONTH_HAS_DAYS_MONTHS[key]?.[month - 1] : undefined;
-  let sentence = name !== undefined ? MONTH_HAS_DAYS[key]!.replace("{month}", name) : THIS_MONTH_HAS_DAYS[key]!;
+  // A language without its own sentence uses English throughout, so no English sentence carries a foreign month.
+  const own = hasDsStrings(locale) ? tableKey(locale) : "en";
+  const key = MONTH_HAS_DAYS[own] !== undefined || THIS_MONTH_HAS_DAYS[own] !== undefined ? own : "en";
+  const intlMonth = (m: number) => new Intl.DateTimeFormat(intlLocale(locale), { month: "long" }).format(new Date(2000, m - 1, 1));
+  const name = month !== undefined ? (MONTH_HAS_DAYS_MONTHS[key]?.[month - 1] ?? intlMonth(month)) : undefined;
+  const withMonth = MONTH_HAS_DAYS[key] ?? MONTH_HAS_DAYS.en!;
+  const plain = THIS_MONTH_HAS_DAYS[key] ?? THIS_MONTH_HAS_DAYS.en!;
+  let sentence = name !== undefined ? withMonth.replace("{month}", name) : plain;
   // Romanian puts "de" between a count and its noun from 20 on (and after 0), not for 1–19 (a 5- or 6-day month in the
   // Ethiopic and Coptic calendars).
   if (key === "ro" && days % 100 >= 1 && days % 100 <= 19) sentence = sentence.replace("{n} de zile", "{n} zile");
@@ -883,7 +883,7 @@ export const progressStepsLabel = (locale: string) => pick(PROGRESS_STEPS, local
 export const stepsAllDoneLabel = (locale: string) => pick(STEPS_ALL_DONE, locale);
 export const clearSelectionLabel = (locale: string) => pick(CLEAR_SELECTION, locale);
 export const skipToContentLabel = (locale: string) => pick(SKIP_TO_CONTENT, locale);
-/** "İlk 31, son 48; en düşük 31, en yüksek 48": a sparkline's text summary. */
+/** A sparkline's text summary: first, last, lowest and highest value. */
 export const sparklineSummaryLabel = (locale: string, values: { first: string; last: string; min: string; max: string }) =>
   pick(SPARKLINE_SUMMARY, locale).replace("{first}", values.first).replace("{last}", values.last).replace("{min}", values.min).replace("{max}", values.max);
 export const gaugeTargetLabel = (locale: string, target: string) => pick(GAUGE_TARGET, locale).replace("{target}", target);
@@ -961,7 +961,7 @@ export const perPageLabel = (locale: string) => pick(PER_PAGE, locale);
 export const pageLabel = (locale: string, n: number) => pick(PAGE_N, locale).replace("{n}", formatCount(locale, n));
 export const pageOfLabel = (locale: string, page: number, total: number) =>
   pick(PAGE_OF, locale).replace("{page}", formatCount(locale, page)).replace("{total}", formatCount(locale, total));
-/** "41–60 of 1,204" / "1.204 kayıttan 41–60 arası"; consumers name the items with their own sentence. */
+/** "41–60 of 1,204"; consumers name the items with their own sentence. */
 export const rangeOfLabel = (locale: string, from: number, to: number, total: number) =>
   pick(RANGE_OF, locale).replace("{from}", formatCount(locale, from)).replace("{to}", formatCount(locale, to)).replace("{total}", formatCount(locale, total));
 export const openMenuLabel = (locale: string) => pick(OPEN_MENU, locale);
@@ -983,7 +983,7 @@ export const removeFileLabel = (locale: string) => pick(REMOVE_FILE, locale);
 export const replaceLabel = (locale: string) => pick(REPLACE, locale);
 export const uploadedLabel = (locale: string) => pick(UPLOADED, locale);
 export const DS_STRINGS = {
-  chooseFiles: CHOOSE_FILES, orChoose: OR_CHOOSE, upTo: UP_TO, tooLarge: TOO_LARGE, wrongType: WRONG_TYPE, onlyOne: ONLY_ONE, selectPlaceholder: SELECT_PLACEHOLDER, selectAll: SELECT_ALL, selectedCount: SELECTED_COUNT, moreCount: MORE_COUNT, removeItem: REMOVE_ITEM, noMatch: NO_MATCH, createItem: CREATE_ITEM, loading: LOADING, showSuggestions: SHOW_SUGGESTIONS, clearAll: CLEAR_ALL, actionFailed: ACTION_FAILED, retry: RETRY, errorCode: ERROR_CODE, selected: SELECTED, orSimilar: OR_SIMILAR, perDay: PER_DAY, online: ONLINE, morePeople: MORE_PEOPLE, deltaUp: DELTA_UP, deltaDown: DELTA_DOWN, noChange: NO_CHANGE, notSet: NOT_SET, copyValue: COPY_VALUE, copied: COPIED, copyFailed: COPY_FAILED, imagePosition: IMAGE_POSITION, previousImage: PREVIOUS_IMAGE, nextImage: NEXT_IMAGE, goToImage: GO_TO_IMAGE, previousMonth: PREVIOUS_MONTH, nextMonth: NEXT_MONTH, theme: THEME, themeSystem: THEME_SYSTEM, themeLight: THEME_LIGHT, themeDark: THEME_DARK, themeNowLight: THEME_NOW_LIGHT, themeNowDark: THEME_NOW_DARK, rangeMin: RANGE_MIN, rangeMax: RANGE_MAX, rangeTooShort: RANGE_TOO_SHORT, rangeTooLong: RANGE_TOO_LONG, rangeCrossesClosed: RANGE_CROSSES_CLOSED, today: TODAY, pickup: PICKUP, return: RETURN, pickupTime: PICKUP_TIME, returnTime: RETURN_TIME, monthHasDays: MONTH_HAS_DAYS, thisMonthHasDays: THIS_MONTH_HAS_DAYS, dateIncomplete: DATE_INCOMPLETE, dateTimeIncomplete: DATE_TIME_INCOMPLETE, timeIncomplete: TIME_INCOMPLETE, preview: PREVIEW, previewAction: PREVIEW_ACTION, lowInLight: LOW_IN_LIGHT, lowInDark: LOW_IN_DARK, fixInLight: FIX_IN_LIGHT, fixInDark: FIX_IN_DARK, noStepPasses: NO_STEP_PASSES, hexExpected: HEX_EXPECTED, customColor: CUSTOM_COLOR, nameSelected: NAME_SELECTED, cancel: CANCEL, typeToConfirm: TYPE_TO_CONFIRM, unsavedTitle: UNSAVED_TITLE, unsavedBody: UNSAVED_BODY, discardClose: DISCARD_CLOSE, keepEditing: KEEP_EDITING, expandSheet: EXPAND_SHEET, collapseSheet: COLLAPSE_SHEET, location: LOCATION, showHiddenLevels: SHOW_HIDDEN_LEVELS, pages: PAGES, previousPage: PREVIOUS_PAGE, nextPage: NEXT_PAGE, pageN: PAGE_N, pageOf: PAGE_OF, rangeOf: RANGE_OF, perPage: PER_PAGE, stepN: STEP_N, stepNOf: STEP_N_OF, stepDone: STEP_DONE, stepNow: STEP_NOW, stepNeedsYou: STEP_NEEDS_YOU, stepWithProvider: STEP_WITH_PROVIDER, stepFailed: STEP_FAILED, progressSteps: PROGRESS_STEPS, stepsAllDone: STEPS_ALL_DONE, clearSelection: CLEAR_SELECTION, skipToContent: SKIP_TO_CONTENT, sparklineSummary: SPARKLINE_SUMMARY, gaugeTarget: GAUGE_TARGET, chartOther: CHART_OTHER, chartShare: CHART_SHARE, chartTrend: CHART_TREND, cropHelp: CROP_HELP, cropStatus: CROP_STATUS, cropCentered: CROP_CENTERED, cropPosition: CROP_POSITION, cropZoom: CROP_ZOOM, cropZoomIn: CROP_ZOOM_IN, cropZoomOut: CROP_ZOOM_OUT, cropRotateLeft: CROP_ROTATE_LEFT, cropRotateRight: CROP_ROTATE_RIGHT, cropAspect: CROP_ASPECT, cropFit: CROP_FIT, cropCover: CROP_COVER, cropContain: CROP_CONTAIN, cropSaveFailed: CROP_SAVE_FAILED, cropBackground: CROP_BACKGROUND, colorWhite: COLOR_WHITE, colorLightGrey: COLOR_LIGHT_GREY, colorBlack: COLOR_BLACK, cropOutput: CROP_OUTPUT, cropKeepsAlpha: CROP_KEEPS_ALPHA, cropSmall: CROP_SMALL, cropSave: CROP_SAVE, cropTooLarge: CROP_TOO_LARGE, cropLoadFailed: CROP_LOAD_FAILED, tableSearch: TABLE_SEARCH, tableColumns: TABLE_COLUMNS, tableClearFilters: TABLE_CLEAR_FILTERS, tableEmpty: TABLE_EMPTY, tableNoResults: TABLE_NO_RESULTS, tableLoadFailed: TABLE_LOAD_FAILED, tableLoadFailedHint: TABLE_LOAD_FAILED_HINT, tableTools: TABLE_TOOLS, tableSelected: TABLE_SELECTED, phoneCountry: PHONE_COUNTRY, phoneCountryList: PHONE_COUNTRY_LIST, phoneCountrySearch: PHONE_COUNTRY_SEARCH, phoneSuggestedCountries: PHONE_SUGGESTED_COUNTRIES, phoneAllCountries: PHONE_ALL_COUNTRIES, phoneTooShort: PHONE_TOO_SHORT, phoneTooLong: PHONE_TOO_LONG, showAll: SHOW_ALL, showFewer: SHOW_FEWER, heatmapLess: HEATMAP_LESS, heatmapMore: HEATMAP_MORE, chartBand: CHART_BAND, chartStatus: CHART_STATUS, chartConversion: CHART_CONVERSION, chartValue: CHART_VALUE, chartNoData: CHART_NO_DATA, chartPeriod: CHART_PERIOD, chartCategory: CHART_CATEGORY, chartChange: CHART_CHANGE, chartTotal: CHART_TOTAL, chartIncrease: CHART_INCREASE, chartDecrease: CHART_DECREASE, chartNoValue: CHART_NO_VALUE, showDataTable: SHOW_DATA_TABLE, hideDataTable: HIDE_DATA_TABLE, selection: SELECTION, homePage: HOME_PAGE, mainNavigation: MAIN_NAVIGATION, openMenu: OPEN_MENU, language: LANGUAGE, collapseSidebar: COLLAPSE_SIDEBAR, expandSidebar: EXPAND_SIDEBAR, commandPalette: COMMAND_PALETTE, commandSearch: COMMAND_SEARCH, recentRecords: RECENT_RECORDS, frequentActions: FREQUENT_ACTIONS, hintMove: HINT_MOVE, hintOpen: HINT_OPEN, hintClose: HINT_CLOSE,
+  chooseFiles: CHOOSE_FILES, orChoose: OR_CHOOSE, upTo: UP_TO, tooLarge: TOO_LARGE, wrongType: WRONG_TYPE, onlyOne: ONLY_ONE, selectPlaceholder: SELECT_PLACEHOLDER, selectAll: SELECT_ALL, selectedCount: SELECTED_COUNT, moreCount: MORE_COUNT, removeItem: REMOVE_ITEM, noMatch: NO_MATCH, createItem: CREATE_ITEM, loading: LOADING, showSuggestions: SHOW_SUGGESTIONS, clearAll: CLEAR_ALL, actionFailed: ACTION_FAILED, retry: RETRY, errorCode: ERROR_CODE, selected: SELECTED, online: ONLINE, morePeople: MORE_PEOPLE, deltaUp: DELTA_UP, deltaDown: DELTA_DOWN, noChange: NO_CHANGE, notSet: NOT_SET, copyValue: COPY_VALUE, copied: COPIED, copyFailed: COPY_FAILED, imagePosition: IMAGE_POSITION, previousImage: PREVIOUS_IMAGE, nextImage: NEXT_IMAGE, goToImage: GO_TO_IMAGE, previousMonth: PREVIOUS_MONTH, nextMonth: NEXT_MONTH, theme: THEME, themeSystem: THEME_SYSTEM, themeLight: THEME_LIGHT, themeDark: THEME_DARK, themeNowLight: THEME_NOW_LIGHT, themeNowDark: THEME_NOW_DARK, rangeMin: RANGE_MIN, rangeMax: RANGE_MAX, rangeTooShort: RANGE_TOO_SHORT, rangeTooLong: RANGE_TOO_LONG, rangeCrossesClosed: RANGE_CROSSES_CLOSED, today: TODAY, rangeStart: RANGE_START, rangeEnd: RANGE_END, rangeStartTime: RANGE_START_TIME, rangeEndTime: RANGE_END_TIME, monthHasDays: MONTH_HAS_DAYS, thisMonthHasDays: THIS_MONTH_HAS_DAYS, dateIncomplete: DATE_INCOMPLETE, dateTimeIncomplete: DATE_TIME_INCOMPLETE, timeIncomplete: TIME_INCOMPLETE, preview: PREVIEW, previewAction: PREVIEW_ACTION, lowInLight: LOW_IN_LIGHT, lowInDark: LOW_IN_DARK, fixInLight: FIX_IN_LIGHT, fixInDark: FIX_IN_DARK, noStepPasses: NO_STEP_PASSES, hexExpected: HEX_EXPECTED, customColor: CUSTOM_COLOR, nameSelected: NAME_SELECTED, cancel: CANCEL, typeToConfirm: TYPE_TO_CONFIRM, unsavedTitle: UNSAVED_TITLE, unsavedBody: UNSAVED_BODY, discardClose: DISCARD_CLOSE, keepEditing: KEEP_EDITING, expandSheet: EXPAND_SHEET, collapseSheet: COLLAPSE_SHEET, location: LOCATION, showHiddenLevels: SHOW_HIDDEN_LEVELS, pages: PAGES, previousPage: PREVIOUS_PAGE, nextPage: NEXT_PAGE, pageN: PAGE_N, pageOf: PAGE_OF, rangeOf: RANGE_OF, perPage: PER_PAGE, stepN: STEP_N, stepNOf: STEP_N_OF, stepDone: STEP_DONE, stepNow: STEP_NOW, stepNeedsYou: STEP_NEEDS_YOU, stepWithProvider: STEP_WITH_PROVIDER, stepFailed: STEP_FAILED, progressSteps: PROGRESS_STEPS, stepsAllDone: STEPS_ALL_DONE, clearSelection: CLEAR_SELECTION, skipToContent: SKIP_TO_CONTENT, sparklineSummary: SPARKLINE_SUMMARY, gaugeTarget: GAUGE_TARGET, chartOther: CHART_OTHER, chartShare: CHART_SHARE, chartTrend: CHART_TREND, cropHelp: CROP_HELP, cropStatus: CROP_STATUS, cropCentered: CROP_CENTERED, cropPosition: CROP_POSITION, cropZoom: CROP_ZOOM, cropZoomIn: CROP_ZOOM_IN, cropZoomOut: CROP_ZOOM_OUT, cropRotateLeft: CROP_ROTATE_LEFT, cropRotateRight: CROP_ROTATE_RIGHT, cropAspect: CROP_ASPECT, cropFit: CROP_FIT, cropCover: CROP_COVER, cropContain: CROP_CONTAIN, cropSaveFailed: CROP_SAVE_FAILED, cropBackground: CROP_BACKGROUND, colorWhite: COLOR_WHITE, colorLightGrey: COLOR_LIGHT_GREY, colorBlack: COLOR_BLACK, cropOutput: CROP_OUTPUT, cropKeepsAlpha: CROP_KEEPS_ALPHA, cropSmall: CROP_SMALL, cropSave: CROP_SAVE, cropTooLarge: CROP_TOO_LARGE, cropLoadFailed: CROP_LOAD_FAILED, tableSearch: TABLE_SEARCH, tableColumns: TABLE_COLUMNS, tableClearFilters: TABLE_CLEAR_FILTERS, tableEmpty: TABLE_EMPTY, tableNoResults: TABLE_NO_RESULTS, tableLoadFailed: TABLE_LOAD_FAILED, tableLoadFailedHint: TABLE_LOAD_FAILED_HINT, tableTools: TABLE_TOOLS, tableSelected: TABLE_SELECTED, phoneCountry: PHONE_COUNTRY, phoneCountryList: PHONE_COUNTRY_LIST, phoneCountrySearch: PHONE_COUNTRY_SEARCH, phoneSuggestedCountries: PHONE_SUGGESTED_COUNTRIES, phoneAllCountries: PHONE_ALL_COUNTRIES, phoneTooShort: PHONE_TOO_SHORT, phoneTooLong: PHONE_TOO_LONG, showAll: SHOW_ALL, showFewer: SHOW_FEWER, heatmapLess: HEATMAP_LESS, heatmapMore: HEATMAP_MORE, chartBand: CHART_BAND, chartStatus: CHART_STATUS, chartConversion: CHART_CONVERSION, chartValue: CHART_VALUE, chartNoData: CHART_NO_DATA, chartPeriod: CHART_PERIOD, chartCategory: CHART_CATEGORY, chartChange: CHART_CHANGE, chartTotal: CHART_TOTAL, chartIncrease: CHART_INCREASE, chartDecrease: CHART_DECREASE, chartNoValue: CHART_NO_VALUE, showDataTable: SHOW_DATA_TABLE, hideDataTable: HIDE_DATA_TABLE, selection: SELECTION, homePage: HOME_PAGE, mainNavigation: MAIN_NAVIGATION, openMenu: OPEN_MENU, language: LANGUAGE, collapseSidebar: COLLAPSE_SIDEBAR, expandSidebar: EXPAND_SIDEBAR, commandPalette: COMMAND_PALETTE, commandSearch: COMMAND_SEARCH, recentRecords: RECENT_RECORDS, frequentActions: FREQUENT_ACTIONS, hintMove: HINT_MOVE, hintOpen: HINT_OPEN, hintClose: HINT_CLOSE,
   cancelUpload: CANCEL_UPLOAD, removeFile: REMOVE_FILE, replace: REPLACE, uploaded: UPLOADED,
   resend: RESEND, resendIn: RESEND_IN, increase: INCREASE, decrease: DECREASE,
   required: REQUIRED, limitExceeded: LIMIT_EXCEEDED,

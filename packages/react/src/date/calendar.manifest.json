@@ -1,0 +1,58 @@
+{
+  "$schema": "../../manifest/component.schema.json",
+  "kind": "component",
+  "family": "date",
+  "status": "alpha",
+  "import": "@senvenli/react/date",
+  "name": "calendar",
+  "title": "Calendar",
+  "exports": [
+    "Calendar",
+    "RangeCalendar"
+  ],
+  "description": "A month grid to pick a date or a range, with markers, unavailable days and several visible months.",
+  "keywords": [
+    "calendar",
+    "month",
+    "date",
+    "range",
+    "availability"
+  ],
+  "usage": {
+    "when": [
+      "Showing availability or picking dates in place, without a field."
+    ],
+    "instead": [
+      {
+        "use": "date-picker",
+        "when": "A form field opens the calendar."
+      }
+    ]
+  },
+  "a11y": {
+    "keyboard": [
+      {
+        "keys": "Arrow keys",
+        "does": "Moves between days."
+      },
+      {
+        "keys": "Page Up / Page Down",
+        "does": "Moves a month."
+      }
+    ],
+    "builtIn": [
+      "Each day is announced with its markers and why it is unavailable.",
+      "Month and weekday names follow the locale."
+    ],
+    "youProvide": [
+      "A label for the calendar."
+    ]
+  },
+  "related": [
+    "date-picker",
+    "date-range-field"
+  ],
+  "genui": {
+    "expose": false
+  }
+}

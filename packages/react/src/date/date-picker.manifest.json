@@ -1,0 +1,64 @@
+{
+  "$schema": "../../manifest/component.schema.json",
+  "kind": "component",
+  "family": "date",
+  "status": "alpha",
+  "import": "@senvenli/react/date",
+  "name": "date-picker",
+  "title": "Date picker",
+  "exports": [
+    "DatePicker"
+  ],
+  "description": "A date field with a calendar popover, Today and Clear actions, markers and unavailable days.",
+  "keywords": [
+    "date picker",
+    "calendar",
+    "date",
+    "popover"
+  ],
+  "usage": {
+    "when": [
+      "Picking a date where seeing the month helps."
+    ],
+    "instead": [
+      {
+        "use": "date-range-field",
+        "when": "A start and an end are picked together."
+      }
+    ]
+  },
+  "a11y": {
+    "keyboard": [
+      {
+        "keys": "Alt + Arrow down",
+        "does": "Opens the calendar."
+      }
+    ],
+    "builtIn": [
+      "Unavailable days explain why.",
+      "Required fields show \"Fill in this field.\"; a partly typed date says what is missing."
+    ],
+    "youProvide": [
+      "A visible label."
+    ]
+  },
+  "related": [
+    "calendar",
+    "date-field",
+    "date-range-field"
+  ],
+  "genui": {
+    "expose": true,
+    "description": "A date field with a calendar. Emits change.",
+    "props": [
+      "label",
+      "description",
+      "granularity",
+      "isRequired"
+    ],
+    "children": "none",
+    "events": [
+      "change"
+    ]
+  }
+}

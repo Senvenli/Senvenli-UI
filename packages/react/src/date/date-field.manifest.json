@@ -1,0 +1,62 @@
+{
+  "$schema": "../../manifest/component.schema.json",
+  "kind": "component",
+  "family": "date",
+  "status": "alpha",
+  "import": "@senvenli/react/date",
+  "name": "date-field",
+  "title": "Date field",
+  "exports": [
+    "DateField"
+  ],
+  "description": "A typed date (or date and time) in the locale's order, with min/max and month-day mode.",
+  "keywords": [
+    "date",
+    "input",
+    "birthday",
+    "due date"
+  ],
+  "usage": {
+    "when": [
+      "Typing a known date: a birthday, an expiry date."
+    ],
+    "instead": [
+      {
+        "use": "date-picker",
+        "when": "People need to see a calendar."
+      }
+    ]
+  },
+  "a11y": {
+    "keyboard": [
+      {
+        "keys": "Arrow up / down",
+        "does": "Changes the focused part."
+      }
+    ],
+    "builtIn": [
+      "Required fields show \"Fill in this field.\"; a partly typed date says what is missing."
+    ],
+    "youProvide": [
+      "A visible label."
+    ]
+  },
+  "related": [
+    "date-picker",
+    "time-field"
+  ],
+  "genui": {
+    "expose": true,
+    "description": "A typed date. Use date-picker when a calendar helps. Emits change.",
+    "props": [
+      "label",
+      "description",
+      "granularity",
+      "isRequired"
+    ],
+    "children": "none",
+    "events": [
+      "change"
+    ]
+  }
+}

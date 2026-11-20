@@ -169,6 +169,117 @@
     "genui": false
   },
   {
+    "name": "calendar",
+    "title": "Calendar",
+    "family": "date",
+    "status": "alpha",
+    "description": "A month grid to pick a date or a range, with markers, unavailable days and several visible months.",
+    "keywords": [
+      "calendar",
+      "month",
+      "date",
+      "range",
+      "availability"
+    ],
+    "import": "@senvenli/react/date",
+    "exports": [
+      "Calendar",
+      "RangeCalendar"
+    ],
+    "genui": false
+  },
+  {
+    "name": "date-field",
+    "title": "Date field",
+    "family": "date",
+    "status": "alpha",
+    "description": "A typed date (or date and time) in the locale's order, with min/max and month-day mode.",
+    "keywords": [
+      "date",
+      "input",
+      "birthday",
+      "due date"
+    ],
+    "import": "@senvenli/react/date",
+    "exports": [
+      "DateField"
+    ],
+    "genui": true
+  },
+  {
+    "name": "date-picker",
+    "title": "Date picker",
+    "family": "date",
+    "status": "alpha",
+    "description": "A date field with a calendar popover, Today and Clear actions, markers and unavailable days.",
+    "keywords": [
+      "date picker",
+      "calendar",
+      "date",
+      "popover"
+    ],
+    "import": "@senvenli/react/date",
+    "exports": [
+      "DatePicker"
+    ],
+    "genui": true
+  },
+  {
+    "name": "date-range-field",
+    "title": "Date range field",
+    "family": "date",
+    "status": "alpha",
+    "description": "A start and an end in one control over one calendar (two months on wide screens), with optional times.",
+    "keywords": [
+      "date range",
+      "start end",
+      "period",
+      "trip dates",
+      "range picker"
+    ],
+    "import": "@senvenli/react/date",
+    "exports": [
+      "DateRangeField"
+    ],
+    "genui": true
+  },
+  {
+    "name": "time-field",
+    "title": "Time field",
+    "family": "date",
+    "status": "alpha",
+    "description": "A typed time in the locale's clock, with minute steps and an optional time zone.",
+    "keywords": [
+      "time",
+      "hour",
+      "clock",
+      "input"
+    ],
+    "import": "@senvenli/react/date",
+    "exports": [
+      "TimeField"
+    ],
+    "genui": false
+  },
+  {
+    "name": "time-slots",
+    "title": "Time slots",
+    "family": "date",
+    "status": "alpha",
+    "description": "Available times as a grid of tiles, each with an optional note, for one choice.",
+    "keywords": [
+      "time slots",
+      "appointment",
+      "availability",
+      "schedule"
+    ],
+    "import": "@senvenli/react/date",
+    "exports": [
+      "TimeSlots"
+    ],
+    "genui": false
+  },
+  {
     "name": "avatar",
     "title": "Avatar",
     "family": "display",

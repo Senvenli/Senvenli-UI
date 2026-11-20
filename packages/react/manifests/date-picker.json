@@ -1,0 +1,368 @@
+{
+  "$schema": "https://design.senvenli.com/schema/component.full.json",
+  "kind": "component",
+  "family": "date",
+  "status": "alpha",
+  "import": "@senvenli/react/date",
+  "name": "date-picker",
+  "title": "Date picker",
+  "exports": [
+    "DatePicker"
+  ],
+  "description": "A date field with a calendar popover, Today and Clear actions, markers and unavailable days.",
+  "keywords": [
+    "date picker",
+    "calendar",
+    "date",
+    "popover"
+  ],
+  "usage": {
+    "when": [
+      "Picking a date where seeing the month helps."
+    ],
+    "instead": [
+      {
+        "use": "date-range-field",
+        "when": "A start and an end are picked together."
+      }
+    ]
+  },
+  "a11y": {
+    "keyboard": [
+      {
+        "keys": "Alt + Arrow down",
+        "does": "Opens the calendar."
+      }
+    ],
+    "builtIn": [
+      "Unavailable days explain why.",
+      "Required fields show \"Fill in this field.\"; a partly typed date says what is missing."
+    ],
+    "youProvide": [
+      "A visible label."
+    ]
+  },
+  "related": [
+    "calendar",
+    "date-field",
+    "date-range-field"
+  ],
+  "genui": {
+    "expose": true,
+    "description": "A date field with a calendar. Emits change.",
+    "props": [
+      "label",
+      "description",
+      "granularity",
+      "isRequired"
+    ],
+    "children": "none",
+    "events": [
+      "change"
+    ],
+    "schema": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "label": {
+          "type": "string",
+          "description": "Always given; the label sits above the field and names its segments."
+        },
+        "description": {
+          "type": "string"
+        },
+        "granularity": {
+          "type": "string",
+          "enum": [
+            "day",
+            "month"
+          ],
+          "description": "`month`: a year and a month, for a report or history range. The field types month and year\n(as DateField `granularity=\"month\"`), the value is that month's first day, and the popover is a grid of the\ntwelve months under a year stepper, with \"This month\" and \"Clear\"; `minValue` and `maxValue` count by month.\nThe day-only props (unavailable days, markers, first day of the week) do not apply. Default `day`."
+        },
+        "isRequired": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "label"
+      ]
+    }
+  },
+  "source": [
+    "src/date/pickers.tsx"
+  ],
+  "props": {
+    "DatePicker": [
+      {
+        "name": "defaultValue",
+        "type": "CalendarDate",
+        "required": false
+      },
+      {
+        "name": "autoFocus",
+        "type": "boolean",
+        "required": false,
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "id",
+        "type": "string",
+        "required": false,
+        "description": "The id of the field's first typed segment (day, or the locale's first part), the element that takes focus\n: `document.getElementById(id).focus()` puts the user in the field, as a focus-on-error does. The\nfield's group gets an id of its own. Left out, the DOM is as before.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "onBlur",
+        "type": "(event: FocusEvent<Element, Element>) => void",
+        "required": false
+      },
+      {
+        "name": "onChange",
+        "type": "(value: CalendarDate | null) => void",
+        "required": false
+      },
+      {
+        "name": "isDisabled",
+        "type": "boolean",
+        "required": false,
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "name",
+        "type": "string",
+        "required": false,
+        "description": "The form field name; the value is submitted as an ISO string.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "label",
+        "type": "string | number | bigint | boolean | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<AwaitedReactNode>",
+        "required": true,
+        "description": "Always given; the label sits above the field and names its segments."
+      },
+      {
+        "name": "description",
+        "type": "string | number | bigint | boolean | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<AwaitedReactNode>",
+        "required": false
+      },
+      {
+        "name": "errorMessage",
+        "type": "string | number | bigint | boolean | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<AwaitedReactNode>",
+        "required": false,
+        "description": "What happened and what to do; shown when the field is invalid."
+      },
+      {
+        "name": "isRequired",
+        "type": "boolean",
+        "required": false,
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "requiredValidation",
+        "type": "RequiredValidation",
+        "required": false,
+        "description": "Who says an empty required field is missing: `field` (default) or `app`. With `app` a DS\nForm's `onSubmit` runs with the field empty, and the app's own error must clear on change. See\n{@link RequiredValidation} for the whole contract.",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "field",
+            "app"
+          ]
+        }
+      },
+      {
+        "name": "isOptional",
+        "type": "boolean",
+        "required": false,
+        "description": "Shows \"(optional)\" when most of the form is required.",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "isReadOnly",
+        "type": "boolean",
+        "required": false,
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "isInvalid",
+        "type": "boolean",
+        "required": false,
+        "description": "Marks the field invalid from outside (a server error); `errorMessage` says why.",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "minValue",
+        "type": "CalendarDate",
+        "required": false
+      },
+      {
+        "name": "maxValue",
+        "type": "CalendarDate",
+        "required": false
+      },
+      {
+        "name": "validate",
+        "type": "(value: CalendarDate | null) => string | true | string[] | null | undefined",
+        "required": false,
+        "description": "Your own check; return the message to show, or nothing when the date is fine."
+      },
+      {
+        "name": "value",
+        "type": "CalendarDate",
+        "required": false,
+        "description": "A calendar date, no time zone; with `granularity=\"month\"` the month's first day.\n\nWhile the user leaves a date typed in part or impossible (\"31.aa.2026\", \"31.11.2026\"), the field reports\n`onChange(null)` and keeps the typed parts on screen, so setting `null` changes nothing: the value already is null.\nTo clear the field (an app's own \"Temizle\" or form reset), give it a new `key` along with the value: React remounts\nit empty, or at the value given."
+      },
+      {
+        "name": "isDateUnavailable",
+        "type": "(date: CalendarDate) => boolean",
+        "required": false
+      },
+      {
+        "name": "unavailableReason",
+        "type": "(date: CalendarDate) => string | undefined",
+        "required": false
+      },
+      {
+        "name": "getDateMarkers",
+        "type": "(date: CalendarDate) => DateMarker | undefined",
+        "required": false
+      },
+      {
+        "name": "firstDayOfWeek",
+        "type": "FirstDayOfWeek",
+        "required": false,
+        "schema": {
+          "type": "string",
+          "enum": [
+            "sun",
+            "mon",
+            "tue",
+            "wed",
+            "thu",
+            "fri",
+            "sat"
+          ]
+        }
+      },
+      {
+        "name": "timeZone",
+        "type": "string",
+        "required": false,
+        "description": "\"Today\" in the calendar and the Today action: the location's zone; the device's by default.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "shouldCloseOnSelect",
+        "type": "boolean",
+        "required": false,
+        "default": "true",
+        "description": "Close the calendar once a day is picked (default).",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "granularity",
+        "type": "\"day\" | \"month\"",
+        "required": false,
+        "default": "\"day\"",
+        "description": "`month`: a year and a month, for a report or history range. The field types month and year\n(as DateField `granularity=\"month\"`), the value is that month's first day, and the popover is a grid of the\ntwelve months under a year stepper, with \"This month\" and \"Clear\"; `minValue` and `maxValue` count by month.\nThe day-only props (unavailable days, markers, first day of the week) do not apply. Default `day`.",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "day",
+            "month"
+          ]
+        }
+      }
+    ]
+  },
+  "tokens": [
+    "ds-background-brand-bold",
+    "ds-background-brand-bold-hovered",
+    "ds-background-neutral-subtle-hovered",
+    "ds-background-selected",
+    "ds-background-selected-hovered",
+    "ds-border",
+    "ds-border-bold",
+    "ds-border-focused",
+    "ds-border-selected",
+    "ds-icon",
+    "ds-icon-brand",
+    "ds-radius-full",
+    "ds-radius-large",
+    "ds-radius-medium",
+    "ds-radius-small",
+    "ds-shadow-raised",
+    "ds-size-control",
+    "ds-size-control-compact",
+    "ds-space-025",
+    "ds-space-050",
+    "ds-space-075",
+    "ds-space-100",
+    "ds-space-150",
+    "ds-space-200",
+    "ds-space-400",
+    "ds-surface-raised",
+    "ds-text",
+    "ds-text-disabled",
+    "ds-text-on-brand",
+    "ds-text-subtle",
+    "ds-text-subtlest"
+  ],
+  "strings": [
+    "clear",
+    "dateIncomplete",
+    "dateMax",
+    "dateMin",
+    "dateTimeIncomplete",
+    "dateUnavailable",
+    "monthHasDays",
+    "monthMax",
+    "monthMin",
+    "nextMonth",
+    "nextYear",
+    "previousMonth",
+    "previousYear",
+    "rangeCrossesClosed",
+    "rangeEnd",
+    "rangeEndTime",
+    "rangeStart",
+    "rangeStartTime",
+    "rangeTooLong",
+    "rangeTooShort",
+    "required",
+    "thisMonth",
+    "thisMonthHasDays",
+    "timeIncomplete",
+    "today"
+  ],
+  "quality": {
+    "tests": true,
+    "a11y": false,
+    "docs": false,
+    "visual": false,
+    "dark": false,
+    "rtl": false,
+    "mcp": true,
+    "generic": true
+  }
+}

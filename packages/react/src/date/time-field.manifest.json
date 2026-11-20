@@ -1,0 +1,51 @@
+{
+  "$schema": "../../manifest/component.schema.json",
+  "kind": "component",
+  "family": "date",
+  "status": "alpha",
+  "import": "@senvenli/react/date",
+  "name": "time-field",
+  "title": "Time field",
+  "exports": [
+    "TimeField"
+  ],
+  "description": "A typed time in the locale's clock, with minute steps and an optional time zone.",
+  "keywords": [
+    "time",
+    "hour",
+    "clock",
+    "input"
+  ],
+  "usage": {
+    "when": [
+      "Typing a time of day."
+    ],
+    "instead": [
+      {
+        "use": "time-slots",
+        "when": "Only certain times are available."
+      }
+    ]
+  },
+  "a11y": {
+    "keyboard": [
+      {
+        "keys": "Arrow up / down",
+        "does": "Changes the focused part."
+      }
+    ],
+    "builtIn": [
+      "Required fields show \"Fill in this field.\"; a partly typed date says what is missing."
+    ],
+    "youProvide": [
+      "A visible label."
+    ]
+  },
+  "related": [
+    "time-slots",
+    "date-field"
+  ],
+  "genui": {
+    "expose": false
+  }
+}
