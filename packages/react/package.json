@@ -32,6 +32,10 @@
     "./feedback": {
       "types": "./dist/feedback/index.d.ts",
       "default": "./dist/feedback/index.js"
+    },
+    "./form": {
+      "types": "./dist/form/index.d.ts",
+      "default": "./dist/form/index.js"
     }
   },
   "files": [

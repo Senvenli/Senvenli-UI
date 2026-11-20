@@ -1,0 +1,52 @@
+{
+  "$schema": "../../manifest/component.schema.json",
+  "kind": "component",
+  "family": "form",
+  "status": "alpha",
+  "import": "@senvenli/react/form",
+  "name": "text-area",
+  "title": "Text area",
+  "exports": [
+    "TextArea"
+  ],
+  "description": "A multi-line text input that grows with its content, with an optional character count.",
+  "keywords": [
+    "textarea",
+    "multiline",
+    "comment",
+    "message",
+    "notes"
+  ],
+  "usage": {
+    "when": [
+      "Longer free text: a message, notes, a description."
+    ]
+  },
+  "a11y": {
+    "builtIn": [
+      "The character count is announced politely as it changes.",
+      "Required fields show \"Fill in this field.\" after a blur or a submit; your own `errorMessage` replaces it."
+    ],
+    "youProvide": [
+      "A visible label."
+    ]
+  },
+  "related": [
+    "text-field"
+  ],
+  "genui": {
+    "expose": true,
+    "description": "A multi-line text input for longer text. Always give a label. Emits change.",
+    "props": [
+      "label",
+      "description",
+      "placeholder",
+      "isRequired",
+      "maxLength"
+    ],
+    "children": "none",
+    "events": [
+      "change"
+    ]
+  }
+}

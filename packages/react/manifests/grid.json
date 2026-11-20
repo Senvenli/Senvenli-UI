@@ -240,7 +240,10 @@
       {
         "name": "role",
         "type": "AriaRole",
-        "required": false
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
       },
       {
         "name": "defaultChecked",
@@ -282,7 +285,10 @@
       {
         "name": "autoCapitalize",
         "type": "\"off\" | \"none\" | \"on\" | \"sentences\" | \"words\" | \"characters\" | (string & {})",
-        "required": false
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
       },
       {
         "name": "autoFocus",
@@ -2353,6 +2359,85 @@
         }
       },
       {
+        "name": "action",
+        "type": "string | ((formData: FormData) => void | Promise<void>)",
+        "required": false
+      },
+      {
+        "name": "encType",
+        "type": "string",
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "method",
+        "type": "string",
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "autoComplete",
+        "type": "string",
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "start",
+        "type": "number",
+        "required": false,
+        "schema": {
+          "type": "number"
+        }
+      },
+      {
+        "name": "maxLength",
+        "type": "number",
+        "required": false,
+        "schema": {
+          "type": "number"
+        }
+      },
+      {
+        "name": "placeholder",
+        "type": "string",
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "minLength",
+        "type": "number",
+        "required": false,
+        "schema": {
+          "type": "number"
+        }
+      },
+      {
+        "name": "pattern",
+        "type": "string",
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "min",
+        "type": "string | number",
+        "required": false
+      },
+      {
+        "name": "max",
+        "type": "string | number",
+        "required": false
+      },
+      {
         "name": "accept",
         "type": "string",
         "required": false,
@@ -2367,11 +2452,6 @@
         "schema": {
           "type": "string"
         }
-      },
-      {
-        "name": "action",
-        "type": "string | ((formData: FormData) => void | Promise<void>)",
-        "required": false
       },
       {
         "name": "allowFullScreen",
@@ -2403,14 +2483,6 @@
         "required": false,
         "schema": {
           "type": "boolean"
-        }
-      },
-      {
-        "name": "autoComplete",
-        "type": "string",
-        "required": false,
-        "schema": {
-          "type": "string"
         }
       },
       {
@@ -2562,14 +2634,6 @@
         }
       },
       {
-        "name": "encType",
-        "type": "string",
-        "required": false,
-        "schema": {
-          "type": "string"
-        }
-      },
-      {
         "name": "frameBorder",
         "type": "string | number",
         "required": false
@@ -2668,45 +2732,11 @@
         }
       },
       {
-        "name": "max",
-        "type": "string | number",
-        "required": false
-      },
-      {
-        "name": "maxLength",
-        "type": "number",
-        "required": false,
-        "schema": {
-          "type": "number"
-        }
-      },
-      {
         "name": "mediaGroup",
         "type": "string",
         "required": false,
         "schema": {
           "type": "string"
-        }
-      },
-      {
-        "name": "method",
-        "type": "string",
-        "required": false,
-        "schema": {
-          "type": "string"
-        }
-      },
-      {
-        "name": "min",
-        "type": "string | number",
-        "required": false
-      },
-      {
-        "name": "minLength",
-        "type": "number",
-        "required": false,
-        "schema": {
-          "type": "number"
         }
       },
       {
@@ -2739,22 +2769,6 @@
         "required": false,
         "schema": {
           "type": "number"
-        }
-      },
-      {
-        "name": "pattern",
-        "type": "string",
-        "required": false,
-        "schema": {
-          "type": "string"
-        }
-      },
-      {
-        "name": "placeholder",
-        "type": "string",
-        "required": false,
-        "schema": {
-          "type": "string"
         }
       },
       {
@@ -2907,14 +2921,6 @@
         "required": false,
         "schema": {
           "type": "string"
-        }
-      },
-      {
-        "name": "start",
-        "type": "number",
-        "required": false,
-        "schema": {
-          "type": "number"
         }
       },
       {

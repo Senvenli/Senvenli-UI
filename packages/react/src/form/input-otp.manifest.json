@@ -1,0 +1,40 @@
+{
+  "$schema": "../../manifest/component.schema.json",
+  "kind": "component",
+  "family": "form",
+  "status": "alpha",
+  "import": "@senvenli/react/form",
+  "name": "input-otp",
+  "title": "One-time code",
+  "exports": [
+    "InputOTP"
+  ],
+  "description": "Boxes for a one-time verification code, with paste, autofill and a resend cooldown.",
+  "keywords": [
+    "otp",
+    "code",
+    "verification",
+    "2fa",
+    "pin"
+  ],
+  "usage": {
+    "when": [
+      "Entering a code sent by text message or email."
+    ]
+  },
+  "a11y": {
+    "builtIn": [
+      "One input under the boxes, so autofill and screen readers see a single field.",
+      "The resend countdown is announced."
+    ],
+    "youProvide": [
+      "A label that says where the code was sent."
+    ]
+  },
+  "related": [
+    "text-field"
+  ],
+  "genui": {
+    "expose": false
+  }
+}

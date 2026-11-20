@@ -1,0 +1,191 @@
+{
+  "$schema": "https://design.senvenli.com/schema/component.full.json",
+  "kind": "component",
+  "family": "form",
+  "status": "alpha",
+  "import": "@senvenli/react/form",
+  "name": "field",
+  "title": "Field",
+  "exports": [
+    "Field",
+    "FieldLabel",
+    "FieldDescription",
+    "FieldError"
+  ],
+  "description": "A label, hint and error row around any control, wired for screen readers; plus the label, description and error parts.",
+  "keywords": [
+    "field",
+    "label",
+    "hint",
+    "error",
+    "wrapper"
+  ],
+  "usage": {
+    "when": [
+      "Wrapping a control the library does not provide, so it matches the other fields."
+    ],
+    "instead": [
+      {
+        "use": "text-field",
+        "when": "A text input is enough; it has the field row built in."
+      }
+    ]
+  },
+  "a11y": {
+    "builtIn": [
+      "Label, hint and error are linked to the control with htmlFor, aria-describedby and aria-invalid."
+    ],
+    "youProvide": [
+      "A control with a matching `id`, or a single child Field can give one to."
+    ]
+  },
+  "related": [
+    "text-field",
+    "form"
+  ],
+  "genui": {
+    "expose": false
+  },
+  "source": [
+    "src/form/field-parts.tsx",
+    "src/form/field.tsx"
+  ],
+  "props": {
+    "Field": [
+      {
+        "name": "label",
+        "type": "ReactNode",
+        "required": false
+      },
+      {
+        "name": "htmlFor",
+        "type": "string",
+        "required": false,
+        "description": "Control id for the label. Optional: when omitted, Field generates one and\ninjects it onto a single-element child. A composite only receives it if it\nforwards what it is handed down to its focusable element (`Select` does).",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "error",
+        "type": "ReactNode",
+        "required": false
+      },
+      {
+        "name": "hint",
+        "type": "ReactNode",
+        "required": false
+      },
+      {
+        "name": "required",
+        "type": "boolean",
+        "required": false,
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "requiredClassName",
+        "type": "string",
+        "required": false,
+        "description": "Class for the required \"*\" asterisk. Defaults to the danger text token; a brand\nmarketing form can override it without forking this component.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "children",
+        "type": "ReactNode",
+        "required": true
+      },
+      {
+        "name": "className",
+        "type": "string",
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      }
+    ],
+    "FieldLabel": [
+      {
+        "name": "children",
+        "type": "React.ReactNode",
+        "required": true
+      },
+      {
+        "name": "isRequired",
+        "type": "boolean",
+        "required": false,
+        "description": "Shows `*` in `ds-text-danger` (hidden from screen readers: the control is `aria-required`).",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "isOptional",
+        "type": "boolean",
+        "required": false,
+        "description": "Shows \"(optional)\" in the provider locale; use it when most fields of the form are required.",
+        "schema": {
+          "type": "boolean"
+        }
+      }
+    ],
+    "FieldDescription": [
+      {
+        "name": "children",
+        "type": "React.ReactNode",
+        "required": true
+      }
+    ],
+    "FieldError": [
+      {
+        "name": "children",
+        "type": "React.ReactNode",
+        "required": false
+      }
+    ]
+  },
+  "tokens": [
+    "ds-background-disabled",
+    "ds-background-input",
+    "ds-background-input-hovered",
+    "ds-background-neutral-pressed",
+    "ds-background-neutral-subtle-hovered",
+    "ds-border",
+    "ds-border-bold",
+    "ds-border-danger",
+    "ds-border-focused",
+    "ds-easing-standard",
+    "ds-icon-subtle",
+    "ds-radius-medium",
+    "ds-radius-small",
+    "ds-size-control",
+    "ds-size-control-compact",
+    "ds-size-icon",
+    "ds-space-050",
+    "ds-space-075",
+    "ds-space-100",
+    "ds-space-150",
+    "ds-surface-sunken",
+    "ds-text",
+    "ds-text-danger",
+    "ds-text-disabled",
+    "ds-text-subtle",
+    "ds-text-subtlest"
+  ],
+  "strings": [
+    "optional"
+  ],
+  "quality": {
+    "tests": true,
+    "a11y": false,
+    "docs": false,
+    "visual": false,
+    "dark": false,
+    "rtl": false,
+    "mcp": true,
+    "generic": true
+  }
+}

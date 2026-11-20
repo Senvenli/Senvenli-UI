@@ -105,9 +105,13 @@ function typeText(checker: ts.TypeChecker, t: ts.Type, sym: ts.Symbol): string {
 
 /** JSON Schema for a prop type, or null when it is not plain data (nodes, functions, objects). */
 function schemaOf(checker: ts.TypeChecker, types: ts.Type[]): JsonSchema | null {
-  const parts = types.flatMap((t) => (t.isUnion() ? t.types : [t]));
+  // `string & {}` (the "suggest these literals, accept any string" idiom) counts as a plain string.
+  const parts = types
+    .flatMap((t) => (t.isUnion() ? t.types : [t]))
+    .map((t) => (t.isIntersection() && t.types.some((x) => x.flags & ts.TypeFlags.String) ? checker.getStringType() : t));
   if (parts.length === 0) return null;
   const all = (f: ts.TypeFlags) => parts.every((t) => (t.flags & f) !== 0);
+  if (parts.some((t) => t.flags & ts.TypeFlags.String) && all(ts.TypeFlags.String | ts.TypeFlags.StringLiteral)) return { type: "string" };
   if (all(ts.TypeFlags.String)) return { type: "string" };
   if (all(ts.TypeFlags.Number)) return { type: "number" };
   if (all(ts.TypeFlags.Boolean | ts.TypeFlags.BooleanLiteral)) return { type: "boolean" };
@@ -127,7 +131,6 @@ function schemaOf(checker: ts.TypeChecker, types: ts.Type[]): JsonSchema | null 
   if (all(ts.TypeFlags.NumberLiteral)) {
     return { type: "number", enum: [...new Set(parts.map((t) => (t as ts.NumberLiteralType).value))] };
   }
-  void checker;
   return null;
 }
 
@@ -290,8 +293,11 @@ export function buildManifests(ctx: BuildContext): BuildResult {
         const [owner, propName] = ref.includes(".") ? (ref.split(".") as [string, string]) : [main, ref];
         const doc = props[owner]?.find((p) => p.name === propName);
         if (!doc) throw new Error(`${hand.name}: genui prop "${ref}" is not a prop of ${owner}`);
-        if (!doc.schema) throw new Error(`${hand.name}: genui prop "${ref}" has type ${doc.type}, which has no JSON Schema`);
-        properties[propName] = doc.description ? { ...doc.schema, description: doc.description } : doc.schema;
+        // A React node prop (label, title) takes plain text from a model: text is a valid node, and
+        // nothing else (markup, components) can be injected through it.
+        const schema = doc.schema ?? (/\bReactNode\b/.test(doc.type) ? ({ type: "string" } as JsonSchema) : undefined);
+        if (!schema) throw new Error(`${hand.name}: genui prop "${ref}" has type ${doc.type}, which has no JSON Schema`);
+        properties[propName] = doc.description ? { ...schema, description: doc.description } : schema;
         if (doc.required && owner === main) required.push(propName);
       }
       manifest.genui = {

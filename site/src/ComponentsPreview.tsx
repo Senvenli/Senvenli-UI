@@ -18,6 +18,7 @@ import {
 } from "@senvenli/react/display";
 import { Banner, EmptyState, Meter, ProgressBar, ProgressCircle, Skeleton, SkeletonCircle, SkeletonText, Spinner, StatusDot } from "@senvenli/react/feedback";
 import { Inline, Stack } from "@senvenli/react/layout";
+import { Form, FormFooter, FormRow, InputOTP, NumberField, PasswordField, SearchField, TextArea, TextField } from "@senvenli/react/form";
 import { Button, ButtonGroup, CloseButton, Link, LinkButton, ThemeToggle, ToggleButton, ToggleGroup } from "@senvenli/react/action";
 
 const PEOPLE = ["Ada Lovelace", "Grace Hopper", "Alan Turing", "Katherine Johnson", "Linus Torvalds", "Margaret Hamilton"];
@@ -249,6 +250,38 @@ export function ComponentsPreview() {
               primaryAction={<Button variant="primary" iconBefore="plus">Create invoice</Button>}
               size="compact"
             />
+          </CardBody>
+        </Card>
+
+        <Card>
+          <CardHeader title="Form" subtitle="TextField, PasswordField, NumberField, TextArea" />
+          <CardBody>
+            <Form onSubmit={(event) => event.preventDefault()}>
+              <FormRow>
+                <TextField label="First name" isRequired />
+                <TextField label="Last name" isRequired />
+              </FormRow>
+              <TextField label="Email" type="email" description="We send the receipt here." isRequired />
+              <PasswordField label="Password" autoComplete="new-password" showStrength isRequired />
+              <NumberField label="Seats" minValue={1} maxValue={50} defaultValue={5} description="1–50" />
+              <TextArea label="Notes" maxLength={200} isOptional />
+              <FormFooter>
+                <Button variant="primary" type="submit">
+                  Create account
+                </Button>
+                <Button>Cancel</Button>
+              </FormFooter>
+            </Form>
+          </CardBody>
+        </Card>
+
+        <Card>
+          <CardHeader title="Search and codes" subtitle="SearchField, InputOTP" />
+          <CardBody>
+            <Stack space="space-300">
+              <SearchField label="Search" placeholder="Name, email or order number" />
+              <InputOTP label="Verification code" length={6} description="Sent to your phone ending in 42." />
+            </Stack>
           </CardBody>
         </Card>
 

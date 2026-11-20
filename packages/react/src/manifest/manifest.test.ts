@@ -126,6 +126,26 @@ describe("generated manifests", () => {
   });
 });
 
+describe("component sources", () => {
+  it("use only ds- tokens and type styles, never the old unprefixed theme classes", () => {
+    const legacy = /\b(?:text|bg|border|ring|fill|stroke)-(?:destructive|muted-foreground|foreground|primary|secondary|accent|muted|card|popover|background)\b|\btext-(?:xs|sm|base|lg|xl)\b/;
+    const offenders: string[] = [];
+    const walk = (dir: string) => {
+      for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+        const file = path.join(dir, entry.name);
+        if (entry.isDirectory()) walk(file);
+        else if (/\.tsx?$/.test(entry.name) && !/\.test\.tsx?$/.test(entry.name)) {
+          fs.readFileSync(file, "utf8").split("\n").forEach((line, i) => {
+            if (legacy.test(line)) offenders.push(`${path.relative(PACKAGE_ROOT, file)}:${i + 1}`);
+          });
+        }
+      }
+    };
+    walk(path.join(PACKAGE_ROOT, "src"));
+    expect(offenders).toEqual([]);
+  });
+});
+
 describe("source scans", () => {
   it("normalize utility classes to token names", () => {
     expect(tokensIn(`"p-ds-200 hover:bg-ds-surface-hovered rounded-ds-large size-ds-icon shadow-ds-raised -mt-ds-050 text-ds-text/50"`)).toEqual([
