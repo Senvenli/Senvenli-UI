@@ -19,6 +19,7 @@ import {
 import { Banner, EmptyState, Meter, ProgressBar, ProgressCircle, Skeleton, SkeletonCircle, SkeletonText, Spinner, StatusDot } from "@senvenli/react/feedback";
 import { Inline, Stack } from "@senvenli/react/layout";
 import { Checkbox, ComboBox, MultiSelect, RadioCard, RadioGroup, Select, Slider, Switch, TagGroup } from "@senvenli/react/selection";
+import { CollectionPreview } from "./CollectionPreview";
 import { ColorPreview } from "./ColorPreview";
 import { DatePreview } from "./DatePreview";
 import { NavigationPreview } from "./NavigationPreview";
@@ -373,6 +374,7 @@ export function ComponentsPreview() {
         <NavigationPreview />
         <DatePreview />
         <ColorPreview />
+        <CollectionPreview />
 
         <Card variant="outline">
           <CardHeader title="Separator" subtitle="Outline card" />

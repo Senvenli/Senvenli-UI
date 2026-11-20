@@ -169,6 +169,87 @@
     "genui": false
   },
   {
+    "name": "data-table",
+    "title": "Data table",
+    "family": "collection",
+    "status": "alpha",
+    "description": "A Table with a toolbar: search, filters, a column picker, bulk actions, paging or virtualization, and its view kept in the URL.",
+    "keywords": [
+      "table",
+      "search",
+      "filter",
+      "pagination",
+      "bulk actions",
+      "admin"
+    ],
+    "import": "@senvenli/react/collection",
+    "exports": [
+      "DataTable"
+    ],
+    "genui": false
+  },
+  {
+    "name": "grid-list",
+    "title": "Grid list",
+    "family": "collection",
+    "status": "alpha",
+    "description": "Selectable tiles in a responsive grid with arrow-key navigation, tile actions and optional drag to reorder.",
+    "keywords": [
+      "grid",
+      "tiles",
+      "gallery",
+      "photos",
+      "reorder"
+    ],
+    "import": "@senvenli/react/collection",
+    "exports": [
+      "GridList"
+    ],
+    "genui": false
+  },
+  {
+    "name": "list",
+    "title": "List",
+    "family": "collection",
+    "status": "alpha",
+    "description": "Rows with a leading visual, a title, a description and trailing status or actions; optionally grouped under small headers.",
+    "keywords": [
+      "list",
+      "rows",
+      "inbox",
+      "sections",
+      "mobile"
+    ],
+    "import": "@senvenli/react/collection",
+    "exports": [
+      "List",
+      "ListItem",
+      "ListSection"
+    ],
+    "genui": false
+  },
+  {
+    "name": "table",
+    "title": "Table",
+    "family": "collection",
+    "status": "alpha",
+    "description": "Records people scan, compare, sort and act on: sortable columns, row selection by checkbox, a row that opens its record.",
+    "keywords": [
+      "table",
+      "grid",
+      "rows",
+      "columns",
+      "sort",
+      "records"
+    ],
+    "import": "@senvenli/react/collection",
+    "exports": [
+      "Table",
+      "TableCellStack"
+    ],
+    "genui": true
+  },
+  {
     "name": "color-field",
     "title": "Color field",
     "family": "color",

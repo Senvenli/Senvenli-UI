@@ -1,0 +1,257 @@
+{
+  "$schema": "https://design.senvenli.com/schema/component.full.json",
+  "kind": "component",
+  "family": "collection",
+  "status": "alpha",
+  "import": "@senvenli/react/collection",
+  "name": "list",
+  "title": "List",
+  "exports": [
+    "List",
+    "ListItem",
+    "ListSection"
+  ],
+  "description": "Rows with a leading visual, a title, a description and trailing status or actions; optionally grouped under small headers.",
+  "keywords": [
+    "list",
+    "rows",
+    "inbox",
+    "sections",
+    "mobile"
+  ],
+  "usage": {
+    "when": [
+      "Records read as one line each, and tables on narrow screens."
+    ],
+    "instead": [
+      {
+        "use": "table",
+        "when": "People compare several fields across records."
+      }
+    ]
+  },
+  "a11y": {
+    "keyboard": [
+      {
+        "keys": "Arrow up / down",
+        "does": "Move between rows."
+      },
+      {
+        "keys": "Enter",
+        "does": "Opens the focused row."
+      }
+    ],
+    "builtIn": [
+      "Sections are named for screen readers."
+    ],
+    "youProvide": [
+      "An aria-label."
+    ]
+  },
+  "related": [
+    "table",
+    "grid-list"
+  ],
+  "genui": {
+    "expose": false
+  },
+  "source": [
+    "src/collection/list.tsx"
+  ],
+  "props": {
+    "List": [
+      {
+        "name": "aria-label",
+        "type": "string",
+        "required": true,
+        "description": "Names the list (\"Today's deliveries\").",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "children",
+        "type": "React.ReactNode",
+        "required": false,
+        "description": "ListItem rows, or ListSections of them; or give `items` (or `sections`) and `renderItem`."
+      },
+      {
+        "name": "items",
+        "type": "readonly T[]",
+        "required": false,
+        "schema": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": {
+              "type": [
+                "string",
+                "number",
+                "boolean",
+                "null"
+              ]
+            }
+          }
+        }
+      },
+      {
+        "name": "sections",
+        "type": "readonly ListSectionData<T>[]",
+        "required": false,
+        "description": "Grouped rows under small headers (\"Today\", \"Tomorrow\")."
+      },
+      {
+        "name": "renderItem",
+        "type": "(item: T) => ListItemProps",
+        "required": false,
+        "description": "One row's content for `items` / `sections`."
+      },
+      {
+        "name": "selectionMode",
+        "type": "\"none\" | \"single\" | \"multiple\"",
+        "required": false,
+        "default": "\"none\"",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "none",
+            "single",
+            "multiple"
+          ]
+        }
+      },
+      {
+        "name": "selectionBehavior",
+        "type": "\"toggle\" | \"replace\"",
+        "required": false,
+        "default": "\"toggle\"",
+        "description": "How a press selects. `toggle` (default): each row has a checkbox and a press adds or\nremoves it, for picking a set to act on. `replace`: no checkboxes; a press selects that row in place of\nthe last, and with `single` the arrow keys move the selection, for a list that shows one open record\nbeside it (an inbox's conversation). The selected row keeps its marker either way. With `onAction` as\nwell, a press runs the action and selection needs the keyboard (React Aria's replace rule), so a\nreplace list usually leaves `onAction` out.",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "toggle",
+            "replace"
+          ]
+        }
+      },
+      {
+        "name": "selectedKeys",
+        "type": "\"all\" | Iterable<Key>",
+        "required": false
+      },
+      {
+        "name": "defaultSelectedKeys",
+        "type": "\"all\" | Iterable<Key>",
+        "required": false
+      },
+      {
+        "name": "onSelectionChange",
+        "type": "(keys: Selection) => void",
+        "required": false
+      },
+      {
+        "name": "onAction",
+        "type": "(key: Key) => void",
+        "required": false,
+        "description": "Opens the row's record."
+      },
+      {
+        "name": "renderEmptyState",
+        "type": "() => ReactNode",
+        "required": false,
+        "description": "Shown when there are no rows."
+      }
+    ],
+    "ListItem": [
+      {
+        "name": "id",
+        "type": "Key",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "leading",
+        "type": "React.ReactNode",
+        "required": false,
+        "description": "A visual at the start: an Avatar, an icon or a thumbnail."
+      },
+      {
+        "name": "title",
+        "type": "string",
+        "required": true,
+        "description": "The one primary line (\"Ada Lovelace\"); also the row's text for typeahead.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "description",
+        "type": "React.ReactNode",
+        "required": false,
+        "description": "The context the reader scans for: item, time, place (\"Order 1042 · 10:00 · Berlin\")."
+      },
+      {
+        "name": "trailing",
+        "type": "React.ReactNode",
+        "required": false,
+        "description": "At the end: a Lozenge for status, then a subtle icon-button menu."
+      },
+      {
+        "name": "href",
+        "type": "string",
+        "required": false,
+        "description": "Makes the row a link to the record.",
+        "schema": {
+          "type": "string"
+        }
+      }
+    ],
+    "ListSection": [
+      {
+        "name": "title",
+        "type": "string",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "children",
+        "type": "React.ReactNode",
+        "required": true
+      }
+    ]
+  },
+  "tokens": [
+    "ds-background-selected",
+    "ds-border",
+    "ds-border-focused",
+    "ds-border-selected",
+    "ds-radius-large",
+    "ds-shadow-raised",
+    "ds-space-075",
+    "ds-space-100",
+    "ds-space-150",
+    "ds-space-200",
+    "ds-space-300",
+    "ds-space-500",
+    "ds-surface-hovered",
+    "ds-surface-raised",
+    "ds-surface-sunken",
+    "ds-text",
+    "ds-text-subtle"
+  ],
+  "strings": [],
+  "quality": {
+    "tests": true,
+    "a11y": false,
+    "docs": false,
+    "visual": false,
+    "dark": false,
+    "rtl": false,
+    "mcp": true,
+    "generic": true
+  }
+}

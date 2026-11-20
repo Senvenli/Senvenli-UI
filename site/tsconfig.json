@@ -40,6 +40,9 @@
       ],
       "@senvenli/react/color": [
         "../packages/react/src/color/index.ts"
+      ],
+      "@senvenli/react/collection": [
+        "../packages/react/src/collection/index.ts"
       ]
     },
     "noUncheckedIndexedAccess": false

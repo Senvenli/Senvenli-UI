@@ -20,6 +20,7 @@ export default defineConfig({
       { find: "@senvenli/react/navigation", replacement: src("../packages/react/src/navigation/index.ts") },
       { find: "@senvenli/react/date", replacement: src("../packages/react/src/date/index.ts") },
       { find: "@senvenli/react/color", replacement: src("../packages/react/src/color/index.ts") },
+      { find: "@senvenli/react/collection", replacement: src("../packages/react/src/collection/index.ts") },
       { find: /^@senvenli\/react$/, replacement: src("../packages/react/src/index.ts") },
     ],
   },

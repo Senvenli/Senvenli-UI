@@ -1,0 +1,305 @@
+{
+  "$schema": "https://design.senvenli.com/schema/component.full.json",
+  "kind": "component",
+  "family": "collection",
+  "status": "alpha",
+  "import": "@senvenli/react/collection",
+  "name": "data-table",
+  "title": "Data table",
+  "exports": [
+    "DataTable"
+  ],
+  "description": "A Table with a toolbar: search, filters, a column picker, bulk actions, paging or virtualization, and its view kept in the URL.",
+  "keywords": [
+    "table",
+    "search",
+    "filter",
+    "pagination",
+    "bulk actions",
+    "admin"
+  ],
+  "usage": {
+    "when": [
+      "A record list people search, filter and act on in bulk: orders, customers, invoices."
+    ],
+    "instead": [
+      {
+        "use": "table",
+        "when": "A short, fixed list with no tools."
+      }
+    ]
+  },
+  "a11y": {
+    "keyboard": [
+      {
+        "keys": "Arrow keys",
+        "does": "Move between cells and rows."
+      },
+      {
+        "keys": "Tab",
+        "does": "Moves between the toolbar, the table and the pager."
+      }
+    ],
+    "builtIn": [
+      "Loading, empty, no-results and failed states have their own copy.",
+      "The selected count is announced in the bulk bar."
+    ],
+    "youProvide": [
+      "An aria-label, and labels for filters and bulk actions."
+    ]
+  },
+  "related": [
+    "table",
+    "pagination",
+    "toolbar"
+  ],
+  "genui": {
+    "expose": false
+  },
+  "source": [
+    "src/collection/data-table.tsx"
+  ],
+  "props": {
+    "DataTable": [
+      {
+        "name": "aria-label",
+        "type": "string",
+        "required": true,
+        "description": "Names the table (\"Orders\").",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "columns",
+        "type": "readonly DataTableColumn<T>[]",
+        "required": true
+      },
+      {
+        "name": "rowKey",
+        "type": "(row: T) => Key",
+        "required": false,
+        "description": "The row's stable id; `row.id` by default. Selection is kept by it across pages. Ids must be unique within\nthe list; build one from the fields that are when the data has none (`${row.date}:${row.channel}`). A\nrepeated id on a page still renders every row: the later ones are keyed `a#2`, `a#3`, … in row order, and\nselection, bulk actions and `onRowAction` receive those suffixed keys; a development warning names the\nrepeated ids. A suffixed key follows the row's position, not the row: after a sort, filter\nor page change a selection made through it can move to another copy, and an id repeated on two pages is\none key, so selecting it on one page selects it on both."
+      },
+      {
+        "name": "filters",
+        "type": "readonly DataTableFilter[]",
+        "required": false,
+        "schema": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "key": {
+                "type": "string"
+              },
+              "label": {
+                "type": "string"
+              },
+              "options": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "label": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "label"
+                  ]
+                }
+              }
+            },
+            "required": [
+              "key",
+              "label",
+              "options"
+            ]
+          }
+        }
+      },
+      {
+        "name": "bulkActions",
+        "type": "readonly DataTableBulkAction[]",
+        "required": false
+      },
+      {
+        "name": "defaultSort",
+        "type": "SortDescriptor",
+        "required": false
+      },
+      {
+        "name": "columnVisibility",
+        "type": "Readonly<Record<string, boolean>>",
+        "required": false,
+        "description": "Column key → shown; columns left out are shown. Pass with `onColumnVisibilityChange` to own it."
+      },
+      {
+        "name": "onColumnVisibilityChange",
+        "type": "(visibility: Record<string, boolean>) => void",
+        "required": false
+      },
+      {
+        "name": "onRowAction",
+        "type": "(key: Key) => void",
+        "required": false,
+        "description": "Opens the record (row press while nothing is selected)."
+      },
+      {
+        "name": "pageSize",
+        "type": "number",
+        "required": false,
+        "description": "20 by default.",
+        "schema": {
+          "type": "number"
+        }
+      },
+      {
+        "name": "formatRange",
+        "type": "(from: number, to: number, total: number) => string",
+        "required": false,
+        "description": "The range sentence: (41, 60, 1204) → \"41–60 of 1,204\"."
+      },
+      {
+        "name": "emptyState",
+        "type": "{ title: string; description?: string | undefined; action?: ReactNode; }",
+        "required": false,
+        "description": "What an empty list says and the action that fills it (with no search or filter active)."
+      },
+      {
+        "name": "urlKey",
+        "type": "string",
+        "required": false,
+        "description": "Prefixes the URL params (`orders.page`) when two tables share a page.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "searchParams",
+        "type": "string | URLSearchParams",
+        "required": false,
+        "description": "The URL's search params. Pass them when the page renders on the server (SSR): without them the server\nreads no params while the browser reads `window.location.search`, and a URL with params hydrates with a\nmismatch. A host router can also pass its current params here; the view follows when they change."
+      },
+      {
+        "name": "routerOptions",
+        "type": "{}",
+        "required": false,
+        "description": "Passed to the provider's `navigate` with each view change (a host router's replace or scroll option)."
+      },
+      {
+        "name": "density",
+        "type": "\"default\" | \"compact\"",
+        "required": false,
+        "description": "`compact` (36px rows) by default: DataTable is the dense working list of a back office.",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "default",
+            "compact"
+          ]
+        }
+      },
+      {
+        "name": "query",
+        "type": "(view: DataTableQuery, signal: AbortSignal) => Promise<DataTableResult<T>>",
+        "required": false,
+        "description": "A server list: fetches one page for the view; aborted when the view changes again. It is read when\nthe view changes, not when the function does: for a list that depends on something else (a parent\ntab), give the DataTable a `key` from it so it starts afresh."
+      },
+      {
+        "name": "rows",
+        "type": "readonly T[]",
+        "required": false,
+        "description": "A client list: searched, filtered and sorted here; paged, or virtualized when long.",
+        "schema": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": {
+              "type": [
+                "string",
+                "number",
+                "boolean",
+                "null"
+              ]
+            }
+          }
+        }
+      },
+      {
+        "name": "virtualizeAbove",
+        "type": "number",
+        "required": false,
+        "description": "Client lists longer than this render only the rows in view instead of pages. 200 by default.",
+        "schema": {
+          "type": "number"
+        }
+      },
+      {
+        "name": "height",
+        "type": "number",
+        "required": false,
+        "description": "The virtualized list's height in px. 480 by default.",
+        "schema": {
+          "type": "number"
+        }
+      }
+    ]
+  },
+  "tokens": [
+    "ds-background-selected",
+    "ds-border",
+    "ds-border-focused",
+    "ds-border-selected",
+    "ds-radius-large",
+    "ds-radius-medium",
+    "ds-shadow-overflow",
+    "ds-shadow-overlay",
+    "ds-shadow-raised",
+    "ds-size-row",
+    "ds-size-row-compact",
+    "ds-space-050",
+    "ds-space-150",
+    "ds-space-200",
+    "ds-space-300",
+    "ds-space-400",
+    "ds-space-500",
+    "ds-surface-hovered",
+    "ds-surface-overlay",
+    "ds-surface-raised",
+    "ds-surface-sunken",
+    "ds-text",
+    "ds-text-subtle",
+    "ds-text-subtlest",
+    "font-ds-mono"
+  ],
+  "strings": [
+    "selection",
+    "tableClearFilters",
+    "tableColumns",
+    "tableEmpty",
+    "tableLoadFailed",
+    "tableLoadFailedHint",
+    "tableNoResults",
+    "tableSearch",
+    "tableSelected",
+    "tableTools"
+  ],
+  "quality": {
+    "tests": true,
+    "a11y": false,
+    "docs": false,
+    "visual": false,
+    "dark": false,
+    "rtl": false,
+    "mcp": true,
+    "generic": true
+  }
+}

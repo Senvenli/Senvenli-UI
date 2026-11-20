@@ -2375,6 +2375,14 @@
         }
       },
       {
+        "name": "start",
+        "type": "number",
+        "required": false,
+        "schema": {
+          "type": "number"
+        }
+      },
+      {
         "name": "high",
         "type": "number",
         "required": false,
@@ -2417,14 +2425,6 @@
         "required": false,
         "schema": {
           "type": "string"
-        }
-      },
-      {
-        "name": "start",
-        "type": "number",
-        "required": false,
-        "schema": {
-          "type": "number"
         }
       },
       {
