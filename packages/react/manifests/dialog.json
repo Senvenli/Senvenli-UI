@@ -1,0 +1,294 @@
+{
+  "$schema": "https://design.senvenli.com/schema/component.full.json",
+  "kind": "component",
+  "family": "overlay",
+  "status": "alpha",
+  "import": "@senvenli/react/overlay",
+  "genui": {
+    "expose": false
+  },
+  "name": "dialog",
+  "title": "Dialog",
+  "exports": [
+    "Dialog",
+    "DialogTrigger"
+  ],
+  "description": "A modal window for a focused task, with a title, body and footer actions, in small to full-screen sizes.",
+  "keywords": [
+    "dialog",
+    "modal",
+    "window",
+    "popup",
+    "form"
+  ],
+  "usage": {
+    "when": [
+      "A short task that needs focus without leaving the page: edit, create, confirm details."
+    ],
+    "instead": [
+      {
+        "use": "drawer",
+        "when": "The task needs a side panel next to the page."
+      },
+      {
+        "use": "alert-dialog",
+        "when": "The user must confirm or cancel one action."
+      }
+    ]
+  },
+  "guidance": [
+    {
+      "rule": "One primary action; the secondary action closes."
+    },
+    {
+      "rule": "Use fullscreen for long tasks like a signup, xlarge for two- or three-column forms."
+    }
+  ],
+  "a11y": {
+    "keyboard": [
+      {
+        "keys": "Esc",
+        "does": "Closes the dialog."
+      },
+      {
+        "keys": "Tab",
+        "does": "Moves focus inside the dialog only."
+      }
+    ],
+    "builtIn": [
+      "Focus moves to the first field and returns to the opener on close.",
+      "Named by its title, described by its description."
+    ],
+    "youProvide": [
+      "A title that says what the task is."
+    ]
+  },
+  "related": [
+    "alert-dialog",
+    "drawer",
+    "popover"
+  ],
+  "source": [
+    "src/overlay/overlay.tsx"
+  ],
+  "props": {
+    "Dialog": [
+      {
+        "name": "isOpen",
+        "type": "boolean",
+        "required": false,
+        "description": "Open without a DialogTrigger (a URL, a row click). Inside a DialogTrigger, put `onOpenChange` on the\ntrigger instead: the trigger owns the state there.",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "defaultOpen",
+        "type": "boolean",
+        "required": false,
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "onOpenChange",
+        "type": "(isOpen: boolean) => void",
+        "required": false
+      },
+      {
+        "name": "title",
+        "type": "React.ReactNode",
+        "required": true
+      },
+      {
+        "name": "description",
+        "type": "React.ReactNode",
+        "required": false,
+        "description": "One short line under the title: what the dialog is about. When given, the dialog is\ndescribed by it (`aria-describedby`); without it (or with `\"\"`, `false`, `null`) nothing is rendered."
+      },
+      {
+        "name": "children",
+        "type": "React.ReactNode",
+        "required": true
+      },
+      {
+        "name": "primaryAction",
+        "type": "DialogAction",
+        "required": false
+      },
+      {
+        "name": "secondaryAction",
+        "type": "DialogSecondaryAction",
+        "required": false,
+        "description": "\"Cancel\" by default, closing the dialog; pass a label or a handler to change it. `isDisabled`\nblocks it, e.g. while the primary action runs; `iconBefore` / `iconAfter` add a\ndecorative icon. `null` leaves it out: a\nfull-screen dialog whose steps carry their own buttons, or a locked completion view, has no secondary action,\nand with no `primaryAction` either it has no footer at all (the body then takes the bottom padding, and on\n`fullscreen` reaches down to the home indicator). With `null` and a `danger` primary there is no safe button\nto focus first, so focus goes to the body's first field (as for any other dialog), or to the dialog itself\nwhen the body has none. `data-*` keys reach the button."
+      },
+      {
+        "name": "isCloseButtonHidden",
+        "type": "boolean",
+        "required": false,
+        "description": "Leaves out the close button in the header, and does nothing else: Esc and a press outside\nstill follow `isDismissable`. A locked view the user must not dismiss before the flow ends, such as a\ncompletion step, sets both: `isCloseButtonHidden` and `isDismissable={false}`. It then closes only when the\napp closes it (`isOpen`/`onOpenChange`, or an action whose handler does) or through the secondary action, when\nthere is one; a locked dialog inside a DialogTrigger has no close handle, so control it with `isOpen`. Focus\nstays trapped inside and the title still names the dialog. Give it a way on (a `primaryAction` or a control\nin the body): with the close button hidden and nothing a keyboard can reach inside, the dialog warns in\ndevelopment (with `isDismissable` Esc still closes it, but a touch user on `fullscreen` has no press outside).",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "initialFocusRef",
+        "type": "RefObject<HTMLElement | null>",
+        "required": false,
+        "description": "The element that takes focus when the dialog opens, in place of the DS rule (the first field,\nor the secondary action before a `danger` primary). Pass a ref to an element inside the dialog. Left\nout, or empty when the dialog opens, the rule applies as before.\n\nThe ref keeps focus only if, once the dialog calls its `focus()`, focus is on that element or inside it;\notherwise the rule applies after all. So a ref to an element that cannot take focus (a container without a\n`tabIndex`, a hidden title) falls through to the rule, and so does a ref whose own focus handler moves focus\nto an element outside it: the rule then moves focus again, to the safe action or the first field (with\nneither, focus stays where the handler put it). A handler that moves focus to an element inside the ref keeps\nit there. To open on a container, give it `tabIndex={-1}`; to open on another element, pass that element's ref."
+      },
+      {
+        "name": "returnFocusRef",
+        "type": "RefObject<HTMLElement | null>",
+        "required": false,
+        "description": "Where focus goes when the dialog closes, in place of the element that opened it (the\ntrigger): the next step's heading, or a control that stays when the trigger is gone. Read when the dialog\ncloses, so it may point at an element mounted by then. If the app has already moved focus elsewhere on\nclose, it stays there; if the ref is empty, focus returns to the trigger as before."
+      },
+      {
+        "name": "titleRef",
+        "type": "React.Ref<HTMLHeadingElement>",
+        "required": false,
+        "description": "A ref to the title's heading, for an app that puts focus on the title: on open (a completion view,\n\"Password saved\"), or when the dialog's content moves to its next step. Given, the heading takes\n`tabIndex={-1}`: focusable from code (`titleRef.current.focus()`), never a Tab stop, and a pointer press on it\nfocuses it. It stays the dialog's heading (`role` heading, level 2) and its name (`aria-labelledby`), so a screen\nreader reads \"heading\" with the title when focus lands on it.\n\nTo open on the title, pass the same ref as `initialFocusRef` (`initialFocusRef={titleRef}`): that ref comes first\non open, before the first field and the safe secondary action, as for any other element. The title shows the DS\nfocus ring only for keyboard focus (`:focus-visible`), never for a pointer user's; focus on close returns as\nbefore (`returnFocusRef`, or the trigger). Left out, the heading renders exactly as before.\n\nA hidden title (`isTitleHidden`, fullscreen) is never a focus target: it is `sr-only`, so focus on it would show\nno indicator. With `isTitleHidden` the ref still holds the heading, but it takes no `tabIndex` and no focus ring,\nso `titleRef.current.focus()` does nothing and `initialFocusRef={titleRef}` falls through to the dialog's own\nrule (the first field, or the safe secondary action). To land on something there, aim at a visible element\ninstead: the first field (the default), or a visible heading or control in the body via `initialFocusRef`."
+      },
+      {
+        "name": "partData",
+        "type": "Partial<Record<\"header\" | \"title\" | \"body\" | \"footer\" | \"close\", DataAttributes>>",
+        "required": false,
+        "description": "`data-*` attributes for the dialog's parts: `header`, `title`, `body`, `footer` and the\n`close` button. The dialog itself (`role=\"dialog\"`, `data-slot=\"dialog\"`) takes the `data-*` props given to\nDialog (`data-testid=\"set-password\"`); the actions take theirs on `primaryAction` / `secondaryAction`. The\nfooter's `data-layout` (`spread`) is the DS's own, like `data-slot`: `partData.footer` cannot set it."
+      },
+      {
+        "name": "size",
+        "type": "\"fullscreen\" | \"xlarge\" | OverlaySize",
+        "required": false,
+        "default": "\"small\"",
+        "description": "`small` (default, 440px), `medium` (600px) or `large` (800px); `xlarge` (1152px) for a form in two\nor three columns over the page it edits, such as an order edit; or `fullscreen` for a long\ntask that needs the whole screen, such as a signup: it fills the viewport at every width, slides up as a sheet\non phones (below 640px) and fades in above. The header (title, close) and the footer (actions) stay put, clear\nof the notch and the home indicator, while the body scrolls between them. Below its width every size but\n`fullscreen` takes the viewport less 24px a side, and its body scrolls inside 100dvh less 48px. Focus, Esc and\nnaming are the same at every size.",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "fullscreen",
+            "large",
+            "small",
+            "medium",
+            "xlarge"
+          ]
+        }
+      },
+      {
+        "name": "isDismissable",
+        "type": "boolean",
+        "required": false,
+        "default": "true",
+        "description": "Scrim click and Esc close it (default). Off for destructive flows with typed input. A `fullscreen`\ndialog has no scrim, so a press outside it (a toast or banner layered above) never closes it; there\nthis prop controls Esc only. It is independent of `isCloseButtonHidden`: a locked view sets\nboth, `isCloseButtonHidden` and `isDismissable={false}`; a locked dialog inside a DialogTrigger has no close\nhandle, so control it with `isOpen`.",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "footerLayout",
+        "type": "\"end\" | \"spread\"",
+        "required": false,
+        "description": "`fullscreen` only. How the footer places its actions: `end` (default) groups them at the\ninline end; `spread` puts the secondary action at the inline start and the primary at the inline end\n(\"Back\" … \"Continue\"), mirrored in RTL. A lone primary action stays at the end; a lone secondary action\n(no `primaryAction`) sits at the inline start.",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "end",
+            "spread"
+          ]
+        }
+      },
+      {
+        "name": "headerStart",
+        "type": "React.ReactNode",
+        "required": false,
+        "description": "`fullscreen` only. Shown before the title in the header, such as the product's logo. The\ntitle then keeps to one line and truncates with an ellipsis (its full text is still the dialog's name);\nthe close button keeps its place at the inline end."
+      },
+      {
+        "name": "isTitleHidden",
+        "type": "boolean",
+        "required": false,
+        "description": "`fullscreen` only. Hides the title visually, for a frame whose header shows a logo instead;\nthe title stays in the DOM and still names the dialog (`aria-labelledby`), so `title` is still required.\nA description, when given, stays visible. An empty title (`\"\"`, blank, `null`, `false`) would leave the dialog\nunnamed, and warns in development.",
+        "schema": {
+          "type": "boolean"
+        }
+      }
+    ],
+    "DialogTrigger": [
+      {
+        "name": "children",
+        "type": "ReactNode",
+        "required": true
+      },
+      {
+        "name": "isOpen",
+        "type": "boolean",
+        "required": false,
+        "description": "Whether the overlay is open by default (controlled).",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "defaultOpen",
+        "type": "boolean",
+        "required": false,
+        "description": "Whether the overlay is open by default (uncontrolled).",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "onOpenChange",
+        "type": "(isOpen: boolean) => void",
+        "required": false,
+        "description": "Handler that is called when the overlay's open state changes."
+      }
+    ]
+  },
+  "tokens": [
+    "ds-background-danger",
+    "ds-background-neutral",
+    "ds-background-warning",
+    "ds-blanket",
+    "ds-border",
+    "ds-border-bold",
+    "ds-border-focused",
+    "ds-easing-enter",
+    "ds-easing-exit",
+    "ds-icon",
+    "ds-icon-danger",
+    "ds-icon-warning",
+    "ds-radius-full",
+    "ds-radius-small",
+    "ds-radius-xlarge",
+    "ds-shadow-overlay",
+    "ds-size-control",
+    "ds-space-025",
+    "ds-space-050",
+    "ds-space-075",
+    "ds-space-100",
+    "ds-space-150",
+    "ds-space-200",
+    "ds-space-300",
+    "ds-surface-overlay",
+    "ds-text",
+    "ds-text-subtle"
+  ],
+  "strings": [
+    "collapseSheet",
+    "discardClose",
+    "expandSheet",
+    "keepEditing",
+    "typeToConfirm",
+    "unsavedBody",
+    "unsavedTitle"
+  ],
+  "quality": {
+    "tests": true,
+    "a11y": false,
+    "docs": false,
+    "visual": false,
+    "dark": false,
+    "rtl": false,
+    "mcp": true,
+    "generic": true
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "$schema": "../../manifest/component.schema.json",
+  "kind": "component",
+  "family": "overlay",
+  "status": "alpha",
+  "import": "@senvenli/react/overlay",
+  "genui": {
+    "expose": false
+  },
+  "name": "alert-dialog",
+  "title": "Alert dialog",
+  "exports": [
+    "AlertDialog"
+  ],
+  "description": "Asks people to confirm or cancel one consequential action, optionally by typing a confirmation.",
+  "keywords": [
+    "confirm",
+    "alert",
+    "delete",
+    "warning",
+    "destructive"
+  ],
+  "usage": {
+    "when": [
+      "Before a destructive or risky action: delete, revoke, discard."
+    ]
+  },
+  "guidance": [
+    {
+      "rule": "Title is the question, body is the consequence, the confirm button repeats the verb."
+    }
+  ],
+  "a11y": {
+    "keyboard": [
+      {
+        "keys": "Esc",
+        "does": "Cancels."
+      }
+    ],
+    "builtIn": [
+      "Role alertdialog; \"Cancel\" takes the first focus so Enter never destroys by accident."
+    ],
+    "youProvide": [
+      "A question title and the consequence."
+    ]
+  },
+  "related": [
+    "dialog"
+  ]
+}

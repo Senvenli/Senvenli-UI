@@ -1,0 +1,194 @@
+{
+  "$schema": "https://design.senvenli.com/schema/component.full.json",
+  "kind": "component",
+  "family": "overlay",
+  "status": "alpha",
+  "import": "@senvenli/react/overlay",
+  "genui": {
+    "expose": false
+  },
+  "name": "drawer",
+  "title": "Drawer",
+  "exports": [
+    "Drawer"
+  ],
+  "description": "A panel that slides in from the side, or a bottom sheet on phones, for detail and edit views beside the page.",
+  "keywords": [
+    "drawer",
+    "sheet",
+    "side panel",
+    "bottom sheet"
+  ],
+  "usage": {
+    "when": [
+      "Viewing or editing a record while keeping the list in view."
+    ],
+    "instead": [
+      {
+        "use": "dialog",
+        "when": "The task needs full attention."
+      }
+    ]
+  },
+  "a11y": {
+    "keyboard": [
+      {
+        "keys": "Esc",
+        "does": "Closes, asking first when there are unsaved changes."
+      }
+    ],
+    "builtIn": [
+      "Unsaved changes ask before closing in a real nested modal.",
+      "The bottom sheet has a grip to expand or close."
+    ],
+    "youProvide": [
+      "A title."
+    ]
+  },
+  "related": [
+    "dialog"
+  ],
+  "source": [
+    "src/overlay/overlay.tsx"
+  ],
+  "props": {
+    "Drawer": [
+      {
+        "name": "isOpen",
+        "type": "boolean",
+        "required": false,
+        "description": "Open without a DialogTrigger (a URL, a row click). Inside a DialogTrigger, put `onOpenChange` on the\ntrigger instead: the trigger owns the state there.",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "defaultOpen",
+        "type": "boolean",
+        "required": false,
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "onOpenChange",
+        "type": "(isOpen: boolean) => void",
+        "required": false
+      },
+      {
+        "name": "title",
+        "type": "React.ReactNode",
+        "required": true
+      },
+      {
+        "name": "subtitle",
+        "type": "React.ReactNode",
+        "required": false,
+        "description": "Under the title: \"Ana Petrović · 14–18 Eki\". When given, the drawer is described by it\n(`aria-describedby`); without it (or with `\"\"`, `false`, `null`) nothing is rendered."
+      },
+      {
+        "name": "headerActions",
+        "type": "React.ReactNode",
+        "required": false,
+        "description": "Beside the close button: a status lozenge, a menu."
+      },
+      {
+        "name": "children",
+        "type": "React.ReactNode",
+        "required": true
+      },
+      {
+        "name": "footer",
+        "type": "React.ReactNode",
+        "required": false,
+        "description": "Sticky at the bottom: the record's actions."
+      },
+      {
+        "name": "size",
+        "type": "OverlaySize",
+        "required": false,
+        "default": "\"small\"",
+        "description": "small 380px, large 560px (medium reads as large).",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "large",
+            "small",
+            "medium"
+          ]
+        }
+      },
+      {
+        "name": "placement",
+        "type": "\"end\" | \"bottom\"",
+        "required": false,
+        "default": "\"end\"",
+        "description": "`end` (the side; a bottom sheet on phones) or `bottom` everywhere.",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "end",
+            "bottom"
+          ]
+        }
+      },
+      {
+        "name": "hasUnsavedChanges",
+        "type": "boolean",
+        "required": false,
+        "description": "Closing (button, Esc, scrim, useDrawerClose) asks first: \"Unsaved changes\".",
+        "schema": {
+          "type": "boolean"
+        }
+      }
+    ]
+  },
+  "tokens": [
+    "ds-background-danger",
+    "ds-background-neutral",
+    "ds-background-warning",
+    "ds-blanket",
+    "ds-border",
+    "ds-border-bold",
+    "ds-border-focused",
+    "ds-easing-enter",
+    "ds-easing-exit",
+    "ds-icon",
+    "ds-icon-danger",
+    "ds-icon-warning",
+    "ds-radius-full",
+    "ds-radius-small",
+    "ds-radius-xlarge",
+    "ds-shadow-overlay",
+    "ds-size-control",
+    "ds-space-025",
+    "ds-space-050",
+    "ds-space-075",
+    "ds-space-100",
+    "ds-space-150",
+    "ds-space-200",
+    "ds-space-300",
+    "ds-surface-overlay",
+    "ds-text",
+    "ds-text-subtle"
+  ],
+  "strings": [
+    "collapseSheet",
+    "discardClose",
+    "expandSheet",
+    "keepEditing",
+    "typeToConfirm",
+    "unsavedBody",
+    "unsavedTitle"
+  ],
+  "quality": {
+    "tests": true,
+    "a11y": false,
+    "docs": false,
+    "visual": false,
+    "dark": false,
+    "rtl": false,
+    "mcp": true,
+    "generic": true
+  }
+}

@@ -798,6 +798,155 @@
     "genui": true
   },
   {
+    "name": "alert-dialog",
+    "title": "Alert dialog",
+    "family": "overlay",
+    "status": "alpha",
+    "description": "Asks people to confirm or cancel one consequential action, optionally by typing a confirmation.",
+    "keywords": [
+      "confirm",
+      "alert",
+      "delete",
+      "warning",
+      "destructive"
+    ],
+    "import": "@senvenli/react/overlay",
+    "exports": [
+      "AlertDialog"
+    ],
+    "genui": false
+  },
+  {
+    "name": "command-palette",
+    "title": "Command palette",
+    "family": "overlay",
+    "status": "alpha",
+    "description": "A ⌘K search over actions and records, with recent items, groups and server results.",
+    "keywords": [
+      "command palette",
+      "cmd k",
+      "search",
+      "quick actions",
+      "launcher"
+    ],
+    "import": "@senvenli/react/overlay",
+    "exports": [
+      "CommandPalette"
+    ],
+    "genui": false
+  },
+  {
+    "name": "dialog",
+    "title": "Dialog",
+    "family": "overlay",
+    "status": "alpha",
+    "description": "A modal window for a focused task, with a title, body and footer actions, in small to full-screen sizes.",
+    "keywords": [
+      "dialog",
+      "modal",
+      "window",
+      "popup",
+      "form"
+    ],
+    "import": "@senvenli/react/overlay",
+    "exports": [
+      "Dialog",
+      "DialogTrigger"
+    ],
+    "genui": false
+  },
+  {
+    "name": "drawer",
+    "title": "Drawer",
+    "family": "overlay",
+    "status": "alpha",
+    "description": "A panel that slides in from the side, or a bottom sheet on phones, for detail and edit views beside the page.",
+    "keywords": [
+      "drawer",
+      "sheet",
+      "side panel",
+      "bottom sheet"
+    ],
+    "import": "@senvenli/react/overlay",
+    "exports": [
+      "Drawer"
+    ],
+    "genui": false
+  },
+  {
+    "name": "menu",
+    "title": "Menu",
+    "family": "overlay",
+    "status": "alpha",
+    "description": "A list of actions under a button, with sections, icons, shortcuts and disabled items that say why.",
+    "keywords": [
+      "menu",
+      "actions",
+      "dropdown",
+      "more",
+      "kebab"
+    ],
+    "import": "@senvenli/react/overlay",
+    "exports": [
+      "Menu"
+    ],
+    "genui": false
+  },
+  {
+    "name": "popover",
+    "title": "Popover",
+    "family": "overlay",
+    "status": "alpha",
+    "description": "Non-modal content anchored to a trigger: extra detail, a small form, a picker.",
+    "keywords": [
+      "popover",
+      "popup",
+      "flyout",
+      "dropdown"
+    ],
+    "import": "@senvenli/react/overlay",
+    "exports": [
+      "Popover"
+    ],
+    "genui": false
+  },
+  {
+    "name": "toast",
+    "title": "Toast",
+    "family": "overlay",
+    "status": "alpha",
+    "description": "Brief messages about what just happened, with one optional action; call toast() anywhere under the provider.",
+    "keywords": [
+      "toast",
+      "snackbar",
+      "notification",
+      "message"
+    ],
+    "import": "@senvenli/react/overlay",
+    "exports": [
+      "Toaster"
+    ],
+    "genui": false
+  },
+  {
+    "name": "tooltip",
+    "title": "Tooltip",
+    "family": "overlay",
+    "status": "alpha",
+    "description": "A short hint for a control on hover and keyboard focus, and on tap for touch users when needed.",
+    "keywords": [
+      "tooltip",
+      "hint",
+      "help",
+      "hover"
+    ],
+    "import": "@senvenli/react/overlay",
+    "exports": [
+      "Tooltip"
+    ],
+    "genui": false
+  },
+  {
     "name": "autocomplete",
     "title": "Autocomplete",
     "family": "selection",

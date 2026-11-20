@@ -1,0 +1,44 @@
+{
+  "$schema": "../../manifest/component.schema.json",
+  "kind": "component",
+  "family": "overlay",
+  "status": "alpha",
+  "import": "@senvenli/react/overlay",
+  "genui": {
+    "expose": false
+  },
+  "name": "tooltip",
+  "title": "Tooltip",
+  "exports": [
+    "Tooltip"
+  ],
+  "description": "A short hint for a control on hover and keyboard focus, and on tap for touch users when needed.",
+  "keywords": [
+    "tooltip",
+    "hint",
+    "help",
+    "hover"
+  ],
+  "usage": {
+    "when": [
+      "Naming an icon button or adding a short hint."
+    ],
+    "instead": [
+      {
+        "use": "popover",
+        "when": "The content is interactive or long."
+      }
+    ]
+  },
+  "a11y": {
+    "builtIn": [
+      "Opens on keyboard focus too; touch users can tap with openOnTouch."
+    ],
+    "youProvide": [
+      "Content that is a hint, never the only place important information lives."
+    ]
+  },
+  "related": [
+    "popover"
+  ]
+}

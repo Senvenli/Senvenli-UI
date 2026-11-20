@@ -1,0 +1,50 @@
+{
+  "$schema": "../../manifest/component.schema.json",
+  "kind": "component",
+  "family": "overlay",
+  "status": "alpha",
+  "import": "@senvenli/react/overlay",
+  "genui": {
+    "expose": false
+  },
+  "name": "command-palette",
+  "title": "Command palette",
+  "exports": [
+    "CommandPalette"
+  ],
+  "description": "A ⌘K search over actions and records, with recent items, groups and server results.",
+  "keywords": [
+    "command palette",
+    "cmd k",
+    "search",
+    "quick actions",
+    "launcher"
+  ],
+  "usage": {
+    "when": [
+      "An app with many pages and actions people want to reach by typing."
+    ]
+  },
+  "a11y": {
+    "keyboard": [
+      {
+        "keys": "Ctrl K / ⌘K",
+        "does": "Opens and closes it when bound."
+      },
+      {
+        "keys": "Arrow keys, Enter",
+        "does": "Moves and runs the focused item."
+      }
+    ],
+    "builtIn": [
+      "Matching ignores case and accents.",
+      "Announces \"No results\"."
+    ],
+    "youProvide": [
+      "Group names and item labels."
+    ]
+  },
+  "related": [
+    "combobox"
+  ]
+}

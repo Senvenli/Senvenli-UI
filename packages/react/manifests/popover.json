@@ -1,0 +1,195 @@
+{
+  "$schema": "https://design.senvenli.com/schema/component.full.json",
+  "kind": "component",
+  "family": "overlay",
+  "status": "alpha",
+  "import": "@senvenli/react/overlay",
+  "genui": {
+    "expose": false
+  },
+  "name": "popover",
+  "title": "Popover",
+  "exports": [
+    "Popover"
+  ],
+  "description": "Non-modal content anchored to a trigger: extra detail, a small form, a picker.",
+  "keywords": [
+    "popover",
+    "popup",
+    "flyout",
+    "dropdown"
+  ],
+  "usage": {
+    "when": [
+      "Showing a little interactive content next to what opened it."
+    ],
+    "instead": [
+      {
+        "use": "tooltip",
+        "when": "It is only a short hint."
+      }
+    ]
+  },
+  "a11y": {
+    "keyboard": [
+      {
+        "keys": "Esc",
+        "does": "Closes and returns focus to the trigger."
+      }
+    ],
+    "builtIn": [
+      "Positioned to stay on screen, also in RTL."
+    ],
+    "youProvide": [
+      "A trigger with a clear name."
+    ]
+  },
+  "related": [
+    "tooltip",
+    "menu"
+  ],
+  "source": [
+    "src/overlay/floating.tsx"
+  ],
+  "props": {
+    "Popover": [
+      {
+        "name": "trigger",
+        "type": "ReactElement<unknown, string | JSXElementConstructor<any>>",
+        "required": true,
+        "description": "The pressable that opens it (a DS Button: \"Filtre\")."
+      },
+      {
+        "name": "children",
+        "type": "React.ReactNode",
+        "required": true
+      },
+      {
+        "name": "placement",
+        "type": "Placement",
+        "required": false,
+        "default": "\"bottom start\"",
+        "description": "\"bottom start\" by default; React Aria flips it when there is no room.",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "start",
+            "end",
+            "bottom",
+            "left",
+            "right",
+            "top",
+            "bottom left",
+            "bottom right",
+            "bottom start",
+            "bottom end",
+            "top left",
+            "top right",
+            "top start",
+            "top end",
+            "left top",
+            "left bottom",
+            "start top",
+            "start bottom",
+            "right top",
+            "right bottom",
+            "end top",
+            "end bottom"
+          ]
+        }
+      },
+      {
+        "name": "isOpen",
+        "type": "boolean",
+        "required": false,
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "defaultOpen",
+        "type": "boolean",
+        "required": false,
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "onOpenChange",
+        "type": "(isOpen: boolean) => void",
+        "required": false
+      },
+      {
+        "name": "title",
+        "type": "React.ReactNode",
+        "required": false,
+        "description": "A heading that also names the panel (\"Filtrele\"); without it, give `aria-label`."
+      },
+      {
+        "name": "aria-label",
+        "type": "string",
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      }
+    ]
+  },
+  "tokens": [
+    "ds-background-danger",
+    "ds-background-neutral",
+    "ds-background-neutral-bold",
+    "ds-background-neutral-pressed",
+    "ds-background-neutral-subtle-hovered",
+    "ds-background-warning",
+    "ds-blanket",
+    "ds-border",
+    "ds-border-bold",
+    "ds-border-focused",
+    "ds-easing-enter",
+    "ds-easing-exit",
+    "ds-icon",
+    "ds-icon-danger",
+    "ds-icon-subtle",
+    "ds-icon-warning",
+    "ds-radius-full",
+    "ds-radius-small",
+    "ds-radius-xlarge",
+    "ds-shadow-overlay",
+    "ds-size-control",
+    "ds-space-025",
+    "ds-space-050",
+    "ds-space-075",
+    "ds-space-100",
+    "ds-space-150",
+    "ds-space-200",
+    "ds-space-300",
+    "ds-surface-overlay",
+    "ds-text",
+    "ds-text-danger",
+    "ds-text-disabled",
+    "ds-text-inverse",
+    "ds-text-subtle",
+    "ds-text-subtlest",
+    "font-ds-mono"
+  ],
+  "strings": [
+    "collapseSheet",
+    "discardClose",
+    "expandSheet",
+    "keepEditing",
+    "typeToConfirm",
+    "unsavedBody",
+    "unsavedTitle"
+  ],
+  "quality": {
+    "tests": true,
+    "a11y": false,
+    "docs": false,
+    "visual": false,
+    "dark": false,
+    "rtl": false,
+    "mcp": true,
+    "generic": true
+  }
+}

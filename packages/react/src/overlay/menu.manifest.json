@@ -1,0 +1,59 @@
+{
+  "$schema": "../../manifest/component.schema.json",
+  "kind": "component",
+  "family": "overlay",
+  "status": "alpha",
+  "import": "@senvenli/react/overlay",
+  "genui": {
+    "expose": false
+  },
+  "name": "menu",
+  "title": "Menu",
+  "exports": [
+    "Menu"
+  ],
+  "description": "A list of actions under a button, with sections, icons, shortcuts and disabled items that say why.",
+  "keywords": [
+    "menu",
+    "actions",
+    "dropdown",
+    "more",
+    "kebab"
+  ],
+  "usage": {
+    "when": [
+      "Several actions for one object that don't all fit as buttons."
+    ]
+  },
+  "guidance": [
+    {
+      "rule": "Items are verbs; a disabled item says why."
+    }
+  ],
+  "a11y": {
+    "keyboard": [
+      {
+        "keys": "Arrow keys",
+        "does": "Moves between items."
+      },
+      {
+        "keys": "Typing",
+        "does": "Jumps to an item."
+      },
+      {
+        "keys": "Home, End",
+        "does": "Goes to the first or last item."
+      }
+    ],
+    "builtIn": [
+      "Announced as a menu button and menu."
+    ],
+    "youProvide": [
+      "A name for an icon-only menu button."
+    ]
+  },
+  "related": [
+    "popover",
+    "button"
+  ]
+}

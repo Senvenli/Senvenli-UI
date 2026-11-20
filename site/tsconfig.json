@@ -28,6 +28,9 @@
       ],
       "@senvenli/react/selection": [
         "../packages/react/src/selection/index.ts"
+      ],
+      "@senvenli/react/overlay": [
+        "../packages/react/src/overlay/index.ts"
       ]
     },
     "noUncheckedIndexedAccess": false
