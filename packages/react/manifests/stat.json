@@ -1,0 +1,178 @@
+{
+  "$schema": "https://design.senvenli.com/schema/component.full.json",
+  "kind": "component",
+  "family": "display",
+  "status": "alpha",
+  "import": "@senvenli/react/display",
+  "name": "stat",
+  "title": "Stat",
+  "exports": [
+    "Stat",
+    "StatGroup"
+  ],
+  "description": "A key figure with its label, an optional change against a named period and a sparkline.",
+  "keywords": [
+    "kpi",
+    "metric",
+    "figure",
+    "dashboard",
+    "delta"
+  ],
+  "usage": {
+    "when": [
+      "A dashboard's headline numbers."
+    ],
+    "instead": [
+      {
+        "use": "description-list",
+        "when": "Several labeled facts about one record."
+      }
+    ]
+  },
+  "a11y": {
+    "builtIn": [
+      "The change is announced in words, not only by its arrow and color.",
+      "Figures keep their formatted order in right-to-left pages."
+    ],
+    "youProvide": [
+      "A formatted value and, next to a change, the period it compares against."
+    ]
+  },
+  "related": [
+    "description-list"
+  ],
+  "genui": {
+    "expose": true,
+    "description": "One headline figure. Format the value first; name the period next to a change.",
+    "props": [
+      "label",
+      "value",
+      "comparison"
+    ],
+    "children": "none",
+    "schema": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "label": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string",
+          "description": "The figure, already formatted with Intl (\"$48,920\")."
+        },
+        "comparison": {
+          "type": "string",
+          "description": "The period the delta compares against (\"vs. September\"); required next to a delta."
+        }
+      },
+      "required": [
+        "label",
+        "value"
+      ]
+    }
+  },
+  "source": [
+    "src/display/stat.tsx"
+  ],
+  "props": {
+    "Stat": [
+      {
+        "name": "label",
+        "type": "React.ReactNode",
+        "required": true
+      },
+      {
+        "name": "value",
+        "type": "React.ReactNode",
+        "required": true,
+        "description": "The figure, already formatted with Intl (\"$48,920\")."
+      },
+      {
+        "name": "delta",
+        "type": "StatDelta",
+        "required": false
+      },
+      {
+        "name": "comparison",
+        "type": "React.ReactNode",
+        "required": false,
+        "description": "The period the delta compares against (\"vs. September\"); required next to a delta."
+      },
+      {
+        "name": "trend",
+        "type": "number[]",
+        "required": false,
+        "description": "A short series for the sparkline."
+      },
+      {
+        "name": "href",
+        "type": "string",
+        "required": false,
+        "description": "Makes the whole tile a link to the report behind it.",
+        "schema": {
+          "type": "string"
+        }
+      }
+    ],
+    "StatGroup": [
+      {
+        "name": "children",
+        "type": "React.ReactNode",
+        "required": true
+      },
+      {
+        "name": "aria-label",
+        "type": "string",
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      }
+    ]
+  },
+  "tokens": [
+    "ds-background-brand-subtle",
+    "ds-border-focused",
+    "ds-chart-1",
+    "ds-easing-standard",
+    "ds-icon",
+    "ds-icon-brand",
+    "ds-icon-danger",
+    "ds-icon-information",
+    "ds-icon-subtle",
+    "ds-icon-success",
+    "ds-icon-warning",
+    "ds-radius-large",
+    "ds-shadow-overlay",
+    "ds-shadow-raised",
+    "ds-size-icon",
+    "ds-size-icon-large",
+    "ds-size-icon-small",
+    "ds-space-025",
+    "ds-space-050",
+    "ds-space-075",
+    "ds-space-200",
+    "ds-surface-raised",
+    "ds-text",
+    "ds-text-danger",
+    "ds-text-subtle",
+    "ds-text-subtlest",
+    "ds-text-success"
+  ],
+  "strings": [
+    "deltaDown",
+    "deltaUp",
+    "noChange"
+  ],
+  "quality": {
+    "tests": true,
+    "a11y": false,
+    "docs": false,
+    "visual": false,
+    "dark": false,
+    "rtl": false,
+    "mcp": true,
+    "generic": true
+  }
+}

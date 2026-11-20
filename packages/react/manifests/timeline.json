@@ -1,0 +1,132 @@
+{
+  "$schema": "https://design.senvenli.com/schema/component.full.json",
+  "kind": "component",
+  "family": "display",
+  "status": "alpha",
+  "import": "@senvenli/react/display",
+  "name": "timeline",
+  "title": "Timeline",
+  "exports": [
+    "Timeline"
+  ],
+  "description": "A record's history grouped by day, with icons, tones and recent events in relative time.",
+  "keywords": [
+    "history",
+    "activity",
+    "audit log",
+    "events"
+  ],
+  "usage": {
+    "when": [
+      "What happened to one record, and when."
+    ]
+  },
+  "a11y": {
+    "builtIn": [
+      "Day headings keep the outline; times show the exact value on hover and to screen readers."
+    ],
+    "youProvide": [
+      "The time zone the events belong to."
+    ]
+  },
+  "related": [
+    "list"
+  ],
+  "genui": {
+    "expose": false
+  },
+  "source": [
+    "src/display/timeline.tsx"
+  ],
+  "props": {
+    "Timeline": [
+      {
+        "name": "items",
+        "type": "TimelineItem[]",
+        "required": true
+      },
+      {
+        "name": "order",
+        "type": "\"newest\" | \"oldest\"",
+        "required": false,
+        "default": "\"newest\"",
+        "description": "`newest` first (default) or `oldest` first.",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "newest",
+            "oldest"
+          ]
+        }
+      },
+      {
+        "name": "timeZone",
+        "type": "string",
+        "required": true,
+        "description": "The time zone the events belong to (\"Europe/Berlin\"). Required: times show in it, and server and\nbrowser then format the same text. An unknown zone falls back to UTC with a warning.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "now",
+        "type": "Date",
+        "required": false,
+        "description": "\"Now\" for relative times. Without it, times render absolute on the server and on the first\nclient render, then read relative (\"3 min. ago\") after mount and stay current while any event\nis under an hour old."
+      },
+      {
+        "name": "dayHeadingLevel",
+        "type": "2 | 3 | 4 | 5 | 6",
+        "required": false,
+        "default": "3",
+        "description": "Heading level of the day titles when the list groups by day (more than ten items).",
+        "schema": {
+          "enum": [
+            2,
+            3,
+            4,
+            5,
+            6
+          ]
+        }
+      }
+    ]
+  },
+  "tokens": [
+    "ds-background-brand-bold",
+    "ds-background-danger",
+    "ds-background-neutral",
+    "ds-background-success",
+    "ds-border",
+    "ds-icon",
+    "ds-icon-brand",
+    "ds-icon-danger",
+    "ds-icon-information",
+    "ds-icon-subtle",
+    "ds-icon-success",
+    "ds-icon-warning",
+    "ds-radius-full",
+    "ds-size-icon",
+    "ds-size-icon-large",
+    "ds-size-icon-small",
+    "ds-space-025",
+    "ds-space-050",
+    "ds-space-150",
+    "ds-space-200",
+    "ds-text",
+    "ds-text-on-brand",
+    "ds-text-subtle",
+    "ds-text-subtlest"
+  ],
+  "strings": [],
+  "quality": {
+    "tests": true,
+    "a11y": false,
+    "docs": false,
+    "visual": false,
+    "dark": false,
+    "rtl": false,
+    "mcp": true,
+    "generic": true
+  }
+}

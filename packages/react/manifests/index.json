@@ -497,6 +497,42 @@
     "genui": true
   },
   {
+    "name": "carousel",
+    "title": "Carousel",
+    "family": "display",
+    "status": "alpha",
+    "description": "Pages through a set of images with previous/next and optional thumbnails; never auto-advances.",
+    "keywords": [
+      "gallery",
+      "images",
+      "slider",
+      "photos"
+    ],
+    "import": "@senvenli/react/display",
+    "exports": [
+      "Carousel"
+    ],
+    "genui": false
+  },
+  {
+    "name": "description-list",
+    "title": "Description list",
+    "family": "display",
+    "status": "alpha",
+    "description": "Labeled facts about one record, in rows or stacked columns; empty values read as \"Not set\", and a value may be copyable.",
+    "keywords": [
+      "details",
+      "key value",
+      "properties",
+      "record"
+    ],
+    "import": "@senvenli/react/display",
+    "exports": [
+      "DescriptionList"
+    ],
+    "genui": true
+  },
+  {
     "name": "heading",
     "title": "Heading",
     "family": "display",
@@ -533,6 +569,61 @@
       "Icon"
     ],
     "genui": true
+  },
+  {
+    "name": "image-cropper",
+    "title": "Image cropper",
+    "family": "display",
+    "status": "alpha",
+    "description": "Frames one picked image to the shape a surface needs: pan, zoom, rotate, an aspect preset, and the output as a file.",
+    "keywords": [
+      "crop",
+      "image",
+      "upload",
+      "avatar",
+      "logo"
+    ],
+    "import": "@senvenli/react/display",
+    "exports": [
+      "ImageCropper"
+    ],
+    "genui": false
+  },
+  {
+    "name": "image-viewer",
+    "title": "Image viewer",
+    "family": "display",
+    "status": "alpha",
+    "description": "A full-screen dark lightbox with previous/next that cycle, arrow keys, a position caption and a filmstrip.",
+    "keywords": [
+      "lightbox",
+      "photos",
+      "gallery",
+      "fullscreen"
+    ],
+    "import": "@senvenli/react/display",
+    "exports": [
+      "ImageViewer"
+    ],
+    "genui": false
+  },
+  {
+    "name": "iso-chip",
+    "title": "ISO chip",
+    "family": "display",
+    "status": "alpha",
+    "description": "A small neutral chip with a country or language code, in place of a flag.",
+    "keywords": [
+      "country",
+      "language",
+      "code",
+      "iso"
+    ],
+    "import": "@senvenli/react/display",
+    "exports": [
+      "IsoChip"
+    ],
+    "genui": false
   },
   {
     "name": "kbd",
@@ -611,6 +702,26 @@
     "genui": true
   },
   {
+    "name": "stat",
+    "title": "Stat",
+    "family": "display",
+    "status": "alpha",
+    "description": "A key figure with its label, an optional change against a named period and a sparkline.",
+    "keywords": [
+      "kpi",
+      "metric",
+      "figure",
+      "dashboard",
+      "delta"
+    ],
+    "import": "@senvenli/react/display",
+    "exports": [
+      "Stat",
+      "StatGroup"
+    ],
+    "genui": true
+  },
+  {
     "name": "text",
     "title": "Text",
     "family": "display",
@@ -630,6 +741,24 @@
       "Prose"
     ],
     "genui": true
+  },
+  {
+    "name": "timeline",
+    "title": "Timeline",
+    "family": "display",
+    "status": "alpha",
+    "description": "A record's history grouped by day, with icons, tones and recent events in relative time.",
+    "keywords": [
+      "history",
+      "activity",
+      "audit log",
+      "events"
+    ],
+    "import": "@senvenli/react/display",
+    "exports": [
+      "Timeline"
+    ],
+    "genui": false
   },
   {
     "name": "banner",

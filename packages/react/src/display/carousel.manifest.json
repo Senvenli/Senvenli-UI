@@ -1,0 +1,51 @@
+{
+  "$schema": "../../manifest/component.schema.json",
+  "kind": "component",
+  "family": "display",
+  "status": "alpha",
+  "import": "@senvenli/react/display",
+  "name": "carousel",
+  "title": "Carousel",
+  "exports": [
+    "Carousel"
+  ],
+  "description": "Pages through a set of images with previous/next and optional thumbnails; never auto-advances.",
+  "keywords": [
+    "gallery",
+    "images",
+    "slider",
+    "photos"
+  ],
+  "usage": {
+    "when": [
+      "A few photos of one item."
+    ],
+    "instead": [
+      {
+        "use": "image-viewer",
+        "when": "Photos need to be seen full screen."
+      }
+    ]
+  },
+  "a11y": {
+    "keyboard": [
+      {
+        "keys": "Arrow left / right",
+        "does": "Move to the previous or next image."
+      }
+    ],
+    "builtIn": [
+      "The position is announced as \"Image N of M\"."
+    ],
+    "youProvide": [
+      "Meaningful alt text for each image."
+    ]
+  },
+  "related": [
+    "image-viewer",
+    "grid-list"
+  ],
+  "genui": {
+    "expose": false
+  }
+}

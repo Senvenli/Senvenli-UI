@@ -1,0 +1,38 @@
+{
+  "$schema": "../../manifest/component.schema.json",
+  "kind": "component",
+  "family": "display",
+  "status": "alpha",
+  "import": "@senvenli/react/display",
+  "name": "timeline",
+  "title": "Timeline",
+  "exports": [
+    "Timeline"
+  ],
+  "description": "A record's history grouped by day, with icons, tones and recent events in relative time.",
+  "keywords": [
+    "history",
+    "activity",
+    "audit log",
+    "events"
+  ],
+  "usage": {
+    "when": [
+      "What happened to one record, and when."
+    ]
+  },
+  "a11y": {
+    "builtIn": [
+      "Day headings keep the outline; times show the exact value on hover and to screen readers."
+    ],
+    "youProvide": [
+      "The time zone the events belong to."
+    ]
+  },
+  "related": [
+    "list"
+  ],
+  "genui": {
+    "expose": false
+  }
+}
