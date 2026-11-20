@@ -1,0 +1,68 @@
+{
+  "$schema": "../../manifest/component.schema.json",
+  "kind": "component",
+  "family": "selection",
+  "status": "alpha",
+  "import": "@senvenli/react/selection",
+  "name": "radio",
+  "title": "Radio group",
+  "exports": [
+    "RadioGroup",
+    "Radio"
+  ],
+  "description": "One choice from a few options that all stay visible.",
+  "keywords": [
+    "radio",
+    "options",
+    "choice",
+    "single"
+  ],
+  "usage": {
+    "when": [
+      "One choice from 2 to 5 options people should compare."
+    ],
+    "instead": [
+      {
+        "use": "select",
+        "when": "There are many options."
+      },
+      {
+        "use": "radio-card",
+        "when": "Each option needs a longer description."
+      }
+    ]
+  },
+  "a11y": {
+    "keyboard": [
+      {
+        "keys": "Arrow keys",
+        "does": "Moves and selects within the group."
+      }
+    ],
+    "builtIn": [
+      "One tab stop for the group.",
+      "Required fields show \"Fill in this field.\" after a blur or a submit; your own `errorMessage` replaces it."
+    ],
+    "youProvide": [
+      "A label for the group."
+    ]
+  },
+  "related": [
+    "radio-card",
+    "select",
+    "checkbox"
+  ],
+  "genui": {
+    "expose": true,
+    "description": "One choice from a few visible options. items are {value, label, description?}. Emits change.",
+    "props": [
+      "label",
+      "items",
+      "description"
+    ],
+    "children": "none",
+    "events": [
+      "change"
+    ]
+  }
+}

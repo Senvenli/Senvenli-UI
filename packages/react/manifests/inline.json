@@ -2207,7 +2207,10 @@
       {
         "name": "step",
         "type": "string | number",
-        "required": false
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
       },
       {
         "name": "href",
@@ -2448,12 +2451,18 @@
       {
         "name": "min",
         "type": "string | number",
-        "required": false
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
       },
       {
         "name": "max",
         "type": "string | number",
-        "required": false
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
       },
       {
         "name": "accept",
@@ -2527,12 +2536,18 @@
       {
         "name": "cellPadding",
         "type": "string | number",
-        "required": false
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
       },
       {
         "name": "cellSpacing",
         "type": "string | number",
-        "required": false
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
       },
       {
         "name": "charSet",
@@ -2654,7 +2669,10 @@
       {
         "name": "frameBorder",
         "type": "string | number",
-        "required": false
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
       },
       {
         "name": "headers",
@@ -2667,7 +2685,10 @@
       {
         "name": "height",
         "type": "string | number",
-        "required": false
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
       },
       {
         "name": "htmlFor",
@@ -2952,7 +2973,10 @@
       {
         "name": "width",
         "type": "string | number",
-        "required": false
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
       },
       {
         "name": "wmode",

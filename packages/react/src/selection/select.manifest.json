@@ -1,0 +1,74 @@
+{
+  "$schema": "../../manifest/component.schema.json",
+  "kind": "component",
+  "family": "selection",
+  "status": "alpha",
+  "import": "@senvenli/react/selection",
+  "name": "select",
+  "title": "Select",
+  "exports": [
+    "Select"
+  ],
+  "description": "Pick one option from a short list in a dropdown, with groups, descriptions and icons.",
+  "keywords": [
+    "select",
+    "dropdown",
+    "picker",
+    "options",
+    "choose"
+  ],
+  "usage": {
+    "when": [
+      "One choice from about 5 to 15 options."
+    ],
+    "instead": [
+      {
+        "use": "radio",
+        "when": "Fewer than 5 options should all stay visible."
+      },
+      {
+        "use": "combobox",
+        "when": "The list is long and people type to find."
+      }
+    ]
+  },
+  "a11y": {
+    "keyboard": [
+      {
+        "keys": "Space, Enter, Arrow down",
+        "does": "Opens the list."
+      },
+      {
+        "keys": "Arrow keys, typing",
+        "does": "Moves to an option."
+      }
+    ],
+    "builtIn": [
+      "Announced as a button that opens a listbox.",
+      "Required fields show \"Fill in this field.\" after a blur or a submit; your own `errorMessage` replaces it."
+    ],
+    "youProvide": [
+      "A visible label."
+    ]
+  },
+  "related": [
+    "multi-select",
+    "combobox",
+    "radio"
+  ],
+  "genui": {
+    "expose": true,
+    "description": "A dropdown for one choice. items are {id, label} options; use radio when there are fewer than 5. Emits change.",
+    "props": [
+      "label",
+      "items",
+      "placeholder",
+      "description",
+      "isRequired"
+    ],
+    "children": "none",
+    "events": [
+      "change"
+    ]
+  }
+}

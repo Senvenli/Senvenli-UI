@@ -1,0 +1,66 @@
+{
+  "$schema": "../../manifest/component.schema.json",
+  "kind": "component",
+  "family": "selection",
+  "status": "alpha",
+  "import": "@senvenli/react/selection",
+  "name": "tag-group",
+  "title": "Tag group",
+  "exports": [
+    "TagGroup"
+  ],
+  "description": "A group of tags that can be removed or selected: features, filters, keywords.",
+  "keywords": [
+    "tags",
+    "chips",
+    "filters",
+    "keywords",
+    "labels"
+  ],
+  "usage": {
+    "when": [
+      "Showing or picking keywords, features or active filters."
+    ],
+    "instead": [
+      {
+        "use": "lozenge",
+        "when": "The tag is an item's status."
+      }
+    ]
+  },
+  "a11y": {
+    "keyboard": [
+      {
+        "keys": "Arrow keys",
+        "does": "Moves between tags."
+      },
+      {
+        "keys": "Delete, Backspace",
+        "does": "Removes the focused tag."
+      }
+    ],
+    "builtIn": [
+      "Groups of three or more removable tags offer \"Clear all\"."
+    ],
+    "youProvide": [
+      "A label for the group."
+    ]
+  },
+  "related": [
+    "multi-select",
+    "lozenge"
+  ],
+  "genui": {
+    "expose": true,
+    "description": "Tags (features, filters). items are {id, label}; set selectionMode to let people pick.",
+    "props": [
+      "label",
+      "items",
+      "selectionMode"
+    ],
+    "children": "none",
+    "events": [
+      "change"
+    ]
+  }
+}

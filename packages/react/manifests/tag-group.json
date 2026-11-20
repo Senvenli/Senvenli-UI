@@ -1,0 +1,240 @@
+{
+  "$schema": "https://design.senvenli.com/schema/component.full.json",
+  "kind": "component",
+  "family": "selection",
+  "status": "alpha",
+  "import": "@senvenli/react/selection",
+  "name": "tag-group",
+  "title": "Tag group",
+  "exports": [
+    "TagGroup"
+  ],
+  "description": "A group of tags that can be removed or selected: features, filters, keywords.",
+  "keywords": [
+    "tags",
+    "chips",
+    "filters",
+    "keywords",
+    "labels"
+  ],
+  "usage": {
+    "when": [
+      "Showing or picking keywords, features or active filters."
+    ],
+    "instead": [
+      {
+        "use": "lozenge",
+        "when": "The tag is an item's status."
+      }
+    ]
+  },
+  "a11y": {
+    "keyboard": [
+      {
+        "keys": "Arrow keys",
+        "does": "Moves between tags."
+      },
+      {
+        "keys": "Delete, Backspace",
+        "does": "Removes the focused tag."
+      }
+    ],
+    "builtIn": [
+      "Groups of three or more removable tags offer \"Clear all\"."
+    ],
+    "youProvide": [
+      "A label for the group."
+    ]
+  },
+  "related": [
+    "multi-select",
+    "lozenge"
+  ],
+  "genui": {
+    "expose": true,
+    "description": "Tags (features, filters). items are {id, label}; set selectionMode to let people pick.",
+    "props": [
+      "label",
+      "items",
+      "selectionMode"
+    ],
+    "children": "none",
+    "events": [
+      "change"
+    ],
+    "schema": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "label": {
+          "type": "string"
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "label": {
+                "type": "string"
+              },
+              "icon": {
+                "type": "string",
+                "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+              },
+              "isDisabled": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "id",
+              "label"
+            ]
+          }
+        },
+        "selectionMode": {
+          "type": "string",
+          "enum": [
+            "single",
+            "multiple"
+          ],
+          "description": "Makes tags selectable (features, filters)."
+        }
+      },
+      "required": [
+        "label",
+        "items"
+      ]
+    }
+  },
+  "source": [
+    "src/selection/tag-group.tsx"
+  ],
+  "props": {
+    "TagGroup": [
+      {
+        "name": "label",
+        "type": "React.ReactNode",
+        "required": true
+      },
+      {
+        "name": "items",
+        "type": "readonly TagItem[]",
+        "required": true,
+        "schema": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "label": {
+                "type": "string"
+              },
+              "icon": {
+                "type": "string",
+                "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+              },
+              "isDisabled": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "id",
+              "label"
+            ]
+          }
+        }
+      },
+      {
+        "name": "onRemove",
+        "type": "(keys: Key[]) => void",
+        "required": false,
+        "description": "Makes tags removable (active filters); called with the keys removed."
+      },
+      {
+        "name": "selectionMode",
+        "type": "\"single\" | \"multiple\"",
+        "required": false,
+        "description": "Makes tags selectable (features, filters).",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "single",
+            "multiple"
+          ]
+        }
+      },
+      {
+        "name": "selectedKeys",
+        "type": "readonly Key[]",
+        "required": false
+      },
+      {
+        "name": "defaultSelectedKeys",
+        "type": "readonly Key[]",
+        "required": false
+      },
+      {
+        "name": "onSelectionChange",
+        "type": "(keys: Key[]) => void",
+        "required": false
+      },
+      {
+        "name": "description",
+        "type": "React.ReactNode",
+        "required": false
+      },
+      {
+        "name": "errorMessage",
+        "type": "React.ReactNode",
+        "required": false
+      },
+      {
+        "name": "emptyMessage",
+        "type": "React.ReactNode",
+        "required": false,
+        "description": "What to show when there are no tags (\"Filtre yok\")."
+      }
+    ]
+  },
+  "tokens": [
+    "ds-background-neutral",
+    "ds-background-neutral-hovered",
+    "ds-background-neutral-pressed",
+    "ds-background-selected",
+    "ds-background-selected-hovered",
+    "ds-border-focused",
+    "ds-border-selected",
+    "ds-icon-subtle",
+    "ds-link",
+    "ds-radius-small",
+    "ds-radius-xsmall",
+    "ds-size-control-compact",
+    "ds-space-050",
+    "ds-space-075",
+    "ds-space-100",
+    "ds-text",
+    "ds-text-disabled",
+    "ds-text-subtlest"
+  ],
+  "strings": [
+    "clearAll",
+    "removeItem"
+  ],
+  "quality": {
+    "tests": true,
+    "a11y": false,
+    "docs": false,
+    "visual": false,
+    "dark": false,
+    "rtl": false,
+    "mcp": true,
+    "generic": true
+  }
+}

@@ -25,6 +25,9 @@
       ],
       "@senvenli/react/form": [
         "../packages/react/src/form/index.ts"
+      ],
+      "@senvenli/react/selection": [
+        "../packages/react/src/selection/index.ts"
       ]
     },
     "noUncheckedIndexedAccess": false

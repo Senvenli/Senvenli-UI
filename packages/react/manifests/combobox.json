@@ -1,0 +1,512 @@
+{
+  "$schema": "https://design.senvenli.com/schema/component.full.json",
+  "kind": "component",
+  "family": "selection",
+  "status": "alpha",
+  "import": "@senvenli/react/selection",
+  "name": "combobox",
+  "title": "Combo box",
+  "exports": [
+    "ComboBox"
+  ],
+  "description": "Type to filter a long list and pick one or several items, with load-more and app-side results.",
+  "keywords": [
+    "combobox",
+    "autocomplete",
+    "search",
+    "typeahead",
+    "filter"
+  ],
+  "usage": {
+    "when": [
+      "Picking from a long list (customers, products, countries) by typing."
+    ],
+    "instead": [
+      {
+        "use": "select",
+        "when": "The list is short."
+      }
+    ]
+  },
+  "a11y": {
+    "keyboard": [
+      {
+        "keys": "Arrow down",
+        "does": "Opens the list."
+      },
+      {
+        "keys": "Enter",
+        "does": "Picks the focused option."
+      }
+    ],
+    "builtIn": [
+      "Announces the result count and \"No results\".",
+      "Matches ignore case and accents.",
+      "Required fields show \"Fill in this field.\" after a blur or a submit; your own `errorMessage` replaces it."
+    ],
+    "youProvide": [
+      "A visible label."
+    ]
+  },
+  "related": [
+    "select",
+    "autocomplete"
+  ],
+  "genui": {
+    "expose": true,
+    "description": "A searchable list to pick from by typing. items are {id, label, secondary?}. Emits change.",
+    "props": [
+      "label",
+      "items",
+      "placeholder"
+    ],
+    "children": "none",
+    "events": [
+      "change"
+    ],
+    "schema": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "label": {
+          "type": "string",
+          "description": "The label sits above the field."
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "label": {
+                "type": "string"
+              },
+              "description": {
+                "type": "string"
+              },
+              "badge": {
+                "type": "string"
+              },
+              "icon": {
+                "type": "string"
+              },
+              "isDisabled": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "id",
+              "label"
+            ]
+          },
+          "description": "The whole list, filtered here as the user types."
+        },
+        "placeholder": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "source": [
+    "src/selection/combobox.tsx"
+  ],
+  "props": {
+    "ComboBox": [
+      {
+        "name": "label",
+        "type": "React.ReactNode",
+        "required": false,
+        "description": "The label sits above the field."
+      },
+      {
+        "name": "items",
+        "type": "readonly ComboBoxItem[]",
+        "required": false,
+        "description": "The whole list, filtered here as the user types.",
+        "schema": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "label": {
+                "type": "string"
+              },
+              "description": {
+                "type": "string"
+              },
+              "badge": {
+                "type": "string"
+              },
+              "icon": {
+                "type": "string"
+              },
+              "isDisabled": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "id",
+              "label"
+            ]
+          }
+        }
+      },
+      {
+        "name": "loadItems",
+        "type": "ComboBoxLoader",
+        "required": false,
+        "description": "Or load matches from the server (with paging when it returns a cursor)."
+      },
+      {
+        "name": "description",
+        "type": "React.ReactNode",
+        "required": false
+      },
+      {
+        "name": "errorMessage",
+        "type": "React.ReactNode",
+        "required": false
+      },
+      {
+        "name": "placeholder",
+        "type": "string",
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "isRequired",
+        "type": "boolean",
+        "required": false,
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "requiredValidation",
+        "type": "RequiredValidation",
+        "required": false,
+        "description": "Who says an empty required ComboBox is missing: `field` (default) shows \"Fill in this field.\"\non blur and on a DS Form submit, which it then blocks; `app` only marks the field. Empty is no chosen item\n(multiple: no tag); with `allowsCustomValue`, typed text counts as a value. See {@link RequiredValidation}.\nThe app's `isInvalid` (`true` with its `errorMessage`, or `false`) overrides the check, as on TextField. Disabled,\nempty and required, it still blocks a DS Form's submit and cannot take focus (as TextField).",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "field",
+            "app"
+          ]
+        }
+      },
+      {
+        "name": "isDisabled",
+        "type": "boolean",
+        "required": false,
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "isInvalid",
+        "type": "boolean",
+        "required": false,
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "name",
+        "type": "string",
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "menuTrigger",
+        "type": "\"focus\" | \"input\"",
+        "required": false,
+        "description": "`input` (default) opens on typing; `focus` also on focus. The chevron always opens the full list.",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "focus",
+            "input"
+          ]
+        }
+      },
+      {
+        "name": "emptyMessage",
+        "type": "(query: string) => ReactNode",
+        "required": false,
+        "description": "The empty result; defaults to \"No results for “{query}”.\" in the provider locale."
+      },
+      {
+        "name": "onCreate",
+        "type": "(text: string) => void",
+        "required": false,
+        "description": "Adds a create row for the typed text when nothing matches it exactly."
+      },
+      {
+        "name": "createLabel",
+        "type": "(text: string) => string",
+        "required": false,
+        "description": "The create row's text; defaults to \"“{query}” ekle\"."
+      },
+      {
+        "name": "onInputChange",
+        "type": "(text: string) => void",
+        "required": false,
+        "description": "The typed text, for consumers that need it (custom values, analytics)."
+      },
+      {
+        "name": "size",
+        "type": "FieldSize",
+        "required": false,
+        "schema": {
+          "type": "string",
+          "enum": [
+            "default",
+            "compact"
+          ]
+        }
+      },
+      {
+        "name": "isLoading",
+        "type": "boolean",
+        "required": false,
+        "description": "The app is fetching items itself (with `items`, not `loadItems`): a spinner\nshows in the field and at the end of the list, and the change is announced.\nItems already shown stay selectable by keyboard and pointer. Together with\n`loadItems`, the field's own loading status is the one announced, so there\nis a single status region.",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "loadingText",
+        "type": "string",
+        "required": false,
+        "description": "What is announced and shown while loading; defaults to \"Loading…\" in the provider locale.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "onSearchChange",
+        "type": "(search: string) => void",
+        "required": false,
+        "description": "The app searches on the server itself (with `items`, not `loadItems`;): told the text to search for,\nthe typed text, or `\"\"` when the list opens in full (the chevron, focus with `menuTrigger=\"focus\"`) or the field\njust shows the chosen item's label. Debounce it on the app side. With it, `items` are the app's results and are\nshown as given, not filtered again here; the match in each row is still in bold. Not called on mount.\n\nThe field hides rows found for another text itself: from the moment the text changes until the app's answer\narrives, the list shows its loading row, the field its spinner, and the loading is announced politely, whatever the\napp does while it debounces. The answer has arrived when the rows change (ids, labels, second lines), when\n`isLoading` is set and cleared again (also for a server that finds the same rows), or, if neither, once the same\nrows have stood for a second with no new render. Nothing is asked of the app for it; `isLoading` is still the way to\nsay a fetch is running.\n\nIt is for a search that answers later. Filtering the rows the app already holds, synchronously, is the local filter's\njob (pass `items` without `onSearchChange`): here an answer with the very same rows and no `isLoading` stays hidden\nfor that second. The field tells answers apart by when they arrive, not by the text they were asked for: an earlier\nrequest that answers after the next keystroke counts as the answer to the newer text. Abort superseded requests, or\nkeep each answer under its own text (react-query's query key, without `placeholderData`)."
+      },
+      {
+        "name": "onLoadMore",
+        "type": "() => void",
+        "required": false,
+        "description": "The next page of the app's own `items`, for an app that pages with its own query (react-query's\ninfinite query): called when the list is scrolled near its end. Pass it only while there is another page\n(`hasNextPage ? fetchNextPage : undefined`), and set `isLoading` while the page loads: the list then ends in a\nloading row, the field shows its spinner and the loading is announced (politely). It is not called again while\n`isLoading` is set, nor twice before the app answers (a new page, `isLoading`, or a new search). The app's error\nstays the app's (`errorMessage`, `description`); after it, a scroll to the end asks again. With `loadItems`, which\npages by itself, it is not used."
+      },
+      {
+        "name": "id",
+        "type": "string",
+        "required": false,
+        "description": "The input's id, so a label outside the component (`<label htmlFor={id}>`, an app's form field) names it.\nWith neither `label` nor `aria-label`, that external label is the field's name and no label of its own\nrenders.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "aria-describedby",
+        "type": "string",
+        "required": false,
+        "description": "Ids of text outside the component that describes the input (an app's hint or error), added to its own.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "aria-invalid",
+        "type": "boolean | \"true\" | \"false\"",
+        "required": false,
+        "description": "Set by a form row that owns the error text (the shared `Field` hands its control `aria-invalid`): the field\nshows its invalid state as with `isInvalid`, and without an `errorMessage` of its own draws no error row,\nso the row's message is the only one. It marks the input for assistive tech and draws it\ninvalid only: unlike `isInvalid` it never becomes the input's native validity (React Aria's default outside a\nDS Form), so it never blocks a form's submit.",
+        "schema": {
+          "enum": [
+            false,
+            true,
+            "true",
+            "false"
+          ]
+        }
+      },
+      {
+        "name": "selectionMode",
+        "type": "\"single\" | \"multiple\"",
+        "required": false,
+        "schema": {
+          "type": "string",
+          "enum": [
+            "single",
+            "multiple"
+          ]
+        }
+      },
+      {
+        "name": "selectedKey",
+        "type": "Key",
+        "required": false,
+        "description": "Controlled; may start undefined and become set later (never flips control).",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "defaultSelectedKey",
+        "type": "Key",
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "onSelectionChange",
+        "type": "(key: Key | null) => void | (keys: Key[]) => void",
+        "required": false
+      },
+      {
+        "name": "selectedItem",
+        "type": "ComboBoxItem",
+        "required": false,
+        "description": "The chosen item when it is not on the loaded page (server search), so its label still shows."
+      },
+      {
+        "name": "allowsCustomValue",
+        "type": "boolean",
+        "required": false,
+        "description": "Typed text that matches no item is kept as the field's text; the key\nbecomes `null` and `onInputChange` reports the text.",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "aria-label",
+        "type": "string",
+        "required": false,
+        "description": "Names the field for assistive technology when no visible label is shown.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "selectedKeys",
+        "type": "readonly Key[]",
+        "required": false
+      },
+      {
+        "name": "defaultSelectedKeys",
+        "type": "readonly Key[]",
+        "required": false
+      },
+      {
+        "name": "selectedItems",
+        "type": "readonly ComboBoxItem[]",
+        "required": false,
+        "description": "Chosen items that are not on the loaded page, so their tags show their labels.",
+        "schema": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "label": {
+                "type": "string"
+              },
+              "description": {
+                "type": "string"
+              },
+              "badge": {
+                "type": "string"
+              },
+              "icon": {
+                "type": "string"
+              },
+              "isDisabled": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "id",
+              "label"
+            ]
+          }
+        }
+      }
+    ]
+  },
+  "tokens": [
+    "ds-background-brand-bold",
+    "ds-background-brand-subtle",
+    "ds-background-disabled",
+    "ds-background-input",
+    "ds-background-input-hovered",
+    "ds-background-neutral",
+    "ds-background-neutral-pressed",
+    "ds-background-neutral-subtle-hovered",
+    "ds-background-selected",
+    "ds-background-selected-hovered",
+    "ds-border",
+    "ds-border-bold",
+    "ds-border-danger",
+    "ds-border-focused",
+    "ds-border-selected",
+    "ds-easing-standard",
+    "ds-icon-subtle",
+    "ds-link",
+    "ds-radius-full",
+    "ds-radius-large",
+    "ds-radius-medium",
+    "ds-radius-small",
+    "ds-radius-xlarge",
+    "ds-radius-xsmall",
+    "ds-shadow-overlay",
+    "ds-shadow-raised",
+    "ds-size-control",
+    "ds-size-control-compact",
+    "ds-size-icon",
+    "ds-space-050",
+    "ds-space-075",
+    "ds-space-100",
+    "ds-space-150",
+    "ds-space-200",
+    "ds-surface-overlay",
+    "ds-surface-raised",
+    "ds-text",
+    "ds-text-brand",
+    "ds-text-disabled",
+    "ds-text-on-brand",
+    "ds-text-subtle",
+    "ds-text-subtlest"
+  ],
+  "strings": [
+    "createItem",
+    "loading",
+    "moreCount",
+    "noMatch",
+    "removeItem",
+    "selectAll",
+    "selectedCount",
+    "showSuggestions"
+  ],
+  "quality": {
+    "tests": true,
+    "a11y": false,
+    "docs": false,
+    "visual": false,
+    "dark": false,
+    "rtl": false,
+    "mcp": true,
+    "generic": true
+  }
+}

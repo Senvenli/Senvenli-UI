@@ -1,0 +1,68 @@
+{
+  "$schema": "../../manifest/component.schema.json",
+  "kind": "component",
+  "family": "selection",
+  "status": "alpha",
+  "import": "@senvenli/react/selection",
+  "name": "combobox",
+  "title": "Combo box",
+  "exports": [
+    "ComboBox"
+  ],
+  "description": "Type to filter a long list and pick one or several items, with load-more and app-side results.",
+  "keywords": [
+    "combobox",
+    "autocomplete",
+    "search",
+    "typeahead",
+    "filter"
+  ],
+  "usage": {
+    "when": [
+      "Picking from a long list (customers, products, countries) by typing."
+    ],
+    "instead": [
+      {
+        "use": "select",
+        "when": "The list is short."
+      }
+    ]
+  },
+  "a11y": {
+    "keyboard": [
+      {
+        "keys": "Arrow down",
+        "does": "Opens the list."
+      },
+      {
+        "keys": "Enter",
+        "does": "Picks the focused option."
+      }
+    ],
+    "builtIn": [
+      "Announces the result count and \"No results\".",
+      "Matches ignore case and accents.",
+      "Required fields show \"Fill in this field.\" after a blur or a submit; your own `errorMessage` replaces it."
+    ],
+    "youProvide": [
+      "A visible label."
+    ]
+  },
+  "related": [
+    "select",
+    "autocomplete"
+  ],
+  "genui": {
+    "expose": true,
+    "description": "A searchable list to pick from by typing. items are {id, label, secondary?}. Emits change.",
+    "props": [
+      "label",
+      "items",
+      "placeholder"
+    ],
+    "children": "none",
+    "events": [
+      "change"
+    ]
+  }
+}

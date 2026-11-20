@@ -1,0 +1,64 @@
+{
+  "$schema": "../../manifest/component.schema.json",
+  "kind": "component",
+  "family": "selection",
+  "status": "alpha",
+  "import": "@senvenli/react/selection",
+  "name": "switch",
+  "title": "Switch",
+  "exports": [
+    "Switch"
+  ],
+  "description": "Turns a setting on or off immediately.",
+  "keywords": [
+    "switch",
+    "toggle",
+    "setting",
+    "on off"
+  ],
+  "usage": {
+    "when": [
+      "A setting that applies at once."
+    ],
+    "instead": [
+      {
+        "use": "checkbox",
+        "when": "The choice is submitted with a form."
+      }
+    ]
+  },
+  "guidance": [
+    {
+      "rule": "Name the setting by its on-state (\"Online orders\"), never \"On/Off\"."
+    }
+  ],
+  "a11y": {
+    "keyboard": [
+      {
+        "keys": "Space",
+        "does": "Toggles it."
+      }
+    ],
+    "builtIn": [
+      "Announced as a switch with its state; a busy state while saving."
+    ],
+    "youProvide": [
+      "A label naming the setting."
+    ]
+  },
+  "related": [
+    "checkbox",
+    "toggle-button"
+  ],
+  "genui": {
+    "expose": true,
+    "description": "An on/off setting that applies at once; children name the setting by its on-state. Emits change.",
+    "props": [
+      "description"
+    ],
+    "children": "text",
+    "events": [
+      "change"
+    ]
+  }
+}

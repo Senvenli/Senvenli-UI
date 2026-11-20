@@ -97,7 +97,10 @@
         "name": "id",
         "type": "Key",
         "required": false,
-        "description": "When used in a ToggleButtonGroup, an identifier for the item in `selectedKeys`. When used\nstandalone, a DOM id."
+        "description": "When used in a ToggleButtonGroup, an identifier for the item in `selectedKeys`. When used\nstandalone, a DOM id.",
+        "schema": {
+          "type": "string"
+        }
       },
       {
         "name": "lang",

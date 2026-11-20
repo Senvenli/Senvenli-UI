@@ -18,6 +18,7 @@ import {
 } from "@senvenli/react/display";
 import { Banner, EmptyState, Meter, ProgressBar, ProgressCircle, Skeleton, SkeletonCircle, SkeletonText, Spinner, StatusDot } from "@senvenli/react/feedback";
 import { Inline, Stack } from "@senvenli/react/layout";
+import { Checkbox, ComboBox, MultiSelect, RadioCard, RadioGroup, Select, Slider, Switch, TagGroup } from "@senvenli/react/selection";
 import { Form, FormFooter, FormRow, InputOTP, NumberField, PasswordField, SearchField, TextArea, TextField } from "@senvenli/react/form";
 import { Button, ButtonGroup, CloseButton, Link, LinkButton, ThemeToggle, ToggleButton, ToggleGroup } from "@senvenli/react/action";
 
@@ -282,6 +283,85 @@ export function ComponentsPreview() {
               <SearchField label="Search" placeholder="Name, email or order number" />
               <InputOTP label="Verification code" length={6} description="Sent to your phone ending in 42." />
             </Stack>
+          </CardBody>
+        </Card>
+
+        <Card>
+          <CardHeader title="Selection" subtitle="Select, MultiSelect, ComboBox" />
+          <CardBody>
+            <Stack space="space-300">
+              <Select
+                label="Plan"
+                placeholder="Choose a plan"
+                items={[
+                  { id: "free", label: "Free" },
+                  { id: "pro", label: "Pro", description: "For growing teams" },
+                  { id: "enterprise", label: "Enterprise" },
+                ]}
+              />
+              <MultiSelect
+                label="Notify"
+                allowsSelectAll
+                items={[
+                  { id: "email", label: "Email" },
+                  { id: "sms", label: "Text message" },
+                  { id: "push", label: "Push" },
+                ]}
+                defaultSelectedKeys={["email"]}
+              />
+              <ComboBox
+                label="Country"
+                items={[
+                  { id: "de", label: "Germany" },
+                  { id: "fr", label: "France" },
+                  { id: "it", label: "Italy" },
+                  { id: "nl", label: "Netherlands" },
+                  { id: "tr", label: "Turkey" },
+                ]}
+              />
+            </Stack>
+          </CardBody>
+        </Card>
+
+        <Card>
+          <CardHeader title="Choices" subtitle="Checkbox, RadioGroup, Switch, Slider, TagGroup" />
+          <CardBody>
+            <Stack space="space-300">
+              <Checkbox defaultSelected>Send me product updates</Checkbox>
+              <Switch defaultSelected>Online orders</Switch>
+              <RadioGroup
+                label="Billing"
+                defaultValue="monthly"
+                items={[
+                  { value: "monthly", label: "Monthly" },
+                  { value: "yearly", label: "Yearly", description: "Two months free" },
+                ]}
+              />
+              <Slider label="Volume" defaultValue={60} />
+              <TagGroup
+                label="Features"
+                items={[
+                  { id: "api", label: "API access" },
+                  { id: "sso", label: "Single sign-on" },
+                  { id: "audit", label: "Audit log" },
+                ]}
+              />
+            </Stack>
+          </CardBody>
+        </Card>
+
+        <Card>
+          <CardHeader title="Radio card" subtitle="Plans with descriptions" />
+          <CardBody>
+            <RadioCard
+              label="Choose a plan"
+              defaultValue="team"
+              items={[
+                { value: "starter", title: "Starter", description: "For individuals", price: "€0" },
+                { value: "team", title: "Team", description: "Up to 20 people", price: "€12 / month", badge: "Recommended" },
+                { value: "business", title: "Business", description: "Advanced controls", price: "€29 / month" },
+              ]}
+            />
           </CardBody>
         </Card>
 

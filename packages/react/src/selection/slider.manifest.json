@@ -1,0 +1,54 @@
+{
+  "$schema": "../../manifest/component.schema.json",
+  "kind": "component",
+  "family": "selection",
+  "status": "alpha",
+  "import": "@senvenli/react/selection",
+  "name": "slider",
+  "title": "Slider",
+  "exports": [
+    "Slider"
+  ],
+  "description": "Picks a value or a range by dragging along a track, with locale-formatted output.",
+  "keywords": [
+    "slider",
+    "range",
+    "volume",
+    "value"
+  ],
+  "usage": {
+    "when": [
+      "An approximate value or range matters more than an exact number."
+    ],
+    "instead": [
+      {
+        "use": "number-field",
+        "when": "The exact number matters."
+      }
+    ]
+  },
+  "a11y": {
+    "keyboard": [
+      {
+        "keys": "Arrow keys",
+        "does": "Moves the thumb by a step."
+      },
+      {
+        "keys": "Home, End",
+        "does": "Moves to the minimum or maximum."
+      }
+    ],
+    "builtIn": [
+      "Each thumb is a slider with its value text."
+    ],
+    "youProvide": [
+      "A label."
+    ]
+  },
+  "related": [
+    "number-field"
+  ],
+  "genui": {
+    "expose": false
+  }
+}

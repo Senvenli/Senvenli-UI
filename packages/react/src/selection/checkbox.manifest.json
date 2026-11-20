@@ -1,0 +1,67 @@
+{
+  "$schema": "../../manifest/component.schema.json",
+  "kind": "component",
+  "family": "selection",
+  "status": "alpha",
+  "import": "@senvenli/react/selection",
+  "name": "checkbox",
+  "title": "Checkbox",
+  "exports": [
+    "Checkbox",
+    "CheckboxGroup"
+  ],
+  "description": "A box to turn one option on or off, or a group of boxes for several options.",
+  "keywords": [
+    "checkbox",
+    "check",
+    "toggle",
+    "options",
+    "consent"
+  ],
+  "usage": {
+    "when": [
+      "Agreeing to something, or choosing several options from a few."
+    ],
+    "instead": [
+      {
+        "use": "switch",
+        "when": "The setting applies at once."
+      }
+    ]
+  },
+  "guidance": [
+    {
+      "rule": "Write the option positively: \"Send notifications\", not \"Don't send…\"."
+    }
+  ],
+  "a11y": {
+    "keyboard": [
+      {
+        "keys": "Space",
+        "does": "Toggles the box."
+      }
+    ],
+    "builtIn": [
+      "Required fields show \"Fill in this field.\" after a blur or a submit; your own `errorMessage` replaces it."
+    ],
+    "youProvide": [
+      "A label for each box and a legend for the group."
+    ]
+  },
+  "related": [
+    "switch",
+    "radio"
+  ],
+  "genui": {
+    "expose": true,
+    "description": "A checkbox; children is the option text, written positively. Emits change.",
+    "props": [
+      "description",
+      "isRequired"
+    ],
+    "children": "text",
+    "events": [
+      "change"
+    ]
+  }
+}

@@ -103,8 +103,39 @@ function typeText(checker: ts.TypeChecker, t: ts.Type, sym: ts.Symbol): string {
   return text;
 }
 
+const declaredAsNode = (sym: ts.Symbol) => {
+  const decl = sym.valueDeclaration;
+  return Boolean(decl && ts.isPropertySignature(decl) && decl.type && /\bReactNode\b/.test(decl.type.getText()));
+};
+
+/**
+ * An array of plain-data objects (Select's `items`): each field becomes a property; a React node field takes
+ * text. A required field that is not plain data rejects the whole array; an optional one is left out.
+ */
+function arraySchemaOf(checker: ts.TypeChecker, t: ts.Type, depth: number): JsonSchema | null {
+  const element = checker.getTypeArguments(t as ts.TypeReference)[0];
+  if (!element || depth > 2 || !(element.flags & ts.TypeFlags.Object)) return null;
+  const properties: Record<string, JsonSchema> = {};
+  const required: string[] = [];
+  for (const sym of checker.getPropertiesOfType(element)) {
+    const optional = (sym.flags & ts.SymbolFlags.Optional) !== 0;
+    const type = checker.getNonNullableType(checker.getTypeOfSymbol(sym));
+    const schema = declaredAsNode(sym) ? ({ type: "string" } as JsonSchema) : schemaOf(checker, [type], depth + 1);
+    if (!schema) {
+      if (!optional) return null;
+      continue;
+    }
+    properties[sym.name] = schema;
+    if (!optional) required.push(sym.name);
+  }
+  return { type: "array", items: { type: "object", additionalProperties: false, properties, ...(required.length ? { required } : {}) } };
+}
+
 /** JSON Schema for a prop type, or null when it is not plain data (nodes, functions, objects). */
-function schemaOf(checker: ts.TypeChecker, types: ts.Type[]): JsonSchema | null {
+function schemaOf(checker: ts.TypeChecker, types: ts.Type[], depth = 0): JsonSchema | null {
+  // The same array prop from several union arms (ComboBox single | multiple) is one array.
+  if (types.length > 0 && types.every((t) => checker.isArrayType(t))) return arraySchemaOf(checker, types[0]!, depth);
+  if (types.some((t) => checker.isArrayType(t) || checker.isTupleType(t))) return null;
   // `string & {}` (the "suggest these literals, accept any string" idiom) counts as a plain string.
   const parts = types
     .flatMap((t) => (t.isUnion() ? t.types : [t]))
@@ -114,6 +145,8 @@ function schemaOf(checker: ts.TypeChecker, types: ts.Type[]): JsonSchema | null 
   if (parts.some((t) => t.flags & ts.TypeFlags.String) && all(ts.TypeFlags.String | ts.TypeFlags.StringLiteral)) return { type: "string" };
   if (all(ts.TypeFlags.String)) return { type: "string" };
   if (all(ts.TypeFlags.Number)) return { type: "number" };
+  // React Aria's `Key` (string | number): ids a model writes as strings.
+  if (all(ts.TypeFlags.String | ts.TypeFlags.Number)) return { type: "string" };
   if (all(ts.TypeFlags.Boolean | ts.TypeFlags.BooleanLiteral)) return { type: "boolean" };
   if (all(ts.TypeFlags.StringLiteral)) {
     const values = [...new Set(parts.map((t) => (t as ts.StringLiteralType).value))];

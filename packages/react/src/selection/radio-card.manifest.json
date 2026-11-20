@@ -1,0 +1,55 @@
+{
+  "$schema": "../../manifest/component.schema.json",
+  "kind": "component",
+  "family": "selection",
+  "status": "alpha",
+  "import": "@senvenli/react/selection",
+  "name": "radio-card",
+  "title": "Radio card",
+  "exports": [
+    "RadioCard"
+  ],
+  "description": "Radio options as cards with a title, description and an optional recommended mark: plans, tiers, methods.",
+  "keywords": [
+    "radio",
+    "card",
+    "plan",
+    "pricing",
+    "option"
+  ],
+  "usage": {
+    "when": [
+      "Choosing a plan or method where each option needs a description."
+    ]
+  },
+  "a11y": {
+    "keyboard": [
+      {
+        "keys": "Arrow keys",
+        "does": "Moves and selects within the group."
+      }
+    ],
+    "builtIn": [
+      "Required fields show \"Fill in this field.\" after a blur or a submit; your own `errorMessage` replaces it."
+    ],
+    "youProvide": [
+      "A label for the group."
+    ]
+  },
+  "related": [
+    "radio"
+  ],
+  "genui": {
+    "expose": true,
+    "description": "Options as cards (plans, methods). items are {value, title, description?, price?, badge?}. Emits change.",
+    "props": [
+      "label",
+      "items",
+      "description"
+    ],
+    "children": "none",
+    "events": [
+      "change"
+    ]
+  }
+}

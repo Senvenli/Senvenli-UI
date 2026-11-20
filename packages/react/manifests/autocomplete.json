@@ -1,0 +1,260 @@
+{
+  "$schema": "https://design.senvenli.com/schema/component.full.json",
+  "kind": "component",
+  "family": "selection",
+  "status": "alpha",
+  "import": "@senvenli/react/selection",
+  "name": "autocomplete",
+  "title": "Autocomplete",
+  "exports": [
+    "Autocomplete"
+  ],
+  "description": "Free text with suggestions loaded as people type, grouped and with detail lines.",
+  "keywords": [
+    "autocomplete",
+    "suggestions",
+    "address",
+    "typeahead"
+  ],
+  "usage": {
+    "when": [
+      "Free text where suggestions help: addresses, places."
+    ],
+    "instead": [
+      {
+        "use": "combobox",
+        "when": "The value must be one of a known list."
+      }
+    ]
+  },
+  "a11y": {
+    "builtIn": [
+      "Announces loading and the suggestion count.",
+      "Required fields show \"Fill in this field.\" after a blur or a submit; your own `errorMessage` replaces it."
+    ],
+    "youProvide": [
+      "A visible label."
+    ]
+  },
+  "related": [
+    "combobox"
+  ],
+  "genui": {
+    "expose": false
+  },
+  "source": [
+    "src/selection/autocomplete.tsx"
+  ],
+  "props": {
+    "Autocomplete": [
+      {
+        "name": "label",
+        "type": "React.ReactNode",
+        "required": true
+      },
+      {
+        "name": "value",
+        "type": "string",
+        "required": true,
+        "description": "The free text; it is a valid value on its own.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "onChange",
+        "type": "(value: string) => void",
+        "required": true
+      },
+      {
+        "name": "getSuggestions",
+        "type": "(text: string, signal: AbortSignal) => Promise<AutocompleteSuggestion[]>",
+        "required": true,
+        "description": "Suggestions for the typed text (called after `minLength` characters, debounced)."
+      },
+      {
+        "name": "onSelectSuggestion",
+        "type": "(suggestion: AutocompleteSuggestion) => void",
+        "required": false,
+        "description": "Called when a suggestion fills the text, with the suggestion itself (coordinates, ids)."
+      },
+      {
+        "name": "groups",
+        "type": "readonly string[]",
+        "required": false,
+        "description": "Group order (\"Suggested places\" first, then \"Addresses\")."
+      },
+      {
+        "name": "icon",
+        "type": "IconName",
+        "required": false,
+        "default": "\"search\"",
+        "description": "The field's context icon (default `search`).",
+        "schema": {
+          "type": "string",
+          "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+        }
+      },
+      {
+        "name": "description",
+        "type": "React.ReactNode",
+        "required": false
+      },
+      {
+        "name": "errorMessage",
+        "type": "React.ReactNode",
+        "required": false
+      },
+      {
+        "name": "placeholder",
+        "type": "string",
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "isRequired",
+        "type": "boolean",
+        "required": false,
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "requiredValidation",
+        "type": "RequiredValidation",
+        "required": false,
+        "description": "Who says an empty required Autocomplete is missing: `field` (default) shows \"Fill in this field.\"\non blur and on a DS Form submit, which it then blocks; `app` only marks the field. See {@link RequiredValidation}.\nThe app's `isInvalid` (`true` with its `errorMessage`, or `false`) overrides the check, as on TextField. Disabled,\nempty and required, it still blocks a DS Form's submit and cannot take focus (as TextField).",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "field",
+            "app"
+          ]
+        }
+      },
+      {
+        "name": "isDisabled",
+        "type": "boolean",
+        "required": false,
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "isInvalid",
+        "type": "boolean",
+        "required": false,
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "name",
+        "type": "string",
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "minLength",
+        "type": "number",
+        "required": false,
+        "default": "2",
+        "description": "Characters before suggesting (default 2).",
+        "schema": {
+          "type": "number"
+        }
+      },
+      {
+        "name": "debounce",
+        "type": "number",
+        "required": false,
+        "default": "250",
+        "description": "Debounce in ms (default 250).",
+        "schema": {
+          "type": "number"
+        }
+      },
+      {
+        "name": "size",
+        "type": "FieldSize",
+        "required": false,
+        "default": "\"default\"",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "default",
+            "compact"
+          ]
+        }
+      }
+    ]
+  },
+  "tokens": [
+    "ds-background-brand-bold",
+    "ds-background-brand-subtle",
+    "ds-background-disabled",
+    "ds-background-input",
+    "ds-background-input-hovered",
+    "ds-background-neutral",
+    "ds-background-neutral-pressed",
+    "ds-background-neutral-subtle-hovered",
+    "ds-background-selected",
+    "ds-background-selected-hovered",
+    "ds-border",
+    "ds-border-bold",
+    "ds-border-danger",
+    "ds-border-focused",
+    "ds-border-selected",
+    "ds-easing-standard",
+    "ds-icon-subtle",
+    "ds-link",
+    "ds-radius-full",
+    "ds-radius-large",
+    "ds-radius-medium",
+    "ds-radius-small",
+    "ds-radius-xlarge",
+    "ds-radius-xsmall",
+    "ds-shadow-overlay",
+    "ds-shadow-raised",
+    "ds-size-control",
+    "ds-size-control-compact",
+    "ds-size-icon",
+    "ds-space-050",
+    "ds-space-075",
+    "ds-space-100",
+    "ds-space-150",
+    "ds-space-200",
+    "ds-surface-overlay",
+    "ds-surface-raised",
+    "ds-text",
+    "ds-text-brand",
+    "ds-text-disabled",
+    "ds-text-on-brand",
+    "ds-text-subtle",
+    "ds-text-subtlest"
+  ],
+  "strings": [
+    "createItem",
+    "loading",
+    "moreCount",
+    "noMatch",
+    "removeItem",
+    "selectAll",
+    "selectedCount",
+    "showSuggestions"
+  ],
+  "quality": {
+    "tests": true,
+    "a11y": false,
+    "docs": false,
+    "visual": false,
+    "dark": false,
+    "rtl": false,
+    "mcp": true,
+    "generic": true
+  }
+}
