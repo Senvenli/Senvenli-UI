@@ -5,6 +5,7 @@ import { I18nProvider, RouterProvider } from "react-aria-components";
 
 import { intlLocale } from "./intl-locale";
 import { NavigateContext } from "./navigate-context";
+import { ToasterRoot } from "./overlay/toast";
 
 type RouterProviderProps = React.ComponentProps<typeof RouterProvider>;
 
@@ -21,10 +22,15 @@ export type DesignSystemProviderProps = {
 /**
  * Root provider. Gives every component the locale (React Aria `I18nProvider`)
  * and, when `navigate` is passed, the host router (`RouterProvider`).
- * Component strings for other languages come from `registerDsStrings`.
+ * Component strings for other languages come from `registerDsStrings`. The toast region
+ * is mounted once here, so `toast(...)` works anywhere under the provider.
  */
 export function DesignSystemProvider({ locale = "en", navigate, useHref, children }: DesignSystemProviderProps) {
-  const content = <I18nProvider locale={intlLocale(locale)}>{children}</I18nProvider>;
+  const content = (
+    <I18nProvider locale={intlLocale(locale)}>
+      <ToasterRoot>{children}</ToasterRoot>
+    </I18nProvider>
+  );
   if (!navigate) return content;
   return (
     <NavigateContext.Provider value={navigate}>
