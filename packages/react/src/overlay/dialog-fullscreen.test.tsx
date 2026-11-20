@@ -14,7 +14,7 @@ afterEach(() => {
 
 const PHYSICAL = /(^|\s|:)(-?m[lr]-|p[lr]-|-?left-|-?right-|border-[lr](-|\s|$)|rounded-[lr]-|text-left|text-right)/;
 
-function inLocale(ui: React.ReactElement, locale = "tr-TR", dir?: "rtl") {
+function inLocale(ui: React.ReactElement, locale = "en", dir?: "rtl") {
   return render(
     <div dir={dir}>
       <DesignSystemProvider locale={locale} navigate={vi.fn()}>{ui}</DesignSystemProvider>
@@ -42,30 +42,30 @@ const slot = (name: string) => document.querySelector<HTMLElement>(`[data-slot='
 function SignupDialog({ onContinue = vi.fn(), isDismissable }: { onContinue?: () => void; isDismissable?: boolean }) {
   return (
     <DialogTrigger>
-      <Button>Ücretsiz başla</Button>
+      <Button>Get started</Button>
       <Dialog
         size="fullscreen"
-        title="Hesabını oluştur"
-        description="Plan ve hesap bilgileri"
+        title="Create account"
+        description="Plan and account details"
         isDismissable={isDismissable}
-        secondaryAction={{ label: "Geri" }}
-        primaryAction={{ label: "Devam", onPress: onContinue }}
+        secondaryAction={{ label: "Back" }}
+        primaryAction={{ label: "Continue", onPress: onContinue }}
       >
-        <TextField label="E-posta" />
-        <p>Uzun bir form.</p>
+        <TextField label="Email" />
+        <p>A long form.</p>
       </Dialog>
     </DialogTrigger>
   );
 }
 
 function open() {
-  const trigger = screen.getByRole("button", { name: "Ücretsiz başla" });
+  const trigger = screen.getByRole("button", { name: "Get started" });
   act(() => trigger.focus());
   fireEvent.click(trigger);
   return trigger;
 }
 
-describe("Dialog size=\"fullscreen\" (RENENG-3478)", () => {
+describe("Dialog size=\"fullscreen\"", () => {
   describe("structure: a header and a footer that stay, the body scrolling between them", () => {
     it("header, body and footer are the dialog's three slots, in that order, inside a viewport-filling modal", () => {
       inLocale(<SignupDialog />);
@@ -94,10 +94,10 @@ describe("Dialog size=\"fullscreen\" (RENENG-3478)", () => {
       expect(slot("dialog-header").className).toContain("border-b");
       expect(slot("dialog-footer").className).toContain("border-t");
       // The title and the close button are in the header; the actions in the footer; the content in the body.
-      expect(within(slot("dialog-header")).getByRole("heading", { name: "Hesabını oluştur" })).toBeTruthy();
+      expect(within(slot("dialog-header")).getByRole("heading", { name: "Create account" })).toBeTruthy();
       expect(slot("dialog-header").querySelector("[data-slot='dialog-close']")).toBeTruthy();
-      expect(within(slot("dialog-footer")).getAllByRole("button").map((button) => button.textContent)).toEqual(["Geri", "Devam"]);
-      expect(within(slot("dialog-body")).getByText("Uzun bir form.")).toBeTruthy();
+      expect(within(slot("dialog-footer")).getAllByRole("button").map((button) => button.textContent)).toEqual(["Back", "Continue"]);
+      expect(within(slot("dialog-body")).getByText("A long form.")).toBeTruthy();
     });
   });
 
@@ -124,8 +124,8 @@ describe("Dialog size=\"fullscreen\" (RENENG-3478)", () => {
       inLocale(<SignupDialog />);
       open();
       const dialog = screen.getByRole("dialog");
-      await waitFor(() => expect(document.activeElement).toBe(within(dialog).getByRole("textbox", { name: "E-posta" })));
-      const primary = within(dialog).getByRole("button", { name: "Devam" });
+      await waitFor(() => expect(document.activeElement).toBe(within(dialog).getByRole("textbox", { name: "Email" })));
+      const primary = within(dialog).getByRole("button", { name: "Continue" });
       act(() => primary.focus());
       press("Tab", primary);
       expect(document.activeElement).toBe(dialog.querySelector("[data-slot='dialog-close']"));
@@ -165,7 +165,7 @@ describe("Dialog size=\"fullscreen\" (RENENG-3478)", () => {
       const onContinue = vi.fn();
       inLocale(<SignupDialog onContinue={onContinue} />);
       const trigger = open();
-      fireEvent.click(within(screen.getByRole("dialog")).getByRole("button", { name: "Devam" }));
+      fireEvent.click(within(screen.getByRole("dialog")).getByRole("button", { name: "Continue" }));
       expect(onContinue).toHaveBeenCalledTimes(1);
       fireEvent.click(slot("dialog-close"));
       await waitFor(() => expect(screen.queryByRole("dialog")).toBeNull());
@@ -185,23 +185,23 @@ describe("Dialog size=\"fullscreen\" (RENENG-3478)", () => {
     it("role dialog, named by its title, described by its description", () => {
       inLocale(<SignupDialog />);
       open();
-      const dialog = screen.getByRole("dialog", { name: "Hesabını oluştur" });
+      const dialog = screen.getByRole("dialog", { name: "Create account" });
       const describedBy = dialog.getAttribute("aria-describedby");
-      expect(document.getElementById(describedBy!)?.textContent).toBe("Plan ve hesap bilgileri");
+      expect(document.getElementById(describedBy!)?.textContent).toBe("Plan and account details");
     });
 
     it("modal like the other sizes: the page behind is hidden from assistive tech; aria-modal matches the small dialog", () => {
       inLocale(
         <>
-          <span>Arka plan</span>
+          <span>Background</span>
           <SignupDialog />
         </>,
       );
       open();
-      expect(screen.getByText("Arka plan").closest("[aria-hidden='true']")).toBeTruthy();
+      expect(screen.getByText("Background").closest("[aria-hidden='true']")).toBeTruthy();
       const full = screen.getByRole("dialog").getAttribute("aria-modal");
       cleanup();
-      inLocale(<Dialog defaultOpen title="Küçük">x</Dialog>);
+      inLocale(<Dialog defaultOpen title="Small">x</Dialog>);
       expect(screen.getByRole("dialog").getAttribute("aria-modal")).toBe(full);
     });
   });
@@ -209,7 +209,7 @@ describe("Dialog size=\"fullscreen\" (RENENG-3478)", () => {
   describe("presentation: a sheet on phones, full-screen on larger screens", () => {
     it("a phone (390px) gets the sheet: it slides up from the bottom edge and still fills the viewport", () => {
       stubViewport(390);
-      inLocale(<Dialog defaultOpen size="fullscreen" title="Kayıt">x</Dialog>);
+      inLocale(<Dialog defaultOpen size="fullscreen" title="Sign up">x</Dialog>);
       const modal = slot("dialog-modal");
       expect(modal.getAttribute("data-presentation")).toBe("sheet");
       expect(modal.className).toContain("data-[entering]:translate-y-full");
@@ -217,10 +217,10 @@ describe("Dialog size=\"fullscreen\" (RENENG-3478)", () => {
       expect(modal.className).toMatch(/(^|\s)inset-0(\s|$)/);
     });
 
-    it("640px and up (1280px) stays full-screen, as the signup modal is today: no width cap, it fades in", () => {
+    it("640px and up (1280px) stays full-screen: no width cap, it fades in", () => {
       for (const width of [640, 1280]) {
         stubViewport(width);
-        inLocale(<Dialog defaultOpen size="fullscreen" title="Kayıt">x</Dialog>);
+        inLocale(<Dialog defaultOpen size="fullscreen" title="Sign up">x</Dialog>);
         const modal = slot("dialog-modal");
         expect(modal.getAttribute("data-presentation"), String(width)).toBe("fullscreen");
         expect(modal.className, String(width)).toMatch(/(^|\s)inset-0(\s|$)/);
@@ -232,14 +232,14 @@ describe("Dialog size=\"fullscreen\" (RENENG-3478)", () => {
 
     it("without matchMedia (server, old browsers) it is full-screen", () => {
       vi.stubGlobal("matchMedia", undefined);
-      inLocale(<Dialog defaultOpen size="fullscreen" title="Kayıt">x</Dialog>);
+      inLocale(<Dialog defaultOpen size="fullscreen" title="Sign up">x</Dialog>);
       expect(slot("dialog-modal").getAttribute("data-presentation")).toBe("fullscreen");
     });
 
     it("reduced motion: no transition in either presentation", () => {
       for (const width of [390, 1280]) {
         stubViewport(width);
-        inLocale(<Dialog defaultOpen size="fullscreen" title="Kayıt">x</Dialog>);
+        inLocale(<Dialog defaultOpen size="fullscreen" title="Sign up">x</Dialog>);
         expect(slot("dialog-modal").className).toContain("motion-reduce:transition-none");
         cleanup();
       }
@@ -276,7 +276,7 @@ describe("Dialog size=\"fullscreen\" (RENENG-3478)", () => {
   });
 });
 
-describe("existing sizes are unchanged by the full-screen variant (RENENG-3478)", () => {
+describe("existing sizes are unchanged by the full-screen variant", () => {
   // The exact classes small, medium and large rendered before the variant was added.
   const OVERLAY =
     "fixed inset-0 z-50 bg-ds-blanket transition-opacity duration-(--ds-duration-slow) ease-ds-enter data-[entering]:opacity-0 data-[exiting]:opacity-0 data-[exiting]:ease-ds-exit motion-reduce:transition-none grid place-items-center overflow-y-auto p-ds-300 pt-[max(var(--ds-space-300),env(safe-area-inset-top,0px))] pb-[max(var(--ds-space-300),env(safe-area-inset-bottom,0px))]";
@@ -295,12 +295,12 @@ describe("existing sizes are unchanged by the full-screen variant (RENENG-3478)"
           <Dialog
             defaultOpen
             size={size}
-            title="Notu kaydet"
-            description="Kısa açıklama"
-            primaryAction={{ label: "Kaydet", isDisabled: true }}
-            secondaryAction={{ label: "Geri", isDisabled: true }}
+            title="Save note"
+            description="Short description"
+            primaryAction={{ label: "Save", isDisabled: true }}
+            secondaryAction={{ label: "Back", isDisabled: true }}
           >
-            Gövde
+            Body
           </Dialog>,
         );
         expect(slot("dialog-overlay").className).toBe(OVERLAY);

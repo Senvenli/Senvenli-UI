@@ -143,7 +143,7 @@ function useOverlayOpen({ isOpen, defaultOpen, onOpenChange }: OpenProps) {
  * button keeps its size and focus ring. Left out, the button's DOM is unchanged.
  */
 export type DialogAction = Pick<ButtonProps, "isPending" | "isDisabled" | "iconBefore" | "iconAfter"> & DataAttributes & {
-  /** The verb of the title: "Rezervasyonu iptal et", never "Tamam". */
+  /** The verb of the title: "Cancel order", never "OK". */
   label: string;
   variant?: "primary" | "danger";
   onPress?: () => void;
@@ -976,7 +976,7 @@ function useNarrow() {
 
 export type DrawerClose = (options?: {
   /**
-   * Close without the unsaved question: after a save ("Kaydet ve kapat"), when the parent's
+   * Close without the unsaved question: after a save ("Save and close"), when the parent's
    * `hasUnsavedChanges` has not re-rendered yet.
    */
   force?: boolean;

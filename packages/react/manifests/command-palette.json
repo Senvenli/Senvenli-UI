@@ -1,0 +1,245 @@
+{
+  "$schema": "https://design.senvenli.com/schema/component.full.json",
+  "kind": "component",
+  "family": "overlay",
+  "status": "alpha",
+  "import": "@senvenli/react/overlay",
+  "genui": {
+    "expose": false
+  },
+  "name": "command-palette",
+  "title": "Command palette",
+  "exports": [
+    "CommandPalette"
+  ],
+  "description": "A ⌘K search over actions and records, with recent items, groups and server results.",
+  "keywords": [
+    "command palette",
+    "cmd k",
+    "search",
+    "quick actions",
+    "launcher"
+  ],
+  "usage": {
+    "when": [
+      "An app with many pages and actions people want to reach by typing."
+    ]
+  },
+  "a11y": {
+    "keyboard": [
+      {
+        "keys": "Ctrl K / ⌘K",
+        "does": "Opens and closes it when bound."
+      },
+      {
+        "keys": "Arrow keys, Enter",
+        "does": "Moves and runs the focused item."
+      }
+    ],
+    "builtIn": [
+      "Matching ignores case and accents.",
+      "Announces \"No results\"."
+    ],
+    "youProvide": [
+      "Group names and item labels."
+    ]
+  },
+  "related": [
+    "combobox"
+  ],
+  "source": [
+    "src/overlay/command-palette.tsx"
+  ],
+  "props": {
+    "CommandPalette": [
+      {
+        "name": "isOpen",
+        "type": "boolean",
+        "required": false,
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "defaultOpen",
+        "type": "boolean",
+        "required": false,
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "onOpenChange",
+        "type": "(isOpen: boolean) => void",
+        "required": false
+      },
+      {
+        "name": "groups",
+        "type": "readonly CommandGroup[]",
+        "required": true,
+        "description": "Actions and pages, most used first; matched here, diacritic-insensitive.",
+        "schema": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "title": {
+                "type": "string"
+              },
+              "items": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "label": {
+                      "type": "string"
+                    },
+                    "detail": {
+                      "type": "string"
+                    },
+                    "icon": {
+                      "type": "string",
+                      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+                    },
+                    "shortcut": {
+                      "type": "string"
+                    },
+                    "kind": {
+                      "type": "string",
+                      "enum": [
+                        "page",
+                        "action",
+                        "record"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "label"
+                  ]
+                }
+              }
+            },
+            "required": [
+              "id",
+              "title",
+              "items"
+            ]
+          }
+        }
+      },
+      {
+        "name": "search",
+        "type": "(query: string, signal: AbortSignal) => Promise<readonly CommandGroup[]>",
+        "required": false,
+        "description": "Records found by the server (codes, order numbers, names, phones); shown before the groups."
+      },
+      {
+        "name": "recent",
+        "type": "readonly CommandItem[]",
+        "required": false,
+        "default": "[]",
+        "description": "Shown while the query is empty, above the five most used actions.",
+        "schema": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "label": {
+                "type": "string"
+              },
+              "detail": {
+                "type": "string"
+              },
+              "icon": {
+                "type": "string",
+                "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+              },
+              "shortcut": {
+                "type": "string"
+              },
+              "kind": {
+                "type": "string",
+                "enum": [
+                  "page",
+                  "action",
+                  "record"
+                ]
+              }
+            },
+            "required": [
+              "id",
+              "label"
+            ]
+          }
+        }
+      },
+      {
+        "name": "onSelect",
+        "type": "(item: CommandItem) => void",
+        "required": true
+      },
+      {
+        "name": "shortcut",
+        "type": "boolean",
+        "required": false,
+        "description": "Bind ⌘K / Ctrl K to open and close it.",
+        "schema": {
+          "type": "boolean"
+        }
+      }
+    ]
+  },
+  "tokens": [
+    "ds-background-neutral-subtle-hovered",
+    "ds-background-selected",
+    "ds-blanket",
+    "ds-border",
+    "ds-icon-subtle",
+    "ds-radius-medium",
+    "ds-radius-xlarge",
+    "ds-shadow-overlay",
+    "ds-space-050",
+    "ds-space-100",
+    "ds-space-150",
+    "ds-space-200",
+    "ds-space-300",
+    "ds-surface-overlay",
+    "ds-surface-sunken",
+    "ds-text",
+    "ds-text-subtle",
+    "ds-text-subtlest",
+    "font-ds-mono"
+  ],
+  "strings": [
+    "actionFailed",
+    "commandPalette",
+    "commandSearch",
+    "frequentActions",
+    "loading",
+    "noMatch",
+    "recentRecords"
+  ],
+  "quality": {
+    "tests": true,
+    "a11y": false,
+    "docs": false,
+    "visual": false,
+    "dark": false,
+    "rtl": false,
+    "mcp": true,
+    "generic": true
+  }
+}

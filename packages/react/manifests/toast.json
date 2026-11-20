@@ -1,0 +1,82 @@
+{
+  "$schema": "https://design.senvenli.com/schema/component.full.json",
+  "kind": "component",
+  "family": "overlay",
+  "status": "alpha",
+  "import": "@senvenli/react/overlay",
+  "genui": {
+    "expose": false
+  },
+  "name": "toast",
+  "title": "Toast",
+  "exports": [
+    "Toaster"
+  ],
+  "description": "Brief messages about what just happened, with one optional action; call toast() anywhere under the provider.",
+  "keywords": [
+    "toast",
+    "snackbar",
+    "notification",
+    "message"
+  ],
+  "usage": {
+    "when": [
+      "Confirming an action that finished: saved, sent, deleted (with Undo)."
+    ],
+    "instead": [
+      {
+        "use": "banner",
+        "when": "The message must stay until resolved."
+      }
+    ]
+  },
+  "guidance": [
+    {
+      "rule": "Write in the past tense: \"Order confirmed\"."
+    }
+  ],
+  "a11y": {
+    "builtIn": [
+      "Announced politely; danger toasts stay until dismissed.",
+      "The provider mounts the toast region once."
+    ],
+    "youProvide": []
+  },
+  "related": [
+    "banner"
+  ],
+  "source": [
+    "src/overlay/toast.tsx"
+  ],
+  "props": {
+    "Toaster": []
+  },
+  "tokens": [
+    "ds-border-focused",
+    "ds-easing-enter",
+    "ds-icon-danger",
+    "ds-icon-information",
+    "ds-icon-success",
+    "ds-radius-large",
+    "ds-shadow-overlay",
+    "ds-space-025",
+    "ds-space-100",
+    "ds-space-150",
+    "ds-space-200",
+    "ds-space-300",
+    "ds-surface-overlay",
+    "ds-text",
+    "ds-text-subtle"
+  ],
+  "strings": [],
+  "quality": {
+    "tests": false,
+    "a11y": false,
+    "docs": false,
+    "visual": false,
+    "dark": false,
+    "rtl": false,
+    "mcp": true,
+    "generic": true
+  }
+}

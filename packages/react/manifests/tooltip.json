@@ -1,0 +1,173 @@
+{
+  "$schema": "https://design.senvenli.com/schema/component.full.json",
+  "kind": "component",
+  "family": "overlay",
+  "status": "alpha",
+  "import": "@senvenli/react/overlay",
+  "genui": {
+    "expose": false
+  },
+  "name": "tooltip",
+  "title": "Tooltip",
+  "exports": [
+    "Tooltip"
+  ],
+  "description": "A short hint for a control on hover and keyboard focus, and on tap for touch users when needed.",
+  "keywords": [
+    "tooltip",
+    "hint",
+    "help",
+    "hover"
+  ],
+  "usage": {
+    "when": [
+      "Naming an icon button or adding a short hint."
+    ],
+    "instead": [
+      {
+        "use": "popover",
+        "when": "The content is interactive or long."
+      }
+    ]
+  },
+  "a11y": {
+    "builtIn": [
+      "Opens on keyboard focus too; touch users can tap with openOnTouch."
+    ],
+    "youProvide": [
+      "Content that is a hint, never the only place important information lives."
+    ]
+  },
+  "related": [
+    "popover"
+  ],
+  "source": [
+    "src/overlay/floating.tsx"
+  ],
+  "props": {
+    "Tooltip": [
+      {
+        "name": "content",
+        "type": "string",
+        "required": true,
+        "description": "Plain text only: the same words as the control's `aria-label`, or a truncated value in full.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "children",
+        "type": "ReactElement<unknown, string | JSXElementConstructor<any>>",
+        "required": true,
+        "description": "The trigger. It must be focusable; a non-interactive element (a truncated lozenge) is made focusable."
+      },
+      {
+        "name": "placement",
+        "type": "Placement",
+        "required": false,
+        "schema": {
+          "type": "string",
+          "enum": [
+            "start",
+            "end",
+            "bottom",
+            "left",
+            "right",
+            "top",
+            "bottom left",
+            "bottom right",
+            "bottom start",
+            "bottom end",
+            "top left",
+            "top right",
+            "top start",
+            "top end",
+            "left top",
+            "left bottom",
+            "start top",
+            "start bottom",
+            "right top",
+            "right bottom",
+            "end top",
+            "end bottom"
+          ]
+        }
+      },
+      {
+        "name": "shortcut",
+        "type": "string",
+        "required": false,
+        "description": "A keyboard shortcut shown as a chip (\"F\").",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "openOnTouch",
+        "type": "boolean",
+        "required": false,
+        "description": "Readable on touch screens: a tap on the trigger opens the tooltip and a second tap closes it;\na tap anywhere else, or Esc, closes it. Mouse hover and keyboard focus work exactly as without it. For a\ntrigger that does nothing on its own (a country flag, a truncated value); on a button the tap still presses it.",
+        "schema": {
+          "type": "boolean"
+        }
+      }
+    ]
+  },
+  "tokens": [
+    "ds-background-danger",
+    "ds-background-neutral",
+    "ds-background-neutral-bold",
+    "ds-background-neutral-pressed",
+    "ds-background-neutral-subtle-hovered",
+    "ds-background-warning",
+    "ds-blanket",
+    "ds-border",
+    "ds-border-bold",
+    "ds-border-focused",
+    "ds-easing-enter",
+    "ds-easing-exit",
+    "ds-icon",
+    "ds-icon-danger",
+    "ds-icon-subtle",
+    "ds-icon-warning",
+    "ds-radius-full",
+    "ds-radius-small",
+    "ds-radius-xlarge",
+    "ds-shadow-overlay",
+    "ds-size-control",
+    "ds-space-025",
+    "ds-space-050",
+    "ds-space-075",
+    "ds-space-100",
+    "ds-space-150",
+    "ds-space-200",
+    "ds-space-300",
+    "ds-surface-overlay",
+    "ds-text",
+    "ds-text-danger",
+    "ds-text-disabled",
+    "ds-text-inverse",
+    "ds-text-subtle",
+    "ds-text-subtlest",
+    "font-ds-mono"
+  ],
+  "strings": [
+    "collapseSheet",
+    "discardClose",
+    "expandSheet",
+    "keepEditing",
+    "typeToConfirm",
+    "unsavedBody",
+    "unsavedTitle"
+  ],
+  "quality": {
+    "tests": true,
+    "a11y": false,
+    "docs": false,
+    "visual": false,
+    "dark": false,
+    "rtl": false,
+    "mcp": true,
+    "generic": true
+  }
+}

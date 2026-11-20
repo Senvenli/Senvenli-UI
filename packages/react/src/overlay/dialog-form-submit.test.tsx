@@ -8,10 +8,9 @@ import { DesignSystemProvider } from "../provider";
 import { Dialog, DialogTrigger, type DialogProps } from "./index";
 
 /**
- * RENENG-3495: the Dialog options for the Website owner-activation Set-password dialog — a primary action that
- * submits the dialog's form, an optional secondary action and close button (a locked completion view), data-*
- * pass-through, and initial / return focus hooks. Each is opt-in; the render captures prove the DOM without them
- * is byte-identical to b87bab1.
+ * The Dialog options a set-password dialog needs: a primary action that submits the dialog's form, an optional
+ * secondary action and close button (a locked completion view), data-* pass-through, and initial / return focus
+ * hooks. Each is opt-in; without them the DOM is unchanged.
  */
 
 const PHYSICAL = /(^|\s|:)(-?m[lr]-|p[lr]-|-?left-|-?right-|border-[lr](-|\s|$)|rounded-[lr]-|text-left|text-right)/;
@@ -32,7 +31,7 @@ afterEach(() => {
 });
 const dialogWarnings = () => warn.mock.calls.map(([message]: unknown[]) => String(message)).filter((message: string) => message.startsWith("Dialog:"));
 
-function inLocale(ui: React.ReactElement, locale = "tr-TR", dir?: "rtl") {
+function inLocale(ui: React.ReactElement, locale = "en", dir?: "rtl") {
   return render(
     <div dir={dir}>
       <DesignSystemProvider locale={locale} navigate={vi.fn()}>{ui}</DesignSystemProvider>
@@ -47,13 +46,13 @@ function press(key: string, target: Element = document.activeElement ?? document
 
 const slot = (name: string) => document.querySelector<HTMLElement>(`[data-slot='${name}']`);
 
-/** The Set-password dialog (RENENG-3485): the form in the body, its submit button in the DS footer. */
+/** The set-password dialog: the form in the body, its submit button in the DS footer. */
 function SetPassword({ onSubmit = vi.fn(), ...props }: Partial<DialogProps> & { onSubmit?: (data: FormData) => void }) {
   return (
     <Dialog
       defaultOpen
-      title="Şifreni belirle"
-      primaryAction={{ label: "Şifreyi kaydet", form: "set-password" }}
+      title="Set your password"
+      primaryAction={{ label: "Save password", form: "set-password" }}
       {...props}
     >
       <form
@@ -63,14 +62,14 @@ function SetPassword({ onSubmit = vi.fn(), ...props }: Partial<DialogProps> & { 
           onSubmit(new FormData(event.currentTarget));
         }}
       >
-        <TextField label="Şifre" name="password" defaultValue="gizli-123" />
-        <TextField label="Şifre tekrar" name="confirm" defaultValue="gizli-123" />
+        <TextField label="Password" name="password" defaultValue="secret-123" />
+        <TextField label="Confirm password" name="confirm" defaultValue="secret-123" />
       </form>
     </Dialog>
   );
 }
 
-const primary = () => screen.getByRole("button", { name: "Şifreyi kaydet" });
+const primary = () => screen.getByRole("button", { name: "Save password" });
 
 /** A full press on the scrim (the overlay around a small, medium or large dialog; behind a fullscreen one). */
 function pressOutside() {
@@ -85,7 +84,7 @@ function pressOutside() {
 const STRANDED =
   "Dialog: isCloseButtonHidden leaves no close button, and the dialog has no control a keyboard can reach, so a user may be unable to go on or leave. Give it a primaryAction or a control in the body.";
 
-describe("Dialog form-submit primary action (RENENG-3495)", () => {
+describe("Dialog form-submit primary action", () => {
   it("is a submit button tied to the form by its id, outside the form element (in the footer)", () => {
     inLocale(<SetPassword />);
     const button = primary();
@@ -99,7 +98,7 @@ describe("Dialog form-submit primary action (RENENG-3495)", () => {
 
   it("is the form's default button, so Enter in a field submits through it (implicit submission)", () => {
     inLocale(<SetPassword />);
-    const field = screen.getByRole("textbox", { name: "Şifre" }) as HTMLInputElement;
+    const field = screen.getByRole("textbox", { name: "Password" }) as HTMLInputElement;
     const form = field.form!;
     expect(form.id).toBe("set-password");
     // HTML's default button: the first submit button whose form owner is the form, wherever it sits.
@@ -110,16 +109,16 @@ describe("Dialog form-submit primary action (RENENG-3495)", () => {
   it("a click submits the form once, with its fields; onPress runs too", () => {
     const onSubmit = vi.fn();
     const onPress = vi.fn();
-    inLocale(<SetPassword onSubmit={onSubmit} primaryAction={{ label: "Şifreyi kaydet", form: "set-password", onPress }} />);
+    inLocale(<SetPassword onSubmit={onSubmit} primaryAction={{ label: "Save password", form: "set-password", onPress }} />);
     fireEvent.click(primary());
     expect(onSubmit).toHaveBeenCalledTimes(1);
-    expect(Object.fromEntries(onSubmit.mock.calls[0][0])).toEqual({ password: "gizli-123", confirm: "gizli-123" });
+    expect(Object.fromEntries(onSubmit.mock.calls[0][0])).toEqual({ password: "secret-123", confirm: "secret-123" });
     expect(onPress).toHaveBeenCalledTimes(1);
   });
 
   it("isDisabled: the button is disabled and a click does not submit", () => {
     const onSubmit = vi.fn();
-    inLocale(<SetPassword onSubmit={onSubmit} primaryAction={{ label: "Şifreyi kaydet", form: "set-password", isDisabled: true }} />);
+    inLocale(<SetPassword onSubmit={onSubmit} primaryAction={{ label: "Save password", form: "set-password", isDisabled: true }} />);
     expect(primary().hasAttribute("disabled")).toBe(true);
     fireEvent.click(primary());
     expect(onSubmit).not.toHaveBeenCalled();
@@ -128,8 +127,8 @@ describe("Dialog form-submit primary action (RENENG-3495)", () => {
   it("isPending: busy, no submit by click or by an implicit (Enter) submit; it submits again once settled", () => {
     const onSubmit = vi.fn();
     const ui = (isPending: boolean) => (
-      <DesignSystemProvider locale="tr-TR" navigate={vi.fn()}>
-        <SetPassword onSubmit={onSubmit} primaryAction={{ label: "Şifreyi kaydet", form: "set-password", isPending }} />
+      <DesignSystemProvider locale="en" navigate={vi.fn()}>
+        <SetPassword onSubmit={onSubmit} primaryAction={{ label: "Save password", form: "set-password", isPending }} />
       </DesignSystemProvider>
     );
     const { rerender } = render(ui(true));
@@ -152,8 +151,8 @@ describe("Dialog form-submit primary action (RENENG-3495)", () => {
     const onOther = vi.fn();
     function Remounting({ generation }: { generation: number }) {
       return (
-        <DesignSystemProvider locale="tr-TR" navigate={vi.fn()}>
-          <Dialog defaultOpen title="Şifreni belirle" primaryAction={{ label: "Şifreyi kaydet", form: "set-password", isPending: true }}>
+        <DesignSystemProvider locale="en" navigate={vi.fn()}>
+          <Dialog defaultOpen title="Set your password" primaryAction={{ label: "Save password", form: "set-password", isPending: true }}>
             <form
               key={generation}
               id="set-password"
@@ -164,7 +163,7 @@ describe("Dialog form-submit primary action (RENENG-3495)", () => {
                 onSubmit();
               }}
             >
-              <TextField label="Şifre" name="password" />
+              <TextField label="Password" name="password" />
             </form>
             <form
               id="other"
@@ -198,9 +197,9 @@ describe("Dialog form-submit primary action (RENENG-3495)", () => {
   it("isPending: a submit stopped above the form while pending leaves nothing behind; it submits once settled", async () => {
     const onSubmit = vi.fn();
     const ui = (isPending: boolean) => (
-      <DesignSystemProvider locale="tr-TR" navigate={vi.fn()}>
+      <DesignSystemProvider locale="en" navigate={vi.fn()}>
         <div onSubmitCapture={(event) => isPending && event.stopPropagation()}>
-          <SetPassword onSubmit={onSubmit} primaryAction={{ label: "Şifreyi kaydet", form: "set-password", isPending }} />
+          <SetPassword onSubmit={onSubmit} primaryAction={{ label: "Save password", form: "set-password", isPending }} />
         </div>
       </DesignSystemProvider>
     );
@@ -214,8 +213,8 @@ describe("Dialog form-submit primary action (RENENG-3495)", () => {
   });
 
   it("without form the primary stays type=\"button\" with no form attribute (unchanged)", () => {
-    inLocale(<Dialog defaultOpen title="Not" primaryAction={{ label: "Kaydet" }}>x</Dialog>);
-    const button = screen.getByRole("button", { name: "Kaydet" });
+    inLocale(<Dialog defaultOpen title="Note" primaryAction={{ label: "Save" }}>x</Dialog>);
+    const button = screen.getByRole("button", { name: "Save" });
     expect(button.getAttribute("type")).toBe("button");
     expect(button.hasAttribute("form")).toBe(false);
   });
@@ -230,18 +229,18 @@ describe("Dialog form-submit primary action (RENENG-3495)", () => {
   }
 });
 
-describe("Dialog without a secondary action or close button (RENENG-3495)", () => {
+describe("Dialog without a secondary action or close button", () => {
   for (const size of SIZES) {
-    it(`${size}: secondaryAction={null} leaves "Vazgeç" out, with no warning`, () => {
-      inLocale(<Dialog defaultOpen size={size} title="Not" secondaryAction={null} primaryAction={{ label: "Kaydet" }}>x</Dialog>);
+    it(`${size}: secondaryAction={null} leaves "Cancel" out, with no warning`, () => {
+      inLocale(<Dialog defaultOpen size={size} title="Note" secondaryAction={null} primaryAction={{ label: "Save" }}>x</Dialog>);
       expect([...slot("dialog-footer")!.children].map((child) => child.getAttribute("data-slot"))).toEqual(["dialog-primary"]);
-      expect(screen.queryByRole("button", { name: "Vazgeç" })).toBeNull();
+      expect(screen.queryByRole("button", { name: "Cancel" })).toBeNull();
       expect(dialogWarnings()).toEqual([]);
     });
   }
 
   it("small: with no primary either there is no footer; the body takes the bottom padding", () => {
-    inLocale(<Dialog defaultOpen title="Not" secondaryAction={null}>x</Dialog>);
+    inLocale(<Dialog defaultOpen title="Note" secondaryAction={null}>x</Dialog>);
     expect(slot("dialog-footer")).toBeNull();
     const body = slot("dialog-body")!.className.split(" ");
     expect(body).toEqual(expect.arrayContaining(["pt-ds-200", "pb-ds-300", "overflow-y-auto"]));
@@ -250,19 +249,19 @@ describe("Dialog without a secondary action or close button (RENENG-3495)", () =
 
   for (const size of SIZES) {
     it(`${size}: isCloseButtonHidden leaves out the close button; the title still names the dialog`, () => {
-      inLocale(<Dialog defaultOpen size={size} title="Hesabın hazır" isCloseButtonHidden secondaryAction={null} primaryAction={{ label: "Giriş yap" }}>x</Dialog>);
-      const dialog = screen.getByRole("dialog", { name: "Hesabın hazır" });
+      inLocale(<Dialog defaultOpen size={size} title="Your account is ready" isCloseButtonHidden secondaryAction={null} primaryAction={{ label: "Sign in" }}>x</Dialog>);
+      const dialog = screen.getByRole("dialog", { name: "Your account is ready" });
       expect(slot("dialog-close")).toBeNull();
       expect(slot("dialog-close-wrap")).toBeNull();
-      expect(within(dialog).queryByRole("button", { name: "Kapat" })).toBeNull();
+      expect(within(dialog).queryByRole("button", { name: "Close" })).toBeNull();
       expect(dialog.getAttribute("aria-labelledby")).toBe(slot("dialog-title")!.id);
-      expect(within(dialog).getAllByRole("button").map((button) => button.textContent)).toEqual(["Giriş yap"]);
+      expect(within(dialog).getAllByRole("button").map((button) => button.textContent)).toEqual(["Sign in"]);
     });
 
     it(`${size}: isCloseButtonHidden alone only hides the button: Esc still closes (isDismissable decides)`, () => {
       const onOpenChange = vi.fn();
       inLocale(
-        <Dialog isOpen onOpenChange={onOpenChange} size={size} title="Hesabın hazır" isCloseButtonHidden secondaryAction={null} primaryAction={{ label: "Giriş yap" }}>
+        <Dialog isOpen onOpenChange={onOpenChange} size={size} title="Your account is ready" isCloseButtonHidden secondaryAction={null} primaryAction={{ label: "Sign in" }}>
           x
         </Dialog>,
       );
@@ -273,7 +272,7 @@ describe("Dialog without a secondary action or close button (RENENG-3495)", () =
     it(`${size}: isCloseButtonHidden alone: a press outside ${size === "fullscreen" ? "never closes (no scrim, as before)" : "still closes"}`, () => {
       const onOpenChange = vi.fn();
       inLocale(
-        <Dialog isOpen onOpenChange={onOpenChange} size={size} title="Hesabın hazır" isCloseButtonHidden secondaryAction={null} primaryAction={{ label: "Giriş yap" }}>
+        <Dialog isOpen onOpenChange={onOpenChange} size={size} title="Your account is ready" isCloseButtonHidden secondaryAction={null} primaryAction={{ label: "Sign in" }}>
           x
         </Dialog>,
       );
@@ -285,28 +284,28 @@ describe("Dialog without a secondary action or close button (RENENG-3495)", () =
       const onOpenChange = vi.fn();
       inLocale(
         <>
-          <Button>Sayfada</Button>
+          <Button>On the page</Button>
           <Dialog
             isOpen
             onOpenChange={onOpenChange}
             isDismissable={false}
             size={size}
-            title="Hesabın hazır"
+            title="Your account is ready"
             isCloseButtonHidden
             secondaryAction={null}
-            primaryAction={{ label: "Giriş yap" }}
+            primaryAction={{ label: "Sign in" }}
           >
             x
           </Dialog>
         </>,
       );
-      const dialog = screen.getByRole("dialog", { name: "Hesabın hazır" });
+      const dialog = screen.getByRole("dialog", { name: "Your account is ready" });
       expect(dialog.getAttribute("aria-labelledby")).toBe(slot("dialog-title")!.id);
       press("Escape", dialog);
       pressOutside();
       expect(onOpenChange).not.toHaveBeenCalled();
       expect(screen.getByRole("dialog")).toBeTruthy();
-      const go = within(dialog).getByRole("button", { name: "Giriş yap" });
+      const go = within(dialog).getByRole("button", { name: "Sign in" });
       act(() => go.focus());
       press("Tab", go);
       expect(document.activeElement).toBe(go);
@@ -317,7 +316,7 @@ describe("Dialog without a secondary action or close button (RENENG-3495)", () =
 
   it("the same dialog with its close button still closes on Esc and on a scrim press (unchanged)", () => {
     const onOpenChange = vi.fn();
-    inLocale(<Dialog isOpen onOpenChange={onOpenChange} title="Not">x</Dialog>);
+    inLocale(<Dialog isOpen onOpenChange={onOpenChange} title="Note">x</Dialog>);
     press("Escape", screen.getByRole("dialog"));
     expect(onOpenChange.mock.calls).toEqual([[false]]);
   });
@@ -325,21 +324,21 @@ describe("Dialog without a secondary action or close button (RENENG-3495)", () =
   it("a keyboard user is never stranded: focus starts in the dialog, Tab and Shift+Tab stay on its controls", async () => {
     inLocale(
       <DialogTrigger>
-        <Button>Hesabı etkinleştir</Button>
-        <Dialog title="Hesabın hazır" isCloseButtonHidden isDismissable={false} secondaryAction={null} primaryAction={{ label: "Giriş yap" }}>
-          Şifren kaydedildi.
+        <Button>Activate account</Button>
+        <Dialog title="Your account is ready" isCloseButtonHidden isDismissable={false} secondaryAction={null} primaryAction={{ label: "Sign in" }}>
+          Your password is saved.
         </Dialog>
       </DialogTrigger>,
     );
-    const trigger = screen.getByRole("button", { name: "Hesabı etkinleştir" });
+    const trigger = screen.getByRole("button", { name: "Activate account" });
     act(() => trigger.focus());
     fireEvent.click(trigger);
-    const dialog = screen.getByRole("dialog", { name: "Hesabın hazır" });
+    const dialog = screen.getByRole("dialog", { name: "Your account is ready" });
     // No field and no safe button: the dialog itself, so a screen reader reads its name.
     await waitFor(() => expect(document.activeElement).toBe(dialog));
     // The page behind is out of reach for assistive technology (React Aria hides it rather than set aria-modal).
     expect(trigger.closest("[aria-hidden='true'], [inert]")).not.toBeNull();
-    const go = within(dialog).getByRole("button", { name: "Giriş yap" });
+    const go = within(dialog).getByRole("button", { name: "Sign in" });
     act(() => go.focus());
     press("Tab", go);
     expect(document.activeElement).toBe(go);
@@ -354,12 +353,12 @@ describe("Dialog without a secondary action or close button (RENENG-3495)", () =
   it("with a form, Tab cycles through the fields and the submit, never the page behind", async () => {
     inLocale(
       <>
-        <Button>Sayfada</Button>
+        <Button>On the page</Button>
         <SetPassword isCloseButtonHidden isDismissable={false} secondaryAction={null} />
       </>,
     );
     const dialog = screen.getByRole("dialog");
-    const first = within(dialog).getByRole("textbox", { name: "Şifre" });
+    const first = within(dialog).getByRole("textbox", { name: "Password" });
     await waitFor(() => expect(document.activeElement).toBe(first));
     act(() => primary().focus());
     press("Tab", primary());
@@ -370,10 +369,10 @@ describe("Dialog without a secondary action or close button (RENENG-3495)", () =
 
   it("a locked dialog with a secondary action: that action still closes it (the app's choice)", () => {
     const onOpenChange = vi.fn();
-    inLocale(<Dialog isOpen onOpenChange={onOpenChange} title="Not" isCloseButtonHidden isDismissable={false}>x</Dialog>);
+    inLocale(<Dialog isOpen onOpenChange={onOpenChange} title="Note" isCloseButtonHidden isDismissable={false}>x</Dialog>);
     press("Escape", screen.getByRole("dialog"));
     expect(onOpenChange).not.toHaveBeenCalled();
-    fireEvent.click(screen.getByRole("button", { name: "Vazgeç" }));
+    fireEvent.click(screen.getByRole("button", { name: "Cancel" }));
     expect(onOpenChange.mock.calls).toEqual([[false]]);
   });
 
@@ -381,8 +380,8 @@ describe("Dialog without a secondary action or close button (RENENG-3495)", () =
     for (const isDismissable of [true, false]) {
       it(`${size}, isDismissable=${isDismissable}: close button hidden and nothing a keyboard can reach warns in development`, () => {
         inLocale(
-          <Dialog defaultOpen size={size} isDismissable={isDismissable} title="Bekleyin" isCloseButtonHidden secondaryAction={null}>
-            Hesabın hazırlanıyor…
+          <Dialog defaultOpen size={size} isDismissable={isDismissable} title="Please wait" isCloseButtonHidden secondaryAction={null}>
+            Your account is being prepared…
           </Dialog>,
         );
         expect(dialogWarnings()).toEqual([STRANDED]);
@@ -392,11 +391,11 @@ describe("Dialog without a secondary action or close button (RENENG-3495)", () =
 
   const reachable: Array<[string, React.ReactNode]> = [
     ["a primaryAction", null],
-    ["a field", <input key="i" aria-label="Kod" />],
-    ["a link", <a key="a" href="#devam">Devam</a>],
-    ["tabindex=0", <div key="t" tabIndex={0}>Odak</div>],
-    ["contenteditable", <div key="c" contentEditable suppressContentEditableWarning aria-label="Not">x</div>],
-    ["a summary", <details key="d"><summary>Ayrıntı</summary>x</details>],
+    ["a field", <input key="i" aria-label="Code" />],
+    ["a link", <a key="a" href="#continue">Continue</a>],
+    ["tabindex=0", <div key="t" tabIndex={0}>Focus</div>],
+    ["contenteditable", <div key="c" contentEditable suppressContentEditableWarning aria-label="Note">x</div>],
+    ["a summary", <details key="d"><summary>Details</summary>x</details>],
     ["audio with controls", <audio key="au" controls />],
     ["video with controls", <video key="v" controls />],
   ];
@@ -405,11 +404,11 @@ describe("Dialog without a secondary action or close button (RENENG-3495)", () =
       inLocale(
         <Dialog
           defaultOpen
-          title="Hazır"
+          title="Ready"
           isCloseButtonHidden
           isDismissable={false}
           secondaryAction={null}
-          primaryAction={control ? undefined : { label: "Giriş yap" }}
+          primaryAction={control ? undefined : { label: "Sign in" }}
         >
           {control ?? "x"}
         </Dialog>,
@@ -419,17 +418,17 @@ describe("Dialog without a secondary action or close button (RENENG-3495)", () =
   }
 
   it("no warning with the close button shown, a secondary action, or in production", () => {
-    inLocale(<Dialog defaultOpen title="Bilgi" secondaryAction={null}>x</Dialog>);
+    inLocale(<Dialog defaultOpen title="Info" secondaryAction={null}>x</Dialog>);
     cleanup();
-    inLocale(<Dialog defaultOpen title="Bilgi" isCloseButtonHidden>x</Dialog>);
+    inLocale(<Dialog defaultOpen title="Info" isCloseButtonHidden>x</Dialog>);
     cleanup();
-    inLocale(<Dialog defaultOpen title="Bekleyin" isCloseButtonHidden secondaryAction={null}><audio /><video /><div contentEditable={false}>x</div></Dialog>);
+    inLocale(<Dialog defaultOpen title="Please wait" isCloseButtonHidden secondaryAction={null}><audio /><video /><div contentEditable={false}>x</div></Dialog>);
     expect(dialogWarnings()).toEqual([STRANDED]);
     cleanup();
     warn.mockClear();
     vi.stubEnv("NODE_ENV", "production");
     try {
-      inLocale(<Dialog defaultOpen title="Bekleyin" isCloseButtonHidden isDismissable={false} secondaryAction={null}>x</Dialog>);
+      inLocale(<Dialog defaultOpen title="Please wait" isCloseButtonHidden isDismissable={false} secondaryAction={null}>x</Dialog>);
     } finally {
       vi.unstubAllEnvs();
     }
@@ -451,7 +450,7 @@ describe("Dialog without a secondary action or close button (RENENG-3495)", () =
   });
 });
 
-describe("Dialog data-* pass-through (RENENG-3495)", () => {
+describe("Dialog data-* pass-through", () => {
   const parts = {
     header: { "data-testid": "sp-header" },
     title: { "data-testid": "sp-title" },
@@ -466,18 +465,18 @@ describe("Dialog data-* pass-through (RENENG-3495)", () => {
         <Dialog
           defaultOpen
           size={size}
-          title="Şifreni belirle"
+          title="Set your password"
           data-testid="set-password"
           data-step="2"
           partData={parts}
-          primaryAction={{ label: "Kaydet", "data-testid": "sp-primary", "data-track": "save" }}
-          secondaryAction={{ label: "Geri", "data-testid": "sp-secondary" }}
+          primaryAction={{ label: "Save", "data-testid": "sp-primary", "data-track": "save" }}
+          secondaryAction={{ label: "Back", "data-testid": "sp-secondary" }}
         >
           x
         </Dialog>,
       );
       const dialog = screen.getByTestId("set-password");
-      expect(dialog).toBe(screen.getByRole("dialog", { name: "Şifreni belirle" }));
+      expect(dialog).toBe(screen.getByRole("dialog", { name: "Set your password" }));
       expect(dialog.getAttribute("data-step")).toBe("2");
       expect(dialog.getAttribute("data-slot")).toBe("dialog");
       const expected: Array<[string, string]> = [
@@ -493,7 +492,7 @@ describe("Dialog data-* pass-through (RENENG-3495)", () => {
         expect(screen.getByTestId(testId).getAttribute("data-slot"), testId).toBe(part);
       }
       expect(screen.getByTestId("sp-primary").getAttribute("data-track")).toBe("save");
-      expect(screen.getByTestId("sp-close").getAttribute("aria-label")).toBe("Kapat");
+      expect(screen.getByTestId("sp-close").getAttribute("aria-label")).toBe("Close");
     });
   }
 
@@ -501,27 +500,27 @@ describe("Dialog data-* pass-through (RENENG-3495)", () => {
     inLocale(
       <Dialog
         defaultOpen
-        title="Not"
+        title="Note"
         data-slot="mine"
         partData={{ body: { "data-slot": "mine", "data-testid": "b" } }}
-        primaryAction={{ label: "Kaydet", "data-slot": "mine" }}
+        primaryAction={{ label: "Save", "data-slot": "mine" }}
       >
         x
       </Dialog>,
     );
     expect(screen.getByRole("dialog").getAttribute("data-slot")).toBe("dialog");
     expect(screen.getByTestId("b").getAttribute("data-slot")).toBe("dialog-body");
-    expect(screen.getByRole("button", { name: "Kaydet" }).getAttribute("data-slot")).toBe("dialog-primary");
+    expect(screen.getByRole("button", { name: "Save" }).getAttribute("data-slot")).toBe("dialog-primary");
     expect(document.querySelector("[data-slot='mine']")).toBeNull();
-    expect(screen.getByRole("button", { name: "Kaydet" }).hasAttribute("label")).toBe(false);
+    expect(screen.getByRole("button", { name: "Save" }).hasAttribute("label")).toBe(false);
   });
 
   it("the footer's data-layout stays the DS's own: partData.footer cannot set it", () => {
-    inLocale(<Dialog defaultOpen title="Not" partData={{ footer: { "data-layout": "mine", "data-testid": "f" } }}>x</Dialog>);
+    inLocale(<Dialog defaultOpen title="Note" partData={{ footer: { "data-layout": "mine", "data-testid": "f" } }}>x</Dialog>);
     expect(screen.getByTestId("f").hasAttribute("data-layout")).toBe(false);
     cleanup();
     inLocale(
-      <Dialog defaultOpen size="fullscreen" footerLayout="spread" title="Not" partData={{ footer: { "data-layout": "mine", "data-testid": "f" } }}>
+      <Dialog defaultOpen size="fullscreen" footerLayout="spread" title="Note" partData={{ footer: { "data-layout": "mine", "data-testid": "f" } }}>
         x
       </Dialog>,
     );
@@ -529,23 +528,23 @@ describe("Dialog data-* pass-through (RENENG-3495)", () => {
   });
 });
 
-describe("Dialog focus hooks (RENENG-3495)", () => {
+describe("Dialog focus hooks", () => {
   function Flow({ initial, returnTo, showTarget = true }: { initial?: boolean; returnTo?: boolean; showTarget?: boolean }) {
     const confirm = React.useRef<HTMLInputElement>(null);
     const next = React.useRef<HTMLHeadingElement>(null);
     return (
       <>
-        {showTarget && <h2 ref={next} tabIndex={-1}>Sonraki adım</h2>}
+        {showTarget && <h2 ref={next} tabIndex={-1}>Next step</h2>}
         <DialogTrigger>
-          <Button>Şifre belirle</Button>
+          <Button>Set password</Button>
           <Dialog
-            title="Şifreni belirle"
+            title="Set your password"
             initialFocusRef={initial ? confirm : undefined}
             returnFocusRef={returnTo ? next : undefined}
-            primaryAction={{ label: "Sil", variant: "danger" }}
+            primaryAction={{ label: "Delete", variant: "danger" }}
           >
-            <TextField label="Şifre" />
-            <TextField label="Şifre tekrar" ref={confirm} />
+            <TextField label="Password" />
+            <TextField label="Confirm password" ref={confirm} />
           </Dialog>
         </DialogTrigger>
       </>
@@ -553,43 +552,43 @@ describe("Dialog focus hooks (RENENG-3495)", () => {
   }
 
   function open() {
-    const trigger = screen.getByRole("button", { name: "Şifre belirle" });
+    const trigger = screen.getByRole("button", { name: "Set password" });
     act(() => trigger.focus());
     fireEvent.click(trigger);
     return trigger;
   }
 
-  it("initialFocusRef: that element takes focus on open, before the DS rule (here: Vazgeç before a danger primary)", async () => {
+  it("initialFocusRef: that element takes focus on open, before the DS rule (here: Cancel before a danger primary)", async () => {
     inLocale(<Flow initial />);
     open();
-    await waitFor(() => expect(document.activeElement).toBe(screen.getByRole("textbox", { name: "Şifre tekrar" })));
+    await waitFor(() => expect(document.activeElement).toBe(screen.getByRole("textbox", { name: "Confirm password" })));
   });
 
   it("without it (or with an empty ref) the rule is unchanged", async () => {
     inLocale(<Flow />);
     open();
-    await waitFor(() => expect(document.activeElement).toBe(screen.getByRole("button", { name: "Vazgeç" })));
+    await waitFor(() => expect(document.activeElement).toBe(screen.getByRole("button", { name: "Cancel" })));
     cleanup();
     inLocale(
-      <Dialog defaultOpen title="Not" initialFocusRef={{ current: null }}>
-        <TextField label="Ad" />
+      <Dialog defaultOpen title="Note" initialFocusRef={{ current: null }}>
+        <TextField label="Name" />
       </Dialog>,
     );
-    await waitFor(() => expect(document.activeElement).toBe(screen.getByRole("textbox", { name: "Ad" })));
+    await waitFor(() => expect(document.activeElement).toBe(screen.getByRole("textbox", { name: "Name" })));
   });
 
   it("the focus trap stays with initialFocusRef: Tab from the last control wraps to the first", async () => {
     inLocale(<Flow initial />);
     open();
     const dialog = screen.getByRole("dialog");
-    const last = within(dialog).getByRole("button", { name: "Sil" });
-    await waitFor(() => expect(document.activeElement).toBe(screen.getByRole("textbox", { name: "Şifre tekrar" })));
+    const last = within(dialog).getByRole("button", { name: "Delete" });
+    await waitFor(() => expect(document.activeElement).toBe(screen.getByRole("textbox", { name: "Confirm password" })));
     act(() => last.focus());
     press("Tab", last);
     expect(document.activeElement).toBe(slot("dialog-close"));
   });
 
-  for (const how of ["the close button", "Esc", "Vazgeç"] as const) {
+  for (const how of ["the close button", "Esc", "Cancel"] as const) {
     it(`returnFocusRef: closing by ${how}, focus goes to the target and never back to the trigger`, async () => {
       inLocale(<Flow returnTo />);
       const trigger = open();
@@ -597,11 +596,11 @@ describe("Dialog focus hooks (RENENG-3495)", () => {
       trigger.addEventListener("focus", triggerFocus);
       if (how === "the close button") fireEvent.click(slot("dialog-close")!);
       else if (how === "Esc") press("Escape", screen.getByRole("dialog"));
-      else fireEvent.click(screen.getByRole("button", { name: "Vazgeç" }));
+      else fireEvent.click(screen.getByRole("button", { name: "Cancel" }));
       await waitFor(() => expect(screen.queryByRole("dialog")).toBeNull());
-      await waitFor(() => expect(document.activeElement).toBe(screen.getByRole("heading", { name: "Sonraki adım" })));
+      await waitFor(() => expect(document.activeElement).toBe(screen.getByRole("heading", { name: "Next step" })));
       await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
-      expect(document.activeElement).toBe(screen.getByRole("heading", { name: "Sonraki adım" }));
+      expect(document.activeElement).toBe(screen.getByRole("heading", { name: "Next step" }));
       expect(triggerFocus).not.toHaveBeenCalled();
     });
   }
@@ -609,19 +608,19 @@ describe("Dialog focus hooks (RENENG-3495)", () => {
   it("Strict Mode's development remount is not a close: focus stays in the dialog on open, goes to the target on close", async () => {
     render(
       <React.StrictMode>
-        <DesignSystemProvider locale="tr-TR" navigate={vi.fn()}>
+        <DesignSystemProvider locale="en" navigate={vi.fn()}>
           <Flow returnTo initial />
         </DesignSystemProvider>
       </React.StrictMode>,
     );
     open();
-    const confirm = screen.getByRole("textbox", { name: "Şifre tekrar" });
+    const confirm = screen.getByRole("textbox", { name: "Confirm password" });
     await waitFor(() => expect(document.activeElement).toBe(confirm));
     await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
     expect(document.activeElement).toBe(confirm);
     press("Escape", confirm);
     await waitFor(() => expect(screen.queryByRole("dialog")).toBeNull());
-    await waitFor(() => expect(document.activeElement).toBe(screen.getByRole("heading", { name: "Sonraki adım" })));
+    await waitFor(() => expect(document.activeElement).toBe(screen.getByRole("heading", { name: "Next step" })));
   });
 
   it("React Aria still dispatches its focus-restore event on the trigger when the dialog closes (returnFocusRef relies on it)", async () => {
@@ -663,19 +662,19 @@ describe("Dialog focus hooks (RENENG-3495)", () => {
       const other = React.useRef<HTMLButtonElement>(null);
       return (
         <>
-          <button ref={target} type="button">Hedef</button>
-          <button ref={other} type="button">Başka</button>
-          <Dialog defaultOpen title="Not" returnFocusRef={target} onOpenChange={(open) => !open && other.current?.focus()}>
-            <TextField label="Ad" />
+          <button ref={target} type="button">Target</button>
+          <button ref={other} type="button">Other</button>
+          <Dialog defaultOpen title="Note" returnFocusRef={target} onOpenChange={(open) => !open && other.current?.focus()}>
+            <TextField label="Name" />
           </Dialog>
         </>
       );
     }
     inLocale(<App />);
-    await waitFor(() => expect(document.activeElement).toBe(screen.getByRole("textbox", { name: "Ad" })));
+    await waitFor(() => expect(document.activeElement).toBe(screen.getByRole("textbox", { name: "Name" })));
     fireEvent.click(slot("dialog-close")!);
     await waitFor(() => expect(screen.queryByRole("dialog")).toBeNull());
     await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
-    expect(document.activeElement).toBe(screen.getByRole("button", { name: "Başka" }));
+    expect(document.activeElement).toBe(screen.getByRole("button", { name: "Other" }));
   });
 });

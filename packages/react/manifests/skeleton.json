@@ -196,7 +196,7 @@
         "name": "loadedLabel",
         "type": "string",
         "required": false,
-        "description": "The region's name once loaded (\"Rezervasyonlar\"); none by default.",
+        "description": "The region's name once loaded (\"Orders\"); none by default.",
         "schema": {
           "type": "string"
         }

@@ -256,7 +256,7 @@
         "name": "createLabel",
         "type": "(text: string) => string",
         "required": false,
-        "description": "The create row's text; defaults to \"“{query}” ekle\"."
+        "description": "The create row's text; defaults to \"Add “{query}”\"."
       },
       {
         "name": "onInputChange",

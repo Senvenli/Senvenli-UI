@@ -15,7 +15,7 @@ afterEach(() => {
 
 const PHYSICAL = /(^|\s|:)(-?m[lr]-|p[lr]-|-?left-|-?right-|border-[lr](-|\s|$)|rounded-[lr]-|text-left|text-right)/;
 
-function inLocale(ui: React.ReactElement, locale = "tr-TR", dir?: "rtl") {
+function inLocale(ui: React.ReactElement, locale = "en", dir?: "rtl") {
   return render(
     <div dir={dir}>
       <DesignSystemProvider locale={locale} navigate={vi.fn()}>{ui}</DesignSystemProvider>
@@ -35,49 +35,49 @@ function Logo() {
   return <svg data-testid="logo" aria-hidden="true" width="96" height="24" />;
 }
 
-/** The Website signup frame (#859): a logo before a hidden title, no DS footer, the steps' own buttons in the body. */
+/** A signup frame: a logo before a hidden title, no DS footer, the steps' own buttons in the body. */
 function SignupFrame(props: Partial<DialogProps>) {
   return (
     <DialogTrigger>
-      <Button>Ücretsiz başla</Button>
+      <Button>Get started</Button>
       <Dialog
         size="fullscreen"
-        title="Hesabını oluştur"
+        title="Create account"
         headerStart={<Logo />}
         isTitleHidden
         secondaryAction={null}
         {...props}
       >
-        <TextField label="E-posta" />
-        <Button>Devam</Button>
+        <TextField label="Email" />
+        <Button>Continue</Button>
       </Dialog>
     </DialogTrigger>
   );
 }
 
 function open() {
-  const trigger = screen.getByRole("button", { name: "Ücretsiz başla" });
+  const trigger = screen.getByRole("button", { name: "Get started" });
   act(() => trigger.focus());
   fireEvent.click(trigger);
   return trigger;
 }
 
-describe("Dialog size=\"fullscreen\" options (RENENG-3490)", () => {
+describe("Dialog size=\"fullscreen\" options", () => {
   describe("action icons: iconBefore / iconAfter", () => {
     it("render beside the label, aria-hidden; the label alone names the button", () => {
       inLocale(
         <Dialog
           defaultOpen
           size="fullscreen"
-          title="Kayıt"
-          secondaryAction={{ label: "Geri", iconBefore: "arrow-left" }}
-          primaryAction={{ label: "Devam", iconAfter: "arrow-right" }}
+          title="Sign up"
+          secondaryAction={{ label: "Back", iconBefore: "arrow-left" }}
+          primaryAction={{ label: "Continue", iconAfter: "arrow-right" }}
         >
           x
         </Dialog>,
       );
-      const back = screen.getByRole("button", { name: "Geri" });
-      const next = screen.getByRole("button", { name: "Devam" });
+      const back = screen.getByRole("button", { name: "Back" });
+      const next = screen.getByRole("button", { name: "Continue" });
       for (const [button, side] of [[back, "first"], [next, "last"]] as const) {
         const content = button.querySelector("[data-slot='button-content']")!;
         const icons = content.querySelectorAll("[data-slot='button-icon']");
@@ -89,11 +89,11 @@ describe("Dialog size=\"fullscreen\" options (RENENG-3490)", () => {
     });
 
     it("keep the button's size and focus ring: the same classes as without an icon", () => {
-      inLocale(<Dialog defaultOpen size="fullscreen" title="Kayıt" primaryAction={{ label: "Devam" }}>x</Dialog>);
-      const plain = screen.getByRole("button", { name: "Devam" }).className;
+      inLocale(<Dialog defaultOpen size="fullscreen" title="Sign up" primaryAction={{ label: "Continue" }}>x</Dialog>);
+      const plain = screen.getByRole("button", { name: "Continue" }).className;
       cleanup();
-      inLocale(<Dialog defaultOpen size="fullscreen" title="Kayıt" primaryAction={{ label: "Devam", iconBefore: "check", iconAfter: "arrow-right" }}>x</Dialog>);
-      const button = screen.getByRole("button", { name: "Devam" });
+      inLocale(<Dialog defaultOpen size="fullscreen" title="Sign up" primaryAction={{ label: "Continue", iconBefore: "check", iconAfter: "arrow-right" }}>x</Dialog>);
+      const button = screen.getByRole("button", { name: "Continue" });
       expect(button.className).toBe(plain);
       expect(button.className).toContain("h-ds-control");
       expect(button.className).toContain("data-[focus-visible]:inset-ring-2");
@@ -101,8 +101,8 @@ describe("Dialog size=\"fullscreen\" options (RENENG-3490)", () => {
     });
 
     it("a pending primary still hides its icon with the label behind the spinner", () => {
-      inLocale(<Dialog defaultOpen size="fullscreen" title="Kayıt" primaryAction={{ label: "Devam", iconAfter: "arrow-right", isPending: true }}>x</Dialog>);
-      const button = screen.getByRole("button", { name: "Devam" });
+      inLocale(<Dialog defaultOpen size="fullscreen" title="Sign up" primaryAction={{ label: "Continue", iconAfter: "arrow-right", isPending: true }}>x</Dialog>);
+      const button = screen.getByRole("button", { name: "Continue" });
       expect(button.querySelector("[data-slot='button-content']")!.className).toContain("opacity-0");
       expect(button.querySelector("[data-slot='button-spinner']")).toBeTruthy();
     });
@@ -111,7 +111,7 @@ describe("Dialog size=\"fullscreen\" options (RENENG-3490)", () => {
   describe("footerLayout=\"spread\"", () => {
     it("secondary at the inline start, primary at the inline end (LTR); the footer stays sticky with its safe area", () => {
       inLocale(
-        <Dialog defaultOpen size="fullscreen" title="Kayıt" footerLayout="spread" secondaryAction={{ label: "Geri" }} primaryAction={{ label: "Devam" }}>
+        <Dialog defaultOpen size="fullscreen" title="Sign up" footerLayout="spread" secondaryAction={{ label: "Back" }} primaryAction={{ label: "Continue" }}>
           x
         </Dialog>,
       );
@@ -140,17 +140,17 @@ describe("Dialog size=\"fullscreen\" options (RENENG-3490)", () => {
     });
 
     it("a lone primary (secondaryAction null) stays at the end", () => {
-      inLocale(<Dialog defaultOpen size="fullscreen" title="Kayıt" footerLayout="spread" secondaryAction={null} primaryAction={{ label: "Devam" }}>x</Dialog>);
+      inLocale(<Dialog defaultOpen size="fullscreen" title="Sign up" footerLayout="spread" secondaryAction={null} primaryAction={{ label: "Continue" }}>x</Dialog>);
       const footer = slot("dialog-footer")!;
       expect(children(footer)).toEqual(["dialog-primary"]);
       expect(footer.className.split(" ")).toContain("justify-end");
     });
 
     it("the default (and footerLayout=\"end\") renders the footer exactly as before", () => {
-      inLocale(<Dialog defaultOpen size="fullscreen" title="Kayıt" primaryAction={{ label: "Devam" }}>x</Dialog>);
+      inLocale(<Dialog defaultOpen size="fullscreen" title="Sign up" primaryAction={{ label: "Continue" }}>x</Dialog>);
       const before = slot("dialog-footer")!.outerHTML;
       cleanup();
-      inLocale(<Dialog defaultOpen size="fullscreen" title="Kayıt" footerLayout="end" primaryAction={{ label: "Devam" }}>x</Dialog>);
+      inLocale(<Dialog defaultOpen size="fullscreen" title="Sign up" footerLayout="end" primaryAction={{ label: "Continue" }}>x</Dialog>);
       expect(slot("dialog-footer")!.outerHTML.replace(/react-aria\S*?"/g, "")).toBe(before.replace(/react-aria\S*?"/g, ""));
       expect(slot("dialog-footer")!.hasAttribute("data-layout")).toBe(false);
     });
@@ -158,24 +158,24 @@ describe("Dialog size=\"fullscreen\" options (RENENG-3490)", () => {
 
   describe("optional footer: secondaryAction={null} and no primaryAction", () => {
     it("renders no footer element and no wrapper: the dialog is the header and the body", () => {
-      inLocale(<Dialog defaultOpen size="fullscreen" title="Kayıt" secondaryAction={null}>x</Dialog>);
+      inLocale(<Dialog defaultOpen size="fullscreen" title="Sign up" secondaryAction={null}>x</Dialog>);
       expect(slot("dialog-footer")).toBeNull();
       expect(children(screen.getByRole("dialog"))).toEqual(["dialog-header", "dialog-body"]);
-      expect(within(screen.getByRole("dialog")).queryByRole("button", { name: "Vazgeç" })).toBeNull();
+      expect(within(screen.getByRole("dialog")).queryByRole("button", { name: "Cancel" })).toBeNull();
     });
 
     it("the body takes the bottom safe area itself and still scrolls", () => {
-      inLocale(<Dialog defaultOpen size="fullscreen" title="Kayıt" secondaryAction={null}>x</Dialog>);
+      inLocale(<Dialog defaultOpen size="fullscreen" title="Sign up" secondaryAction={null}>x</Dialog>);
       const body = slot("dialog-body")!.className.split(" ");
       expect(body).toEqual(expect.arrayContaining(["min-h-0", "flex-1", "overflow-y-auto", "pt-ds-300", "pb-[max(var(--ds-space-300),env(safe-area-inset-bottom,0px))]"]));
       expect(body).not.toContain("py-ds-300");
     });
 
     it("with a primary action the footer stays, sticky with its safe area, and the body is unchanged", () => {
-      inLocale(<Dialog defaultOpen size="fullscreen" title="Kayıt" primaryAction={{ label: "Devam" }}>x</Dialog>);
+      inLocale(<Dialog defaultOpen size="fullscreen" title="Sign up" primaryAction={{ label: "Continue" }}>x</Dialog>);
       const body = slot("dialog-body")!.className;
       cleanup();
-      inLocale(<Dialog defaultOpen size="fullscreen" title="Kayıt" secondaryAction={null} primaryAction={{ label: "Devam" }}>x</Dialog>);
+      inLocale(<Dialog defaultOpen size="fullscreen" title="Sign up" secondaryAction={null} primaryAction={{ label: "Continue" }}>x</Dialog>);
       expect(slot("dialog-body")!.className).toBe(body);
       expect(slot("dialog-footer")!.className.split(" ")).toContain("shrink-0");
       expect(slot("dialog-footer")!.className).toContain("pb-[max(var(--ds-space-300),env(safe-area-inset-bottom,0px))]");
@@ -184,7 +184,7 @@ describe("Dialog size=\"fullscreen\" options (RENENG-3490)", () => {
 
   describe("headerStart", () => {
     it("comes first in the header, then the title, then the close button", () => {
-      inLocale(<Dialog defaultOpen size="fullscreen" title="Hesabını oluştur" headerStart={<Logo />} primaryAction={{ label: "Devam" }}>x</Dialog>);
+      inLocale(<Dialog defaultOpen size="fullscreen" title="Create account" headerStart={<Logo />} primaryAction={{ label: "Continue" }}>x</Dialog>);
       const header = slot("dialog-header")!;
       expect(children(header)).toEqual(["dialog-header-start", "dialog-heading", "dialog-close-wrap"]);
       expect(within(slot("dialog-header-start")!).getByTestId("logo")).toBeTruthy();
@@ -193,22 +193,22 @@ describe("Dialog size=\"fullscreen\" options (RENENG-3490)", () => {
     });
 
     it("the title side shrinks and the title truncates to one line; the close button does not shrink", () => {
-      inLocale(<Dialog defaultOpen size="fullscreen" title="Çok uzun bir kayıt başlığı" headerStart={<Logo />}>x</Dialog>);
+      inLocale(<Dialog defaultOpen size="fullscreen" title="A very long sign-up title" headerStart={<Logo />}>x</Dialog>);
       expect(slot("dialog-heading")!.className.split(" ")).toEqual(expect.arrayContaining(["min-w-0", "flex-1"]));
       expect(slot("dialog-title")!.className.split(" ")).toContain("truncate");
       expect(slot("dialog-close")!.className.split(" ")).toContain("shrink-0");
     });
 
     it("with a description, the title truncates and the description sits under it", () => {
-      inLocale(<Dialog defaultOpen size="fullscreen" title="Kayıt" description="Adım 1 / 2" headerStart={<Logo />}>x</Dialog>);
+      inLocale(<Dialog defaultOpen size="fullscreen" title="Sign up" description="Step 1 of 2" headerStart={<Logo />}>x</Dialog>);
       expect(children(slot("dialog-heading")!)).toEqual(["dialog-title", "dialog-description"]);
       expect(slot("dialog-heading")!.className.split(" ")).toEqual(expect.arrayContaining(["min-w-0", "flex-1"]));
-      expect(screen.getByRole("dialog", { name: "Kayıt" }).getAttribute("aria-describedby")).toBe(slot("dialog-description")!.id);
+      expect(screen.getByRole("dialog", { name: "Sign up" }).getAttribute("aria-describedby")).toBe(slot("dialog-description")!.id);
     });
 
     it("the close button still closes it", () => {
       const onOpenChange = vi.fn();
-      inLocale(<Dialog isOpen onOpenChange={onOpenChange} size="fullscreen" title="Kayıt" headerStart={<Logo />}>x</Dialog>);
+      inLocale(<Dialog isOpen onOpenChange={onOpenChange} size="fullscreen" title="Sign up" headerStart={<Logo />}>x</Dialog>);
       fireEvent.click(slot("dialog-close")!);
       expect(onOpenChange.mock.calls).toEqual([[false]]);
     });
@@ -216,8 +216,8 @@ describe("Dialog size=\"fullscreen\" options (RENENG-3490)", () => {
 
   describe("isTitleHidden", () => {
     it("hides the title visually but it still names the dialog", () => {
-      inLocale(<Dialog defaultOpen size="fullscreen" title="Hesabını oluştur" isTitleHidden>x</Dialog>);
-      const dialog = screen.getByRole("dialog", { name: "Hesabını oluştur" });
+      inLocale(<Dialog defaultOpen size="fullscreen" title="Create account" isTitleHidden>x</Dialog>);
+      const dialog = screen.getByRole("dialog", { name: "Create account" });
       const title = slot("dialog-title")!;
       expect(title.className).toBe("sr-only");
       expect(dialog.getAttribute("aria-labelledby")).toBe(title.id);
@@ -228,14 +228,14 @@ describe("Dialog size=\"fullscreen\" options (RENENG-3490)", () => {
     it("with headerStart: the logo, the hidden title, the close button; still named", () => {
       inLocale(<SignupFrame />);
       open();
-      expect(screen.getByRole("dialog", { name: "Hesabını oluştur" })).toBeTruthy();
+      expect(screen.getByRole("dialog", { name: "Create account" })).toBeTruthy();
       expect(children(slot("dialog-header")!)).toEqual(["dialog-header-start", "dialog-title", "dialog-close-wrap"]);
       expect(slot("dialog-title")!.className).toBe("sr-only");
     });
 
     it("a description stays visible and still describes the dialog", () => {
-      inLocale(<Dialog defaultOpen size="fullscreen" title="Kayıt" description="Adım 1 / 2" isTitleHidden>x</Dialog>);
-      const dialog = screen.getByRole("dialog", { name: "Kayıt" });
+      inLocale(<Dialog defaultOpen size="fullscreen" title="Sign up" description="Step 1 of 2" isTitleHidden>x</Dialog>);
+      const dialog = screen.getByRole("dialog", { name: "Sign up" });
       expect(slot("dialog-description")!.className).not.toContain("sr-only");
       expect(dialog.getAttribute("aria-describedby")).toBe(slot("dialog-description")!.id);
     });
@@ -251,24 +251,24 @@ describe("Dialog size=\"fullscreen\" options (RENENG-3490)", () => {
 
   describe("keyboard: focus trap, Esc and focus return with every option on", () => {
     it("focus moves to the first field and Tab wraps inside the dialog (close button first)", async () => {
-      inLocale(<SignupFrame footerLayout="spread" primaryAction={{ label: "Gönder", iconAfter: "arrow-right" }} />);
+      inLocale(<SignupFrame footerLayout="spread" primaryAction={{ label: "Submit", iconAfter: "arrow-right" }} />);
       open();
-      const dialog = screen.getByRole("dialog", { name: "Hesabını oluştur" });
-      await waitFor(() => expect(document.activeElement).toBe(within(dialog).getByRole("textbox", { name: "E-posta" })));
-      const last = within(dialog).getByRole("button", { name: "Gönder" });
+      const dialog = screen.getByRole("dialog", { name: "Create account" });
+      await waitFor(() => expect(document.activeElement).toBe(within(dialog).getByRole("textbox", { name: "Email" })));
+      const last = within(dialog).getByRole("button", { name: "Submit" });
       act(() => last.focus());
       press("Tab", last);
       expect(document.activeElement).toBe(slot("dialog-close"));
       press("Tab", slot("dialog-close")!);
-      expect(document.activeElement).toBe(within(dialog).getByRole("textbox", { name: "E-posta" }));
+      expect(document.activeElement).toBe(within(dialog).getByRole("textbox", { name: "Email" }));
     });
 
     it("without a footer the trap wraps from the body's last control to the close button", async () => {
       inLocale(<SignupFrame />);
       open();
       const dialog = screen.getByRole("dialog");
-      await waitFor(() => expect(document.activeElement).toBe(within(dialog).getByRole("textbox", { name: "E-posta" })));
-      const last = within(dialog).getByRole("button", { name: "Devam" });
+      await waitFor(() => expect(document.activeElement).toBe(within(dialog).getByRole("textbox", { name: "Email" })));
+      const last = within(dialog).getByRole("button", { name: "Continue" });
       act(() => last.focus());
       press("Tab", last);
       expect(document.activeElement).toBe(slot("dialog-close"));
@@ -317,20 +317,20 @@ describe("Dialog size=\"fullscreen\" options (RENENG-3490)", () => {
   });
 
   describe("unchanged without the options", () => {
-    it("fullscreen: header, body, footer with 'Vazgeç'; no start slot, no layout attribute", () => {
-      inLocale(<Dialog defaultOpen size="fullscreen" title="Kayıt">x</Dialog>);
+    it("fullscreen: header, body, footer with 'Cancel'; no start slot, no layout attribute", () => {
+      inLocale(<Dialog defaultOpen size="fullscreen" title="Sign up">x</Dialog>);
       expect(children(screen.getByRole("dialog"))).toEqual(["dialog-header", "dialog-body", "dialog-footer"]);
       expect(children(slot("dialog-header")!)).toEqual(["dialog-title", "dialog-close-wrap"]);
       expect(slot("dialog-title")!.className).toBe("m-0 text-heading-medium");
       expect(slot("dialog-footer")!.hasAttribute("data-layout")).toBe(false);
-      expect(within(slot("dialog-footer")!).getByRole("button", { name: "Vazgeç" })).toBeTruthy();
+      expect(within(slot("dialog-footer")!).getByRole("button", { name: "Cancel" })).toBeTruthy();
       expect(slot("dialog-body")!.className.split(" ")).toContain("py-ds-300");
       expect(slot("dialog-footer")!.querySelector("[data-slot='button-icon']")).toBeNull();
     });
 
     it("an empty headerStart (null, false, \"\") counts as none", () => {
       for (const empty of [null, false, ""]) {
-        inLocale(<Dialog defaultOpen size="fullscreen" title="Kayıt" headerStart={empty}>x</Dialog>);
+        inLocale(<Dialog defaultOpen size="fullscreen" title="Sign up" headerStart={empty}>x</Dialog>);
         expect(slot("dialog-header-start"), String(empty)).toBeNull();
         expect(children(slot("dialog-header")!)).toEqual(["dialog-title", "dialog-close-wrap"]);
         cleanup();
@@ -340,12 +340,12 @@ describe("Dialog size=\"fullscreen\" options (RENENG-3490)", () => {
     for (const size of ["small", "medium", "large"] as const) {
       it(`${size}: ignores the full-screen-only options (same DOM) and warns in development`, () => {
         const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
-        inLocale(<Dialog defaultOpen size={size} title="Not" primaryAction={{ label: "Kaydet" }}>x</Dialog>);
+        inLocale(<Dialog defaultOpen size={size} title="Note" primaryAction={{ label: "Save" }}>x</Dialog>);
         const plain = screen.getByRole("dialog").outerHTML.replace(/react-aria\S*?"/g, "");
         expect(warn).not.toHaveBeenCalled();
         cleanup();
         inLocale(
-          <Dialog defaultOpen size={size} title="Not" primaryAction={{ label: "Kaydet" }} footerLayout="spread" headerStart={<Logo />} isTitleHidden>
+          <Dialog defaultOpen size={size} title="Note" primaryAction={{ label: "Save" }} footerLayout="spread" headerStart={<Logo />} isTitleHidden>
             x
           </Dialog>,
         );
@@ -357,14 +357,14 @@ describe("Dialog size=\"fullscreen\" options (RENENG-3490)", () => {
     }
 
     it("small: action icons work there too (the action type is shared)", () => {
-      inLocale(<Dialog defaultOpen title="Not" primaryAction={{ label: "Kaydet", iconBefore: "check" }}>x</Dialog>);
-      expect(screen.getByRole("button", { name: "Kaydet" }).querySelector("[data-slot='button-icon']")?.getAttribute("aria-hidden")).toBe("true");
+      inLocale(<Dialog defaultOpen title="Note" primaryAction={{ label: "Save", iconBefore: "check" }}>x</Dialog>);
+      expect(screen.getByRole("button", { name: "Save" }).querySelector("[data-slot='button-icon']")?.getAttribute("aria-hidden")).toBe("true");
     });
   });
 });
 
-describe("Dialog review follow-ups (RENENG-3502)", () => {
-  // jsdom lacks CSS.escape, which React Aria's production build uses (as in table-duplicate-ids.test.tsx).
+describe("Dialog follow-ups", () => {
+  // jsdom lacks CSS.escape, which React Aria's production build uses.
   globalThis.CSS ??= {} as typeof CSS;
   CSS.escape ??= (value: string) => value.replace(/[^\w-]/g, (char) => `\\${char}`);
   const dialogWarnings = (warn: ReturnType<typeof vi.spyOn>) =>
@@ -375,10 +375,10 @@ describe("Dialog review follow-ups (RENENG-3502)", () => {
       it(`${size}: the full-screen defaults (isTitleHidden={false}, footerLayout="end", an empty headerStart) say nothing`, () => {
         const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
         for (const empty of [null, false, true, ""]) {
-          inLocale(<Dialog defaultOpen size={size} title="Not" isTitleHidden={false} footerLayout="end" headerStart={empty}>x</Dialog>);
+          inLocale(<Dialog defaultOpen size={size} title="Note" isTitleHidden={false} footerLayout="end" headerStart={empty}>x</Dialog>);
           cleanup();
         }
-        inLocale(<Dialog defaultOpen size={size} title="Not" secondaryAction={undefined}>x</Dialog>);
+        inLocale(<Dialog defaultOpen size={size} title="Note" secondaryAction={undefined}>x</Dialog>);
         expect(dialogWarnings(warn)).toEqual([]);
       });
 
@@ -388,12 +388,12 @@ describe("Dialog review follow-ups (RENENG-3502)", () => {
           [{ isTitleHidden: true }, "isTitleHidden"],
           [{ footerLayout: "spread" }, "footerLayout"],
           [{ headerStart: <Logo /> }, "headerStart"],
-          [{ headerStart: "RentSen" }, "headerStart"],
+          [{ headerStart: "Acme" }, "headerStart"],
           [{ headerStart: 0 }, "headerStart"],
           [{ isTitleHidden: false, footerLayout: "spread", headerStart: null }, "footerLayout"],
         ];
         for (const [props] of cases) {
-          inLocale(<Dialog defaultOpen size={size} title="Not" {...props}>x</Dialog>);
+          inLocale(<Dialog defaultOpen size={size} title="Note" {...props}>x</Dialog>);
           cleanup();
         }
         expect(dialogWarnings(warn)).toEqual(cases.map(([, name]) => `Dialog: ${name} only applies to size="fullscreen"; size="${size}" ignores it.`));
@@ -402,7 +402,7 @@ describe("Dialog review follow-ups (RENENG-3502)", () => {
 
     it("fullscreen never warns about its own options", () => {
       const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
-      inLocale(<Dialog defaultOpen size="fullscreen" title="Kayıt" isTitleHidden footerLayout="spread" headerStart={<Logo />} secondaryAction={null}>x</Dialog>);
+      inLocale(<Dialog defaultOpen size="fullscreen" title="Sign up" isTitleHidden footerLayout="spread" headerStart={<Logo />} secondaryAction={null}>x</Dialog>);
       expect(dialogWarnings(warn)).toEqual([]);
     });
   });
@@ -421,9 +421,9 @@ describe("Dialog review follow-ups (RENENG-3502)", () => {
 
     it("a real title (text or an element) says nothing; neither does an empty title that is shown", () => {
       const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
-      inLocale(<Dialog defaultOpen size="fullscreen" title="Kayıt" isTitleHidden>x</Dialog>);
+      inLocale(<Dialog defaultOpen size="fullscreen" title="Sign up" isTitleHidden>x</Dialog>);
       cleanup();
-      inLocale(<Dialog defaultOpen size="fullscreen" title={<span>Kayıt</span>} isTitleHidden>x</Dialog>);
+      inLocale(<Dialog defaultOpen size="fullscreen" title={<span>Sign up</span>} isTitleHidden>x</Dialog>);
       cleanup();
       inLocale(<Dialog defaultOpen size="fullscreen" title="">x</Dialog>);
       expect(dialogWarnings(warn)).toEqual([]);
@@ -459,37 +459,37 @@ describe("Dialog review follow-ups (RENENG-3502)", () => {
   describe("a danger primary with no secondary", () => {
     it("focus goes to the body's first field, as for any other dialog", async () => {
       inLocale(
-        <Dialog defaultOpen size="fullscreen" title="Hesabı sil" secondaryAction={null} primaryAction={{ label: "Sil", variant: "danger" }}>
-          <TextField label="Onay" />
+        <Dialog defaultOpen size="fullscreen" title="Delete account" secondaryAction={null} primaryAction={{ label: "Delete", variant: "danger" }}>
+          <TextField label="Confirmation" />
         </Dialog>,
       );
-      await waitFor(() => expect(document.activeElement).toBe(screen.getByRole("textbox", { name: "Onay" })));
+      await waitFor(() => expect(document.activeElement).toBe(screen.getByRole("textbox", { name: "Confirmation" })));
     });
 
     it("without a field, focus stays on the dialog itself (never the destructive button)", async () => {
       inLocale(
-        <Dialog defaultOpen size="fullscreen" title="Hesabı sil" secondaryAction={null} primaryAction={{ label: "Sil", variant: "danger" }}>
-          Geri alınamaz.
+        <Dialog defaultOpen size="fullscreen" title="Delete account" secondaryAction={null} primaryAction={{ label: "Delete", variant: "danger" }}>
+          This cannot be undone.
         </Dialog>,
       );
-      const dialog = screen.getByRole("dialog", { name: "Hesabı sil" });
+      const dialog = screen.getByRole("dialog", { name: "Delete account" });
       await waitFor(() => expect(document.activeElement).toBe(dialog));
-      expect(document.activeElement).not.toBe(screen.getByRole("button", { name: "Sil" }));
+      expect(document.activeElement).not.toBe(screen.getByRole("button", { name: "Delete" }));
     });
 
     it("with the secondary there, it still starts on the secondary (unchanged)", async () => {
       inLocale(
-        <Dialog defaultOpen title="Hesabı sil" primaryAction={{ label: "Sil", variant: "danger" }}>
-          <TextField label="Onay" />
+        <Dialog defaultOpen title="Delete account" primaryAction={{ label: "Delete", variant: "danger" }}>
+          <TextField label="Confirmation" />
         </Dialog>,
       );
-      await waitFor(() => expect(document.activeElement).toBe(screen.getByRole("button", { name: "Vazgeç" })));
+      await waitFor(() => expect(document.activeElement).toBe(screen.getByRole("button", { name: "Cancel" })));
     });
   });
 
   it("footerLayout=\"spread\" with a lone secondary: it sits at the inline start (LTR and RTL)", () => {
-    for (const [locale, dir] of [["tr-TR", undefined], ["ar", "rtl"]] as const) {
-      inLocale(<Dialog defaultOpen size="fullscreen" title="Kayıt" footerLayout="spread" secondaryAction={{ label: "Geri" }}>x</Dialog>, locale, dir);
+    for (const [locale, dir] of [["en", undefined], ["ar", "rtl"]] as const) {
+      inLocale(<Dialog defaultOpen size="fullscreen" title="Sign up" footerLayout="spread" secondaryAction={{ label: "Back" }}>x</Dialog>, locale, dir);
       const footer = slot("dialog-footer")!;
       expect(children(footer)).toEqual(["dialog-secondary"]);
       expect(footer.className.split(" ")).toContain("[&>[data-slot=dialog-secondary]]:me-auto");

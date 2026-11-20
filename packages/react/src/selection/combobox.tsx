@@ -84,7 +84,7 @@ type BaseProps = {
   emptyMessage?: (query: string) => React.ReactNode;
   /** Adds a create row for the typed text when nothing matches it exactly. */
   onCreate?: (text: string) => void;
-  /** The create row's text; defaults to "“{query}” ekle". */
+  /** The create row's text; defaults to "Add “{query}”". */
   createLabel?: (text: string) => string;
   /** The typed text, for consumers that need it (custom values, analytics). */
   onInputChange?: (text: string) => void;

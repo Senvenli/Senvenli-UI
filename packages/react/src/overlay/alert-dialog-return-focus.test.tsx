@@ -12,7 +12,7 @@ if (typeof globalThis.CSS === "undefined" || typeof globalThis.CSS.escape !== "f
   Object.assign(globalThis, { CSS: { ...(globalThis.CSS ?? {}), escape: (value: string) => value.replace(/[^a-zA-Z0-9_-]/g, (char) => `\\${char}`) } });
 }
 
-function inLocale(ui: React.ReactElement, locale = "tr-TR") {
+function inLocale(ui: React.ReactElement, locale = "en") {
   return render(<DesignSystemProvider locale={locale} navigate={vi.fn()}>{ui}</DesignSystemProvider>);
 }
 
@@ -22,50 +22,50 @@ const press = (key: string, target: Element) => {
   fireEvent.keyUp(target, { key });
 };
 
-/** Operations' row actions: "Sil" in a DS Menu opens the delete confirm; the menu item is gone once it opens. */
+/** Row actions: "Delete" in a Menu opens the delete confirm; the menu item is gone once it opens. */
 function RowActions({ withReturn = true, pending }: { withReturn?: boolean; pending?: Promise<void> }) {
   const [open, setOpen] = React.useState(false);
   const menuButton = React.useRef<HTMLButtonElement>(null);
   return (
     <>
       <Menu
-        trigger={<Button ref={menuButton} variant="subtle" aria-label="Satır işlemleri">…</Button>}
+        trigger={<Button ref={menuButton} variant="subtle" aria-label="Row actions">…</Button>}
         items={[
-          { id: "edit", label: "Düzenle" },
-          { id: "delete", label: "Sil", tone: "danger" },
+          { id: "edit", label: "Edit" },
+          { id: "delete", label: "Delete", tone: "danger" },
         ]}
         onAction={(key) => key === "delete" && setOpen(true)}
       />
       <AlertDialog
         isOpen={open}
         onOpenChange={setOpen}
-        title="PG AB 482 silinsin mi?"
-        confirmLabel="Aracı sil"
+        title="Delete ORD-482?"
+        confirmLabel="Delete project"
         onConfirm={() => pending}
         returnFocusRef={withReturn ? menuButton : undefined}
       >
-        Geri alınamaz.
+        This cannot be undone.
       </AlertDialog>
     </>
   );
 }
 
 function openFromMenu() {
-  const trigger = screen.getByRole("button", { name: "Satır işlemleri" });
+  const trigger = screen.getByRole("button", { name: "Row actions" });
   act(() => trigger.focus());
   fireEvent.click(trigger);
-  fireEvent.click(screen.getByRole("menuitem", { name: "Sil" }));
+  fireEvent.click(screen.getByRole("menuitem", { name: "Delete" }));
   return trigger;
 }
 
-describe("AlertDialog returnFocusRef (RENENG-3517 M1)", () => {
-  for (const how of ["Vazgeç", "Esc"] as const) {
+describe("AlertDialog returnFocusRef", () => {
+  for (const how of ["Cancel", "Esc"] as const) {
     it(`opened from a Menu item: closing by ${how} gives focus to the Menu button, not the page`, async () => {
       inLocale(<RowActions />);
       const trigger = openFromMenu();
-      const cancel = await screen.findByRole("button", { name: "Vazgeç" });
+      const cancel = await screen.findByRole("button", { name: "Cancel" });
       await waitFor(() => expect(document.activeElement).toBe(cancel));
-      if (how === "Vazgeç") fireEvent.click(cancel);
+      if (how === "Cancel") fireEvent.click(cancel);
       else press("Escape", cancel);
       await waitFor(() => expect(screen.queryByRole("alertdialog")).toBeNull());
       await waitFor(() => expect(document.activeElement).toBe(trigger));
@@ -77,17 +77,17 @@ describe("AlertDialog returnFocusRef (RENENG-3517 M1)", () => {
   it("after a confirmed action too", async () => {
     inLocale(<RowActions pending={Promise.resolve()} />);
     const trigger = openFromMenu();
-    fireEvent.click(await screen.findByRole("button", { name: "Aracı sil" }));
+    fireEvent.click(await screen.findByRole("button", { name: "Delete project" }));
     await waitFor(() => expect(screen.queryByRole("alertdialog")).toBeNull());
     await waitFor(() => expect(document.activeElement).toBe(trigger));
   });
 
-  it("Vazgeç still takes the first focus, and the alert is still named and described", async () => {
+  it("Cancel still takes the first focus, and the alert is still named and described", async () => {
     inLocale(<RowActions />);
     openFromMenu();
-    const alert = await screen.findByRole("alertdialog", { name: "PG AB 482 silinsin mi?" });
-    expect(document.getElementById(alert.getAttribute("aria-describedby")!)!.textContent).toBe("Geri alınamaz.");
-    await waitFor(() => expect(document.activeElement).toBe(screen.getByRole("button", { name: "Vazgeç" })));
+    const alert = await screen.findByRole("alertdialog", { name: "Delete ORD-482?" });
+    expect(document.getElementById(alert.getAttribute("aria-describedby")!)!.textContent).toBe("This cannot be undone.");
+    await waitFor(() => expect(document.activeElement).toBe(screen.getByRole("button", { name: "Cancel" })));
   });
 
   it("RTL: the same return", async () => {
@@ -109,10 +109,10 @@ describe("AlertDialog returnFocusRef (RENENG-3517 M1)", () => {
     const target = React.useRef<HTMLButtonElement>(null);
     return (
       <>
-        <button ref={target} type="button">Satır işlemleri</button>
-        {!open && <Button onPress={() => setOpen(true)}>Sil</Button>}
-        <AlertDialog isOpen={open} onOpenChange={setOpen} title="Silinsin mi?" confirmLabel="Sil" onConfirm={() => {}} returnFocusRef={withReturn ? target : undefined}>
-          Geri alınamaz.
+        <button ref={target} type="button">Row actions</button>
+        {!open && <Button onPress={() => setOpen(true)}>Delete</Button>}
+        <AlertDialog isOpen={open} onOpenChange={setOpen} title="Delete?" confirmLabel="Delete" onConfirm={() => {}} returnFocusRef={withReturn ? target : undefined}>
+          This cannot be undone.
         </AlertDialog>
       </>
     );
@@ -121,15 +121,15 @@ describe("AlertDialog returnFocusRef (RENENG-3517 M1)", () => {
   it("an opener that is gone by the close: focus goes to the ref's element; without the ref it falls to the page as before", async () => {
     for (const withReturn of [true, false]) {
       inLocale(<VanishingOpener withReturn={withReturn} />);
-      const opener = screen.getByRole("button", { name: "Sil" });
+      const opener = screen.getByRole("button", { name: "Delete" });
       act(() => opener.focus());
       fireEvent.click(opener);
-      const cancel = await screen.findByRole("button", { name: "Vazgeç" });
+      const cancel = await screen.findByRole("button", { name: "Cancel" });
       await waitFor(() => expect(document.activeElement).toBe(cancel));
       fireEvent.click(cancel);
       await waitFor(() => expect(screen.queryByRole("alertdialog")).toBeNull());
       await frames();
-      const target = screen.getByRole("button", { name: "Satır işlemleri" });
+      const target = screen.getByRole("button", { name: "Row actions" });
       if (withReturn) expect(document.activeElement).toBe(target);
       else expect(document.activeElement).toBe(document.body);
       cleanup();

@@ -7,7 +7,7 @@ import { cn } from "../utils";
 
 export type SeparatorProps = {
   orientation?: "horizontal" | "vertical";
-  /** A label in the line ("veya e-posta ile devam edin"), for auth forms only, not section titles. Always horizontal. */
+  /** A label in the line ("or continue with email"), for auth forms only, not section titles. Always horizontal. */
   children?: React.ReactNode;
   /** Hides it from assistive tech when it only decorates. */
   decorative?: boolean;

@@ -84,7 +84,7 @@
         "name": "children",
         "type": "React.ReactNode",
         "required": false,
-        "description": "A label in the line (\"veya e-posta ile devam edin\"), for auth forms only, not section titles. Always horizontal."
+        "description": "A label in the line (\"or continue with email\"), for auth forms only, not section titles. Always horizontal."
       },
       {
         "name": "decorative",

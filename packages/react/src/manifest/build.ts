@@ -18,7 +18,9 @@ export const SRC = path.join(PACKAGE_ROOT, "src");
 export const OUT = path.join(PACKAGE_ROOT, "manifests");
 
 /** Words that must never appear in a generic component (the AGENTS.md rule). */
-export const PRODUCT_WORDS = /\b(rentsen|tenant|vehicle|rental|booking|reservation|pickup|kiralama|rezervasyon)\b/i;
+/** Product words and the Turkish words examples were written in (the library is English-only). */
+export const PRODUCT_WORDS =
+  /\b(rentsen|tenant|vehicle|rental|booking|reservation|pickup|kiralama|rezervasyon\w*|kaydet\w*|vazge\w*|tamam|devam|d[uü]zenle\w*|iptal|ekle|[oö]deme\w*|fatura\w*|ara[cç]\w*|[sş]ube\w*|m[uü][sş]teri\w*)\b/i;
 
 const walk = (dir: string): string[] =>
   fs.readdirSync(dir, { withFileTypes: true }).flatMap((e) => {

@@ -23,7 +23,7 @@ type BaseProps = Omit<AriaButtonProps, "className" | "style" | "children"> & {
 
 export type ButtonProps = BaseProps &
   (
-    | { /** The label: the verb of what happens ("Kaydet"). */ children: React.ReactNode; iconOnly?: false }
+    | { /** The label: the verb of what happens ("Save"). */ children: React.ReactNode; iconOnly?: false }
     | {
         /** A square button that shows only `iconBefore`; it needs an `aria-label`. */
         iconOnly: true;

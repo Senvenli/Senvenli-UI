@@ -1,0 +1,51 @@
+{
+  "$schema": "../../manifest/component.schema.json",
+  "kind": "component",
+  "family": "overlay",
+  "status": "alpha",
+  "import": "@senvenli/react/overlay",
+  "genui": {
+    "expose": false
+  },
+  "name": "drawer",
+  "title": "Drawer",
+  "exports": [
+    "Drawer"
+  ],
+  "description": "A panel that slides in from the side, or a bottom sheet on phones, for detail and edit views beside the page.",
+  "keywords": [
+    "drawer",
+    "sheet",
+    "side panel",
+    "bottom sheet"
+  ],
+  "usage": {
+    "when": [
+      "Viewing or editing a record while keeping the list in view."
+    ],
+    "instead": [
+      {
+        "use": "dialog",
+        "when": "The task needs full attention."
+      }
+    ]
+  },
+  "a11y": {
+    "keyboard": [
+      {
+        "keys": "Esc",
+        "does": "Closes, asking first when there are unsaved changes."
+      }
+    ],
+    "builtIn": [
+      "Unsaved changes ask before closing in a real nested modal.",
+      "The bottom sheet has a grip to expand or close."
+    ],
+    "youProvide": [
+      "A title."
+    ]
+  },
+  "related": [
+    "dialog"
+  ]
+}

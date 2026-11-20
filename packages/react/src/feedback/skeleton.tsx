@@ -102,7 +102,7 @@ export function SkeletonCircle({ isLoaded, children, delay, size = 32 }: Skeleto
 export type SkeletonGroupProps = {
   /** What is loading ("Loading orders"); the region's name while busy. */
   label: string;
-  /** The region's name once loaded ("Rezervasyonlar"); none by default. */
+  /** The region's name once loaded ("Orders"); none by default. */
   loadedLabel?: string;
   isLoading: boolean;
   children: React.ReactNode;

@@ -1,0 +1,51 @@
+{
+  "$schema": "../../manifest/component.schema.json",
+  "kind": "component",
+  "family": "overlay",
+  "status": "alpha",
+  "import": "@senvenli/react/overlay",
+  "genui": {
+    "expose": false
+  },
+  "name": "popover",
+  "title": "Popover",
+  "exports": [
+    "Popover"
+  ],
+  "description": "Non-modal content anchored to a trigger: extra detail, a small form, a picker.",
+  "keywords": [
+    "popover",
+    "popup",
+    "flyout",
+    "dropdown"
+  ],
+  "usage": {
+    "when": [
+      "Showing a little interactive content next to what opened it."
+    ],
+    "instead": [
+      {
+        "use": "tooltip",
+        "when": "It is only a short hint."
+      }
+    ]
+  },
+  "a11y": {
+    "keyboard": [
+      {
+        "keys": "Esc",
+        "does": "Closes and returns focus to the trigger."
+      }
+    ],
+    "builtIn": [
+      "Positioned to stay on screen, also in RTL."
+    ],
+    "youProvide": [
+      "A trigger with a clear name."
+    ]
+  },
+  "related": [
+    "tooltip",
+    "menu"
+  ]
+}

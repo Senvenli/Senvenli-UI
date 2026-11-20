@@ -1,0 +1,71 @@
+{
+  "$schema": "../../manifest/component.schema.json",
+  "kind": "component",
+  "family": "overlay",
+  "status": "alpha",
+  "import": "@senvenli/react/overlay",
+  "genui": {
+    "expose": false
+  },
+  "name": "dialog",
+  "title": "Dialog",
+  "exports": [
+    "Dialog",
+    "DialogTrigger"
+  ],
+  "description": "A modal window for a focused task, with a title, body and footer actions, in small to full-screen sizes.",
+  "keywords": [
+    "dialog",
+    "modal",
+    "window",
+    "popup",
+    "form"
+  ],
+  "usage": {
+    "when": [
+      "A short task that needs focus without leaving the page: edit, create, confirm details."
+    ],
+    "instead": [
+      {
+        "use": "drawer",
+        "when": "The task needs a side panel next to the page."
+      },
+      {
+        "use": "alert-dialog",
+        "when": "The user must confirm or cancel one action."
+      }
+    ]
+  },
+  "guidance": [
+    {
+      "rule": "One primary action; the secondary action closes."
+    },
+    {
+      "rule": "Use fullscreen for long tasks like a signup, xlarge for two- or three-column forms."
+    }
+  ],
+  "a11y": {
+    "keyboard": [
+      {
+        "keys": "Esc",
+        "does": "Closes the dialog."
+      },
+      {
+        "keys": "Tab",
+        "does": "Moves focus inside the dialog only."
+      }
+    ],
+    "builtIn": [
+      "Focus moves to the first field and returns to the opener on close.",
+      "Named by its title, described by its description."
+    ],
+    "youProvide": [
+      "A title that says what the task is."
+    ]
+  },
+  "related": [
+    "alert-dialog",
+    "drawer",
+    "popover"
+  ]
+}

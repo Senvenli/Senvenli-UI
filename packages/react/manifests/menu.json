@@ -1,0 +1,231 @@
+{
+  "$schema": "https://design.senvenli.com/schema/component.full.json",
+  "kind": "component",
+  "family": "overlay",
+  "status": "alpha",
+  "import": "@senvenli/react/overlay",
+  "genui": {
+    "expose": false
+  },
+  "name": "menu",
+  "title": "Menu",
+  "exports": [
+    "Menu"
+  ],
+  "description": "A list of actions under a button, with sections, icons, shortcuts and disabled items that say why.",
+  "keywords": [
+    "menu",
+    "actions",
+    "dropdown",
+    "more",
+    "kebab"
+  ],
+  "usage": {
+    "when": [
+      "Several actions for one object that don't all fit as buttons."
+    ]
+  },
+  "guidance": [
+    {
+      "rule": "Items are verbs; a disabled item says why."
+    }
+  ],
+  "a11y": {
+    "keyboard": [
+      {
+        "keys": "Arrow keys",
+        "does": "Moves between items."
+      },
+      {
+        "keys": "Typing",
+        "does": "Jumps to an item."
+      },
+      {
+        "keys": "Home, End",
+        "does": "Goes to the first or last item."
+      }
+    ],
+    "builtIn": [
+      "Announced as a menu button and menu."
+    ],
+    "youProvide": [
+      "A name for an icon-only menu button."
+    ]
+  },
+  "related": [
+    "popover",
+    "button"
+  ],
+  "source": [
+    "src/overlay/floating.tsx"
+  ],
+  "props": {
+    "Menu": [
+      {
+        "name": "trigger",
+        "type": "ReactElement<unknown, string | JSXElementConstructor<any>>",
+        "required": true,
+        "description": "The pressable that opens it: the row \"…\" button, the account button."
+      },
+      {
+        "name": "items",
+        "type": "readonly MenuEntry[]",
+        "required": true,
+        "description": "Items, or sections of items with a title."
+      },
+      {
+        "name": "onAction",
+        "type": "(id: Key) => void",
+        "required": false
+      },
+      {
+        "name": "disabledKeys",
+        "type": "Iterable<Key>",
+        "required": false
+      },
+      {
+        "name": "placement",
+        "type": "Placement",
+        "required": false,
+        "default": "\"bottom end\"",
+        "description": "\"bottom end\" by default: under the trigger, aligned to its inline end, as row menus sit.",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "start",
+            "end",
+            "bottom",
+            "left",
+            "right",
+            "top",
+            "bottom left",
+            "bottom right",
+            "bottom start",
+            "bottom end",
+            "top left",
+            "top right",
+            "top start",
+            "top end",
+            "left top",
+            "left bottom",
+            "start top",
+            "start bottom",
+            "right top",
+            "right bottom",
+            "end top",
+            "end bottom"
+          ]
+        }
+      },
+      {
+        "name": "selectionMode",
+        "type": "\"none\" | \"single\" | \"multiple\"",
+        "required": false,
+        "default": "\"none\"",
+        "description": "For menus that also hold a choice (a view option): checkmarks on the selected items.",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "none",
+            "single",
+            "multiple"
+          ]
+        }
+      },
+      {
+        "name": "selectedKeys",
+        "type": "Iterable<Key>",
+        "required": false
+      },
+      {
+        "name": "defaultSelectedKeys",
+        "type": "Iterable<Key>",
+        "required": false
+      },
+      {
+        "name": "onSelectionChange",
+        "type": "(keys: Selection) => void",
+        "required": false
+      },
+      {
+        "name": "isOpen",
+        "type": "boolean",
+        "required": false,
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "onOpenChange",
+        "type": "(isOpen: boolean) => void",
+        "required": false
+      },
+      {
+        "name": "aria-label",
+        "type": "string",
+        "required": false,
+        "description": "Names the menu when the trigger's own name is not enough.",
+        "schema": {
+          "type": "string"
+        }
+      }
+    ]
+  },
+  "tokens": [
+    "ds-background-danger",
+    "ds-background-neutral",
+    "ds-background-neutral-bold",
+    "ds-background-neutral-pressed",
+    "ds-background-neutral-subtle-hovered",
+    "ds-background-warning",
+    "ds-blanket",
+    "ds-border",
+    "ds-border-bold",
+    "ds-border-focused",
+    "ds-easing-enter",
+    "ds-easing-exit",
+    "ds-icon",
+    "ds-icon-danger",
+    "ds-icon-subtle",
+    "ds-icon-warning",
+    "ds-radius-full",
+    "ds-radius-small",
+    "ds-radius-xlarge",
+    "ds-shadow-overlay",
+    "ds-size-control",
+    "ds-space-025",
+    "ds-space-050",
+    "ds-space-075",
+    "ds-space-100",
+    "ds-space-150",
+    "ds-space-200",
+    "ds-space-300",
+    "ds-surface-overlay",
+    "ds-text",
+    "ds-text-danger",
+    "ds-text-disabled",
+    "ds-text-inverse",
+    "ds-text-subtle",
+    "ds-text-subtlest",
+    "font-ds-mono"
+  ],
+  "strings": [
+    "collapseSheet",
+    "discardClose",
+    "expandSheet",
+    "keepEditing",
+    "typeToConfirm",
+    "unsavedBody",
+    "unsavedTitle"
+  ],
+  "quality": {
+    "tests": true,
+    "a11y": false,
+    "docs": false,
+    "visual": false,
+    "dark": false,
+    "rtl": false,
+    "mcp": true,
+    "generic": true
+  }
+}

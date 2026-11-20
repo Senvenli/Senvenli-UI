@@ -4,16 +4,18 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import { useLocale } from "react-aria-components";
 
 import { Button } from "../action/index";
-import { cancelLabel as defaultCancelLabel, PRODUCT_LOCALES } from "../i18n";
+import { cancelLabel as defaultCancelLabel, registerDsStrings } from "../i18n";
 import { DesignSystemProvider } from "../provider";
 import { AlertDialog, DialogTrigger, type AlertDialogProps } from "./index";
 
 afterEach(() => cleanup());
 
 const PHYSICAL = /(^|\s|:)(-?m[lr]-|p[lr]-|-?left-|-?right-|border-[lr](-|\s|$)|rounded-[lr]-|text-left|text-right)/;
-const LONG = "Hayır, aracı filoda tut ve rezervasyonları olduğu gibi bırak; bu kararı daha sonra yeniden gözden geçireceğim";
+const LONG = "No, keep the project in the workspace and leave its tasks as they are; I will look at this decision again later";
 
-function inLocale(ui: React.ReactElement, locale = "tr-TR", dir?: "rtl") {
+const GERMAN = { cancel: "Abbrechen", typeToConfirm: "Zur Sicherheit {text} eingeben" };
+
+function inLocale(ui: React.ReactElement, locale = "en", dir?: "rtl") {
   return render(
     <div dir={dir}>
       <DesignSystemProvider locale={locale} navigate={vi.fn()}>{ui}</DesignSystemProvider>
@@ -31,50 +33,52 @@ const slot = (name: string) => document.querySelector<HTMLElement>(`[data-slot='
 type Props = Partial<AlertDialogProps>;
 function Alert(props: Props) {
   return (
-    <AlertDialog title="PG AB 482 filodan silinsin mi?" confirmLabel="Aracı sil" onConfirm={vi.fn()} {...props}>
-      Silinen araç geri getirilemez.
+    <AlertDialog title="Delete project ORD-482?" confirmLabel="Delete project" onConfirm={vi.fn()} {...props}>
+      A deleted project cannot be restored.
     </AlertDialog>
   );
 }
 
-function DeleteVehicle(props: Props) {
+function DeleteProject(props: Props) {
   return (
     <DialogTrigger>
-      <Button>Sil</Button>
+      <Button>Delete</Button>
       <Alert {...props} />
     </DialogTrigger>
   );
 }
 
-describe("AlertDialog cancelLabel (RENENG-3486)", () => {
-  it("the cancel button's text and accessible name follow cancelLabel; the DS's Vazgeç is gone", () => {
-    inLocale(<Alert defaultOpen cancelLabel="Hayır, aracı tut" />);
-    const cancel = screen.getByRole("button", { name: "Hayır, aracı tut" });
+describe("AlertDialog cancelLabel", () => {
+  it("the cancel button's text and accessible name follow cancelLabel; the DS's Cancel is gone", () => {
+    inLocale(<Alert defaultOpen cancelLabel="No, keep the project" />);
+    const cancel = screen.getByRole("button", { name: "No, keep the project" });
     expect(cancel.getAttribute("data-slot")).toBe("alert-dialog-cancel");
-    expect(cancel.textContent).toBe("Hayır, aracı tut");
-    expect(screen.queryByRole("button", { name: "Vazgeç" })).toBeNull();
-    // Not translated: the same string in another locale.
+    expect(cancel.textContent).toBe("No, keep the project");
+    expect(screen.queryByRole("button", { name: "Cancel" })).toBeNull();
+    // Not translated: the same string in a registered locale.
     cleanup();
-    inLocale(<Alert defaultOpen cancelLabel="Hayır, aracı tut" />, "en");
-    expect(screen.getByRole("button", { name: "Hayır, aracı tut" })).toBeTruthy();
+    registerDsStrings("de", GERMAN);
+    inLocale(<Alert defaultOpen cancelLabel="No, keep the project" />, "de");
+    expect(screen.getByRole("button", { name: "No, keep the project" })).toBeTruthy();
+    expect(screen.queryByRole("button", { name: "Abbrechen" })).toBeNull();
     expect(screen.queryByRole("button", { name: "Cancel" })).toBeNull();
   });
 
   it("the cancel button has the first focus, also when opened from a trigger", async () => {
-    inLocale(<DeleteVehicle cancelLabel="Hayır, aracı tut" />);
-    fireEvent.click(screen.getByRole("button", { name: "Sil" }));
-    await waitFor(() => expect(document.activeElement).toBe(screen.getByRole("button", { name: "Hayır, aracı tut" })));
+    inLocale(<DeleteProject cancelLabel="No, keep the project" />);
+    fireEvent.click(screen.getByRole("button", { name: "Delete" }));
+    await waitFor(() => expect(document.activeElement).toBe(screen.getByRole("button", { name: "No, keep the project" })));
   });
 
   it("Esc cancels: the dialog closes and reports onOpenChange(false)", async () => {
     const onOpenChange = vi.fn();
-    inLocale(<DeleteVehicle cancelLabel="Hayır, aracı tut" />);
-    fireEvent.click(screen.getByRole("button", { name: "Sil" }));
+    inLocale(<DeleteProject cancelLabel="No, keep the project" />);
+    fireEvent.click(screen.getByRole("button", { name: "Delete" }));
     press("Escape", screen.getByRole("alertdialog"));
     await waitFor(() => expect(screen.queryByRole("alertdialog")).toBeNull());
 
     cleanup();
-    inLocale(<Alert isOpen onOpenChange={onOpenChange} cancelLabel="Hayır, aracı tut" />);
+    inLocale(<Alert isOpen onOpenChange={onOpenChange} cancelLabel="No, keep the project" />);
     press("Escape", screen.getByRole("alertdialog"));
     expect(onOpenChange.mock.calls).toEqual([[false]]);
   });
@@ -83,26 +87,26 @@ describe("AlertDialog cancelLabel (RENENG-3486)", () => {
     let resolve!: () => void;
     const onOpenChange = vi.fn();
     inLocale(
-      <Alert isOpen onOpenChange={onOpenChange} cancelLabel="Hayır, aracı tut" onConfirm={() => new Promise<void>((r) => (resolve = r))} />,
+      <Alert isOpen onOpenChange={onOpenChange} cancelLabel="No, keep the project" onConfirm={() => new Promise<void>((r) => (resolve = r))} />,
     );
     await act(async () => {
-      fireEvent.click(screen.getByRole("button", { name: "Aracı sil" }));
+      fireEvent.click(screen.getByRole("button", { name: "Delete project" }));
     });
-    const cancel = screen.getByRole("button", { name: "Hayır, aracı tut" }) as HTMLButtonElement;
+    const cancel = screen.getByRole("button", { name: "No, keep the project" }) as HTMLButtonElement;
     expect(cancel.disabled).toBe(true);
     fireEvent.click(cancel);
     press("Escape", screen.getByRole("alertdialog"));
     expect(onOpenChange).not.toHaveBeenCalled();
     await act(async () => resolve());
     expect(onOpenChange.mock.calls).toEqual([[false]]);
-    expect((screen.getByRole("button", { name: "Hayır, aracı tut" }) as HTMLButtonElement).disabled).toBe(false);
+    expect((screen.getByRole("button", { name: "No, keep the project" }) as HTMLButtonElement).disabled).toBe(false);
   });
 
   it("pressing the custom cancel calls onOpenChange(false) once and never the action", () => {
     const onOpenChange = vi.fn();
     const onConfirm = vi.fn();
-    inLocale(<Alert isOpen onOpenChange={onOpenChange} onConfirm={onConfirm} cancelLabel="Hayır, aracı tut" />);
-    fireEvent.click(screen.getByRole("button", { name: "Hayır, aracı tut" }));
+    inLocale(<Alert isOpen onOpenChange={onOpenChange} onConfirm={onConfirm} cancelLabel="No, keep the project" />);
+    fireEvent.click(screen.getByRole("button", { name: "No, keep the project" }));
     expect(onOpenChange.mock.calls).toEqual([[false]]);
     expect(onConfirm).not.toHaveBeenCalled();
   });
@@ -113,9 +117,9 @@ describe("AlertDialog cancelLabel (RENENG-3486)", () => {
       direction = useLocale().direction;
       return null;
     }
-    inLocale(<><Direction /><Alert defaultOpen cancelLabel="لا، احتفظ بالمركبة" /></>, "ar", "rtl");
+    inLocale(<><Direction /><Alert defaultOpen cancelLabel="لا، احتفظ بالمشروع" /></>, "ar", "rtl");
     expect(direction).toBe("rtl");
-    const cancel = screen.getByRole("button", { name: "لا، احتفظ بالمركبة" });
+    const cancel = screen.getByRole("button", { name: "لا، احتفظ بالمشروع" });
     await waitFor(() => expect(document.activeElement).toBe(cancel));
     const footer = slot("alert-dialog-footer");
     expect(footer.className).not.toMatch(PHYSICAL);
@@ -137,7 +141,7 @@ describe("AlertDialog cancelLabel (RENENG-3486)", () => {
     expect(footer.some((rule) => rule.includes("alert-dialog-confirm"))).toBe(false);
   });
 
-  it("a whitespace-only label counts as unset: the locale's Vazgeç and the footer's own classes (#508 review)", async () => {
+  it("a whitespace-only label counts as unset: the default Cancel and the footer's own classes", async () => {
     const normalise = (html: string) => html.replace(/_r_[0-9a-z]+_/g, "_r_ID_");
     const capture = async (extra: Props) => {
       inLocale(<Alert defaultOpen {...extra} />);
@@ -151,22 +155,26 @@ describe("AlertDialog cancelLabel (RENENG-3486)", () => {
       expect(await capture({ cancelLabel: blank }), JSON.stringify(blank)).toBe(omitted);
     }
     inLocale(<Alert defaultOpen cancelLabel="  " />);
-    expect(screen.getByRole("button", { name: "Vazgeç" }).textContent).toBe("Vazgeç");
+    expect(screen.getByRole("button", { name: "Cancel" }).textContent).toBe("Cancel");
     expect(slot("alert-dialog-footer").className).not.toContain("alert-dialog-cancel");
   });
 
-  it("left out, undefined or \"\": byte-identical output in every DS locale, with the locale's own Vazgeç", async () => {
+  it("left out, undefined or \"\": byte-identical output in English, a registered locale and an English fallback, each with its own Cancel", async () => {
     const normalise = (html: string) => html.replace(/_r_[0-9a-z]+_/g, "_r_ID_");
     const capture = async (locale: string, extra: Props) => {
       const dir = locale === "ar" ? "rtl" : undefined;
-      inLocale(<Alert defaultOpen requireTypedConfirmation="PG AB 482" {...extra} />, locale, dir);
+      inLocale(<Alert defaultOpen requireTypedConfirmation="ORD-482" {...extra} />, locale, dir);
       await waitFor(() => expect(document.activeElement?.getAttribute("data-slot")).toBe("alert-dialog-cancel"));
       const html = normalise(document.body.innerHTML);
       cleanup();
       return html;
     };
-    const locales = [...PRODUCT_LOCALES, "ar"];
-    expect(locales).toHaveLength(15);
+    registerDsStrings("de", GERMAN);
+    // "de" has its own words; "ar" has none registered, so it falls back to English (and is RTL).
+    expect(defaultCancelLabel("en")).toBe("Cancel");
+    expect(defaultCancelLabel("de")).toBe("Abbrechen");
+    expect(defaultCancelLabel("ar")).toBe("Cancel");
+    const locales = ["en", "de", "ar"];
     for (const locale of locales) {
       const omitted = await capture(locale, {});
       expect(await capture(locale, { cancelLabel: undefined }), locale).toBe(omitted);
@@ -178,5 +186,5 @@ describe("AlertDialog cancelLabel (RENENG-3486)", () => {
         "flex flex-wrap items-center justify-end gap-ds-100 px-ds-300 pb-ds-300 pt-ds-200",
       );
     }
-  }, 60_000);
+  });
 });
