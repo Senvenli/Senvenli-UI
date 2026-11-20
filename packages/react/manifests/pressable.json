@@ -305,7 +305,10 @@
         "name": "target",
         "type": "HTMLAttributeAnchorTarget",
         "required": false,
-        "description": "The target window for the link. See\n[MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#target)."
+        "description": "The target window for the link. See\n[MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#target).",
+        "schema": {
+          "type": "string"
+        }
       }
     ]
   },

@@ -1,0 +1,49 @@
+{
+  "$schema": "../../manifest/component.schema.json",
+  "kind": "component",
+  "family": "form",
+  "status": "alpha",
+  "import": "@senvenli/react/form",
+  "name": "field",
+  "title": "Field",
+  "exports": [
+    "Field",
+    "FieldLabel",
+    "FieldDescription",
+    "FieldError"
+  ],
+  "description": "A label, hint and error row around any control, wired for screen readers; plus the label, description and error parts.",
+  "keywords": [
+    "field",
+    "label",
+    "hint",
+    "error",
+    "wrapper"
+  ],
+  "usage": {
+    "when": [
+      "Wrapping a control the library does not provide, so it matches the other fields."
+    ],
+    "instead": [
+      {
+        "use": "text-field",
+        "when": "A text input is enough; it has the field row built in."
+      }
+    ]
+  },
+  "a11y": {
+    "builtIn": [
+      "Label, hint and error are linked to the control with htmlFor, aria-describedby and aria-invalid."
+    ],
+    "youProvide": [
+      "A control with a matching `id`, or a single child Field can give one to."
+    ]
+  },
+  "related": [
+    "text-field",
+    "form"
+  ],
+  "genui": {
+    "expose": false
+  }
+}

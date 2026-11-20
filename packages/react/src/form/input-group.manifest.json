@@ -1,0 +1,41 @@
+{
+  "$schema": "../../manifest/component.schema.json",
+  "kind": "component",
+  "family": "form",
+  "status": "alpha",
+  "import": "@senvenli/react/form",
+  "name": "input-group",
+  "title": "Input group",
+  "exports": [
+    "InputGroup",
+    "InputAddon",
+    "InputAction"
+  ],
+  "description": "Joins an input with addons (text, icons) and actions (buttons) into one bordered control.",
+  "keywords": [
+    "addon",
+    "prefix",
+    "suffix",
+    "input",
+    "group"
+  ],
+  "usage": {
+    "when": [
+      "A custom input needs prefix or suffix text, icons or buttons."
+    ]
+  },
+  "a11y": {
+    "builtIn": [
+      "Pressing an addon focuses the input."
+    ],
+    "youProvide": [
+      "Labels for actions that show only an icon."
+    ]
+  },
+  "related": [
+    "text-field"
+  ],
+  "genui": {
+    "expose": false
+  }
+}

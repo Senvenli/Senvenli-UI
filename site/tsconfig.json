@@ -22,6 +22,9 @@
       ],
       "@senvenli/react/feedback": [
         "../packages/react/src/feedback/index.ts"
+      ],
+      "@senvenli/react/form": [
+        "../packages/react/src/form/index.ts"
       ]
     },
     "noUncheckedIndexedAccess": false

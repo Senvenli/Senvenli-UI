@@ -504,6 +504,183 @@
     "genui": true
   },
   {
+    "name": "field",
+    "title": "Field",
+    "family": "form",
+    "status": "alpha",
+    "description": "A label, hint and error row around any control, wired for screen readers; plus the label, description and error parts.",
+    "keywords": [
+      "field",
+      "label",
+      "hint",
+      "error",
+      "wrapper"
+    ],
+    "import": "@senvenli/react/form",
+    "exports": [
+      "Field",
+      "FieldLabel",
+      "FieldDescription",
+      "FieldError"
+    ],
+    "genui": false
+  },
+  {
+    "name": "form",
+    "title": "Form",
+    "family": "form",
+    "status": "alpha",
+    "description": "A form with consistent rhythm, sections with legends, side-by-side rows and a footer for its actions.",
+    "keywords": [
+      "form",
+      "fieldset",
+      "submit",
+      "section",
+      "layout"
+    ],
+    "import": "@senvenli/react/form",
+    "exports": [
+      "Form",
+      "FormSection",
+      "FormRow",
+      "FormFooter"
+    ],
+    "genui": true
+  },
+  {
+    "name": "input-group",
+    "title": "Input group",
+    "family": "form",
+    "status": "alpha",
+    "description": "Joins an input with addons (text, icons) and actions (buttons) into one bordered control.",
+    "keywords": [
+      "addon",
+      "prefix",
+      "suffix",
+      "input",
+      "group"
+    ],
+    "import": "@senvenli/react/form",
+    "exports": [
+      "InputGroup",
+      "InputAddon",
+      "InputAction"
+    ],
+    "genui": false
+  },
+  {
+    "name": "input-otp",
+    "title": "One-time code",
+    "family": "form",
+    "status": "alpha",
+    "description": "Boxes for a one-time verification code, with paste, autofill and a resend cooldown.",
+    "keywords": [
+      "otp",
+      "code",
+      "verification",
+      "2fa",
+      "pin"
+    ],
+    "import": "@senvenli/react/form",
+    "exports": [
+      "InputOTP"
+    ],
+    "genui": false
+  },
+  {
+    "name": "number-field",
+    "title": "Number field",
+    "family": "form",
+    "status": "alpha",
+    "description": "A locale-aware number input with steppers, ranges, units and currency.",
+    "keywords": [
+      "number",
+      "quantity",
+      "currency",
+      "amount",
+      "stepper"
+    ],
+    "import": "@senvenli/react/form",
+    "exports": [
+      "NumberField"
+    ],
+    "genui": true
+  },
+  {
+    "name": "password-field",
+    "title": "Password field",
+    "family": "form",
+    "status": "alpha",
+    "description": "A password input with a show/hide toggle and an optional strength meter.",
+    "keywords": [
+      "password",
+      "secret",
+      "credentials",
+      "sign in"
+    ],
+    "import": "@senvenli/react/form",
+    "exports": [
+      "PasswordField"
+    ],
+    "genui": true
+  },
+  {
+    "name": "search-field",
+    "title": "Search field",
+    "family": "form",
+    "status": "alpha",
+    "description": "A search input with a clear button and Escape to clear.",
+    "keywords": [
+      "search",
+      "filter",
+      "query",
+      "find"
+    ],
+    "import": "@senvenli/react/form",
+    "exports": [
+      "SearchField"
+    ],
+    "genui": true
+  },
+  {
+    "name": "text-area",
+    "title": "Text area",
+    "family": "form",
+    "status": "alpha",
+    "description": "A multi-line text input that grows with its content, with an optional character count.",
+    "keywords": [
+      "textarea",
+      "multiline",
+      "comment",
+      "message",
+      "notes"
+    ],
+    "import": "@senvenli/react/form",
+    "exports": [
+      "TextArea"
+    ],
+    "genui": true
+  },
+  {
+    "name": "text-field",
+    "title": "Text field",
+    "family": "form",
+    "status": "alpha",
+    "description": "A single-line text input with label, description, error, addons and actions.",
+    "keywords": [
+      "input",
+      "text",
+      "email",
+      "url",
+      "field"
+    ],
+    "import": "@senvenli/react/form",
+    "exports": [
+      "TextField"
+    ],
+    "genui": true
+  },
+  {
     "name": "box",
     "title": "Box",
     "family": "layout",

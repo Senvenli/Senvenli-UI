@@ -96,7 +96,10 @@
         "type": "HTMLAttributeAnchorTarget",
         "required": false,
         "default": "\"_blank\"",
-        "description": "Where `href` opens. `_blank` (default) follows Link's external convention: `noopener noreferrer` and the\nnew-tab words for screen readers. `_self` keeps an in-app link in the page, through the host router."
+        "description": "Where `href` opens. `_blank` (default) follows Link's external convention: `noopener noreferrer` and the\nnew-tab words for screen readers. `_self` keeps an in-app link in the page, through the host router.",
+        "schema": {
+          "type": "string"
+        }
       },
       {
         "name": "placement",

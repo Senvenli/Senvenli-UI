@@ -1,0 +1,79 @@
+{
+  "$schema": "../../manifest/component.schema.json",
+  "kind": "component",
+  "family": "form",
+  "status": "alpha",
+  "import": "@senvenli/react/form",
+  "name": "form",
+  "title": "Form",
+  "exports": [
+    "Form",
+    "FormSection",
+    "FormRow",
+    "FormFooter"
+  ],
+  "description": "A form with consistent rhythm, sections with legends, side-by-side rows and a footer for its actions.",
+  "keywords": [
+    "form",
+    "fieldset",
+    "submit",
+    "section",
+    "layout"
+  ],
+  "usage": {
+    "when": [
+      "Collecting input that is submitted together."
+    ]
+  },
+  "guidance": [
+    {
+      "rule": "One primary submit button in the FormFooter."
+    },
+    {
+      "rule": "Mark the exception: required when most fields are optional, optional when most are required."
+    }
+  ],
+  "a11y": {
+    "keyboard": [
+      {
+        "keys": "Enter",
+        "does": "Submits the form from a text field."
+      }
+    ],
+    "builtIn": [
+      "On submit, focus moves to the first invalid field.",
+      "FormSection is a fieldset named by its legend."
+    ],
+    "youProvide": [
+      "A legend for each FormSection."
+    ]
+  },
+  "related": [
+    "field",
+    "text-field",
+    "button"
+  ],
+  "genui": {
+    "expose": true,
+    "description": "A form. Put fields in the order people fill them and one primary button last. Emits submit with the field values.",
+    "props": [
+      "width"
+    ],
+    "children": [
+      "text-field",
+      "text-area",
+      "number-field",
+      "password-field",
+      "search-field",
+      "button",
+      "stack",
+      "inline",
+      "heading",
+      "text",
+      "separator"
+    ],
+    "events": [
+      "submit"
+    ]
+  }
+}
