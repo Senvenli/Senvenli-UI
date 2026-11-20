@@ -1,0 +1,137 @@
+{
+  "$schema": "https://design.senvenli.com/schema/component.full.json",
+  "kind": "component",
+  "family": "date",
+  "status": "alpha",
+  "import": "@senvenli/react/date",
+  "name": "time-slots",
+  "title": "Time slots",
+  "exports": [
+    "TimeSlots"
+  ],
+  "description": "Available times as a grid of tiles, each with an optional note, for one choice.",
+  "keywords": [
+    "time slots",
+    "appointment",
+    "availability",
+    "schedule"
+  ],
+  "usage": {
+    "when": [
+      "Picking one of the available times: appointments, opening hours."
+    ]
+  },
+  "a11y": {
+    "keyboard": [
+      {
+        "keys": "Arrow keys",
+        "does": "Moves between tiles."
+      }
+    ],
+    "builtIn": [
+      "Unavailable times are skipped and announced with their note."
+    ],
+    "youProvide": [
+      "A label."
+    ]
+  },
+  "related": [
+    "time-field"
+  ],
+  "genui": {
+    "expose": false
+  },
+  "source": [
+    "src/date/fields.tsx"
+  ],
+  "props": {
+    "TimeSlots": [
+      {
+        "name": "label",
+        "type": "React.ReactNode",
+        "required": true,
+        "description": "\"Uygun saatler · 14 Eki\"."
+      },
+      {
+        "name": "slots",
+        "type": "readonly TimeSlot[]",
+        "required": true
+      },
+      {
+        "name": "value",
+        "type": "Time",
+        "required": false
+      },
+      {
+        "name": "defaultValue",
+        "type": "Time",
+        "required": false
+      },
+      {
+        "name": "onChange",
+        "type": "(value: Time) => void",
+        "required": false
+      },
+      {
+        "name": "description",
+        "type": "React.ReactNode",
+        "required": false,
+        "description": "Under the grid: opening hours, the out-of-hours fee."
+      },
+      {
+        "name": "hourCycle",
+        "type": "12 | 24",
+        "required": false,
+        "schema": {
+          "enum": [
+            12,
+            24
+          ]
+        }
+      },
+      {
+        "name": "isDisabled",
+        "type": "boolean",
+        "required": false,
+        "schema": {
+          "type": "boolean"
+        }
+      }
+    ]
+  },
+  "tokens": [
+    "ds-background-brand-bold",
+    "ds-background-neutral-subtle-hovered",
+    "ds-border",
+    "ds-border-bold",
+    "ds-border-focused",
+    "ds-radius-medium",
+    "ds-radius-small",
+    "ds-space-025",
+    "ds-space-075",
+    "ds-space-100",
+    "ds-text",
+    "ds-text-disabled",
+    "ds-text-on-brand",
+    "ds-text-subtle",
+    "ds-text-subtlest"
+  ],
+  "strings": [
+    "dateIncomplete",
+    "dateTimeIncomplete",
+    "monthHasDays",
+    "required",
+    "thisMonthHasDays",
+    "timeIncomplete"
+  ],
+  "quality": {
+    "tests": true,
+    "a11y": false,
+    "docs": false,
+    "visual": false,
+    "dark": false,
+    "rtl": false,
+    "mcp": true,
+    "generic": true
+  }
+}

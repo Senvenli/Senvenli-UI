@@ -48,6 +48,10 @@
     "./navigation": {
       "types": "./dist/navigation/index.d.ts",
       "default": "./dist/navigation/index.js"
+    },
+    "./date": {
+      "types": "./dist/date/index.d.ts",
+      "default": "./dist/date/index.js"
     }
   },
   "files": [
@@ -64,7 +68,8 @@
   "dependencies": {
     "@senvenli/tokens": "workspace:*",
     "clsx": "^2.1.1",
-    "tailwind-merge": "^3.5.0"
+    "tailwind-merge": "^3.5.0",
+    "@internationalized/date": "^3.12.4"
   },
   "peerDependencies": {
     "lucide-react": "^1.34.0",

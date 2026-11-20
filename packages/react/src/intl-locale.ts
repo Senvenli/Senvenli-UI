@@ -19,6 +19,15 @@ export function registerLocalWords(hook: ((tag: string, text: string) => string)
   wordsHook = hook;
 }
 
+/**
+ * The app locales a tag stands in for: the reverse of `registerLocaleAliases`. Components see the alias target
+ * (React Aria gets it), so string lookup uses this to find the strings registered under the app's own tag.
+ */
+export function aliasSourcesOf(tag: string): string[] {
+  const lower = tag.toLowerCase();
+  return [...aliases].filter(([, to]) => to.toLowerCase() === lower).map(([from]) => from);
+}
+
 /** The tag to hand `Intl` (and React Aria) for a locale. */
 export function intlLocale(locale: string): string {
   const lower = locale.toLowerCase();
@@ -54,6 +63,11 @@ export function regionNames(tag: string): (code: string) => string | undefined {
       return undefined;
     }
   };
+}
+
+/** Whether the app registered a word hook (components skip their rewrite work otherwise). */
+export function hasLocalWords(): boolean {
+  return wordsHook !== null;
 }
 
 /** Text `Intl` wrote in `tag`, after the app's registered word hook (if any). */

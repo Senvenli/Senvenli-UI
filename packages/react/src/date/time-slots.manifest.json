@@ -1,0 +1,44 @@
+{
+  "$schema": "../../manifest/component.schema.json",
+  "kind": "component",
+  "family": "date",
+  "status": "alpha",
+  "import": "@senvenli/react/date",
+  "name": "time-slots",
+  "title": "Time slots",
+  "exports": [
+    "TimeSlots"
+  ],
+  "description": "Available times as a grid of tiles, each with an optional note, for one choice.",
+  "keywords": [
+    "time slots",
+    "appointment",
+    "availability",
+    "schedule"
+  ],
+  "usage": {
+    "when": [
+      "Picking one of the available times: appointments, opening hours."
+    ]
+  },
+  "a11y": {
+    "keyboard": [
+      {
+        "keys": "Arrow keys",
+        "does": "Moves between tiles."
+      }
+    ],
+    "builtIn": [
+      "Unavailable times are skipped and announced with their note."
+    ],
+    "youProvide": [
+      "A label."
+    ]
+  },
+  "related": [
+    "time-field"
+  ],
+  "genui": {
+    "expose": false
+  }
+}

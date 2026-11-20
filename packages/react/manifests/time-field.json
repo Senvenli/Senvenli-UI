@@ -1,0 +1,269 @@
+{
+  "$schema": "https://design.senvenli.com/schema/component.full.json",
+  "kind": "component",
+  "family": "date",
+  "status": "alpha",
+  "import": "@senvenli/react/date",
+  "name": "time-field",
+  "title": "Time field",
+  "exports": [
+    "TimeField"
+  ],
+  "description": "A typed time in the locale's clock, with minute steps and an optional time zone.",
+  "keywords": [
+    "time",
+    "hour",
+    "clock",
+    "input"
+  ],
+  "usage": {
+    "when": [
+      "Typing a time of day."
+    ],
+    "instead": [
+      {
+        "use": "time-slots",
+        "when": "Only certain times are available."
+      }
+    ]
+  },
+  "a11y": {
+    "keyboard": [
+      {
+        "keys": "Arrow up / down",
+        "does": "Changes the focused part."
+      }
+    ],
+    "builtIn": [
+      "Required fields show \"Fill in this field.\"; a partly typed date says what is missing."
+    ],
+    "youProvide": [
+      "A visible label."
+    ]
+  },
+  "related": [
+    "time-slots",
+    "date-field"
+  ],
+  "genui": {
+    "expose": false
+  },
+  "source": [
+    "src/date/fields.tsx"
+  ],
+  "props": {
+    "TimeField": [
+      {
+        "name": "label",
+        "type": "React.ReactNode",
+        "required": true,
+        "description": "Always given; the label sits above the field and names its segments."
+      },
+      {
+        "name": "description",
+        "type": "React.ReactNode",
+        "required": false
+      },
+      {
+        "name": "errorMessage",
+        "type": "React.ReactNode",
+        "required": false,
+        "description": "What happened and what to do; shown when the field is invalid."
+      },
+      {
+        "name": "isRequired",
+        "type": "boolean",
+        "required": false,
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "requiredValidation",
+        "type": "RequiredValidation",
+        "required": false,
+        "description": "Who says an empty required field is missing: `field` (default) or `app`. With `app` a DS\nForm's `onSubmit` runs with the field empty, and the app's own error must clear on change. See\n{@link RequiredValidation} for the whole contract.",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "field",
+            "app"
+          ]
+        }
+      },
+      {
+        "name": "isOptional",
+        "type": "boolean",
+        "required": false,
+        "description": "Shows \"(optional)\" when most of the form is required.",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "isDisabled",
+        "type": "boolean",
+        "required": false,
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "isReadOnly",
+        "type": "boolean",
+        "required": false,
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "isInvalid",
+        "type": "boolean",
+        "required": false,
+        "description": "Marks the field invalid from outside (a server error); `errorMessage` says why.",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "id",
+        "type": "string",
+        "required": false,
+        "description": "The id of the field's first typed segment (day, or the locale's first part), the element that takes focus\n: `document.getElementById(id).focus()` puts the user in the field, as a focus-on-error does. The\nfield's group gets an id of its own. Left out, the DOM is as before.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "name",
+        "type": "string",
+        "required": false,
+        "description": "The form field name; the value is submitted as an ISO string.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "autoFocus",
+        "type": "boolean",
+        "required": false,
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "onBlur",
+        "type": "(event: FocusEvent<Element, Element>) => void",
+        "required": false
+      },
+      {
+        "name": "value",
+        "type": "TimeValue",
+        "required": false,
+        "description": "A time, or a zoned date-time when a location's zone travels with it.\n\nWhile the user leaves a time typed in part (\"10:––\"), the field reports `onChange(null)` and keeps the typed parts\non screen, so setting `null` changes nothing: the value already is null. To clear the field (an app's own \"Temizle\"\nor form reset), give it a new `key` along with the value: React remounts it empty, or at the value given\n."
+      },
+      {
+        "name": "defaultValue",
+        "type": "TimeValue",
+        "required": false
+      },
+      {
+        "name": "onChange",
+        "type": "(value: TimeValue | null) => void",
+        "required": false
+      },
+      {
+        "name": "hourCycle",
+        "type": "12 | 24",
+        "required": false,
+        "description": "24-hour in tr and me, 12-hour in en-US; from the locale unless set.",
+        "schema": {
+          "enum": [
+            12,
+            24
+          ]
+        }
+      },
+      {
+        "name": "granularity",
+        "type": "\"hour\" | \"minute\"",
+        "required": false,
+        "schema": {
+          "type": "string",
+          "enum": [
+            "hour",
+            "minute"
+          ]
+        }
+      },
+      {
+        "name": "minuteStep",
+        "type": "number",
+        "required": false,
+        "description": "Arrow keys step the minutes by this much (15 or 30).",
+        "schema": {
+          "type": "number"
+        }
+      },
+      {
+        "name": "timeZone",
+        "type": "string",
+        "required": false,
+        "description": "The location's zone (IANA, \"Europe/Lisbon\"). Named after the time when it differs from the user's.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "minValue",
+        "type": "TimeValue",
+        "required": false
+      },
+      {
+        "name": "maxValue",
+        "type": "TimeValue",
+        "required": false
+      },
+      {
+        "name": "validate",
+        "type": "(value: TimeValue | null) => string | true | string[] | null | undefined",
+        "required": false
+      }
+    ]
+  },
+  "tokens": [
+    "ds-background-brand-bold",
+    "ds-background-neutral-subtle-hovered",
+    "ds-border",
+    "ds-border-bold",
+    "ds-border-focused",
+    "ds-radius-medium",
+    "ds-radius-small",
+    "ds-space-025",
+    "ds-space-075",
+    "ds-space-100",
+    "ds-text",
+    "ds-text-disabled",
+    "ds-text-on-brand",
+    "ds-text-subtle",
+    "ds-text-subtlest"
+  ],
+  "strings": [
+    "dateIncomplete",
+    "dateTimeIncomplete",
+    "monthHasDays",
+    "required",
+    "thisMonthHasDays",
+    "timeIncomplete"
+  ],
+  "quality": {
+    "tests": true,
+    "a11y": false,
+    "docs": false,
+    "visual": false,
+    "dark": false,
+    "rtl": false,
+    "mcp": true,
+    "generic": true
+  }
+}

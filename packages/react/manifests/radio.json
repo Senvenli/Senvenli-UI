@@ -638,16 +638,12 @@
         }
       },
       {
-        "name": "validationBehavior",
-        "type": "\"aria\" | \"native\"",
+        "name": "isRequired",
+        "type": "boolean",
         "required": false,
-        "description": "Whether to use native HTML form validation to prevent form submission\nwhen the value is missing or invalid, or mark the field as required\nor invalid via ARIA.",
+        "description": "Whether user input is required on the input before form submission.",
         "schema": {
-          "type": "string",
-          "enum": [
-            "aria",
-            "native"
-          ]
+          "type": "boolean"
         }
       },
       {
@@ -655,15 +651,6 @@
         "type": "boolean",
         "required": false,
         "description": "Whether the input can be selected but not changed by the user.",
-        "schema": {
-          "type": "boolean"
-        }
-      },
-      {
-        "name": "isRequired",
-        "type": "boolean",
-        "required": false,
-        "description": "Whether user input is required on the input before form submission.",
         "schema": {
           "type": "boolean"
         }
@@ -682,6 +669,19 @@
         "type": "(value: string) => true | ValidationError | null | undefined",
         "required": false,
         "description": "A function that returns an error message if a given value is invalid.\nValidation errors are displayed to the user when the form is submitted\nif `validationBehavior=\"native\"`. For realtime validation, use the `isInvalid`\nprop instead."
+      },
+      {
+        "name": "validationBehavior",
+        "type": "\"aria\" | \"native\"",
+        "required": false,
+        "description": "Whether to use native HTML form validation to prevent form submission\nwhen the value is missing or invalid, or mark the field as required\nor invalid via ARIA.",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "aria",
+            "native"
+          ]
+        }
       },
       {
         "name": "label",

@@ -1,0 +1,339 @@
+{
+  "$schema": "https://design.senvenli.com/schema/component.full.json",
+  "kind": "component",
+  "family": "date",
+  "status": "alpha",
+  "import": "@senvenli/react/date",
+  "name": "calendar",
+  "title": "Calendar",
+  "exports": [
+    "Calendar",
+    "RangeCalendar"
+  ],
+  "description": "A month grid to pick a date or a range, with markers, unavailable days and several visible months.",
+  "keywords": [
+    "calendar",
+    "month",
+    "date",
+    "range",
+    "availability"
+  ],
+  "usage": {
+    "when": [
+      "Showing availability or picking dates in place, without a field."
+    ],
+    "instead": [
+      {
+        "use": "date-picker",
+        "when": "A form field opens the calendar."
+      }
+    ]
+  },
+  "a11y": {
+    "keyboard": [
+      {
+        "keys": "Arrow keys",
+        "does": "Moves between days."
+      },
+      {
+        "keys": "Page Up / Page Down",
+        "does": "Moves a month."
+      }
+    ],
+    "builtIn": [
+      "Each day is announced with its markers and why it is unavailable.",
+      "Month and weekday names follow the locale."
+    ],
+    "youProvide": [
+      "A label for the calendar."
+    ]
+  },
+  "related": [
+    "date-picker",
+    "date-range-field"
+  ],
+  "genui": {
+    "expose": false
+  },
+  "source": [
+    "src/date/calendar.tsx"
+  ],
+  "props": {
+    "Calendar": [
+      {
+        "name": "minValue",
+        "type": "CalendarDate",
+        "required": false
+      },
+      {
+        "name": "maxValue",
+        "type": "CalendarDate",
+        "required": false
+      },
+      {
+        "name": "isDateUnavailable",
+        "type": "(date: CalendarDate) => boolean",
+        "required": false,
+        "description": "Days that cannot be picked; they stay focusable and say why (`unavailableReason`)."
+      },
+      {
+        "name": "unavailableReason",
+        "type": "(date: CalendarDate) => string | undefined",
+        "required": false,
+        "description": "Why a day is unavailable (\"Closed\", \"Sold out\"); read with the day."
+      },
+      {
+        "name": "locale",
+        "type": "string",
+        "required": false,
+        "description": "Locale override; the DesignSystemProvider locale by default. Month and weekday names come from Intl.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "firstDayOfWeek",
+        "type": "FirstDayOfWeek",
+        "required": false,
+        "description": "Overrides the locale's first day of the week.",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "sun",
+            "mon",
+            "tue",
+            "wed",
+            "thu",
+            "fri",
+            "sat"
+          ]
+        }
+      },
+      {
+        "name": "timeZone",
+        "type": "string",
+        "required": false,
+        "description": "The time zone \"today\" is computed in (the location's); the device's by default.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "aria-label",
+        "type": "string",
+        "required": false,
+        "description": "Names the calendar (\"Start date\").",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "value",
+        "type": "CalendarDate",
+        "required": false
+      },
+      {
+        "name": "defaultValue",
+        "type": "CalendarDate",
+        "required": false
+      },
+      {
+        "name": "onChange",
+        "type": "(value: CalendarDate) => void",
+        "required": false
+      },
+      {
+        "name": "getDateMarkers",
+        "type": "(date: CalendarDate) => DateMarker | undefined",
+        "required": false,
+        "description": "A dot under a day (events on it); a string is also said to screen readers."
+      },
+      {
+        "name": "visibleMonths",
+        "type": "1 | 2",
+        "required": false,
+        "default": "1",
+        "schema": {
+          "enum": [
+            1,
+            2
+          ]
+        }
+      }
+    ],
+    "RangeCalendar": [
+      {
+        "name": "minValue",
+        "type": "CalendarDate",
+        "required": false
+      },
+      {
+        "name": "maxValue",
+        "type": "CalendarDate",
+        "required": false
+      },
+      {
+        "name": "isDateUnavailable",
+        "type": "(date: CalendarDate) => boolean",
+        "required": false,
+        "description": "Days that cannot be picked; they stay focusable and say why (`unavailableReason`)."
+      },
+      {
+        "name": "unavailableReason",
+        "type": "(date: CalendarDate) => string | undefined",
+        "required": false,
+        "description": "Why a day is unavailable (\"Closed\", \"Sold out\"); read with the day."
+      },
+      {
+        "name": "locale",
+        "type": "string",
+        "required": false,
+        "description": "Locale override; the DesignSystemProvider locale by default. Month and weekday names come from Intl.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "firstDayOfWeek",
+        "type": "FirstDayOfWeek",
+        "required": false,
+        "description": "Overrides the locale's first day of the week.",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "sun",
+            "mon",
+            "tue",
+            "wed",
+            "thu",
+            "fri",
+            "sat"
+          ]
+        }
+      },
+      {
+        "name": "timeZone",
+        "type": "string",
+        "required": false,
+        "description": "The time zone \"today\" is computed in (the location's); the device's by default.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "aria-label",
+        "type": "string",
+        "required": false,
+        "description": "Names the calendar (\"Start date\").",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "value",
+        "type": "DateRange",
+        "required": false
+      },
+      {
+        "name": "defaultValue",
+        "type": "DateRange",
+        "required": false
+      },
+      {
+        "name": "onChange",
+        "type": "(value: DateRange) => void",
+        "required": false
+      },
+      {
+        "name": "allowsNonContiguousRanges",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Keep this false when a range may not cross an unavailable day (stays, trips, equipment hire).",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "minDuration",
+        "type": "number",
+        "required": false,
+        "description": "Shortest and longest range in days (end − start).",
+        "schema": {
+          "type": "number"
+        }
+      },
+      {
+        "name": "maxDuration",
+        "type": "number",
+        "required": false,
+        "schema": {
+          "type": "number"
+        }
+      },
+      {
+        "name": "visibleMonths",
+        "type": "1 | 2",
+        "required": false,
+        "default": "2",
+        "description": "Two months side by side (from 720px), one below on narrow screens; default 2.",
+        "schema": {
+          "enum": [
+            1,
+            2
+          ]
+        }
+      },
+      {
+        "name": "action",
+        "type": "React.ReactNode",
+        "required": false,
+        "description": "In a popover: the footer shows the chosen range and its length beside this action (\"Tarihleri uygula\")."
+      }
+    ]
+  },
+  "tokens": [
+    "ds-background-brand-bold",
+    "ds-background-brand-bold-hovered",
+    "ds-background-neutral-subtle-hovered",
+    "ds-background-selected",
+    "ds-background-selected-hovered",
+    "ds-border",
+    "ds-border-focused",
+    "ds-icon",
+    "ds-icon-brand",
+    "ds-radius-full",
+    "ds-radius-large",
+    "ds-radius-medium",
+    "ds-shadow-raised",
+    "ds-size-control",
+    "ds-size-control-compact",
+    "ds-space-100",
+    "ds-space-150",
+    "ds-space-200",
+    "ds-space-400",
+    "ds-surface-raised",
+    "ds-text",
+    "ds-text-disabled",
+    "ds-text-on-brand",
+    "ds-text-subtle",
+    "ds-text-subtlest"
+  ],
+  "strings": [
+    "nextMonth",
+    "previousMonth",
+    "rangeCrossesClosed",
+    "rangeTooLong",
+    "rangeTooShort"
+  ],
+  "quality": {
+    "tests": true,
+    "a11y": false,
+    "docs": false,
+    "visual": false,
+    "dark": false,
+    "rtl": false,
+    "mcp": true,
+    "generic": true
+  }
+}
