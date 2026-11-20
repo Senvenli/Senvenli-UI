@@ -1,0 +1,821 @@
+{
+  "$schema": "https://design.senvenli.com/schema/component.full.json",
+  "kind": "component",
+  "family": "selection",
+  "status": "alpha",
+  "import": "@senvenli/react/selection",
+  "name": "radio",
+  "title": "Radio group",
+  "exports": [
+    "RadioGroup",
+    "Radio"
+  ],
+  "description": "One choice from a few options that all stay visible.",
+  "keywords": [
+    "radio",
+    "options",
+    "choice",
+    "single"
+  ],
+  "usage": {
+    "when": [
+      "One choice from 2 to 5 options people should compare."
+    ],
+    "instead": [
+      {
+        "use": "select",
+        "when": "There are many options."
+      },
+      {
+        "use": "radio-card",
+        "when": "Each option needs a longer description."
+      }
+    ]
+  },
+  "a11y": {
+    "keyboard": [
+      {
+        "keys": "Arrow keys",
+        "does": "Moves and selects within the group."
+      }
+    ],
+    "builtIn": [
+      "One tab stop for the group.",
+      "Required fields show \"Fill in this field.\" after a blur or a submit; your own `errorMessage` replaces it."
+    ],
+    "youProvide": [
+      "A label for the group."
+    ]
+  },
+  "related": [
+    "radio-card",
+    "select",
+    "checkbox"
+  ],
+  "genui": {
+    "expose": true,
+    "description": "One choice from a few visible options. items are {value, label, description?}. Emits change.",
+    "props": [
+      "label",
+      "items",
+      "description"
+    ],
+    "children": "none",
+    "events": [
+      "change"
+    ],
+    "schema": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "label": {
+          "type": "string",
+          "description": "The group legend, required."
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "value": {
+                "type": "string"
+              },
+              "label": {
+                "type": "string"
+              },
+              "description": {
+                "type": "string"
+              },
+              "isDisabled": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "value",
+              "label"
+            ]
+          },
+          "description": "The options as data, or `Radio` children."
+        },
+        "description": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "label"
+      ]
+    }
+  },
+  "source": [
+    "src/selection/radio.tsx"
+  ],
+  "props": {
+    "RadioGroup": [
+      {
+        "name": "defaultValue",
+        "type": "string",
+        "required": false,
+        "description": "The default value (uncontrolled).",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "suppressHydrationWarning",
+        "type": "boolean",
+        "required": false,
+        "description": "A React-only flag that suppresses the warning React normally logs when an element's\nserver-rendered content doesn't match the client render during hydration. See [React\ndocs](https://react.dev/reference/react-dom/client/hydrateRoot#suppressing-unavoidable-hydration-mismatch-errors).",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "dir",
+        "type": "string",
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "hidden",
+        "type": "boolean",
+        "required": false,
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "id",
+        "type": "string",
+        "required": false,
+        "description": "The element's unique identifier. See\n[MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/id).",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "lang",
+        "type": "string",
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "slot",
+        "type": "string",
+        "required": false,
+        "description": "A slot name for the component. Slots allow the component to receive props from a parent\ncomponent. An explicit `null` value indicates that the local props completely override all\nprops received from a parent.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "translate",
+        "type": "\"yes\" | \"no\"",
+        "required": false,
+        "schema": {
+          "type": "string",
+          "enum": [
+            "yes",
+            "no"
+          ]
+        }
+      },
+      {
+        "name": "inert",
+        "type": "boolean",
+        "required": false,
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "aria-describedby",
+        "type": "string",
+        "required": false,
+        "description": "Identifies the element (or elements) that describes the object.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "aria-details",
+        "type": "string",
+        "required": false,
+        "description": "Identifies the element (or elements) that provide a detailed, extended description for the\nobject.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "aria-errormessage",
+        "type": "string",
+        "required": false,
+        "description": "Identifies the element that provides an error message for the object.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "aria-label",
+        "type": "string",
+        "required": false,
+        "description": "Defines a string value that labels the current element.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "aria-labelledby",
+        "type": "string",
+        "required": false,
+        "description": "Identifies the element (or elements) that labels the current element.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "onFocus",
+        "type": "(e: FocusEvent<Element, Element>) => void",
+        "required": false,
+        "description": "Handler that is called when the element receives focus."
+      },
+      {
+        "name": "onBlur",
+        "type": "(e: FocusEvent<Element, Element>) => void",
+        "required": false,
+        "description": "Handler that is called when the element loses focus."
+      },
+      {
+        "name": "onChange",
+        "type": "(value: string) => void",
+        "required": false,
+        "description": "Handler that is called when the value changes."
+      },
+      {
+        "name": "onAuxClick",
+        "type": "MouseEventHandler<HTMLDivElement>",
+        "required": false
+      },
+      {
+        "name": "onAuxClickCapture",
+        "type": "MouseEventHandler<HTMLDivElement>",
+        "required": false
+      },
+      {
+        "name": "onClick",
+        "type": "MouseEventHandler<HTMLDivElement>",
+        "required": false
+      },
+      {
+        "name": "onClickCapture",
+        "type": "MouseEventHandler<HTMLDivElement>",
+        "required": false
+      },
+      {
+        "name": "onContextMenu",
+        "type": "MouseEventHandler<HTMLDivElement>",
+        "required": false
+      },
+      {
+        "name": "onContextMenuCapture",
+        "type": "MouseEventHandler<HTMLDivElement>",
+        "required": false
+      },
+      {
+        "name": "onDoubleClick",
+        "type": "MouseEventHandler<HTMLDivElement>",
+        "required": false
+      },
+      {
+        "name": "onDoubleClickCapture",
+        "type": "MouseEventHandler<HTMLDivElement>",
+        "required": false
+      },
+      {
+        "name": "onMouseDown",
+        "type": "MouseEventHandler<HTMLDivElement>",
+        "required": false
+      },
+      {
+        "name": "onMouseDownCapture",
+        "type": "MouseEventHandler<HTMLDivElement>",
+        "required": false
+      },
+      {
+        "name": "onMouseEnter",
+        "type": "MouseEventHandler<HTMLDivElement>",
+        "required": false
+      },
+      {
+        "name": "onMouseLeave",
+        "type": "MouseEventHandler<HTMLDivElement>",
+        "required": false
+      },
+      {
+        "name": "onMouseMove",
+        "type": "MouseEventHandler<HTMLDivElement>",
+        "required": false
+      },
+      {
+        "name": "onMouseMoveCapture",
+        "type": "MouseEventHandler<HTMLDivElement>",
+        "required": false
+      },
+      {
+        "name": "onMouseOut",
+        "type": "MouseEventHandler<HTMLDivElement>",
+        "required": false
+      },
+      {
+        "name": "onMouseOutCapture",
+        "type": "MouseEventHandler<HTMLDivElement>",
+        "required": false
+      },
+      {
+        "name": "onMouseOver",
+        "type": "MouseEventHandler<HTMLDivElement>",
+        "required": false
+      },
+      {
+        "name": "onMouseOverCapture",
+        "type": "MouseEventHandler<HTMLDivElement>",
+        "required": false
+      },
+      {
+        "name": "onMouseUp",
+        "type": "MouseEventHandler<HTMLDivElement>",
+        "required": false
+      },
+      {
+        "name": "onMouseUpCapture",
+        "type": "MouseEventHandler<HTMLDivElement>",
+        "required": false
+      },
+      {
+        "name": "onTouchCancel",
+        "type": "TouchEventHandler<HTMLDivElement>",
+        "required": false
+      },
+      {
+        "name": "onTouchCancelCapture",
+        "type": "TouchEventHandler<HTMLDivElement>",
+        "required": false
+      },
+      {
+        "name": "onTouchEnd",
+        "type": "TouchEventHandler<HTMLDivElement>",
+        "required": false
+      },
+      {
+        "name": "onTouchEndCapture",
+        "type": "TouchEventHandler<HTMLDivElement>",
+        "required": false
+      },
+      {
+        "name": "onTouchMove",
+        "type": "TouchEventHandler<HTMLDivElement>",
+        "required": false
+      },
+      {
+        "name": "onTouchMoveCapture",
+        "type": "TouchEventHandler<HTMLDivElement>",
+        "required": false
+      },
+      {
+        "name": "onTouchStart",
+        "type": "TouchEventHandler<HTMLDivElement>",
+        "required": false
+      },
+      {
+        "name": "onTouchStartCapture",
+        "type": "TouchEventHandler<HTMLDivElement>",
+        "required": false
+      },
+      {
+        "name": "onPointerDown",
+        "type": "PointerEventHandler<HTMLDivElement>",
+        "required": false
+      },
+      {
+        "name": "onPointerDownCapture",
+        "type": "PointerEventHandler<HTMLDivElement>",
+        "required": false
+      },
+      {
+        "name": "onPointerMove",
+        "type": "PointerEventHandler<HTMLDivElement>",
+        "required": false
+      },
+      {
+        "name": "onPointerMoveCapture",
+        "type": "PointerEventHandler<HTMLDivElement>",
+        "required": false
+      },
+      {
+        "name": "onPointerUp",
+        "type": "PointerEventHandler<HTMLDivElement>",
+        "required": false
+      },
+      {
+        "name": "onPointerUpCapture",
+        "type": "PointerEventHandler<HTMLDivElement>",
+        "required": false
+      },
+      {
+        "name": "onPointerCancel",
+        "type": "PointerEventHandler<HTMLDivElement>",
+        "required": false
+      },
+      {
+        "name": "onPointerCancelCapture",
+        "type": "PointerEventHandler<HTMLDivElement>",
+        "required": false
+      },
+      {
+        "name": "onPointerEnter",
+        "type": "PointerEventHandler<HTMLDivElement>",
+        "required": false
+      },
+      {
+        "name": "onPointerLeave",
+        "type": "PointerEventHandler<HTMLDivElement>",
+        "required": false
+      },
+      {
+        "name": "onPointerOver",
+        "type": "PointerEventHandler<HTMLDivElement>",
+        "required": false
+      },
+      {
+        "name": "onPointerOverCapture",
+        "type": "PointerEventHandler<HTMLDivElement>",
+        "required": false
+      },
+      {
+        "name": "onPointerOut",
+        "type": "PointerEventHandler<HTMLDivElement>",
+        "required": false
+      },
+      {
+        "name": "onPointerOutCapture",
+        "type": "PointerEventHandler<HTMLDivElement>",
+        "required": false
+      },
+      {
+        "name": "onGotPointerCapture",
+        "type": "PointerEventHandler<HTMLDivElement>",
+        "required": false
+      },
+      {
+        "name": "onGotPointerCaptureCapture",
+        "type": "PointerEventHandler<HTMLDivElement>",
+        "required": false
+      },
+      {
+        "name": "onLostPointerCapture",
+        "type": "PointerEventHandler<HTMLDivElement>",
+        "required": false
+      },
+      {
+        "name": "onLostPointerCaptureCapture",
+        "type": "PointerEventHandler<HTMLDivElement>",
+        "required": false
+      },
+      {
+        "name": "onScroll",
+        "type": "UIEventHandler<HTMLDivElement>",
+        "required": false
+      },
+      {
+        "name": "onScrollCapture",
+        "type": "UIEventHandler<HTMLDivElement>",
+        "required": false
+      },
+      {
+        "name": "onWheel",
+        "type": "WheelEventHandler<HTMLDivElement>",
+        "required": false
+      },
+      {
+        "name": "onWheelCapture",
+        "type": "WheelEventHandler<HTMLDivElement>",
+        "required": false
+      },
+      {
+        "name": "onAnimationStart",
+        "type": "AnimationEventHandler<HTMLDivElement>",
+        "required": false
+      },
+      {
+        "name": "onAnimationStartCapture",
+        "type": "AnimationEventHandler<HTMLDivElement>",
+        "required": false
+      },
+      {
+        "name": "onAnimationEnd",
+        "type": "AnimationEventHandler<HTMLDivElement>",
+        "required": false
+      },
+      {
+        "name": "onAnimationEndCapture",
+        "type": "AnimationEventHandler<HTMLDivElement>",
+        "required": false
+      },
+      {
+        "name": "onAnimationIteration",
+        "type": "AnimationEventHandler<HTMLDivElement>",
+        "required": false
+      },
+      {
+        "name": "onAnimationIterationCapture",
+        "type": "AnimationEventHandler<HTMLDivElement>",
+        "required": false
+      },
+      {
+        "name": "onTransitionCancel",
+        "type": "TransitionEventHandler<HTMLDivElement>",
+        "required": false
+      },
+      {
+        "name": "onTransitionCancelCapture",
+        "type": "TransitionEventHandler<HTMLDivElement>",
+        "required": false
+      },
+      {
+        "name": "onTransitionEnd",
+        "type": "TransitionEventHandler<HTMLDivElement>",
+        "required": false
+      },
+      {
+        "name": "onTransitionEndCapture",
+        "type": "TransitionEventHandler<HTMLDivElement>",
+        "required": false
+      },
+      {
+        "name": "onTransitionRun",
+        "type": "TransitionEventHandler<HTMLDivElement>",
+        "required": false
+      },
+      {
+        "name": "onTransitionRunCapture",
+        "type": "TransitionEventHandler<HTMLDivElement>",
+        "required": false
+      },
+      {
+        "name": "onTransitionStart",
+        "type": "TransitionEventHandler<HTMLDivElement>",
+        "required": false
+      },
+      {
+        "name": "onTransitionStartCapture",
+        "type": "TransitionEventHandler<HTMLDivElement>",
+        "required": false
+      },
+      {
+        "name": "isDisabled",
+        "type": "boolean",
+        "required": false,
+        "description": "Whether the input is disabled.",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "onFocusChange",
+        "type": "(isFocused: boolean) => void",
+        "required": false,
+        "description": "Handler that is called when the element's focus status changes."
+      },
+      {
+        "name": "form",
+        "type": "string",
+        "required": false,
+        "description": "The `<form>` element to associate the input with.\nThe value of this attribute must be the id of a `<form>` in the same document.\nSee [MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/input#form).",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "name",
+        "type": "string",
+        "required": false,
+        "description": "The name of the input element, used when submitting an HTML form. See\n[MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#htmlattrdefname).",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "value",
+        "type": "string",
+        "required": false,
+        "description": "The current value (controlled).",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "render",
+        "type": "DOMRenderFunction<\"div\", RadioGroupRenderProps>",
+        "required": false,
+        "description": "Overrides the default DOM element with a custom render function.\nThis allows rendering existing components with built-in styles and behaviors\nsuch as router links, animation libraries, and pre-styled components.\n\nRequirements:\n\n- You must render the expected element type (e.g. if `<button>` is expected, you cannot render an\n  `<a>`).\n- Only a single root DOM element can be rendered (no fragments).\n- You must pass through props and ref to the underlying DOM element, merging with your own prop\n  as appropriate."
+      },
+      {
+        "name": "orientation",
+        "type": "Orientation",
+        "required": false,
+        "default": "\"vertical\"",
+        "description": "The axis the Radio Button(s) should align with.",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "horizontal",
+            "vertical"
+          ]
+        }
+      },
+      {
+        "name": "validationBehavior",
+        "type": "\"aria\" | \"native\"",
+        "required": false,
+        "description": "Whether to use native HTML form validation to prevent form submission\nwhen the value is missing or invalid, or mark the field as required\nor invalid via ARIA.",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "aria",
+            "native"
+          ]
+        }
+      },
+      {
+        "name": "isReadOnly",
+        "type": "boolean",
+        "required": false,
+        "description": "Whether the input can be selected but not changed by the user.",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "isRequired",
+        "type": "boolean",
+        "required": false,
+        "description": "Whether user input is required on the input before form submission.",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "isInvalid",
+        "type": "boolean",
+        "required": false,
+        "description": "Whether the input value is invalid.",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "validate",
+        "type": "(value: string) => true | ValidationError | null | undefined",
+        "required": false,
+        "description": "A function that returns an error message if a given value is invalid.\nValidation errors are displayed to the user when the form is submitted\nif `validationBehavior=\"native\"`. For realtime validation, use the `isInvalid`\nprop instead."
+      },
+      {
+        "name": "label",
+        "type": "React.ReactNode",
+        "required": true,
+        "description": "The group legend, required."
+      },
+      {
+        "name": "items",
+        "type": "readonly RadioItem[]",
+        "required": false,
+        "description": "The options as data, or `Radio` children.",
+        "schema": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "value": {
+                "type": "string"
+              },
+              "label": {
+                "type": "string"
+              },
+              "description": {
+                "type": "string"
+              },
+              "isDisabled": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "value",
+              "label"
+            ]
+          }
+        }
+      },
+      {
+        "name": "children",
+        "type": "React.ReactNode",
+        "required": false
+      },
+      {
+        "name": "description",
+        "type": "React.ReactNode",
+        "required": false
+      },
+      {
+        "name": "errorMessage",
+        "type": "React.ReactNode",
+        "required": false
+      },
+      {
+        "name": "requiredValidation",
+        "type": "RequiredValidation",
+        "required": false,
+        "description": "Who says a required group with no option chosen is missing: `field` (default) shows\n\"Fill in this field.\" when focus leaves the group and on a DS Form submit, which it then blocks; `app` only\nmarks the group. See {@link RequiredValidation}.\nThe app's `isInvalid` (`true` with its `errorMessage`, or `false`) overrides the check, as on TextField. Disabled,\nempty and required, it still blocks a DS Form's submit and cannot take focus (as TextField).",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "field",
+            "app"
+          ]
+        }
+      }
+    ],
+    "Radio": [
+      {
+        "name": "value",
+        "type": "string",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "children",
+        "type": "React.ReactNode",
+        "required": true
+      },
+      {
+        "name": "description",
+        "type": "React.ReactNode",
+        "required": false
+      },
+      {
+        "name": "isDisabled",
+        "type": "boolean",
+        "required": false,
+        "schema": {
+          "type": "boolean"
+        }
+      }
+    ]
+  },
+  "tokens": [
+    "ds-background-brand-bold",
+    "ds-background-brand-subtle",
+    "ds-background-disabled",
+    "ds-background-input",
+    "ds-background-neutral-pressed",
+    "ds-background-selected",
+    "ds-border",
+    "ds-border-bold",
+    "ds-border-danger",
+    "ds-border-focused",
+    "ds-border-selected",
+    "ds-easing-standard",
+    "ds-radius-full",
+    "ds-radius-large",
+    "ds-radius-xsmall",
+    "ds-shadow-raised",
+    "ds-space-075",
+    "ds-space-100",
+    "ds-space-150",
+    "ds-space-200",
+    "ds-space-300",
+    "ds-surface-raised",
+    "ds-text",
+    "ds-text-brand",
+    "ds-text-disabled",
+    "ds-text-on-brand",
+    "ds-text-subtlest"
+  ],
+  "strings": [],
+  "quality": {
+    "tests": true,
+    "a11y": false,
+    "docs": false,
+    "visual": false,
+    "dark": false,
+    "rtl": false,
+    "mcp": true,
+    "generic": true
+  }
+}

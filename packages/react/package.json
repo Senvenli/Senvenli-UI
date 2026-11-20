@@ -36,6 +36,10 @@
     "./form": {
       "types": "./dist/form/index.d.ts",
       "default": "./dist/form/index.js"
+    },
+    "./selection": {
+      "types": "./dist/selection/index.d.ts",
+      "default": "./dist/selection/index.js"
     }
   },
   "files": [

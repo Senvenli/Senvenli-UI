@@ -1028,17 +1028,26 @@
         "name": "min",
         "type": "string | number",
         "required": false,
-        "description": "Bounds and step for `type=\"number\"`; prefer NumberField for money and counts that need formatting."
+        "description": "Bounds and step for `type=\"number\"`; prefer NumberField for money and counts that need formatting.",
+        "schema": {
+          "type": "string"
+        }
       },
       {
         "name": "max",
         "type": "string | number",
-        "required": false
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
       },
       {
         "name": "step",
         "type": "string | number",
-        "required": false
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
       },
       {
         "name": "valueDir",

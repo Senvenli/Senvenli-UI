@@ -1,0 +1,181 @@
+{
+  "$schema": "https://design.senvenli.com/schema/component.full.json",
+  "kind": "component",
+  "family": "selection",
+  "status": "alpha",
+  "import": "@senvenli/react/selection",
+  "name": "switch",
+  "title": "Switch",
+  "exports": [
+    "Switch"
+  ],
+  "description": "Turns a setting on or off immediately.",
+  "keywords": [
+    "switch",
+    "toggle",
+    "setting",
+    "on off"
+  ],
+  "usage": {
+    "when": [
+      "A setting that applies at once."
+    ],
+    "instead": [
+      {
+        "use": "checkbox",
+        "when": "The choice is submitted with a form."
+      }
+    ]
+  },
+  "guidance": [
+    {
+      "rule": "Name the setting by its on-state (\"Online orders\"), never \"On/Off\"."
+    }
+  ],
+  "a11y": {
+    "keyboard": [
+      {
+        "keys": "Space",
+        "does": "Toggles it."
+      }
+    ],
+    "builtIn": [
+      "Announced as a switch with its state; a busy state while saving."
+    ],
+    "youProvide": [
+      "A label naming the setting."
+    ]
+  },
+  "related": [
+    "checkbox",
+    "toggle-button"
+  ],
+  "genui": {
+    "expose": true,
+    "description": "An on/off setting that applies at once; children name the setting by its on-state. Emits change.",
+    "props": [
+      "description"
+    ],
+    "children": "text",
+    "events": [
+      "change"
+    ],
+    "schema": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "description": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "source": [
+    "src/selection/switch.tsx"
+  ],
+  "props": {
+    "Switch": [
+      {
+        "name": "children",
+        "type": "React.ReactNode",
+        "required": true,
+        "description": "The setting, named as its on-state (\"Online orders\"), never \"On/Off\"."
+      },
+      {
+        "name": "isSelected",
+        "type": "boolean",
+        "required": false,
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "defaultSelected",
+        "type": "boolean",
+        "required": false,
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "onChange",
+        "type": "(isSelected: boolean) => void",
+        "required": false
+      },
+      {
+        "name": "description",
+        "type": "React.ReactNode",
+        "required": false
+      },
+      {
+        "name": "isDisabled",
+        "type": "boolean",
+        "required": false,
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "name",
+        "type": "string",
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "aria-busy",
+        "type": "boolean | \"true\" | \"false\"",
+        "required": false,
+        "description": "Marks a pending change (\"saving\"): `aria-busy` on the switch control itself, the `role=\"switch\"` input,\nwhere screen readers read it. It does not lock the switch: it still toggles unless `isDisabled` is set\ntoo. Left out, the DOM is unchanged. It is applied after hydration (in a layout effect, as\nReact Aria does not forward it), so server-rendered HTML does not carry it; it appears on the first client\nrender.",
+        "schema": {
+          "enum": [
+            false,
+            true,
+            "true",
+            "false"
+          ]
+        }
+      }
+    ]
+  },
+  "tokens": [
+    "ds-background-brand-bold",
+    "ds-background-brand-subtle",
+    "ds-background-disabled",
+    "ds-background-input",
+    "ds-background-neutral-pressed",
+    "ds-background-selected",
+    "ds-border",
+    "ds-border-bold",
+    "ds-border-danger",
+    "ds-border-focused",
+    "ds-border-selected",
+    "ds-easing-standard",
+    "ds-radius-full",
+    "ds-radius-large",
+    "ds-radius-xsmall",
+    "ds-shadow-raised",
+    "ds-space-075",
+    "ds-space-100",
+    "ds-space-150",
+    "ds-space-200",
+    "ds-surface-raised",
+    "ds-text",
+    "ds-text-brand",
+    "ds-text-disabled",
+    "ds-text-on-brand",
+    "ds-text-subtlest"
+  ],
+  "strings": [],
+  "quality": {
+    "tests": true,
+    "a11y": false,
+    "docs": false,
+    "visual": false,
+    "dark": false,
+    "rtl": false,
+    "mcp": true,
+    "generic": true
+  }
+}

@@ -62,7 +62,10 @@
         "name": "maxHeight",
         "type": "string | number",
         "required": false,
-        "description": "The region's height limit (\"320px\", 320, \"60vh\"); for horizontal areas, set the width on the parent."
+        "description": "The region's height limit (\"320px\", 320, \"60vh\"); for horizontal areas, set the width on the parent.",
+        "schema": {
+          "type": "string"
+        }
       },
       {
         "name": "fill",

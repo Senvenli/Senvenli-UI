@@ -796,5 +796,193 @@
       "Stack"
     ],
     "genui": true
+  },
+  {
+    "name": "autocomplete",
+    "title": "Autocomplete",
+    "family": "selection",
+    "status": "alpha",
+    "description": "Free text with suggestions loaded as people type, grouped and with detail lines.",
+    "keywords": [
+      "autocomplete",
+      "suggestions",
+      "address",
+      "typeahead"
+    ],
+    "import": "@senvenli/react/selection",
+    "exports": [
+      "Autocomplete"
+    ],
+    "genui": false
+  },
+  {
+    "name": "checkbox",
+    "title": "Checkbox",
+    "family": "selection",
+    "status": "alpha",
+    "description": "A box to turn one option on or off, or a group of boxes for several options.",
+    "keywords": [
+      "checkbox",
+      "check",
+      "toggle",
+      "options",
+      "consent"
+    ],
+    "import": "@senvenli/react/selection",
+    "exports": [
+      "Checkbox",
+      "CheckboxGroup"
+    ],
+    "genui": true
+  },
+  {
+    "name": "combobox",
+    "title": "Combo box",
+    "family": "selection",
+    "status": "alpha",
+    "description": "Type to filter a long list and pick one or several items, with load-more and app-side results.",
+    "keywords": [
+      "combobox",
+      "autocomplete",
+      "search",
+      "typeahead",
+      "filter"
+    ],
+    "import": "@senvenli/react/selection",
+    "exports": [
+      "ComboBox"
+    ],
+    "genui": true
+  },
+  {
+    "name": "multi-select",
+    "title": "Multi-select",
+    "family": "selection",
+    "status": "alpha",
+    "description": "Pick several options from a dropdown; the choices show as removable tags, with an optional select-all.",
+    "keywords": [
+      "multiselect",
+      "tags",
+      "multiple",
+      "dropdown",
+      "filter"
+    ],
+    "import": "@senvenli/react/selection",
+    "exports": [
+      "MultiSelect"
+    ],
+    "genui": true
+  },
+  {
+    "name": "radio-card",
+    "title": "Radio card",
+    "family": "selection",
+    "status": "alpha",
+    "description": "Radio options as cards with a title, description and an optional recommended mark: plans, tiers, methods.",
+    "keywords": [
+      "radio",
+      "card",
+      "plan",
+      "pricing",
+      "option"
+    ],
+    "import": "@senvenli/react/selection",
+    "exports": [
+      "RadioCard"
+    ],
+    "genui": true
+  },
+  {
+    "name": "radio",
+    "title": "Radio group",
+    "family": "selection",
+    "status": "alpha",
+    "description": "One choice from a few options that all stay visible.",
+    "keywords": [
+      "radio",
+      "options",
+      "choice",
+      "single"
+    ],
+    "import": "@senvenli/react/selection",
+    "exports": [
+      "RadioGroup",
+      "Radio"
+    ],
+    "genui": true
+  },
+  {
+    "name": "select",
+    "title": "Select",
+    "family": "selection",
+    "status": "alpha",
+    "description": "Pick one option from a short list in a dropdown, with groups, descriptions and icons.",
+    "keywords": [
+      "select",
+      "dropdown",
+      "picker",
+      "options",
+      "choose"
+    ],
+    "import": "@senvenli/react/selection",
+    "exports": [
+      "Select"
+    ],
+    "genui": true
+  },
+  {
+    "name": "slider",
+    "title": "Slider",
+    "family": "selection",
+    "status": "alpha",
+    "description": "Picks a value or a range by dragging along a track, with locale-formatted output.",
+    "keywords": [
+      "slider",
+      "range",
+      "volume",
+      "value"
+    ],
+    "import": "@senvenli/react/selection",
+    "exports": [
+      "Slider"
+    ],
+    "genui": false
+  },
+  {
+    "name": "switch",
+    "title": "Switch",
+    "family": "selection",
+    "status": "alpha",
+    "description": "Turns a setting on or off immediately.",
+    "keywords": [
+      "switch",
+      "toggle",
+      "setting",
+      "on off"
+    ],
+    "import": "@senvenli/react/selection",
+    "exports": [
+      "Switch"
+    ],
+    "genui": true
+  },
+  {
+    "name": "tag-group",
+    "title": "Tag group",
+    "family": "selection",
+    "status": "alpha",
+    "description": "A group of tags that can be removed or selected: features, filters, keywords.",
+    "keywords": [
+      "tags",
+      "chips",
+      "filters",
+      "keywords",
+      "labels"
+    ],
+    "import": "@senvenli/react/selection",
+    "exports": [
+      "TagGroup"
+    ],
+    "genui": true
   }
 ]

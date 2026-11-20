@@ -1,0 +1,45 @@
+{
+  "$schema": "../../manifest/component.schema.json",
+  "kind": "component",
+  "family": "selection",
+  "status": "alpha",
+  "import": "@senvenli/react/selection",
+  "name": "autocomplete",
+  "title": "Autocomplete",
+  "exports": [
+    "Autocomplete"
+  ],
+  "description": "Free text with suggestions loaded as people type, grouped and with detail lines.",
+  "keywords": [
+    "autocomplete",
+    "suggestions",
+    "address",
+    "typeahead"
+  ],
+  "usage": {
+    "when": [
+      "Free text where suggestions help: addresses, places."
+    ],
+    "instead": [
+      {
+        "use": "combobox",
+        "when": "The value must be one of a known list."
+      }
+    ]
+  },
+  "a11y": {
+    "builtIn": [
+      "Announces loading and the suggestion count.",
+      "Required fields show \"Fill in this field.\" after a blur or a submit; your own `errorMessage` replaces it."
+    ],
+    "youProvide": [
+      "A visible label."
+    ]
+  },
+  "related": [
+    "combobox"
+  ],
+  "genui": {
+    "expose": false
+  }
+}
