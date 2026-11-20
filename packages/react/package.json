@@ -56,6 +56,10 @@
     "./color": {
       "types": "./dist/color/index.d.ts",
       "default": "./dist/color/index.js"
+    },
+    "./collection": {
+      "types": "./dist/collection/index.d.ts",
+      "default": "./dist/collection/index.js"
     }
   },
   "files": [

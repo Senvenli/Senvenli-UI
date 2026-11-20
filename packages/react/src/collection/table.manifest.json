@@ -1,0 +1,75 @@
+{
+  "$schema": "../../manifest/component.schema.json",
+  "kind": "component",
+  "family": "collection",
+  "status": "alpha",
+  "import": "@senvenli/react/collection",
+  "name": "table",
+  "title": "Table",
+  "exports": [
+    "Table",
+    "TableCellStack"
+  ],
+  "description": "Records people scan, compare, sort and act on: sortable columns, row selection by checkbox, a row that opens its record.",
+  "keywords": [
+    "table",
+    "grid",
+    "rows",
+    "columns",
+    "sort",
+    "records"
+  ],
+  "usage": {
+    "when": [
+      "Records with several comparable fields on screens 640px and wider."
+    ],
+    "instead": [
+      {
+        "use": "data-table",
+        "when": "The table also needs search, filters, paging or a column picker."
+      },
+      {
+        "use": "list",
+        "when": "The screen is narrow or each record is one line of text."
+      }
+    ]
+  },
+  "a11y": {
+    "keyboard": [
+      {
+        "keys": "Arrow keys",
+        "does": "Move between cells and rows."
+      },
+      {
+        "keys": "Space",
+        "does": "Selects the focused row."
+      },
+      {
+        "keys": "Enter",
+        "does": "Opens the focused row's record."
+      }
+    ],
+    "builtIn": [
+      "The row header column names each row for screen readers.",
+      "Sort state is announced on the column header."
+    ],
+    "youProvide": [
+      "An aria-label for the table."
+    ]
+  },
+  "related": [
+    "data-table",
+    "list"
+  ],
+  "genui": {
+    "expose": true,
+    "description": "Rows of records under named columns. Keep it under 8 columns; one column is the row header.",
+    "props": [
+      "aria-label",
+      "columns",
+      "rows",
+      "density"
+    ],
+    "children": "none"
+  }
+}

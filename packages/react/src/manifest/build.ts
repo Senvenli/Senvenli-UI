@@ -107,7 +107,8 @@ function typeText(checker: ts.TypeChecker, t: ts.Type, sym: ts.Symbol): string {
 
 const declaredAsNode = (sym: ts.Symbol) => {
   const decl = sym.valueDeclaration;
-  return Boolean(decl && ts.isPropertySignature(decl) && decl.type && /\bReactNode\b/.test(decl.type.getText()));
+  // A render function (`(row: T) => ReactNode`) mentions ReactNode too, but is not a node: it is left out.
+  return Boolean(decl && ts.isPropertySignature(decl) && decl.type && !ts.isFunctionTypeNode(decl.type) && /\bReactNode\b/.test(decl.type.getText()));
 };
 
 /**
@@ -116,6 +117,11 @@ const declaredAsNode = (sym: ts.Symbol) => {
  */
 function arraySchemaOf(checker: ts.TypeChecker, t: ts.Type, depth: number): JsonSchema | null {
   const element = checker.getTypeArguments(t as ts.TypeReference)[0];
+  // A generic row type (Table's `rows: readonly T[]`): in a spec, rows are flat records of plain values,
+  // which the columns read by key.
+  if (element && depth === 0 && element.flags & ts.TypeFlags.TypeParameter) {
+    return { type: "array", items: { type: "object", additionalProperties: { type: ["string", "number", "boolean", "null"] } } };
+  }
   if (!element || depth > 2 || !(element.flags & ts.TypeFlags.Object)) return null;
   const properties: Record<string, JsonSchema> = {};
   const required: string[] = [];

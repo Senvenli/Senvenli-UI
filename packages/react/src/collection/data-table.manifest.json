@@ -1,0 +1,59 @@
+{
+  "$schema": "../../manifest/component.schema.json",
+  "kind": "component",
+  "family": "collection",
+  "status": "alpha",
+  "import": "@senvenli/react/collection",
+  "name": "data-table",
+  "title": "Data table",
+  "exports": [
+    "DataTable"
+  ],
+  "description": "A Table with a toolbar: search, filters, a column picker, bulk actions, paging or virtualization, and its view kept in the URL.",
+  "keywords": [
+    "table",
+    "search",
+    "filter",
+    "pagination",
+    "bulk actions",
+    "admin"
+  ],
+  "usage": {
+    "when": [
+      "A record list people search, filter and act on in bulk: orders, customers, invoices."
+    ],
+    "instead": [
+      {
+        "use": "table",
+        "when": "A short, fixed list with no tools."
+      }
+    ]
+  },
+  "a11y": {
+    "keyboard": [
+      {
+        "keys": "Arrow keys",
+        "does": "Move between cells and rows."
+      },
+      {
+        "keys": "Tab",
+        "does": "Moves between the toolbar, the table and the pager."
+      }
+    ],
+    "builtIn": [
+      "Loading, empty, no-results and failed states have their own copy.",
+      "The selected count is announced in the bulk bar."
+    ],
+    "youProvide": [
+      "An aria-label, and labels for filters and bulk actions."
+    ]
+  },
+  "related": [
+    "table",
+    "pagination",
+    "toolbar"
+  ],
+  "genui": {
+    "expose": false
+  }
+}

@@ -1,0 +1,57 @@
+{
+  "$schema": "../../manifest/component.schema.json",
+  "kind": "component",
+  "family": "collection",
+  "status": "alpha",
+  "import": "@senvenli/react/collection",
+  "name": "grid-list",
+  "title": "Grid list",
+  "exports": [
+    "GridList"
+  ],
+  "description": "Selectable tiles in a responsive grid with arrow-key navigation, tile actions and optional drag to reorder.",
+  "keywords": [
+    "grid",
+    "tiles",
+    "gallery",
+    "photos",
+    "reorder"
+  ],
+  "usage": {
+    "when": [
+      "Items people recognize by an image: photos, documents, cards."
+    ],
+    "instead": [
+      {
+        "use": "list",
+        "when": "Items are recognized by text."
+      }
+    ]
+  },
+  "a11y": {
+    "keyboard": [
+      {
+        "keys": "Arrow keys",
+        "does": "Move between tiles in two dimensions."
+      },
+      {
+        "keys": "Space",
+        "does": "Selects the focused tile."
+      }
+    ],
+    "builtIn": [
+      "Tile actions are always visible, so they need no hover and work on touch.",
+      "A drag handle gives the keyboard a way to reorder."
+    ],
+    "youProvide": [
+      "An aria-label, and a name for each tile action that names the tile."
+    ]
+  },
+  "related": [
+    "list",
+    "table"
+  ],
+  "genui": {
+    "expose": false
+  }
+}
