@@ -1,0 +1,191 @@
+{
+  "$schema": "https://design.senvenli.com/schema/component.full.json",
+  "kind": "component",
+  "family": "navigation",
+  "status": "alpha",
+  "import": "@senvenli/react/navigation",
+  "name": "navbar",
+  "title": "Navbar",
+  "exports": [
+    "Navbar"
+  ],
+  "description": "The top bar of a public site: brand, up to five links, actions and a language choice, collapsing into a menu on phones.",
+  "keywords": [
+    "navbar",
+    "header",
+    "top bar",
+    "navigation",
+    "menu"
+  ],
+  "usage": {
+    "when": [
+      "The main navigation of a marketing or public site."
+    ],
+    "instead": [
+      {
+        "use": "sidebar",
+        "when": "An app with many sections."
+      }
+    ]
+  },
+  "a11y": {
+    "builtIn": [
+      "A navigation landmark named \"Main menu\".",
+      "The brand link is named for the home page."
+    ],
+    "youProvide": [
+      "A `brandLabel` when the brand alone does not say where it goes."
+    ]
+  },
+  "related": [
+    "sidebar",
+    "footer"
+  ],
+  "genui": {
+    "expose": false
+  },
+  "source": [
+    "src/navigation/navbar.tsx"
+  ],
+  "props": {
+    "Navbar": [
+      {
+        "name": "brand",
+        "type": "React.ReactNode",
+        "required": true,
+        "description": "The logo and wordmark (the site's logo). It links to `brandHref`."
+      },
+      {
+        "name": "brandHref",
+        "type": "string",
+        "required": false,
+        "default": "\"/\"",
+        "description": "Where the brand goes: the home page.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "brandLabel",
+        "type": "string",
+        "required": false,
+        "description": "The brand link's name when the brand alone does not say where it goes (\"Acme home\").",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "links",
+        "type": "readonly NavbarLink[]",
+        "required": true,
+        "description": "Up to five destinations.",
+        "schema": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "key": {
+                "type": "string"
+              },
+              "label": {
+                "type": "string"
+              },
+              "href": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "key",
+              "label",
+              "href"
+            ]
+          }
+        }
+      },
+      {
+        "name": "currentKey",
+        "type": "string",
+        "required": false,
+        "description": "The link of the page (or section) in view: marked `aria-current=\"page\"`.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "endActions",
+        "type": "React.ReactNode",
+        "required": false,
+        "description": "At the end: sign-in (subtle), then the one primary action, the same on every page."
+      },
+      {
+        "name": "languages",
+        "type": "{ current: string; items: readonly NavbarLanguage[]; }",
+        "required": false,
+        "description": "The language switch: shows the current code and keeps the page in the other language."
+      },
+      {
+        "name": "isSticky",
+        "type": "boolean",
+        "required": false,
+        "description": "Pinned to the top while the page scrolls.",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "isCompact",
+        "type": "boolean",
+        "required": false,
+        "description": "48px instead of 56px: the compact bar after the hero.",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "aria-label",
+        "type": "string",
+        "required": false,
+        "description": "Names the navigation landmark; \"Main menu\" by default.",
+        "schema": {
+          "type": "string"
+        }
+      }
+    ]
+  },
+  "tokens": [
+    "ds-background-neutral",
+    "ds-background-neutral-pressed",
+    "ds-background-neutral-subtle-hovered",
+    "ds-blanket",
+    "ds-border",
+    "ds-border-focused",
+    "ds-easing-enter",
+    "ds-easing-exit",
+    "ds-radius-medium",
+    "ds-shadow-overlay",
+    "ds-space-025",
+    "ds-space-100",
+    "ds-space-200",
+    "ds-space-300",
+    "ds-surface-overlay",
+    "ds-surface-raised",
+    "ds-text",
+    "ds-text-subtle"
+  ],
+  "strings": [
+    "language",
+    "mainNavigation",
+    "openMenu"
+  ],
+  "quality": {
+    "tests": true,
+    "a11y": false,
+    "docs": false,
+    "visual": false,
+    "dark": false,
+    "rtl": false,
+    "mcp": true,
+    "generic": true
+  }
+}

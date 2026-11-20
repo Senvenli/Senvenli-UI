@@ -1,0 +1,81 @@
+{
+  "$schema": "https://design.senvenli.com/schema/component.full.json",
+  "kind": "component",
+  "family": "navigation",
+  "status": "alpha",
+  "import": "@senvenli/react/navigation",
+  "name": "skip-link",
+  "title": "Skip link",
+  "exports": [
+    "SkipLink"
+  ],
+  "description": "The first focusable element of a page, visible on focus, that jumps to the main content.",
+  "keywords": [
+    "skip link",
+    "accessibility",
+    "keyboard",
+    "main content"
+  ],
+  "usage": {
+    "when": [
+      "Every page with navigation before the main content."
+    ]
+  },
+  "a11y": {
+    "builtIn": [
+      "Shown only while focused; named \"Skip to content\"."
+    ],
+    "youProvide": [
+      "An id on the main content it targets."
+    ]
+  },
+  "genui": {
+    "expose": false
+  },
+  "source": [
+    "src/navigation/skip-link.tsx"
+  ],
+  "props": {
+    "SkipLink": [
+      {
+        "name": "target",
+        "type": "string",
+        "required": false,
+        "default": "\"main\"",
+        "description": "Where focus goes: the page's main region by default.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "children",
+        "type": "React.ReactNode",
+        "required": false,
+        "description": "\"Skip to content\" by default."
+      }
+    ]
+  },
+  "tokens": [
+    "ds-border-focused",
+    "ds-radius-medium",
+    "ds-shadow-overlay",
+    "ds-space-100",
+    "ds-space-150",
+    "ds-space-200",
+    "ds-surface-overlay",
+    "ds-text"
+  ],
+  "strings": [
+    "skipToContent"
+  ],
+  "quality": {
+    "tests": true,
+    "a11y": false,
+    "docs": false,
+    "visual": false,
+    "dark": false,
+    "rtl": false,
+    "mcp": true,
+    "generic": true
+  }
+}

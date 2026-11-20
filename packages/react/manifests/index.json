@@ -798,6 +798,233 @@
     "genui": true
   },
   {
+    "name": "accordion",
+    "title": "Accordion",
+    "family": "navigation",
+    "status": "alpha",
+    "description": "Sections that expand and collapse; Disclosure is a single expandable section.",
+    "keywords": [
+      "accordion",
+      "collapse",
+      "expand",
+      "faq",
+      "disclosure"
+    ],
+    "import": "@senvenli/react/navigation",
+    "exports": [
+      "Accordion",
+      "Disclosure"
+    ],
+    "genui": true
+  },
+  {
+    "name": "breadcrumbs",
+    "title": "Breadcrumbs",
+    "family": "navigation",
+    "status": "alpha",
+    "description": "Shows where a page sits in a hierarchy, collapsing middle levels into a menu when long.",
+    "keywords": [
+      "breadcrumbs",
+      "path",
+      "hierarchy",
+      "trail"
+    ],
+    "import": "@senvenli/react/navigation",
+    "exports": [
+      "Breadcrumbs"
+    ],
+    "genui": true
+  },
+  {
+    "name": "dock",
+    "title": "Dock",
+    "family": "navigation",
+    "status": "alpha",
+    "description": "A bottom tab bar for phones with four or five top destinations and badges.",
+    "keywords": [
+      "bottom navigation",
+      "tab bar",
+      "mobile",
+      "dock"
+    ],
+    "import": "@senvenli/react/navigation",
+    "exports": [
+      "Dock"
+    ],
+    "genui": false
+  },
+  {
+    "name": "footer",
+    "title": "Footer",
+    "family": "navigation",
+    "status": "alpha",
+    "description": "Closes a public page: the brand, link columns, contact, legal line and an optional language switch.",
+    "keywords": [
+      "footer",
+      "site footer",
+      "links",
+      "legal"
+    ],
+    "import": "@senvenli/react/navigation",
+    "exports": [
+      "Footer"
+    ],
+    "genui": false
+  },
+  {
+    "name": "navbar",
+    "title": "Navbar",
+    "family": "navigation",
+    "status": "alpha",
+    "description": "The top bar of a public site: brand, up to five links, actions and a language choice, collapsing into a menu on phones.",
+    "keywords": [
+      "navbar",
+      "header",
+      "top bar",
+      "navigation",
+      "menu"
+    ],
+    "import": "@senvenli/react/navigation",
+    "exports": [
+      "Navbar"
+    ],
+    "genui": false
+  },
+  {
+    "name": "pagination",
+    "title": "Pagination",
+    "family": "navigation",
+    "status": "alpha",
+    "description": "Moves through pages of results with page numbers, previous/next and a page-size choice.",
+    "keywords": [
+      "pagination",
+      "pages",
+      "paging",
+      "results"
+    ],
+    "import": "@senvenli/react/navigation",
+    "exports": [
+      "Pagination"
+    ],
+    "genui": true
+  },
+  {
+    "name": "panel-header",
+    "title": "Panel header",
+    "family": "navigation",
+    "status": "alpha",
+    "description": "An app page's header bar: menu button on small screens, the page title and its actions.",
+    "keywords": [
+      "page header",
+      "title bar",
+      "app shell",
+      "header"
+    ],
+    "import": "@senvenli/react/navigation",
+    "exports": [
+      "PanelHeader",
+      "PanelHeaderBar",
+      "PanelHeaderProvider"
+    ],
+    "genui": false
+  },
+  {
+    "name": "sidebar",
+    "title": "Sidebar",
+    "family": "navigation",
+    "status": "alpha",
+    "description": "The main navigation of an app: brand, sections with nested items and badges, a pinned footer, collapsible to icons.",
+    "keywords": [
+      "sidebar",
+      "side nav",
+      "app shell",
+      "menu",
+      "navigation"
+    ],
+    "import": "@senvenli/react/navigation",
+    "exports": [
+      "Sidebar"
+    ],
+    "genui": false
+  },
+  {
+    "name": "skip-link",
+    "title": "Skip link",
+    "family": "navigation",
+    "status": "alpha",
+    "description": "The first focusable element of a page, visible on focus, that jumps to the main content.",
+    "keywords": [
+      "skip link",
+      "accessibility",
+      "keyboard",
+      "main content"
+    ],
+    "import": "@senvenli/react/navigation",
+    "exports": [
+      "SkipLink"
+    ],
+    "genui": false
+  },
+  {
+    "name": "stepper",
+    "title": "Stepper",
+    "family": "navigation",
+    "status": "alpha",
+    "description": "Shows progress through a multi-step flow or checklist, with done, current, waiting and failed steps.",
+    "keywords": [
+      "stepper",
+      "steps",
+      "wizard",
+      "progress",
+      "onboarding"
+    ],
+    "import": "@senvenli/react/navigation",
+    "exports": [
+      "Stepper"
+    ],
+    "genui": true
+  },
+  {
+    "name": "tabs",
+    "title": "Tabs",
+    "family": "navigation",
+    "status": "alpha",
+    "description": "Switches between views of the same content; SegmentedControl switches a small set of options inline.",
+    "keywords": [
+      "tabs",
+      "segmented control",
+      "views",
+      "switch"
+    ],
+    "import": "@senvenli/react/navigation",
+    "exports": [
+      "Tabs",
+      "SegmentedControl"
+    ],
+    "genui": true
+  },
+  {
+    "name": "toolbar",
+    "title": "Toolbar",
+    "family": "navigation",
+    "status": "alpha",
+    "description": "A row of controls above a list or table; BulkBar shows actions for the selected rows.",
+    "keywords": [
+      "toolbar",
+      "actions",
+      "bulk",
+      "filters",
+      "selection"
+    ],
+    "import": "@senvenli/react/navigation",
+    "exports": [
+      "Toolbar",
+      "ToolbarSpacer",
+      "BulkBar"
+    ],
+    "genui": false
+  },
+  {
     "name": "alert-dialog",
     "title": "Alert dialog",
     "family": "overlay",

@@ -126,7 +126,7 @@ export function App() {
 
       <main className="layout">
         <aside className="panel">
-          <section className="group">
+          <section className="panel-group">
             <h2>Start from</h2>
             <div className="chips">
               {PRESETS.map((p) => (
@@ -142,7 +142,7 @@ export function App() {
             </div>
           </section>
 
-          <section className="group">
+          <section className="panel-group">
             <h2>Colors</h2>
             <p className="hint">All optional. Leave a color empty to keep the neutral default.</p>
             {BRAND_ROLES.map((role) => {
@@ -181,7 +181,7 @@ export function App() {
             })}
           </section>
 
-          <section className="group">
+          <section className="panel-group">
             <h2>Layout</h2>
             <div className="field-row">
               <label className="field-label" htmlFor="radius">
@@ -212,7 +212,7 @@ export function App() {
             />
           </section>
 
-          <section className="group">
+          <section className="panel-group">
             <h2>Contrast</h2>
             <p className={failing.length ? "status status-bad" : "status status-ok"}>
               {failing.length

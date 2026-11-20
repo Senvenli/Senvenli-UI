@@ -1,0 +1,128 @@
+{
+  "$schema": "https://design.senvenli.com/schema/component.full.json",
+  "kind": "component",
+  "family": "navigation",
+  "status": "alpha",
+  "import": "@senvenli/react/navigation",
+  "name": "toolbar",
+  "title": "Toolbar",
+  "exports": [
+    "Toolbar",
+    "ToolbarSpacer",
+    "BulkBar"
+  ],
+  "description": "A row of controls above a list or table; BulkBar shows actions for the selected rows.",
+  "keywords": [
+    "toolbar",
+    "actions",
+    "bulk",
+    "filters",
+    "selection"
+  ],
+  "usage": {
+    "when": [
+      "Filters, search and actions above a list.",
+      "Actions on selected rows (BulkBar)."
+    ]
+  },
+  "a11y": {
+    "keyboard": [
+      {
+        "keys": "Arrow keys",
+        "does": "Moves between controls."
+      }
+    ],
+    "builtIn": [
+      "One tab stop for the toolbar."
+    ],
+    "youProvide": [
+      "A name for the toolbar."
+    ]
+  },
+  "related": [
+    "pagination"
+  ],
+  "genui": {
+    "expose": false
+  },
+  "source": [
+    "src/navigation/toolbar.tsx"
+  ],
+  "props": {
+    "Toolbar": [
+      {
+        "name": "children",
+        "type": "React.ReactNode",
+        "required": true,
+        "description": "Compact (32px) controls acting on the view below: search, filters, date range, view switch, export."
+      },
+      {
+        "name": "aria-label",
+        "type": "string",
+        "required": true,
+        "description": "Names the toolbar (\"Order tools\").",
+        "schema": {
+          "type": "string"
+        }
+      }
+    ],
+    "ToolbarSpacer": [],
+    "BulkBar": [
+      {
+        "name": "selectedCount",
+        "type": "number",
+        "required": true,
+        "description": "How many rows are selected; announced as it changes.",
+        "schema": {
+          "type": "number"
+        }
+      },
+      {
+        "name": "actions",
+        "type": "React.ReactNode",
+        "required": true,
+        "description": "The bulk actions (compact Buttons): \"Send reminder\", \"Export\"."
+      },
+      {
+        "name": "onClear",
+        "type": "() => void",
+        "required": true,
+        "description": "Clears the selection; the bar goes with it."
+      },
+      {
+        "name": "aria-label",
+        "type": "string",
+        "required": true,
+        "description": "Names the bar (\"Selected orders\").",
+        "schema": {
+          "type": "string"
+        }
+      }
+    ]
+  },
+  "tokens": [
+    "ds-background-neutral-bold",
+    "ds-background-neutral-pressed",
+    "ds-radius-large",
+    "ds-shadow-raised",
+    "ds-space-100",
+    "ds-space-150",
+    "ds-surface-raised",
+    "ds-text",
+    "ds-text-inverse"
+  ],
+  "strings": [
+    "clearSelection",
+    "selectedCount"
+  ],
+  "quality": {
+    "tests": true,
+    "a11y": false,
+    "docs": false,
+    "visual": false,
+    "dark": false,
+    "rtl": false,
+    "mcp": true,
+    "generic": true
+  }
+}

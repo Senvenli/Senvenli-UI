@@ -1,0 +1,131 @@
+{
+  "$schema": "https://design.senvenli.com/schema/component.full.json",
+  "kind": "component",
+  "family": "navigation",
+  "status": "alpha",
+  "import": "@senvenli/react/navigation",
+  "name": "breadcrumbs",
+  "title": "Breadcrumbs",
+  "exports": [
+    "Breadcrumbs"
+  ],
+  "description": "Shows where a page sits in a hierarchy, collapsing middle levels into a menu when long.",
+  "keywords": [
+    "breadcrumbs",
+    "path",
+    "hierarchy",
+    "trail"
+  ],
+  "usage": {
+    "when": [
+      "Pages nested two or more levels deep."
+    ]
+  },
+  "a11y": {
+    "builtIn": [
+      "A navigation landmark; the current page has aria-current."
+    ],
+    "youProvide": []
+  },
+  "related": [
+    "sidebar"
+  ],
+  "genui": {
+    "expose": true,
+    "description": "The path to the current page. items are {label, href?}; the last item is the current page.",
+    "props": [
+      "items"
+    ],
+    "children": "none",
+    "schema": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "label": {
+                "type": "string"
+              },
+              "href": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "label"
+            ]
+          },
+          "description": "From the section root (\"Filo\"), never \"Ana sayfa\", to the current page."
+        }
+      },
+      "required": [
+        "items"
+      ]
+    }
+  },
+  "source": [
+    "src/navigation/breadcrumbs.tsx"
+  ],
+  "props": {
+    "Breadcrumbs": [
+      {
+        "name": "items",
+        "type": "readonly BreadcrumbItem[]",
+        "required": true,
+        "description": "From the section root (\"Filo\"), never \"Ana sayfa\", to the current page.",
+        "schema": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "label": {
+                "type": "string"
+              },
+              "href": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "label"
+            ]
+          }
+        }
+      },
+      {
+        "name": "aria-label",
+        "type": "string",
+        "required": false,
+        "description": "Names the navigation landmark; \"Konum\" by default.",
+        "schema": {
+          "type": "string"
+        }
+      }
+    ]
+  },
+  "tokens": [
+    "ds-border-focused",
+    "ds-icon-subtle",
+    "ds-radius-small",
+    "ds-space-050",
+    "ds-text",
+    "ds-text-subtle"
+  ],
+  "strings": [
+    "location",
+    "showHiddenLevels"
+  ],
+  "quality": {
+    "tests": true,
+    "a11y": false,
+    "docs": false,
+    "visual": false,
+    "dark": false,
+    "rtl": false,
+    "mcp": true,
+    "generic": true
+  }
+}

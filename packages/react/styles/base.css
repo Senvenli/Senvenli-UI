@@ -7,35 +7,38 @@
  */
 
 /* Scrollbars (ScrollArea look): thin, rounded thumb in the bold border color,
-   transparent track, stronger on hover. Standard properties for Chrome and
-   Firefox; the ::-webkit rules cover Safari. */
-* {
-  scrollbar-width: thin;
-  scrollbar-color: var(--ds-border-bold) transparent;
-}
+   transparent track, stronger on hover. In the base layer with zero specificity,
+   so a component's own scrollbar utilities (a tab list hiding its bar) always win.
+   Standard properties for Chrome and Firefox; the ::-webkit rules cover Safari. */
+@layer base {
+  :where(*) {
+    scrollbar-width: thin;
+    scrollbar-color: var(--ds-border-bold) transparent;
+  }
 
-*:hover {
-  scrollbar-color: var(--ds-text-disabled) transparent;
-}
+  :where(*):hover {
+    scrollbar-color: var(--ds-text-disabled) transparent;
+  }
 
-::-webkit-scrollbar {
-  width: 10px;
-  height: 10px;
-}
+  :where(*)::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
 
-::-webkit-scrollbar-track,
-::-webkit-scrollbar-corner {
-  background: transparent;
-}
+  :where(*)::-webkit-scrollbar-track,
+  :where(*)::-webkit-scrollbar-corner {
+    background: transparent;
+  }
 
-::-webkit-scrollbar-thumb {
-  background: var(--ds-border-bold);
-  border: 2px solid transparent;
-  border-radius: 9999px;
-  background-clip: padding-box;
-}
+  :where(*)::-webkit-scrollbar-thumb {
+    background: var(--ds-border-bold);
+    border: 2px solid transparent;
+    border-radius: 9999px;
+    background-clip: padding-box;
+  }
 
-::-webkit-scrollbar-thumb:hover {
-  background: var(--ds-text-disabled);
-  background-clip: padding-box;
+  :where(*)::-webkit-scrollbar-thumb:hover {
+    background: var(--ds-text-disabled);
+    background-clip: padding-box;
+  }
 }

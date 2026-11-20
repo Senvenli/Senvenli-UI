@@ -1,0 +1,60 @@
+{
+  "$schema": "../../manifest/component.schema.json",
+  "kind": "component",
+  "family": "navigation",
+  "status": "alpha",
+  "import": "@senvenli/react/navigation",
+  "name": "tabs",
+  "title": "Tabs",
+  "exports": [
+    "Tabs",
+    "SegmentedControl"
+  ],
+  "description": "Switches between views of the same content; SegmentedControl switches a small set of options inline.",
+  "keywords": [
+    "tabs",
+    "segmented control",
+    "views",
+    "switch"
+  ],
+  "usage": {
+    "when": [
+      "Two to seven views of one thing: Overview, Activity, Settings."
+    ],
+    "instead": [
+      {
+        "use": "toggle-button",
+        "when": "Options act on content instead of switching views."
+      }
+    ]
+  },
+  "a11y": {
+    "keyboard": [
+      {
+        "keys": "Arrow keys",
+        "does": "Moves between tabs."
+      }
+    ],
+    "builtIn": [
+      "Tabs and panels are linked; counts are announced."
+    ],
+    "youProvide": [
+      "Short nouns for tab labels."
+    ]
+  },
+  "related": [
+    "toggle-button"
+  ],
+  "genui": {
+    "expose": true,
+    "description": "Tabs switching between views. items are {id, label, count?, panel?}; panel is the tab's text content. Emits change.",
+    "props": [
+      "items",
+      "defaultSelectedKey"
+    ],
+    "children": "none",
+    "events": [
+      "change"
+    ]
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "$schema": "../../manifest/component.schema.json",
+  "kind": "component",
+  "family": "navigation",
+  "status": "alpha",
+  "import": "@senvenli/react/navigation",
+  "name": "stepper",
+  "title": "Stepper",
+  "exports": [
+    "Stepper"
+  ],
+  "description": "Shows progress through a multi-step flow or checklist, with done, current, waiting and failed steps.",
+  "keywords": [
+    "stepper",
+    "steps",
+    "wizard",
+    "progress",
+    "onboarding"
+  ],
+  "usage": {
+    "when": [
+      "A flow of three or more steps: checkout, signup, setup."
+    ]
+  },
+  "a11y": {
+    "builtIn": [
+      "The current step has aria-current; the list is named with the overall progress."
+    ],
+    "youProvide": [
+      "Short step names."
+    ]
+  },
+  "related": [
+    "progress"
+  ],
+  "genui": {
+    "expose": true,
+    "description": "Steps of a flow. steps are {id, label, description?}; currentStep is the id of the step in progress.",
+    "props": [
+      "steps",
+      "currentStep",
+      "orientation"
+    ],
+    "children": "none"
+  }
+}

@@ -44,6 +44,10 @@
     "./overlay": {
       "types": "./dist/overlay/index.d.ts",
       "default": "./dist/overlay/index.js"
+    },
+    "./navigation": {
+      "types": "./dist/navigation/index.d.ts",
+      "default": "./dist/navigation/index.js"
     }
   },
   "files": [

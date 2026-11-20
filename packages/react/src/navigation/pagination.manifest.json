@@ -1,0 +1,46 @@
+{
+  "$schema": "../../manifest/component.schema.json",
+  "kind": "component",
+  "family": "navigation",
+  "status": "alpha",
+  "import": "@senvenli/react/navigation",
+  "name": "pagination",
+  "title": "Pagination",
+  "exports": [
+    "Pagination"
+  ],
+  "description": "Moves through pages of results with page numbers, previous/next and a page-size choice.",
+  "keywords": [
+    "pagination",
+    "pages",
+    "paging",
+    "results"
+  ],
+  "usage": {
+    "when": [
+      "A list or table with more results than fit one page."
+    ]
+  },
+  "a11y": {
+    "builtIn": [
+      "The current page is marked; the range is announced (\"41–60 of 1,204\")."
+    ],
+    "youProvide": []
+  },
+  "related": [
+    "toolbar"
+  ],
+  "genui": {
+    "expose": true,
+    "description": "Page controls for a long list. page is 1-based. Emits change.",
+    "props": [
+      "page",
+      "pageSize",
+      "total"
+    ],
+    "children": "none",
+    "events": [
+      "change"
+    ]
+  }
+}
