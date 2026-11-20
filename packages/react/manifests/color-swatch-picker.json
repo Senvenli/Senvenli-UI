@@ -1,0 +1,230 @@
+{
+  "$schema": "https://design.senvenli.com/schema/component.full.json",
+  "kind": "component",
+  "family": "color",
+  "status": "alpha",
+  "import": "@senvenli/react/color",
+  "name": "color-swatch-picker",
+  "title": "Color swatch picker",
+  "exports": [
+    "ColorSwatchPicker"
+  ],
+  "description": "Preset colors as named swatches, optionally ending with a button that opens a color picker for a custom color.",
+  "keywords": [
+    "color",
+    "presets",
+    "theme",
+    "swatches"
+  ],
+  "usage": {
+    "when": [
+      "Choosing from a small set of preset colors."
+    ],
+    "instead": [
+      {
+        "use": "color-picker",
+        "when": "Any color is allowed and presets are a shortcut at most."
+      }
+    ]
+  },
+  "a11y": {
+    "keyboard": [
+      {
+        "keys": "Arrow keys",
+        "does": "Move between swatches."
+      }
+    ],
+    "builtIn": [
+      "Each swatch is named; the caption names the selection."
+    ],
+    "youProvide": [
+      "A label and a name for each preset."
+    ]
+  },
+  "related": [
+    "color-picker",
+    "color-swatch"
+  ],
+  "genui": {
+    "expose": true,
+    "description": "Named preset colors to choose from. Emits change with the hex.",
+    "props": [
+      "label",
+      "items",
+      "description",
+      "allowsCustom"
+    ],
+    "children": "none",
+    "events": [
+      "change"
+    ],
+    "schema": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "label": {
+          "type": "string",
+          "description": "\"Theme presets\"."
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "value": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "value",
+              "name"
+            ]
+          },
+          "description": "The preset colors; check them with checkBrandColor so that only a custom color can fail."
+        },
+        "description": {
+          "type": "string",
+          "description": "Under the swatches, after \"Ocean · selected\"."
+        },
+        "allowsCustom": {
+          "type": "boolean",
+          "description": "Ends with a button that opens ColorPicker for a custom color."
+        }
+      },
+      "required": [
+        "label",
+        "items"
+      ]
+    }
+  },
+  "source": [
+    "src/color/color.tsx"
+  ],
+  "props": {
+    "ColorSwatchPicker": [
+      {
+        "name": "label",
+        "type": "React.ReactNode",
+        "required": true,
+        "description": "\"Theme presets\"."
+      },
+      {
+        "name": "items",
+        "type": "readonly ColorSwatchItem[]",
+        "required": true,
+        "description": "The preset colors; check them with checkBrandColor so that only a custom color can fail.",
+        "schema": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "value": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "value",
+              "name"
+            ]
+          }
+        }
+      },
+      {
+        "name": "value",
+        "type": "string",
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "defaultValue",
+        "type": "string",
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "onChange",
+        "type": "(value: string) => void",
+        "required": false
+      },
+      {
+        "name": "allowsCustom",
+        "type": "boolean",
+        "required": false,
+        "description": "Ends with a button that opens ColorPicker for a custom color.",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "description",
+        "type": "React.ReactNode",
+        "required": false,
+        "description": "Under the swatches, after \"Ocean · selected\"."
+      }
+    ]
+  },
+  "tokens": [
+    "ds-background-neutral-pressed",
+    "ds-background-warning",
+    "ds-border",
+    "ds-border-focused",
+    "ds-icon-warning",
+    "ds-radius-full",
+    "ds-radius-large",
+    "ds-radius-medium",
+    "ds-radius-small",
+    "ds-shadow-raised",
+    "ds-size-control-compact",
+    "ds-space-050",
+    "ds-space-075",
+    "ds-space-100",
+    "ds-space-150",
+    "ds-space-200",
+    "ds-space-400",
+    "ds-surface-raised",
+    "ds-text",
+    "ds-text-danger",
+    "ds-text-success",
+    "font-ds-mono"
+  ],
+  "strings": [
+    "customColor",
+    "fixInDark",
+    "fixInLight",
+    "hexExpected",
+    "lowInDark",
+    "lowInLight",
+    "nameSelected",
+    "noStepPasses",
+    "preview",
+    "previewAction",
+    "theme",
+    "themeDark",
+    "themeLight",
+    "themeNowDark",
+    "themeNowLight",
+    "themeSystem"
+  ],
+  "quality": {
+    "tests": true,
+    "a11y": false,
+    "docs": false,
+    "visual": false,
+    "dark": false,
+    "rtl": false,
+    "mcp": true,
+    "generic": true
+  }
+}

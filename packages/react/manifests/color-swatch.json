@@ -1,0 +1,145 @@
+{
+  "$schema": "https://design.senvenli.com/schema/component.full.json",
+  "kind": "component",
+  "family": "color",
+  "status": "alpha",
+  "import": "@senvenli/react/color",
+  "name": "color-swatch",
+  "title": "Color swatch",
+  "exports": [
+    "ColorSwatch"
+  ],
+  "description": "One named color tile with a faint inset edge, so light colors show on light grounds.",
+  "keywords": [
+    "color",
+    "swatch",
+    "tile"
+  ],
+  "usage": {
+    "when": [
+      "Showing a color next to its name or value."
+    ]
+  },
+  "a11y": {
+    "builtIn": [
+      "The name is the accessible label; without one, the color is described."
+    ],
+    "youProvide": [
+      "A name when the color carries meaning."
+    ]
+  },
+  "related": [
+    "color-swatch-picker"
+  ],
+  "genui": {
+    "expose": true,
+    "description": "One color tile. Give a name when the color means something.",
+    "props": [
+      "color",
+      "name"
+    ],
+    "children": "none",
+    "schema": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "color": {
+          "type": "string",
+          "description": "The color shown (\"#1E63D0\")."
+        },
+        "name": {
+          "type": "string",
+          "description": "Its name (\"Ocean\"): the accessible label."
+        }
+      },
+      "required": [
+        "color"
+      ]
+    }
+  },
+  "source": [
+    "src/color/color.tsx"
+  ],
+  "props": {
+    "ColorSwatch": [
+      {
+        "name": "color",
+        "type": "string",
+        "required": true,
+        "description": "The color shown (\"#1E63D0\").",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "name",
+        "type": "string",
+        "required": false,
+        "description": "Its name (\"Ocean\"): the accessible label.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "className",
+        "type": "string",
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      }
+    ]
+  },
+  "tokens": [
+    "ds-background-neutral-pressed",
+    "ds-background-warning",
+    "ds-border",
+    "ds-border-focused",
+    "ds-icon-warning",
+    "ds-radius-full",
+    "ds-radius-large",
+    "ds-radius-medium",
+    "ds-radius-small",
+    "ds-shadow-raised",
+    "ds-size-control-compact",
+    "ds-space-050",
+    "ds-space-075",
+    "ds-space-100",
+    "ds-space-150",
+    "ds-space-200",
+    "ds-space-400",
+    "ds-surface-raised",
+    "ds-text",
+    "ds-text-danger",
+    "ds-text-success",
+    "font-ds-mono"
+  ],
+  "strings": [
+    "customColor",
+    "fixInDark",
+    "fixInLight",
+    "hexExpected",
+    "lowInDark",
+    "lowInLight",
+    "nameSelected",
+    "noStepPasses",
+    "preview",
+    "previewAction",
+    "theme",
+    "themeDark",
+    "themeLight",
+    "themeNowDark",
+    "themeNowLight",
+    "themeSystem"
+  ],
+  "quality": {
+    "tests": true,
+    "a11y": false,
+    "docs": false,
+    "visual": false,
+    "dark": false,
+    "rtl": false,
+    "mcp": true,
+    "generic": true
+  }
+}

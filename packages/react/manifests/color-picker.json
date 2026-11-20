@@ -1,0 +1,179 @@
+{
+  "$schema": "https://design.senvenli.com/schema/component.full.json",
+  "kind": "component",
+  "family": "color",
+  "status": "alpha",
+  "import": "@senvenli/react/color",
+  "name": "color-picker",
+  "title": "Color picker",
+  "exports": [
+    "ColorPicker"
+  ],
+  "description": "A saturation-brightness area, hue (and alpha) sliders, a hex field and a two-theme preview of the primary button with its contrast.",
+  "keywords": [
+    "color",
+    "brand",
+    "theme",
+    "contrast",
+    "picker"
+  ],
+  "usage": {
+    "when": [
+      "Choosing a brand or theme color, where contrast in both themes matters."
+    ],
+    "instead": [
+      {
+        "use": "color-swatch-picker",
+        "when": "Presets cover the choice."
+      },
+      {
+        "use": "color-field",
+        "when": "Space is tight and people know the hex."
+      }
+    ]
+  },
+  "a11y": {
+    "keyboard": [
+      {
+        "keys": "Arrow keys",
+        "does": "Move the area thumb or a slider by one step."
+      },
+      {
+        "keys": "Page up / down",
+        "does": "Move by a larger step."
+      }
+    ],
+    "builtIn": [
+      "The label names the area, each slider and the hex field.",
+      "The preview announces the contrast ratio and what the theme uses when a tone fails."
+    ],
+    "youProvide": [
+      "A label."
+    ]
+  },
+  "related": [
+    "color-field",
+    "color-swatch-picker"
+  ],
+  "genui": {
+    "expose": false
+  },
+  "source": [
+    "src/color/color.tsx"
+  ],
+  "props": {
+    "ColorPicker": [
+      {
+        "name": "label",
+        "type": "React.ReactNode",
+        "required": true,
+        "description": "\"Brand color\"; names the area, the sliders and the hex field for screen readers."
+      },
+      {
+        "name": "value",
+        "type": "string",
+        "required": false,
+        "description": "The hex (\"#1E63D0\"); \"#1E63D0CC\" with an alpha channel.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "defaultValue",
+        "type": "string",
+        "required": false,
+        "default": "DEFAULT_PRIMARY",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "onChange",
+        "type": "(value: string) => void",
+        "required": false,
+        "description": "While dragging and typing: the preview and its contrast check follow every move."
+      },
+      {
+        "name": "onChangeEnd",
+        "type": "(value: string) => void",
+        "required": false,
+        "description": "On release (and when the hex field commits): save here, not on every move."
+      },
+      {
+        "name": "channels",
+        "type": "readonly (\"hue\" | \"alpha\")[]",
+        "required": false,
+        "default": "[\"hue\"]",
+        "description": "The sliders under the area: hue always, alpha when the color may be translucent."
+      },
+      {
+        "name": "theme",
+        "type": "Omit<ThemeInput, \"primary\">",
+        "required": false,
+        "description": "The rest of the project's theme input (secondary, radius…): the preview shows the primary button as\n`createTheme({ ...theme, primary })` derives it."
+      },
+      {
+        "name": "showPreview",
+        "type": "boolean",
+        "required": false,
+        "default": "true",
+        "description": "Hide the two-theme preview (the picker inside ColorSwatchPicker shows its own caption).",
+        "schema": {
+          "type": "boolean"
+        }
+      }
+    ]
+  },
+  "tokens": [
+    "ds-background-neutral-pressed",
+    "ds-background-warning",
+    "ds-border",
+    "ds-border-focused",
+    "ds-icon-warning",
+    "ds-radius-full",
+    "ds-radius-large",
+    "ds-radius-medium",
+    "ds-radius-small",
+    "ds-shadow-raised",
+    "ds-size-control-compact",
+    "ds-space-050",
+    "ds-space-075",
+    "ds-space-100",
+    "ds-space-150",
+    "ds-space-200",
+    "ds-space-400",
+    "ds-surface-raised",
+    "ds-text",
+    "ds-text-danger",
+    "ds-text-success",
+    "font-ds-mono"
+  ],
+  "strings": [
+    "customColor",
+    "fixInDark",
+    "fixInLight",
+    "hexExpected",
+    "lowInDark",
+    "lowInLight",
+    "nameSelected",
+    "noStepPasses",
+    "preview",
+    "previewAction",
+    "theme",
+    "themeDark",
+    "themeLight",
+    "themeNowDark",
+    "themeNowLight",
+    "themeSystem"
+  ],
+  "quality": {
+    "tests": true,
+    "a11y": false,
+    "docs": false,
+    "visual": false,
+    "dark": false,
+    "rtl": false,
+    "mcp": true,
+    "generic": true
+  }
+}

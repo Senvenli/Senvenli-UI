@@ -1,0 +1,61 @@
+{
+  "$schema": "../../manifest/component.schema.json",
+  "kind": "component",
+  "family": "color",
+  "status": "alpha",
+  "import": "@senvenli/react/color",
+  "name": "color-picker",
+  "title": "Color picker",
+  "exports": [
+    "ColorPicker"
+  ],
+  "description": "A saturation-brightness area, hue (and alpha) sliders, a hex field and a two-theme preview of the primary button with its contrast.",
+  "keywords": [
+    "color",
+    "brand",
+    "theme",
+    "contrast",
+    "picker"
+  ],
+  "usage": {
+    "when": [
+      "Choosing a brand or theme color, where contrast in both themes matters."
+    ],
+    "instead": [
+      {
+        "use": "color-swatch-picker",
+        "when": "Presets cover the choice."
+      },
+      {
+        "use": "color-field",
+        "when": "Space is tight and people know the hex."
+      }
+    ]
+  },
+  "a11y": {
+    "keyboard": [
+      {
+        "keys": "Arrow keys",
+        "does": "Move the area thumb or a slider by one step."
+      },
+      {
+        "keys": "Page up / down",
+        "does": "Move by a larger step."
+      }
+    ],
+    "builtIn": [
+      "The label names the area, each slider and the hex field.",
+      "The preview announces the contrast ratio and what the theme uses when a tone fails."
+    ],
+    "youProvide": [
+      "A label."
+    ]
+  },
+  "related": [
+    "color-field",
+    "color-swatch-picker"
+  ],
+  "genui": {
+    "expose": false
+  }
+}

@@ -204,6 +204,15 @@ function scale(mode: Mode, base: OKLCH, surfaces: OKLCH[], prefer?: "paper" | "i
   return { bold, boldHovered, boldPressed, on, subtle, subtleHovered, subtlePressed, text, textPressed, mark };
 }
 
+/**
+ * The tone a given color starts from in a mode, before any contrast fix. Used
+ * as-is in light mode; in dark mode it is lifted so the fill stands out on the
+ * dark page (e.g. gold-700 -> a brighter gold).
+ */
+export function givenTone(color: OKLCH, mode: Mode): OKLCH {
+  return mode === "dark" ? { ...color, l: clamp(color.l, 0.62, 0.86) } : color;
+}
+
 const NEUTRAL_HUE = NEUTRAL[500].h;
 const grey = (l: number): OKLCH => ({ l, c: 0.002, h: NEUTRAL_HUE });
 
@@ -243,11 +252,9 @@ function deriveMode(mode: Mode, colors: Partial<Record<Role, OKLCH>>, adjusted: 
   t["ds-chart-neutral"] = light ? NEUTRAL[500] : NEUTRAL[600];
 
   const surfaces = [t["ds-surface"], t["ds-surface-raised"]] as OKLCH[];
-  // A given color is used as-is in light mode; in dark mode it is lifted so
-  // the fill stands out on the dark page (e.g. gold-700 -> a brighter gold).
   const given = (role: Role): OKLCH | undefined => {
     const c = colors[role];
-    return c && !light ? { ...c, l: clamp(c.l, 0.62, 0.86) } : c;
+    return c && givenTone(c, mode);
   };
   const base = (role: BrandRole) => given(role) ?? BRAND_DEFAULTS[role][mode];
   const flag = (role: Role, s: Scale, given: OKLCH | undefined) => {

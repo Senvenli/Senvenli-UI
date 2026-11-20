@@ -1,0 +1,66 @@
+{
+  "$schema": "../../manifest/component.schema.json",
+  "kind": "component",
+  "family": "color",
+  "status": "alpha",
+  "import": "@senvenli/react/color",
+  "name": "color-field",
+  "title": "Color field",
+  "exports": [
+    "ColorField"
+  ],
+  "description": "A hex color typed with a live swatch; a malformed value stays as typed with an example of a valid one.",
+  "keywords": [
+    "color",
+    "hex",
+    "input",
+    "brand"
+  ],
+  "usage": {
+    "when": [
+      "Typing a known color in compact settings."
+    ],
+    "instead": [
+      {
+        "use": "color-picker",
+        "when": "People need to pick a color by eye."
+      },
+      {
+        "use": "color-swatch-picker",
+        "when": "A fixed set of colors is enough."
+      }
+    ]
+  },
+  "a11y": {
+    "keyboard": [
+      {
+        "keys": "Arrow up / down",
+        "does": "Steps the value (the channel, on a single-channel field)."
+      }
+    ],
+    "builtIn": [
+      "A malformed hex says what a valid one looks like.",
+      "Required fields show \"Fill in this field.\""
+    ],
+    "youProvide": [
+      "A visible label."
+    ]
+  },
+  "related": [
+    "color-picker",
+    "color-swatch"
+  ],
+  "genui": {
+    "expose": true,
+    "description": "A hex color input with a swatch. Emits change with the hex or null.",
+    "props": [
+      "label",
+      "description",
+      "isRequired"
+    ],
+    "children": "none",
+    "events": [
+      "change"
+    ]
+  }
+}

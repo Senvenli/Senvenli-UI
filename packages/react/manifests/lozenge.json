@@ -66,9 +66,9 @@
           "enum": [
             "danger",
             "brand",
-            "neutral",
-            "warning",
             "success",
+            "warning",
+            "neutral",
             "information"
           ],
           "description": "One meaning per tone: information (Approved, In progress) · brand (Featured) · success\n(Completed, Available, Paid) · warning (Payment pending, Under review) · danger (Canceled,\nFailed, Overdue) · neutral (Draft, Inactive)."
@@ -110,9 +110,9 @@
           "enum": [
             "danger",
             "brand",
-            "neutral",
-            "warning",
             "success",
+            "warning",
+            "neutral",
             "information"
           ]
         }

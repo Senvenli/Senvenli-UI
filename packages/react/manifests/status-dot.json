@@ -55,9 +55,9 @@
           "type": "string",
           "enum": [
             "danger",
-            "neutral",
-            "warning",
             "success",
+            "warning",
+            "neutral",
             "information"
           ]
         },
@@ -82,9 +82,9 @@
           "type": "string",
           "enum": [
             "danger",
-            "neutral",
-            "warning",
             "success",
+            "warning",
+            "neutral",
             "information"
           ]
         }
