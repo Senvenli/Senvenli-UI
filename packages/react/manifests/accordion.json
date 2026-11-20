@@ -143,13 +143,13 @@
       },
       {
         "name": "headingLevel",
-        "type": "2 | 3 | 4 | 5 | 6",
+        "type": "4 | 2 | 3 | 5 | 6",
         "required": false,
         "schema": {
           "enum": [
+            4,
             2,
             3,
-            4,
             5,
             6
           ]
@@ -191,15 +191,15 @@
       },
       {
         "name": "headingLevel",
-        "type": "2 | 3 | 4 | 5 | 6",
+        "type": "4 | 2 | 3 | 5 | 6",
         "required": false,
         "default": "3",
         "description": "The heading level of the title in the page outline; 3 by default.",
         "schema": {
           "enum": [
+            4,
             2,
             3,
-            4,
             5,
             6
           ]

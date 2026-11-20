@@ -1,0 +1,191 @@
+{
+  "$schema": "https://design.senvenli.com/schema/component.full.json",
+  "kind": "component",
+  "family": "charts",
+  "status": "alpha",
+  "import": "@senvenli/react/charts",
+  "name": "sparkline",
+  "title": "Sparkline",
+  "exports": [
+    "Sparkline"
+  ],
+  "description": "A tiny line or bar trend with no axes, next to a figure.",
+  "keywords": [
+    "chart",
+    "sparkline",
+    "mini",
+    "trend"
+  ],
+  "usage": {
+    "when": [
+      "A trend beside a stat or in a table cell."
+    ]
+  },
+  "a11y": {
+    "builtIn": [
+      "A \"Show as table\" button shows the same data as a table, which screen readers get by default."
+    ],
+    "youProvide": [
+      "An aria-label that summarizes the trend."
+    ]
+  },
+  "related": [
+    "stat"
+  ],
+  "genui": {
+    "expose": true,
+    "description": "A tiny trend with no axes, next to a figure.",
+    "props": [
+      "data",
+      "type",
+      "aria-label"
+    ],
+    "children": "none",
+    "schema": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "data": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          }
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "line",
+            "bar"
+          ]
+        },
+        "aria-label": {
+          "type": "string",
+          "description": "Names the trend when the text next to it does not; a summary of the values otherwise."
+        }
+      },
+      "required": [
+        "data"
+      ]
+    }
+  },
+  "source": [
+    "src/charts/more-charts.tsx"
+  ],
+  "props": {
+    "Sparkline": [
+      {
+        "name": "data",
+        "type": "readonly number[]",
+        "required": true,
+        "schema": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          }
+        }
+      },
+      {
+        "name": "type",
+        "type": "\"line\" | \"bar\"",
+        "required": false,
+        "default": "\"line\"",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "line",
+            "bar"
+          ]
+        }
+      },
+      {
+        "name": "width",
+        "type": "number",
+        "required": false,
+        "description": "120 in tables; leave out to fill the width (Stat).",
+        "schema": {
+          "type": "number"
+        }
+      },
+      {
+        "name": "height",
+        "type": "number",
+        "required": false,
+        "default": "32",
+        "description": "32 in tables, 28 in a Stat.",
+        "schema": {
+          "type": "number"
+        }
+      },
+      {
+        "name": "aria-label",
+        "type": "string",
+        "required": false,
+        "description": "Names the trend when the text next to it does not; a summary of the values otherwise.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "valueFormatter",
+        "type": "ChartValueFormatter",
+        "required": false,
+        "default": "plain"
+      }
+    ]
+  },
+  "tokens": [
+    "ds-background-neutral",
+    "ds-background-neutral-pressed",
+    "ds-border",
+    "ds-border-bold",
+    "ds-border-focused",
+    "ds-chart-1",
+    "ds-chart-2",
+    "ds-chart-3",
+    "ds-chart-4",
+    "ds-chart-5",
+    "ds-chart-neutral",
+    "ds-link",
+    "ds-radius-medium",
+    "ds-radius-small",
+    "ds-radius-xsmall",
+    "ds-shadow-overlay",
+    "ds-space-050",
+    "ds-space-075",
+    "ds-space-100",
+    "ds-space-150",
+    "ds-space-200",
+    "ds-space-300",
+    "ds-space-400",
+    "ds-surface-overlay",
+    "ds-surface-raised",
+    "ds-text",
+    "ds-text-danger",
+    "ds-text-subtle",
+    "ds-text-subtlest",
+    "ds-text-success"
+  ],
+  "strings": [
+    "chartCategory",
+    "chartNoData",
+    "chartOther",
+    "chartPeriod",
+    "chartShare",
+    "chartTrend",
+    "chartValue",
+    "gaugeTarget",
+    "hideDataTable",
+    "showDataTable",
+    "sparklineSummary"
+  ],
+  "quality": {
+    "tests": true,
+    "a11y": false,
+    "docs": false,
+    "visual": false,
+    "dark": false,
+    "rtl": false,
+    "mcp": true,
+    "generic": true
+  }
+}

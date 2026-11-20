@@ -169,6 +169,314 @@
     "genui": false
   },
   {
+    "name": "area-chart",
+    "title": "Area chart",
+    "family": "charts",
+    "status": "alpha",
+    "description": "A value over time as filled areas, one or several series, with a legend, tooltip and data table.",
+    "keywords": [
+      "chart",
+      "area",
+      "trend",
+      "time series"
+    ],
+    "import": "@senvenli/react/charts",
+    "exports": [
+      "AreaChart"
+    ],
+    "genui": true
+  },
+  {
+    "name": "bar-chart",
+    "title": "Bar chart",
+    "family": "charts",
+    "status": "alpha",
+    "description": "Values per category or period as bars, grouped or stacked, vertical or horizontal.",
+    "keywords": [
+      "chart",
+      "bar",
+      "column",
+      "compare",
+      "stacked"
+    ],
+    "import": "@senvenli/react/charts",
+    "exports": [
+      "BarChart"
+    ],
+    "genui": true
+  },
+  {
+    "name": "bar-list",
+    "title": "Bar list",
+    "family": "charts",
+    "status": "alpha",
+    "description": "A ranked list of names with values and proportional bars; names may link.",
+    "keywords": [
+      "list",
+      "ranking",
+      "top",
+      "bars"
+    ],
+    "import": "@senvenli/react/charts",
+    "exports": [
+      "BarList"
+    ],
+    "genui": true
+  },
+  {
+    "name": "calendar-heatmap",
+    "title": "Calendar heatmap",
+    "family": "charts",
+    "status": "alpha",
+    "description": "A value per day over weeks, as shaded cells in a calendar grid.",
+    "keywords": [
+      "heatmap",
+      "calendar",
+      "activity",
+      "daily"
+    ],
+    "import": "@senvenli/react/charts",
+    "exports": [
+      "CalendarHeatmap"
+    ],
+    "genui": false
+  },
+  {
+    "name": "chart-parts",
+    "title": "Chart parts",
+    "family": "charts",
+    "status": "alpha",
+    "description": "The shared frame (with its data table), legend and tooltip the charts are built from, plus the CHART_COLORS series palette, for a custom chart.",
+    "keywords": [
+      "chart",
+      "legend",
+      "tooltip",
+      "frame",
+      "colors"
+    ],
+    "import": "@senvenli/react/charts",
+    "exports": [
+      "ChartFrame",
+      "ChartLegend",
+      "ChartTooltip",
+      "ChartAnimation"
+    ],
+    "genui": false
+  },
+  {
+    "name": "composed-chart",
+    "title": "Composed chart",
+    "family": "charts",
+    "status": "alpha",
+    "description": "Bars and lines on one plot, with an optional second value axis, for a figure and its rate.",
+    "keywords": [
+      "chart",
+      "combo",
+      "dual axis"
+    ],
+    "import": "@senvenli/react/charts",
+    "exports": [
+      "ComposedChart"
+    ],
+    "genui": false
+  },
+  {
+    "name": "donut-chart",
+    "title": "Donut chart",
+    "family": "charts",
+    "status": "alpha",
+    "description": "Parts of a whole, two to five, with the total in the center and exact shares; more parts fold into \"Other\".",
+    "keywords": [
+      "chart",
+      "donut",
+      "pie",
+      "share"
+    ],
+    "import": "@senvenli/react/charts",
+    "exports": [
+      "DonutChart"
+    ],
+    "genui": true
+  },
+  {
+    "name": "funnel",
+    "title": "Funnel",
+    "family": "charts",
+    "status": "alpha",
+    "description": "Steps of a process with how many reach each one and the conversion between them.",
+    "keywords": [
+      "funnel",
+      "conversion",
+      "steps"
+    ],
+    "import": "@senvenli/react/charts",
+    "exports": [
+      "Funnel"
+    ],
+    "genui": false
+  },
+  {
+    "name": "gauge",
+    "title": "Gauge",
+    "family": "charts",
+    "status": "alpha",
+    "description": "One value against its range and an optional target, as a half ring.",
+    "keywords": [
+      "chart",
+      "gauge",
+      "progress",
+      "target"
+    ],
+    "import": "@senvenli/react/charts",
+    "exports": [
+      "Gauge"
+    ],
+    "genui": true
+  },
+  {
+    "name": "line-chart",
+    "title": "Line chart",
+    "family": "charts",
+    "status": "alpha",
+    "description": "Up to five series over time as lines, for comparing trends.",
+    "keywords": [
+      "chart",
+      "line",
+      "trend",
+      "compare"
+    ],
+    "import": "@senvenli/react/charts",
+    "exports": [
+      "LineChart"
+    ],
+    "genui": true
+  },
+  {
+    "name": "radar-chart",
+    "title": "Radar chart",
+    "family": "charts",
+    "status": "alpha",
+    "description": "A few items scored on the same axes, as overlapping polygons.",
+    "keywords": [
+      "chart",
+      "radar",
+      "spider",
+      "profile"
+    ],
+    "import": "@senvenli/react/charts",
+    "exports": [
+      "RadarChart"
+    ],
+    "genui": false
+  },
+  {
+    "name": "radial-chart",
+    "title": "Radial chart",
+    "family": "charts",
+    "status": "alpha",
+    "description": "Progress of a few parts as concentric rings.",
+    "keywords": [
+      "chart",
+      "radial",
+      "progress",
+      "rings"
+    ],
+    "import": "@senvenli/react/charts",
+    "exports": [
+      "RadialChart"
+    ],
+    "genui": false
+  },
+  {
+    "name": "scatter-chart",
+    "title": "Scatter chart",
+    "family": "charts",
+    "status": "alpha",
+    "description": "Points on two value axes, for seeing a relation and outliers.",
+    "keywords": [
+      "chart",
+      "scatter",
+      "correlation"
+    ],
+    "import": "@senvenli/react/charts",
+    "exports": [
+      "ScatterChart"
+    ],
+    "genui": false
+  },
+  {
+    "name": "seasonality-heatmap",
+    "title": "Seasonality heatmap",
+    "family": "charts",
+    "status": "alpha",
+    "description": "A value by two cyclic dimensions, such as weekday by hour, as shaded cells.",
+    "keywords": [
+      "heatmap",
+      "seasonality",
+      "weekday",
+      "hour"
+    ],
+    "import": "@senvenli/react/charts",
+    "exports": [
+      "SeasonalityHeatmap"
+    ],
+    "genui": false
+  },
+  {
+    "name": "sparkline",
+    "title": "Sparkline",
+    "family": "charts",
+    "status": "alpha",
+    "description": "A tiny line or bar trend with no axes, next to a figure.",
+    "keywords": [
+      "chart",
+      "sparkline",
+      "mini",
+      "trend"
+    ],
+    "import": "@senvenli/react/charts",
+    "exports": [
+      "Sparkline"
+    ],
+    "genui": true
+  },
+  {
+    "name": "tracker",
+    "title": "Tracker",
+    "family": "charts",
+    "status": "alpha",
+    "description": "A row of status blocks, one per day or check, for uptime or completion.",
+    "keywords": [
+      "status",
+      "uptime",
+      "history",
+      "blocks"
+    ],
+    "import": "@senvenli/react/charts",
+    "exports": [
+      "Tracker"
+    ],
+    "genui": false
+  },
+  {
+    "name": "waterfall-chart",
+    "title": "Waterfall chart",
+    "family": "charts",
+    "status": "alpha",
+    "description": "How a starting value becomes an end value through increases and decreases.",
+    "keywords": [
+      "chart",
+      "waterfall",
+      "bridge",
+      "variance"
+    ],
+    "import": "@senvenli/react/charts",
+    "exports": [
+      "WaterfallChart"
+    ],
+    "genui": false
+  },
+  {
     "name": "data-table",
     "title": "Data table",
     "family": "collection",

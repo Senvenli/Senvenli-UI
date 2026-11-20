@@ -1,0 +1,44 @@
+{
+  "$schema": "../../manifest/component.schema.json",
+  "kind": "component",
+  "family": "charts",
+  "status": "alpha",
+  "import": "@senvenli/react/charts",
+  "name": "radar-chart",
+  "title": "Radar chart",
+  "exports": [
+    "RadarChart"
+  ],
+  "description": "A few items scored on the same axes, as overlapping polygons.",
+  "keywords": [
+    "chart",
+    "radar",
+    "spider",
+    "profile"
+  ],
+  "usage": {
+    "when": [
+      "Comparing two or three profiles on five to eight measures."
+    ],
+    "instead": [
+      {
+        "use": "bar-chart",
+        "when": "Precise comparison matters more than shape."
+      }
+    ]
+  },
+  "a11y": {
+    "builtIn": [
+      "A \"Show as table\" button shows the same data as a table, which screen readers get by default."
+    ],
+    "youProvide": [
+      "A title that says what the figure is."
+    ]
+  },
+  "related": [
+    "bar-chart"
+  ],
+  "genui": {
+    "expose": false
+  }
+}

@@ -122,7 +122,12 @@ function arraySchemaOf(checker: ts.TypeChecker, t: ts.Type, depth: number): Json
   if (element && depth === 0 && element.flags & ts.TypeFlags.TypeParameter) {
     return { type: "array", items: { type: "object", additionalProperties: { type: ["string", "number", "boolean", "null"] } } };
   }
-  if (!element || depth > 2 || !(element.flags & ts.TypeFlags.Object)) return null;
+  if (!element || depth > 2) return null;
+  // An array of plain values (a chart's `categories`, a sparkline's numbers).
+  if (!(element.flags & ts.TypeFlags.Object)) {
+    const items = schemaOf(checker, [element], depth + 1);
+    return items ? { type: "array", items } : null;
+  }
   const properties: Record<string, JsonSchema> = {};
   const required: string[] = [];
   for (const sym of checker.getPropertiesOfType(element)) {

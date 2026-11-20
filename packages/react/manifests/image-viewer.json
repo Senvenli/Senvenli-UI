@@ -61,7 +61,13 @@
         "name": "photos",
         "type": "string[]",
         "required": true,
-        "description": "Photo paths in display order."
+        "description": "Photo paths in display order.",
+        "schema": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
       },
       {
         "name": "resolveSrc",

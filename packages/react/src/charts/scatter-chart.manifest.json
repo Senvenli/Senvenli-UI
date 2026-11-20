@@ -1,0 +1,43 @@
+{
+  "$schema": "../../manifest/component.schema.json",
+  "kind": "component",
+  "family": "charts",
+  "status": "alpha",
+  "import": "@senvenli/react/charts",
+  "name": "scatter-chart",
+  "title": "Scatter chart",
+  "exports": [
+    "ScatterChart"
+  ],
+  "description": "Points on two value axes, for seeing a relation and outliers.",
+  "keywords": [
+    "chart",
+    "scatter",
+    "correlation"
+  ],
+  "usage": {
+    "when": [
+      "How two measures of the same items relate."
+    ]
+  },
+  "a11y": {
+    "keyboard": [
+      {
+        "keys": "Arrow keys",
+        "does": "Move between points."
+      }
+    ],
+    "builtIn": [
+      "A \"Show as table\" button shows the same data as a table, which screen readers get by default."
+    ],
+    "youProvide": [
+      "A title that says what the figure is."
+    ]
+  },
+  "related": [
+    "bar-chart"
+  ],
+  "genui": {
+    "expose": false
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "$schema": "../../manifest/component.schema.json",
+  "kind": "component",
+  "family": "charts",
+  "status": "alpha",
+  "import": "@senvenli/react/charts",
+  "name": "chart-parts",
+  "title": "Chart parts",
+  "exports": [
+    "ChartFrame",
+    "ChartLegend",
+    "ChartTooltip",
+    "ChartAnimation"
+  ],
+  "description": "The shared frame (with its data table), legend and tooltip the charts are built from, plus the CHART_COLORS series palette, for a custom chart.",
+  "keywords": [
+    "chart",
+    "legend",
+    "tooltip",
+    "frame",
+    "colors"
+  ],
+  "usage": {
+    "when": [
+      "Building a chart the library does not have, so it looks and reads like the others."
+    ]
+  },
+  "a11y": {
+    "builtIn": [
+      "A \"Show as table\" button shows the same data as a table, which screen readers get by default."
+    ],
+    "youProvide": [
+      "A title that says what the figure is."
+    ]
+  },
+  "related": [
+    "area-chart",
+    "bar-chart"
+  ],
+  "genui": {
+    "expose": false
+  }
+}

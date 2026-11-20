@@ -1,0 +1,162 @@
+{
+  "$schema": "https://design.senvenli.com/schema/component.full.json",
+  "kind": "component",
+  "family": "charts",
+  "status": "alpha",
+  "import": "@senvenli/react/charts",
+  "name": "tracker",
+  "title": "Tracker",
+  "exports": [
+    "Tracker"
+  ],
+  "description": "A row of status blocks, one per day or check, for uptime or completion.",
+  "keywords": [
+    "status",
+    "uptime",
+    "history",
+    "blocks"
+  ],
+  "usage": {
+    "when": [
+      "Status over a run of days or checks."
+    ]
+  },
+  "a11y": {
+    "builtIn": [
+      "A \"Show as table\" button shows the same data as a table, which screen readers get by default."
+    ],
+    "youProvide": [
+      "A title that says what the figure is."
+    ]
+  },
+  "related": [
+    "calendar-heatmap"
+  ],
+  "genui": {
+    "expose": false
+  },
+  "source": [
+    "src/charts/list-charts.tsx"
+  ],
+  "props": {
+    "Tracker": [
+      {
+        "name": "title",
+        "type": "string",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "period",
+        "type": "string",
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "isLoading",
+        "type": "boolean",
+        "required": false,
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "emptyMessage",
+        "type": "{ title: string; description?: string | undefined; }",
+        "required": false
+      },
+      {
+        "name": "data",
+        "type": "readonly TrackerDatum[]",
+        "required": true
+      },
+      {
+        "name": "statusMap",
+        "type": "Readonly<Record<string, { tone: TrackerTone; label: string; }>>",
+        "required": true,
+        "description": "Each status's tone and the word for it (\"Operational\", \"Outage\"); the legend follows this order."
+      },
+      {
+        "name": "summary",
+        "type": "string",
+        "required": false,
+        "description": "The result in a sentence (\"26 days operational, 1 outage\"); the counts per status by default.",
+        "schema": {
+          "type": "string"
+        }
+      }
+    ]
+  },
+  "tokens": [
+    "ds-background-brand-subtle",
+    "ds-background-neutral",
+    "ds-background-neutral-pressed",
+    "ds-background-selected-hovered",
+    "ds-background-selected-pressed",
+    "ds-border",
+    "ds-border-bold",
+    "ds-border-focused",
+    "ds-chart-1",
+    "ds-chart-2",
+    "ds-chart-3",
+    "ds-chart-4",
+    "ds-chart-5",
+    "ds-chart-neutral",
+    "ds-icon-danger",
+    "ds-icon-success",
+    "ds-icon-warning",
+    "ds-link",
+    "ds-radius-medium",
+    "ds-radius-small",
+    "ds-radius-xsmall",
+    "ds-shadow-overlay",
+    "ds-space-050",
+    "ds-space-075",
+    "ds-space-100",
+    "ds-space-150",
+    "ds-space-200",
+    "ds-space-300",
+    "ds-space-400",
+    "ds-surface-overlay",
+    "ds-surface-raised",
+    "ds-text",
+    "ds-text-danger",
+    "ds-text-subtle",
+    "ds-text-subtlest",
+    "ds-text-success"
+  ],
+  "strings": [
+    "chartBand",
+    "chartCategory",
+    "chartConversion",
+    "chartNoData",
+    "chartOther",
+    "chartPeriod",
+    "chartShare",
+    "chartStatus",
+    "chartTrend",
+    "chartValue",
+    "gaugeTarget",
+    "heatmapLess",
+    "heatmapMore",
+    "hideDataTable",
+    "showAll",
+    "showDataTable",
+    "showFewer",
+    "sparklineSummary"
+  ],
+  "quality": {
+    "tests": true,
+    "a11y": false,
+    "docs": false,
+    "visual": false,
+    "dark": false,
+    "rtl": false,
+    "mcp": true,
+    "generic": true
+  }
+}

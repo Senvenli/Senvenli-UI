@@ -135,15 +135,15 @@
       },
       {
         "name": "headingLevel",
-        "type": "2 | 3 | 4",
+        "type": "4 | 2 | 3",
         "required": false,
         "default": "2",
         "description": "The column titles' heading level: 2 by default, a level below the page's h1.",
         "schema": {
           "enum": [
+            4,
             2,
-            3,
-            4
+            3
           ]
         }
       }

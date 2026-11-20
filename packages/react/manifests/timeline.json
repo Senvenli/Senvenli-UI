@@ -76,15 +76,15 @@
       },
       {
         "name": "dayHeadingLevel",
-        "type": "2 | 3 | 4 | 5 | 6",
+        "type": "4 | 2 | 3 | 5 | 6",
         "required": false,
         "default": "3",
         "description": "Heading level of the day titles when the list groups by day (more than ten items).",
         "schema": {
           "enum": [
+            4,
             2,
             3,
-            4,
             5,
             6
           ]

@@ -1,0 +1,252 @@
+{
+  "$schema": "https://design.senvenli.com/schema/component.full.json",
+  "kind": "component",
+  "family": "charts",
+  "status": "alpha",
+  "import": "@senvenli/react/charts",
+  "name": "composed-chart",
+  "title": "Composed chart",
+  "exports": [
+    "ComposedChart"
+  ],
+  "description": "Bars and lines on one plot, with an optional second value axis, for a figure and its rate.",
+  "keywords": [
+    "chart",
+    "combo",
+    "dual axis"
+  ],
+  "usage": {
+    "when": [
+      "A count and a rate over the same periods, e.g. orders and conversion."
+    ]
+  },
+  "a11y": {
+    "builtIn": [
+      "A \"Show as table\" button shows the same data as a table, which screen readers get by default."
+    ],
+    "youProvide": [
+      "A title that says what the figure is."
+    ]
+  },
+  "related": [
+    "bar-chart",
+    "line-chart"
+  ],
+  "genui": {
+    "expose": false
+  },
+  "source": [
+    "src/charts/core-charts.tsx"
+  ],
+  "props": {
+    "ComposedChart": [
+      {
+        "name": "title",
+        "type": "string",
+        "required": true,
+        "description": "What the chart shows (\"Revenue\").",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "period",
+        "type": "string",
+        "required": false,
+        "description": "The period it covers (\"June–September 2026\").",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "total",
+        "type": "string | number | bigint | boolean | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<AwaitedReactNode>",
+        "required": false,
+        "description": "The headline figure, in `metric-medium` (\"€ 184,2k\")."
+      },
+      {
+        "name": "data",
+        "type": "readonly T[]",
+        "required": true,
+        "schema": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": {
+              "type": [
+                "string",
+                "number",
+                "boolean",
+                "null"
+              ]
+            }
+          }
+        }
+      },
+      {
+        "name": "index",
+        "type": "keyof T & string",
+        "required": true,
+        "description": "The x key: the period or category of each row.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "labels",
+        "type": "Readonly<Partial<Record<string, string>>>",
+        "required": false,
+        "description": "Series names by key (\"web\" → \"Website\"); the key by default."
+      },
+      {
+        "name": "indexFormatter",
+        "type": "(value: unknown) => string",
+        "required": false,
+        "description": "The index label in the tooltip and the table (\"August 2026\")."
+      },
+      {
+        "name": "indexLabel",
+        "type": "string",
+        "required": false,
+        "description": "The index column's header in the data table; \"Period\" for time charts, \"Category\" for BarChart.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "height",
+        "type": "number",
+        "required": false,
+        "description": "The plot's height in px; 240 by default.",
+        "schema": {
+          "type": "number"
+        }
+      },
+      {
+        "name": "isLoading",
+        "type": "boolean",
+        "required": false,
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "emptyMessage",
+        "type": "{ title: string; description?: string | undefined; }",
+        "required": false,
+        "description": "Shown instead of the plot when `data` is empty; \"No data for this period\" by default."
+      },
+      {
+        "name": "bars",
+        "type": "readonly ComposedSeries<T>[]",
+        "required": true,
+        "description": "Volume: `ds-chart-2` bars.",
+        "schema": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "key": {
+                "type": "string"
+              },
+              "axis": {
+                "type": "string",
+                "enum": [
+                  "left",
+                  "right"
+                ]
+              }
+            },
+            "required": [
+              "key",
+              "axis"
+            ]
+          }
+        }
+      },
+      {
+        "name": "lines",
+        "type": "readonly ComposedSeries<T>[]",
+        "required": true,
+        "description": "Rate: `ds-chart-1` lines with ringed points.",
+        "schema": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "key": {
+                "type": "string"
+              },
+              "axis": {
+                "type": "string",
+                "enum": [
+                  "left",
+                  "right"
+                ]
+              }
+            },
+            "required": [
+              "key",
+              "axis"
+            ]
+          }
+        }
+      },
+      {
+        "name": "valueFormatters",
+        "type": "{ left: ChartValueFormatter; right: ChartValueFormatter; }",
+        "required": true,
+        "description": "One formatter per axis (\"124 orders\", \"€ 54\"); put the units in `period` or the title."
+      }
+    ]
+  },
+  "tokens": [
+    "ds-background-neutral",
+    "ds-border",
+    "ds-border-bold",
+    "ds-border-focused",
+    "ds-chart-1",
+    "ds-chart-2",
+    "ds-chart-3",
+    "ds-chart-4",
+    "ds-chart-5",
+    "ds-chart-neutral",
+    "ds-link",
+    "ds-radius-medium",
+    "ds-radius-small",
+    "ds-radius-xsmall",
+    "ds-shadow-overlay",
+    "ds-space-050",
+    "ds-space-075",
+    "ds-space-100",
+    "ds-space-150",
+    "ds-space-200",
+    "ds-space-300",
+    "ds-surface-overlay",
+    "ds-surface-raised",
+    "ds-text",
+    "ds-text-danger",
+    "ds-text-subtle",
+    "ds-text-subtlest",
+    "ds-text-success"
+  ],
+  "strings": [
+    "chartCategory",
+    "chartNoData",
+    "chartPeriod",
+    "hideDataTable",
+    "showDataTable"
+  ],
+  "quality": {
+    "tests": true,
+    "a11y": false,
+    "docs": false,
+    "visual": false,
+    "dark": false,
+    "rtl": false,
+    "mcp": true,
+    "generic": true
+  }
+}

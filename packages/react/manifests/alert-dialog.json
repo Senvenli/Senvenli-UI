@@ -76,15 +76,15 @@
       },
       {
         "name": "tone",
-        "type": "\"danger\" | \"warning\" | \"neutral\"",
+        "type": "\"danger\" | \"neutral\" | \"warning\"",
         "required": false,
         "description": "`danger` (default: a delete, `trash-2`, a danger button), `warning` (`triangle-alert`, a primary button), or\n`neutral` for a confirm that neither destroys nor risks anything, such as reactivating an account\n(`info` on a neutral ground, a primary button).",
         "schema": {
           "type": "string",
           "enum": [
             "danger",
-            "warning",
-            "neutral"
+            "neutral",
+            "warning"
           ]
         }
       },

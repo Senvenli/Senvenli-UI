@@ -1,0 +1,205 @@
+{
+  "$schema": "https://design.senvenli.com/schema/component.full.json",
+  "kind": "component",
+  "family": "charts",
+  "status": "alpha",
+  "import": "@senvenli/react/charts",
+  "name": "radar-chart",
+  "title": "Radar chart",
+  "exports": [
+    "RadarChart"
+  ],
+  "description": "A few items scored on the same axes, as overlapping polygons.",
+  "keywords": [
+    "chart",
+    "radar",
+    "spider",
+    "profile"
+  ],
+  "usage": {
+    "when": [
+      "Comparing two or three profiles on five to eight measures."
+    ],
+    "instead": [
+      {
+        "use": "bar-chart",
+        "when": "Precise comparison matters more than shape."
+      }
+    ]
+  },
+  "a11y": {
+    "builtIn": [
+      "A \"Show as table\" button shows the same data as a table, which screen readers get by default."
+    ],
+    "youProvide": [
+      "A title that says what the figure is."
+    ]
+  },
+  "related": [
+    "bar-chart"
+  ],
+  "genui": {
+    "expose": false
+  },
+  "source": [
+    "src/charts/more-charts.tsx"
+  ],
+  "props": {
+    "RadarChart": [
+      {
+        "name": "title",
+        "type": "string",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "period",
+        "type": "string",
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "isLoading",
+        "type": "boolean",
+        "required": false,
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "emptyMessage",
+        "type": "{ title: string; description?: string | undefined; }",
+        "required": false
+      },
+      {
+        "name": "height",
+        "type": "number",
+        "required": false,
+        "default": "280",
+        "schema": {
+          "type": "number"
+        }
+      },
+      {
+        "name": "data",
+        "type": "readonly T[]",
+        "required": true,
+        "description": "One row per dimension (five to eight).",
+        "schema": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": {
+              "type": [
+                "string",
+                "number",
+                "boolean",
+                "null"
+              ]
+            }
+          }
+        }
+      },
+      {
+        "name": "dimension",
+        "type": "keyof T & string",
+        "required": true,
+        "description": "The dimension's name key.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "categories",
+        "type": "readonly (keyof T & string)[]",
+        "required": true,
+        "description": "One or two profiles: the first is the main one, a second is the comparison.",
+        "schema": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      {
+        "name": "labels",
+        "type": "Readonly<Partial<Record<string, string>>>",
+        "required": false
+      },
+      {
+        "name": "max",
+        "type": "number",
+        "required": true,
+        "description": "The shared scale's top.",
+        "schema": {
+          "type": "number"
+        }
+      },
+      {
+        "name": "valueFormatter",
+        "type": "ChartValueFormatter",
+        "required": false,
+        "default": "plain"
+      }
+    ]
+  },
+  "tokens": [
+    "ds-background-neutral",
+    "ds-background-neutral-pressed",
+    "ds-border",
+    "ds-border-bold",
+    "ds-border-focused",
+    "ds-chart-1",
+    "ds-chart-2",
+    "ds-chart-3",
+    "ds-chart-4",
+    "ds-chart-5",
+    "ds-chart-neutral",
+    "ds-link",
+    "ds-radius-medium",
+    "ds-radius-small",
+    "ds-radius-xsmall",
+    "ds-shadow-overlay",
+    "ds-space-050",
+    "ds-space-075",
+    "ds-space-100",
+    "ds-space-150",
+    "ds-space-200",
+    "ds-space-300",
+    "ds-space-400",
+    "ds-surface-overlay",
+    "ds-surface-raised",
+    "ds-text",
+    "ds-text-danger",
+    "ds-text-subtle",
+    "ds-text-subtlest",
+    "ds-text-success"
+  ],
+  "strings": [
+    "chartCategory",
+    "chartNoData",
+    "chartOther",
+    "chartPeriod",
+    "chartShare",
+    "chartTrend",
+    "chartValue",
+    "gaugeTarget",
+    "hideDataTable",
+    "showDataTable",
+    "sparklineSummary"
+  ],
+  "quality": {
+    "tests": true,
+    "a11y": false,
+    "docs": false,
+    "visual": false,
+    "dark": false,
+    "rtl": false,
+    "mcp": true,
+    "generic": true
+  }
+}

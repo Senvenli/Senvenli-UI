@@ -135,8 +135,8 @@
           "enum": [
             "danger",
             "success",
-            "warning",
             "neutral",
+            "warning",
             "information",
             "selected",
             "surface",

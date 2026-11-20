@@ -465,7 +465,13 @@
         "name": "acceptedFileTypes",
         "type": "readonly string[]",
         "required": false,
-        "description": "MIME types or extensions: \"image/jpeg\", \"image/*\", \".heic\", \"application/pdf\"."
+        "description": "MIME types or extensions: \"image/jpeg\", \"image/*\", \".heic\", \"application/pdf\".",
+        "schema": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
       },
       {
         "name": "maxSize",
@@ -494,7 +500,13 @@
         "name": "acceptedFileTypes",
         "type": "readonly string[]",
         "required": false,
-        "description": "MIME types or extensions: \"image/jpeg\", \"image/*\", \".heic\", \"application/pdf\"."
+        "description": "MIME types or extensions: \"image/jpeg\", \"image/*\", \".heic\", \"application/pdf\".",
+        "schema": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
       },
       {
         "name": "maxSize",

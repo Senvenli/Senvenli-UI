@@ -67,8 +67,8 @@
             "danger",
             "brand",
             "success",
-            "warning",
             "neutral",
+            "warning",
             "information"
           ],
           "description": "One meaning per tone: information (Approved, In progress) · brand (Featured) · success\n(Completed, Available, Paid) · warning (Payment pending, Under review) · danger (Canceled,\nFailed, Overdue) · neutral (Draft, Inactive)."
@@ -111,8 +111,8 @@
             "danger",
             "brand",
             "success",
-            "warning",
             "neutral",
+            "warning",
             "information"
           ]
         }

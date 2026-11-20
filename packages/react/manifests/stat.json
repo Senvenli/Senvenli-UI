@@ -103,7 +103,13 @@
         "name": "trend",
         "type": "number[]",
         "required": false,
-        "description": "A short series for the sparkline."
+        "description": "A short series for the sparkline.",
+        "schema": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          }
+        }
       },
       {
         "name": "href",
