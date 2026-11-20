@@ -1,0 +1,49 @@
+{
+  "$schema": "../../manifest/component.schema.json",
+  "kind": "component",
+  "family": "display",
+  "status": "alpha",
+  "import": "@senvenli/react/display",
+  "name": "image-cropper",
+  "title": "Image cropper",
+  "exports": [
+    "ImageCropper"
+  ],
+  "description": "Frames one picked image to the shape a surface needs: pan, zoom, rotate, an aspect preset, and the output as a file.",
+  "keywords": [
+    "crop",
+    "image",
+    "upload",
+    "avatar",
+    "logo"
+  ],
+  "usage": {
+    "when": [
+      "Before an uploaded image is saved: a cover photo, an avatar, a logo."
+    ]
+  },
+  "a11y": {
+    "keyboard": [
+      {
+        "keys": "Arrow keys",
+        "does": "Move the image in the frame."
+      },
+      {
+        "keys": "+ / -",
+        "does": "Zoom in or out."
+      }
+    ],
+    "builtIn": [
+      "The frame announces its position and zoom."
+    ],
+    "youProvide": [
+      "What is being cropped, as its name."
+    ]
+  },
+  "related": [
+    "file-upload"
+  ],
+  "genui": {
+    "expose": false
+  }
+}

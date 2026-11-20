@@ -232,7 +232,7 @@
     "online"
   ],
   "quality": {
-    "tests": false,
+    "tests": true,
     "a11y": false,
     "docs": false,
     "visual": false,

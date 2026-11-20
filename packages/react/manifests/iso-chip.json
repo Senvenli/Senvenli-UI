@@ -1,0 +1,68 @@
+{
+  "$schema": "https://design.senvenli.com/schema/component.full.json",
+  "kind": "component",
+  "family": "display",
+  "status": "alpha",
+  "import": "@senvenli/react/display",
+  "name": "iso-chip",
+  "title": "ISO chip",
+  "exports": [
+    "IsoChip"
+  ],
+  "description": "A small neutral chip with a country or language code, in place of a flag.",
+  "keywords": [
+    "country",
+    "language",
+    "code",
+    "iso"
+  ],
+  "usage": {
+    "when": [
+      "Marking a country or language next to its name."
+    ]
+  },
+  "a11y": {
+    "builtIn": [
+      "Hidden from screen readers when the name is next to it."
+    ],
+    "youProvide": [
+      "The name beside it."
+    ]
+  },
+  "genui": {
+    "expose": false
+  },
+  "source": [
+    "src/display/iso-chip.tsx"
+  ],
+  "props": {
+    "IsoChip": [
+      {
+        "name": "code",
+        "type": "string",
+        "required": true,
+        "description": "The two-letter ISO 3166 code (\"DE\", \"US\") or another short region code, shown as given.",
+        "schema": {
+          "type": "string"
+        }
+      }
+    ]
+  },
+  "tokens": [
+    "ds-background-neutral",
+    "ds-radius-xsmall",
+    "ds-space-050",
+    "ds-text-subtle"
+  ],
+  "strings": [],
+  "quality": {
+    "tests": true,
+    "a11y": false,
+    "docs": false,
+    "visual": false,
+    "dark": false,
+    "rtl": false,
+    "mcp": true,
+    "generic": true
+  }
+}

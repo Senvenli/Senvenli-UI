@@ -556,7 +556,7 @@ const CROP_STATUS: Strings = {
   en: "Zoom {zoom}, {position}",
 };
 const CROP_CENTERED: Strings = {
-  en: "position centred",
+  en: "position centered",
 };
 const CROP_POSITION: Strings = {
   en: "position {x} across, {y} down",
@@ -592,13 +592,13 @@ const CROP_SAVE_FAILED: Strings = {
   en: "The image could not be saved. Try again, or choose a smaller image.",
 };
 const CROP_BACKGROUND: Strings = {
-  en: "Empty area colour",
+  en: "Empty area color",
 };
 const COLOR_WHITE: Strings = {
   en: "White",
 };
 const COLOR_LIGHT_GREY: Strings = {
-  en: "Light grey",
+  en: "Light gray",
 };
 const COLOR_BLACK: Strings = {
   en: "Black",

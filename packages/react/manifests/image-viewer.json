@@ -1,0 +1,187 @@
+{
+  "$schema": "https://design.senvenli.com/schema/component.full.json",
+  "kind": "component",
+  "family": "display",
+  "status": "alpha",
+  "import": "@senvenli/react/display",
+  "name": "image-viewer",
+  "title": "Image viewer",
+  "exports": [
+    "ImageViewer"
+  ],
+  "description": "A full-screen dark lightbox with previous/next that cycle, arrow keys, a position caption and a filmstrip.",
+  "keywords": [
+    "lightbox",
+    "photos",
+    "gallery",
+    "fullscreen"
+  ],
+  "usage": {
+    "when": [
+      "Looking at photos full size."
+    ]
+  },
+  "a11y": {
+    "keyboard": [
+      {
+        "keys": "Arrow left / right",
+        "does": "Previous or next photo, following the reading direction."
+      },
+      {
+        "keys": "Esc",
+        "does": "Closes the viewer."
+      }
+    ],
+    "builtIn": [
+      "Focus stays inside while open and returns to what opened it."
+    ],
+    "youProvide": [
+      "A title and alt text."
+    ]
+  },
+  "related": [
+    "carousel"
+  ],
+  "genui": {
+    "expose": false
+  },
+  "source": [
+    "src/display/image-viewer.tsx"
+  ],
+  "props": {
+    "ImageViewer": [
+      {
+        "name": "image",
+        "type": "ImageViewerImage",
+        "required": false,
+        "default": "PlainImage",
+        "description": "The image renderer (e.g. next/image); a plain `<img>` by default."
+      },
+      {
+        "name": "photos",
+        "type": "string[]",
+        "required": true,
+        "description": "Photo paths in display order."
+      },
+      {
+        "name": "resolveSrc",
+        "type": "(path: string) => string",
+        "required": false,
+        "default": "(path) => path",
+        "description": "Resolve a stored photo path to a renderable src. Defaults to identity."
+      },
+      {
+        "name": "initialIndex",
+        "type": "number",
+        "required": false,
+        "default": "0",
+        "description": "Index to open on; wrapped into range.",
+        "schema": {
+          "type": "number"
+        }
+      },
+      {
+        "name": "onClose",
+        "type": "() => void",
+        "required": true
+      },
+      {
+        "name": "title",
+        "type": "string",
+        "required": true,
+        "description": "Caption shown at the bottom and used as the accessible dialog title.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "alt",
+        "type": "string",
+        "required": true,
+        "description": "alt text for the photo.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "positionLabel",
+        "type": "(index: number, total: number) => string",
+        "required": false,
+        "description": "Builds the \"N of M\" caption/description; the DS string by default."
+      },
+      {
+        "name": "closeLabel",
+        "type": "string",
+        "required": false,
+        "description": "The DS strings by default (\"Close\", \"Previous image\", \"Next image\").",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "previousLabel",
+        "type": "string",
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "nextLabel",
+        "type": "string",
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      }
+    ]
+  },
+  "tokens": [
+    "ds-blanket",
+    "ds-border-focused",
+    "ds-border-selected",
+    "ds-icon",
+    "ds-icon-brand",
+    "ds-icon-danger",
+    "ds-icon-information",
+    "ds-icon-subtle",
+    "ds-icon-success",
+    "ds-icon-warning",
+    "ds-radius-full",
+    "ds-radius-medium",
+    "ds-radius-small",
+    "ds-radius-xlarge",
+    "ds-shadow-overlay",
+    "ds-size-icon",
+    "ds-size-icon-large",
+    "ds-size-icon-small",
+    "ds-space-025",
+    "ds-space-100",
+    "ds-space-150",
+    "ds-space-200",
+    "ds-space-250",
+    "ds-space-800",
+    "ds-surface",
+    "ds-surface-hovered",
+    "ds-surface-overlay",
+    "ds-surface-sunken",
+    "ds-text",
+    "ds-text-subtle"
+  ],
+  "strings": [
+    "close",
+    "imagePosition",
+    "nextImage",
+    "previousImage"
+  ],
+  "quality": {
+    "tests": true,
+    "a11y": false,
+    "docs": false,
+    "visual": false,
+    "dark": false,
+    "rtl": false,
+    "mcp": true,
+    "generic": true
+  }
+}

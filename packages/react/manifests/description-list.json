@@ -1,0 +1,196 @@
+{
+  "$schema": "https://design.senvenli.com/schema/component.full.json",
+  "kind": "component",
+  "family": "display",
+  "status": "alpha",
+  "import": "@senvenli/react/display",
+  "name": "description-list",
+  "title": "Description list",
+  "exports": [
+    "DescriptionList"
+  ],
+  "description": "Labeled facts about one record, in rows or stacked columns; empty values read as \"Not set\", and a value may be copyable.",
+  "keywords": [
+    "details",
+    "key value",
+    "properties",
+    "record"
+  ],
+  "usage": {
+    "when": [
+      "The fields of one record on its detail page."
+    ],
+    "instead": [
+      {
+        "use": "table",
+        "when": "Comparing the same fields across records."
+      }
+    ]
+  },
+  "a11y": {
+    "builtIn": [
+      "Uses dl/dt/dd, so each value is read with its label.",
+      "An empty value says \"Not set\" instead of a blank."
+    ],
+    "youProvide": [
+      "Short, noun labels."
+    ]
+  },
+  "related": [
+    "stat",
+    "table"
+  ],
+  "genui": {
+    "expose": true,
+    "description": "Labeled facts about one thing, e.g. an order's details.",
+    "props": [
+      "items",
+      "layout",
+      "columns"
+    ],
+    "children": "none",
+    "schema": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "label": {
+                "type": "string"
+              },
+              "value": {
+                "type": "string"
+              },
+              "action": {
+                "type": "string"
+              },
+              "copyValue": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "label"
+            ]
+          }
+        },
+        "layout": {
+          "type": "string",
+          "enum": [
+            "rows",
+            "stacked"
+          ],
+          "description": "`rows` (label beside value, rules between) for detail pages and side panels; `stacked` for summaries and cards."
+        },
+        "columns": {
+          "enum": [
+            2,
+            3,
+            4
+          ],
+          "description": "Columns for `stacked`; default fills 150px+ columns."
+        }
+      },
+      "required": [
+        "items"
+      ]
+    }
+  },
+  "source": [
+    "src/display/description-list.tsx"
+  ],
+  "props": {
+    "DescriptionList": [
+      {
+        "name": "items",
+        "type": "DescriptionListItem[]",
+        "required": true,
+        "schema": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "label": {
+                "type": "string"
+              },
+              "value": {
+                "type": "string"
+              },
+              "action": {
+                "type": "string"
+              },
+              "copyValue": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "label"
+            ]
+          }
+        }
+      },
+      {
+        "name": "layout",
+        "type": "\"rows\" | \"stacked\"",
+        "required": false,
+        "default": "\"rows\"",
+        "description": "`rows` (label beside value, rules between) for detail pages and side panels; `stacked` for summaries and cards.",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "rows",
+            "stacked"
+          ]
+        }
+      },
+      {
+        "name": "columns",
+        "type": "2 | 3 | 4",
+        "required": false,
+        "description": "Columns for `stacked`; default fills 150px+ columns.",
+        "schema": {
+          "enum": [
+            2,
+            3,
+            4
+          ]
+        }
+      }
+    ]
+  },
+  "tokens": [
+    "ds-border",
+    "ds-space-025",
+    "ds-space-100",
+    "ds-space-200",
+    "ds-text",
+    "ds-text-subtle",
+    "ds-text-subtlest"
+  ],
+  "strings": [
+    "copied",
+    "copyFailed",
+    "copyValue",
+    "notSet"
+  ],
+  "quality": {
+    "tests": true,
+    "a11y": false,
+    "docs": false,
+    "visual": false,
+    "dark": false,
+    "rtl": false,
+    "mcp": true,
+    "generic": true
+  }
+}

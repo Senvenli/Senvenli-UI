@@ -1,0 +1,48 @@
+{
+  "$schema": "../../manifest/component.schema.json",
+  "kind": "component",
+  "family": "display",
+  "status": "alpha",
+  "import": "@senvenli/react/display",
+  "name": "image-viewer",
+  "title": "Image viewer",
+  "exports": [
+    "ImageViewer"
+  ],
+  "description": "A full-screen dark lightbox with previous/next that cycle, arrow keys, a position caption and a filmstrip.",
+  "keywords": [
+    "lightbox",
+    "photos",
+    "gallery",
+    "fullscreen"
+  ],
+  "usage": {
+    "when": [
+      "Looking at photos full size."
+    ]
+  },
+  "a11y": {
+    "keyboard": [
+      {
+        "keys": "Arrow left / right",
+        "does": "Previous or next photo, following the reading direction."
+      },
+      {
+        "keys": "Esc",
+        "does": "Closes the viewer."
+      }
+    ],
+    "builtIn": [
+      "Focus stays inside while open and returns to what opened it."
+    ],
+    "youProvide": [
+      "A title and alt text."
+    ]
+  },
+  "related": [
+    "carousel"
+  ],
+  "genui": {
+    "expose": false
+  }
+}

@@ -1,0 +1,193 @@
+{
+  "$schema": "https://design.senvenli.com/schema/component.full.json",
+  "kind": "component",
+  "family": "display",
+  "status": "alpha",
+  "import": "@senvenli/react/display",
+  "name": "carousel",
+  "title": "Carousel",
+  "exports": [
+    "Carousel"
+  ],
+  "description": "Pages through a set of images with previous/next and optional thumbnails; never auto-advances.",
+  "keywords": [
+    "gallery",
+    "images",
+    "slider",
+    "photos"
+  ],
+  "usage": {
+    "when": [
+      "A few photos of one item."
+    ],
+    "instead": [
+      {
+        "use": "image-viewer",
+        "when": "Photos need to be seen full screen."
+      }
+    ]
+  },
+  "a11y": {
+    "keyboard": [
+      {
+        "keys": "Arrow left / right",
+        "does": "Move to the previous or next image."
+      }
+    ],
+    "builtIn": [
+      "The position is announced as \"Image N of M\"."
+    ],
+    "youProvide": [
+      "Meaningful alt text for each image."
+    ]
+  },
+  "related": [
+    "image-viewer",
+    "grid-list"
+  ],
+  "genui": {
+    "expose": false
+  },
+  "source": [
+    "src/display/carousel.tsx"
+  ],
+  "props": {
+    "Carousel": [
+      {
+        "name": "items",
+        "type": "CarouselItem[]",
+        "required": true,
+        "schema": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "src": {
+                "type": "string"
+              },
+              "alt": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "src",
+              "alt"
+            ]
+          }
+        }
+      },
+      {
+        "name": "aria-label",
+        "type": "string",
+        "required": true,
+        "description": "Names the carousel (\"Product photos\").",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "index",
+        "type": "number",
+        "required": false,
+        "description": "The shown image, controlled. The carousel calls `onIndexChange` and expects the new value back.",
+        "schema": {
+          "type": "number"
+        }
+      },
+      {
+        "name": "defaultIndex",
+        "type": "number",
+        "required": false,
+        "default": "0",
+        "description": "The first image shown when uncontrolled.",
+        "schema": {
+          "type": "number"
+        }
+      },
+      {
+        "name": "onIndexChange",
+        "type": "(index: number) => void",
+        "required": false
+      },
+      {
+        "name": "showThumbnails",
+        "type": "boolean",
+        "required": false,
+        "description": "A strip of thumbnails under the frame; the current one outlined. The dots then only indicate.",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "aspectRatio",
+        "type": "\"16/9\" | \"4/3\"",
+        "required": false,
+        "default": "\"16/9\"",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "16/9",
+            "4/3"
+          ]
+        }
+      },
+      {
+        "name": "isLandmark",
+        "type": "boolean",
+        "required": false,
+        "default": "true",
+        "description": "A `region` landmark (default) for a gallery that is part of the page's outline; `false` inside\nrepeated cards, so a listing does not fill the landmark list.",
+        "schema": {
+          "type": "boolean"
+        }
+      }
+    ]
+  },
+  "tokens": [
+    "ds-background-neutral-bold",
+    "ds-border-focused",
+    "ds-border-selected",
+    "ds-icon",
+    "ds-icon-brand",
+    "ds-icon-danger",
+    "ds-icon-information",
+    "ds-icon-subtle",
+    "ds-icon-success",
+    "ds-icon-warning",
+    "ds-radius-full",
+    "ds-radius-medium",
+    "ds-radius-small",
+    "ds-radius-xlarge",
+    "ds-shadow-overlay",
+    "ds-size-icon",
+    "ds-size-icon-large",
+    "ds-size-icon-small",
+    "ds-space-025",
+    "ds-space-100",
+    "ds-space-150",
+    "ds-surface-hovered",
+    "ds-surface-overlay",
+    "ds-surface-sunken",
+    "ds-text-inverse"
+  ],
+  "strings": [
+    "goToImage",
+    "imagePosition",
+    "nextImage",
+    "previousImage"
+  ],
+  "quality": {
+    "tests": true,
+    "a11y": false,
+    "docs": false,
+    "visual": false,
+    "dark": false,
+    "rtl": false,
+    "mcp": true,
+    "generic": true
+  }
+}

@@ -1,0 +1,252 @@
+{
+  "$schema": "https://design.senvenli.com/schema/component.full.json",
+  "kind": "component",
+  "family": "display",
+  "status": "alpha",
+  "import": "@senvenli/react/display",
+  "name": "image-cropper",
+  "title": "Image cropper",
+  "exports": [
+    "ImageCropper"
+  ],
+  "description": "Frames one picked image to the shape a surface needs: pan, zoom, rotate, an aspect preset, and the output as a file.",
+  "keywords": [
+    "crop",
+    "image",
+    "upload",
+    "avatar",
+    "logo"
+  ],
+  "usage": {
+    "when": [
+      "Before an uploaded image is saved: a cover photo, an avatar, a logo."
+    ]
+  },
+  "a11y": {
+    "keyboard": [
+      {
+        "keys": "Arrow keys",
+        "does": "Move the image in the frame."
+      },
+      {
+        "keys": "+ / -",
+        "does": "Zoom in or out."
+      }
+    ],
+    "builtIn": [
+      "The frame announces its position and zoom."
+    ],
+    "youProvide": [
+      "What is being cropped, as its name."
+    ]
+  },
+  "related": [
+    "file-upload"
+  ],
+  "genui": {
+    "expose": false
+  },
+  "source": [
+    "src/display/image-cropper.tsx"
+  ],
+  "props": {
+    "ImageCropper": [
+      {
+        "name": "src",
+        "type": "string | Blob",
+        "required": true,
+        "description": "The picked file (from FileTrigger, already checked for size and type), or an image URL. A URL from\nanother origin is loaded with CORS so the crop can be read back: its server must send\n`Access-Control-Allow-Origin`, or the image does not open (rather than failing later at save)."
+      },
+      {
+        "name": "label",
+        "type": "string",
+        "required": true,
+        "description": "What is being cropped (\"Cover photo\"); names the crop frame.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "aspectRatio",
+        "type": "ImageCropperAspect",
+        "required": false,
+        "default": "16 / 9",
+        "description": "16:9 by default; `\"free\"` keeps the image's own shape. Ignored when presets are given."
+      },
+      {
+        "name": "aspectPresets",
+        "type": "readonly ImageCropperPreset[]",
+        "required": false,
+        "description": "Two or more shapes to choose from (a segmented control); the first is selected."
+      },
+      {
+        "name": "fit",
+        "type": "CropFit",
+        "required": false,
+        "default": "\"cover\"",
+        "description": "`cover` (default) fills the frame; `contain` fits the whole image and leaves empty area.",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "cover",
+            "contain"
+          ]
+        }
+      },
+      {
+        "name": "background",
+        "type": "string",
+        "required": false,
+        "default": "\"#ffffff\"",
+        "description": "The empty area's colour in `contain` when the output has no alpha (JPEG). White by default.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "outputType",
+        "type": "CropOutputType",
+        "required": false,
+        "default": "\"image/jpeg\"",
+        "description": "`image/jpeg` by default. PNG and WebP keep transparency.",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "image/jpeg",
+            "image/png",
+            "image/webp"
+          ]
+        }
+      },
+      {
+        "name": "quality",
+        "type": "number",
+        "required": false,
+        "default": "0.9",
+        "description": "0–1, for JPEG and WebP. 0.9 by default.",
+        "schema": {
+          "type": "number"
+        }
+      },
+      {
+        "name": "maxBytes",
+        "type": "number",
+        "required": false,
+        "description": "The largest file the surface takes, in bytes. A JPEG or WebP\nover it is encoded again at a quality 0.1 lower each time, down to `minimumQuality`; when even that is over, or\na PNG is, nothing is handed to `onCrop` and the cropper says the image is over the limit (a smaller crop, by\nzooming in, or another image fits).",
+        "schema": {
+          "type": "number"
+        }
+      },
+      {
+        "name": "minimumQuality",
+        "type": "number",
+        "required": false,
+        "description": "The lowest quality `maxBytes` may step down to (0.9 keeps a hero or slide sharp). 0.1 by default; at most `quality`.",
+        "schema": {
+          "type": "number"
+        }
+      },
+      {
+        "name": "maxOutputSize",
+        "type": "number",
+        "required": false,
+        "default": "4096",
+        "description": "The output's long edge in px at most (a surface's size, 2560 for a full-width photo): larger crops scale down,\nnever up. 4096 by default, so a 48 MP phone photo stays within every browser's canvas limit.",
+        "schema": {
+          "type": "number"
+        }
+      },
+      {
+        "name": "minOutputSize",
+        "type": "number",
+        "required": false,
+        "description": "Under this long edge the warning shows; it never blocks.",
+        "schema": {
+          "type": "number"
+        }
+      },
+      {
+        "name": "fileName",
+        "type": "string",
+        "required": false,
+        "description": "The output file's name without extension; the source file's name by default.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "onCrop",
+        "type": "(file: File, result: ImageCropperResult) => unknown",
+        "required": true
+      },
+      {
+        "name": "onCancel",
+        "type": "() => void",
+        "required": false
+      }
+    ]
+  },
+  "tokens": [
+    "ds-blanket",
+    "ds-border",
+    "ds-border-focused",
+    "ds-icon",
+    "ds-icon-brand",
+    "ds-icon-danger",
+    "ds-icon-information",
+    "ds-icon-subtle",
+    "ds-icon-success",
+    "ds-icon-warning",
+    "ds-radius-large",
+    "ds-shadow-raised",
+    "ds-size-icon",
+    "ds-size-icon-large",
+    "ds-size-icon-small",
+    "ds-space-050",
+    "ds-space-100",
+    "ds-space-150",
+    "ds-space-300",
+    "ds-surface-sunken",
+    "ds-text-danger",
+    "ds-text-subtle",
+    "ds-text-subtlest",
+    "ds-text-warning"
+  ],
+  "strings": [
+    "cancel",
+    "colorBlack",
+    "colorLightGrey",
+    "colorWhite",
+    "cropAspect",
+    "cropBackground",
+    "cropCentered",
+    "cropContain",
+    "cropCover",
+    "cropFit",
+    "cropHelp",
+    "cropKeepsAlpha",
+    "cropLoadFailed",
+    "cropOutput",
+    "cropPosition",
+    "cropRotateLeft",
+    "cropRotateRight",
+    "cropSave",
+    "cropSaveFailed",
+    "cropSmall",
+    "cropStatus",
+    "cropTooLarge",
+    "cropZoom",
+    "cropZoomIn",
+    "cropZoomOut"
+  ],
+  "quality": {
+    "tests": true,
+    "a11y": false,
+    "docs": false,
+    "visual": false,
+    "dark": false,
+    "rtl": false,
+    "mcp": true,
+    "generic": true
+  }
+}

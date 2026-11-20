@@ -1,0 +1,53 @@
+{
+  "$schema": "../../manifest/component.schema.json",
+  "kind": "component",
+  "family": "display",
+  "status": "alpha",
+  "import": "@senvenli/react/display",
+  "name": "description-list",
+  "title": "Description list",
+  "exports": [
+    "DescriptionList"
+  ],
+  "description": "Labeled facts about one record, in rows or stacked columns; empty values read as \"Not set\", and a value may be copyable.",
+  "keywords": [
+    "details",
+    "key value",
+    "properties",
+    "record"
+  ],
+  "usage": {
+    "when": [
+      "The fields of one record on its detail page."
+    ],
+    "instead": [
+      {
+        "use": "table",
+        "when": "Comparing the same fields across records."
+      }
+    ]
+  },
+  "a11y": {
+    "builtIn": [
+      "Uses dl/dt/dd, so each value is read with its label.",
+      "An empty value says \"Not set\" instead of a blank."
+    ],
+    "youProvide": [
+      "Short, noun labels."
+    ]
+  },
+  "related": [
+    "stat",
+    "table"
+  ],
+  "genui": {
+    "expose": true,
+    "description": "Labeled facts about one thing, e.g. an order's details.",
+    "props": [
+      "items",
+      "layout",
+      "columns"
+    ],
+    "children": "none"
+  }
+}

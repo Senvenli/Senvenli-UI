@@ -1,0 +1,54 @@
+{
+  "$schema": "../../manifest/component.schema.json",
+  "kind": "component",
+  "family": "display",
+  "status": "alpha",
+  "import": "@senvenli/react/display",
+  "name": "stat",
+  "title": "Stat",
+  "exports": [
+    "Stat",
+    "StatGroup"
+  ],
+  "description": "A key figure with its label, an optional change against a named period and a sparkline.",
+  "keywords": [
+    "kpi",
+    "metric",
+    "figure",
+    "dashboard",
+    "delta"
+  ],
+  "usage": {
+    "when": [
+      "A dashboard's headline numbers."
+    ],
+    "instead": [
+      {
+        "use": "description-list",
+        "when": "Several labeled facts about one record."
+      }
+    ]
+  },
+  "a11y": {
+    "builtIn": [
+      "The change is announced in words, not only by its arrow and color.",
+      "Figures keep their formatted order in right-to-left pages."
+    ],
+    "youProvide": [
+      "A formatted value and, next to a change, the period it compares against."
+    ]
+  },
+  "related": [
+    "description-list"
+  ],
+  "genui": {
+    "expose": true,
+    "description": "One headline figure. Format the value first; name the period next to a change.",
+    "props": [
+      "label",
+      "value",
+      "comparison"
+    ],
+    "children": "none"
+  }
+}
