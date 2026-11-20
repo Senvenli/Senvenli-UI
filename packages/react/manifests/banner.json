@@ -61,8 +61,8 @@
           "type": "string",
           "enum": [
             "danger",
-            "warning",
             "success",
+            "warning",
             "information"
           ]
         }

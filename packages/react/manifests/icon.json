@@ -87,8 +87,8 @@
             "subtle",
             "danger",
             "brand",
-            "warning",
             "success",
+            "warning",
             "information"
           ],
           "description": "`inherit` (default) takes the text colour around it; the others are the `ds-icon-*` tokens."
@@ -145,8 +145,8 @@
             "subtle",
             "danger",
             "brand",
-            "warning",
             "success",
+            "warning",
             "information"
           ]
         }

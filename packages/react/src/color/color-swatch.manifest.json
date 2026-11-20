@@ -1,0 +1,43 @@
+{
+  "$schema": "../../manifest/component.schema.json",
+  "kind": "component",
+  "family": "color",
+  "status": "alpha",
+  "import": "@senvenli/react/color",
+  "name": "color-swatch",
+  "title": "Color swatch",
+  "exports": [
+    "ColorSwatch"
+  ],
+  "description": "One named color tile with a faint inset edge, so light colors show on light grounds.",
+  "keywords": [
+    "color",
+    "swatch",
+    "tile"
+  ],
+  "usage": {
+    "when": [
+      "Showing a color next to its name or value."
+    ]
+  },
+  "a11y": {
+    "builtIn": [
+      "The name is the accessible label; without one, the color is described."
+    ],
+    "youProvide": [
+      "A name when the color carries meaning."
+    ]
+  },
+  "related": [
+    "color-swatch-picker"
+  ],
+  "genui": {
+    "expose": true,
+    "description": "One color tile. Give a name when the color means something.",
+    "props": [
+      "color",
+      "name"
+    ],
+    "children": "none"
+  }
+}

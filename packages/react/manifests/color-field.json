@@ -1,0 +1,278 @@
+{
+  "$schema": "https://design.senvenli.com/schema/component.full.json",
+  "kind": "component",
+  "family": "color",
+  "status": "alpha",
+  "import": "@senvenli/react/color",
+  "name": "color-field",
+  "title": "Color field",
+  "exports": [
+    "ColorField"
+  ],
+  "description": "A hex color typed with a live swatch; a malformed value stays as typed with an example of a valid one.",
+  "keywords": [
+    "color",
+    "hex",
+    "input",
+    "brand"
+  ],
+  "usage": {
+    "when": [
+      "Typing a known color in compact settings."
+    ],
+    "instead": [
+      {
+        "use": "color-picker",
+        "when": "People need to pick a color by eye."
+      },
+      {
+        "use": "color-swatch-picker",
+        "when": "A fixed set of colors is enough."
+      }
+    ]
+  },
+  "a11y": {
+    "keyboard": [
+      {
+        "keys": "Arrow up / down",
+        "does": "Steps the value (the channel, on a single-channel field)."
+      }
+    ],
+    "builtIn": [
+      "A malformed hex says what a valid one looks like.",
+      "Required fields show \"Fill in this field.\""
+    ],
+    "youProvide": [
+      "A visible label."
+    ]
+  },
+  "related": [
+    "color-picker",
+    "color-swatch"
+  ],
+  "genui": {
+    "expose": true,
+    "description": "A hex color input with a swatch. Emits change with the hex or null.",
+    "props": [
+      "label",
+      "description",
+      "isRequired"
+    ],
+    "children": "none",
+    "events": [
+      "change"
+    ],
+    "schema": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "label": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "isRequired": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "label"
+      ]
+    }
+  },
+  "source": [
+    "src/color/color.tsx"
+  ],
+  "props": {
+    "ColorField": [
+      {
+        "name": "label",
+        "type": "React.ReactNode",
+        "required": true
+      },
+      {
+        "name": "description",
+        "type": "React.ReactNode",
+        "required": false
+      },
+      {
+        "name": "errorMessage",
+        "type": "React.ReactNode",
+        "required": false,
+        "description": "Shown while the field is invalid; a malformed hex says what a valid one looks like by itself."
+      },
+      {
+        "name": "value",
+        "type": "string",
+        "required": false,
+        "description": "\"#1E63D0\" (also \"1e63d0\" and \"#16D\"); `null` for none.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "defaultValue",
+        "type": "string",
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "onChange",
+        "type": "(value: string | null) => void",
+        "required": false,
+        "description": "The normalised hex (\"#1E63D0\"), or `null` when emptied."
+      },
+      {
+        "name": "channel",
+        "type": "ColorChannel",
+        "required": false,
+        "description": "`hex` by default; a single channel (\"hue\", \"saturation\", \"red\"…) types that channel's number instead.",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "hue",
+            "saturation",
+            "brightness",
+            "lightness",
+            "red",
+            "green",
+            "blue",
+            "alpha"
+          ]
+        }
+      },
+      {
+        "name": "isRequired",
+        "type": "boolean",
+        "required": false,
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "requiredValidation",
+        "type": "RequiredValidation",
+        "required": false,
+        "description": "Who says an empty required ColorField is missing: inside a DS Form, `field` (default) shows \"Fill in this\nfield.\" on blur and on submit, which it then blocks; `app` only marks the field. See {@link RequiredValidation}.\nThe app's `isInvalid` (`true` with its `errorMessage`, or `false`) overrides the check, as on TextField. Disabled,\nempty and required, it still blocks a DS Form's submit and cannot take focus (as TextField).",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "field",
+            "app"
+          ]
+        }
+      },
+      {
+        "name": "isDisabled",
+        "type": "boolean",
+        "required": false,
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "isReadOnly",
+        "type": "boolean",
+        "required": false,
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "isInvalid",
+        "type": "boolean",
+        "required": false,
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "name",
+        "type": "string",
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "id",
+        "type": "string",
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "aria-label",
+        "type": "string",
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "aria-labelledby",
+        "type": "string",
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      }
+    ]
+  },
+  "tokens": [
+    "ds-background-neutral-pressed",
+    "ds-background-warning",
+    "ds-border",
+    "ds-border-focused",
+    "ds-icon-warning",
+    "ds-radius-full",
+    "ds-radius-large",
+    "ds-radius-medium",
+    "ds-radius-small",
+    "ds-shadow-raised",
+    "ds-size-control-compact",
+    "ds-space-050",
+    "ds-space-075",
+    "ds-space-100",
+    "ds-space-150",
+    "ds-space-200",
+    "ds-space-400",
+    "ds-surface-raised",
+    "ds-text",
+    "ds-text-danger",
+    "ds-text-success",
+    "font-ds-mono"
+  ],
+  "strings": [
+    "customColor",
+    "fixInDark",
+    "fixInLight",
+    "hexExpected",
+    "lowInDark",
+    "lowInLight",
+    "nameSelected",
+    "noStepPasses",
+    "preview",
+    "previewAction",
+    "theme",
+    "themeDark",
+    "themeLight",
+    "themeNowDark",
+    "themeNowLight",
+    "themeSystem"
+  ],
+  "quality": {
+    "tests": true,
+    "a11y": false,
+    "docs": false,
+    "visual": false,
+    "dark": false,
+    "rtl": false,
+    "mcp": true,
+    "generic": true
+  }
+}

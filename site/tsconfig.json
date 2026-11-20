@@ -37,6 +37,9 @@
       ],
       "@senvenli/react/date": [
         "../packages/react/src/date/index.ts"
+      ],
+      "@senvenli/react/color": [
+        "../packages/react/src/color/index.ts"
       ]
     },
     "noUncheckedIndexedAccess": false

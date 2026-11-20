@@ -169,6 +169,78 @@
     "genui": false
   },
   {
+    "name": "color-field",
+    "title": "Color field",
+    "family": "color",
+    "status": "alpha",
+    "description": "A hex color typed with a live swatch; a malformed value stays as typed with an example of a valid one.",
+    "keywords": [
+      "color",
+      "hex",
+      "input",
+      "brand"
+    ],
+    "import": "@senvenli/react/color",
+    "exports": [
+      "ColorField"
+    ],
+    "genui": true
+  },
+  {
+    "name": "color-picker",
+    "title": "Color picker",
+    "family": "color",
+    "status": "alpha",
+    "description": "A saturation-brightness area, hue (and alpha) sliders, a hex field and a two-theme preview of the primary button with its contrast.",
+    "keywords": [
+      "color",
+      "brand",
+      "theme",
+      "contrast",
+      "picker"
+    ],
+    "import": "@senvenli/react/color",
+    "exports": [
+      "ColorPicker"
+    ],
+    "genui": false
+  },
+  {
+    "name": "color-swatch-picker",
+    "title": "Color swatch picker",
+    "family": "color",
+    "status": "alpha",
+    "description": "Preset colors as named swatches, optionally ending with a button that opens a color picker for a custom color.",
+    "keywords": [
+      "color",
+      "presets",
+      "theme",
+      "swatches"
+    ],
+    "import": "@senvenli/react/color",
+    "exports": [
+      "ColorSwatchPicker"
+    ],
+    "genui": true
+  },
+  {
+    "name": "color-swatch",
+    "title": "Color swatch",
+    "family": "color",
+    "status": "alpha",
+    "description": "One named color tile with a faint inset edge, so light colors show on light grounds.",
+    "keywords": [
+      "color",
+      "swatch",
+      "tile"
+    ],
+    "import": "@senvenli/react/color",
+    "exports": [
+      "ColorSwatch"
+    ],
+    "genui": true
+  },
+  {
     "name": "calendar",
     "title": "Calendar",
     "family": "date",

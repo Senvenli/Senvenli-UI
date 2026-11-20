@@ -1,0 +1,62 @@
+{
+  "$schema": "../../manifest/component.schema.json",
+  "kind": "component",
+  "family": "color",
+  "status": "alpha",
+  "import": "@senvenli/react/color",
+  "name": "color-swatch-picker",
+  "title": "Color swatch picker",
+  "exports": [
+    "ColorSwatchPicker"
+  ],
+  "description": "Preset colors as named swatches, optionally ending with a button that opens a color picker for a custom color.",
+  "keywords": [
+    "color",
+    "presets",
+    "theme",
+    "swatches"
+  ],
+  "usage": {
+    "when": [
+      "Choosing from a small set of preset colors."
+    ],
+    "instead": [
+      {
+        "use": "color-picker",
+        "when": "Any color is allowed and presets are a shortcut at most."
+      }
+    ]
+  },
+  "a11y": {
+    "keyboard": [
+      {
+        "keys": "Arrow keys",
+        "does": "Move between swatches."
+      }
+    ],
+    "builtIn": [
+      "Each swatch is named; the caption names the selection."
+    ],
+    "youProvide": [
+      "A label and a name for each preset."
+    ]
+  },
+  "related": [
+    "color-picker",
+    "color-swatch"
+  ],
+  "genui": {
+    "expose": true,
+    "description": "Named preset colors to choose from. Emits change with the hex.",
+    "props": [
+      "label",
+      "items",
+      "description",
+      "allowsCustom"
+    ],
+    "children": "none",
+    "events": [
+      "change"
+    ]
+  }
+}

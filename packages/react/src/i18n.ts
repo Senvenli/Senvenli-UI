@@ -314,10 +314,10 @@ const LOW_IN_DARK: Strings = {
 };
 /** "{hex}" is the tone the system uses instead ("#6EA8FE"). */
 const FIX_IN_LIGHT: Strings = {
-  en: "In the light theme we will use the tone {hex} for buttons and brand text.",
+  en: "In the light theme, filled buttons use the tone {hex} instead.",
 };
 const FIX_IN_DARK: Strings = {
-  en: "In the dark theme we will use the tone {hex} for buttons and brand text.",
+  en: "In the dark theme, filled buttons use the tone {hex} instead.",
 };
 const NO_STEP_PASSES: Strings = {
   en: "No tone of this color reaches AA: actions keep the theme color and yours shows in accents only.",
