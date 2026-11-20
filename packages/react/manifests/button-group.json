@@ -94,7 +94,17 @@
       {
         "name": "contentEditable",
         "type": "Booleanish | \"inherit\" | \"plaintext-only\"",
-        "required": false
+        "required": false,
+        "schema": {
+          "enum": [
+            false,
+            true,
+            "true",
+            "false",
+            "inherit",
+            "plaintext-only"
+          ]
+        }
       },
       {
         "name": "contextMenu",
@@ -115,7 +125,15 @@
       {
         "name": "draggable",
         "type": "Booleanish",
-        "required": false
+        "required": false,
+        "schema": {
+          "enum": [
+            false,
+            true,
+            "true",
+            "false"
+          ]
+        }
       },
       {
         "name": "enterKeyHint",
@@ -177,7 +195,15 @@
       {
         "name": "spellCheck",
         "type": "Booleanish",
-        "required": false
+        "required": false,
+        "schema": {
+          "enum": [
+            false,
+            true,
+            "true",
+            "false"
+          ]
+        }
       },
       {
         "name": "tabIndex",
@@ -492,7 +518,15 @@
         "name": "aria-atomic",
         "type": "Booleanish",
         "required": false,
-        "description": "Indicates whether assistive technologies will present all, or only parts of, the changed region based on the change notifications defined by the aria-relevant attribute."
+        "description": "Indicates whether assistive technologies will present all, or only parts of, the changed region based on the change notifications defined by the aria-relevant attribute.",
+        "schema": {
+          "enum": [
+            false,
+            true,
+            "true",
+            "false"
+          ]
+        }
       },
       {
         "name": "aria-autocomplete",
@@ -530,13 +564,30 @@
       {
         "name": "aria-busy",
         "type": "Booleanish",
-        "required": false
+        "required": false,
+        "schema": {
+          "enum": [
+            false,
+            true,
+            "true",
+            "false"
+          ]
+        }
       },
       {
         "name": "aria-checked",
         "type": "boolean | \"true\" | \"false\" | \"mixed\"",
         "required": false,
-        "description": "Indicates the current \"checked\" state of checkboxes, radio buttons, and other widgets."
+        "description": "Indicates the current \"checked\" state of checkboxes, radio buttons, and other widgets.",
+        "schema": {
+          "enum": [
+            false,
+            true,
+            "true",
+            "false",
+            "mixed"
+          ]
+        }
       },
       {
         "name": "aria-colcount",
@@ -587,7 +638,20 @@
         "name": "aria-current",
         "type": "boolean | \"true\" | \"false\" | \"page\" | \"step\" | \"location\" | \"date\" | \"time\"",
         "required": false,
-        "description": "Indicates the element that represents the current item within a container or set of related elements."
+        "description": "Indicates the element that represents the current item within a container or set of related elements.",
+        "schema": {
+          "enum": [
+            false,
+            true,
+            "true",
+            "false",
+            "page",
+            "step",
+            "location",
+            "date",
+            "time"
+          ]
+        }
       },
       {
         "name": "aria-describedby",
@@ -620,7 +684,15 @@
         "name": "aria-disabled",
         "type": "Booleanish",
         "required": false,
-        "description": "Indicates that the element is perceivable but disabled, so it is not editable or otherwise operable."
+        "description": "Indicates that the element is perceivable but disabled, so it is not editable or otherwise operable.",
+        "schema": {
+          "enum": [
+            false,
+            true,
+            "true",
+            "false"
+          ]
+        }
       },
       {
         "name": "aria-dropeffect",
@@ -652,7 +724,15 @@
         "name": "aria-expanded",
         "type": "Booleanish",
         "required": false,
-        "description": "Indicates whether the element, or another grouping element it controls, is currently expanded or collapsed."
+        "description": "Indicates whether the element, or another grouping element it controls, is currently expanded or collapsed.",
+        "schema": {
+          "enum": [
+            false,
+            true,
+            "true",
+            "false"
+          ]
+        }
       },
       {
         "name": "aria-flowto",
@@ -667,25 +747,64 @@
         "name": "aria-grabbed",
         "type": "Booleanish",
         "required": false,
-        "description": "Indicates an element's \"grabbed\" state in a drag-and-drop operation."
+        "description": "Indicates an element's \"grabbed\" state in a drag-and-drop operation.",
+        "schema": {
+          "enum": [
+            false,
+            true,
+            "true",
+            "false"
+          ]
+        }
       },
       {
         "name": "aria-haspopup",
         "type": "boolean | \"true\" | \"false\" | \"menu\" | \"listbox\" | \"tree\" | \"grid\" | \"dialog\"",
         "required": false,
-        "description": "Indicates the availability and type of interactive popup element, such as menu or dialog, that can be triggered by an element."
+        "description": "Indicates the availability and type of interactive popup element, such as menu or dialog, that can be triggered by an element.",
+        "schema": {
+          "enum": [
+            false,
+            true,
+            "true",
+            "false",
+            "menu",
+            "listbox",
+            "tree",
+            "grid",
+            "dialog"
+          ]
+        }
       },
       {
         "name": "aria-hidden",
         "type": "Booleanish",
         "required": false,
-        "description": "Indicates whether the element is exposed to an accessibility API."
+        "description": "Indicates whether the element is exposed to an accessibility API.",
+        "schema": {
+          "enum": [
+            false,
+            true,
+            "true",
+            "false"
+          ]
+        }
       },
       {
         "name": "aria-invalid",
         "type": "boolean | \"true\" | \"false\" | \"grammar\" | \"spelling\"",
         "required": false,
-        "description": "Indicates the entered value does not conform to the format expected by the application."
+        "description": "Indicates the entered value does not conform to the format expected by the application.",
+        "schema": {
+          "enum": [
+            false,
+            true,
+            "true",
+            "false",
+            "grammar",
+            "spelling"
+          ]
+        }
       },
       {
         "name": "aria-keyshortcuts",
@@ -741,19 +860,43 @@
         "name": "aria-modal",
         "type": "Booleanish",
         "required": false,
-        "description": "Indicates whether an element is modal when displayed."
+        "description": "Indicates whether an element is modal when displayed.",
+        "schema": {
+          "enum": [
+            false,
+            true,
+            "true",
+            "false"
+          ]
+        }
       },
       {
         "name": "aria-multiline",
         "type": "Booleanish",
         "required": false,
-        "description": "Indicates whether a text box accepts multiple lines of input or only a single line."
+        "description": "Indicates whether a text box accepts multiple lines of input or only a single line.",
+        "schema": {
+          "enum": [
+            false,
+            true,
+            "true",
+            "false"
+          ]
+        }
       },
       {
         "name": "aria-multiselectable",
         "type": "Booleanish",
         "required": false,
-        "description": "Indicates that the user may select more than one item from the current selectable descendants."
+        "description": "Indicates that the user may select more than one item from the current selectable descendants.",
+        "schema": {
+          "enum": [
+            false,
+            true,
+            "true",
+            "false"
+          ]
+        }
       },
       {
         "name": "aria-orientation",
@@ -799,13 +942,30 @@
         "name": "aria-pressed",
         "type": "boolean | \"true\" | \"false\" | \"mixed\"",
         "required": false,
-        "description": "Indicates the current \"pressed\" state of toggle buttons."
+        "description": "Indicates the current \"pressed\" state of toggle buttons.",
+        "schema": {
+          "enum": [
+            false,
+            true,
+            "true",
+            "false",
+            "mixed"
+          ]
+        }
       },
       {
         "name": "aria-readonly",
         "type": "Booleanish",
         "required": false,
-        "description": "Indicates that the element is not editable, but is otherwise operable."
+        "description": "Indicates that the element is not editable, but is otherwise operable.",
+        "schema": {
+          "enum": [
+            false,
+            true,
+            "true",
+            "false"
+          ]
+        }
       },
       {
         "name": "aria-relevant",
@@ -832,7 +992,15 @@
         "name": "aria-required",
         "type": "Booleanish",
         "required": false,
-        "description": "Indicates that user input is required on the element before a form may be submitted."
+        "description": "Indicates that user input is required on the element before a form may be submitted.",
+        "schema": {
+          "enum": [
+            false,
+            true,
+            "true",
+            "false"
+          ]
+        }
       },
       {
         "name": "aria-roledescription",
@@ -883,7 +1051,15 @@
         "name": "aria-selected",
         "type": "Booleanish",
         "required": false,
-        "description": "Indicates the current \"selected\" state of various widgets."
+        "description": "Indicates the current \"selected\" state of various widgets.",
+        "schema": {
+          "enum": [
+            false,
+            true,
+            "true",
+            "false"
+          ]
+        }
       },
       {
         "name": "aria-setsize",

@@ -1,0 +1,71 @@
+{
+  "$schema": "../../manifest/component.schema.json",
+  "kind": "component",
+  "family": "layout",
+  "status": "alpha",
+  "import": "@senvenli/react/layout",
+  "name": "box",
+  "title": "Box",
+  "exports": [
+    "Box"
+  ],
+  "description": "A container with token-only padding, background, radius, border and shadow.",
+  "keywords": [
+    "container",
+    "div",
+    "padding",
+    "surface",
+    "primitive"
+  ],
+  "usage": {
+    "when": [
+      "Giving a group of content padding or a surface without a card's semantics."
+    ],
+    "instead": [
+      {
+        "use": "card",
+        "when": "The content is one object with a title."
+      }
+    ]
+  },
+  "a11y": {
+    "builtIn": [
+      "Renders a plain element; pass `as` for semantics."
+    ],
+    "youProvide": [
+      "The right element through `as` (section, nav, aside…) when it has a role."
+    ]
+  },
+  "related": [
+    "stack",
+    "grid"
+  ],
+  "genui": {
+    "expose": true,
+    "description": "A padded container. Use only theme values; prefer card for an object with a title.",
+    "props": [
+      "padding",
+      "background",
+      "radius",
+      "border"
+    ],
+    "children": [
+      "heading",
+      "text",
+      "lozenge",
+      "badge",
+      "avatar",
+      "separator",
+      "icon",
+      "card",
+      "button",
+      "link-button",
+      "link",
+      "box",
+      "stack",
+      "inline",
+      "grid",
+      "status-dot"
+    ]
+  }
+}

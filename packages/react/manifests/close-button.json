@@ -132,7 +132,20 @@
         "name": "aria-current",
         "type": "boolean | \"true\" | \"false\" | \"page\" | \"step\" | \"location\" | \"date\" | \"time\"",
         "required": false,
-        "description": "Indicates whether this element represents the current item within a container or set of related\nelements."
+        "description": "Indicates whether this element represents the current item within a container or set of related\nelements.",
+        "schema": {
+          "enum": [
+            false,
+            true,
+            "true",
+            "false",
+            "page",
+            "step",
+            "location",
+            "date",
+            "time"
+          ]
+        }
       },
       {
         "name": "aria-describedby",
@@ -156,19 +169,48 @@
         "name": "aria-disabled",
         "type": "boolean | \"true\" | \"false\"",
         "required": false,
-        "description": "Indicates whether the element is disabled to users of assistive technology."
+        "description": "Indicates whether the element is disabled to users of assistive technology.",
+        "schema": {
+          "enum": [
+            false,
+            true,
+            "true",
+            "false"
+          ]
+        }
       },
       {
         "name": "aria-expanded",
         "type": "boolean | \"true\" | \"false\"",
         "required": false,
-        "description": "Indicates whether the element, or another grouping element it controls, is currently expanded\nor collapsed."
+        "description": "Indicates whether the element, or another grouping element it controls, is currently expanded\nor collapsed.",
+        "schema": {
+          "enum": [
+            false,
+            true,
+            "true",
+            "false"
+          ]
+        }
       },
       {
         "name": "aria-haspopup",
         "type": "boolean | \"true\" | \"false\" | \"menu\" | \"listbox\" | \"tree\" | \"grid\" | \"dialog\"",
         "required": false,
-        "description": "Indicates the availability and type of interactive popup element, such as menu or dialog, that\ncan be triggered by an element."
+        "description": "Indicates the availability and type of interactive popup element, such as menu or dialog, that\ncan be triggered by an element.",
+        "schema": {
+          "enum": [
+            false,
+            true,
+            "true",
+            "false",
+            "menu",
+            "listbox",
+            "tree",
+            "grid",
+            "dialog"
+          ]
+        }
       },
       {
         "name": "aria-labelledby",
@@ -183,7 +225,16 @@
         "name": "aria-pressed",
         "type": "boolean | \"true\" | \"false\" | \"mixed\"",
         "required": false,
-        "description": "Indicates the current \"pressed\" state of toggle buttons."
+        "description": "Indicates the current \"pressed\" state of toggle buttons.",
+        "schema": {
+          "enum": [
+            false,
+            true,
+            "true",
+            "false",
+            "mixed"
+          ]
+        }
       },
       {
         "name": "onFocus",

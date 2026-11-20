@@ -366,5 +366,258 @@
       "Prose"
     ],
     "genui": true
+  },
+  {
+    "name": "banner",
+    "title": "Banner",
+    "family": "feedback",
+    "status": "alpha",
+    "description": "A message about the page or the whole app, inline or floating, in an information, warning, danger or success tone.",
+    "keywords": [
+      "alert",
+      "notice",
+      "message",
+      "callout",
+      "notification"
+    ],
+    "import": "@senvenli/react/feedback",
+    "exports": [
+      "Banner"
+    ],
+    "genui": false
+  },
+  {
+    "name": "empty-state",
+    "title": "Empty state",
+    "family": "feedback",
+    "status": "alpha",
+    "description": "Explains why a view has no content or failed to load, and offers the action that changes that.",
+    "keywords": [
+      "empty",
+      "no results",
+      "error",
+      "zero state",
+      "retry"
+    ],
+    "import": "@senvenli/react/feedback",
+    "exports": [
+      "EmptyState",
+      "ErrorState"
+    ],
+    "genui": false
+  },
+  {
+    "name": "meter",
+    "title": "Meter",
+    "family": "feedback",
+    "status": "alpha",
+    "description": "A segmented gauge for a quantity within a known range, with warning and danger thresholds.",
+    "keywords": [
+      "meter",
+      "gauge",
+      "quota",
+      "usage",
+      "capacity"
+    ],
+    "import": "@senvenli/react/feedback",
+    "exports": [
+      "Meter"
+    ],
+    "genui": false
+  },
+  {
+    "name": "progress",
+    "title": "Progress",
+    "family": "feedback",
+    "status": "alpha",
+    "description": "Shows how far a task has got, as a bar or a circle, determinate or indeterminate.",
+    "keywords": [
+      "progress",
+      "loading",
+      "upload",
+      "percentage",
+      "bar"
+    ],
+    "import": "@senvenli/react/feedback",
+    "exports": [
+      "ProgressBar",
+      "ProgressCircle"
+    ],
+    "genui": false
+  },
+  {
+    "name": "skeleton",
+    "title": "Skeleton",
+    "family": "feedback",
+    "status": "alpha",
+    "description": "Placeholder shapes in the layout of content that is still loading.",
+    "keywords": [
+      "skeleton",
+      "placeholder",
+      "loading",
+      "shimmer"
+    ],
+    "import": "@senvenli/react/feedback",
+    "exports": [
+      "Skeleton",
+      "SkeletonText",
+      "SkeletonCircle",
+      "SkeletonGroup"
+    ],
+    "genui": false
+  },
+  {
+    "name": "spinner",
+    "title": "Spinner",
+    "family": "feedback",
+    "status": "alpha",
+    "description": "A small indeterminate loading indicator.",
+    "keywords": [
+      "loading",
+      "spinner",
+      "busy",
+      "wait"
+    ],
+    "import": "@senvenli/react/feedback",
+    "exports": [
+      "Spinner"
+    ],
+    "genui": false
+  },
+  {
+    "name": "status-dot",
+    "title": "Status dot",
+    "family": "feedback",
+    "status": "alpha",
+    "description": "A small colored dot with a word for a live system state: online, syncing, offline.",
+    "keywords": [
+      "status",
+      "presence",
+      "online",
+      "indicator",
+      "live"
+    ],
+    "import": "@senvenli/react/feedback",
+    "exports": [
+      "StatusDot"
+    ],
+    "genui": true
+  },
+  {
+    "name": "box",
+    "title": "Box",
+    "family": "layout",
+    "status": "alpha",
+    "description": "A container with token-only padding, background, radius, border and shadow.",
+    "keywords": [
+      "container",
+      "div",
+      "padding",
+      "surface",
+      "primitive"
+    ],
+    "import": "@senvenli/react/layout",
+    "exports": [
+      "Box"
+    ],
+    "genui": true
+  },
+  {
+    "name": "grid",
+    "title": "Grid",
+    "family": "layout",
+    "status": "alpha",
+    "description": "Equal columns, fixed or auto-fit to a minimum width, with a token gap.",
+    "keywords": [
+      "grid",
+      "columns",
+      "layout",
+      "responsive",
+      "tiles"
+    ],
+    "import": "@senvenli/react/layout",
+    "exports": [
+      "Grid"
+    ],
+    "genui": true
+  },
+  {
+    "name": "inline",
+    "title": "Inline",
+    "family": "layout",
+    "status": "alpha",
+    "description": "Lays children out side by side on the inline axis, wrapping by default.",
+    "keywords": [
+      "horizontal",
+      "row",
+      "flex",
+      "wrap",
+      "gap"
+    ],
+    "import": "@senvenli/react/layout",
+    "exports": [
+      "Inline"
+    ],
+    "genui": true
+  },
+  {
+    "name": "pressable",
+    "title": "Pressable",
+    "family": "layout",
+    "status": "alpha",
+    "description": "A Box that is a button or a link as a whole, for custom tiles and rows.",
+    "keywords": [
+      "clickable",
+      "tile",
+      "row",
+      "button",
+      "link"
+    ],
+    "import": "@senvenli/react/layout",
+    "exports": [
+      "Pressable"
+    ],
+    "genui": false
+  },
+  {
+    "name": "section",
+    "title": "Section",
+    "family": "layout",
+    "status": "alpha",
+    "description": "Full-width page bands with a centered container and a head of overline, title and lead.",
+    "keywords": [
+      "section",
+      "band",
+      "container",
+      "page",
+      "marketing",
+      "hero"
+    ],
+    "import": "@senvenli/react/layout",
+    "exports": [
+      "Section",
+      "Container",
+      "SectionHead"
+    ],
+    "genui": false
+  },
+  {
+    "name": "stack",
+    "title": "Stack",
+    "family": "layout",
+    "status": "alpha",
+    "description": "Stacks children vertically with a token gap.",
+    "keywords": [
+      "vertical",
+      "column",
+      "flex",
+      "gap",
+      "spacing"
+    ],
+    "import": "@senvenli/react/layout",
+    "exports": [
+      "Stack"
+    ],
+    "genui": true
   }
 ]

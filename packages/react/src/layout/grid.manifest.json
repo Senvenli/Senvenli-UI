@@ -1,0 +1,62 @@
+{
+  "$schema": "../../manifest/component.schema.json",
+  "kind": "component",
+  "family": "layout",
+  "status": "alpha",
+  "import": "@senvenli/react/layout",
+  "name": "grid",
+  "title": "Grid",
+  "exports": [
+    "Grid"
+  ],
+  "description": "Equal columns, fixed or auto-fit to a minimum width, with a token gap.",
+  "keywords": [
+    "grid",
+    "columns",
+    "layout",
+    "responsive",
+    "tiles"
+  ],
+  "usage": {
+    "when": [
+      "Tiles or cards in columns."
+    ]
+  },
+  "a11y": {
+    "builtIn": [
+      "Layout only; no role."
+    ],
+    "youProvide": []
+  },
+  "related": [
+    "stack",
+    "card"
+  ],
+  "genui": {
+    "expose": true,
+    "description": "Columns of equal width. Use columns for a fixed count or minColumnWidth for responsive tiles.",
+    "props": [
+      "columns",
+      "minColumnWidth",
+      "space"
+    ],
+    "children": [
+      "heading",
+      "text",
+      "lozenge",
+      "badge",
+      "avatar",
+      "separator",
+      "icon",
+      "card",
+      "button",
+      "link-button",
+      "link",
+      "box",
+      "stack",
+      "inline",
+      "grid",
+      "status-dot"
+    ]
+  }
+}

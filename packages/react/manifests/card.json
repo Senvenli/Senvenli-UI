@@ -162,7 +162,6 @@
         "default": "3",
         "description": "Heading level of the title; default 3.",
         "schema": {
-          "type": "number",
           "enum": [
             2,
             3,

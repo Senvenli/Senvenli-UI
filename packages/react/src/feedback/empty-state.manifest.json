@@ -1,0 +1,45 @@
+{
+  "$schema": "../../manifest/component.schema.json",
+  "kind": "component",
+  "family": "feedback",
+  "status": "alpha",
+  "import": "@senvenli/react/feedback",
+  "name": "empty-state",
+  "title": "Empty state",
+  "exports": [
+    "EmptyState",
+    "ErrorState"
+  ],
+  "description": "Explains why a view has no content or failed to load, and offers the action that changes that.",
+  "keywords": [
+    "empty",
+    "no results",
+    "error",
+    "zero state",
+    "retry"
+  ],
+  "usage": {
+    "when": [
+      "A list or view has nothing to show yet, no results, or failed to load (ErrorState)."
+    ]
+  },
+  "guidance": [
+    {
+      "rule": "Never blame the user; say what will appear and how to get it."
+    }
+  ],
+  "a11y": {
+    "builtIn": [
+      "ErrorState's retry button is named \"Retry\" and shows a pending state."
+    ],
+    "youProvide": [
+      "A heading level when the state is the page's main content."
+    ]
+  },
+  "related": [
+    "banner"
+  ],
+  "genui": {
+    "expose": false
+  }
+}

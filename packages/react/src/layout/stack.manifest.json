@@ -1,0 +1,74 @@
+{
+  "$schema": "../../manifest/component.schema.json",
+  "kind": "component",
+  "family": "layout",
+  "status": "alpha",
+  "import": "@senvenli/react/layout",
+  "name": "stack",
+  "title": "Stack",
+  "exports": [
+    "Stack"
+  ],
+  "description": "Stacks children vertically with a token gap.",
+  "keywords": [
+    "vertical",
+    "column",
+    "flex",
+    "gap",
+    "spacing"
+  ],
+  "usage": {
+    "when": [
+      "Laying out content top to bottom with even spacing."
+    ],
+    "instead": [
+      {
+        "use": "inline",
+        "when": "Items flow side by side."
+      }
+    ]
+  },
+  "guidance": [
+    {
+      "rule": "Space with `space` (gap), never margins on the children."
+    }
+  ],
+  "a11y": {
+    "builtIn": [
+      "Layout only; no role."
+    ],
+    "youProvide": []
+  },
+  "related": [
+    "inline",
+    "grid",
+    "box"
+  ],
+  "genui": {
+    "expose": true,
+    "description": "Vertical layout with a token gap between children.",
+    "props": [
+      "space",
+      "align",
+      "padding"
+    ],
+    "children": [
+      "heading",
+      "text",
+      "lozenge",
+      "badge",
+      "avatar",
+      "separator",
+      "icon",
+      "card",
+      "button",
+      "link-button",
+      "link",
+      "box",
+      "stack",
+      "inline",
+      "grid",
+      "status-dot"
+    ]
+  }
+}

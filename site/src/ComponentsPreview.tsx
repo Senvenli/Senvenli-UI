@@ -16,6 +16,8 @@ import {
   Separator,
   Text,
 } from "@senvenli/react/display";
+import { Banner, EmptyState, Meter, ProgressBar, ProgressCircle, Skeleton, SkeletonCircle, SkeletonText, Spinner, StatusDot } from "@senvenli/react/feedback";
+import { Inline, Stack } from "@senvenli/react/layout";
 import { Button, ButtonGroup, CloseButton, Link, LinkButton, ThemeToggle, ToggleButton, ToggleGroup } from "@senvenli/react/action";
 
 const PEOPLE = ["Ada Lovelace", "Grace Hopper", "Alan Turing", "Katherine Johnson", "Linus Torvalds", "Margaret Hamilton"];
@@ -189,6 +191,64 @@ export function ComponentsPreview() {
               </ToggleGroup>
               <ThemeToggle />
             </div>
+          </CardBody>
+        </Card>
+
+        <Card>
+          <CardHeader title="Banner" subtitle="Feedback tones" />
+          <CardBody>
+            <Stack space="space-150">
+              <Banner tone="information" title="Trial ending">Your trial ends in 3 days. Add a payment method to keep your data.</Banner>
+              <Banner tone="success" title="Saved">Your changes are live.</Banner>
+              <Banner tone="warning" title="Overdue invoices">Two invoices are overdue.</Banner>
+              <Banner tone="danger" title="Import failed">The import failed. Check the file format and try again.</Banner>
+            </Stack>
+          </CardBody>
+        </Card>
+
+        <Card>
+          <CardHeader title="Progress and status" subtitle="ProgressBar, Meter, Spinner, StatusDot" />
+          <CardBody>
+            <Stack space="space-200">
+              <ProgressBar label="Importing contacts" value={62} />
+              <ProgressBar label="Syncing" isIndeterminate />
+              <Meter label="Storage" value={46} maxValue={50} valueLabel="46 / 50 GB" />
+              <Inline space="space-300" align="center">
+                <ProgressCircle aria-label="Upload" value={40} />
+                <Spinner />
+                <StatusDot tone="success" isLive>
+                  Online
+                </StatusDot>
+                <StatusDot tone="warning">Syncing</StatusDot>
+                <StatusDot>Offline</StatusDot>
+              </Inline>
+            </Stack>
+          </CardBody>
+        </Card>
+
+        <Card>
+          <CardHeader title="Skeleton" subtitle="Loading placeholders" />
+          <CardBody>
+            <Inline space="space-200" align="start" wrap={false}>
+              <SkeletonCircle size={40} />
+              <Stack space="space-100">
+                <Skeleton width={160} height={14} />
+                <SkeletonText lines={3} />
+              </Stack>
+            </Inline>
+          </CardBody>
+        </Card>
+
+        <Card>
+          <CardHeader title="Empty state" subtitle="When there is nothing to show" />
+          <CardBody>
+            <EmptyState
+              icon="inbox"
+              title="No invoices yet"
+              description="Invoices you create or import appear here."
+              primaryAction={<Button variant="primary" iconBefore="plus">Create invoice</Button>}
+              size="compact"
+            />
           </CardBody>
         </Card>
 

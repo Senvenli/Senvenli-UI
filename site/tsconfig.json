@@ -16,6 +16,12 @@
       ],
       "@senvenli/react/action": [
         "../packages/react/src/action/index.ts"
+      ],
+      "@senvenli/react/layout": [
+        "../packages/react/src/layout/index.ts"
+      ],
+      "@senvenli/react/feedback": [
+        "../packages/react/src/feedback/index.ts"
       ]
     },
     "noUncheckedIndexedAccess": false

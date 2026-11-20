@@ -4,7 +4,7 @@ export type ManifestStatus = "alpha" | "beta" | "stable" | "deprecated";
 
 export type JsonSchema = {
   type?: "string" | "number" | "boolean" | "object" | "array";
-  enum?: Array<string | number>;
+  enum?: Array<string | number | boolean>;
   pattern?: string;
   description?: string;
   properties?: Record<string, JsonSchema>;

@@ -1,0 +1,42 @@
+{
+  "$schema": "../../manifest/component.schema.json",
+  "kind": "component",
+  "family": "layout",
+  "status": "alpha",
+  "import": "@senvenli/react/layout",
+  "name": "section",
+  "title": "Section",
+  "exports": [
+    "Section",
+    "Container",
+    "SectionHead"
+  ],
+  "description": "Full-width page bands with a centered container and a head of overline, title and lead.",
+  "keywords": [
+    "section",
+    "band",
+    "container",
+    "page",
+    "marketing",
+    "hero"
+  ],
+  "usage": {
+    "when": [
+      "Building marketing or landing pages from stacked bands."
+    ]
+  },
+  "a11y": {
+    "builtIn": [
+      "A Section is a landmark named by its SectionHead title."
+    ],
+    "youProvide": [
+      "Heading levels that follow the page outline."
+    ]
+  },
+  "related": [
+    "heading"
+  ],
+  "genui": {
+    "expose": false
+  }
+}

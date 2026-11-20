@@ -1,0 +1,255 @@
+{
+  "$schema": "https://design.senvenli.com/schema/component.full.json",
+  "kind": "component",
+  "family": "feedback",
+  "status": "alpha",
+  "import": "@senvenli/react/feedback",
+  "name": "empty-state",
+  "title": "Empty state",
+  "exports": [
+    "EmptyState",
+    "ErrorState"
+  ],
+  "description": "Explains why a view has no content or failed to load, and offers the action that changes that.",
+  "keywords": [
+    "empty",
+    "no results",
+    "error",
+    "zero state",
+    "retry"
+  ],
+  "usage": {
+    "when": [
+      "A list or view has nothing to show yet, no results, or failed to load (ErrorState)."
+    ]
+  },
+  "guidance": [
+    {
+      "rule": "Never blame the user; say what will appear and how to get it."
+    }
+  ],
+  "a11y": {
+    "builtIn": [
+      "ErrorState's retry button is named \"Retry\" and shows a pending state."
+    ],
+    "youProvide": [
+      "A heading level when the state is the page's main content."
+    ]
+  },
+  "related": [
+    "banner"
+  ],
+  "genui": {
+    "expose": false
+  },
+  "source": [
+    "src/feedback/empty-state.tsx"
+  ],
+  "props": {
+    "EmptyState": [
+      {
+        "name": "icon",
+        "type": "IconName",
+        "required": true,
+        "description": "One Lucide icon; no illustrations.",
+        "schema": {
+          "type": "string",
+          "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+        }
+      },
+      {
+        "name": "title",
+        "type": "React.ReactNode",
+        "required": true,
+        "description": "First use: what will appear here. No results: repeat the query. Cleared: the calm confirmation."
+      },
+      {
+        "name": "headingLevel",
+        "type": "StateHeadingLevel",
+        "required": false,
+        "description": "Renders the title as a heading where the state is the page's main content; a plain line by default.",
+        "schema": {
+          "enum": [
+            1,
+            2,
+            3,
+            4
+          ]
+        }
+      },
+      {
+        "name": "description",
+        "type": "React.ReactNode",
+        "required": false,
+        "description": "How the content gets here, or the fix; one or two sentences. Never blame the user."
+      },
+      {
+        "name": "primaryAction",
+        "type": "React.ReactNode",
+        "required": false,
+        "description": "The action that fills the view (`Button variant=\"primary\"`), or \"Clear filters\" for no results."
+      },
+      {
+        "name": "secondaryAction",
+        "type": "React.ReactNode",
+        "required": false
+      },
+      {
+        "name": "size",
+        "type": "StateSize",
+        "required": false,
+        "default": "\"default\"",
+        "description": "`compact` inside tables and cards.",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "default",
+            "compact"
+          ]
+        }
+      }
+    ],
+    "ErrorState": [
+      {
+        "name": "kind",
+        "type": "ErrorStateKind",
+        "required": false,
+        "default": "\"load-failed\"",
+        "description": "Load failed (cloud-off, retry) · not allowed (lock, who to ask) · not found (file-question, way back).",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "load-failed",
+            "not-allowed",
+            "not-found"
+          ]
+        }
+      },
+      {
+        "name": "title",
+        "type": "React.ReactNode",
+        "required": true,
+        "description": "What failed: \"Reports could not be loaded\"."
+      },
+      {
+        "name": "headingLevel",
+        "type": "StateHeadingLevel",
+        "required": false,
+        "description": "Renders the title as a heading where the state replaces the page's main content.",
+        "schema": {
+          "enum": [
+            1,
+            2,
+            3,
+            4
+          ]
+        }
+      },
+      {
+        "name": "description",
+        "type": "React.ReactNode",
+        "required": true,
+        "description": "What the user can do. Required: never \"Something went wrong\" alone."
+      },
+      {
+        "name": "errorCode",
+        "type": "string",
+        "required": false,
+        "description": "Shown as \"Hata kodu: RPT-504\" for support.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "occurredAt",
+        "type": "Date",
+        "required": false,
+        "description": "When it failed, shown next to the code in the user's locale."
+      },
+      {
+        "name": "size",
+        "type": "StateSize",
+        "required": false,
+        "default": "\"default\"",
+        "description": "`compact` for an inline failure inside a card or table cell.",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "default",
+            "compact"
+          ]
+        }
+      },
+      {
+        "name": "announce",
+        "type": "boolean",
+        "required": false,
+        "description": "Announce the message as an alert. Default: on for `load-failed` (it replaces content the\nuser was waiting for), off for `not-allowed` and `not-found`, which are usually the page itself.",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "onRetry",
+        "type": "() => unknown",
+        "required": false,
+        "description": "Runs the failed load again; the region keeps the user's filters and scroll. A promise\nshows the button busy; if it rejects while this state stays on screen, a short\n\"did not work\" line is shown and announced."
+      },
+      {
+        "name": "retryLabel",
+        "type": "string",
+        "required": false,
+        "description": "Overrides the localized \"Retry\" label; the default stays localized.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "isRetryPending",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Shows the retry busy and unpressable while a retry the caller runs itself is under way\n, e.g. a query's `isFetching`. A promise from `onRetry` still does this on its own.",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "action",
+        "type": "React.ReactNode",
+        "required": false,
+        "description": "The one way forward when retrying will not help (\"Back to dashboard\", who to ask).\nA `load-failed` state without `onRetry` should still offer a way out here."
+      }
+    ]
+  },
+  "tokens": [
+    "ds-background-danger",
+    "ds-radius-xlarge",
+    "ds-space-100",
+    "ds-space-150",
+    "ds-space-200",
+    "ds-space-300",
+    "ds-space-600",
+    "ds-surface-sunken",
+    "ds-text",
+    "ds-text-danger",
+    "ds-text-subtle",
+    "ds-text-subtlest",
+    "font-ds-mono"
+  ],
+  "strings": [
+    "actionFailed",
+    "errorCode",
+    "retry"
+  ],
+  "quality": {
+    "tests": true,
+    "a11y": false,
+    "docs": false,
+    "visual": false,
+    "dark": false,
+    "rtl": false,
+    "mcp": true,
+    "generic": true
+  }
+}

@@ -57,7 +57,6 @@
       "additionalProperties": false,
       "properties": {
         "level": {
-          "type": "number",
           "enum": [
             1,
             2,
@@ -100,7 +99,6 @@
         "required": true,
         "description": "The place in the document outline (h1–h6).",
         "schema": {
-          "type": "number",
           "enum": [
             1,
             2,

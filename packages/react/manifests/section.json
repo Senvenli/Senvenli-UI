@@ -1,0 +1,218 @@
+{
+  "$schema": "https://design.senvenli.com/schema/component.full.json",
+  "kind": "component",
+  "family": "layout",
+  "status": "alpha",
+  "import": "@senvenli/react/layout",
+  "name": "section",
+  "title": "Section",
+  "exports": [
+    "Section",
+    "Container",
+    "SectionHead"
+  ],
+  "description": "Full-width page bands with a centered container and a head of overline, title and lead.",
+  "keywords": [
+    "section",
+    "band",
+    "container",
+    "page",
+    "marketing",
+    "hero"
+  ],
+  "usage": {
+    "when": [
+      "Building marketing or landing pages from stacked bands."
+    ]
+  },
+  "a11y": {
+    "builtIn": [
+      "A Section is a landmark named by its SectionHead title."
+    ],
+    "youProvide": [
+      "Heading levels that follow the page outline."
+    ]
+  },
+  "related": [
+    "heading"
+  ],
+  "genui": {
+    "expose": false
+  },
+  "source": [
+    "src/layout/section.tsx"
+  ],
+  "props": {
+    "Section": [
+      {
+        "name": "children",
+        "type": "React.ReactNode",
+        "required": true
+      },
+      {
+        "name": "tone",
+        "type": "\"default\" | \"sunken\"",
+        "required": false,
+        "default": "\"default\"",
+        "description": "`default` on ds-surface; `sunken` for an alternate or CTA band. Never two sunken bands in a row.",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "default",
+            "sunken"
+          ]
+        }
+      },
+      {
+        "name": "density",
+        "type": "\"default\" | \"compact\"",
+        "required": false,
+        "default": "\"default\"",
+        "description": "Vertical padding: ds-space-1000 from 768px and ds-space-600 below; `compact` keeps ds-space-600 throughout.",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "default",
+            "compact"
+          ]
+        }
+      },
+      {
+        "name": "id",
+        "type": "string",
+        "required": false,
+        "description": "Anchor target for the Navbar; scrolling to it leaves room for the 56px sticky Navbar.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "aria-labelledby",
+        "type": "string",
+        "required": false,
+        "description": "Names the section; defaults to its SectionHead title.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "progressive",
+        "type": "boolean",
+        "required": false,
+        "description": "Skip painting until the band is near the viewport (`content-visibility: auto` with a 720px\nintrinsic size): the content stays in the server HTML (find-in-page and anchors still work),\nnothing animates, and the reserved size keeps the layout from shifting.\n\nIt also contains the band (layout, paint and style containment): overflowing children are\nclipped at its edge, and fixed or floating children position against it instead of the\nviewport. So a progressive band holds no fixed, floating or bleeding content (portal overlays\nand floating banners to <body>), and the first, above-the-fold band is never progressive. The\n720px is a desktop-tuned estimate; once painted, the browser remembers the real height.",
+        "schema": {
+          "type": "boolean"
+        }
+      }
+    ],
+    "Container": [
+      {
+        "name": "children",
+        "type": "React.ReactNode",
+        "required": true
+      },
+      {
+        "name": "width",
+        "type": "\"default\" | \"narrow\"",
+        "required": false,
+        "default": "\"default\"",
+        "description": "1200px (default) or 800px (`narrow`) at most, centred.",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "default",
+            "narrow"
+          ]
+        }
+      }
+    ],
+    "SectionHead": [
+      {
+        "name": "overline",
+        "type": "React.ReactNode",
+        "required": false,
+        "description": "A short kicker above the title (\"How it works\")."
+      },
+      {
+        "name": "title",
+        "type": "React.ReactNode",
+        "required": true
+      },
+      {
+        "name": "titleSize",
+        "type": "\"display-medium\" | \"heading-xxlarge\"",
+        "required": false,
+        "default": "\"display-medium\"",
+        "description": "`display-medium` for a marketing site's section titles (default), `heading-xxlarge` for a quieter band.",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "display-medium",
+            "heading-xxlarge"
+          ]
+        }
+      },
+      {
+        "name": "titleLevel",
+        "type": "HeadingLevel",
+        "required": false,
+        "default": "2",
+        "description": "The title's place in the outline; default 2.",
+        "schema": {
+          "enum": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ]
+        }
+      },
+      {
+        "name": "lead",
+        "type": "React.ReactNode",
+        "required": false,
+        "description": "One or two sentences under the title, kept under 60 characters a line."
+      },
+      {
+        "name": "align",
+        "type": "\"start\" | \"center\"",
+        "required": false,
+        "default": "\"start\"",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "start",
+            "center"
+          ]
+        }
+      }
+    ]
+  },
+  "tokens": [
+    "ds-space-100",
+    "ds-space-1000",
+    "ds-space-150",
+    "ds-space-200",
+    "ds-space-300",
+    "ds-space-400",
+    "ds-space-600",
+    "ds-surface",
+    "ds-surface-sunken",
+    "ds-text",
+    "ds-text-brand",
+    "ds-text-subtle"
+  ],
+  "strings": [],
+  "quality": {
+    "tests": true,
+    "a11y": false,
+    "docs": false,
+    "visual": false,
+    "dark": false,
+    "rtl": false,
+    "mcp": true,
+    "generic": true
+  }
+}
