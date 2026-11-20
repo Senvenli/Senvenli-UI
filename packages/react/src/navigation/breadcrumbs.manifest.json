@@ -1,0 +1,41 @@
+{
+  "$schema": "../../manifest/component.schema.json",
+  "kind": "component",
+  "family": "navigation",
+  "status": "alpha",
+  "import": "@senvenli/react/navigation",
+  "name": "breadcrumbs",
+  "title": "Breadcrumbs",
+  "exports": [
+    "Breadcrumbs"
+  ],
+  "description": "Shows where a page sits in a hierarchy, collapsing middle levels into a menu when long.",
+  "keywords": [
+    "breadcrumbs",
+    "path",
+    "hierarchy",
+    "trail"
+  ],
+  "usage": {
+    "when": [
+      "Pages nested two or more levels deep."
+    ]
+  },
+  "a11y": {
+    "builtIn": [
+      "A navigation landmark; the current page has aria-current."
+    ],
+    "youProvide": []
+  },
+  "related": [
+    "sidebar"
+  ],
+  "genui": {
+    "expose": true,
+    "description": "The path to the current page. items are {label, href?}; the last item is the current page.",
+    "props": [
+      "items"
+    ],
+    "children": "none"
+  }
+}

@@ -1,0 +1,261 @@
+{
+  "$schema": "https://design.senvenli.com/schema/component.full.json",
+  "kind": "component",
+  "family": "navigation",
+  "status": "alpha",
+  "import": "@senvenli/react/navigation",
+  "name": "tabs",
+  "title": "Tabs",
+  "exports": [
+    "Tabs",
+    "SegmentedControl"
+  ],
+  "description": "Switches between views of the same content; SegmentedControl switches a small set of options inline.",
+  "keywords": [
+    "tabs",
+    "segmented control",
+    "views",
+    "switch"
+  ],
+  "usage": {
+    "when": [
+      "Two to seven views of one thing: Overview, Activity, Settings."
+    ],
+    "instead": [
+      {
+        "use": "toggle-button",
+        "when": "Options act on content instead of switching views."
+      }
+    ]
+  },
+  "a11y": {
+    "keyboard": [
+      {
+        "keys": "Arrow keys",
+        "does": "Moves between tabs."
+      }
+    ],
+    "builtIn": [
+      "Tabs and panels are linked; counts are announced."
+    ],
+    "youProvide": [
+      "Short nouns for tab labels."
+    ]
+  },
+  "related": [
+    "toggle-button"
+  ],
+  "genui": {
+    "expose": true,
+    "description": "Tabs switching between views. items are {id, label, count?, panel?}; panel is the tab's text content. Emits change.",
+    "props": [
+      "items",
+      "defaultSelectedKey"
+    ],
+    "children": "none",
+    "events": [
+      "change"
+    ],
+    "schema": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "label": {
+                "type": "string"
+              },
+              "count": {
+                "type": "number"
+              },
+              "panel": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "id",
+              "label",
+              "panel"
+            ]
+          },
+          "description": "Two to six tabs."
+        },
+        "defaultSelectedKey": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "items"
+      ]
+    }
+  },
+  "source": [
+    "src/navigation/tabs.tsx"
+  ],
+  "props": {
+    "Tabs": [
+      {
+        "name": "items",
+        "type": "readonly TabItem[]",
+        "required": true,
+        "description": "Two to six tabs.",
+        "schema": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "label": {
+                "type": "string"
+              },
+              "count": {
+                "type": "number"
+              },
+              "panel": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "id",
+              "label",
+              "panel"
+            ]
+          }
+        }
+      },
+      {
+        "name": "selectedKey",
+        "type": "Key",
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "defaultSelectedKey",
+        "type": "Key",
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "onSelectionChange",
+        "type": "(key: Key) => void",
+        "required": false
+      },
+      {
+        "name": "aria-label",
+        "type": "string",
+        "required": false,
+        "description": "Names the tab list when no heading above it does.",
+        "schema": {
+          "type": "string"
+        }
+      }
+    ],
+    "SegmentedControl": [
+      {
+        "name": "label",
+        "type": "string",
+        "required": true,
+        "description": "Names the group for assistive tech (\"Period\"); it is not shown.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "items",
+        "type": "readonly SegmentedControlItem[]",
+        "required": true,
+        "description": "Two to five short options (\"Day\", \"Week\", \"Month\").",
+        "schema": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "label": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "id",
+              "label"
+            ]
+          }
+        }
+      },
+      {
+        "name": "value",
+        "type": "Key",
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "defaultValue",
+        "type": "Key",
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "onChange",
+        "type": "(value: Key) => void",
+        "required": false
+      },
+      {
+        "name": "isDisabled",
+        "type": "boolean",
+        "required": false,
+        "schema": {
+          "type": "boolean"
+        }
+      }
+    ]
+  },
+  "tokens": [
+    "ds-background-neutral",
+    "ds-background-segment-selected",
+    "ds-border",
+    "ds-border-focused",
+    "ds-border-selected",
+    "ds-radius-medium",
+    "ds-radius-small",
+    "ds-shadow-raised",
+    "ds-space-075",
+    "ds-space-150",
+    "ds-space-200",
+    "ds-space-300",
+    "ds-text",
+    "ds-text-disabled",
+    "ds-text-subtle"
+  ],
+  "strings": [],
+  "quality": {
+    "tests": true,
+    "a11y": false,
+    "docs": false,
+    "visual": false,
+    "dark": false,
+    "rtl": false,
+    "mcp": true,
+    "generic": true
+  }
+}

@@ -19,6 +19,7 @@ import {
 import { Banner, EmptyState, Meter, ProgressBar, ProgressCircle, Skeleton, SkeletonCircle, SkeletonText, Spinner, StatusDot } from "@senvenli/react/feedback";
 import { Inline, Stack } from "@senvenli/react/layout";
 import { Checkbox, ComboBox, MultiSelect, RadioCard, RadioGroup, Select, Slider, Switch, TagGroup } from "@senvenli/react/selection";
+import { NavigationPreview } from "./NavigationPreview";
 import { OverlayPreview } from "./OverlayPreview";
 import { Form, FormFooter, FormRow, InputOTP, NumberField, PasswordField, SearchField, TextArea, TextField } from "@senvenli/react/form";
 import { Button, ButtonGroup, CloseButton, Link, LinkButton, ThemeToggle, ToggleButton, ToggleGroup } from "@senvenli/react/action";
@@ -367,6 +368,7 @@ export function ComponentsPreview() {
         </Card>
 
         <OverlayPreview />
+        <NavigationPreview />
 
         <Card variant="outline">
           <CardHeader title="Separator" subtitle="Outline card" />

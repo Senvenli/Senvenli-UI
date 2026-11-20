@@ -1,0 +1,241 @@
+{
+  "$schema": "https://design.senvenli.com/schema/component.full.json",
+  "kind": "component",
+  "family": "navigation",
+  "status": "alpha",
+  "import": "@senvenli/react/navigation",
+  "name": "accordion",
+  "title": "Accordion",
+  "exports": [
+    "Accordion",
+    "Disclosure"
+  ],
+  "description": "Sections that expand and collapse; Disclosure is a single expandable section.",
+  "keywords": [
+    "accordion",
+    "collapse",
+    "expand",
+    "faq",
+    "disclosure"
+  ],
+  "usage": {
+    "when": [
+      "Long content people scan by heading, like an FAQ."
+    ]
+  },
+  "a11y": {
+    "keyboard": [
+      {
+        "keys": "Enter, Space",
+        "does": "Expands or collapses a section."
+      }
+    ],
+    "builtIn": [
+      "Each header is a button with aria-expanded inside a heading."
+    ],
+    "youProvide": [
+      "A heading level that fits the page."
+    ]
+  },
+  "genui": {
+    "expose": true,
+    "description": "Expandable sections such as an FAQ. items are {id, title, content}.",
+    "props": [
+      "items",
+      "allowsMultipleExpanded"
+    ],
+    "children": "none",
+    "schema": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "title": {
+                "type": "string"
+              },
+              "content": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "id",
+              "title",
+              "content"
+            ]
+          },
+          "description": "FAQ entries, settings groups, long-form sections."
+        },
+        "allowsMultipleExpanded": {
+          "type": "boolean",
+          "description": "Several open at once; by default opening one closes the others."
+        }
+      },
+      "required": [
+        "items"
+      ]
+    }
+  },
+  "source": [
+    "src/navigation/accordion.tsx"
+  ],
+  "props": {
+    "Accordion": [
+      {
+        "name": "items",
+        "type": "readonly AccordionItem[]",
+        "required": true,
+        "description": "FAQ entries, settings groups, long-form sections.",
+        "schema": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "title": {
+                "type": "string"
+              },
+              "content": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "id",
+              "title",
+              "content"
+            ]
+          }
+        }
+      },
+      {
+        "name": "expandedKeys",
+        "type": "Iterable<Key>",
+        "required": false
+      },
+      {
+        "name": "defaultExpandedKeys",
+        "type": "Iterable<Key>",
+        "required": false
+      },
+      {
+        "name": "onExpandedChange",
+        "type": "(keys: Set<Key>) => void",
+        "required": false
+      },
+      {
+        "name": "allowsMultipleExpanded",
+        "type": "boolean",
+        "required": false,
+        "description": "Several open at once; by default opening one closes the others.",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "headingLevel",
+        "type": "2 | 3 | 4 | 5 | 6",
+        "required": false,
+        "schema": {
+          "enum": [
+            2,
+            3,
+            4,
+            5,
+            6
+          ]
+        }
+      }
+    ],
+    "Disclosure": [
+      {
+        "name": "title",
+        "type": "React.ReactNode",
+        "required": true,
+        "description": "A full question or a clear section name (\"Depozito ne zaman iade edilir?\")."
+      },
+      {
+        "name": "children",
+        "type": "React.ReactNode",
+        "required": true
+      },
+      {
+        "name": "isExpanded",
+        "type": "boolean",
+        "required": false,
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "defaultExpanded",
+        "type": "boolean",
+        "required": false,
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "onExpandedChange",
+        "type": "(isExpanded: boolean) => void",
+        "required": false
+      },
+      {
+        "name": "headingLevel",
+        "type": "2 | 3 | 4 | 5 | 6",
+        "required": false,
+        "default": "3",
+        "description": "The heading level of the title in the page outline; 3 by default.",
+        "schema": {
+          "enum": [
+            2,
+            3,
+            4,
+            5,
+            6
+          ]
+        }
+      },
+      {
+        "name": "id",
+        "type": "Key",
+        "required": false,
+        "description": "Inside an Accordion: its key.",
+        "schema": {
+          "type": "string"
+        }
+      }
+    ]
+  },
+  "tokens": [
+    "ds-border",
+    "ds-border-focused",
+    "ds-easing-standard",
+    "ds-icon-subtle",
+    "ds-radius-small",
+    "ds-space-150",
+    "ds-space-200",
+    "ds-text",
+    "ds-text-subtle"
+  ],
+  "strings": [],
+  "quality": {
+    "tests": true,
+    "a11y": false,
+    "docs": false,
+    "visual": false,
+    "dark": false,
+    "rtl": false,
+    "mcp": true,
+    "generic": true
+  }
+}

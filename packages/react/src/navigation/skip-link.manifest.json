@@ -1,0 +1,35 @@
+{
+  "$schema": "../../manifest/component.schema.json",
+  "kind": "component",
+  "family": "navigation",
+  "status": "alpha",
+  "import": "@senvenli/react/navigation",
+  "name": "skip-link",
+  "title": "Skip link",
+  "exports": [
+    "SkipLink"
+  ],
+  "description": "The first focusable element of a page, visible on focus, that jumps to the main content.",
+  "keywords": [
+    "skip link",
+    "accessibility",
+    "keyboard",
+    "main content"
+  ],
+  "usage": {
+    "when": [
+      "Every page with navigation before the main content."
+    ]
+  },
+  "a11y": {
+    "builtIn": [
+      "Shown only while focused; named \"Skip to content\"."
+    ],
+    "youProvide": [
+      "An id on the main content it targets."
+    ]
+  },
+  "genui": {
+    "expose": false
+  }
+}

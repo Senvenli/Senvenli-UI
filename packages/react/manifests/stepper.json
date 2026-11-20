@@ -1,0 +1,239 @@
+{
+  "$schema": "https://design.senvenli.com/schema/component.full.json",
+  "kind": "component",
+  "family": "navigation",
+  "status": "alpha",
+  "import": "@senvenli/react/navigation",
+  "name": "stepper",
+  "title": "Stepper",
+  "exports": [
+    "Stepper"
+  ],
+  "description": "Shows progress through a multi-step flow or checklist, with done, current, waiting and failed steps.",
+  "keywords": [
+    "stepper",
+    "steps",
+    "wizard",
+    "progress",
+    "onboarding"
+  ],
+  "usage": {
+    "when": [
+      "A flow of three or more steps: checkout, signup, setup."
+    ]
+  },
+  "a11y": {
+    "builtIn": [
+      "The current step has aria-current; the list is named with the overall progress."
+    ],
+    "youProvide": [
+      "Short step names."
+    ]
+  },
+  "related": [
+    "progress"
+  ],
+  "genui": {
+    "expose": true,
+    "description": "Steps of a flow. steps are {id, label, description?}; currentStep is the id of the step in progress.",
+    "props": [
+      "steps",
+      "currentStep",
+      "orientation"
+    ],
+    "children": "none",
+    "schema": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "steps": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "label": {
+                "type": "string"
+              },
+              "description": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "id",
+              "label"
+            ]
+          },
+          "description": "Three to six steps, in order."
+        },
+        "currentStep": {
+          "type": "string",
+          "description": "The step the reader is on: `aria-current=\"step\"`. Ignored with `isComplete`."
+        },
+        "orientation": {
+          "type": "string",
+          "enum": [
+            "horizontal",
+            "vertical"
+          ],
+          "description": "`horizontal` for a flow on one page (checkout, signup); `vertical` for checklists (onboarding, setup)."
+        }
+      },
+      "required": [
+        "steps",
+        "currentStep"
+      ]
+    }
+  },
+  "source": [
+    "src/navigation/stepper.tsx"
+  ],
+  "props": {
+    "Stepper": [
+      {
+        "name": "steps",
+        "type": "readonly StepperStep[]",
+        "required": true,
+        "description": "Three to six steps, in order.",
+        "schema": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "label": {
+                "type": "string"
+              },
+              "description": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "id",
+              "label"
+            ]
+          }
+        }
+      },
+      {
+        "name": "currentStep",
+        "type": "string",
+        "required": true,
+        "description": "The step the reader is on: `aria-current=\"step\"`. Ignored with `isComplete`.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "completedSteps",
+        "type": "Iterable<string>",
+        "required": false,
+        "description": "Done steps; by default every step before the current one. Ignored with `isComplete`."
+      },
+      {
+        "name": "isComplete",
+        "type": "boolean",
+        "required": false,
+        "description": "The flow is finished: every step shows its done state and none is current, so no step\ncarries `aria-current`. The list is named with the overall state (\"Progress, All steps done\"),\nand the narrow one-line form reads \"All steps done\" over a full bar. A `stepStatus` or\n`statusText` entry still speaks for its step, in the list and, under the done line, in the narrow form\ntoo (\"Domain · With us\"). A finished flow cannot also have a `failed` or `needs-you` step: that\npairing contradicts itself and warns in development; settle the step first. Left out, nothing changes.",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "onStepPress",
+        "type": "(id: string) => void",
+        "required": false,
+        "description": "Makes done steps pressable (back to an earlier step). Leave it out where the flow cannot go back."
+      },
+      {
+        "name": "orientation",
+        "type": "\"horizontal\" | \"vertical\"",
+        "required": false,
+        "description": "`horizontal` for a flow on one page (checkout, signup); `vertical` for checklists (onboarding, setup).",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "horizontal",
+            "vertical"
+          ]
+        }
+      },
+      {
+        "name": "stepStatus",
+        "type": "Partial<Record<string, StepStatus>>",
+        "required": false,
+        "description": "A journey across pages (signup → payment → setup): per-step status words. With it, done and current\nsteps say so in words too."
+      },
+      {
+        "name": "statusText",
+        "type": "Partial<Record<string, string>>",
+        "required": false,
+        "description": "Replaces a step's status words (\"With us · 1–2 business days\")."
+      },
+      {
+        "name": "aria-label",
+        "type": "string",
+        "required": false,
+        "description": "Names the list; \"Progress\" by default.",
+        "schema": {
+          "type": "string"
+        }
+      }
+    ]
+  },
+  "tokens": [
+    "ds-background-brand-bold",
+    "ds-background-danger-bold",
+    "ds-background-information-bold",
+    "ds-background-neutral-pressed",
+    "ds-background-warning-bold",
+    "ds-border",
+    "ds-border-bold",
+    "ds-border-focused",
+    "ds-border-selected",
+    "ds-radius-full",
+    "ds-radius-small",
+    "ds-space-050",
+    "ds-space-100",
+    "ds-space-150",
+    "ds-space-200",
+    "ds-surface-raised",
+    "ds-text",
+    "ds-text-danger",
+    "ds-text-information",
+    "ds-text-on-bold",
+    "ds-text-on-brand",
+    "ds-text-on-danger",
+    "ds-text-on-warning",
+    "ds-text-subtle",
+    "ds-text-subtlest",
+    "ds-text-warning"
+  ],
+  "strings": [
+    "progressSteps",
+    "stepDone",
+    "stepFailed",
+    "stepN",
+    "stepNOf",
+    "stepNeedsYou",
+    "stepNow",
+    "stepWithProvider",
+    "stepsAllDone"
+  ],
+  "quality": {
+    "tests": true,
+    "a11y": false,
+    "docs": false,
+    "visual": false,
+    "dark": false,
+    "rtl": false,
+    "mcp": true,
+    "generic": true
+  }
+}

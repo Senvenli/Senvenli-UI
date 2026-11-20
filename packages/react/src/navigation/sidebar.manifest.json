@@ -1,0 +1,53 @@
+{
+  "$schema": "../../manifest/component.schema.json",
+  "kind": "component",
+  "family": "navigation",
+  "status": "alpha",
+  "import": "@senvenli/react/navigation",
+  "name": "sidebar",
+  "title": "Sidebar",
+  "exports": [
+    "Sidebar"
+  ],
+  "description": "The main navigation of an app: brand, sections with nested items and badges, a pinned footer, collapsible to icons.",
+  "keywords": [
+    "sidebar",
+    "side nav",
+    "app shell",
+    "menu",
+    "navigation"
+  ],
+  "usage": {
+    "when": [
+      "Navigating an app with several sections."
+    ],
+    "instead": [
+      {
+        "use": "navbar",
+        "when": "A public site with few pages."
+      }
+    ]
+  },
+  "a11y": {
+    "keyboard": [
+      {
+        "keys": "Tab",
+        "does": "Moves through the links."
+      }
+    ],
+    "builtIn": [
+      "The current page is marked with aria-current.",
+      "Under 1024px it becomes a panel opened from the header."
+    ],
+    "youProvide": [
+      "Section names."
+    ]
+  },
+  "related": [
+    "panel-header",
+    "navbar"
+  ],
+  "genui": {
+    "expose": false
+  }
+}

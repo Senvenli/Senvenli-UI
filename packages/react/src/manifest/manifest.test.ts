@@ -40,7 +40,7 @@ describe("hand-written manifests", () => {
       const source = fs.readFileSync(index, "utf8");
       const exported = [...source.matchAll(/^export \{([^}]+)\} from/gm)]
         .flatMap((m) => m[1]!.split(",").map((s) => s.trim().replace(/^type\s+/, "")).filter(Boolean))
-        .filter((name) => /^[A-Z][a-z]/.test(name) && !/(Props|Tone|Variant|Size|Choice|Theme|Labels|Rules|File)$/.test(name));
+        .filter((name) => /^[A-Z][a-z]/.test(name) && !/(Props|Tone|Variant|Size|Choice|Theme|Labels|Rules|File|Context)$/.test(name));
       expect(exported.filter((e) => !documented.includes(e)), index).toEqual([]);
     }
   });

@@ -1,0 +1,365 @@
+{
+  "$schema": "https://design.senvenli.com/schema/component.full.json",
+  "kind": "component",
+  "family": "navigation",
+  "status": "alpha",
+  "import": "@senvenli/react/navigation",
+  "name": "sidebar",
+  "title": "Sidebar",
+  "exports": [
+    "Sidebar"
+  ],
+  "description": "The main navigation of an app: brand, sections with nested items and badges, a pinned footer, collapsible to icons.",
+  "keywords": [
+    "sidebar",
+    "side nav",
+    "app shell",
+    "menu",
+    "navigation"
+  ],
+  "usage": {
+    "when": [
+      "Navigating an app with several sections."
+    ],
+    "instead": [
+      {
+        "use": "navbar",
+        "when": "A public site with few pages."
+      }
+    ]
+  },
+  "a11y": {
+    "keyboard": [
+      {
+        "keys": "Tab",
+        "does": "Moves through the links."
+      }
+    ],
+    "builtIn": [
+      "The current page is marked with aria-current.",
+      "Under 1024px it becomes a panel opened from the header."
+    ],
+    "youProvide": [
+      "Section names."
+    ]
+  },
+  "related": [
+    "panel-header",
+    "navbar"
+  ],
+  "genui": {
+    "expose": false
+  },
+  "source": [
+    "src/navigation/sidebar.tsx"
+  ],
+  "props": {
+    "Sidebar": [
+      {
+        "name": "brand",
+        "type": "React.ReactNode",
+        "required": true,
+        "description": "The logo and product name (the app's logo). It links to `brandHref`."
+      },
+      {
+        "name": "brandHref",
+        "type": "string",
+        "required": false,
+        "default": "\"/\"",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "items",
+        "type": "readonly SidebarItem[]",
+        "required": true,
+        "description": "The top-level items (links, or groups with `children`); five to eight is the comfortable range. With\n`sections`, these are the unlabelled items above the labelled sections (a dashboard) and may be empty. Ids\nare unique across `items`, `sections` and `settings` (a repeated id marks two items as the current page).",
+        "schema": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "label": {
+                "type": "string"
+              },
+              "icon": {
+                "type": "string",
+                "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+              },
+              "href": {
+                "type": "string"
+              },
+              "children": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "label": {
+                      "type": "string"
+                    },
+                    "icon": {
+                      "type": "string",
+                      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+                    },
+                    "href": {
+                      "type": "string"
+                    },
+                    "children": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "label": {
+                            "type": "string"
+                          },
+                          "icon": {
+                            "type": "string",
+                            "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+                          },
+                          "href": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "label"
+                        ]
+                      }
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "label"
+                  ]
+                }
+              }
+            },
+            "required": [
+              "id",
+              "label"
+            ]
+          }
+        }
+      },
+      {
+        "name": "sections",
+        "type": "readonly SidebarSection[]",
+        "required": false,
+        "description": "Labelled sections under `items`, in order. Each is a named group with an overline; collapsed,\nthe overline is visually hidden (the group keeps its name) and a separator stands in for it. Not\ncollapsible. Left out (or empty), the Sidebar renders exactly as before.",
+        "schema": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "label": {
+                "type": "string"
+              },
+              "items": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "label": {
+                      "type": "string"
+                    },
+                    "icon": {
+                      "type": "string",
+                      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+                    },
+                    "href": {
+                      "type": "string"
+                    },
+                    "children": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "label": {
+                            "type": "string"
+                          },
+                          "icon": {
+                            "type": "string",
+                            "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+                          },
+                          "href": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "label"
+                        ]
+                      }
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "label"
+                  ]
+                }
+              }
+            },
+            "required": [
+              "id",
+              "label",
+              "items"
+            ]
+          }
+        }
+      },
+      {
+        "name": "settings",
+        "type": "{ label: string; items: readonly SidebarItem[]; }",
+        "required": false,
+        "description": "Settings, in their own group at the bottom, under an overline (\"Ayarlar\")."
+      },
+      {
+        "name": "currentKey",
+        "type": "string",
+        "required": false,
+        "description": "The id of the page's item: marked `aria-current=\"page\"`; its group stays open.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "footer",
+        "type": "React.ReactNode",
+        "required": false,
+        "description": "The account at the bottom: Avatar, name and role."
+      },
+      {
+        "name": "isFooterPinned",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Keeps the account (`footer`) and the collapse toggle in view at the bottom: the brand stays at\nthe top and only the navigation (`items`, `sections`, then `settings`) scrolls between them, expanded and\ncollapsed. In the phone panel the account stays at the bottom the same way. The DOM order, and so the Tab\norder, is the same as without it. Off by default: the whole sidebar scrolls as one, as before.",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "isCollapsed",
+        "type": "boolean",
+        "required": false,
+        "description": "Icons only (56px), labels in tooltips. Controlled; or `defaultCollapsed` + `onCollapsedChange`.",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "defaultCollapsed",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "onCollapsedChange",
+        "type": "(isCollapsed: boolean) => void",
+        "required": false
+      },
+      {
+        "name": "storageKey",
+        "type": "string",
+        "required": false,
+        "description": "Remembers the collapsed choice in localStorage under this key. Render `sidebarScript(storageKey,\n{ defaultCollapsed })` in <head> as well, with the same `defaultCollapsed`, so the first frame already\nhas the remembered width (no layout jump). Uncontrolled only: with `isCollapsed` the app owns the state.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "isMobileOpen",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Under 1024px the sidebar is a menu panel from the start edge; the app's menu button opens it.",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "onMobileOpenChange",
+        "type": "(isOpen: boolean) => void",
+        "required": false
+      },
+      {
+        "name": "aria-label",
+        "type": "string",
+        "required": false,
+        "description": "Names the navigation landmark; \"Main menu\" by default.",
+        "schema": {
+          "type": "string"
+        }
+      }
+    ]
+  },
+  "tokens": [
+    "ds-background-neutral-pressed",
+    "ds-background-neutral-subtle-hovered",
+    "ds-background-selected",
+    "ds-blanket",
+    "ds-border",
+    "ds-border-bold",
+    "ds-border-focused",
+    "ds-border-selected",
+    "ds-easing-enter",
+    "ds-easing-exit",
+    "ds-easing-standard",
+    "ds-icon-brand",
+    "ds-icon-subtle",
+    "ds-radius-medium",
+    "ds-shadow-overlay",
+    "ds-space-050",
+    "ds-space-100",
+    "ds-space-150",
+    "ds-space-200",
+    "ds-surface-overlay",
+    "ds-surface-sunken",
+    "ds-text",
+    "ds-text-subtle",
+    "ds-text-subtlest"
+  ],
+  "strings": [
+    "collapseSidebar",
+    "expandSidebar",
+    "mainNavigation"
+  ],
+  "quality": {
+    "tests": true,
+    "a11y": false,
+    "docs": false,
+    "visual": false,
+    "dark": false,
+    "rtl": false,
+    "mcp": true,
+    "generic": true
+  }
+}

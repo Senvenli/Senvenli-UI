@@ -1,0 +1,48 @@
+{
+  "$schema": "../../manifest/component.schema.json",
+  "kind": "component",
+  "family": "navigation",
+  "status": "alpha",
+  "import": "@senvenli/react/navigation",
+  "name": "toolbar",
+  "title": "Toolbar",
+  "exports": [
+    "Toolbar",
+    "ToolbarSpacer",
+    "BulkBar"
+  ],
+  "description": "A row of controls above a list or table; BulkBar shows actions for the selected rows.",
+  "keywords": [
+    "toolbar",
+    "actions",
+    "bulk",
+    "filters",
+    "selection"
+  ],
+  "usage": {
+    "when": [
+      "Filters, search and actions above a list.",
+      "Actions on selected rows (BulkBar)."
+    ]
+  },
+  "a11y": {
+    "keyboard": [
+      {
+        "keys": "Arrow keys",
+        "does": "Moves between controls."
+      }
+    ],
+    "builtIn": [
+      "One tab stop for the toolbar."
+    ],
+    "youProvide": [
+      "A name for the toolbar."
+    ]
+  },
+  "related": [
+    "pagination"
+  ],
+  "genui": {
+    "expose": false
+  }
+}

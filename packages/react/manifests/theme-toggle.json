@@ -111,7 +111,12 @@
     "ds-text-subtle"
   ],
   "strings": [
-    "theme"
+    "theme",
+    "themeDark",
+    "themeLight",
+    "themeNowDark",
+    "themeNowLight",
+    "themeSystem"
   ],
   "quality": {
     "tests": true,

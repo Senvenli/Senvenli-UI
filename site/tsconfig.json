@@ -31,6 +31,9 @@
       ],
       "@senvenli/react/overlay": [
         "../packages/react/src/overlay/index.ts"
+      ],
+      "@senvenli/react/navigation": [
+        "../packages/react/src/navigation/index.ts"
       ]
     },
     "noUncheckedIndexedAccess": false

@@ -214,6 +214,8 @@ export function tokensIn(source: string): string[] {
     const at = cls.indexOf("-ds-");
     if (at <= 0 || !/^[a-z-]+$/.test(cls.slice(0, at)) || !/^[a-z0-9-]+$/.test(cls.slice(at + 4))) continue;
     const prefix = cls.slice(0, at);
+    // `data-ds-…` / `aria-…` attributes are not utilities.
+    if (prefix === "data" || prefix === "aria") continue;
     const token = `ds-${cls.slice(at + 4)}`.replace(/-$/, "");
     if (prefix === "rounded" || prefix.startsWith("rounded-")) out.add(token.replace(/^ds-/, "ds-radius-"));
     else if (prefix === "shadow") out.add(token.replace(/^ds-/, "ds-shadow-"));
@@ -230,14 +232,36 @@ export function tokensIn(source: string): string[] {
   return [...out].sort();
 }
 
-/** Component strings a file uses: `fooLabel` / `fooLabels` imported from ../i18n → `foo`. */
+/**
+ * Which `DS_STRINGS` keys each label helper of i18n.ts reads: `pageLabel` reads the `PAGE_N` table, which is
+ * `pageN` in `DS_STRINGS`. Read from the source, so a helper's name never has to match its key.
+ */
+let labelKeyCache: Map<string, string[]> | null = null;
+export function labelKeys(): Map<string, string[]> {
+  if (labelKeyCache) return labelKeyCache;
+  const source = fs.readFileSync(path.join(SRC, "i18n.ts"), "utf8");
+  const tableToKey = new Map<string, string>();
+  for (const m of source.slice(source.indexOf("export const DS_STRINGS")).matchAll(/(\w+): ([A-Z_0-9]+)[,\n]/g)) tableToKey.set(m[2]!, m[1]!);
+  tableToKey.set("STRENGTH", "strength");
+  const map = new Map<string, string[]>();
+  for (const m of source.matchAll(/export (?:const (\w+) = \([^)]*\)\s*=>|function (\w+)\([^)]*\)[^{]*\{)([\s\S]*?)(?=\nexport |$)/g)) {
+    const name = m[1] ?? m[2]!;
+    const keys = [...new Set([...m[3]!.matchAll(/\b([A-Z][A-Z_0-9]{2,})\b/g)].map((t) => tableToKey.get(t[1]!)).filter((k): k is string => Boolean(k)))];
+    map.set(name, keys.sort());
+  }
+  labelKeyCache = map;
+  return map;
+}
+
+/** Component strings a file uses: the `DS_STRINGS` keys behind the label helpers it imports from ../i18n. */
 export function stringsIn(source: string): string[] {
   const out = new Set<string>();
+  const keys = labelKeys();
   for (const m of source.matchAll(/import\s*\{([^}]+)\}\s*from\s*["']\.\.\/i18n["']/g)) {
     for (const raw of m[1]!.split(",")) {
       const name = raw.trim().split(/\s+as\s+/)[0]!;
-      const key = name.match(/^([a-z][A-Za-z0-9]*?)Labels?$/)?.[1];
-      if (key) out.add(key);
+      if (!/^[a-z][A-Za-z0-9]*Labels?$/.test(name)) continue;
+      for (const key of keys.get(name) ?? [name.replace(/Labels?$/, "")]) out.add(key);
     }
   }
   return [...out].sort();
