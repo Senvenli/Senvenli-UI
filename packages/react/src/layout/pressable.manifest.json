@@ -1,0 +1,52 @@
+{
+  "$schema": "../../manifest/component.schema.json",
+  "kind": "component",
+  "family": "layout",
+  "status": "alpha",
+  "import": "@senvenli/react/layout",
+  "name": "pressable",
+  "title": "Pressable",
+  "exports": [
+    "Pressable"
+  ],
+  "description": "A Box that is a button or a link as a whole, for custom tiles and rows.",
+  "keywords": [
+    "clickable",
+    "tile",
+    "row",
+    "button",
+    "link"
+  ],
+  "usage": {
+    "when": [
+      "A custom-designed tile or row must be pressable."
+    ],
+    "instead": [
+      {
+        "use": "card",
+        "when": "A standard interactive card fits."
+      }
+    ]
+  },
+  "a11y": {
+    "keyboard": [
+      {
+        "keys": "Enter, Space",
+        "does": "Presses it (Enter only for links)."
+      }
+    ],
+    "builtIn": [
+      "Real button or link semantics with the inner focus border."
+    ],
+    "youProvide": [
+      "An accessible name from its text or `aria-label`."
+    ]
+  },
+  "related": [
+    "box",
+    "card"
+  ],
+  "genui": {
+    "expose": false
+  }
+}

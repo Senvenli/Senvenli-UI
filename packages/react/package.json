@@ -24,6 +24,14 @@
     "./action": {
       "types": "./dist/action/index.d.ts",
       "default": "./dist/action/index.js"
+    },
+    "./layout": {
+      "types": "./dist/layout/index.d.ts",
+      "default": "./dist/layout/index.js"
+    },
+    "./feedback": {
+      "types": "./dist/feedback/index.d.ts",
+      "default": "./dist/feedback/index.js"
     }
   },
   "files": [

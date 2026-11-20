@@ -1,0 +1,172 @@
+{
+  "$schema": "https://design.senvenli.com/schema/component.full.json",
+  "kind": "component",
+  "family": "feedback",
+  "status": "alpha",
+  "import": "@senvenli/react/feedback",
+  "name": "banner",
+  "title": "Banner",
+  "exports": [
+    "Banner"
+  ],
+  "description": "A message about the page or the whole app, inline or floating, in an information, warning, danger or success tone.",
+  "keywords": [
+    "alert",
+    "notice",
+    "message",
+    "callout",
+    "notification"
+  ],
+  "usage": {
+    "when": [
+      "Telling people something about this page that they need to read or act on."
+    ],
+    "instead": [
+      {
+        "use": "lozenge",
+        "when": "Only an item's status needs showing."
+      }
+    ]
+  },
+  "guidance": [
+    {
+      "rule": "Say why and what to do; omit the close button for errors that must be resolved."
+    }
+  ],
+  "a11y": {
+    "builtIn": [
+      "Announced with the right urgency for its tone.",
+      "The close button is named \"Close\" or your `dismissLabel`."
+    ],
+    "youProvide": [
+      "A specific `dismissLabel` when \"Close\" alone is vague."
+    ]
+  },
+  "related": [
+    "empty-state"
+  ],
+  "genui": {
+    "expose": false
+  },
+  "source": [
+    "src/feedback/banner.tsx"
+  ],
+  "props": {
+    "Banner": [
+      {
+        "name": "tone",
+        "type": "BannerTone",
+        "required": false,
+        "schema": {
+          "type": "string",
+          "enum": [
+            "danger",
+            "warning",
+            "success",
+            "information"
+          ]
+        }
+      },
+      {
+        "name": "children",
+        "type": "React.ReactNode",
+        "required": false,
+        "description": "Why, and what to do."
+      },
+      {
+        "name": "actions",
+        "type": "React.ReactNode",
+        "required": false,
+        "description": "Inline: up to two link actions. Floating: a default (neutral) Button, never the gold primary."
+      },
+      {
+        "name": "onDismiss",
+        "type": "() => void",
+        "required": false,
+        "description": "Shows a close button; omit for errors that must be resolved."
+      },
+      {
+        "name": "dismissLabel",
+        "type": "string",
+        "required": false,
+        "description": "The close button's name when \"Close\" alone is too vague (\"Close cookie notice\").",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "placement",
+        "type": "\"inline\" | \"floating\"",
+        "required": false,
+        "schema": {
+          "type": "string",
+          "enum": [
+            "inline",
+            "floating"
+          ]
+        }
+      },
+      {
+        "name": "title",
+        "type": "React.ReactNode",
+        "required": false,
+        "description": "What happened, one line."
+      },
+      {
+        "name": "aria-label",
+        "type": "string",
+        "required": false,
+        "description": "Names the region (\"Cookie notice\").",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "avoid",
+        "type": "string | RefObject<HTMLElement | null>",
+        "required": false,
+        "description": "A sticky bottom bar to sit above: its element (measured from its top edge) or a CSS length with a unit (\"72px\")."
+      },
+      {
+        "name": "icon",
+        "type": "IconName | null",
+        "required": false,
+        "description": "Replaces the tone icon (\"cookie\"); `null` shows none (narrow phone layouts).",
+        "schema": {
+          "type": "string",
+          "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+        }
+      }
+    ]
+  },
+  "tokens": [
+    "ds-background-danger",
+    "ds-background-information",
+    "ds-background-success",
+    "ds-background-warning",
+    "ds-border",
+    "ds-border-danger",
+    "ds-border-information",
+    "ds-border-success",
+    "ds-border-warning",
+    "ds-radius-large",
+    "ds-shadow-overlay",
+    "ds-space-050",
+    "ds-space-100",
+    "ds-space-150",
+    "ds-space-200",
+    "ds-surface-overlay",
+    "ds-text"
+  ],
+  "strings": [],
+  "quality": {
+    "tests": true,
+    "a11y": false,
+    "docs": false,
+    "visual": false,
+    "dark": false,
+    "rtl": false,
+    "mcp": true,
+    "generic": true
+  }
+}

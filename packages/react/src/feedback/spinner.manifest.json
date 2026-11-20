@@ -1,0 +1,45 @@
+{
+  "$schema": "../../manifest/component.schema.json",
+  "kind": "component",
+  "family": "feedback",
+  "status": "alpha",
+  "import": "@senvenli/react/feedback",
+  "name": "spinner",
+  "title": "Spinner",
+  "exports": [
+    "Spinner"
+  ],
+  "description": "A small indeterminate loading indicator.",
+  "keywords": [
+    "loading",
+    "spinner",
+    "busy",
+    "wait"
+  ],
+  "usage": {
+    "when": [
+      "Something short is loading in place."
+    ],
+    "instead": [
+      {
+        "use": "skeleton",
+        "when": "A whole layout is loading."
+      }
+    ]
+  },
+  "a11y": {
+    "builtIn": [
+      "Named \"Loading…\" unless decorative or labelled."
+    ],
+    "youProvide": [
+      "`isDecorative` when visible text already says what is loading."
+    ]
+  },
+  "related": [
+    "skeleton",
+    "progress"
+  ],
+  "genui": {
+    "expose": false
+  }
+}

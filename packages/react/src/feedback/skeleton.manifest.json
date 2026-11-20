@@ -1,0 +1,41 @@
+{
+  "$schema": "../../manifest/component.schema.json",
+  "kind": "component",
+  "family": "feedback",
+  "status": "alpha",
+  "import": "@senvenli/react/feedback",
+  "name": "skeleton",
+  "title": "Skeleton",
+  "exports": [
+    "Skeleton",
+    "SkeletonText",
+    "SkeletonCircle",
+    "SkeletonGroup"
+  ],
+  "description": "Placeholder shapes in the layout of content that is still loading.",
+  "keywords": [
+    "skeleton",
+    "placeholder",
+    "loading",
+    "shimmer"
+  ],
+  "usage": {
+    "when": [
+      "A layout is loading and its shape is known."
+    ]
+  },
+  "a11y": {
+    "builtIn": [
+      "SkeletonGroup marks the region busy and announces when it has loaded."
+    ],
+    "youProvide": [
+      "A `label` on SkeletonGroup that says what is loading."
+    ]
+  },
+  "related": [
+    "spinner"
+  ],
+  "genui": {
+    "expose": false
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "$schema": "../../manifest/component.schema.json",
+  "kind": "component",
+  "family": "feedback",
+  "status": "alpha",
+  "import": "@senvenli/react/feedback",
+  "name": "progress",
+  "title": "Progress",
+  "exports": [
+    "ProgressBar",
+    "ProgressCircle"
+  ],
+  "description": "Shows how far a task has got, as a bar or a circle, determinate or indeterminate.",
+  "keywords": [
+    "progress",
+    "loading",
+    "upload",
+    "percentage",
+    "bar"
+  ],
+  "usage": {
+    "when": [
+      "A task takes a while and its progress is known or ongoing."
+    ],
+    "instead": [
+      {
+        "use": "spinner",
+        "when": "Something short is loading."
+      }
+    ]
+  },
+  "a11y": {
+    "builtIn": [
+      "Exposed as a progressbar with its value text."
+    ],
+    "youProvide": [
+      "A `label` that says what is in progress."
+    ]
+  },
+  "related": [
+    "spinner",
+    "meter"
+  ],
+  "genui": {
+    "expose": false
+  }
+}

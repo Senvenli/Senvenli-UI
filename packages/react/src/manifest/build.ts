@@ -117,6 +117,13 @@ function schemaOf(checker: ts.TypeChecker, types: ts.Type[]): JsonSchema | null 
     if (values.length > MAX_ENUM) return { type: "string", pattern: "^[a-z0-9]+(-[a-z0-9]+)*$" };
     return { type: "string", enum: values };
   }
+  // Mixed literal unions (`boolean | "bold"`): an enum without a single type.
+  if (all(ts.TypeFlags.StringLiteral | ts.TypeFlags.BooleanLiteral | ts.TypeFlags.NumberLiteral)) {
+    const literal = (t: ts.Type): string | number | boolean =>
+      t.flags & ts.TypeFlags.BooleanLiteral ? checker.typeToString(t) === "true" : (t as ts.LiteralType).value as string | number;
+    const values = [...new Set(parts.map(literal))];
+    if (values.length <= MAX_ENUM) return { enum: values };
+  }
   if (all(ts.TypeFlags.NumberLiteral)) {
     return { type: "number", enum: [...new Set(parts.map((t) => (t as ts.NumberLiteralType).value))] };
   }
@@ -180,6 +187,8 @@ export function tokensIn(source: string): string[] {
     } else out.add(token);
   }
   for (const m of source.matchAll(/var\(--(ds-[a-z0-9-]+)\)/g)) out.add(m[1]!);
+  // A variable the component sets itself (style={{ "--ds-grid-min": … }}) is local, not a theme token.
+  for (const m of source.matchAll(/["']--(ds-[a-z0-9-]+)["']\s*:/g)) out.delete(m[1]!);
   return [...out].sort();
 }
 

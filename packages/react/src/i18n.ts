@@ -232,12 +232,9 @@ const DATE_MIN: Strings = {
 const DATE_MAX: Strings = {
   en: "Value must be {date} or earlier.",
 };
-/**
- * The same with a month ("Mart 2026"). Only Russian needs its own words: "не раньше" takes the genitive, which a
- * formatted month name ("март 2026 г.") is not, so the month is the object of "Выберите" instead.
- */
-const MONTH_MIN: Strings = { ...DATE_MIN, ru: "Выберите {date} или позже.", fr: "Choisissez {date} ou un mois ultérieur." };
-const MONTH_MAX: Strings = { ...DATE_MAX, ru: "Выберите {date} или раньше.", fr: "Choisissez {date} ou un mois antérieur." };
+/** The same with a month; English uses the date sentences. Apps register per-locale month wording if they need it. */
+const MONTH_MIN: Strings = { ...DATE_MIN };
+const MONTH_MAX: Strings = { ...DATE_MAX };
 const DATE_UNAVAILABLE: Strings = {
   en: "Selected date unavailable.",
 };

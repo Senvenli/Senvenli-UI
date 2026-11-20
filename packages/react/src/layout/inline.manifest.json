@@ -1,0 +1,69 @@
+{
+  "$schema": "../../manifest/component.schema.json",
+  "kind": "component",
+  "family": "layout",
+  "status": "alpha",
+  "import": "@senvenli/react/layout",
+  "name": "inline",
+  "title": "Inline",
+  "exports": [
+    "Inline"
+  ],
+  "description": "Lays children out side by side on the inline axis, wrapping by default.",
+  "keywords": [
+    "horizontal",
+    "row",
+    "flex",
+    "wrap",
+    "gap"
+  ],
+  "usage": {
+    "when": [
+      "Placing buttons, tags or short items in a row."
+    ],
+    "instead": [
+      {
+        "use": "stack",
+        "when": "Items go top to bottom."
+      }
+    ]
+  },
+  "a11y": {
+    "builtIn": [
+      "Follows the reading direction, so it flips in right-to-left languages."
+    ],
+    "youProvide": []
+  },
+  "related": [
+    "stack",
+    "grid"
+  ],
+  "genui": {
+    "expose": true,
+    "description": "Horizontal row with a token gap; wraps when space runs out.",
+    "props": [
+      "space",
+      "align",
+      "justify",
+      "wrap"
+    ],
+    "children": [
+      "heading",
+      "text",
+      "lozenge",
+      "badge",
+      "avatar",
+      "separator",
+      "icon",
+      "card",
+      "button",
+      "link-button",
+      "link",
+      "box",
+      "stack",
+      "inline",
+      "grid",
+      "status-dot"
+    ]
+  }
+}

@@ -1,0 +1,254 @@
+{
+  "$schema": "https://design.senvenli.com/schema/component.full.json",
+  "kind": "component",
+  "family": "feedback",
+  "status": "alpha",
+  "import": "@senvenli/react/feedback",
+  "name": "progress",
+  "title": "Progress",
+  "exports": [
+    "ProgressBar",
+    "ProgressCircle"
+  ],
+  "description": "Shows how far a task has got, as a bar or a circle, determinate or indeterminate.",
+  "keywords": [
+    "progress",
+    "loading",
+    "upload",
+    "percentage",
+    "bar"
+  ],
+  "usage": {
+    "when": [
+      "A task takes a while and its progress is known or ongoing."
+    ],
+    "instead": [
+      {
+        "use": "spinner",
+        "when": "Something short is loading."
+      }
+    ]
+  },
+  "a11y": {
+    "builtIn": [
+      "Exposed as a progressbar with its value text."
+    ],
+    "youProvide": [
+      "A `label` that says what is in progress."
+    ]
+  },
+  "related": [
+    "spinner",
+    "meter"
+  ],
+  "genui": {
+    "expose": false
+  },
+  "source": [
+    "src/feedback/progress.tsx"
+  ],
+  "props": {
+    "ProgressBar": [
+      {
+        "name": "label",
+        "type": "React.ReactNode",
+        "required": true,
+        "description": "What is in progress (\"Importing contacts\")."
+      },
+      {
+        "name": "value",
+        "type": "number",
+        "required": false,
+        "default": "0",
+        "schema": {
+          "type": "number"
+        }
+      },
+      {
+        "name": "minValue",
+        "type": "number",
+        "required": false,
+        "default": "0",
+        "schema": {
+          "type": "number"
+        }
+      },
+      {
+        "name": "maxValue",
+        "type": "number",
+        "required": false,
+        "default": "100",
+        "schema": {
+          "type": "number"
+        }
+      },
+      {
+        "name": "valueLabel",
+        "type": "React.ReactNode",
+        "required": false,
+        "description": "Real units where they exist (\"142 / 220\", \"3 / 5 steps\"); defaults to the percentage."
+      },
+      {
+        "name": "isIndeterminate",
+        "type": "boolean",
+        "required": false,
+        "description": "A task of unknown length: a 30% segment sweeps across.",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "tone",
+        "type": "ProgressTone",
+        "required": false,
+        "default": "\"brand\"",
+        "description": "`success` / `danger` for a finished or failed task; pair it with a word in `valueLabel`.",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "danger",
+            "brand",
+            "success"
+          ]
+        }
+      },
+      {
+        "name": "size",
+        "type": "\"default\" | \"large\"",
+        "required": false,
+        "default": "\"default\"",
+        "description": "`large` (8px) for onboarding; `default` 4px.",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "default",
+            "large"
+          ]
+        }
+      }
+    ],
+    "ProgressCircle": [
+      {
+        "name": "value",
+        "type": "number",
+        "required": false,
+        "default": "0",
+        "schema": {
+          "type": "number"
+        }
+      },
+      {
+        "name": "minValue",
+        "type": "number",
+        "required": false,
+        "default": "0",
+        "schema": {
+          "type": "number"
+        }
+      },
+      {
+        "name": "maxValue",
+        "type": "number",
+        "required": false,
+        "default": "100",
+        "schema": {
+          "type": "number"
+        }
+      },
+      {
+        "name": "size",
+        "type": "ProgressCircleSize",
+        "required": false,
+        "default": "\"medium\"",
+        "description": "20px (no value text; give the value in adjacent text or a Tooltip), 48px, 80px.",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "large",
+            "small",
+            "medium"
+          ]
+        }
+      },
+      {
+        "name": "label",
+        "type": "React.ReactNode",
+        "required": false,
+        "description": "A visible label under the ring, or `aria-label` when there is none."
+      },
+      {
+        "name": "aria-label",
+        "type": "string",
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "isIndeterminate",
+        "type": "boolean",
+        "required": false,
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "isMeasurement",
+        "type": "boolean",
+        "required": false,
+        "description": "A ratio that is a measurement (doluluk, kota), not progress: announced as a meter.",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "tone",
+        "type": "ProgressTone",
+        "required": false,
+        "default": "\"brand\"",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "danger",
+            "brand",
+            "success"
+          ]
+        }
+      },
+      {
+        "name": "valueLabel",
+        "type": "string",
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      }
+    ]
+  },
+  "tokens": [
+    "ds-background-brand-bold",
+    "ds-background-danger-bold",
+    "ds-background-neutral",
+    "ds-background-neutral-pressed",
+    "ds-background-success-bold",
+    "ds-easing-standard",
+    "ds-radius-full",
+    "ds-space-075",
+    "ds-space-200",
+    "ds-text",
+    "ds-text-danger",
+    "ds-text-subtlest",
+    "ds-text-success"
+  ],
+  "strings": [],
+  "quality": {
+    "tests": true,
+    "a11y": false,
+    "docs": false,
+    "visual": false,
+    "dark": false,
+    "rtl": false,
+    "mcp": true,
+    "generic": true
+  }
+}

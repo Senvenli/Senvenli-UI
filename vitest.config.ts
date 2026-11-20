@@ -12,6 +12,8 @@ export default defineConfig({
     environment: "jsdom",
     // Testing Library cleans up after each test only when test globals exist.
     globals: true,
+    // The first test of a file is slow when the manifest build (TypeScript compiler) runs in parallel.
+    testTimeout: 20_000,
     include: ["packages/*/src/**/*.test.{ts,tsx}"],
   },
 });

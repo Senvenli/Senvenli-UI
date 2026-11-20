@@ -12,6 +12,8 @@ export default defineConfig({
       { find: "@senvenli/tokens", replacement: src("../packages/tokens/src/index.ts") },
       { find: "@senvenli/react/display", replacement: src("../packages/react/src/display/index.ts") },
       { find: "@senvenli/react/action", replacement: src("../packages/react/src/action/index.ts") },
+      { find: "@senvenli/react/layout", replacement: src("../packages/react/src/layout/index.ts") },
+      { find: "@senvenli/react/feedback", replacement: src("../packages/react/src/feedback/index.ts") },
       { find: /^@senvenli\/react$/, replacement: src("../packages/react/src/index.ts") },
     ],
   },

@@ -1,0 +1,51 @@
+{
+  "$schema": "../../manifest/component.schema.json",
+  "kind": "component",
+  "family": "feedback",
+  "status": "alpha",
+  "import": "@senvenli/react/feedback",
+  "name": "banner",
+  "title": "Banner",
+  "exports": [
+    "Banner"
+  ],
+  "description": "A message about the page or the whole app, inline or floating, in an information, warning, danger or success tone.",
+  "keywords": [
+    "alert",
+    "notice",
+    "message",
+    "callout",
+    "notification"
+  ],
+  "usage": {
+    "when": [
+      "Telling people something about this page that they need to read or act on."
+    ],
+    "instead": [
+      {
+        "use": "lozenge",
+        "when": "Only an item's status needs showing."
+      }
+    ]
+  },
+  "guidance": [
+    {
+      "rule": "Say why and what to do; omit the close button for errors that must be resolved."
+    }
+  ],
+  "a11y": {
+    "builtIn": [
+      "Announced with the right urgency for its tone.",
+      "The close button is named \"Close\" or your `dismissLabel`."
+    ],
+    "youProvide": [
+      "A specific `dismissLabel` when \"Close\" alone is vague."
+    ]
+  },
+  "related": [
+    "empty-state"
+  ],
+  "genui": {
+    "expose": false
+  }
+}

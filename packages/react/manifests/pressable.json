@@ -1,0 +1,368 @@
+{
+  "$schema": "https://design.senvenli.com/schema/component.full.json",
+  "kind": "component",
+  "family": "layout",
+  "status": "alpha",
+  "import": "@senvenli/react/layout",
+  "name": "pressable",
+  "title": "Pressable",
+  "exports": [
+    "Pressable"
+  ],
+  "description": "A Box that is a button or a link as a whole, for custom tiles and rows.",
+  "keywords": [
+    "clickable",
+    "tile",
+    "row",
+    "button",
+    "link"
+  ],
+  "usage": {
+    "when": [
+      "A custom-designed tile or row must be pressable."
+    ],
+    "instead": [
+      {
+        "use": "card",
+        "when": "A standard interactive card fits."
+      }
+    ]
+  },
+  "a11y": {
+    "keyboard": [
+      {
+        "keys": "Enter, Space",
+        "does": "Presses it (Enter only for links)."
+      }
+    ],
+    "builtIn": [
+      "Real button or link semantics with the inner focus border."
+    ],
+    "youProvide": [
+      "An accessible name from its text or `aria-label`."
+    ]
+  },
+  "related": [
+    "box",
+    "card"
+  ],
+  "genui": {
+    "expose": false
+  },
+  "source": [
+    "src/layout/pressable.tsx"
+  ],
+  "props": {
+    "Pressable": [
+      {
+        "name": "padding",
+        "type": "Space",
+        "required": false,
+        "schema": {
+          "type": "string",
+          "enum": [
+            "space-0",
+            "space-025",
+            "space-050",
+            "space-075",
+            "space-100",
+            "space-150",
+            "space-200",
+            "space-250",
+            "space-300",
+            "space-400",
+            "space-500",
+            "space-600",
+            "space-800",
+            "space-1000"
+          ]
+        }
+      },
+      {
+        "name": "paddingInline",
+        "type": "Space",
+        "required": false,
+        "schema": {
+          "type": "string",
+          "enum": [
+            "space-0",
+            "space-025",
+            "space-050",
+            "space-075",
+            "space-100",
+            "space-150",
+            "space-200",
+            "space-250",
+            "space-300",
+            "space-400",
+            "space-500",
+            "space-600",
+            "space-800",
+            "space-1000"
+          ]
+        }
+      },
+      {
+        "name": "paddingBlock",
+        "type": "Space",
+        "required": false,
+        "schema": {
+          "type": "string",
+          "enum": [
+            "space-0",
+            "space-025",
+            "space-050",
+            "space-075",
+            "space-100",
+            "space-150",
+            "space-200",
+            "space-250",
+            "space-300",
+            "space-400",
+            "space-500",
+            "space-600",
+            "space-800",
+            "space-1000"
+          ]
+        }
+      },
+      {
+        "name": "background",
+        "type": "Background",
+        "required": false,
+        "schema": {
+          "type": "string",
+          "enum": [
+            "danger",
+            "neutral",
+            "warning",
+            "success",
+            "information",
+            "selected",
+            "surface",
+            "surface-raised",
+            "surface-sunken",
+            "surface-overlay",
+            "brand-subtle"
+          ]
+        }
+      },
+      {
+        "name": "radius",
+        "type": "Radius",
+        "required": false,
+        "schema": {
+          "type": "string",
+          "enum": [
+            "large",
+            "small",
+            "medium",
+            "full",
+            "xsmall",
+            "xlarge"
+          ]
+        }
+      },
+      {
+        "name": "shadow",
+        "type": "Shadow",
+        "required": false,
+        "schema": {
+          "type": "string",
+          "enum": [
+            "raised",
+            "overflow",
+            "overlay"
+          ]
+        }
+      },
+      {
+        "name": "border",
+        "type": "Border",
+        "required": false,
+        "schema": {
+          "enum": [
+            false,
+            true,
+            "bold"
+          ]
+        }
+      },
+      {
+        "name": "children",
+        "type": "React.ReactNode",
+        "required": false
+      },
+      {
+        "name": "isDisabled",
+        "type": "boolean",
+        "required": false,
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "aria-label",
+        "type": "string",
+        "required": false,
+        "description": "Required when the content has no text that names the action.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "id",
+        "type": "string",
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "onPress",
+        "type": "(event: PressEvent) => void",
+        "required": false
+      },
+      {
+        "name": "aria-describedby",
+        "type": "string",
+        "required": false,
+        "description": "Identifies the element (or elements) that describes the object.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "aria-expanded",
+        "type": "boolean | \"true\" | \"false\"",
+        "required": false,
+        "description": "Indicates whether the element, or another grouping element it controls, is currently expanded\nor collapsed.",
+        "schema": {
+          "enum": [
+            false,
+            true,
+            "true",
+            "false"
+          ]
+        }
+      },
+      {
+        "name": "aria-pressed",
+        "type": "boolean | \"true\" | \"false\" | \"mixed\"",
+        "required": false,
+        "description": "Indicates the current \"pressed\" state of toggle buttons.",
+        "schema": {
+          "enum": [
+            false,
+            true,
+            "true",
+            "false",
+            "mixed"
+          ]
+        }
+      },
+      {
+        "name": "type",
+        "type": "\"button\" | \"submit\" | \"reset\"",
+        "required": false,
+        "description": "The behavior of the button when used in an HTML form.",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "button",
+            "submit",
+            "reset"
+          ]
+        }
+      },
+      {
+        "name": "form",
+        "type": "string",
+        "required": false,
+        "description": "The `<form>` element to associate the button with.\nThe value of this attribute must be the id of a `<form>` in the same document.\nSee [MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/button#form).",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "href",
+        "type": "string",
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "rel",
+        "type": "string",
+        "required": false,
+        "description": "The relationship between the linked resource and the current page. See\n[MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/rel).",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "target",
+        "type": "HTMLAttributeAnchorTarget",
+        "required": false,
+        "description": "The target window for the link. See\n[MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#target)."
+      }
+    ]
+  },
+  "tokens": [
+    "ds-background-brand-subtle",
+    "ds-background-danger",
+    "ds-background-information",
+    "ds-background-neutral",
+    "ds-background-neutral-hovered",
+    "ds-background-neutral-pressed",
+    "ds-background-selected",
+    "ds-background-selected-hovered",
+    "ds-background-selected-pressed",
+    "ds-background-success",
+    "ds-background-warning",
+    "ds-border",
+    "ds-border-bold",
+    "ds-border-focused",
+    "ds-easing-standard",
+    "ds-radius-full",
+    "ds-radius-large",
+    "ds-radius-medium",
+    "ds-radius-small",
+    "ds-radius-xlarge",
+    "ds-radius-xsmall",
+    "ds-shadow-overflow",
+    "ds-shadow-overlay",
+    "ds-shadow-raised",
+    "ds-space-0",
+    "ds-space-025",
+    "ds-space-050",
+    "ds-space-075",
+    "ds-space-100",
+    "ds-space-1000",
+    "ds-space-150",
+    "ds-space-200",
+    "ds-space-250",
+    "ds-space-300",
+    "ds-space-400",
+    "ds-space-500",
+    "ds-space-600",
+    "ds-space-800",
+    "ds-surface",
+    "ds-surface-hovered",
+    "ds-surface-overlay",
+    "ds-surface-raised",
+    "ds-surface-sunken"
+  ],
+  "strings": [],
+  "quality": {
+    "tests": true,
+    "a11y": false,
+    "docs": false,
+    "visual": false,
+    "dark": false,
+    "rtl": false,
+    "mcp": true,
+    "generic": true
+  }
+}

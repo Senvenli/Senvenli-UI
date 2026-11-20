@@ -1,0 +1,102 @@
+{
+  "$schema": "https://design.senvenli.com/schema/component.full.json",
+  "kind": "component",
+  "family": "feedback",
+  "status": "alpha",
+  "import": "@senvenli/react/feedback",
+  "name": "spinner",
+  "title": "Spinner",
+  "exports": [
+    "Spinner"
+  ],
+  "description": "A small indeterminate loading indicator.",
+  "keywords": [
+    "loading",
+    "spinner",
+    "busy",
+    "wait"
+  ],
+  "usage": {
+    "when": [
+      "Something short is loading in place."
+    ],
+    "instead": [
+      {
+        "use": "skeleton",
+        "when": "A whole layout is loading."
+      }
+    ]
+  },
+  "a11y": {
+    "builtIn": [
+      "Named \"Loading…\" unless decorative or labelled."
+    ],
+    "youProvide": [
+      "`isDecorative` when visible text already says what is loading."
+    ]
+  },
+  "related": [
+    "skeleton",
+    "progress"
+  ],
+  "genui": {
+    "expose": false
+  },
+  "source": [
+    "src/feedback/spinner.tsx"
+  ],
+  "props": {
+    "Spinner": [
+      {
+        "name": "size",
+        "type": "SpinnerSize",
+        "required": false,
+        "default": "\"medium\"",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "large",
+            "small",
+            "medium"
+          ]
+        }
+      },
+      {
+        "name": "aria-label",
+        "type": "string",
+        "required": false,
+        "description": "What is happening (\"Checking availability\"). Omit when visible text\nnext to it says it, and pass `isDecorative`; otherwise \"Loading…\".",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "isDecorative",
+        "type": "boolean",
+        "required": false,
+        "description": "Visible text already says it (a pending button): hidden from assistive tech.",
+        "schema": {
+          "type": "boolean"
+        }
+      }
+    ]
+  },
+  "tokens": [
+    "ds-icon-brand",
+    "ds-icon-subtle",
+    "ds-radius-full"
+  ],
+  "strings": [
+    "loading"
+  ],
+  "quality": {
+    "tests": true,
+    "a11y": false,
+    "docs": false,
+    "visual": false,
+    "dark": false,
+    "rtl": false,
+    "mcp": true,
+    "generic": true
+  }
+}

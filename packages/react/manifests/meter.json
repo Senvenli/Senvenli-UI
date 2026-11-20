@@ -1,0 +1,134 @@
+{
+  "$schema": "https://design.senvenli.com/schema/component.full.json",
+  "kind": "component",
+  "family": "feedback",
+  "status": "alpha",
+  "import": "@senvenli/react/feedback",
+  "name": "meter",
+  "title": "Meter",
+  "exports": [
+    "Meter"
+  ],
+  "description": "A segmented gauge for a quantity within a known range, with warning and danger thresholds.",
+  "keywords": [
+    "meter",
+    "gauge",
+    "quota",
+    "usage",
+    "capacity"
+  ],
+  "usage": {
+    "when": [
+      "Showing how much of a limit is used: storage, seats, quota."
+    ],
+    "instead": [
+      {
+        "use": "progress",
+        "when": "The value is a task's progress."
+      }
+    ]
+  },
+  "a11y": {
+    "builtIn": [
+      "Exposed as a meter with its value text."
+    ],
+    "youProvide": [
+      "A `label` and a value label in real units."
+    ]
+  },
+  "related": [
+    "progress"
+  ],
+  "genui": {
+    "expose": false
+  },
+  "source": [
+    "src/feedback/meter.tsx"
+  ],
+  "props": {
+    "Meter": [
+      {
+        "name": "label",
+        "type": "React.ReactNode",
+        "required": true
+      },
+      {
+        "name": "value",
+        "type": "number",
+        "required": true,
+        "schema": {
+          "type": "number"
+        }
+      },
+      {
+        "name": "maxValue",
+        "type": "number",
+        "required": true,
+        "schema": {
+          "type": "number"
+        }
+      },
+      {
+        "name": "badEnd",
+        "type": "\"high\" | \"low\"",
+        "required": false,
+        "default": "\"high\"",
+        "description": "Which end is the bad one: `high` (quota, usage; default) warns as the value grows,\n`low` (fuel, credit left) warns as it shrinks.",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "high",
+            "low"
+          ]
+        }
+      },
+      {
+        "name": "segments",
+        "type": "number",
+        "required": false,
+        "default": "10",
+        "description": "Segments in the track: 10, or the real unit count (8 for fuel eighths).",
+        "schema": {
+          "type": "number"
+        }
+      },
+      {
+        "name": "thresholds",
+        "type": "MeterThresholds",
+        "required": false
+      },
+      {
+        "name": "valueLabel",
+        "type": "string",
+        "required": false,
+        "description": "\"38 / 50\", \"460 / 500 · 92%\", \"1/8 · refill soon\": the state in\nwords too, never colour alone. Defaults to \"value / max\".",
+        "schema": {
+          "type": "string"
+        }
+      }
+    ]
+  },
+  "tokens": [
+    "ds-background-neutral",
+    "ds-chart-1",
+    "ds-icon-danger",
+    "ds-icon-warning",
+    "ds-radius-xsmall",
+    "ds-space-075",
+    "ds-space-200",
+    "ds-text-danger",
+    "ds-text-subtlest",
+    "ds-text-warning"
+  ],
+  "strings": [],
+  "quality": {
+    "tests": true,
+    "a11y": false,
+    "docs": false,
+    "visual": false,
+    "dark": false,
+    "rtl": false,
+    "mcp": true,
+    "generic": true
+  }
+}
