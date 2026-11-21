@@ -1,29 +1,21 @@
-import { fileURLToPath } from "node:url";
+import { reactRouter } from "@react-router/dev/vite";
 import tailwindcss from "@tailwindcss/vite";
-import react from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
-
-const src = (path: string) => fileURLToPath(new URL(path, import.meta.url));
+import { aliases } from "./aliases.ts";
 
 export default defineConfig({
-  plugins: [react(), tailwindcss()],
-  resolve: {
-    alias: [
-      { find: "@senvenli/tokens", replacement: src("../packages/tokens/src/index.ts") },
-      { find: "@senvenli/react/display", replacement: src("../packages/react/src/display/index.ts") },
-      { find: "@senvenli/react/action", replacement: src("../packages/react/src/action/index.ts") },
-      { find: "@senvenli/react/layout", replacement: src("../packages/react/src/layout/index.ts") },
-      { find: "@senvenli/react/feedback", replacement: src("../packages/react/src/feedback/index.ts") },
-      { find: "@senvenli/react/form", replacement: src("../packages/react/src/form/index.ts") },
-      { find: "@senvenli/react/selection", replacement: src("../packages/react/src/selection/index.ts") },
-      { find: "@senvenli/react/overlay", replacement: src("../packages/react/src/overlay/index.ts") },
-      { find: "@senvenli/react/navigation", replacement: src("../packages/react/src/navigation/index.ts") },
-      { find: "@senvenli/react/date", replacement: src("../packages/react/src/date/index.ts") },
-      { find: "@senvenli/react/color", replacement: src("../packages/react/src/color/index.ts") },
-      { find: "@senvenli/react/collection", replacement: src("../packages/react/src/collection/index.ts") },
-      { find: "@senvenli/react/charts", replacement: src("../packages/react/src/charts/index.ts") },
-      { find: /^@senvenli\/react$/, replacement: src("../packages/react/src/index.ts") },
-    ],
+  // reactRouter() brings its own React transform: @vitejs/plugin-react must not run beside it.
+  plugins: [tailwindcss(), reactRouter()],
+  resolve: { alias: aliases },
+  build: {
+    rollupOptions: {
+      // The library's files start with "use client" (for Next); a bundle has no use for it and Rollup says so once per file.
+      onwarn(warning, warn) {
+        if (warning.code === "MODULE_LEVEL_DIRECTIVE" || (warning.code === "SOURCEMAP_ERROR" && warning.loc?.line === 1)) return;
+        warn(warning);
+      },
+    },
   },
-  server: { port: 5173, strictPort: true },
+  server: { port: 5180, strictPort: true },
+  preview: { port: 5181, strictPort: true },
 });

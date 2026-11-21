@@ -11,8 +11,10 @@ import {
   type Density,
   type ThemeInput,
 } from "@senvenli/tokens";
-import { useEffect, useMemo, useState } from "react";
-import { ComponentsPreview } from "./ComponentsPreview";
+import { useThemePreference } from "@senvenli/react/action";
+import { useLayoutEffect, useMemo, useState } from "react";
+import { ComponentsPreview } from "../ComponentsPreview";
+import { PRESET_FORMAT, PRESET_STORAGE_KEY, type StoredPreset } from "../lib/theme-head";
 
 const PRESETS: Array<{ name: string; input: ThemeInput }> = [
   { name: "Neutral", input: {} },
@@ -50,16 +52,38 @@ const SWATCHES = [
   "ds-background-information-bold",
 ];
 
-function readInitial(): ThemeInput {
-  const code = new URLSearchParams(window.location.search).get("p");
-  return (code && decodePreset(code)) || {};
+/** The origin in the prerendered HTML; the browser's own replaces it after mount (localhost, a preview host). */
+const SITE_ORIGIN = "https://design.senvenli.com";
+
+function readStoredPreset(): StoredPreset | null {
+  try {
+    const stored = JSON.parse(window.localStorage.getItem(PRESET_STORAGE_KEY) ?? "null") as StoredPreset | null;
+    return stored?.v === PRESET_FORMAT ? stored : null;
+  } catch {
+    return null;
+  }
+}
+
+/** Keeps the compiled CSS for the head script (lib/theme-head.ts), so the next page paints with the preset. */
+function storePreset(preset: StoredPreset | null) {
+  try {
+    if (preset) window.localStorage.setItem(PRESET_STORAGE_KEY, JSON.stringify(preset));
+    else window.localStorage.removeItem(PRESET_STORAGE_KEY);
+  } catch {
+    // Storage blocked: the preset lasts this page only.
+  }
 }
 
 type OutputTab = "css" | "native" | "code";
 
-export function App() {
-  const [input, setInput] = useState<ThemeInput>(readInitial);
-  const [dark, setDark] = useState(() => window.matchMedia("(prefers-color-scheme: dark)").matches);
+export function CreatePage() {
+  // The server render and the hydration render are the neutral theme: the build knows no visitor's URL,
+  // storage or device. Everything read from the browser arrives in the layout effect below.
+  const [input, setInput] = useState<ThemeInput>({});
+  const [ready, setReady] = useState(false);
+  const [origin, setOrigin] = useState(SITE_ORIGIN);
+  // Light or dark belongs to the library (ThemeToggle in the site header, themeScript in <head>).
+  const dark = useThemePreference().resolved === "dark";
   const [tab, setTab] = useState<OutputTab>("css");
   const [copied, setCopied] = useState(false);
 
@@ -68,7 +92,18 @@ export function App() {
   const code = useMemo(() => encodePreset(input), [input]);
   const failing = theme.checks.filter((c) => !c.pass);
 
-  useEffect(() => {
+  // After hydration, before the browser paints again: `?p=` wins, then the visitor's stored preset.
+  useLayoutEffect(() => {
+    const code = new URLSearchParams(window.location.search).get("p") ?? readStoredPreset()?.code;
+    const preset = code ? decodePreset(code) : null;
+    if (preset) setInput(preset);
+    setOrigin(window.location.origin);
+    setReady(true);
+  }, []);
+
+  useLayoutEffect(() => {
+    // Not before the URL is read: the neutral first render must not wipe `?p=` or the stored preset.
+    if (!ready) return;
     let el = document.getElementById("theme-vars") as HTMLStyleElement | null;
     if (!el) {
       el = document.createElement("style");
@@ -79,12 +114,12 @@ export function App() {
     const url = new URL(window.location.href);
     if (Object.keys(theme.input).length) url.searchParams.set("p", code);
     else url.searchParams.delete("p");
-    window.history.replaceState(null, "", url);
-  }, [theme, code]);
-
-  useEffect(() => {
-    document.documentElement.dataset.theme = dark ? "dark" : "light";
-  }, [dark]);
+    // The router keeps its entry key and scroll position in history.state: pass it through.
+    window.history.replaceState(window.history.state, "", url);
+    storePreset(Object.keys(theme.input).length ? { v: PRESET_FORMAT, code, css: el.textContent } : null);
+    // The head script hid the preview while a `?p=` it had no CSS for was pending.
+    document.documentElement.removeAttribute("data-preset-pending");
+  }, [theme, code, ready]);
 
   const set = (patch: Partial<ThemeInput>) => setInput((prev) => ({ ...prev, ...patch }));
   const clearRole = (role: BrandRole) =>
@@ -99,7 +134,7 @@ export function App() {
       ? css
       : tab === "native"
         ? `${JSON.stringify(toNative(theme), null, 2)}\n`
-        : `npx senvenli-ui theme ${code}\n\n${window.location.origin}/?p=${code}\n`;
+        : `npx senvenli-ui theme ${code}\n\n${origin}/create?p=${code}\n`;
 
   const copy = async () => {
     await navigator.clipboard.writeText(output);
@@ -111,19 +146,6 @@ export function App() {
 
   return (
     <div className="page">
-      <header className="topbar">
-        <div className="brand">
-          <span className="brand-mark" aria-hidden="true" />
-          Senvenli UI
-          <span className="brand-sub">Create a theme</span>
-        </div>
-        <div className="topbar-actions">
-          <button className="btn btn-ghost" onClick={() => setDark((d) => !d)}>
-            {dark ? "Light mode" : "Dark mode"}
-          </button>
-        </div>
-      </header>
-
       <main className="layout">
         <aside className="panel">
           <section className="panel-group">

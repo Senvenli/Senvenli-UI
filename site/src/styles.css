@@ -593,3 +593,9 @@ input[type="range"] {
   line-height: 1.6;
 }
 
+
+/* A shared `/create?p=` link whose CSS is not in storage yet: the head script marks <html> and the
+   preview waits for the builder, so the neutral theme never flashes first. */
+html[data-preset-pending] .preview {
+  visibility: hidden;
+}
