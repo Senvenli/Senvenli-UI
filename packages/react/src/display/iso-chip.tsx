@@ -1,6 +1,6 @@
 import * as React from "react";
 
-/** 16px high, at least 24px wide, on `ds-radius-xsmall`: a country or language code beside its name. */
+/** 16px high, at least 24px wide, on `ds-radius-xsmall`: a country or language code beside its name (PhoneField's country button and list). */
 const ISO_CHIP =
   "inline-grid h-4 min-w-6 shrink-0 place-items-center rounded-ds-xsmall bg-ds-background-neutral px-ds-050 text-[11px] leading-4 font-medium text-ds-text-subtle";
 
@@ -10,7 +10,7 @@ export type IsoChipProps = {
 };
 
 /**
- * The chip under a DS part's own `data-slot`, for DS components that show a code inside themselves.
+ * The chip under a DS part's own `data-slot`: PhoneField keeps "phone-field-iso".
  * Package-internal (not in the display index); apps use `IsoChip`.
  */
 export function IsoChipMark({ code, slot }: IsoChipProps & { slot: string }) {
