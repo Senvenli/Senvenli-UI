@@ -1,0 +1,114 @@
+{
+  "$schema": "https://design.senvenli.com/schema/component.full.json",
+  "kind": "component",
+  "family": "layout",
+  "status": "alpha",
+  "import": "@senvenli/react/layout",
+  "name": "reset-sent-card",
+  "title": "Reset sent card",
+  "exports": [
+    "ResetSentCard"
+  ],
+  "description": "The \"check your inbox\" confirmation after a reset link is requested: an enumeration-safe message and a rate-limited resend.",
+  "keywords": [
+    "password reset",
+    "email sent",
+    "resend",
+    "auth"
+  ],
+  "usage": {
+    "when": [
+      "After a password reset or magic link is requested."
+    ]
+  },
+  "a11y": {
+    "builtIn": [
+      "The resend button shows its cooldown in words and the pending state while sending."
+    ],
+    "youProvide": [
+      "An enumeration-safe message: never say whether the account exists."
+    ]
+  },
+  "related": [
+    "auth-form-layout"
+  ],
+  "genui": {
+    "expose": false
+  },
+  "source": [
+    "src/layout/reset-sent-card.tsx"
+  ],
+  "props": {
+    "ResetSentCard": [
+      {
+        "name": "labels",
+        "type": "ResetSentLabels",
+        "required": true
+      },
+      {
+        "name": "onResend",
+        "type": "() => void | Promise<void>",
+        "required": true
+      },
+      {
+        "name": "cooldownSeconds",
+        "type": "number",
+        "required": false,
+        "default": "60",
+        "description": "Seconds to disable \"Resend\" for after each send. Default 60.",
+        "schema": {
+          "type": "number"
+        }
+      },
+      {
+        "name": "resending",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "icon",
+        "type": "React.ReactNode",
+        "required": false,
+        "description": "Optional icon in place of the default check."
+      },
+      {
+        "name": "backSlot",
+        "type": "React.ReactNode",
+        "required": false,
+        "description": "\"Back to sign in\" affordance under the actions."
+      },
+      {
+        "name": "className",
+        "type": "string",
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      }
+    ]
+  },
+  "tokens": [
+    "ds-background-success",
+    "ds-radius-full",
+    "ds-space-200",
+    "ds-space-300",
+    "ds-text",
+    "ds-text-subtle",
+    "ds-text-success"
+  ],
+  "strings": [],
+  "quality": {
+    "tests": true,
+    "a11y": false,
+    "docs": false,
+    "visual": false,
+    "dark": false,
+    "rtl": false,
+    "mcp": true,
+    "generic": true
+  }
+}

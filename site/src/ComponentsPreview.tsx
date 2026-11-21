@@ -20,6 +20,7 @@ import { Banner, EmptyState, Meter, ProgressBar, ProgressCircle, Skeleton, Skele
 import { Inline, Stack } from "@senvenli/react/layout";
 import { Checkbox, ComboBox, MultiSelect, RadioCard, RadioGroup, Select, Slider, Switch, TagGroup } from "@senvenli/react/selection";
 import { CollectionPreview } from "./CollectionPreview";
+import { AuthPreview } from "./AuthPreview";
 import { ChartsPreview } from "./ChartsPreview";
 import { MediaPreview } from "./MediaPreview";
 import { ColorPreview } from "./ColorPreview";
@@ -380,6 +381,7 @@ export function ComponentsPreview() {
         <CollectionPreview />
         <MediaPreview />
         <ChartsPreview />
+        <AuthPreview />
 
         <Card variant="outline">
           <CardHeader title="Separator" subtitle="Outline card" />

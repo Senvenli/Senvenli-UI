@@ -29,3 +29,6 @@ export { PanelHeader, PanelHeaderBar, PanelHeaderProvider } from "./panel-header
 export type { PanelHeaderBarProps, PanelHeaderProps } from "./panel-header";
 
 export { BrandLinkContext } from "./brand-link-context";
+export { LanguageLabel, LanguageSwitcher } from "./language-switcher";
+export type { LanguageSwitcherProps } from "./language-switcher";
+export { capitalizeLanguageName, languageName, languageOptions, registerLanguageNames } from "./language-names";

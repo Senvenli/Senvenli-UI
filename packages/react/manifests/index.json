@@ -1401,6 +1401,42 @@
     "genui": true
   },
   {
+    "name": "auth-form-layout",
+    "title": "Auth form layout",
+    "family": "layout",
+    "status": "alpha",
+    "description": "The credentials panel: a header slot, a compact brand header on mobile, the title and description, the form, and rows beneath it.",
+    "keywords": [
+      "auth",
+      "sign in",
+      "form",
+      "card"
+    ],
+    "import": "@senvenli/react/layout",
+    "exports": [
+      "AuthFormLayout"
+    ],
+    "genui": false
+  },
+  {
+    "name": "auth-layout",
+    "title": "Auth layout",
+    "family": "layout",
+    "status": "alpha",
+    "description": "The sign-in split screen: a brand or narrative pane beside a centered credentials pane; one column on small screens.",
+    "keywords": [
+      "auth",
+      "sign in",
+      "login",
+      "split screen"
+    ],
+    "import": "@senvenli/react/layout",
+    "exports": [
+      "AuthLayout"
+    ],
+    "genui": false
+  },
+  {
     "name": "box",
     "title": "Box",
     "family": "layout",
@@ -1473,6 +1509,24 @@
     "import": "@senvenli/react/layout",
     "exports": [
       "Pressable"
+    ],
+    "genui": false
+  },
+  {
+    "name": "reset-sent-card",
+    "title": "Reset sent card",
+    "family": "layout",
+    "status": "alpha",
+    "description": "The \"check your inbox\" confirmation after a reset link is requested: an enumeration-safe message and a rate-limited resend.",
+    "keywords": [
+      "password reset",
+      "email sent",
+      "resend",
+      "auth"
+    ],
+    "import": "@senvenli/react/layout",
+    "exports": [
+      "ResetSentCard"
     ],
     "genui": false
   },
@@ -1588,6 +1642,25 @@
     "import": "@senvenli/react/navigation",
     "exports": [
       "Footer"
+    ],
+    "genui": false
+  },
+  {
+    "name": "language-switcher",
+    "title": "Language switcher",
+    "family": "navigation",
+    "status": "alpha",
+    "description": "Picks the interface language: each option named in the current language and sorted by that name, with an optional mark (a flag, a code chip) supplied by the app.",
+    "keywords": [
+      "language",
+      "locale",
+      "i18n",
+      "translation"
+    ],
+    "import": "@senvenli/react/navigation",
+    "exports": [
+      "LanguageSwitcher",
+      "LanguageLabel"
     ],
     "genui": false
   },

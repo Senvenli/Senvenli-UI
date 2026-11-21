@@ -1,0 +1,209 @@
+{
+  "$schema": "https://design.senvenli.com/schema/component.full.json",
+  "kind": "component",
+  "family": "navigation",
+  "status": "alpha",
+  "import": "@senvenli/react/navigation",
+  "name": "language-switcher",
+  "title": "Language switcher",
+  "exports": [
+    "LanguageSwitcher",
+    "LanguageLabel"
+  ],
+  "description": "Picks the interface language: each option named in the current language and sorted by that name, with an optional mark (a flag, a code chip) supplied by the app.",
+  "keywords": [
+    "language",
+    "locale",
+    "i18n",
+    "translation"
+  ],
+  "usage": {
+    "when": [
+      "The header or sidebar of a product offered in several languages."
+    ]
+  },
+  "a11y": {
+    "keyboard": [
+      {
+        "keys": "Arrow up / down",
+        "does": "Moves between languages."
+      },
+      {
+        "keys": "Enter",
+        "does": "Chooses the focused language."
+      }
+    ],
+    "builtIn": [
+      "A listbox with the current language selected and checked.",
+      "Names never fall back to the host's language.",
+      "A mark is decorative; the name always tells options apart."
+    ],
+    "youProvide": [
+      "The product's locales, and names for languages Intl names wrongly (registerLanguageNames)."
+    ]
+  },
+  "related": [
+    "iso-chip"
+  ],
+  "genui": {
+    "expose": false
+  },
+  "source": [
+    "src/navigation/language-switcher.tsx"
+  ],
+  "props": {
+    "LanguageSwitcher": [
+      {
+        "name": "locales",
+        "type": "readonly Locale[]",
+        "required": true,
+        "description": "Locales to offer, already narrowed to what this product enables.",
+        "schema": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": {
+              "type": [
+                "string",
+                "number",
+                "boolean",
+                "null"
+              ]
+            }
+          }
+        }
+      },
+      {
+        "name": "current",
+        "type": "Locale",
+        "required": true
+      },
+      {
+        "name": "onSelect",
+        "type": "(locale: Locale) => void",
+        "required": true
+      },
+      {
+        "name": "label",
+        "type": "string",
+        "required": false,
+        "description": "The trigger's accessible name and tooltip; \"Language\" (the DS string) by default.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "loading",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Hold the disabled trigger while the product's locale list resolves.",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "sidebar",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "Layout only: a full-width row whose list opens upward, for a panel sidebar.",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "collapsed",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "description": "A collapsed rail: the mark alone (or the name, without one), kept for screen readers either way.",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "renderMark",
+        "type": "(locale: Locale) => ReactNode",
+        "required": false,
+        "description": "A mark before each language's name: a flag, an `IsoChip`, an icon. None by default: a language is not a\ncountry, and the name alone tells the options apart."
+      },
+      {
+        "name": "size",
+        "type": "\"default\" | \"sm\"",
+        "required": false,
+        "default": "\"default\"",
+        "description": "Control height: `default` matches the DS controls, `sm` is the compact step.",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "default",
+            "sm"
+          ]
+        }
+      },
+      {
+        "name": "aria-describedby",
+        "type": "string",
+        "required": false,
+        "description": "Ids of elements that describe the trigger (\"Changes the language of the whole panel\"). It lands on the\ntrigger button, the focusable control, also while it is disabled for `loading`; left out, nothing is\nadded. While the trigger's tooltip is open it takes the place of the tooltip's id, which only\nrepeats `label`.",
+        "schema": {
+          "type": "string"
+        }
+      }
+    ],
+    "LanguageLabel": [
+      {
+        "name": "locale",
+        "type": "string",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "uiLocale",
+        "type": "string",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "hideName",
+        "type": "boolean",
+        "required": false,
+        "default": "false",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "mark",
+        "type": "React.ReactNode",
+        "required": false
+      }
+    ]
+  },
+  "tokens": [
+    "ds-radius-large",
+    "ds-shadow-overlay",
+    "ds-space-050",
+    "ds-space-075",
+    "ds-surface-overlay",
+    "ds-text"
+  ],
+  "strings": [
+    "language"
+  ],
+  "quality": {
+    "tests": true,
+    "a11y": false,
+    "docs": false,
+    "visual": false,
+    "dark": false,
+    "rtl": false,
+    "mcp": true,
+    "generic": true
+  }
+}

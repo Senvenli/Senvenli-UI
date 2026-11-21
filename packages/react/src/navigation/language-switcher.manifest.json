@@ -1,0 +1,51 @@
+{
+  "$schema": "../../manifest/component.schema.json",
+  "kind": "component",
+  "family": "navigation",
+  "status": "alpha",
+  "import": "@senvenli/react/navigation",
+  "name": "language-switcher",
+  "title": "Language switcher",
+  "exports": [
+    "LanguageSwitcher",
+    "LanguageLabel"
+  ],
+  "description": "Picks the interface language: each option named in the current language and sorted by that name, with an optional mark (a flag, a code chip) supplied by the app.",
+  "keywords": [
+    "language",
+    "locale",
+    "i18n",
+    "translation"
+  ],
+  "usage": {
+    "when": [
+      "The header or sidebar of a product offered in several languages."
+    ]
+  },
+  "a11y": {
+    "keyboard": [
+      {
+        "keys": "Arrow up / down",
+        "does": "Moves between languages."
+      },
+      {
+        "keys": "Enter",
+        "does": "Chooses the focused language."
+      }
+    ],
+    "builtIn": [
+      "A listbox with the current language selected and checked.",
+      "Names never fall back to the host's language.",
+      "A mark is decorative; the name always tells options apart."
+    ],
+    "youProvide": [
+      "The product's locales, and names for languages Intl names wrongly (registerLanguageNames)."
+    ]
+  },
+  "related": [
+    "iso-chip"
+  ],
+  "genui": {
+    "expose": false
+  }
+}
