@@ -1,5 +1,6 @@
 import { data } from "react-router";
 import { loadExamples } from "../lib/examples.server";
+import { highlight } from "../lib/highlight.server";
 import { orderComponents } from "../lib/manifest";
 import { loadIndex, loadManifest } from "../lib/manifest.server";
 import { ComponentPage } from "../pages/ComponentPage";
@@ -14,8 +15,9 @@ export const meta: Route.MetaFunction = ({ loaderData }) => [
 export async function loader({ params }: Route.LoaderArgs) {
   const manifest = await loadManifest(params.slug);
   if (!manifest) throw data(null, { status: 404 });
-  const [examples, index] = await Promise.all([loadExamples(params.slug), loadIndex()]);
-  return { manifest, examples, components: orderComponents(index) };
+  const importLine = `import { ${manifest.exports.join(", ")} } from "${manifest.import}";`;
+  const [examples, index, importHtml] = await Promise.all([loadExamples(params.slug), loadIndex(), highlight(importLine)]);
+  return { manifest, examples, components: orderComponents(index), importHtml };
 }
 
 export default function ComponentRoute({ loaderData }: Route.ComponentProps) {

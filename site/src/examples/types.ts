@@ -20,4 +20,4 @@ export type ExampleMeta = {
 };
 
 /** What the page receives for each example: its meta and the source it shows. */
-export type ExampleData = ExampleMeta & { code: string };
+export type ExampleData = ExampleMeta & { code: string; /** The code highlighted at build time. */ html?: string };

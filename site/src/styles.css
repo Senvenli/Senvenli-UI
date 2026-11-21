@@ -599,3 +599,28 @@ input[type="range"] {
 html[data-preset-pending] .preview {
   visibility: hidden;
 }
+
+/* Highlighted code (lib/highlight.server.ts): Shiki's css-variables theme, mapped to the theme's text tokens so code
+   follows light, dark and any preset. Every role is a ds text color, AA on the sunken surface. */
+.code-html {
+  --shiki-foreground: var(--ds-text);
+  --shiki-background: transparent;
+  --shiki-token-keyword: var(--ds-text-danger);
+  --shiki-token-function: var(--ds-text-information);
+  --shiki-token-string: var(--ds-text-success);
+  --shiki-token-string-expression: var(--ds-text-success);
+  --shiki-token-constant: var(--ds-text-warning);
+  --shiki-token-parameter: var(--ds-text);
+  --shiki-token-punctuation: var(--ds-text-subtle);
+  --shiki-token-comment: var(--ds-text-subtlest);
+  --shiki-token-link: var(--ds-link);
+}
+.code-html pre.shiki {
+  margin: 0;
+  padding: var(--spacing-ds-200, 1rem);
+  padding-inline-end: 8rem;
+  background: transparent !important;
+  font-family: var(--font-ds-mono, ui-monospace, monospace);
+  font-size: var(--text-code, 0.8125rem);
+  line-height: var(--text-code--line-height, 1.6);
+}

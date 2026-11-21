@@ -27,7 +27,7 @@ export function ExampleBlock({ slug, example, headingLevel = 3 }: { slug: string
         </div>
       </div>
       <Disclosure title="Show code" headingLevel={headingLevel === 2 ? 3 : 4}>
-        <CodeBlock code={example.code} />
+        <CodeBlock code={example.code} html={example.html} />
       </Disclosure>
     </section>
   );

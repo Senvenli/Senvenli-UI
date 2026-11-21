@@ -36,8 +36,10 @@ function Bullets({ items }: { items: readonly ReactNode[] }) {
  * A component's page, rendered from its manifest and its examples: one page, no tabs. The order follows the
  * product plan: what it is, how it looks, when to use it, how it behaves for everyone, its API, and where to go next.
  */
-export function ComponentPage({ manifest, examples = [], components = [] }: {
+export function ComponentPage({ manifest, examples = [], components = [], importHtml }: {
   manifest: Manifest;
+  /** The import line, highlighted at build time. */
+  importHtml?: string;
   examples?: ExampleData[];
   /** Every component in reading order, for the side list and previous / next. */
   components?: ManifestIndexEntry[];
@@ -78,7 +80,7 @@ export function ComponentPage({ manifest, examples = [], components = [] }: {
           <Text size="body-large" tone="subtle">
             {manifest.description}
           </Text>
-          <CodeBlock code={importLine} label="Copy import" />
+          <CodeBlock code={importLine} html={importHtml} label="Copy import" />
           <div className="flex flex-wrap items-center gap-ds-200 text-body-small">
             <CopyButton label="Copy page" getText={() => fetch(`/components/${manifest.name}.md`).then((response) => response.text())} />
             <Link variant="subtle" href={`/components/${manifest.name}.md`}>

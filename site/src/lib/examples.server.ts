@@ -1,4 +1,5 @@
 import type { ExampleData, ExampleMeta } from "../examples/types";
+import { highlight } from "./highlight.server";
 
 // Build time only (".server"): the prerender reads the lists and the sources; the browser gets them as loader
 // data, so the code shown on a page is never part of a JavaScript bundle.
@@ -14,7 +15,8 @@ export async function loadExamples(slug: string): Promise<ExampleData[]> {
     metas.map(async (meta) => {
       const source = sources[`../examples/${slug}/${meta.id}.tsx`];
       if (!source) throw new Error(`examples/${slug}: "${meta.id}" is listed but ${meta.id}.tsx is missing`);
-      return { ...meta, code: (await source()).trim() };
+      const code = (await source()).trim();
+      return { ...meta, code, html: await highlight(code) };
     }),
   );
 }
