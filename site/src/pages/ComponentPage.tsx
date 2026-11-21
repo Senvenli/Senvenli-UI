@@ -1,5 +1,5 @@
 import { Link } from "@senvenli/react/action";
-import { Heading, Lozenge, Text } from "@senvenli/react/display";
+import { Heading, Text } from "@senvenli/react/display";
 import { Breadcrumbs, Disclosure } from "@senvenli/react/navigation";
 import type { ReactNode } from "react";
 import { CodeBlock } from "../components/CodeBlock";
@@ -10,13 +10,6 @@ import { OnThisPage, type PageSection } from "../components/OnThisPage";
 import { PropsTable } from "../components/PropsTable";
 import type { ExampleData } from "../examples/types";
 import { familyTitle, type Manifest, type ManifestIndexEntry } from "../lib/manifest";
-
-const STATUS_TONE: Record<string, "neutral" | "information" | "success" | "warning"> = {
-  alpha: "warning",
-  beta: "information",
-  stable: "success",
-  deprecated: "neutral",
-};
 
 function Section({ id, title, children }: { id: string; title: string; children: ReactNode }) {
   return (
@@ -79,18 +72,15 @@ export function ComponentPage({ manifest, examples = [], components = [] }: {
         <header className="flex flex-col gap-ds-200">
           {/* The family is a breadcrumb level only: the URL stays /components/<slug>. */}
           <Breadcrumbs items={[{ label: "Components", href: "/components" }, { label: familyTitle(manifest.family) }, { label: manifest.title }]} />
-          <div className="flex flex-wrap items-center gap-ds-150">
-            <Heading level={1} size="heading-xlarge">
-              {manifest.title}
-            </Heading>
-            <Lozenge tone={STATUS_TONE[manifest.status] ?? "neutral"}>{manifest.status.charAt(0).toUpperCase() + manifest.status.slice(1)}</Lozenge>
-          </div>
+          <Heading level={1} size="heading-xlarge">
+            {manifest.title}
+          </Heading>
           <Text size="body-large" tone="subtle">
             {manifest.description}
           </Text>
           <CodeBlock code={importLine} label="Copy import" />
           <div className="flex flex-wrap items-center gap-ds-200 text-body-small">
-            <CopyButton label="Copy page for AI" getText={() => fetch(`/components/${manifest.name}.md`).then((response) => response.text())} />
+            <CopyButton label="Copy page" getText={() => fetch(`/components/${manifest.name}.md`).then((response) => response.text())} />
             <Link variant="subtle" href={`/components/${manifest.name}.md`}>
               Markdown
             </Link>

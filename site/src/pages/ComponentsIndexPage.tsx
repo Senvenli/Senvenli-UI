@@ -1,5 +1,5 @@
 import { Link } from "@senvenli/react/action";
-import { Heading, Lozenge, Text } from "@senvenli/react/display";
+import { Heading, Text } from "@senvenli/react/display";
 import { familyTitle, orderComponents, type ManifestIndexEntry } from "../lib/manifest";
 
 /** Every component as rows grouped by family, from the smallest pieces to the composed ones. */
@@ -26,9 +26,8 @@ export function ComponentsIndexPage({ components }: { components: ManifestIndexE
               .filter((item) => item.family === family)
               .map((item) => (
                 <li key={item.name} className="flex flex-col gap-ds-025 border-b border-ds-border py-ds-150 sm:flex-row sm:items-baseline sm:gap-ds-300">
-                  <span className="flex shrink-0 items-center gap-ds-100 sm:w-56">
+                  <span className="shrink-0 sm:w-56">
                     <Link href={`/components/${item.name}`}>{item.title}</Link>
-                    {item.status !== "stable" && <Lozenge tone={item.status === "alpha" ? "warning" : "information"}>{item.status.charAt(0).toUpperCase() + item.status.slice(1)}</Lozenge>}
                   </span>
                   <Text size="body-small" tone="subtle">
                     {item.description}
