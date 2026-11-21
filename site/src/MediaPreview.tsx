@@ -15,7 +15,8 @@ const PHOTOS = [
   { id: "detail", src: photo("Detail", 30), alt: "Detail" },
 ];
 
-const NOW = new Date();
+// A fixed instant with its offset: the prerendered HTML is read on later days, in other zones.
+const NOW = new Date("2026-03-18T14:30:00+01:00");
 const ago = (minutes: number) => new Date(NOW.getTime() - minutes * 60_000);
 
 /** The media and data display pieces: stats, a description list, a timeline, a carousel and the image viewer. */
@@ -53,6 +54,7 @@ export function MediaPreview() {
         <CardBody>
           <Timeline
             timeZone="Europe/Berlin"
+            now={NOW}
             items={[
               { id: "4", icon: "circle-check", tone: "success", title: "Order delivered", meta: "Courier", timestamp: ago(3) },
               { id: "3", icon: "truck", tone: "brand", title: "Order shipped", timestamp: ago(240) },

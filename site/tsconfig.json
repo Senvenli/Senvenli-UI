@@ -48,10 +48,20 @@
         "../packages/react/src/charts/index.ts"
       ]
     },
-    "noUncheckedIndexedAccess": false
+    "noUncheckedIndexedAccess": false,
+    "rootDirs": [
+      ".",
+      "./.react-router/types"
+    ],
+    "types": [
+      "vite/client",
+      "node"
+    ]
   },
   "include": [
     "src",
-    "vite.config.ts"
+    "tests",
+    ".react-router/types/**/*",
+    "*.ts"
   ]
 }

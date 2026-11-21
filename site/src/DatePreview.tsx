@@ -1,6 +1,7 @@
 import { Card, CardBody, CardHeader } from "@senvenli/react/display";
 import { Calendar, DateField, DatePicker, DateRangeField, TimeSlots, parseTime } from "@senvenli/react/date";
 import { Stack } from "@senvenli/react/layout";
+import { ClientOnly } from "./lib/client-only";
 
 /** The date family: fields, pickers, a calendar and time slots. */
 export function DatePreview() {
@@ -21,7 +22,8 @@ export function DatePreview() {
         <CardHeader title="Calendar and time" subtitle="Calendar, TimeSlots" />
         <CardBody>
           <Stack space="space-300">
-            <Calendar aria-label="Availability" />
+            {/* A bare Calendar opens on the visitor's month, which the prerender cannot know: client only, box reserved. */}
+            <ClientOnly minHeight={326}>{() => <Calendar aria-label="Availability" />}</ClientOnly>
             <TimeSlots
               label="Appointment"
               slots={[

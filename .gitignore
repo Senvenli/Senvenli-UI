@@ -5,3 +5,10 @@ dist/
 coverage/
 .vite/
 .claude-worktrees/
+build/
+.react-router/
+build-dev/
+build-skew/
+build-v7/
+
+.claude/worktrees/
