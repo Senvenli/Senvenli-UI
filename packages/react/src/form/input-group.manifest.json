@@ -9,7 +9,8 @@
   "exports": [
     "InputGroup",
     "InputAddon",
-    "InputAction"
+    "InputAction",
+    "InputGroupInput"
   ],
   "description": "Joins an input with addons (text, icons) and actions (buttons) into one bordered control.",
   "keywords": [

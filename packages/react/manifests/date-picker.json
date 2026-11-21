@@ -151,20 +151,20 @@
       },
       {
         "name": "label",
-        "type": "string | number | bigint | boolean | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<AwaitedReactNode>",
+        "type": "React.ReactNode",
         "required": true,
         "origin": "own",
         "description": "Always given; the label sits above the field and names its segments."
       },
       {
         "name": "description",
-        "type": "string | number | bigint | boolean | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<AwaitedReactNode>",
+        "type": "React.ReactNode",
         "required": false,
         "origin": "own"
       },
       {
         "name": "errorMessage",
-        "type": "string | number | bigint | boolean | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<AwaitedReactNode>",
+        "type": "React.ReactNode",
         "required": false,
         "origin": "own",
         "description": "What happened and what to do; shown when the field is invalid."

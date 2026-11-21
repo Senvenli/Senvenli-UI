@@ -1294,7 +1294,7 @@
       },
       {
         "name": "aria-relevant",
-        "type": "\"text\" | \"additions\" | \"additions removals\" | \"additions text\" | \"all\" | \"removals\" | \"removals additions\" | \"removals text\" | \"text additions\" | \"text removals\"",
+        "type": "\"additions\" | \"additions removals\" | \"additions text\" | \"all\" | \"removals\" | \"removals additions\" | \"removals text\" | \"text\" | \"text additions\" | \"text removals\" | undefined",
         "required": false,
         "origin": "dom",
         "description": "Indicates what notifications the user agent will trigger when the accessibility tree within a live region is modified.",
@@ -2757,6 +2757,65 @@
         }
       },
       {
+        "name": "accept",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "alt",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "capture",
+        "type": "boolean | \"user\" | \"environment\"",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "enum": [
+            false,
+            true,
+            "user",
+            "environment"
+          ]
+        }
+      },
+      {
+        "name": "checked",
+        "type": "boolean",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "max",
+        "type": "string | number",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
         "name": "maxLength",
         "type": "number",
         "required": false,
@@ -2766,8 +2825,8 @@
         }
       },
       {
-        "name": "placeholder",
-        "type": "string",
+        "name": "min",
+        "type": "string | number",
         "required": false,
         "origin": "dom",
         "schema": {
@@ -2793,26 +2852,44 @@
         }
       },
       {
-        "name": "min",
-        "type": "string | number",
-        "required": false,
-        "origin": "dom",
-        "schema": {
-          "type": "string"
-        }
-      },
-      {
-        "name": "max",
-        "type": "string | number",
-        "required": false,
-        "origin": "dom",
-        "schema": {
-          "type": "string"
-        }
-      },
-      {
-        "name": "accept",
+        "name": "placeholder",
         "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "readOnly",
+        "type": "boolean",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "required",
+        "type": "boolean",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "src",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "width",
+        "type": "string | number",
         "required": false,
         "origin": "dom",
         "schema": {
@@ -2847,15 +2924,6 @@
         }
       },
       {
-        "name": "alt",
-        "type": "string",
-        "required": false,
-        "origin": "dom",
-        "schema": {
-          "type": "string"
-        }
-      },
-      {
         "name": "async",
         "type": "boolean",
         "required": false,
@@ -2871,20 +2939,6 @@
         "origin": "dom",
         "schema": {
           "type": "boolean"
-        }
-      },
-      {
-        "name": "capture",
-        "type": "boolean | \"user\" | \"environment\"",
-        "required": false,
-        "origin": "dom",
-        "schema": {
-          "enum": [
-            false,
-            true,
-            "user",
-            "environment"
-          ]
         }
       },
       {
@@ -2921,15 +2975,6 @@
         "origin": "dom",
         "schema": {
           "type": "string"
-        }
-      },
-      {
-        "name": "checked",
-        "type": "boolean",
-        "required": false,
-        "origin": "dom",
-        "schema": {
-          "type": "boolean"
         }
       },
       {
@@ -3011,15 +3056,6 @@
       },
       {
         "name": "defer",
-        "type": "boolean",
-        "required": false,
-        "origin": "dom",
-        "schema": {
-          "type": "boolean"
-        }
-      },
-      {
-        "name": "disabled",
         "type": "boolean",
         "required": false,
         "origin": "dom",
@@ -3208,24 +3244,6 @@
         }
       },
       {
-        "name": "readOnly",
-        "type": "boolean",
-        "required": false,
-        "origin": "dom",
-        "schema": {
-          "type": "boolean"
-        }
-      },
-      {
-        "name": "required",
-        "type": "boolean",
-        "required": false,
-        "origin": "dom",
-        "schema": {
-          "type": "boolean"
-        }
-      },
-      {
         "name": "reversed",
         "type": "boolean",
         "required": false,
@@ -3316,15 +3334,6 @@
         }
       },
       {
-        "name": "src",
-        "type": "string",
-        "required": false,
-        "origin": "dom",
-        "schema": {
-          "type": "string"
-        }
-      },
-      {
         "name": "srcDoc",
         "type": "string",
         "required": false,
@@ -3361,15 +3370,6 @@
         }
       },
       {
-        "name": "width",
-        "type": "string | number",
-        "required": false,
-        "origin": "dom",
-        "schema": {
-          "type": "string"
-        }
-      },
-      {
         "name": "wmode",
         "type": "string",
         "required": false,
@@ -3392,10 +3392,10 @@
             "div",
             "span",
             "article",
+            "main",
             "aside",
             "header",
             "footer",
-            "main",
             "nav",
             "ul",
             "ol",

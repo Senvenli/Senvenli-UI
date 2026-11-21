@@ -5,7 +5,7 @@ import { Button as AriaButton, Group, type ButtonProps as AriaButtonProps } from
 import { IconGlyph, type IconName } from "../display/icon";
 
 import { cn } from "../utils";
-import { ADDON, ADDON_END, ADDON_END_FLUSH, ADDON_START, FIELD_FRAME, FIELD_SIZE, INLINE_ACTION, type FieldSize } from "./styles";
+import { ADDON, ADDON_END, ADDON_END_FLUSH, ADDON_START, FIELD_FRAME, FIELD_SIZE, INLINE_ACTION, INPUT, type FieldSize } from "./styles";
 
 /**
  * Focuses the field's own control wherever inside the frame the press landed: its input or textarea, or a
@@ -27,16 +27,31 @@ export type InputGroupProps = {
   multiline?: boolean;
   /** `ltr` keeps the frame left to right on an RTL page (phone numbers, IBANs). */
   dir?: "ltr";
+  /**
+   * The control's id, description link and invalid state. A `Field` around the group sets them; the group hands
+   * them to its `InputGroupInput`, so the label and the error reach the input, not the frame.
+   */
+  id?: string;
+  "aria-describedby"?: string;
+  "aria-invalid"?: boolean | "true" | "false";
 };
+
+type ControlLink = { id?: string; describedBy?: string; invalid: boolean; disabled?: boolean };
+const InputGroupContext = React.createContext<ControlLink | null>(null);
 
 /**
  * The field frame: one border around the control and its addons, icons and
  * inline actions. A press anywhere on the frame that is not an action
  * focuses the control, so addons never swallow focus.
  */
-export function InputGroup({ children, size = "default", isDisabled, isInvalid, multiline, dir }: InputGroupProps) {
+export function InputGroup({
+  children, size = "default", isDisabled, isInvalid: isInvalidProp, multiline, dir, id, "aria-describedby": describedBy, "aria-invalid": ariaInvalid,
+}: InputGroupProps) {
   const ref = React.useRef<HTMLDivElement>(null);
+  const isInvalid = isInvalidProp ?? (ariaInvalid === true || ariaInvalid === "true");
+  const link = React.useMemo<ControlLink>(() => ({ id, describedBy, invalid: isInvalid, disabled: isDisabled }), [id, describedBy, isInvalid, isDisabled]);
   return (
+    <InputGroupContext.Provider value={link}>
     <Group
       ref={ref}
       isDisabled={isDisabled}
@@ -54,6 +69,31 @@ export function InputGroup({ children, size = "default", isDisabled, isInvalid, 
     >
       {children}
     </Group>
+    </InputGroupContext.Provider>
+  );
+}
+
+export type InputGroupInputProps = Omit<React.InputHTMLAttributes<HTMLInputElement>, "className" | "style" | "size"> & {
+  ref?: React.Ref<HTMLInputElement>;
+};
+
+/**
+ * The bare input inside an `InputGroup`, styled as the frame's control. It takes the group's id, description link
+ * and invalid state (from a `Field` around the group), so the label and the error belong to it. Its own props win.
+ */
+export function InputGroupInput({ ref, id, "aria-describedby": describedBy, "aria-invalid": ariaInvalid, disabled, ...rest }: InputGroupInputProps) {
+  const link = React.useContext(InputGroupContext);
+  return (
+    <input
+      ref={ref}
+      data-slot="input-group-input"
+      id={id ?? link?.id}
+      aria-describedby={describedBy ?? link?.describedBy}
+      aria-invalid={ariaInvalid ?? (link?.invalid || undefined)}
+      disabled={disabled ?? link?.disabled}
+      className={INPUT}
+      {...rest}
+    />
   );
 }
 
