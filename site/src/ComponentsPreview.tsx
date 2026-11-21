@@ -26,7 +26,7 @@ import { ColorPreview } from "./ColorPreview";
 import { DatePreview } from "./DatePreview";
 import { NavigationPreview } from "./NavigationPreview";
 import { OverlayPreview } from "./OverlayPreview";
-import { Form, FormFooter, FormRow, InputOTP, NumberField, PasswordField, SearchField, TextArea, TextField } from "@senvenli/react/form";
+import { Form, FormFooter, FormRow, InputOTP, NumberField, PasswordField, PhoneField, SearchField, TextArea, TextField } from "@senvenli/react/form";
 import { Button, ButtonGroup, CloseButton, Link, LinkButton, ThemeToggle, ToggleButton, ToggleGroup } from "@senvenli/react/action";
 
 const PEOPLE = ["Ada Lovelace", "Grace Hopper", "Alan Turing", "Katherine Johnson", "Linus Torvalds", "Margaret Hamilton"];
@@ -262,7 +262,7 @@ export function ComponentsPreview() {
         </Card>
 
         <Card>
-          <CardHeader title="Form" subtitle="TextField, PasswordField, NumberField, TextArea" />
+          <CardHeader title="Form" subtitle="TextField, PhoneField, PasswordField, NumberField, TextArea" />
           <CardBody>
             <Form onSubmit={(event) => event.preventDefault()}>
               <FormRow>
@@ -270,6 +270,7 @@ export function ComponentsPreview() {
                 <TextField label="Last name" isRequired />
               </FormRow>
               <TextField label="Email" type="email" description="We send the receipt here." isRequired />
+              <PhoneField label="Phone" suggestedCountries={["US", "GB", "DE"]} description="For delivery updates only." />
               <PasswordField label="Password" autoComplete="new-password" showStrength isRequired />
               <NumberField label="Seats" minValue={1} maxValue={50} defaultValue={5} description="1–50" />
               <TextArea label="Notes" maxLength={200} isOptional />

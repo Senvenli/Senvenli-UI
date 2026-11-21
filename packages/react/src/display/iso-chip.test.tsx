@@ -5,7 +5,7 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 
 import { DesignSystemProvider } from "../provider";
 import { IsoChip, type IsoChipProps } from "./index";
-import { IsoChipMark } from "./iso-chip";
+import { PhoneField } from "../form";
 
 // The ISO/region code chip, exported from ./display for country and language pickers.
 
@@ -31,11 +31,11 @@ describe("IsoChip", () => {
     expect(chip.getAttributeNames().sort()).toEqual(["class", "data-slot"]);
   });
 
-  it("looks exactly like the chip a DS part draws under its own data-slot (the same classes)", () => {
+  it("looks exactly like PhoneField's country chip (the same classes)", () => {
     const { container } = inLocale(
       <>
         <IsoChip code="DE" />
-        <IsoChipMark code="DE" slot="phone-field-iso" />
+        <PhoneField label="Phone" defaultCountry="DE" />
       </>,
     );
     const exported = container.querySelector("[data-slot='iso-chip']")!;

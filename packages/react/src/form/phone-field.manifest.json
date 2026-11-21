@@ -1,0 +1,70 @@
+{
+  "$schema": "../../manifest/component.schema.json",
+  "kind": "component",
+  "family": "form",
+  "status": "alpha",
+  "import": "@senvenli/react/form",
+  "name": "phone-field",
+  "title": "Phone field",
+  "exports": [
+    "PhoneField"
+  ],
+  "description": "A phone number with a searchable calling-code picker: digits group as typed, a pasted international number picks its country, and the value is stored as E.164.",
+  "keywords": [
+    "phone",
+    "telephone",
+    "mobile",
+    "country code",
+    "e164"
+  ],
+  "usage": {
+    "when": [
+      "Any phone number a person types: sign-up, checkout, contact details."
+    ],
+    "instead": [
+      {
+        "use": "text-field",
+        "when": "The value is an extension or a short code, not a full number."
+      }
+    ]
+  },
+  "a11y": {
+    "keyboard": [
+      {
+        "keys": "Arrow down",
+        "does": "Opens the country list from the country button."
+      },
+      {
+        "keys": "Type",
+        "does": "Searches countries by name or calling code."
+      }
+    ],
+    "builtIn": [
+      "The country button is named with the country and its code.",
+      "Too short and too long say so in words.",
+      "Required fields show \"Fill in this field.\""
+    ],
+    "youProvide": [
+      "A visible label.",
+      "suggestedCountries for the markets the form expects."
+    ]
+  },
+  "related": [
+    "text-field",
+    "iso-chip"
+  ],
+  "genui": {
+    "expose": true,
+    "description": "A phone number with a country picker. Emits change with the E.164 value and the country.",
+    "props": [
+      "label",
+      "description",
+      "isRequired",
+      "defaultCountry"
+    ],
+    "children": "none",
+    "events": [
+      "change"
+    ]
+  }
+}

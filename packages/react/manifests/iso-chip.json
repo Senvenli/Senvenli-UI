@@ -29,6 +29,9 @@
       "The name beside it."
     ]
   },
+  "related": [
+    "phone-field"
+  ],
   "genui": {
     "expose": false
   },

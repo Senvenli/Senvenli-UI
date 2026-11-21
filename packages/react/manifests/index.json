@@ -1326,6 +1326,25 @@
     "genui": true
   },
   {
+    "name": "phone-field",
+    "title": "Phone field",
+    "family": "form",
+    "status": "alpha",
+    "description": "A phone number with a searchable calling-code picker: digits group as typed, a pasted international number picks its country, and the value is stored as E.164.",
+    "keywords": [
+      "phone",
+      "telephone",
+      "mobile",
+      "country code",
+      "e164"
+    ],
+    "import": "@senvenli/react/form",
+    "exports": [
+      "PhoneField"
+    ],
+    "genui": true
+  },
+  {
     "name": "search-field",
     "title": "Search field",
     "family": "form",
