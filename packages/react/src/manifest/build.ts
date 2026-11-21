@@ -98,11 +98,20 @@ const MAX_ENUM = 100;
 const MAX_TYPE_TEXT = 80;
 
 /** A readable type: the checker's text, or the source annotation when the checker's is an expansion (ReactNode). */
+/** A type as written, on one line: source formatting (a union broken over lines, a leading "|") is not meaning. */
+const oneLine = (text: string) => text.replace(/\s+/g, " ").replace(/^\|\s*/, "").trim();
+
 function typeText(checker: ts.TypeChecker, t: ts.Type, sym: ts.Symbol): string {
   const text = checker.typeToString(t, undefined, ts.TypeFormatFlags.NoTruncation);
-  const decl = sym.valueDeclaration;
-  if (text.length > MAX_TYPE_TEXT && decl && ts.isPropertySignature(decl) && decl.type) return decl.type.getText();
-  return text;
+  if (text.length <= MAX_TYPE_TEXT) return text;
+  // A long type (every Lucide name behind `IconName`) is shown as written in the source, from whichever of the
+  // symbol's declarations names it: a prop of a union of props has a declaration per arm, not one valueDeclaration.
+  for (const decl of [sym.valueDeclaration, ...(sym.declarations ?? [])]) {
+    if (decl && (ts.isPropertySignature(decl) || ts.isPropertyDeclaration(decl)) && decl.type) return oneLine(decl.type.getText());
+  }
+  // No written type to show: say what kind of value it is rather than print thousands of literals.
+  if (t.isUnion() && t.types.every((member) => member.flags & ts.TypeFlags.StringLiteral)) return `string (one of ${t.types.length} names)`;
+  return checker.typeToString(t);
 }
 
 const declaredAsNode = (sym: ts.Symbol) => {

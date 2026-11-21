@@ -1265,7 +1265,8 @@
     "exports": [
       "InputGroup",
       "InputAddon",
-      "InputAction"
+      "InputAction",
+      "InputGroupInput"
     ],
     "genui": false
   },

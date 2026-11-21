@@ -1063,7 +1063,7 @@
       },
       {
         "name": "aria-relevant",
-        "type": "\"text\" | \"additions\" | \"additions removals\" | \"additions text\" | \"all\" | \"removals\" | \"removals additions\" | \"removals text\" | \"text additions\" | \"text removals\"",
+        "type": "\"additions\" | \"additions removals\" | \"additions text\" | \"all\" | \"removals\" | \"removals additions\" | \"removals text\" | \"text\" | \"text additions\" | \"text removals\" | undefined",
         "required": false,
         "origin": "dom",
         "description": "Indicates what notifications the user agent will trigger when the accessibility tree within a live region is modified.",

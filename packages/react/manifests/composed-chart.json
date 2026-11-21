@@ -62,7 +62,7 @@
       },
       {
         "name": "total",
-        "type": "string | number | bigint | boolean | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<AwaitedReactNode>",
+        "type": "React.ReactNode",
         "required": false,
         "origin": "own",
         "description": "The headline figure, in `metric-medium` (\"€ 184,2k\")."
