@@ -146,7 +146,7 @@ export function CreatePage() {
 
   return (
     <div className="page">
-      <main className="layout">
+      <main id="main" className="layout">
         <aside className="panel">
           <section className="panel-group">
             <h2>Start from</h2>

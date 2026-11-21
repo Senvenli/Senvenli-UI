@@ -20,7 +20,7 @@ describe("build output", () => {
   });
 
   it("has the fixed pages, the 404 and the schema", () => {
-    for (const file of ["index.html", "create/index.html", "components/index.html", "404.html", "schema/component.full.json"]) {
+    for (const file of ["index.html", "create/index.html", "components/index.html", "404.html", "schema/component.full.json", "llms.txt"]) {
       expect(existsSync(`${client}${file}`), file).toBe(true);
     }
   });

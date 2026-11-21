@@ -17,6 +17,11 @@ export type ExampleMeta = {
   title: string;
   /** One line on when to reach for this variant. */
   description?: string;
+  /**
+   * How it sits on the stage: `center` (small things: a button row, a badge) or `stretch` (full width: a chart, a
+   * table, a form). Left out, the component's family decides.
+   */
+  align?: "center" | "stretch";
 };
 
 /** What the page receives for each example: its meta and the source it shows. */
