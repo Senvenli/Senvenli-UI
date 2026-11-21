@@ -19,7 +19,7 @@ export default {
   ssr: false,
   prerender: {
     paths: ({ getStaticPaths }) => [
-      ...getStaticPaths(), // "/", "/create", "/components", "/schema/component.full.json"
+      ...getStaticPaths(), // "/", "/create", "/components", "/schema/component.full.json", "/llms.txt"
       ...slugs.flatMap((slug) => [`/components/${slug}`, `/components/${slug}.json`, `/components/${slug}.md`]),
       ...docs.map((slug) => `/docs/${slug}`),
       "/404", // lib/not-found-document.ts: NOT_FOUND_PATH

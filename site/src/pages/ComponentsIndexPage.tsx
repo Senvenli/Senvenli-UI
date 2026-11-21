@@ -7,7 +7,7 @@ export function ComponentsIndexPage({ components }: { components: ManifestIndexE
   const ordered = orderComponents(components);
   const families = [...new Set(ordered.map((item) => item.family))];
   return (
-    <main className="mx-auto flex max-w-4xl flex-col gap-ds-500 px-ds-300 py-ds-600">
+    <main id="main" className="mx-auto flex max-w-4xl flex-col gap-ds-500 px-ds-300 py-ds-600">
       <div className="flex flex-col gap-ds-100">
         <Heading level={1} size="heading-xlarge">
           Components

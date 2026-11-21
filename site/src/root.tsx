@@ -1,7 +1,7 @@
 import { DesignSystemProvider } from "@senvenli/react";
 import { themeScript } from "@senvenli/react/action";
 import type { ReactNode } from "react";
-import { Links, Meta, Outlet, Scripts, ScrollRestoration, isRouteErrorResponse, useNavigate, type LinksFunction } from "react-router";
+import { Links, Meta, Outlet, Scripts, ScrollRestoration, isRouteErrorResponse, useLocation, useNavigate, type LinksFunction } from "react-router";
 import type { Route } from "./+types/root";
 import { useRestoreVisitedUrl } from "./lib/not-found-document";
 import { presetScriptSource } from "./lib/theme-head";
@@ -46,9 +46,11 @@ export default function Root() {
   // and the page path differs between the prerender ("/create/") and the browser ("/create").
   const navigate = useNavigate();
   useRestoreVisitedUrl();
+  // The first path segment only: the prerender renders "/components/" and the browser "/components", the same key.
+  const section = useLocation().pathname.split("/").filter(Boolean)[0];
   return (
     <DesignSystemProvider locale="en" navigate={navigate}>
-      <SiteShell>
+      <SiteShell section={section}>
         <Outlet />
       </SiteShell>
     </DesignSystemProvider>

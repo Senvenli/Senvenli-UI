@@ -9,6 +9,7 @@ export default [
   route("components/:slug.json", "routes/component-json.ts"),
   route("components/:slug.md", "routes/component-md.ts"),
   route("schema/component.full.json", "routes/schema-component-full.ts"),
+  route("llms.txt", "routes/llms.ts"),
   route("components/:slug", "routes/component.tsx"),
   route("docs/:slug", "routes/doc.tsx"),
   // Prerendered as /404 and copied to 404.html for nginx's error_page.

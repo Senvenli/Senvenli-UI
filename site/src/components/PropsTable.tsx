@@ -1,46 +1,76 @@
-import { Text } from "@senvenli/react/display";
+import { Lozenge, Text } from "@senvenli/react/display";
 import { Disclosure } from "@senvenli/react/navigation";
 import type { ManifestProp } from "../lib/manifest";
 import { DocText } from "./DocText";
 
+const code = "font-ds-mono text-code";
+
+/**
+ * Props as a table from 640px (Prop, Type, Default, Description at 14px), and as one stacked block per prop below it,
+ * so a phone never scrolls sideways through a type.
+ */
 function Rows({ props }: { props: ManifestProp[] }) {
   return (
-    <div className="overflow-x-auto">
-      <table className="w-full border-collapse text-start text-body-small">
+    <>
+      <table className="hidden w-full border-collapse text-start text-body sm:table">
         <thead>
-          <tr className="border-b border-ds-border text-ds-text-subtle">
-            <th scope="col" className="py-ds-100 pe-ds-200 text-start font-medium">Prop</th>
-            <th scope="col" className="py-ds-100 pe-ds-200 text-start font-medium">Type</th>
+          <tr className="text-ds-text-subtle">
+            <th scope="col" className="py-ds-100 pe-ds-300 text-start font-medium">Prop</th>
+            <th scope="col" className="py-ds-100 pe-ds-300 text-start font-medium">Type</th>
+            <th scope="col" className="py-ds-100 pe-ds-300 text-start font-medium">Default</th>
             <th scope="col" className="py-ds-100 text-start font-medium">Description</th>
           </tr>
         </thead>
         <tbody>
           {props.map((prop) => (
-            <tr key={prop.name} className="border-b border-ds-border align-top">
-              <th scope="row" className="py-ds-100 pe-ds-200 text-start font-normal">
-                <code className="font-ds-mono text-code text-ds-text">{prop.name}</code>
-                {prop.required && <span className="ms-ds-050 text-ds-text-subtle">required</span>}
+            <tr key={prop.name} className="border-t border-ds-border align-top">
+              <th scope="row" className="py-ds-150 pe-ds-300 text-start font-normal">
+                <span className="flex flex-col items-start gap-ds-050">
+                  <code className={`${code} text-ds-text`}>{prop.name}</code>
+                  {prop.required && <Lozenge>Required</Lozenge>}
+                </span>
               </th>
-              <td className="max-w-64 py-ds-100 pe-ds-200">
-                <code className="font-ds-mono text-code break-words text-ds-text-subtle">{prop.type}</code>
-                {prop.default !== undefined && (
-                  <div className="mt-ds-050 text-ds-text-subtlest">
-                    Default <code className="font-ds-mono text-code">{prop.default}</code>
-                  </div>
-                )}
+              <td className="max-w-60 py-ds-150 pe-ds-300">
+                <code className={`${code} break-words text-ds-text-subtle`}>{prop.type}</code>
               </td>
-              <td className="py-ds-100 text-ds-text">{prop.description && <DocText text={prop.description} />}</td>
+              <td className="py-ds-150 pe-ds-300">
+                {prop.default !== undefined ? <code className={`${code} text-ds-text-subtle`}>{prop.default}</code> : <span className="text-ds-text-subtlest">–</span>}
+              </td>
+              <td className="py-ds-150 text-ds-text">{prop.description && <DocText text={prop.description} />}</td>
             </tr>
           ))}
         </tbody>
       </table>
-    </div>
+      <dl className="m-0 flex flex-col sm:hidden">
+        {props.map((prop) => (
+          <div key={prop.name} className="flex flex-col gap-ds-075 border-t border-ds-border py-ds-200">
+            <dt className="flex items-center gap-ds-100">
+              <code className={`${code} text-ds-text`}>{prop.name}</code>
+              {prop.required && <Lozenge>Required</Lozenge>}
+            </dt>
+            <dd className="m-0 flex flex-col gap-ds-075 text-body">
+              <code className={`${code} break-words text-ds-text-subtle`}>{prop.type}</code>
+              {prop.default !== undefined && (
+                <span className="text-ds-text-subtle">
+                  Default <code className={code}>{prop.default}</code>
+                </span>
+              )}
+              {prop.description && (
+                <span className="text-ds-text">
+                  <DocText text={prop.description} />
+                </span>
+              )}
+            </dd>
+          </div>
+        ))}
+      </dl>
+    </>
   );
 }
 
 /**
- * The component's own props first; React Aria's behavior props (onPress, isDisabled…) behind a disclosure; the
- * plain DOM and ARIA attributes only counted, since the platform documents them.
+ * The component's own props first; React Aria's behavior props (onPress, isDisabled…) behind a disclosure; the plain
+ * DOM and ARIA attributes only counted, since the platform documents them.
  */
 export function PropsTable({ props }: { props: ManifestProp[] }) {
   const own = props.filter((prop) => prop.origin === "own");

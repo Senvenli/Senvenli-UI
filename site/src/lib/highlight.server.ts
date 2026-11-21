@@ -3,7 +3,7 @@ import { createCssVariablesTheme, createHighlighter, type Highlighter } from "sh
 // Build time only (".server"): code is highlighted once in the prerender and reaches the browser as HTML in the
 // loader data. Colors are CSS variables (`--shiki-*`), mapped to the theme's own text tokens in styles.css, so
 // code follows light and dark mode and any preset, and no highlighter ships to the browser.
-const theme = createCssVariablesTheme({ name: "ds", variablePrefix: "--shiki-", fontStyle: true });
+const theme = createCssVariablesTheme({ name: "ds", variablePrefix: "--shiki-", fontStyle: false });
 
 export type CodeLanguage = "tsx" | "ts" | "bash" | "json" | "css" | "md";
 
