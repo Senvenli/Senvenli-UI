@@ -202,8 +202,8 @@
           "enum": [
             "danger",
             "success",
-            "warning",
             "neutral",
+            "warning",
             "information",
             "selected",
             "surface",
@@ -2364,6 +2364,22 @@
         }
       },
       {
+        "name": "data",
+        "type": "string",
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "height",
+        "type": "string | number",
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
         "name": "start",
         "type": "number",
         "required": false,
@@ -2635,14 +2651,6 @@
         }
       },
       {
-        "name": "data",
-        "type": "string",
-        "required": false,
-        "schema": {
-          "type": "string"
-        }
-      },
-      {
         "name": "dateTime",
         "type": "string",
         "required": false,
@@ -2677,14 +2685,6 @@
       {
         "name": "headers",
         "type": "string",
-        "required": false,
-        "schema": {
-          "type": "string"
-        }
-      },
-      {
-        "name": "height",
-        "type": "string | number",
         "required": false,
         "schema": {
           "type": "string"

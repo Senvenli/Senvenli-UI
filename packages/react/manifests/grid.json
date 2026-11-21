@@ -65,9 +65,9 @@
         "columns": {
           "enum": [
             1,
+            4,
             2,
             3,
-            4,
             5,
             6
           ]
@@ -184,8 +184,8 @@
           "enum": [
             "danger",
             "success",
-            "warning",
             "neutral",
+            "warning",
             "information",
             "selected",
             "surface",
@@ -2346,6 +2346,22 @@
         }
       },
       {
+        "name": "data",
+        "type": "string",
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "height",
+        "type": "string | number",
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
         "name": "start",
         "type": "number",
         "required": false,
@@ -2617,14 +2633,6 @@
         }
       },
       {
-        "name": "data",
-        "type": "string",
-        "required": false,
-        "schema": {
-          "type": "string"
-        }
-      },
-      {
         "name": "dateTime",
         "type": "string",
         "required": false,
@@ -2659,14 +2667,6 @@
       {
         "name": "headers",
         "type": "string",
-        "required": false,
-        "schema": {
-          "type": "string"
-        }
-      },
-      {
-        "name": "height",
-        "type": "string | number",
         "required": false,
         "schema": {
           "type": "string"
@@ -3019,14 +3019,14 @@
       },
       {
         "name": "columns",
-        "type": "1 | 2 | 3 | 4 | 5 | 6",
+        "type": "1 | 4 | 2 | 3 | 5 | 6",
         "required": false,
         "schema": {
           "enum": [
             1,
+            4,
             2,
             3,
-            4,
             5,
             6
           ]

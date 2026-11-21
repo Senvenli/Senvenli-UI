@@ -112,6 +112,12 @@
                     "shortcut": {
                       "type": "string"
                     },
+                    "keywords": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
                     "kind": {
                       "type": "string",
                       "enum": [
@@ -169,6 +175,12 @@
               },
               "shortcut": {
                 "type": "string"
+              },
+              "keywords": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
               },
               "kind": {
                 "type": "string",

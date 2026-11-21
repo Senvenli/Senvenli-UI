@@ -1,0 +1,53 @@
+{
+  "$schema": "../../manifest/component.schema.json",
+  "kind": "component",
+  "family": "charts",
+  "status": "alpha",
+  "import": "@senvenli/react/charts",
+  "name": "bar-list",
+  "title": "Bar list",
+  "exports": [
+    "BarList"
+  ],
+  "description": "A ranked list of names with values and proportional bars; names may link.",
+  "keywords": [
+    "list",
+    "ranking",
+    "top",
+    "bars"
+  ],
+  "usage": {
+    "when": [
+      "The top items by a value: products, pages, regions."
+    ],
+    "instead": [
+      {
+        "use": "bar-chart",
+        "when": "Values are compared over periods."
+      }
+    ]
+  },
+  "a11y": {
+    "builtIn": [
+      "A \"Show as table\" button shows the same data as a table, which screen readers get by default."
+    ],
+    "youProvide": [
+      "A title that says what the figure is."
+    ]
+  },
+  "related": [
+    "bar-chart",
+    "donut-chart"
+  ],
+  "genui": {
+    "expose": true,
+    "description": "A ranked list of names with values and bars.",
+    "props": [
+      "title",
+      "period",
+      "data",
+      "limit"
+    ],
+    "children": "none"
+  }
+}

@@ -166,12 +166,24 @@
         "name": "selectedKeys",
         "type": "readonly Key[]",
         "required": false,
-        "description": "Controlled; may start undefined and become set later (never flips control)."
+        "description": "Controlled; may start undefined and become set later (never flips control).",
+        "schema": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
       },
       {
         "name": "defaultSelectedKeys",
         "type": "readonly Key[]",
-        "required": false
+        "required": false,
+        "schema": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
       },
       {
         "name": "onSelectionChange",

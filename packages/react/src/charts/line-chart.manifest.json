@@ -1,0 +1,60 @@
+{
+  "$schema": "../../manifest/component.schema.json",
+  "kind": "component",
+  "family": "charts",
+  "status": "alpha",
+  "import": "@senvenli/react/charts",
+  "name": "line-chart",
+  "title": "Line chart",
+  "exports": [
+    "LineChart"
+  ],
+  "description": "Up to five series over time as lines, for comparing trends.",
+  "keywords": [
+    "chart",
+    "line",
+    "trend",
+    "compare"
+  ],
+  "usage": {
+    "when": [
+      "Comparing a few series over the same periods."
+    ],
+    "instead": [
+      {
+        "use": "area-chart",
+        "when": "One total and its trend."
+      }
+    ]
+  },
+  "a11y": {
+    "keyboard": [
+      {
+        "keys": "Arrow left / right",
+        "does": "Moves between data points; the tooltip follows."
+      }
+    ],
+    "builtIn": [
+      "A \"Show as table\" button shows the same data as a table, which screen readers get by default."
+    ],
+    "youProvide": [
+      "A title that says what the figure is."
+    ]
+  },
+  "related": [
+    "area-chart",
+    "composed-chart"
+  ],
+  "genui": {
+    "expose": true,
+    "description": "Up to five series compared over time. Rows are periods; categories are the numeric columns.",
+    "props": [
+      "title",
+      "period",
+      "data",
+      "index",
+      "categories"
+    ],
+    "children": "none"
+  }
+}

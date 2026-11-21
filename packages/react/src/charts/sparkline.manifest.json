@@ -1,0 +1,45 @@
+{
+  "$schema": "../../manifest/component.schema.json",
+  "kind": "component",
+  "family": "charts",
+  "status": "alpha",
+  "import": "@senvenli/react/charts",
+  "name": "sparkline",
+  "title": "Sparkline",
+  "exports": [
+    "Sparkline"
+  ],
+  "description": "A tiny line or bar trend with no axes, next to a figure.",
+  "keywords": [
+    "chart",
+    "sparkline",
+    "mini",
+    "trend"
+  ],
+  "usage": {
+    "when": [
+      "A trend beside a stat or in a table cell."
+    ]
+  },
+  "a11y": {
+    "builtIn": [
+      "A \"Show as table\" button shows the same data as a table, which screen readers get by default."
+    ],
+    "youProvide": [
+      "An aria-label that summarizes the trend."
+    ]
+  },
+  "related": [
+    "stat"
+  ],
+  "genui": {
+    "expose": true,
+    "description": "A tiny trend with no axes, next to a figure.",
+    "props": [
+      "data",
+      "type",
+      "aria-label"
+    ],
+    "children": "none"
+  }
+}

@@ -120,15 +120,15 @@
       },
       {
         "name": "placement",
-        "type": "\"end\" | \"bottom\"",
+        "type": "\"bottom\" | \"end\"",
         "required": false,
         "default": "\"end\"",
         "description": "`end` (the side; a bottom sheet on phones) or `bottom` everywhere.",
         "schema": {
           "type": "string",
           "enum": [
-            "end",
-            "bottom"
+            "bottom",
+            "end"
           ]
         }
       },

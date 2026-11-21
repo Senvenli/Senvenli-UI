@@ -1,0 +1,61 @@
+{
+  "$schema": "../../manifest/component.schema.json",
+  "kind": "component",
+  "family": "charts",
+  "status": "alpha",
+  "import": "@senvenli/react/charts",
+  "name": "bar-chart",
+  "title": "Bar chart",
+  "exports": [
+    "BarChart"
+  ],
+  "description": "Values per category or period as bars, grouped or stacked, vertical or horizontal.",
+  "keywords": [
+    "chart",
+    "bar",
+    "column",
+    "compare",
+    "stacked"
+  ],
+  "usage": {
+    "when": [
+      "Comparing values across categories or periods."
+    ],
+    "instead": [
+      {
+        "use": "bar-list",
+        "when": "A ranked list of names with values reads better."
+      }
+    ]
+  },
+  "a11y": {
+    "keyboard": [
+      {
+        "keys": "Arrow left / right",
+        "does": "Moves between data points; the tooltip follows."
+      }
+    ],
+    "builtIn": [
+      "A \"Show as table\" button shows the same data as a table, which screen readers get by default."
+    ],
+    "youProvide": [
+      "A title that says what the figure is."
+    ]
+  },
+  "related": [
+    "bar-list",
+    "waterfall-chart"
+  ],
+  "genui": {
+    "expose": true,
+    "description": "Values per category. Rows are categories or periods; categories are the numeric columns (a stack holds at most five).",
+    "props": [
+      "title",
+      "period",
+      "data",
+      "index",
+      "categories"
+    ],
+    "children": "none"
+  }
+}

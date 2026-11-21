@@ -1,0 +1,65 @@
+{
+  "$schema": "../../manifest/component.schema.json",
+  "kind": "component",
+  "family": "charts",
+  "status": "alpha",
+  "import": "@senvenli/react/charts",
+  "name": "area-chart",
+  "title": "Area chart",
+  "exports": [
+    "AreaChart"
+  ],
+  "description": "A value over time as filled areas, one or several series, with a legend, tooltip and data table.",
+  "keywords": [
+    "chart",
+    "area",
+    "trend",
+    "time series"
+  ],
+  "usage": {
+    "when": [
+      "A total and its trend over time."
+    ],
+    "instead": [
+      {
+        "use": "line-chart",
+        "when": "Several series are compared, not summed."
+      },
+      {
+        "use": "bar-chart",
+        "when": "Periods are compared as discrete values."
+      }
+    ]
+  },
+  "a11y": {
+    "keyboard": [
+      {
+        "keys": "Arrow left / right",
+        "does": "Moves between data points; the tooltip follows."
+      }
+    ],
+    "builtIn": [
+      "A \"Show as table\" button shows the same data as a table, which screen readers get by default."
+    ],
+    "youProvide": [
+      "A title that says what the figure is."
+    ]
+  },
+  "related": [
+    "line-chart",
+    "bar-chart",
+    "sparkline"
+  ],
+  "genui": {
+    "expose": true,
+    "description": "A trend over time. Rows are periods; categories are the numeric columns drawn (at most five).",
+    "props": [
+      "title",
+      "period",
+      "data",
+      "index",
+      "categories"
+    ],
+    "children": "none"
+  }
+}

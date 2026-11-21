@@ -111,7 +111,13 @@
         "type": "readonly number[]",
         "required": false,
         "default": "[20, 50, 100]",
-        "description": "20, 50 and 100 by default; the current size joins the list when it is not in it."
+        "description": "20, 50 and 100 by default; the current size joins the list when it is not in it.",
+        "schema": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          }
+        }
       },
       {
         "name": "formatRange",

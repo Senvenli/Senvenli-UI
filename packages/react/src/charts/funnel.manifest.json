@@ -1,0 +1,37 @@
+{
+  "$schema": "../../manifest/component.schema.json",
+  "kind": "component",
+  "family": "charts",
+  "status": "alpha",
+  "import": "@senvenli/react/charts",
+  "name": "funnel",
+  "title": "Funnel",
+  "exports": [
+    "Funnel"
+  ],
+  "description": "Steps of a process with how many reach each one and the conversion between them.",
+  "keywords": [
+    "funnel",
+    "conversion",
+    "steps"
+  ],
+  "usage": {
+    "when": [
+      "Where people drop out of a flow."
+    ]
+  },
+  "a11y": {
+    "builtIn": [
+      "A \"Show as table\" button shows the same data as a table, which screen readers get by default."
+    ],
+    "youProvide": [
+      "A title that says what the figure is."
+    ]
+  },
+  "related": [
+    "bar-chart"
+  ],
+  "genui": {
+    "expose": false
+  }
+}

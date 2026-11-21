@@ -104,7 +104,17 @@
         "type": "readonly (\"hue\" | \"alpha\")[]",
         "required": false,
         "default": "[\"hue\"]",
-        "description": "The sliders under the area: hue always, alpha when the color may be translucent."
+        "description": "The sliders under the area: hue always, alpha when the color may be translucent.",
+        "schema": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "hue",
+              "alpha"
+            ]
+          }
+        }
       },
       {
         "name": "theme",

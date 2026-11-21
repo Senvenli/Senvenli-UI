@@ -1,0 +1,242 @@
+{
+  "$schema": "https://design.senvenli.com/schema/component.full.json",
+  "kind": "component",
+  "family": "charts",
+  "status": "alpha",
+  "import": "@senvenli/react/charts",
+  "name": "bar-list",
+  "title": "Bar list",
+  "exports": [
+    "BarList"
+  ],
+  "description": "A ranked list of names with values and proportional bars; names may link.",
+  "keywords": [
+    "list",
+    "ranking",
+    "top",
+    "bars"
+  ],
+  "usage": {
+    "when": [
+      "The top items by a value: products, pages, regions."
+    ],
+    "instead": [
+      {
+        "use": "bar-chart",
+        "when": "Values are compared over periods."
+      }
+    ]
+  },
+  "a11y": {
+    "builtIn": [
+      "A \"Show as table\" button shows the same data as a table, which screen readers get by default."
+    ],
+    "youProvide": [
+      "A title that says what the figure is."
+    ]
+  },
+  "related": [
+    "bar-chart",
+    "donut-chart"
+  ],
+  "genui": {
+    "expose": true,
+    "description": "A ranked list of names with values and bars.",
+    "props": [
+      "title",
+      "period",
+      "data",
+      "limit"
+    ],
+    "children": "none",
+    "schema": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "period": {
+          "type": "string"
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "value": {
+                "type": "number"
+              },
+              "href": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "name",
+              "value"
+            ]
+          }
+        },
+        "limit": {
+          "type": "number",
+          "description": "The rows shown before \"Show all\": five by default, ten at most."
+        }
+      },
+      "required": [
+        "title",
+        "data"
+      ]
+    }
+  },
+  "source": [
+    "src/charts/list-charts.tsx"
+  ],
+  "props": {
+    "BarList": [
+      {
+        "name": "title",
+        "type": "string",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "period",
+        "type": "string",
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "isLoading",
+        "type": "boolean",
+        "required": false,
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "emptyMessage",
+        "type": "{ title: string; description?: string | undefined; }",
+        "required": false
+      },
+      {
+        "name": "data",
+        "type": "readonly BarListDatum[]",
+        "required": true,
+        "schema": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "value": {
+                "type": "number"
+              },
+              "href": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "name",
+              "value"
+            ]
+          }
+        }
+      },
+      {
+        "name": "valueFormatter",
+        "type": "ChartValueFormatter",
+        "required": false,
+        "default": "plain"
+      },
+      {
+        "name": "limit",
+        "type": "number",
+        "required": false,
+        "default": "5",
+        "description": "The rows shown before \"Show all\": five by default, ten at most.",
+        "schema": {
+          "type": "number"
+        }
+      }
+    ]
+  },
+  "tokens": [
+    "ds-background-brand-subtle",
+    "ds-background-neutral",
+    "ds-background-neutral-pressed",
+    "ds-background-selected-hovered",
+    "ds-background-selected-pressed",
+    "ds-border",
+    "ds-border-bold",
+    "ds-border-focused",
+    "ds-chart-1",
+    "ds-chart-2",
+    "ds-chart-3",
+    "ds-chart-4",
+    "ds-chart-5",
+    "ds-chart-neutral",
+    "ds-icon-danger",
+    "ds-icon-success",
+    "ds-icon-warning",
+    "ds-link",
+    "ds-radius-medium",
+    "ds-radius-small",
+    "ds-radius-xsmall",
+    "ds-shadow-overlay",
+    "ds-space-050",
+    "ds-space-075",
+    "ds-space-100",
+    "ds-space-150",
+    "ds-space-200",
+    "ds-space-300",
+    "ds-space-400",
+    "ds-surface-overlay",
+    "ds-surface-raised",
+    "ds-text",
+    "ds-text-danger",
+    "ds-text-subtle",
+    "ds-text-subtlest",
+    "ds-text-success"
+  ],
+  "strings": [
+    "chartBand",
+    "chartCategory",
+    "chartConversion",
+    "chartNoData",
+    "chartOther",
+    "chartPeriod",
+    "chartShare",
+    "chartStatus",
+    "chartTrend",
+    "chartValue",
+    "gaugeTarget",
+    "heatmapLess",
+    "heatmapMore",
+    "hideDataTable",
+    "showAll",
+    "showDataTable",
+    "showFewer",
+    "sparklineSummary"
+  ],
+  "quality": {
+    "tests": true,
+    "a11y": false,
+    "docs": false,
+    "visual": false,
+    "dark": false,
+    "rtl": false,
+    "mcp": true,
+    "generic": true
+  }
+}

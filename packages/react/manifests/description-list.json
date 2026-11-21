@@ -90,9 +90,9 @@
         },
         "columns": {
           "enum": [
+            4,
             2,
-            3,
-            4
+            3
           ],
           "description": "Columns for `stacked`; default fills 150px+ columns."
         }
@@ -155,14 +155,14 @@
       },
       {
         "name": "columns",
-        "type": "2 | 3 | 4",
+        "type": "4 | 2 | 3",
         "required": false,
         "description": "Columns for `stacked`; default fills 150px+ columns.",
         "schema": {
           "enum": [
+            4,
             2,
-            3,
-            4
+            3
           ]
         }
       }

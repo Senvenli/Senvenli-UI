@@ -43,6 +43,9 @@
       ],
       "@senvenli/react/collection": [
         "../packages/react/src/collection/index.ts"
+      ],
+      "@senvenli/react/charts": [
+        "../packages/react/src/charts/index.ts"
       ]
     },
     "noUncheckedIndexedAccess": false

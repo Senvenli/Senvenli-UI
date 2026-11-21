@@ -163,9 +163,9 @@
         "description": "Heading level of the title; default 3.",
         "schema": {
           "enum": [
+            4,
             2,
             3,
-            4,
             5,
             6
           ]

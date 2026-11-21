@@ -203,7 +203,13 @@
         "name": "defaultValue",
         "type": "string[]",
         "required": false,
-        "description": "The default value (uncontrolled)."
+        "description": "The default value (uncontrolled).",
+        "schema": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
       },
       {
         "name": "suppressHydrationWarning",
@@ -696,7 +702,13 @@
         "name": "value",
         "type": "string[]",
         "required": false,
-        "description": "The current value (controlled)."
+        "description": "The current value (controlled).",
+        "schema": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
       },
       {
         "name": "render",

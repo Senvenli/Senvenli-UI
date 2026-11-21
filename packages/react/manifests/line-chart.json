@@ -1,0 +1,316 @@
+{
+  "$schema": "https://design.senvenli.com/schema/component.full.json",
+  "kind": "component",
+  "family": "charts",
+  "status": "alpha",
+  "import": "@senvenli/react/charts",
+  "name": "line-chart",
+  "title": "Line chart",
+  "exports": [
+    "LineChart"
+  ],
+  "description": "Up to five series over time as lines, for comparing trends.",
+  "keywords": [
+    "chart",
+    "line",
+    "trend",
+    "compare"
+  ],
+  "usage": {
+    "when": [
+      "Comparing a few series over the same periods."
+    ],
+    "instead": [
+      {
+        "use": "area-chart",
+        "when": "One total and its trend."
+      }
+    ]
+  },
+  "a11y": {
+    "keyboard": [
+      {
+        "keys": "Arrow left / right",
+        "does": "Moves between data points; the tooltip follows."
+      }
+    ],
+    "builtIn": [
+      "A \"Show as table\" button shows the same data as a table, which screen readers get by default."
+    ],
+    "youProvide": [
+      "A title that says what the figure is."
+    ]
+  },
+  "related": [
+    "area-chart",
+    "composed-chart"
+  ],
+  "genui": {
+    "expose": true,
+    "description": "Up to five series compared over time. Rows are periods; categories are the numeric columns.",
+    "props": [
+      "title",
+      "period",
+      "data",
+      "index",
+      "categories"
+    ],
+    "children": "none",
+    "schema": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "title": {
+          "type": "string",
+          "description": "What the chart shows (\"Revenue\")."
+        },
+        "period": {
+          "type": "string",
+          "description": "The period it covers (\"June–September 2026\")."
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": {
+              "type": [
+                "string",
+                "number",
+                "boolean",
+                "null"
+              ]
+            }
+          }
+        },
+        "index": {
+          "type": "string",
+          "description": "The x key: the period or category of each row."
+        },
+        "categories": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "The series keys, in order; the first is the product's own figure (`ds-chart-1`)."
+        }
+      },
+      "required": [
+        "title",
+        "data",
+        "index",
+        "categories"
+      ]
+    }
+  },
+  "source": [
+    "src/charts/core-charts.tsx"
+  ],
+  "props": {
+    "LineChart": [
+      {
+        "name": "title",
+        "type": "string",
+        "required": true,
+        "description": "What the chart shows (\"Revenue\").",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "period",
+        "type": "string",
+        "required": false,
+        "description": "The period it covers (\"June–September 2026\").",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "total",
+        "type": "React.ReactNode",
+        "required": false,
+        "description": "The headline figure, in `metric-medium` (\"€ 184,2k\")."
+      },
+      {
+        "name": "data",
+        "type": "readonly T[]",
+        "required": true,
+        "schema": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": {
+              "type": [
+                "string",
+                "number",
+                "boolean",
+                "null"
+              ]
+            }
+          }
+        }
+      },
+      {
+        "name": "index",
+        "type": "keyof T & string",
+        "required": true,
+        "description": "The x key: the period or category of each row.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "categories",
+        "type": "readonly (keyof T & string)[]",
+        "required": true,
+        "description": "The series keys, in order; the first is the product's own figure (`ds-chart-1`).",
+        "schema": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      {
+        "name": "labels",
+        "type": "Readonly<Partial<Record<string, string>>>",
+        "required": false,
+        "description": "Series names by key (\"web\" → \"Website\"); the key by default."
+      },
+      {
+        "name": "valueFormatter",
+        "type": "ChartValueFormatter",
+        "required": false,
+        "description": "Shared by axis, tooltip and table (Intl): \"€ 48.920\"."
+      },
+      {
+        "name": "indexFormatter",
+        "type": "(value: unknown) => string",
+        "required": false,
+        "description": "The index label in the tooltip and the table (\"August 2026\")."
+      },
+      {
+        "name": "indexLabel",
+        "type": "string",
+        "required": false,
+        "description": "The index column's header in the data table; \"Period\" for time charts, \"Category\" for BarChart.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "height",
+        "type": "number",
+        "required": false,
+        "description": "The plot's height in px; 240 by default.",
+        "schema": {
+          "type": "number"
+        }
+      },
+      {
+        "name": "isLoading",
+        "type": "boolean",
+        "required": false,
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "emptyMessage",
+        "type": "{ title: string; description?: string | undefined; }",
+        "required": false,
+        "description": "Shown instead of the plot when `data` is empty; \"No data for this period\" by default."
+      },
+      {
+        "name": "allowDecimals",
+        "type": "boolean",
+        "required": false,
+        "description": "`false` for whole counts (orders, new customers): the value axis steps by whole numbers, so a small count\nreads 0 / 1 / 2 / 3, never 0.7 / 1.4 / 2.1. Fractional steps by default. Percent bars keep their\n0–100% steps.",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "referenceLines",
+        "type": "readonly ChartReferenceLine[]",
+        "required": false,
+        "description": "A target or an average: dashed `ds-border-bold` with a label at its end.",
+        "schema": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "value": {
+                "type": "number"
+              },
+              "label": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "value",
+              "label"
+            ]
+          }
+        }
+      },
+      {
+        "name": "connectNulls",
+        "type": "boolean",
+        "required": false,
+        "description": "Join across missing values; gaps stay gaps by default.",
+        "schema": {
+          "type": "boolean"
+        }
+      }
+    ]
+  },
+  "tokens": [
+    "ds-background-neutral",
+    "ds-border",
+    "ds-border-bold",
+    "ds-border-focused",
+    "ds-chart-1",
+    "ds-chart-2",
+    "ds-chart-3",
+    "ds-chart-4",
+    "ds-chart-5",
+    "ds-chart-neutral",
+    "ds-link",
+    "ds-radius-medium",
+    "ds-radius-small",
+    "ds-radius-xsmall",
+    "ds-shadow-overlay",
+    "ds-space-050",
+    "ds-space-075",
+    "ds-space-100",
+    "ds-space-150",
+    "ds-space-200",
+    "ds-space-300",
+    "ds-surface-overlay",
+    "ds-surface-raised",
+    "ds-text",
+    "ds-text-danger",
+    "ds-text-subtle",
+    "ds-text-subtlest",
+    "ds-text-success"
+  ],
+  "strings": [
+    "chartCategory",
+    "chartNoData",
+    "chartPeriod",
+    "hideDataTable",
+    "showDataTable"
+  ],
+  "quality": {
+    "tests": true,
+    "a11y": false,
+    "docs": false,
+    "visual": false,
+    "dark": false,
+    "rtl": false,
+    "mcp": true,
+    "generic": true
+  }
+}

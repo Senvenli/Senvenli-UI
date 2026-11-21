@@ -82,7 +82,13 @@
         "name": "groups",
         "type": "readonly string[]",
         "required": false,
-        "description": "Group order (\"Suggested places\" first, then \"Addresses\")."
+        "description": "Group order (\"Suggested places\" first, then \"Addresses\").",
+        "schema": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
       },
       {
         "name": "icon",

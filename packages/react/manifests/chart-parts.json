@@ -1,0 +1,279 @@
+{
+  "$schema": "https://design.senvenli.com/schema/component.full.json",
+  "kind": "component",
+  "family": "charts",
+  "status": "alpha",
+  "import": "@senvenli/react/charts",
+  "name": "chart-parts",
+  "title": "Chart parts",
+  "exports": [
+    "ChartFrame",
+    "ChartLegend",
+    "ChartTooltip",
+    "ChartAnimation"
+  ],
+  "description": "The shared frame (with its data table), legend and tooltip the charts are built from, plus the CHART_COLORS series palette, for a custom chart.",
+  "keywords": [
+    "chart",
+    "legend",
+    "tooltip",
+    "frame",
+    "colors"
+  ],
+  "usage": {
+    "when": [
+      "Building a chart the library does not have, so it looks and reads like the others."
+    ]
+  },
+  "a11y": {
+    "builtIn": [
+      "A \"Show as table\" button shows the same data as a table, which screen readers get by default."
+    ],
+    "youProvide": [
+      "A title that says what the figure is."
+    ]
+  },
+  "related": [
+    "area-chart",
+    "bar-chart"
+  ],
+  "genui": {
+    "expose": false
+  },
+  "source": [
+    "src/charts/chart-parts.tsx"
+  ],
+  "props": {
+    "ChartFrame": [
+      {
+        "name": "height",
+        "type": "number",
+        "required": true,
+        "description": "The chart's height in px: loading, empty and the plot all keep it.",
+        "schema": {
+          "type": "number"
+        }
+      },
+      {
+        "name": "isLoading",
+        "type": "boolean",
+        "required": false,
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "emptyMessage",
+        "type": "{ title: string; description?: string | undefined; }",
+        "required": false,
+        "description": "Shown instead of the plot when there is nothing to draw: one sentence on why, one on what fills it."
+      },
+      {
+        "name": "dataTable",
+        "type": "ChartDataTable<T>",
+        "required": true,
+        "description": "The same data as a compact Table: always there for screen readers, shown on request. Cells are\nvalues: a `render` that returns text (a formatted figure) is used; anything else falls back to the\nraw value in the hidden table."
+      },
+      {
+        "name": "legend",
+        "type": "React.ReactNode",
+        "required": false,
+        "description": "The Legend: above the plot, or below it (LineChart)."
+      },
+      {
+        "name": "legendPlacement",
+        "type": "\"top\" | \"bottom\"",
+        "required": false,
+        "default": "\"top\"",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "top",
+            "bottom"
+          ]
+        }
+      },
+      {
+        "name": "children",
+        "type": "React.ReactNode",
+        "required": true,
+        "description": "The Recharts chart (inside a ResponsiveContainer), named by the table's caption. Its keyboard layer\n(arrow keys move between data points, the tooltip follows) stays on; the table carries the data in full."
+      }
+    ],
+    "ChartLegend": [
+      {
+        "name": "items",
+        "type": "readonly ChartLegendItem[]",
+        "required": true,
+        "schema": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "key": {
+                "type": "string"
+              },
+              "label": {
+                "type": "string"
+              },
+              "color": {
+                "type": "string"
+              },
+              "kind": {
+                "type": "string",
+                "enum": [
+                  "line",
+                  "area",
+                  "bar"
+                ]
+              },
+              "strokeDasharray": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "key",
+              "label",
+              "color"
+            ]
+          }
+        }
+      },
+      {
+        "name": "hidden",
+        "type": "ReadonlySet<string>",
+        "required": false,
+        "description": "From `useChartSeries()`: pressing a key hides or shows its series. Leave out for a static legend."
+      },
+      {
+        "name": "onToggle",
+        "type": "(key: string) => void",
+        "required": false
+      }
+    ],
+    "ChartTooltip": [
+      {
+        "name": "active",
+        "type": "boolean",
+        "required": false,
+        "description": "Set by Recharts when used as `<Tooltip content={<ChartTooltip … />} />`.",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "payload",
+        "type": "readonly ChartTooltipEntry[]",
+        "required": false,
+        "schema": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "dataKey": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "color": {
+                "type": "string"
+              },
+              "stroke": {
+                "type": "string"
+              },
+              "fill": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      {
+        "name": "label",
+        "type": "{}",
+        "required": false
+      },
+      {
+        "name": "valueFormatter",
+        "type": "ChartValueFormatter",
+        "required": false,
+        "default": "String",
+        "description": "Shared with the chart: \"€ 55,0k\"."
+      },
+      {
+        "name": "labelFormatter",
+        "type": "(label: unknown) => ReactNode",
+        "required": false,
+        "description": "The period title (\"August 2026\"); the category label by default."
+      },
+      {
+        "name": "labels",
+        "type": "Readonly<Record<string, string>>",
+        "required": false,
+        "description": "Series names by data key (\"2026\", \"Website\")."
+      },
+      {
+        "name": "change",
+        "type": "(payload: readonly ChartTooltipEntry[]) => { label: string; value: string; tone: \"success\" | \"danger\" | \"neutral\" } | null",
+        "required": false,
+        "description": "An optional change row, colored by meaning (\"Change +11.8%\")."
+      }
+    ],
+    "ChartAnimation": [
+      {
+        "name": "isEnabled",
+        "type": "boolean",
+        "required": true,
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "children",
+        "type": "React.ReactNode",
+        "required": true
+      }
+    ]
+  },
+  "tokens": [
+    "ds-border-focused",
+    "ds-chart-1",
+    "ds-chart-2",
+    "ds-chart-3",
+    "ds-chart-4",
+    "ds-chart-5",
+    "ds-chart-neutral",
+    "ds-link",
+    "ds-radius-medium",
+    "ds-radius-small",
+    "ds-radius-xsmall",
+    "ds-shadow-overlay",
+    "ds-space-050",
+    "ds-space-075",
+    "ds-space-100",
+    "ds-space-150",
+    "ds-space-200",
+    "ds-surface-overlay",
+    "ds-text",
+    "ds-text-danger",
+    "ds-text-subtle",
+    "ds-text-success"
+  ],
+  "strings": [
+    "hideDataTable",
+    "showDataTable"
+  ],
+  "quality": {
+    "tests": true,
+    "a11y": false,
+    "docs": false,
+    "visual": false,
+    "dark": false,
+    "rtl": false,
+    "mcp": true,
+    "generic": true
+  }
+}

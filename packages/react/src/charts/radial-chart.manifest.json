@@ -1,0 +1,44 @@
+{
+  "$schema": "../../manifest/component.schema.json",
+  "kind": "component",
+  "family": "charts",
+  "status": "alpha",
+  "import": "@senvenli/react/charts",
+  "name": "radial-chart",
+  "title": "Radial chart",
+  "exports": [
+    "RadialChart"
+  ],
+  "description": "Progress of a few parts as concentric rings.",
+  "keywords": [
+    "chart",
+    "radial",
+    "progress",
+    "rings"
+  ],
+  "usage": {
+    "when": [
+      "Two to four progress figures side by side."
+    ],
+    "instead": [
+      {
+        "use": "gauge",
+        "when": "There is only one figure."
+      }
+    ]
+  },
+  "a11y": {
+    "builtIn": [
+      "A \"Show as table\" button shows the same data as a table, which screen readers get by default."
+    ],
+    "youProvide": [
+      "A title that says what the figure is."
+    ]
+  },
+  "related": [
+    "gauge"
+  ],
+  "genui": {
+    "expose": false
+  }
+}

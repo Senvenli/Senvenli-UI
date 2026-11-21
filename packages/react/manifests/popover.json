@@ -73,12 +73,12 @@
         "schema": {
           "type": "string",
           "enum": [
-            "start",
-            "end",
+            "top",
             "bottom",
             "left",
             "right",
-            "top",
+            "start",
+            "end",
             "bottom left",
             "bottom right",
             "bottom start",

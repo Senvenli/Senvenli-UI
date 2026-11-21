@@ -399,12 +399,24 @@
       {
         "name": "selectedKeys",
         "type": "readonly Key[]",
-        "required": false
+        "required": false,
+        "schema": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
       },
       {
         "name": "defaultSelectedKeys",
         "type": "readonly Key[]",
-        "required": false
+        "required": false,
+        "schema": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
       },
       {
         "name": "selectedItems",

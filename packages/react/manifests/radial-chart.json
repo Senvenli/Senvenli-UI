@@ -1,0 +1,175 @@
+{
+  "$schema": "https://design.senvenli.com/schema/component.full.json",
+  "kind": "component",
+  "family": "charts",
+  "status": "alpha",
+  "import": "@senvenli/react/charts",
+  "name": "radial-chart",
+  "title": "Radial chart",
+  "exports": [
+    "RadialChart"
+  ],
+  "description": "Progress of a few parts as concentric rings.",
+  "keywords": [
+    "chart",
+    "radial",
+    "progress",
+    "rings"
+  ],
+  "usage": {
+    "when": [
+      "Two to four progress figures side by side."
+    ],
+    "instead": [
+      {
+        "use": "gauge",
+        "when": "There is only one figure."
+      }
+    ]
+  },
+  "a11y": {
+    "builtIn": [
+      "A \"Show as table\" button shows the same data as a table, which screen readers get by default."
+    ],
+    "youProvide": [
+      "A title that says what the figure is."
+    ]
+  },
+  "related": [
+    "gauge"
+  ],
+  "genui": {
+    "expose": false
+  },
+  "source": [
+    "src/charts/more-charts.tsx"
+  ],
+  "props": {
+    "RadialChart": [
+      {
+        "name": "title",
+        "type": "string",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "period",
+        "type": "string",
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "isLoading",
+        "type": "boolean",
+        "required": false,
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "emptyMessage",
+        "type": "{ title: string; description?: string | undefined; }",
+        "required": false
+      },
+      {
+        "name": "height",
+        "type": "number",
+        "required": false,
+        "default": "200",
+        "schema": {
+          "type": "number"
+        }
+      },
+      {
+        "name": "data",
+        "type": "readonly DonutDatum[]",
+        "required": true,
+        "description": "Two or three values on one 0–100 scale.",
+        "schema": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "value": {
+                "type": "number"
+              }
+            },
+            "required": [
+              "name",
+              "value"
+            ]
+          }
+        }
+      },
+      {
+        "name": "valueFormatter",
+        "type": "ChartValueFormatter",
+        "required": false,
+        "default": "(value) => `${value}%`"
+      }
+    ]
+  },
+  "tokens": [
+    "ds-background-neutral",
+    "ds-background-neutral-pressed",
+    "ds-border",
+    "ds-border-bold",
+    "ds-border-focused",
+    "ds-chart-1",
+    "ds-chart-2",
+    "ds-chart-3",
+    "ds-chart-4",
+    "ds-chart-5",
+    "ds-chart-neutral",
+    "ds-link",
+    "ds-radius-medium",
+    "ds-radius-small",
+    "ds-radius-xsmall",
+    "ds-shadow-overlay",
+    "ds-space-050",
+    "ds-space-075",
+    "ds-space-100",
+    "ds-space-150",
+    "ds-space-200",
+    "ds-space-300",
+    "ds-space-400",
+    "ds-surface-overlay",
+    "ds-surface-raised",
+    "ds-text",
+    "ds-text-danger",
+    "ds-text-subtle",
+    "ds-text-subtlest",
+    "ds-text-success"
+  ],
+  "strings": [
+    "chartCategory",
+    "chartNoData",
+    "chartOther",
+    "chartPeriod",
+    "chartShare",
+    "chartTrend",
+    "chartValue",
+    "gaugeTarget",
+    "hideDataTable",
+    "showDataTable",
+    "sparklineSummary"
+  ],
+  "quality": {
+    "tests": true,
+    "a11y": false,
+    "docs": false,
+    "visual": false,
+    "dark": false,
+    "rtl": false,
+    "mcp": true,
+    "generic": true
+  }
+}
