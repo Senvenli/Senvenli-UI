@@ -119,12 +119,14 @@
         "name": "label",
         "type": "React.ReactNode",
         "required": false,
+        "origin": "own",
         "description": "The label sits above the field."
       },
       {
         "name": "items",
         "type": "readonly ComboBoxItem[]",
         "required": false,
+        "origin": "own",
         "description": "The whole list, filtered here as the user types.",
         "schema": {
           "type": "array",
@@ -162,22 +164,26 @@
         "name": "loadItems",
         "type": "ComboBoxLoader",
         "required": false,
+        "origin": "own",
         "description": "Or load matches from the server (with paging when it returns a cursor)."
       },
       {
         "name": "description",
         "type": "React.ReactNode",
-        "required": false
+        "required": false,
+        "origin": "own"
       },
       {
         "name": "errorMessage",
         "type": "React.ReactNode",
-        "required": false
+        "required": false,
+        "origin": "own"
       },
       {
         "name": "placeholder",
         "type": "string",
         "required": false,
+        "origin": "own",
         "schema": {
           "type": "string"
         }
@@ -186,6 +192,7 @@
         "name": "isRequired",
         "type": "boolean",
         "required": false,
+        "origin": "own",
         "schema": {
           "type": "boolean"
         }
@@ -194,6 +201,7 @@
         "name": "requiredValidation",
         "type": "RequiredValidation",
         "required": false,
+        "origin": "own",
         "description": "Who says an empty required ComboBox is missing: `field` (default) shows \"Fill in this field.\"\non blur and on a DS Form submit, which it then blocks; `app` only marks the field. Empty is no chosen item\n(multiple: no tag); with `allowsCustomValue`, typed text counts as a value. See {@link RequiredValidation}.\nThe app's `isInvalid` (`true` with its `errorMessage`, or `false`) overrides the check, as on TextField. Disabled,\nempty and required, it still blocks a DS Form's submit and cannot take focus (as TextField).",
         "schema": {
           "type": "string",
@@ -207,6 +215,7 @@
         "name": "isDisabled",
         "type": "boolean",
         "required": false,
+        "origin": "own",
         "schema": {
           "type": "boolean"
         }
@@ -215,6 +224,7 @@
         "name": "isInvalid",
         "type": "boolean",
         "required": false,
+        "origin": "own",
         "schema": {
           "type": "boolean"
         }
@@ -223,6 +233,7 @@
         "name": "name",
         "type": "string",
         "required": false,
+        "origin": "own",
         "schema": {
           "type": "string"
         }
@@ -231,6 +242,7 @@
         "name": "menuTrigger",
         "type": "\"focus\" | \"input\"",
         "required": false,
+        "origin": "own",
         "description": "`input` (default) opens on typing; `focus` also on focus. The chevron always opens the full list.",
         "schema": {
           "type": "string",
@@ -244,30 +256,35 @@
         "name": "emptyMessage",
         "type": "(query: string) => ReactNode",
         "required": false,
+        "origin": "own",
         "description": "The empty result; defaults to \"No results for “{query}”.\" in the provider locale."
       },
       {
         "name": "onCreate",
         "type": "(text: string) => void",
         "required": false,
+        "origin": "own",
         "description": "Adds a create row for the typed text when nothing matches it exactly."
       },
       {
         "name": "createLabel",
         "type": "(text: string) => string",
         "required": false,
+        "origin": "own",
         "description": "The create row's text; defaults to \"Add “{query}”\"."
       },
       {
         "name": "onInputChange",
         "type": "(text: string) => void",
         "required": false,
+        "origin": "own",
         "description": "The typed text, for consumers that need it (custom values, analytics)."
       },
       {
         "name": "size",
         "type": "FieldSize",
         "required": false,
+        "origin": "own",
         "schema": {
           "type": "string",
           "enum": [
@@ -280,6 +297,7 @@
         "name": "isLoading",
         "type": "boolean",
         "required": false,
+        "origin": "own",
         "description": "The app is fetching items itself (with `items`, not `loadItems`): a spinner\nshows in the field and at the end of the list, and the change is announced.\nItems already shown stay selectable by keyboard and pointer. Together with\n`loadItems`, the field's own loading status is the one announced, so there\nis a single status region.",
         "schema": {
           "type": "boolean"
@@ -289,6 +307,7 @@
         "name": "loadingText",
         "type": "string",
         "required": false,
+        "origin": "own",
         "description": "What is announced and shown while loading; defaults to \"Loading…\" in the provider locale.",
         "schema": {
           "type": "string"
@@ -298,18 +317,21 @@
         "name": "onSearchChange",
         "type": "(search: string) => void",
         "required": false,
+        "origin": "own",
         "description": "The app searches on the server itself (with `items`, not `loadItems`;): told the text to search for,\nthe typed text, or `\"\"` when the list opens in full (the chevron, focus with `menuTrigger=\"focus\"`) or the field\njust shows the chosen item's label. Debounce it on the app side. With it, `items` are the app's results and are\nshown as given, not filtered again here; the match in each row is still in bold. Not called on mount.\n\nThe field hides rows found for another text itself: from the moment the text changes until the app's answer\narrives, the list shows its loading row, the field its spinner, and the loading is announced politely, whatever the\napp does while it debounces. The answer has arrived when the rows change (ids, labels, second lines), when\n`isLoading` is set and cleared again (also for a server that finds the same rows), or, if neither, once the same\nrows have stood for a second with no new render. Nothing is asked of the app for it; `isLoading` is still the way to\nsay a fetch is running.\n\nIt is for a search that answers later. Filtering the rows the app already holds, synchronously, is the local filter's\njob (pass `items` without `onSearchChange`): here an answer with the very same rows and no `isLoading` stays hidden\nfor that second. The field tells answers apart by when they arrive, not by the text they were asked for: an earlier\nrequest that answers after the next keystroke counts as the answer to the newer text. Abort superseded requests, or\nkeep each answer under its own text (react-query's query key, without `placeholderData`)."
       },
       {
         "name": "onLoadMore",
         "type": "() => void",
         "required": false,
+        "origin": "own",
         "description": "The next page of the app's own `items`, for an app that pages with its own query (react-query's\ninfinite query): called when the list is scrolled near its end. Pass it only while there is another page\n(`hasNextPage ? fetchNextPage : undefined`), and set `isLoading` while the page loads: the list then ends in a\nloading row, the field shows its spinner and the loading is announced (politely). It is not called again while\n`isLoading` is set, nor twice before the app answers (a new page, `isLoading`, or a new search). The app's error\nstays the app's (`errorMessage`, `description`); after it, a scroll to the end asks again. With `loadItems`, which\npages by itself, it is not used."
       },
       {
         "name": "id",
         "type": "string",
         "required": false,
+        "origin": "own",
         "description": "The input's id, so a label outside the component (`<label htmlFor={id}>`, an app's form field) names it.\nWith neither `label` nor `aria-label`, that external label is the field's name and no label of its own\nrenders.",
         "schema": {
           "type": "string"
@@ -319,6 +341,7 @@
         "name": "aria-describedby",
         "type": "string",
         "required": false,
+        "origin": "own",
         "description": "Ids of text outside the component that describes the input (an app's hint or error), added to its own.",
         "schema": {
           "type": "string"
@@ -328,6 +351,7 @@
         "name": "aria-invalid",
         "type": "boolean | \"true\" | \"false\"",
         "required": false,
+        "origin": "own",
         "description": "Set by a form row that owns the error text (the shared `Field` hands its control `aria-invalid`): the field\nshows its invalid state as with `isInvalid`, and without an `errorMessage` of its own draws no error row,\nso the row's message is the only one. It marks the input for assistive tech and draws it\ninvalid only: unlike `isInvalid` it never becomes the input's native validity (React Aria's default outside a\nDS Form), so it never blocks a form's submit.",
         "schema": {
           "enum": [
@@ -342,6 +366,7 @@
         "name": "selectionMode",
         "type": "\"single\" | \"multiple\"",
         "required": false,
+        "origin": "own",
         "schema": {
           "type": "string",
           "enum": [
@@ -354,6 +379,7 @@
         "name": "selectedKey",
         "type": "Key",
         "required": false,
+        "origin": "own",
         "description": "Controlled; may start undefined and become set later (never flips control).",
         "schema": {
           "type": "string"
@@ -363,6 +389,7 @@
         "name": "defaultSelectedKey",
         "type": "Key",
         "required": false,
+        "origin": "own",
         "schema": {
           "type": "string"
         }
@@ -370,18 +397,21 @@
       {
         "name": "onSelectionChange",
         "type": "(key: Key | null) => void | (keys: Key[]) => void",
-        "required": false
+        "required": false,
+        "origin": "own"
       },
       {
         "name": "selectedItem",
         "type": "ComboBoxItem",
         "required": false,
+        "origin": "own",
         "description": "The chosen item when it is not on the loaded page (server search), so its label still shows."
       },
       {
         "name": "allowsCustomValue",
         "type": "boolean",
         "required": false,
+        "origin": "own",
         "description": "Typed text that matches no item is kept as the field's text; the key\nbecomes `null` and `onInputChange` reports the text.",
         "schema": {
           "type": "boolean"
@@ -391,6 +421,7 @@
         "name": "aria-label",
         "type": "string",
         "required": false,
+        "origin": "own",
         "description": "Names the field for assistive technology when no visible label is shown.",
         "schema": {
           "type": "string"
@@ -400,6 +431,7 @@
         "name": "selectedKeys",
         "type": "readonly Key[]",
         "required": false,
+        "origin": "own",
         "schema": {
           "type": "array",
           "items": {
@@ -411,6 +443,7 @@
         "name": "defaultSelectedKeys",
         "type": "readonly Key[]",
         "required": false,
+        "origin": "own",
         "schema": {
           "type": "array",
           "items": {
@@ -422,6 +455,7 @@
         "name": "selectedItems",
         "type": "readonly ComboBoxItem[]",
         "required": false,
+        "origin": "own",
         "description": "Chosen items that are not on the loaded page, so their tags show their labels.",
         "schema": {
           "type": "array",

@@ -50,12 +50,14 @@
       {
         "name": "label",
         "type": "React.ReactNode",
-        "required": true
+        "required": true,
+        "origin": "own"
       },
       {
         "name": "value",
         "type": "string",
         "required": true,
+        "origin": "own",
         "description": "The free text; it is a valid value on its own.",
         "schema": {
           "type": "string"
@@ -64,24 +66,28 @@
       {
         "name": "onChange",
         "type": "(value: string) => void",
-        "required": true
+        "required": true,
+        "origin": "own"
       },
       {
         "name": "getSuggestions",
         "type": "(text: string, signal: AbortSignal) => Promise<AutocompleteSuggestion[]>",
         "required": true,
+        "origin": "own",
         "description": "Suggestions for the typed text (called after `minLength` characters, debounced)."
       },
       {
         "name": "onSelectSuggestion",
         "type": "(suggestion: AutocompleteSuggestion) => void",
         "required": false,
+        "origin": "own",
         "description": "Called when a suggestion fills the text, with the suggestion itself (coordinates, ids)."
       },
       {
         "name": "groups",
         "type": "readonly string[]",
         "required": false,
+        "origin": "own",
         "description": "Group order (\"Suggested places\" first, then \"Addresses\").",
         "schema": {
           "type": "array",
@@ -94,6 +100,7 @@
         "name": "icon",
         "type": "IconName",
         "required": false,
+        "origin": "own",
         "default": "\"search\"",
         "description": "The field's context icon (default `search`).",
         "schema": {
@@ -104,17 +111,20 @@
       {
         "name": "description",
         "type": "React.ReactNode",
-        "required": false
+        "required": false,
+        "origin": "own"
       },
       {
         "name": "errorMessage",
         "type": "React.ReactNode",
-        "required": false
+        "required": false,
+        "origin": "own"
       },
       {
         "name": "placeholder",
         "type": "string",
         "required": false,
+        "origin": "own",
         "schema": {
           "type": "string"
         }
@@ -123,6 +133,7 @@
         "name": "isRequired",
         "type": "boolean",
         "required": false,
+        "origin": "own",
         "schema": {
           "type": "boolean"
         }
@@ -131,6 +142,7 @@
         "name": "requiredValidation",
         "type": "RequiredValidation",
         "required": false,
+        "origin": "own",
         "description": "Who says an empty required Autocomplete is missing: `field` (default) shows \"Fill in this field.\"\non blur and on a DS Form submit, which it then blocks; `app` only marks the field. See {@link RequiredValidation}.\nThe app's `isInvalid` (`true` with its `errorMessage`, or `false`) overrides the check, as on TextField. Disabled,\nempty and required, it still blocks a DS Form's submit and cannot take focus (as TextField).",
         "schema": {
           "type": "string",
@@ -144,6 +156,7 @@
         "name": "isDisabled",
         "type": "boolean",
         "required": false,
+        "origin": "own",
         "schema": {
           "type": "boolean"
         }
@@ -152,6 +165,7 @@
         "name": "isInvalid",
         "type": "boolean",
         "required": false,
+        "origin": "own",
         "schema": {
           "type": "boolean"
         }
@@ -160,6 +174,7 @@
         "name": "name",
         "type": "string",
         "required": false,
+        "origin": "own",
         "schema": {
           "type": "string"
         }
@@ -168,6 +183,7 @@
         "name": "minLength",
         "type": "number",
         "required": false,
+        "origin": "own",
         "default": "2",
         "description": "Characters before suggesting (default 2).",
         "schema": {
@@ -178,6 +194,7 @@
         "name": "debounce",
         "type": "number",
         "required": false,
+        "origin": "own",
         "default": "250",
         "description": "Debounce in ms (default 250).",
         "schema": {
@@ -188,6 +205,7 @@
         "name": "size",
         "type": "FieldSize",
         "required": false,
+        "origin": "own",
         "default": "\"default\"",
         "schema": {
           "type": "string",

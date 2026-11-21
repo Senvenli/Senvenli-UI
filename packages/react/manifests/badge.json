@@ -90,6 +90,7 @@
         "name": "tone",
         "type": "BadgeTone",
         "required": false,
+        "origin": "own",
         "default": "\"neutral\"",
         "description": "`danger` only for counts that need action now (overdue, unpaid).",
         "schema": {
@@ -106,6 +107,7 @@
         "name": "isOnIcon",
         "type": "boolean",
         "required": false,
+        "origin": "own",
         "description": "On an icon inside `BadgeAnchor`: corner placement, and hidden from screen readers (the control's label says it).",
         "schema": {
           "type": "boolean"
@@ -115,6 +117,7 @@
         "name": "value",
         "type": "number",
         "required": false,
+        "origin": "own",
         "description": "The count; nothing renders at 0.",
         "schema": {
           "type": "number"
@@ -124,6 +127,7 @@
         "name": "max",
         "type": "number",
         "required": false,
+        "origin": "own",
         "description": "Above it shows \"max+\"; default 99, or 9 on an icon.",
         "schema": {
           "type": "number"
@@ -133,6 +137,7 @@
         "name": "isDot",
         "type": "true",
         "required": false,
+        "origin": "own",
         "description": "An 8px unread marker without a number; hidden from screen readers, so the text or label next to it says \"new\".",
         "schema": {
           "type": "boolean"
@@ -143,7 +148,8 @@
       {
         "name": "children",
         "type": "React.ReactNode",
-        "required": true
+        "required": true,
+        "origin": "own"
       }
     ]
   },

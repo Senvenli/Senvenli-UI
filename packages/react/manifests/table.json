@@ -165,6 +165,7 @@
         "name": "aria-label",
         "type": "string",
         "required": true,
+        "origin": "own",
         "description": "Names the table (\"Orders\").",
         "schema": {
           "type": "string"
@@ -174,6 +175,7 @@
         "name": "columns",
         "type": "readonly TableColumn<T>[]",
         "required": true,
+        "origin": "own",
         "schema": {
           "type": "array",
           "items": {
@@ -226,6 +228,7 @@
         "name": "rows",
         "type": "readonly T[]",
         "required": true,
+        "origin": "own",
         "schema": {
           "type": "array",
           "items": {
@@ -245,12 +248,14 @@
         "name": "rowKey",
         "type": "(row: T) => Key",
         "required": false,
+        "origin": "own",
         "description": "The row's stable id; `row.id` by default. Ids must be unique within the table. When the data has no\nsingle unique field, build one from the fields that are (`${row.date}:${row.channel}`), or add the row's\nindex as a last resort. A repeated id still renders every row: the first keeps its id and the later ones\nare keyed `a#2`, `a#3`, … in row order, and selection and `onRowAction` receive those suffixed keys; a\ndevelopment warning names the repeated ids. A suffixed key follows the row's position, not\nthe row: after a sort or filter, a selection made through it can move to another copy of the id."
       },
       {
         "name": "selectionMode",
         "type": "\"none\" | \"single\" | \"multiple\"",
         "required": false,
+        "origin": "own",
         "schema": {
           "type": "string",
           "enum": [
@@ -263,32 +268,38 @@
       {
         "name": "selectedKeys",
         "type": "\"all\" | Iterable<Key>",
-        "required": false
+        "required": false,
+        "origin": "own"
       },
       {
         "name": "defaultSelectedKeys",
         "type": "\"all\" | Iterable<Key>",
-        "required": false
+        "required": false,
+        "origin": "own"
       },
       {
         "name": "onSelectionChange",
         "type": "(keys: Selection) => void",
-        "required": false
+        "required": false,
+        "origin": "own"
       },
       {
         "name": "sortDescriptor",
         "type": "SortDescriptor",
-        "required": false
+        "required": false,
+        "origin": "own"
       },
       {
         "name": "onSortChange",
         "type": "(descriptor: SortDescriptor) => void",
-        "required": false
+        "required": false,
+        "origin": "own"
       },
       {
         "name": "density",
         "type": "\"default\" | \"compact\"",
         "required": false,
+        "origin": "own",
         "description": "`compact` (36px rows) for dense working screens; `default` (48px) for public and content pages.",
         "schema": {
           "type": "string",
@@ -302,18 +313,21 @@
         "name": "renderEmptyState",
         "type": "() => ReactNode",
         "required": false,
+        "origin": "own",
         "description": "One sentence on why it is empty and the action that fills it."
       },
       {
         "name": "onRowAction",
         "type": "(key: Key) => void",
         "required": false,
+        "origin": "own",
         "description": "Opens the record: the whole row is the target."
       },
       {
         "name": "maxHeight",
         "type": "string",
         "required": false,
+        "origin": "own",
         "description": "A height for the scroll area: the header stays put and gets a shadow once rows scroll under it.",
         "schema": {
           "type": "string"
@@ -324,17 +338,20 @@
       {
         "name": "primary",
         "type": "React.ReactNode",
-        "required": true
+        "required": true,
+        "origin": "own"
       },
       {
         "name": "secondary",
         "type": "React.ReactNode",
-        "required": false
+        "required": false,
+        "origin": "own"
       },
       {
         "name": "isCode",
         "type": "\"primary\" | \"secondary\"",
         "required": false,
+        "origin": "own",
         "schema": {
           "type": "string",
           "enum": [

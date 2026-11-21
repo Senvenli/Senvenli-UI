@@ -57,6 +57,7 @@
         "name": "locales",
         "type": "readonly Locale[]",
         "required": true,
+        "origin": "own",
         "description": "Locales to offer, already narrowed to what this product enables.",
         "schema": {
           "type": "array",
@@ -76,17 +77,20 @@
       {
         "name": "current",
         "type": "Locale",
-        "required": true
+        "required": true,
+        "origin": "own"
       },
       {
         "name": "onSelect",
         "type": "(locale: Locale) => void",
-        "required": true
+        "required": true,
+        "origin": "own"
       },
       {
         "name": "label",
         "type": "string",
         "required": false,
+        "origin": "own",
         "description": "The trigger's accessible name and tooltip; \"Language\" (the DS string) by default.",
         "schema": {
           "type": "string"
@@ -96,6 +100,7 @@
         "name": "loading",
         "type": "boolean",
         "required": false,
+        "origin": "own",
         "default": "false",
         "description": "Hold the disabled trigger while the product's locale list resolves.",
         "schema": {
@@ -106,6 +111,7 @@
         "name": "sidebar",
         "type": "boolean",
         "required": false,
+        "origin": "own",
         "default": "false",
         "description": "Layout only: a full-width row whose list opens upward, for a panel sidebar.",
         "schema": {
@@ -116,6 +122,7 @@
         "name": "collapsed",
         "type": "boolean",
         "required": false,
+        "origin": "own",
         "default": "false",
         "description": "A collapsed rail: the mark alone (or the name, without one), kept for screen readers either way.",
         "schema": {
@@ -126,12 +133,14 @@
         "name": "renderMark",
         "type": "(locale: Locale) => ReactNode",
         "required": false,
+        "origin": "own",
         "description": "A mark before each language's name: a flag, an `IsoChip`, an icon. None by default: a language is not a\ncountry, and the name alone tells the options apart."
       },
       {
         "name": "size",
         "type": "\"default\" | \"sm\"",
         "required": false,
+        "origin": "own",
         "default": "\"default\"",
         "description": "Control height: `default` matches the DS controls, `sm` is the compact step.",
         "schema": {
@@ -146,6 +155,7 @@
         "name": "aria-describedby",
         "type": "string",
         "required": false,
+        "origin": "own",
         "description": "Ids of elements that describe the trigger (\"Changes the language of the whole panel\"). It lands on the\ntrigger button, the focusable control, also while it is disabled for `loading`; left out, nothing is\nadded. While the trigger's tooltip is open it takes the place of the tooltip's id, which only\nrepeats `label`.",
         "schema": {
           "type": "string"
@@ -157,6 +167,7 @@
         "name": "locale",
         "type": "string",
         "required": true,
+        "origin": "own",
         "schema": {
           "type": "string"
         }
@@ -165,6 +176,7 @@
         "name": "uiLocale",
         "type": "string",
         "required": true,
+        "origin": "own",
         "schema": {
           "type": "string"
         }
@@ -173,6 +185,7 @@
         "name": "hideName",
         "type": "boolean",
         "required": false,
+        "origin": "own",
         "default": "false",
         "schema": {
           "type": "boolean"
@@ -181,7 +194,8 @@
       {
         "name": "mark",
         "type": "React.ReactNode",
-        "required": false
+        "required": false,
+        "origin": "own"
       }
     ]
   },

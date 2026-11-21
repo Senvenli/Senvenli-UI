@@ -43,6 +43,7 @@
         "name": "title",
         "type": "string",
         "required": true,
+        "origin": "own",
         "schema": {
           "type": "string"
         }
@@ -51,6 +52,7 @@
         "name": "period",
         "type": "string",
         "required": false,
+        "origin": "own",
         "schema": {
           "type": "string"
         }
@@ -59,6 +61,7 @@
         "name": "isLoading",
         "type": "boolean",
         "required": false,
+        "origin": "own",
         "schema": {
           "type": "boolean"
         }
@@ -66,12 +69,14 @@
       {
         "name": "emptyMessage",
         "type": "{ title: string; description?: string | undefined; }",
-        "required": false
+        "required": false,
+        "origin": "own"
       },
       {
         "name": "steps",
         "type": "readonly FunnelStep[]",
         "required": true,
+        "origin": "own",
         "description": "Truly ordered steps, each a subset of the one before.",
         "schema": {
           "type": "array",
@@ -97,12 +102,14 @@
         "name": "valueFormatter",
         "type": "ChartValueFormatter",
         "required": false,
+        "origin": "own",
         "default": "plain"
       },
       {
         "name": "showStepConversion",
         "type": "boolean",
         "required": false,
+        "origin": "own",
         "default": "true",
         "description": "The conversion from the previous step beside each count. On by default.",
         "schema": {
@@ -113,6 +120,7 @@
         "name": "showTotalConversion",
         "type": "boolean",
         "required": false,
+        "origin": "own",
         "default": "true",
         "description": "The first-to-last conversion in the subtitle. On by default.",
         "schema": {

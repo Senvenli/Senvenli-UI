@@ -101,6 +101,7 @@
         "name": "title",
         "type": "string",
         "required": true,
+        "origin": "own",
         "schema": {
           "type": "string"
         }
@@ -109,6 +110,7 @@
         "name": "period",
         "type": "string",
         "required": false,
+        "origin": "own",
         "schema": {
           "type": "string"
         }
@@ -117,6 +119,7 @@
         "name": "isLoading",
         "type": "boolean",
         "required": false,
+        "origin": "own",
         "schema": {
           "type": "boolean"
         }
@@ -124,12 +127,14 @@
       {
         "name": "emptyMessage",
         "type": "{ title: string; description?: string | undefined; }",
-        "required": false
+        "required": false,
+        "origin": "own"
       },
       {
         "name": "data",
         "type": "readonly BarListDatum[]",
         "required": true,
+        "origin": "own",
         "schema": {
           "type": "array",
           "items": {
@@ -157,12 +162,14 @@
         "name": "valueFormatter",
         "type": "ChartValueFormatter",
         "required": false,
+        "origin": "own",
         "default": "plain"
       },
       {
         "name": "limit",
         "type": "number",
         "required": false,
+        "origin": "own",
         "default": "5",
         "description": "The rows shown before \"Show all\": five by default, ten at most.",
         "schema": {

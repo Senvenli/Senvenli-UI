@@ -3,7 +3,9 @@ import { DesignSystemProvider } from "@senvenli/react";
 import type { ReactNode } from "react";
 import { renderToString } from "react-dom/server";
 import { describe, expect, it } from "vitest";
-import { EXAMPLES } from "../src/examples";
+import type { ComponentType } from "react";
+import type { ExampleMeta } from "../src/examples/types";
+import { loadExamples } from "../src/lib/examples.server";
 import type { Manifest, ManifestIndexEntry } from "../src/lib/manifest";
 import { ComponentPage } from "../src/pages/ComponentPage";
 import { ComponentsIndexPage } from "../src/pages/ComponentsIndexPage";
@@ -15,6 +17,8 @@ import { SiteShell } from "../src/pages/SiteShell";
 const manifests = new URL("../../packages/react/manifests/", import.meta.url);
 const read = <T,>(file: string) => JSON.parse(readFileSync(new URL(file, manifests), "utf8")) as T;
 const index = read<ManifestIndexEntry[]>("index.json");
+const lists = import.meta.glob<ExampleMeta[]>("../src/examples/*/index.ts", { import: "default", eager: true });
+const examples = import.meta.glob<ComponentType>("../src/examples/*/*.tsx", { import: "default", eager: true });
 
 // The pages are router-agnostic: without `navigate` the provider renders plain links.
 const render = (page: ReactNode) =>
@@ -35,16 +39,27 @@ describe("server render", () => {
     expect(index.map((entry) => entry.name).sort()).toEqual(files.sort());
   });
 
-  it.each(index.map((entry) => entry.name))("/components/%s renders", (slug) => {
+  it.each(index.map((entry) => entry.name))("/components/%s renders", async (slug) => {
     const manifest = read<Manifest>(`${slug}.json`);
-    const html = render(<ComponentPage manifest={manifest} example={EXAMPLES[slug]?.()} />);
+    const html = render(<ComponentPage manifest={manifest} examples={await loadExamples(slug)} components={index} />);
     expect(html).toContain(`<h1`);
     expect(html).toContain(`/components/${slug}.md`);
   });
 
-  it("every example belongs to a manifest", () => {
+  it("every example folder belongs to a manifest, and lists exactly the files it has", () => {
     const slugs = new Set(index.map((entry) => entry.name));
-    expect(Object.keys(EXAMPLES).filter((slug) => !slugs.has(slug))).toEqual([]);
+    const folders = Object.keys(lists).map((key) => key.split("/")[3]!);
+    expect(folders.filter((slug) => !slugs.has(slug))).toEqual([]);
+    for (const slug of folders) {
+      const listed = (lists[`../src/examples/${slug}/index.ts`] as ExampleMeta[]).map((meta) => meta.id).sort();
+      const files = Object.keys(examples).filter((key) => key.split("/")[3] === slug).map((key) => key.split("/")[4]!.replace(/\.tsx$/, "")).sort();
+      expect(files, slug).toEqual(listed);
+    }
+  });
+
+  it.each(Object.keys(examples))("%s renders on the server", (key) => {
+    const Example = examples[key]!;
+    expect(() => render(<Example />)).not.toThrow();
   });
 
   it("the other pages render", () => {
@@ -60,9 +75,9 @@ describe("server render", () => {
   });
 
   it("renders the same HTML twice (no clock, no random value)", () => {
-    for (const slug of ["calendar", "timeline", "area-chart"]) {
-      const page = () => render(<ComponentPage manifest={read<Manifest>(`${slug}.json`)} example={EXAMPLES[slug]?.()} />);
-      expect(page()).toBe(page());
+    for (const key of Object.keys(examples)) {
+      const Example = examples[key]!;
+      expect(render(<Example />), key).toBe(render(<Example />));
     }
   });
 });

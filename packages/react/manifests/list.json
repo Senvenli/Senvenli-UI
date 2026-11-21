@@ -64,6 +64,7 @@
         "name": "aria-label",
         "type": "string",
         "required": true,
+        "origin": "own",
         "description": "Names the list (\"Today's deliveries\").",
         "schema": {
           "type": "string"
@@ -73,12 +74,14 @@
         "name": "children",
         "type": "React.ReactNode",
         "required": false,
+        "origin": "own",
         "description": "ListItem rows, or ListSections of them; or give `items` (or `sections`) and `renderItem`."
       },
       {
         "name": "items",
         "type": "readonly T[]",
         "required": false,
+        "origin": "own",
         "schema": {
           "type": "array",
           "items": {
@@ -98,18 +101,21 @@
         "name": "sections",
         "type": "readonly ListSectionData<T>[]",
         "required": false,
+        "origin": "own",
         "description": "Grouped rows under small headers (\"Today\", \"Tomorrow\")."
       },
       {
         "name": "renderItem",
         "type": "(item: T) => ListItemProps",
         "required": false,
+        "origin": "own",
         "description": "One row's content for `items` / `sections`."
       },
       {
         "name": "selectionMode",
         "type": "\"none\" | \"single\" | \"multiple\"",
         "required": false,
+        "origin": "own",
         "default": "\"none\"",
         "schema": {
           "type": "string",
@@ -124,6 +130,7 @@
         "name": "selectionBehavior",
         "type": "\"toggle\" | \"replace\"",
         "required": false,
+        "origin": "own",
         "default": "\"toggle\"",
         "description": "How a press selects. `toggle` (default): each row has a checkbox and a press adds or\nremoves it, for picking a set to act on. `replace`: no checkboxes; a press selects that row in place of\nthe last, and with `single` the arrow keys move the selection, for a list that shows one open record\nbeside it (an inbox's conversation). The selected row keeps its marker either way. With `onAction` as\nwell, a press runs the action and selection needs the keyboard (React Aria's replace rule), so a\nreplace list usually leaves `onAction` out.",
         "schema": {
@@ -137,28 +144,33 @@
       {
         "name": "selectedKeys",
         "type": "\"all\" | Iterable<Key>",
-        "required": false
+        "required": false,
+        "origin": "own"
       },
       {
         "name": "defaultSelectedKeys",
         "type": "\"all\" | Iterable<Key>",
-        "required": false
+        "required": false,
+        "origin": "own"
       },
       {
         "name": "onSelectionChange",
         "type": "(keys: Selection) => void",
-        "required": false
+        "required": false,
+        "origin": "own"
       },
       {
         "name": "onAction",
         "type": "(key: Key) => void",
         "required": false,
+        "origin": "own",
         "description": "Opens the row's record."
       },
       {
         "name": "renderEmptyState",
         "type": "() => ReactNode",
         "required": false,
+        "origin": "own",
         "description": "Shown when there are no rows."
       }
     ],
@@ -167,6 +179,7 @@
         "name": "id",
         "type": "Key",
         "required": true,
+        "origin": "own",
         "schema": {
           "type": "string"
         }
@@ -175,12 +188,14 @@
         "name": "leading",
         "type": "React.ReactNode",
         "required": false,
+        "origin": "own",
         "description": "A visual at the start: an Avatar, an icon or a thumbnail."
       },
       {
         "name": "title",
         "type": "string",
         "required": true,
+        "origin": "own",
         "description": "The one primary line (\"Ada Lovelace\"); also the row's text for typeahead.",
         "schema": {
           "type": "string"
@@ -190,18 +205,21 @@
         "name": "description",
         "type": "React.ReactNode",
         "required": false,
+        "origin": "own",
         "description": "The context the reader scans for: item, time, place (\"Order 1042 · 10:00 · Berlin\")."
       },
       {
         "name": "trailing",
         "type": "React.ReactNode",
         "required": false,
+        "origin": "own",
         "description": "At the end: a Lozenge for status, then a subtle icon-button menu."
       },
       {
         "name": "href",
         "type": "string",
         "required": false,
+        "origin": "own",
         "description": "Makes the row a link to the record.",
         "schema": {
           "type": "string"
@@ -213,6 +231,7 @@
         "name": "title",
         "type": "string",
         "required": true,
+        "origin": "own",
         "schema": {
           "type": "string"
         }
@@ -220,7 +239,8 @@
       {
         "name": "children",
         "type": "React.ReactNode",
-        "required": true
+        "required": true,
+        "origin": "own"
       }
     ]
   },

@@ -95,23 +95,27 @@
         "name": "label",
         "type": "React.ReactNode",
         "required": true,
+        "origin": "own",
         "description": "Always given; the label sits above the field and names its segments."
       },
       {
         "name": "description",
         "type": "React.ReactNode",
-        "required": false
+        "required": false,
+        "origin": "own"
       },
       {
         "name": "errorMessage",
         "type": "React.ReactNode",
         "required": false,
+        "origin": "own",
         "description": "What happened and what to do; shown when the field is invalid."
       },
       {
         "name": "isRequired",
         "type": "boolean",
         "required": false,
+        "origin": "own",
         "schema": {
           "type": "boolean"
         }
@@ -120,6 +124,7 @@
         "name": "requiredValidation",
         "type": "RequiredValidation",
         "required": false,
+        "origin": "own",
         "description": "Who says an empty required field is missing: `field` (default) or `app`. With `app` a DS\nForm's `onSubmit` runs with the field empty, and the app's own error must clear on change. See\n{@link RequiredValidation} for the whole contract.",
         "schema": {
           "type": "string",
@@ -133,6 +138,7 @@
         "name": "isOptional",
         "type": "boolean",
         "required": false,
+        "origin": "own",
         "description": "Shows \"(optional)\" when most of the form is required.",
         "schema": {
           "type": "boolean"
@@ -142,6 +148,7 @@
         "name": "isDisabled",
         "type": "boolean",
         "required": false,
+        "origin": "own",
         "schema": {
           "type": "boolean"
         }
@@ -150,6 +157,7 @@
         "name": "isReadOnly",
         "type": "boolean",
         "required": false,
+        "origin": "own",
         "schema": {
           "type": "boolean"
         }
@@ -158,6 +166,7 @@
         "name": "isInvalid",
         "type": "boolean",
         "required": false,
+        "origin": "own",
         "description": "Marks the field invalid from outside (a server error); `errorMessage` says why.",
         "schema": {
           "type": "boolean"
@@ -167,6 +176,7 @@
         "name": "id",
         "type": "string",
         "required": false,
+        "origin": "own",
         "description": "The id of the field's first typed segment (day, or the locale's first part), the element that takes focus\n: `document.getElementById(id).focus()` puts the user in the field, as a focus-on-error does. The\nfield's group gets an id of its own. Left out, the DOM is as before.",
         "schema": {
           "type": "string"
@@ -176,6 +186,7 @@
         "name": "name",
         "type": "string",
         "required": false,
+        "origin": "own",
         "description": "The form field name; the value is submitted as an ISO string.",
         "schema": {
           "type": "string"
@@ -185,6 +196,7 @@
         "name": "autoFocus",
         "type": "boolean",
         "required": false,
+        "origin": "own",
         "schema": {
           "type": "boolean"
         }
@@ -192,28 +204,33 @@
       {
         "name": "onBlur",
         "type": "(event: FocusEvent<Element, Element>) => void",
-        "required": false
+        "required": false,
+        "origin": "own"
       },
       {
         "name": "value",
         "type": "CalendarDate",
         "required": false,
+        "origin": "own",
         "description": "A calendar date, no time zone. With `hideYear` its year is 2000 (a leap year, so 29 February exists; see `hideYear`);\nwith `granularity=\"month\"` it is the month's first day.\n\nWhile the user leaves a date typed in part or impossible (\"31.aa.2026\", \"31.11.2026\"), the field reports\n`onChange(null)` and keeps the typed parts on screen, so setting `null` changes nothing: the value already is null.\nTo clear the field (an app's own \"Temizle\" or form reset), give it a new `key` along with the value: React remounts\nit empty, or at the value given."
       },
       {
         "name": "defaultValue",
         "type": "CalendarDate",
-        "required": false
+        "required": false,
+        "origin": "own"
       },
       {
         "name": "onChange",
         "type": "(value: CalendarDate | null) => void",
-        "required": false
+        "required": false,
+        "origin": "own"
       },
       {
         "name": "granularity",
         "type": "\"day\" | \"month\"",
         "required": false,
+        "origin": "own",
         "default": "\"day\"",
         "description": "`day` types day, month and year; `month` types month and year (a card's expiry) and the day is 1.",
         "schema": {
@@ -228,6 +245,7 @@
         "name": "hideYear",
         "type": "boolean",
         "required": false,
+        "origin": "own",
         "description": "Day and month only: a yearly date (a campaign day, a birthday reminder). The value is that day in the Gregorian\nyear 2000, a leap year, so 29 February exists, whatever calendar the locale writes dates in:\n- A calendar with the Gregorian months (the Buddhist one of th-TH, ROC, Japanese): the day and month are typed as\n  the locale writes them, and the hidden year is 2000 as that calendar counts it (2543, Minguo 89, Heisei 12), its\n  era hidden with it.\n- A calendar with months of its own (Hebrew, Islamic, Persian, Indian, Ethiopic, Coptic, Chinese): one of its days\n  falls on another Gregorian day every year, so no month–day of it is a yearly date the value can hold. The field\n  types the Gregorian day and month instead, in the locale's language and digits.\n\nGive `value` and `defaultValue` in 2000 (`new CalendarDate(2000, month, day)`). The field never changes the year it\nis given: a value in another year keeps it, an edit reports in it, and the day is judged in it, so 29 February typed\nover a 2023 value says \"February has 28 days.\" and reports null.",
         "schema": {
           "type": "boolean"
@@ -236,17 +254,20 @@
       {
         "name": "minValue",
         "type": "CalendarDate",
-        "required": false
+        "required": false,
+        "origin": "own"
       },
       {
         "name": "maxValue",
         "type": "CalendarDate",
-        "required": false
+        "required": false,
+        "origin": "own"
       },
       {
         "name": "validate",
         "type": "(value: CalendarDate | null) => string | true | string[] | null | undefined",
         "required": false,
+        "origin": "own",
         "description": "Your own check; return the message to show, or nothing when the date is fine."
       }
     ]

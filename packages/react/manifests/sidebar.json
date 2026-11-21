@@ -59,12 +59,14 @@
         "name": "brand",
         "type": "React.ReactNode",
         "required": true,
+        "origin": "own",
         "description": "The logo and product name (the app's logo). It links to `brandHref`."
       },
       {
         "name": "brandHref",
         "type": "string",
         "required": false,
+        "origin": "own",
         "default": "\"/\"",
         "schema": {
           "type": "string"
@@ -74,6 +76,7 @@
         "name": "items",
         "type": "readonly SidebarItem[]",
         "required": true,
+        "origin": "own",
         "description": "The top-level items (links, or groups with `children`); five to eight is the comfortable range. With\n`sections`, these are the unlabelled items above the labelled sections (a dashboard) and may be empty. Ids\nare unique across `items`, `sections` and `settings` (a repeated id marks two items as the current page).",
         "schema": {
           "type": "array",
@@ -158,6 +161,7 @@
         "name": "sections",
         "type": "readonly SidebarSection[]",
         "required": false,
+        "origin": "own",
         "description": "Labelled sections under `items`, in order. Each is a named group with an overline; collapsed,\nthe overline is visually hidden (the group keeps its name) and a separator stands in for it. Not\ncollapsible. Left out (or empty), the Sidebar renders exactly as before.",
         "schema": {
           "type": "array",
@@ -236,12 +240,14 @@
         "name": "settings",
         "type": "{ label: string; items: readonly SidebarItem[]; }",
         "required": false,
+        "origin": "own",
         "description": "Settings, in their own group at the bottom, under an overline (\"Ayarlar\")."
       },
       {
         "name": "currentKey",
         "type": "string",
         "required": false,
+        "origin": "own",
         "description": "The id of the page's item: marked `aria-current=\"page\"`; its group stays open.",
         "schema": {
           "type": "string"
@@ -251,12 +257,14 @@
         "name": "footer",
         "type": "React.ReactNode",
         "required": false,
+        "origin": "own",
         "description": "The account at the bottom: Avatar, name and role."
       },
       {
         "name": "isFooterPinned",
         "type": "boolean",
         "required": false,
+        "origin": "own",
         "default": "false",
         "description": "Keeps the account (`footer`) and the collapse toggle in view at the bottom: the brand stays at\nthe top and only the navigation (`items`, `sections`, then `settings`) scrolls between them, expanded and\ncollapsed. In the phone panel the account stays at the bottom the same way. The DOM order, and so the Tab\norder, is the same as without it. Off by default: the whole sidebar scrolls as one, as before.",
         "schema": {
@@ -267,6 +275,7 @@
         "name": "isCollapsed",
         "type": "boolean",
         "required": false,
+        "origin": "own",
         "description": "Icons only (56px), labels in tooltips. Controlled; or `defaultCollapsed` + `onCollapsedChange`.",
         "schema": {
           "type": "boolean"
@@ -276,6 +285,7 @@
         "name": "defaultCollapsed",
         "type": "boolean",
         "required": false,
+        "origin": "own",
         "default": "false",
         "schema": {
           "type": "boolean"
@@ -284,12 +294,14 @@
       {
         "name": "onCollapsedChange",
         "type": "(isCollapsed: boolean) => void",
-        "required": false
+        "required": false,
+        "origin": "own"
       },
       {
         "name": "storageKey",
         "type": "string",
         "required": false,
+        "origin": "own",
         "description": "Remembers the collapsed choice in localStorage under this key. Render `sidebarScript(storageKey,\n{ defaultCollapsed })` in <head> as well, with the same `defaultCollapsed`, so the first frame already\nhas the remembered width (no layout jump). Uncontrolled only: with `isCollapsed` the app owns the state.",
         "schema": {
           "type": "string"
@@ -299,6 +311,7 @@
         "name": "isMobileOpen",
         "type": "boolean",
         "required": false,
+        "origin": "own",
         "default": "false",
         "description": "Under 1024px the sidebar is a menu panel from the start edge; the app's menu button opens it.",
         "schema": {
@@ -308,12 +321,14 @@
       {
         "name": "onMobileOpenChange",
         "type": "(isOpen: boolean) => void",
-        "required": false
+        "required": false,
+        "origin": "own"
       },
       {
         "name": "aria-label",
         "type": "string",
         "required": false,
+        "origin": "own",
         "description": "Names the navigation landmark; \"Main menu\" by default.",
         "schema": {
           "type": "string"

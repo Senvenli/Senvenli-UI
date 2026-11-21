@@ -63,29 +63,34 @@
       {
         "name": "minValue",
         "type": "CalendarDate",
-        "required": false
+        "required": false,
+        "origin": "own"
       },
       {
         "name": "maxValue",
         "type": "CalendarDate",
-        "required": false
+        "required": false,
+        "origin": "own"
       },
       {
         "name": "isDateUnavailable",
         "type": "(date: CalendarDate) => boolean",
         "required": false,
+        "origin": "own",
         "description": "Days that cannot be picked; they stay focusable and say why (`unavailableReason`)."
       },
       {
         "name": "unavailableReason",
         "type": "(date: CalendarDate) => string | undefined",
         "required": false,
+        "origin": "own",
         "description": "Why a day is unavailable (\"Closed\", \"Sold out\"); read with the day."
       },
       {
         "name": "locale",
         "type": "string",
         "required": false,
+        "origin": "own",
         "description": "Locale override; the DesignSystemProvider locale by default. Month and weekday names come from Intl.",
         "schema": {
           "type": "string"
@@ -95,6 +100,7 @@
         "name": "firstDayOfWeek",
         "type": "FirstDayOfWeek",
         "required": false,
+        "origin": "own",
         "description": "Overrides the locale's first day of the week.",
         "schema": {
           "type": "string",
@@ -113,6 +119,7 @@
         "name": "timeZone",
         "type": "string",
         "required": false,
+        "origin": "own",
         "description": "The time zone \"today\" is computed in (the location's); the device's by default.",
         "schema": {
           "type": "string"
@@ -122,6 +129,7 @@
         "name": "aria-label",
         "type": "string",
         "required": false,
+        "origin": "own",
         "description": "Names the calendar (\"Start date\").",
         "schema": {
           "type": "string"
@@ -130,28 +138,33 @@
       {
         "name": "value",
         "type": "CalendarDate",
-        "required": false
+        "required": false,
+        "origin": "own"
       },
       {
         "name": "defaultValue",
         "type": "CalendarDate",
-        "required": false
+        "required": false,
+        "origin": "own"
       },
       {
         "name": "onChange",
         "type": "(value: CalendarDate) => void",
-        "required": false
+        "required": false,
+        "origin": "own"
       },
       {
         "name": "getDateMarkers",
         "type": "(date: CalendarDate) => DateMarker | undefined",
         "required": false,
+        "origin": "own",
         "description": "A dot under a day (events on it); a string is also said to screen readers."
       },
       {
         "name": "visibleMonths",
         "type": "1 | 2",
         "required": false,
+        "origin": "own",
         "default": "1",
         "schema": {
           "enum": [
@@ -165,29 +178,34 @@
       {
         "name": "minValue",
         "type": "CalendarDate",
-        "required": false
+        "required": false,
+        "origin": "own"
       },
       {
         "name": "maxValue",
         "type": "CalendarDate",
-        "required": false
+        "required": false,
+        "origin": "own"
       },
       {
         "name": "isDateUnavailable",
         "type": "(date: CalendarDate) => boolean",
         "required": false,
+        "origin": "own",
         "description": "Days that cannot be picked; they stay focusable and say why (`unavailableReason`)."
       },
       {
         "name": "unavailableReason",
         "type": "(date: CalendarDate) => string | undefined",
         "required": false,
+        "origin": "own",
         "description": "Why a day is unavailable (\"Closed\", \"Sold out\"); read with the day."
       },
       {
         "name": "locale",
         "type": "string",
         "required": false,
+        "origin": "own",
         "description": "Locale override; the DesignSystemProvider locale by default. Month and weekday names come from Intl.",
         "schema": {
           "type": "string"
@@ -197,6 +215,7 @@
         "name": "firstDayOfWeek",
         "type": "FirstDayOfWeek",
         "required": false,
+        "origin": "own",
         "description": "Overrides the locale's first day of the week.",
         "schema": {
           "type": "string",
@@ -215,6 +234,7 @@
         "name": "timeZone",
         "type": "string",
         "required": false,
+        "origin": "own",
         "description": "The time zone \"today\" is computed in (the location's); the device's by default.",
         "schema": {
           "type": "string"
@@ -224,6 +244,7 @@
         "name": "aria-label",
         "type": "string",
         "required": false,
+        "origin": "own",
         "description": "Names the calendar (\"Start date\").",
         "schema": {
           "type": "string"
@@ -232,22 +253,26 @@
       {
         "name": "value",
         "type": "DateRange",
-        "required": false
+        "required": false,
+        "origin": "own"
       },
       {
         "name": "defaultValue",
         "type": "DateRange",
-        "required": false
+        "required": false,
+        "origin": "own"
       },
       {
         "name": "onChange",
         "type": "(value: DateRange) => void",
-        "required": false
+        "required": false,
+        "origin": "own"
       },
       {
         "name": "allowsNonContiguousRanges",
         "type": "boolean",
         "required": false,
+        "origin": "own",
         "default": "false",
         "description": "Keep this false when a range may not cross an unavailable day (stays, trips, equipment hire).",
         "schema": {
@@ -258,6 +283,7 @@
         "name": "minDuration",
         "type": "number",
         "required": false,
+        "origin": "own",
         "description": "Shortest and longest range in days (end − start).",
         "schema": {
           "type": "number"
@@ -267,6 +293,7 @@
         "name": "maxDuration",
         "type": "number",
         "required": false,
+        "origin": "own",
         "schema": {
           "type": "number"
         }
@@ -275,6 +302,7 @@
         "name": "visibleMonths",
         "type": "1 | 2",
         "required": false,
+        "origin": "own",
         "default": "2",
         "description": "Two months side by side (from 720px), one below on narrow screens; default 2.",
         "schema": {
@@ -288,6 +316,7 @@
         "name": "action",
         "type": "React.ReactNode",
         "required": false,
+        "origin": "own",
         "description": "In a popover: the footer shows the chosen range and its length beside this action (\"Tarihleri uygula\")."
       }
     ]

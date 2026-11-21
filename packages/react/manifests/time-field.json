@@ -57,23 +57,27 @@
         "name": "label",
         "type": "React.ReactNode",
         "required": true,
+        "origin": "own",
         "description": "Always given; the label sits above the field and names its segments."
       },
       {
         "name": "description",
         "type": "React.ReactNode",
-        "required": false
+        "required": false,
+        "origin": "own"
       },
       {
         "name": "errorMessage",
         "type": "React.ReactNode",
         "required": false,
+        "origin": "own",
         "description": "What happened and what to do; shown when the field is invalid."
       },
       {
         "name": "isRequired",
         "type": "boolean",
         "required": false,
+        "origin": "own",
         "schema": {
           "type": "boolean"
         }
@@ -82,6 +86,7 @@
         "name": "requiredValidation",
         "type": "RequiredValidation",
         "required": false,
+        "origin": "own",
         "description": "Who says an empty required field is missing: `field` (default) or `app`. With `app` a DS\nForm's `onSubmit` runs with the field empty, and the app's own error must clear on change. See\n{@link RequiredValidation} for the whole contract.",
         "schema": {
           "type": "string",
@@ -95,6 +100,7 @@
         "name": "isOptional",
         "type": "boolean",
         "required": false,
+        "origin": "own",
         "description": "Shows \"(optional)\" when most of the form is required.",
         "schema": {
           "type": "boolean"
@@ -104,6 +110,7 @@
         "name": "isDisabled",
         "type": "boolean",
         "required": false,
+        "origin": "own",
         "schema": {
           "type": "boolean"
         }
@@ -112,6 +119,7 @@
         "name": "isReadOnly",
         "type": "boolean",
         "required": false,
+        "origin": "own",
         "schema": {
           "type": "boolean"
         }
@@ -120,6 +128,7 @@
         "name": "isInvalid",
         "type": "boolean",
         "required": false,
+        "origin": "own",
         "description": "Marks the field invalid from outside (a server error); `errorMessage` says why.",
         "schema": {
           "type": "boolean"
@@ -129,6 +138,7 @@
         "name": "id",
         "type": "string",
         "required": false,
+        "origin": "own",
         "description": "The id of the field's first typed segment (day, or the locale's first part), the element that takes focus\n: `document.getElementById(id).focus()` puts the user in the field, as a focus-on-error does. The\nfield's group gets an id of its own. Left out, the DOM is as before.",
         "schema": {
           "type": "string"
@@ -138,6 +148,7 @@
         "name": "name",
         "type": "string",
         "required": false,
+        "origin": "own",
         "description": "The form field name; the value is submitted as an ISO string.",
         "schema": {
           "type": "string"
@@ -147,6 +158,7 @@
         "name": "autoFocus",
         "type": "boolean",
         "required": false,
+        "origin": "own",
         "schema": {
           "type": "boolean"
         }
@@ -154,28 +166,33 @@
       {
         "name": "onBlur",
         "type": "(event: FocusEvent<Element, Element>) => void",
-        "required": false
+        "required": false,
+        "origin": "own"
       },
       {
         "name": "value",
         "type": "TimeValue",
         "required": false,
+        "origin": "own",
         "description": "A time, or a zoned date-time when a location's zone travels with it.\n\nWhile the user leaves a time typed in part (\"10:––\"), the field reports `onChange(null)` and keeps the typed parts\non screen, so setting `null` changes nothing: the value already is null. To clear the field (an app's own \"Temizle\"\nor form reset), give it a new `key` along with the value: React remounts it empty, or at the value given\n."
       },
       {
         "name": "defaultValue",
         "type": "TimeValue",
-        "required": false
+        "required": false,
+        "origin": "own"
       },
       {
         "name": "onChange",
         "type": "(value: TimeValue | null) => void",
-        "required": false
+        "required": false,
+        "origin": "own"
       },
       {
         "name": "hourCycle",
         "type": "12 | 24",
         "required": false,
+        "origin": "own",
         "description": "24-hour in tr and me, 12-hour in en-US; from the locale unless set.",
         "schema": {
           "enum": [
@@ -188,6 +205,7 @@
         "name": "granularity",
         "type": "\"hour\" | \"minute\"",
         "required": false,
+        "origin": "own",
         "schema": {
           "type": "string",
           "enum": [
@@ -200,6 +218,7 @@
         "name": "minuteStep",
         "type": "number",
         "required": false,
+        "origin": "own",
         "description": "Arrow keys step the minutes by this much (15 or 30).",
         "schema": {
           "type": "number"
@@ -209,6 +228,7 @@
         "name": "timeZone",
         "type": "string",
         "required": false,
+        "origin": "own",
         "description": "The location's zone (IANA, \"Europe/Lisbon\"). Named after the time when it differs from the user's.",
         "schema": {
           "type": "string"
@@ -217,17 +237,20 @@
       {
         "name": "minValue",
         "type": "TimeValue",
-        "required": false
+        "required": false,
+        "origin": "own"
       },
       {
         "name": "maxValue",
         "type": "TimeValue",
-        "required": false
+        "required": false,
+        "origin": "own"
       },
       {
         "name": "validate",
         "type": "(value: TimeValue | null) => string | true | string[] | null | undefined",
-        "required": false
+        "required": false,
+        "origin": "own"
       }
     ]
   },

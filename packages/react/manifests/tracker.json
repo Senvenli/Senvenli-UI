@@ -44,6 +44,7 @@
         "name": "title",
         "type": "string",
         "required": true,
+        "origin": "own",
         "schema": {
           "type": "string"
         }
@@ -52,6 +53,7 @@
         "name": "period",
         "type": "string",
         "required": false,
+        "origin": "own",
         "schema": {
           "type": "string"
         }
@@ -60,6 +62,7 @@
         "name": "isLoading",
         "type": "boolean",
         "required": false,
+        "origin": "own",
         "schema": {
           "type": "boolean"
         }
@@ -67,23 +70,27 @@
       {
         "name": "emptyMessage",
         "type": "{ title: string; description?: string | undefined; }",
-        "required": false
+        "required": false,
+        "origin": "own"
       },
       {
         "name": "data",
         "type": "readonly TrackerDatum[]",
-        "required": true
+        "required": true,
+        "origin": "own"
       },
       {
         "name": "statusMap",
         "type": "Readonly<Record<string, { tone: TrackerTone; label: string; }>>",
         "required": true,
+        "origin": "own",
         "description": "Each status's tone and the word for it (\"Operational\", \"Outage\"); the legend follows this order."
       },
       {
         "name": "summary",
         "type": "string",
         "required": false,
+        "origin": "own",
         "description": "The result in a sentence (\"26 days operational, 1 outage\"); the counts per status by default.",
         "schema": {
           "type": "string"

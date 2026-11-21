@@ -5,10 +5,10 @@ dist/
 coverage/
 .vite/
 .claude-worktrees/
-build/
+# The site's build outputs only: a bare build/ would also hide site/tests/build/.
+/site/build/
+/site/build-dev/
+/site/build-skew/
 .react-router/
-build-dev/
-build-skew/
-build-v7/
 
 .claude/worktrees/

@@ -97,12 +97,14 @@
         "name": "children",
         "type": "React.ReactNode",
         "required": true,
+        "origin": "own",
         "description": "The status word, sentence case (\"Payment pending\"); the word carries the meaning, never the colour."
       },
       {
         "name": "tone",
         "type": "LozengeTone",
         "required": false,
+        "origin": "own",
         "default": "\"neutral\"",
         "description": "One meaning per tone: information (Approved, In progress) · brand (Featured) · success\n(Completed, Available, Paid) · warning (Payment pending, Under review) · danger (Canceled,\nFailed, Overdue) · neutral (Draft, Inactive).",
         "schema": {
@@ -121,6 +123,7 @@
         "name": "appearance",
         "type": "LozengeAppearance",
         "required": false,
+        "origin": "own",
         "default": "\"subtle\"",
         "description": "`bold` for the one status on the screen that needs attention now.",
         "schema": {
@@ -135,6 +138,7 @@
         "name": "hasDot",
         "type": "boolean",
         "required": false,
+        "origin": "own",
         "description": "A 6px dot for live states (online, live).",
         "schema": {
           "type": "boolean"

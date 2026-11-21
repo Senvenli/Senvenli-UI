@@ -57,6 +57,7 @@
         "name": "tone",
         "type": "BannerTone",
         "required": false,
+        "origin": "own",
         "schema": {
           "type": "string",
           "enum": [
@@ -71,24 +72,28 @@
         "name": "children",
         "type": "React.ReactNode",
         "required": false,
+        "origin": "own",
         "description": "Why, and what to do."
       },
       {
         "name": "actions",
         "type": "React.ReactNode",
         "required": false,
+        "origin": "own",
         "description": "Inline: up to two link actions. Floating: a default (neutral) Button, never the gold primary."
       },
       {
         "name": "onDismiss",
         "type": "() => void",
         "required": false,
+        "origin": "own",
         "description": "Shows a close button; omit for errors that must be resolved."
       },
       {
         "name": "dismissLabel",
         "type": "string",
         "required": false,
+        "origin": "own",
         "description": "The close button's name when \"Close\" alone is too vague (\"Close cookie notice\").",
         "schema": {
           "type": "string"
@@ -98,6 +103,7 @@
         "name": "placement",
         "type": "\"inline\" | \"floating\"",
         "required": false,
+        "origin": "own",
         "schema": {
           "type": "string",
           "enum": [
@@ -110,12 +116,14 @@
         "name": "title",
         "type": "React.ReactNode",
         "required": false,
+        "origin": "own",
         "description": "What happened, one line."
       },
       {
         "name": "aria-label",
         "type": "string",
         "required": false,
+        "origin": "own",
         "description": "Names the region (\"Cookie notice\").",
         "schema": {
           "type": "string"
@@ -125,12 +133,14 @@
         "name": "avoid",
         "type": "string | RefObject<HTMLElement | null>",
         "required": false,
+        "origin": "own",
         "description": "A sticky bottom bar to sit above: its element (measured from its top edge) or a CSS length with a unit (\"72px\")."
       },
       {
         "name": "icon",
         "type": "IconName | null",
         "required": false,
+        "origin": "own",
         "description": "Replaces the tone icon (\"cookie\"); `null` shows none (narrow phone layouts).",
         "schema": {
           "type": "string",

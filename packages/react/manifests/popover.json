@@ -57,17 +57,20 @@
         "name": "trigger",
         "type": "ReactElement<unknown, string | JSXElementConstructor<any>>",
         "required": true,
+        "origin": "own",
         "description": "The pressable that opens it (a DS Button: \"Filtre\")."
       },
       {
         "name": "children",
         "type": "React.ReactNode",
-        "required": true
+        "required": true,
+        "origin": "own"
       },
       {
         "name": "placement",
         "type": "Placement",
         "required": false,
+        "origin": "own",
         "default": "\"bottom start\"",
         "description": "\"bottom start\" by default; React Aria flips it when there is no room.",
         "schema": {
@@ -102,6 +105,7 @@
         "name": "isOpen",
         "type": "boolean",
         "required": false,
+        "origin": "own",
         "schema": {
           "type": "boolean"
         }
@@ -110,6 +114,7 @@
         "name": "defaultOpen",
         "type": "boolean",
         "required": false,
+        "origin": "own",
         "schema": {
           "type": "boolean"
         }
@@ -117,18 +122,21 @@
       {
         "name": "onOpenChange",
         "type": "(isOpen: boolean) => void",
-        "required": false
+        "required": false,
+        "origin": "own"
       },
       {
         "name": "title",
         "type": "React.ReactNode",
         "required": false,
+        "origin": "own",
         "description": "A heading that also names the panel (\"Filtrele\"); without it, give `aria-label`."
       },
       {
         "name": "aria-label",
         "type": "string",
         "required": false,
+        "origin": "own",
         "schema": {
           "type": "string"
         }

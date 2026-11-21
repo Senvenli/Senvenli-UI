@@ -98,6 +98,7 @@
         "name": "title",
         "type": "string",
         "required": true,
+        "origin": "own",
         "schema": {
           "type": "string"
         }
@@ -106,6 +107,7 @@
         "name": "period",
         "type": "string",
         "required": false,
+        "origin": "own",
         "schema": {
           "type": "string"
         }
@@ -114,6 +116,7 @@
         "name": "isLoading",
         "type": "boolean",
         "required": false,
+        "origin": "own",
         "schema": {
           "type": "boolean"
         }
@@ -121,12 +124,14 @@
       {
         "name": "emptyMessage",
         "type": "{ title: string; description?: string | undefined; }",
-        "required": false
+        "required": false,
+        "origin": "own"
       },
       {
         "name": "height",
         "type": "number",
         "required": false,
+        "origin": "own",
         "default": "200",
         "schema": {
           "type": "number"
@@ -136,6 +141,7 @@
         "name": "data",
         "type": "readonly DonutDatum[]",
         "required": true,
+        "origin": "own",
         "description": "Two to five parts; more are folded into \"Other\".",
         "schema": {
           "type": "array",
@@ -161,12 +167,14 @@
         "name": "valueFormatter",
         "type": "ChartValueFormatter",
         "required": false,
+        "origin": "own",
         "default": "plain"
       },
       {
         "name": "centerLabel",
         "type": "string",
         "required": false,
+        "origin": "own",
         "description": "Under the total in the center: its unit (\"orders\").",
         "schema": {
           "type": "string"
@@ -176,6 +184,7 @@
         "name": "showList",
         "type": "boolean",
         "required": false,
+        "origin": "own",
         "default": "true",
         "description": "The value list beside the ring with exact percentages; on by default.",
         "schema": {

@@ -111,6 +111,7 @@
         "name": "size",
         "type": "TextSize",
         "required": false,
+        "origin": "own",
         "default": "\"body\"",
         "schema": {
           "type": "string",
@@ -126,6 +127,7 @@
         "name": "tone",
         "type": "TextTone",
         "required": false,
+        "origin": "own",
         "default": "\"default\"",
         "schema": {
           "type": "string",
@@ -145,6 +147,7 @@
         "name": "weight",
         "type": "\"medium\" | \"regular\"",
         "required": false,
+        "origin": "own",
         "default": "\"regular\"",
         "schema": {
           "type": "string",
@@ -158,6 +161,7 @@
         "name": "elementType",
         "type": "\"div\" | \"span\" | \"p\"",
         "required": false,
+        "origin": "own",
         "default": "\"span\"",
         "description": "`p` for a paragraph (kept under ~70 characters a line), `span` inline, `div` for a block.",
         "schema": {
@@ -173,6 +177,7 @@
         "name": "isNumeric",
         "type": "boolean",
         "required": false,
+        "origin": "own",
         "description": "Lines up figures in columns and changing values.",
         "schema": {
           "type": "boolean"
@@ -181,14 +186,16 @@
       {
         "name": "children",
         "type": "React.ReactNode",
-        "required": true
+        "required": true,
+        "origin": "own"
       }
     ],
     "Prose": [
       {
         "name": "children",
         "type": "React.ReactNode",
-        "required": true
+        "required": true,
+        "origin": "own"
       }
     ]
   },

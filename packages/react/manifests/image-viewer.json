@@ -54,6 +54,7 @@
         "name": "image",
         "type": "ImageViewerImage",
         "required": false,
+        "origin": "own",
         "default": "PlainImage",
         "description": "The image renderer (e.g. next/image); a plain `<img>` by default."
       },
@@ -61,6 +62,7 @@
         "name": "photos",
         "type": "string[]",
         "required": true,
+        "origin": "own",
         "description": "Photo paths in display order.",
         "schema": {
           "type": "array",
@@ -73,6 +75,7 @@
         "name": "resolveSrc",
         "type": "(path: string) => string",
         "required": false,
+        "origin": "own",
         "default": "(path) => path",
         "description": "Resolve a stored photo path to a renderable src. Defaults to identity."
       },
@@ -80,6 +83,7 @@
         "name": "initialIndex",
         "type": "number",
         "required": false,
+        "origin": "own",
         "default": "0",
         "description": "Index to open on; wrapped into range.",
         "schema": {
@@ -89,12 +93,14 @@
       {
         "name": "onClose",
         "type": "() => void",
-        "required": true
+        "required": true,
+        "origin": "own"
       },
       {
         "name": "title",
         "type": "string",
         "required": true,
+        "origin": "own",
         "description": "Caption shown at the bottom and used as the accessible dialog title.",
         "schema": {
           "type": "string"
@@ -104,6 +110,7 @@
         "name": "alt",
         "type": "string",
         "required": true,
+        "origin": "own",
         "description": "alt text for the photo.",
         "schema": {
           "type": "string"
@@ -113,12 +120,14 @@
         "name": "positionLabel",
         "type": "(index: number, total: number) => string",
         "required": false,
+        "origin": "own",
         "description": "Builds the \"N of M\" caption/description; the DS string by default."
       },
       {
         "name": "closeLabel",
         "type": "string",
         "required": false,
+        "origin": "own",
         "description": "The DS strings by default (\"Close\", \"Previous image\", \"Next image\").",
         "schema": {
           "type": "string"
@@ -128,6 +137,7 @@
         "name": "previousLabel",
         "type": "string",
         "required": false,
+        "origin": "own",
         "schema": {
           "type": "string"
         }
@@ -136,6 +146,7 @@
         "name": "nextLabel",
         "type": "string",
         "required": false,
+        "origin": "own",
         "schema": {
           "type": "string"
         }

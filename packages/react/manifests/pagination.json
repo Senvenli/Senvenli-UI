@@ -74,6 +74,7 @@
         "name": "page",
         "type": "number",
         "required": true,
+        "origin": "own",
         "description": "1-based. Keep it in the URL so back and refresh return to it.",
         "schema": {
           "type": "number"
@@ -83,6 +84,7 @@
         "name": "pageSize",
         "type": "number",
         "required": true,
+        "origin": "own",
         "schema": {
           "type": "number"
         }
@@ -91,6 +93,7 @@
         "name": "total",
         "type": "number",
         "required": true,
+        "origin": "own",
         "description": "All items across pages.",
         "schema": {
           "type": "number"
@@ -99,17 +102,20 @@
       {
         "name": "onPageChange",
         "type": "(page: number) => void",
-        "required": true
+        "required": true,
+        "origin": "own"
       },
       {
         "name": "onPageSizeChange",
         "type": "(pageSize: number) => void",
-        "required": false
+        "required": false,
+        "origin": "own"
       },
       {
         "name": "pageSizeOptions",
         "type": "readonly number[]",
         "required": false,
+        "origin": "own",
         "default": "[20, 50, 100]",
         "description": "20, 50 and 100 by default; the current size joins the list when it is not in it.",
         "schema": {
@@ -123,6 +129,7 @@
         "name": "formatRange",
         "type": "(from: number, to: number, total: number) => string",
         "required": false,
+        "origin": "own",
         "description": "The range sentence naming the items: (41, 60, 1204) → \"41–60 of 1,204 orders\". It gets the\nraw numbers; format them for the locale yourself (Intl.NumberFormat)."
       }
     ]

@@ -53,12 +53,14 @@
         "name": "label",
         "type": "React.ReactNode",
         "required": true,
+        "origin": "own",
         "description": "What is in progress (\"Importing contacts\")."
       },
       {
         "name": "value",
         "type": "number",
         "required": false,
+        "origin": "own",
         "default": "0",
         "schema": {
           "type": "number"
@@ -68,6 +70,7 @@
         "name": "minValue",
         "type": "number",
         "required": false,
+        "origin": "own",
         "default": "0",
         "schema": {
           "type": "number"
@@ -77,6 +80,7 @@
         "name": "maxValue",
         "type": "number",
         "required": false,
+        "origin": "own",
         "default": "100",
         "schema": {
           "type": "number"
@@ -86,12 +90,14 @@
         "name": "valueLabel",
         "type": "React.ReactNode",
         "required": false,
+        "origin": "own",
         "description": "Real units where they exist (\"142 / 220\", \"3 / 5 steps\"); defaults to the percentage."
       },
       {
         "name": "isIndeterminate",
         "type": "boolean",
         "required": false,
+        "origin": "own",
         "description": "A task of unknown length: a 30% segment sweeps across.",
         "schema": {
           "type": "boolean"
@@ -101,6 +107,7 @@
         "name": "tone",
         "type": "ProgressTone",
         "required": false,
+        "origin": "own",
         "default": "\"brand\"",
         "description": "`success` / `danger` for a finished or failed task; pair it with a word in `valueLabel`.",
         "schema": {
@@ -116,6 +123,7 @@
         "name": "size",
         "type": "\"default\" | \"large\"",
         "required": false,
+        "origin": "own",
         "default": "\"default\"",
         "description": "`large` (8px) for onboarding; `default` 4px.",
         "schema": {
@@ -132,6 +140,7 @@
         "name": "value",
         "type": "number",
         "required": false,
+        "origin": "own",
         "default": "0",
         "schema": {
           "type": "number"
@@ -141,6 +150,7 @@
         "name": "minValue",
         "type": "number",
         "required": false,
+        "origin": "own",
         "default": "0",
         "schema": {
           "type": "number"
@@ -150,6 +160,7 @@
         "name": "maxValue",
         "type": "number",
         "required": false,
+        "origin": "own",
         "default": "100",
         "schema": {
           "type": "number"
@@ -159,6 +170,7 @@
         "name": "size",
         "type": "ProgressCircleSize",
         "required": false,
+        "origin": "own",
         "default": "\"medium\"",
         "description": "20px (no value text; give the value in adjacent text or a Tooltip), 48px, 80px.",
         "schema": {
@@ -174,12 +186,14 @@
         "name": "label",
         "type": "React.ReactNode",
         "required": false,
+        "origin": "own",
         "description": "A visible label under the ring, or `aria-label` when there is none."
       },
       {
         "name": "aria-label",
         "type": "string",
         "required": false,
+        "origin": "own",
         "schema": {
           "type": "string"
         }
@@ -188,6 +202,7 @@
         "name": "isIndeterminate",
         "type": "boolean",
         "required": false,
+        "origin": "own",
         "schema": {
           "type": "boolean"
         }
@@ -196,6 +211,7 @@
         "name": "isMeasurement",
         "type": "boolean",
         "required": false,
+        "origin": "own",
         "description": "A ratio that is a measurement (doluluk, kota), not progress: announced as a meter.",
         "schema": {
           "type": "boolean"
@@ -205,6 +221,7 @@
         "name": "tone",
         "type": "ProgressTone",
         "required": false,
+        "origin": "own",
         "default": "\"brand\"",
         "schema": {
           "type": "string",
@@ -219,6 +236,7 @@
         "name": "valueLabel",
         "type": "string",
         "required": false,
+        "origin": "own",
         "schema": {
           "type": "string"
         }

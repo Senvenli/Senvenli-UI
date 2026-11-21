@@ -97,6 +97,7 @@
         "name": "level",
         "type": "HeadingLevel",
         "required": true,
+        "origin": "own",
         "description": "The place in the document outline (h1–h6).",
         "schema": {
           "enum": [
@@ -113,6 +114,7 @@
         "name": "size",
         "type": "HeadingSize",
         "required": false,
+        "origin": "own",
         "description": "The look, set apart from the level. `display-*` is for the Website hero and section titles only.",
         "schema": {
           "type": "string",
@@ -132,12 +134,14 @@
       {
         "name": "children",
         "type": "React.ReactNode",
-        "required": true
+        "required": true,
+        "origin": "own"
       },
       {
         "name": "id",
         "type": "string",
         "required": false,
+        "origin": "own",
         "schema": {
           "type": "string"
         }

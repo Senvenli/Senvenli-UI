@@ -56,6 +56,7 @@
         "name": "isOpen",
         "type": "boolean",
         "required": false,
+        "origin": "own",
         "description": "Open without a DialogTrigger (a URL, a row click). Inside a DialogTrigger, put `onOpenChange` on the\ntrigger instead: the trigger owns the state there.",
         "schema": {
           "type": "boolean"
@@ -65,6 +66,7 @@
         "name": "defaultOpen",
         "type": "boolean",
         "required": false,
+        "origin": "own",
         "schema": {
           "type": "boolean"
         }
@@ -72,12 +74,14 @@
       {
         "name": "onOpenChange",
         "type": "(isOpen: boolean) => void",
-        "required": false
+        "required": false,
+        "origin": "own"
       },
       {
         "name": "tone",
         "type": "\"danger\" | \"neutral\" | \"warning\"",
         "required": false,
+        "origin": "own",
         "description": "`danger` (default: a delete, `trash-2`, a danger button), `warning` (`triangle-alert`, a primary button), or\n`neutral` for a confirm that neither destroys nor risks anything, such as reactivating an account\n(`info` on a neutral ground, a primary button).",
         "schema": {
           "type": "string",
@@ -92,18 +96,21 @@
         "name": "title",
         "type": "React.ReactNode",
         "required": true,
+        "origin": "own",
         "description": "The action as a question with the object's name: \"PG AB 482 filodan silinsin mi?\""
       },
       {
         "name": "children",
         "type": "React.ReactNode",
         "required": true,
+        "origin": "own",
         "description": "The consequence, and what to do first."
       },
       {
         "name": "confirmLabel",
         "type": "string",
         "required": true,
+        "origin": "own",
         "description": "The verb again: \"Delete item\".",
         "schema": {
           "type": "string"
@@ -113,6 +120,7 @@
         "name": "cancelLabel",
         "type": "string",
         "required": false,
+        "origin": "own",
         "description": "The cancel button's text, and so its accessible name (\"No, keep it\"), in place of the library's \"Cancel\"\n. The app passes it already localized; the DS does not translate it. Left out (or `\"\"`), the\nlocale's \"Cancel\" renders and the DOM is unchanged. A long label wraps inside the button, which takes at\nmost the footer's width; focus, Esc and the pending lock are the same either way.",
         "schema": {
           "type": "string"
@@ -122,12 +130,14 @@
         "name": "onConfirm",
         "type": "() => void | Promise<void>",
         "required": true,
+        "origin": "own",
         "description": "May be async: the button shows pending until it settles, and while it runs the dialog cannot be cancelled\n(the action is under way); it closes when the action succeeds and stays open when it fails."
       },
       {
         "name": "requireTypedConfirmation",
         "type": "string",
         "required": false,
+        "origin": "own",
         "description": "For irreversible deletes: the text the user types before the button enables (\"PG AB 482\").",
         "schema": {
           "type": "string"
@@ -137,6 +147,7 @@
         "name": "isConfirmDisabled",
         "type": "boolean",
         "required": false,
+        "origin": "own",
         "description": "Holds the confirm back while the app loads what it needs (\"Loading linked orders\"). The\nbutton keeps its name and stays in the dialog, disabled as with `requireTypedConfirmation`: it cannot be pressed\n(pointer, Enter or Space) and Tab passes it, so \"Cancel\" stays the one control; screen readers list it as\nunavailable. Say why in the description or in the element `aria-describedby` names. Esc and \"Cancel\" still work.",
         "schema": {
           "type": "boolean"
@@ -146,6 +157,7 @@
         "name": "aria-describedby",
         "type": "string",
         "required": false,
+        "origin": "own",
         "description": "More of what the alert says, by id: an element the app renders, inside the alert (a Banner in its\nbody) or outside it (a page notice). Added to the alert's own description in `aria-describedby`, after it, so\nthe alert is announced with both when it opens.",
         "schema": {
           "type": "string"
@@ -155,6 +167,7 @@
         "name": "typedConfirmationLabel",
         "type": "string",
         "required": false,
+        "origin": "own",
         "description": "The field's label; \"Type ORD-482 to confirm\" by default.",
         "schema": {
           "type": "string"
@@ -164,6 +177,7 @@
         "name": "icon",
         "type": "IconName",
         "required": false,
+        "origin": "own",
         "description": "Overrides the tone's icon (danger `trash-2`, warning `triangle-alert`).",
         "schema": {
           "type": "string",
@@ -174,6 +188,7 @@
         "name": "returnFocusRef",
         "type": "RefObject<HTMLElement | null>",
         "required": false,
+        "origin": "own",
         "description": "Where focus goes when the alert closes and React Aria's return would leave it on the page or on the\nopener, as on Dialog. Needed when the element React Aria returns to is gone by the close: an alert\nopened from an item of the legacy Radix MoreButton (pass its button), or a confirmed action that removes the row\nwith its Menu (pass a stable element). Opened from a DS Menu item it is not needed: React Aria returns focus to\nthe Menu button itself, and a ref naming another element does not override that. Read when the alert closes; if\nthe app has already moved focus elsewhere on close, it stays there; if the ref is empty, focus returns as before.\nThere is no `initialFocusRef`: the alert's controls are its own, and \"Cancel\" takes the first focus. Nor is there a\n`titleRef`: the alert is announced with its title and consequence when it opens (`aria-labelledby`,\n`aria-describedby`), and focus starts on the safe answer, never on its text."
       }
     ]

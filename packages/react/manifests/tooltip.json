@@ -50,6 +50,7 @@
         "name": "content",
         "type": "string",
         "required": true,
+        "origin": "own",
         "description": "Plain text only: the same words as the control's `aria-label`, or a truncated value in full.",
         "schema": {
           "type": "string"
@@ -59,12 +60,14 @@
         "name": "children",
         "type": "ReactElement<unknown, string | JSXElementConstructor<any>>",
         "required": true,
+        "origin": "own",
         "description": "The trigger. It must be focusable; a non-interactive element (a truncated lozenge) is made focusable."
       },
       {
         "name": "placement",
         "type": "Placement",
         "required": false,
+        "origin": "own",
         "schema": {
           "type": "string",
           "enum": [
@@ -97,6 +100,7 @@
         "name": "shortcut",
         "type": "string",
         "required": false,
+        "origin": "own",
         "description": "A keyboard shortcut shown as a chip (\"F\").",
         "schema": {
           "type": "string"
@@ -106,6 +110,7 @@
         "name": "openOnTouch",
         "type": "boolean",
         "required": false,
+        "origin": "own",
         "description": "Readable on touch screens: a tap on the trigger opens the tooltip and a second tap closes it;\na tap anywhere else, or Esc, closes it. Mouse hover and keyboard focus work exactly as without it. For a\ntrigger that does nothing on its own (a country flag, a truncated value); on a button the tap still presses it.",
         "schema": {
           "type": "boolean"

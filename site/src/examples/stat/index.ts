@@ -1,0 +1,7 @@
+import type { ExampleMeta } from "../types";
+
+export default [
+  { id: "group", title: "Key figures in a row", description: "Each change names the period it compares against; color follows whether the change is good, not its direction." },
+  { id: "with-trend", title: "With a sparkline", description: "A short series under the figure shows the shape of the period." },
+  { id: "link", title: "A stat that is a link", description: "The whole tile opens the report behind the figure." },
+] satisfies ExampleMeta[];

@@ -50,12 +50,14 @@
       {
         "name": "label",
         "type": "React.ReactNode",
-        "required": true
+        "required": true,
+        "origin": "own"
       },
       {
         "name": "value",
         "type": "number",
         "required": true,
+        "origin": "own",
         "schema": {
           "type": "number"
         }
@@ -64,6 +66,7 @@
         "name": "maxValue",
         "type": "number",
         "required": true,
+        "origin": "own",
         "schema": {
           "type": "number"
         }
@@ -72,6 +75,7 @@
         "name": "badEnd",
         "type": "\"high\" | \"low\"",
         "required": false,
+        "origin": "own",
         "default": "\"high\"",
         "description": "Which end is the bad one: `high` (quota, usage; default) warns as the value grows,\n`low` (fuel, credit left) warns as it shrinks.",
         "schema": {
@@ -86,6 +90,7 @@
         "name": "segments",
         "type": "number",
         "required": false,
+        "origin": "own",
         "default": "10",
         "description": "Segments in the track: 10, or the real unit count (8 for fuel eighths).",
         "schema": {
@@ -95,12 +100,14 @@
       {
         "name": "thresholds",
         "type": "MeterThresholds",
-        "required": false
+        "required": false,
+        "origin": "own"
       },
       {
         "name": "valueLabel",
         "type": "string",
         "required": false,
+        "origin": "own",
         "description": "\"38 / 50\", \"460 / 500 · 92%\", \"1/8 · refill soon\": the state in\nwords too, never colour alone. Defaults to \"value / max\".",
         "schema": {
           "type": "string"

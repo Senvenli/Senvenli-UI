@@ -46,6 +46,7 @@
         "name": "value",
         "type": "ThemeChoice",
         "required": false,
+        "origin": "own",
         "description": "Controlled choice; leave out to let the toggle manage, store and apply it.",
         "schema": {
           "type": "string",
@@ -59,18 +60,21 @@
       {
         "name": "onChange",
         "type": "(choice: ThemeChoice) => void",
-        "required": false
+        "required": false,
+        "origin": "own"
       },
       {
         "name": "labels",
         "type": "Partial<ThemeLabels>",
         "required": false,
+        "origin": "own",
         "description": "Localized names; the locale's built-in strings by default."
       },
       {
         "name": "storageKey",
         "type": "string",
         "required": false,
+        "origin": "own",
         "schema": {
           "type": "string"
         }
@@ -79,6 +83,7 @@
         "name": "appearance",
         "type": "\"list\" | \"segmented\"",
         "required": false,
+        "origin": "own",
         "default": "\"segmented\"",
         "description": "`segmented` for the Navbar; `list` (a three-option list with a check) for the phone menu.",
         "schema": {

@@ -55,12 +55,14 @@
         "name": "src",
         "type": "string | Blob",
         "required": true,
+        "origin": "own",
         "description": "The picked file (from FileTrigger, already checked for size and type), or an image URL. A URL from\nanother origin is loaded with CORS so the crop can be read back: its server must send\n`Access-Control-Allow-Origin`, or the image does not open (rather than failing later at save)."
       },
       {
         "name": "label",
         "type": "string",
         "required": true,
+        "origin": "own",
         "description": "What is being cropped (\"Cover photo\"); names the crop frame.",
         "schema": {
           "type": "string"
@@ -70,6 +72,7 @@
         "name": "aspectRatio",
         "type": "ImageCropperAspect",
         "required": false,
+        "origin": "own",
         "default": "16 / 9",
         "description": "16:9 by default; `\"free\"` keeps the image's own shape. Ignored when presets are given."
       },
@@ -77,12 +80,14 @@
         "name": "aspectPresets",
         "type": "readonly ImageCropperPreset[]",
         "required": false,
+        "origin": "own",
         "description": "Two or more shapes to choose from (a segmented control); the first is selected."
       },
       {
         "name": "fit",
         "type": "CropFit",
         "required": false,
+        "origin": "own",
         "default": "\"cover\"",
         "description": "`cover` (default) fills the frame; `contain` fits the whole image and leaves empty area.",
         "schema": {
@@ -97,6 +102,7 @@
         "name": "background",
         "type": "string",
         "required": false,
+        "origin": "own",
         "default": "\"#ffffff\"",
         "description": "The empty area's colour in `contain` when the output has no alpha (JPEG). White by default.",
         "schema": {
@@ -107,6 +113,7 @@
         "name": "outputType",
         "type": "CropOutputType",
         "required": false,
+        "origin": "own",
         "default": "\"image/jpeg\"",
         "description": "`image/jpeg` by default. PNG and WebP keep transparency.",
         "schema": {
@@ -122,6 +129,7 @@
         "name": "quality",
         "type": "number",
         "required": false,
+        "origin": "own",
         "default": "0.9",
         "description": "0–1, for JPEG and WebP. 0.9 by default.",
         "schema": {
@@ -132,6 +140,7 @@
         "name": "maxBytes",
         "type": "number",
         "required": false,
+        "origin": "own",
         "description": "The largest file the surface takes, in bytes. A JPEG or WebP\nover it is encoded again at a quality 0.1 lower each time, down to `minimumQuality`; when even that is over, or\na PNG is, nothing is handed to `onCrop` and the cropper says the image is over the limit (a smaller crop, by\nzooming in, or another image fits).",
         "schema": {
           "type": "number"
@@ -141,6 +150,7 @@
         "name": "minimumQuality",
         "type": "number",
         "required": false,
+        "origin": "own",
         "description": "The lowest quality `maxBytes` may step down to (0.9 keeps a hero or slide sharp). 0.1 by default; at most `quality`.",
         "schema": {
           "type": "number"
@@ -150,6 +160,7 @@
         "name": "maxOutputSize",
         "type": "number",
         "required": false,
+        "origin": "own",
         "default": "4096",
         "description": "The output's long edge in px at most (a surface's size, 2560 for a full-width photo): larger crops scale down,\nnever up. 4096 by default, so a 48 MP phone photo stays within every browser's canvas limit.",
         "schema": {
@@ -160,6 +171,7 @@
         "name": "minOutputSize",
         "type": "number",
         "required": false,
+        "origin": "own",
         "description": "Under this long edge the warning shows; it never blocks.",
         "schema": {
           "type": "number"
@@ -169,6 +181,7 @@
         "name": "fileName",
         "type": "string",
         "required": false,
+        "origin": "own",
         "description": "The output file's name without extension; the source file's name by default.",
         "schema": {
           "type": "string"
@@ -177,12 +190,14 @@
       {
         "name": "onCrop",
         "type": "(file: File, result: ImageCropperResult) => unknown",
-        "required": true
+        "required": true,
+        "origin": "own"
       },
       {
         "name": "onCancel",
         "type": "() => void",
-        "required": false
+        "required": false,
+        "origin": "own"
       }
     ]
   },
