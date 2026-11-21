@@ -40,10 +40,17 @@ export interface HandManifest {
   };
 }
 
+export type PropOrigin = "own" | "aria" | "dom";
+
 export interface PropDoc {
   name: string;
   type: string;
   required: boolean;
+  /**
+   * Where the prop is declared: `own` in this library's source, `aria` in React Aria (behavior such as
+   * `onPress`, `isDisabled`), `dom` in React's DOM and ARIA attribute types.
+   */
+  origin: PropOrigin;
   default?: string;
   description?: string;
   /** Present when the type is plain data a model can write. */

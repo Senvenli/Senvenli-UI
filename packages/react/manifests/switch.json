@@ -79,12 +79,14 @@
         "name": "children",
         "type": "React.ReactNode",
         "required": true,
+        "origin": "own",
         "description": "The setting, named as its on-state (\"Online orders\"), never \"On/Off\"."
       },
       {
         "name": "isSelected",
         "type": "boolean",
         "required": false,
+        "origin": "own",
         "schema": {
           "type": "boolean"
         }
@@ -93,6 +95,7 @@
         "name": "defaultSelected",
         "type": "boolean",
         "required": false,
+        "origin": "own",
         "schema": {
           "type": "boolean"
         }
@@ -100,17 +103,20 @@
       {
         "name": "onChange",
         "type": "(isSelected: boolean) => void",
-        "required": false
+        "required": false,
+        "origin": "own"
       },
       {
         "name": "description",
         "type": "React.ReactNode",
-        "required": false
+        "required": false,
+        "origin": "own"
       },
       {
         "name": "isDisabled",
         "type": "boolean",
         "required": false,
+        "origin": "own",
         "schema": {
           "type": "boolean"
         }
@@ -119,6 +125,7 @@
         "name": "name",
         "type": "string",
         "required": false,
+        "origin": "own",
         "schema": {
           "type": "string"
         }
@@ -127,6 +134,7 @@
         "name": "aria-busy",
         "type": "boolean | \"true\" | \"false\"",
         "required": false,
+        "origin": "own",
         "description": "Marks a pending change (\"saving\"): `aria-busy` on the switch control itself, the `role=\"switch\"` input,\nwhere screen readers read it. It does not lock the switch: it still toggles unless `isDisabled` is set\ntoo. Left out, the DOM is unchanged. It is applied after hydration (in a layout effect, as\nReact Aria does not forward it), so server-rendered HTML does not carry it; it appears on the first client\nrender.",
         "schema": {
           "enum": [

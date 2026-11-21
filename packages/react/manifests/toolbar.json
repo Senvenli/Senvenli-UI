@@ -54,12 +54,14 @@
         "name": "children",
         "type": "React.ReactNode",
         "required": true,
+        "origin": "own",
         "description": "Compact (32px) controls acting on the view below: search, filters, date range, view switch, export."
       },
       {
         "name": "aria-label",
         "type": "string",
         "required": true,
+        "origin": "own",
         "description": "Names the toolbar (\"Order tools\").",
         "schema": {
           "type": "string"
@@ -72,6 +74,7 @@
         "name": "selectedCount",
         "type": "number",
         "required": true,
+        "origin": "own",
         "description": "How many rows are selected; announced as it changes.",
         "schema": {
           "type": "number"
@@ -81,18 +84,21 @@
         "name": "actions",
         "type": "React.ReactNode",
         "required": true,
+        "origin": "own",
         "description": "The bulk actions (compact Buttons): \"Send reminder\", \"Export\"."
       },
       {
         "name": "onClear",
         "type": "() => void",
         "required": true,
+        "origin": "own",
         "description": "Clears the selection; the bar goes with it."
       },
       {
         "name": "aria-label",
         "type": "string",
         "required": true,
+        "origin": "own",
         "description": "Names the bar (\"Selected orders\").",
         "schema": {
           "type": "string"

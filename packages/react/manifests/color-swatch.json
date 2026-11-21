@@ -66,6 +66,7 @@
         "name": "color",
         "type": "string",
         "required": true,
+        "origin": "own",
         "description": "The color shown (\"#1E63D0\").",
         "schema": {
           "type": "string"
@@ -75,6 +76,7 @@
         "name": "name",
         "type": "string",
         "required": false,
+        "origin": "own",
         "description": "Its name (\"Ocean\"): the accessible label.",
         "schema": {
           "type": "string"
@@ -84,6 +86,7 @@
         "name": "className",
         "type": "string",
         "required": false,
+        "origin": "own",
         "schema": {
           "type": "string"
         }

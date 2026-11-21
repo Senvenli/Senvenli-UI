@@ -47,12 +47,14 @@
       {
         "name": "children",
         "type": "React.ReactNode",
-        "required": true
+        "required": true,
+        "origin": "own"
       },
       {
         "name": "aria-label",
         "type": "string",
         "required": true,
+        "origin": "own",
         "description": "Names the region; screen readers announce it when focus enters.",
         "schema": {
           "type": "string"
@@ -62,6 +64,7 @@
         "name": "maxHeight",
         "type": "string | number",
         "required": false,
+        "origin": "own",
         "description": "The region's height limit (\"320px\", 320, \"60vh\"); for horizontal areas, set the width on the parent.",
         "schema": {
           "type": "string"
@@ -71,6 +74,7 @@
         "name": "fill",
         "type": "boolean",
         "required": false,
+        "origin": "own",
         "default": "false",
         "description": "Fills the parent's height and scrolls inside it, for a pane in a flex column or a grid\nrow that is given its height: a conversation's messages between its header and the reply box, a list\nbeside it. The parent must give the area a definite height (`min-h-0` on a flex or grid child).\nLeave `maxHeight` out when filling.",
         "schema": {
@@ -81,6 +85,7 @@
         "name": "orientation",
         "type": "\"both\" | \"horizontal\" | \"vertical\"",
         "required": false,
+        "origin": "own",
         "default": "\"vertical\"",
         "schema": {
           "type": "string",

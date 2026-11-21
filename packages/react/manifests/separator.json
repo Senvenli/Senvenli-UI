@@ -71,6 +71,7 @@
         "name": "orientation",
         "type": "\"horizontal\" | \"vertical\"",
         "required": false,
+        "origin": "own",
         "default": "\"horizontal\"",
         "schema": {
           "type": "string",
@@ -84,12 +85,14 @@
         "name": "children",
         "type": "React.ReactNode",
         "required": false,
+        "origin": "own",
         "description": "A label in the line (\"or continue with email\"), for auth forms only, not section titles. Always horizontal."
       },
       {
         "name": "decorative",
         "type": "boolean",
         "required": false,
+        "origin": "own",
         "description": "Hides it from assistive tech when it only decorates.",
         "schema": {
           "type": "boolean"

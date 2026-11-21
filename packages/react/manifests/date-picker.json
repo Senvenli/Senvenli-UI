@@ -96,12 +96,14 @@
       {
         "name": "defaultValue",
         "type": "CalendarDate",
-        "required": false
+        "required": false,
+        "origin": "own"
       },
       {
         "name": "autoFocus",
         "type": "boolean",
         "required": false,
+        "origin": "own",
         "schema": {
           "type": "boolean"
         }
@@ -110,6 +112,7 @@
         "name": "id",
         "type": "string",
         "required": false,
+        "origin": "own",
         "description": "The id of the field's first typed segment (day, or the locale's first part), the element that takes focus\n: `document.getElementById(id).focus()` puts the user in the field, as a focus-on-error does. The\nfield's group gets an id of its own. Left out, the DOM is as before.",
         "schema": {
           "type": "string"
@@ -118,17 +121,20 @@
       {
         "name": "onBlur",
         "type": "(event: FocusEvent<Element, Element>) => void",
-        "required": false
+        "required": false,
+        "origin": "own"
       },
       {
         "name": "onChange",
         "type": "(value: CalendarDate | null) => void",
-        "required": false
+        "required": false,
+        "origin": "own"
       },
       {
         "name": "isDisabled",
         "type": "boolean",
         "required": false,
+        "origin": "own",
         "schema": {
           "type": "boolean"
         }
@@ -137,6 +143,7 @@
         "name": "name",
         "type": "string",
         "required": false,
+        "origin": "own",
         "description": "The form field name; the value is submitted as an ISO string.",
         "schema": {
           "type": "string"
@@ -146,23 +153,27 @@
         "name": "label",
         "type": "string | number | bigint | boolean | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<AwaitedReactNode>",
         "required": true,
+        "origin": "own",
         "description": "Always given; the label sits above the field and names its segments."
       },
       {
         "name": "description",
         "type": "string | number | bigint | boolean | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<AwaitedReactNode>",
-        "required": false
+        "required": false,
+        "origin": "own"
       },
       {
         "name": "errorMessage",
         "type": "string | number | bigint | boolean | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<AwaitedReactNode>",
         "required": false,
+        "origin": "own",
         "description": "What happened and what to do; shown when the field is invalid."
       },
       {
         "name": "isRequired",
         "type": "boolean",
         "required": false,
+        "origin": "own",
         "schema": {
           "type": "boolean"
         }
@@ -171,6 +182,7 @@
         "name": "requiredValidation",
         "type": "RequiredValidation",
         "required": false,
+        "origin": "own",
         "description": "Who says an empty required field is missing: `field` (default) or `app`. With `app` a DS\nForm's `onSubmit` runs with the field empty, and the app's own error must clear on change. See\n{@link RequiredValidation} for the whole contract.",
         "schema": {
           "type": "string",
@@ -184,6 +196,7 @@
         "name": "isOptional",
         "type": "boolean",
         "required": false,
+        "origin": "own",
         "description": "Shows \"(optional)\" when most of the form is required.",
         "schema": {
           "type": "boolean"
@@ -193,6 +206,7 @@
         "name": "isReadOnly",
         "type": "boolean",
         "required": false,
+        "origin": "own",
         "schema": {
           "type": "boolean"
         }
@@ -201,6 +215,7 @@
         "name": "isInvalid",
         "type": "boolean",
         "required": false,
+        "origin": "own",
         "description": "Marks the field invalid from outside (a server error); `errorMessage` says why.",
         "schema": {
           "type": "boolean"
@@ -209,44 +224,52 @@
       {
         "name": "minValue",
         "type": "CalendarDate",
-        "required": false
+        "required": false,
+        "origin": "own"
       },
       {
         "name": "maxValue",
         "type": "CalendarDate",
-        "required": false
+        "required": false,
+        "origin": "own"
       },
       {
         "name": "validate",
         "type": "(value: CalendarDate | null) => string | true | string[] | null | undefined",
         "required": false,
+        "origin": "own",
         "description": "Your own check; return the message to show, or nothing when the date is fine."
       },
       {
         "name": "value",
         "type": "CalendarDate",
         "required": false,
+        "origin": "own",
         "description": "A calendar date, no time zone; with `granularity=\"month\"` the month's first day.\n\nWhile the user leaves a date typed in part or impossible (\"31.aa.2026\", \"31.11.2026\"), the field reports\n`onChange(null)` and keeps the typed parts on screen, so setting `null` changes nothing: the value already is null.\nTo clear the field (an app's own \"Temizle\" or form reset), give it a new `key` along with the value: React remounts\nit empty, or at the value given."
       },
       {
         "name": "isDateUnavailable",
         "type": "(date: CalendarDate) => boolean",
-        "required": false
+        "required": false,
+        "origin": "own"
       },
       {
         "name": "unavailableReason",
         "type": "(date: CalendarDate) => string | undefined",
-        "required": false
+        "required": false,
+        "origin": "own"
       },
       {
         "name": "getDateMarkers",
         "type": "(date: CalendarDate) => DateMarker | undefined",
-        "required": false
+        "required": false,
+        "origin": "own"
       },
       {
         "name": "firstDayOfWeek",
         "type": "FirstDayOfWeek",
         "required": false,
+        "origin": "own",
         "schema": {
           "type": "string",
           "enum": [
@@ -264,6 +287,7 @@
         "name": "timeZone",
         "type": "string",
         "required": false,
+        "origin": "own",
         "description": "\"Today\" in the calendar and the Today action: the location's zone; the device's by default.",
         "schema": {
           "type": "string"
@@ -273,6 +297,7 @@
         "name": "shouldCloseOnSelect",
         "type": "boolean",
         "required": false,
+        "origin": "own",
         "default": "true",
         "description": "Close the calendar once a day is picked (default).",
         "schema": {
@@ -283,6 +308,7 @@
         "name": "granularity",
         "type": "\"day\" | \"month\"",
         "required": false,
+        "origin": "own",
         "default": "\"day\"",
         "description": "`month`: a year and a month, for a report or history range. The field types month and year\n(as DateField `granularity=\"month\"`), the value is that month's first day, and the popover is a grid of the\ntwelve months under a year stepper, with \"This month\" and \"Clear\"; `minValue` and `maxValue` count by month.\nThe day-only props (unavailable days, markers, first day of the week) do not apply. Default `day`.",
         "schema": {

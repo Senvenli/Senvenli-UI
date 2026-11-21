@@ -11,7 +11,7 @@ import fs from "node:fs";
 import path from "node:path";
 import ts from "typescript";
 
-import type { ComponentManifest, HandManifest, JsonSchema, ManifestIndexEntry, PropDoc, Quality } from "./types";
+import type { ComponentManifest, HandManifest, JsonSchema, ManifestIndexEntry, PropDoc, PropOrigin, Quality } from "./types";
 
 export const PACKAGE_ROOT = path.resolve(path.dirname(new URL(import.meta.url).pathname), "../..");
 export const SRC = path.join(PACKAGE_ROOT, "src");
@@ -180,6 +180,25 @@ function schemaOf(checker: ts.TypeChecker, types: ts.Type[], depth = 0): JsonSch
   return null;
 }
 
+/** React Aria's re-declarations of plain DOM and ARIA attributes: documented by the platform, not by us. */
+const DOM_INTERFACES = new Set(["GlobalDOMAttributes", "GlobalDOMEvents", "DOMProps", "AriaLabelingProps", "KeyboardEvents", "SlotProps", "DOMRenderProps"]);
+
+/**
+ * Where a prop is declared: in this library (`own`), as React Aria behavior (`aria`: onPress, isDisabled,
+ * hover and focus changes), or as a plain DOM or ARIA attribute (`dom`), React Aria's re-declarations included.
+ */
+function originOf(sym: ts.Symbol): PropOrigin {
+  const declaration = sym.declarations?.[0];
+  const file = declaration?.getSourceFile().fileName.split(path.sep).join("/") ?? "";
+  if (!file.includes("/node_modules/")) return "own";
+  if (sym.name.startsWith("aria-")) return "dom";
+  const parent = declaration?.parent;
+  const owner = parent && (ts.isInterfaceDeclaration(parent) || ts.isTypeAliasDeclaration(parent)) ? parent.name.text : "";
+  if (DOM_INTERFACES.has(owner)) return "dom";
+  if (/\/(react-aria-components|react-aria|@react-aria|@react-types|@react-stately)\//.test(file)) return "aria";
+  return "dom";
+}
+
 function propsOf(checker: ts.TypeChecker, decl: ComponentDecl): PropDoc[] {
   const param = decl.params[0];
   if (!param) return [];
@@ -201,7 +220,7 @@ function propsOf(checker: ts.TypeChecker, decl: ComponentDecl): PropDoc[] {
   }
   return [...byName.entries()].map(([name, e]) => {
     const description = ts.displayPartsToString(e.sym.getDocumentationComment(checker)).trim();
-    const doc: PropDoc = { name, type: [...new Set(e.texts)].join(" | "), required: e.required === arms.length };
+    const doc: PropDoc = { name, type: [...new Set(e.texts)].join(" | "), required: e.required === arms.length, origin: originOf(e.sym) };
     const def = defaults.get(name);
     if (def !== undefined) doc.default = def;
     if (description) doc.description = description;

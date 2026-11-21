@@ -103,6 +103,7 @@
         "name": "name",
         "type": "string",
         "required": true,
+        "origin": "own",
         "description": "The person's or company's name: the initials and the accessible name.",
         "schema": {
           "type": "string"
@@ -112,6 +113,7 @@
         "name": "src",
         "type": "string",
         "required": false,
+        "origin": "own",
         "description": "Photo or company logo; initials (or the icon) show until it loads and if it fails.",
         "schema": {
           "type": "string"
@@ -121,6 +123,7 @@
         "name": "size",
         "type": "AvatarSize",
         "required": false,
+        "origin": "own",
         "schema": {
           "type": "string",
           "enum": [
@@ -134,6 +137,7 @@
         "name": "shape",
         "type": "AvatarShape",
         "required": false,
+        "origin": "own",
         "default": "\"circle\"",
         "description": "`circle` for people, `square` for companies and logos (contained, never stretched).",
         "schema": {
@@ -148,6 +152,7 @@
         "name": "presence",
         "type": "\"online\"",
         "required": false,
+        "origin": "own",
         "description": "Shows the 10px online dot and says \"online\" in the name.",
         "schema": {
           "type": "string",
@@ -162,12 +167,14 @@
         "name": "children",
         "type": "React.ReactNode",
         "required": true,
+        "origin": "own",
         "description": "Avatars; past `max` they fold into a \"+N\" avatar."
       },
       {
         "name": "max",
         "type": "number",
         "required": false,
+        "origin": "own",
         "default": "4",
         "description": "How many show before the \"+N\"; default 4.",
         "schema": {
@@ -178,6 +185,7 @@
         "name": "size",
         "type": "AvatarSize",
         "required": false,
+        "origin": "own",
         "default": "\"medium\"",
         "schema": {
           "type": "string",
@@ -192,6 +200,7 @@
         "name": "aria-label",
         "type": "string",
         "required": false,
+        "origin": "own",
         "description": "Names the group (\"Team members\").",
         "schema": {
           "type": "string"

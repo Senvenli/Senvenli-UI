@@ -108,6 +108,7 @@
         "name": "defaultValue",
         "type": "string",
         "required": false,
+        "origin": "aria",
         "description": "The default value (uncontrolled).",
         "schema": {
           "type": "string"
@@ -117,6 +118,7 @@
         "name": "suppressHydrationWarning",
         "type": "boolean",
         "required": false,
+        "origin": "dom",
         "description": "A React-only flag that suppresses the warning React normally logs when an element's\nserver-rendered content doesn't match the client render during hydration. See [React\ndocs](https://react.dev/reference/react-dom/client/hydrateRoot#suppressing-unavoidable-hydration-mismatch-errors).",
         "schema": {
           "type": "boolean"
@@ -126,6 +128,7 @@
         "name": "autoFocus",
         "type": "boolean",
         "required": false,
+        "origin": "aria",
         "description": "Whether the element should receive focus on render.",
         "schema": {
           "type": "boolean"
@@ -135,6 +138,7 @@
         "name": "dir",
         "type": "string",
         "required": false,
+        "origin": "dom",
         "schema": {
           "type": "string"
         }
@@ -143,6 +147,7 @@
         "name": "enterKeyHint",
         "type": "\"enter\" | \"done\" | \"go\" | \"next\" | \"previous\" | \"search\" | \"send\"",
         "required": false,
+        "origin": "aria",
         "description": "An enumerated attribute that defines what action label or icon to preset for the enter key on\nvirtual keyboards. See\n[MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/enterkeyhint).",
         "schema": {
           "type": "string",
@@ -161,6 +166,7 @@
         "name": "hidden",
         "type": "boolean",
         "required": false,
+        "origin": "dom",
         "schema": {
           "type": "boolean"
         }
@@ -169,6 +175,7 @@
         "name": "id",
         "type": "string",
         "required": false,
+        "origin": "dom",
         "description": "The element's unique identifier. See\n[MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/id).",
         "schema": {
           "type": "string"
@@ -178,6 +185,7 @@
         "name": "lang",
         "type": "string",
         "required": false,
+        "origin": "dom",
         "schema": {
           "type": "string"
         }
@@ -186,6 +194,7 @@
         "name": "slot",
         "type": "string",
         "required": false,
+        "origin": "dom",
         "description": "A slot name for the component. Slots allow the component to receive props from a parent\ncomponent. An explicit `null` value indicates that the local props completely override all\nprops received from a parent.",
         "schema": {
           "type": "string"
@@ -195,6 +204,7 @@
         "name": "spellCheck",
         "type": "string",
         "required": false,
+        "origin": "aria",
         "description": "An enumerated attribute that defines whether the element may be checked for spelling errors.\nSee [MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/spellcheck).",
         "schema": {
           "type": "string"
@@ -204,6 +214,7 @@
         "name": "translate",
         "type": "\"yes\" | \"no\"",
         "required": false,
+        "origin": "dom",
         "schema": {
           "type": "string",
           "enum": [
@@ -216,6 +227,7 @@
         "name": "autoCorrect",
         "type": "string",
         "required": false,
+        "origin": "aria",
         "description": "An attribute that takes as its value a space-separated string that describes what, if any, type\nof autocomplete functionality the input should provide. See\n[MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#autocomplete).",
         "schema": {
           "type": "string"
@@ -225,6 +237,7 @@
         "name": "inert",
         "type": "boolean",
         "required": false,
+        "origin": "dom",
         "schema": {
           "type": "boolean"
         }
@@ -233,6 +246,7 @@
         "name": "inputMode",
         "type": "\"none\" | \"search\" | \"text\" | \"tel\" | \"url\" | \"email\" | \"numeric\" | \"decimal\"",
         "required": false,
+        "origin": "aria",
         "description": "Hints at the type of data that might be entered by the user while editing the element or its\ncontents. See\n[MDN](https://html.spec.whatwg.org/multipage/interaction.html#input-modalities:-the-inputmode-attribute).",
         "schema": {
           "type": "string",
@@ -252,6 +266,7 @@
         "name": "aria-activedescendant",
         "type": "string",
         "required": false,
+        "origin": "dom",
         "description": "Identifies the currently active element when DOM focus is on a composite widget, textbox,\ngroup, or application.",
         "schema": {
           "type": "string"
@@ -261,6 +276,7 @@
         "name": "aria-autocomplete",
         "type": "\"none\" | \"inline\" | \"list\" | \"both\"",
         "required": false,
+        "origin": "dom",
         "description": "Indicates whether inputting text could trigger display of one or more predictions of the user's\nintended value for an input and specifies how predictions would be presented if they are made.",
         "schema": {
           "type": "string",
@@ -276,6 +292,7 @@
         "name": "aria-controls",
         "type": "string",
         "required": false,
+        "origin": "dom",
         "description": "Identifies the element (or elements) whose contents or presence are controlled by the current\nelement.",
         "schema": {
           "type": "string"
@@ -285,6 +302,7 @@
         "name": "aria-describedby",
         "type": "string",
         "required": false,
+        "origin": "dom",
         "description": "Identifies the element (or elements) that describes the object.",
         "schema": {
           "type": "string"
@@ -294,6 +312,7 @@
         "name": "aria-details",
         "type": "string",
         "required": false,
+        "origin": "dom",
         "description": "Identifies the element (or elements) that provide a detailed, extended description for the\nobject.",
         "schema": {
           "type": "string"
@@ -303,6 +322,7 @@
         "name": "aria-errormessage",
         "type": "string",
         "required": false,
+        "origin": "dom",
         "description": "Identifies the element that provides an error message for the object.",
         "schema": {
           "type": "string"
@@ -312,6 +332,7 @@
         "name": "aria-haspopup",
         "type": "boolean | \"true\" | \"false\" | \"menu\" | \"listbox\" | \"tree\" | \"grid\" | \"dialog\"",
         "required": false,
+        "origin": "dom",
         "description": "Indicates the availability and type of interactive popup element, such as menu or dialog, that\ncan be triggered by an element.",
         "schema": {
           "enum": [
@@ -331,6 +352,7 @@
         "name": "aria-label",
         "type": "string",
         "required": false,
+        "origin": "dom",
         "description": "Defines a string value that labels the current element.",
         "schema": {
           "type": "string"
@@ -340,6 +362,7 @@
         "name": "aria-labelledby",
         "type": "string",
         "required": false,
+        "origin": "dom",
         "description": "Identifies the element (or elements) that labels the current element.",
         "schema": {
           "type": "string"
@@ -349,410 +372,489 @@
         "name": "onCopy",
         "type": "ClipboardEventHandler<HTMLInputElement>",
         "required": false,
+        "origin": "aria",
         "description": "Handler that is called when the user copies text. See\n[MDN](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/oncopy)."
       },
       {
         "name": "onCut",
         "type": "ClipboardEventHandler<HTMLInputElement>",
         "required": false,
+        "origin": "aria",
         "description": "Handler that is called when the user cuts text. See\n[MDN](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/oncut)."
       },
       {
         "name": "onPaste",
         "type": "ClipboardEventHandler<HTMLInputElement>",
         "required": false,
+        "origin": "aria",
         "description": "Handler that is called when the user pastes text. See\n[MDN](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/onpaste)."
       },
       {
         "name": "onCompositionEnd",
         "type": "CompositionEventHandler<HTMLInputElement>",
         "required": false,
+        "origin": "aria",
         "description": "Handler that is called when a text composition system completes or cancels the current text\ncomposition session. See\n[MDN](https://developer.mozilla.org/en-US/docs/Web/API/Element/compositionend_event)."
       },
       {
         "name": "onCompositionStart",
         "type": "CompositionEventHandler<HTMLInputElement>",
         "required": false,
+        "origin": "aria",
         "description": "Handler that is called when a text composition system starts a new text composition session.\nSee [MDN](https://developer.mozilla.org/en-US/docs/Web/API/Element/compositionstart_event)."
       },
       {
         "name": "onCompositionUpdate",
         "type": "CompositionEventHandler<HTMLInputElement>",
         "required": false,
+        "origin": "aria",
         "description": "Handler that is called when a new character is received in the current text composition\nsession. See\n[MDN](https://developer.mozilla.org/en-US/docs/Web/API/Element/compositionupdate_event)."
       },
       {
         "name": "onFocus",
         "type": "(e: FocusEvent<HTMLInputElement, Element>) => void",
         "required": false,
+        "origin": "aria",
         "description": "Handler that is called when the element receives focus."
       },
       {
         "name": "onBlur",
         "type": "(e: FocusEvent<HTMLInputElement, Element>) => void",
         "required": false,
+        "origin": "aria",
         "description": "Handler that is called when the element loses focus."
       },
       {
         "name": "onChange",
         "type": "(value: string) => void",
         "required": false,
+        "origin": "aria",
         "description": "Handler that is called when the value changes."
       },
       {
         "name": "onBeforeInput",
         "type": "FormEventHandler<HTMLInputElement>",
         "required": false,
+        "origin": "aria",
         "description": "Handler that is called when the input value is about to be modified. See\n[MDN](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/beforeinput_event)."
       },
       {
         "name": "onInput",
         "type": "FormEventHandler<HTMLInputElement>",
         "required": false,
+        "origin": "aria",
         "description": "Handler that is called when the input value is modified. See\n[MDN](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/input_event)."
       },
       {
         "name": "onKeyDown",
         "type": "(e: KeyboardEvent) => void",
         "required": false,
+        "origin": "dom",
         "description": "Handler that is called when a key is pressed."
       },
       {
         "name": "onKeyUp",
         "type": "(e: KeyboardEvent) => void",
         "required": false,
+        "origin": "dom",
         "description": "Handler that is called when a key is released."
       },
       {
         "name": "onAuxClick",
         "type": "MouseEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onAuxClickCapture",
         "type": "MouseEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onClick",
         "type": "MouseEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onClickCapture",
         "type": "MouseEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onContextMenu",
         "type": "MouseEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onContextMenuCapture",
         "type": "MouseEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onDoubleClick",
         "type": "MouseEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onDoubleClickCapture",
         "type": "MouseEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onMouseDown",
         "type": "MouseEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onMouseDownCapture",
         "type": "MouseEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onMouseEnter",
         "type": "MouseEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onMouseLeave",
         "type": "MouseEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onMouseMove",
         "type": "MouseEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onMouseMoveCapture",
         "type": "MouseEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onMouseOut",
         "type": "MouseEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onMouseOutCapture",
         "type": "MouseEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onMouseOver",
         "type": "MouseEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onMouseOverCapture",
         "type": "MouseEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onMouseUp",
         "type": "MouseEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onMouseUpCapture",
         "type": "MouseEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onSelect",
         "type": "ReactEventHandler<HTMLInputElement>",
         "required": false,
+        "origin": "aria",
         "description": "Handler that is called when text in the input is selected. See\n[MDN](https://developer.mozilla.org/en-US/docs/Web/API/Element/select_event)."
       },
       {
         "name": "onTouchCancel",
         "type": "TouchEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onTouchCancelCapture",
         "type": "TouchEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onTouchEnd",
         "type": "TouchEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onTouchEndCapture",
         "type": "TouchEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onTouchMove",
         "type": "TouchEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onTouchMoveCapture",
         "type": "TouchEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onTouchStart",
         "type": "TouchEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onTouchStartCapture",
         "type": "TouchEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onPointerDown",
         "type": "PointerEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onPointerDownCapture",
         "type": "PointerEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onPointerMove",
         "type": "PointerEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onPointerMoveCapture",
         "type": "PointerEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onPointerUp",
         "type": "PointerEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onPointerUpCapture",
         "type": "PointerEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onPointerCancel",
         "type": "PointerEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onPointerCancelCapture",
         "type": "PointerEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onPointerEnter",
         "type": "PointerEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onPointerLeave",
         "type": "PointerEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onPointerOver",
         "type": "PointerEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onPointerOverCapture",
         "type": "PointerEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onPointerOut",
         "type": "PointerEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onPointerOutCapture",
         "type": "PointerEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onGotPointerCapture",
         "type": "PointerEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onGotPointerCaptureCapture",
         "type": "PointerEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onLostPointerCapture",
         "type": "PointerEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onLostPointerCaptureCapture",
         "type": "PointerEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onScroll",
         "type": "UIEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onScrollCapture",
         "type": "UIEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onWheel",
         "type": "WheelEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onWheelCapture",
         "type": "WheelEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onAnimationStart",
         "type": "AnimationEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onAnimationStartCapture",
         "type": "AnimationEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onAnimationEnd",
         "type": "AnimationEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onAnimationEndCapture",
         "type": "AnimationEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onAnimationIteration",
         "type": "AnimationEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onAnimationIterationCapture",
         "type": "AnimationEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onTransitionCancel",
         "type": "TransitionEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onTransitionCancelCapture",
         "type": "TransitionEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onTransitionEnd",
         "type": "TransitionEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onTransitionEndCapture",
         "type": "TransitionEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onTransitionRun",
         "type": "TransitionEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onTransitionRunCapture",
         "type": "TransitionEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onTransitionStart",
         "type": "TransitionEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onTransitionStartCapture",
         "type": "TransitionEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "isDisabled",
         "type": "boolean",
         "required": false,
+        "origin": "aria",
         "description": "Whether the input is disabled.",
         "schema": {
           "type": "boolean"
@@ -762,12 +864,14 @@
         "name": "onFocusChange",
         "type": "(isFocused: boolean) => void",
         "required": false,
+        "origin": "aria",
         "description": "Handler that is called when the element's focus status changes."
       },
       {
         "name": "type",
         "type": "(string & {}) | \"search\" | \"text\" | \"tel\" | \"url\" | \"email\" | \"password\"",
         "required": false,
+        "origin": "aria",
         "description": "The type of input to render. See\n[MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#htmlattrdeftype).",
         "schema": {
           "type": "string"
@@ -777,6 +881,7 @@
         "name": "form",
         "type": "string",
         "required": false,
+        "origin": "aria",
         "description": "The `<form>` element to associate the input with.\nThe value of this attribute must be the id of a `<form>` in the same document.\nSee [MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/input#form).",
         "schema": {
           "type": "string"
@@ -786,6 +891,7 @@
         "name": "name",
         "type": "string",
         "required": false,
+        "origin": "aria",
         "description": "The name of the input element, used when submitting an HTML form. See\n[MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#htmlattrdefname).",
         "schema": {
           "type": "string"
@@ -795,6 +901,7 @@
         "name": "value",
         "type": "string",
         "required": false,
+        "origin": "aria",
         "description": "The current value (controlled).",
         "schema": {
           "type": "string"
@@ -804,6 +911,7 @@
         "name": "excludeFromTabOrder",
         "type": "boolean",
         "required": false,
+        "origin": "aria",
         "description": "Whether to exclude the element from the sequential tab order. If true,\nthe element will not be focusable via the keyboard by tabbing. This should\nbe avoided except in rare scenarios where an alternative means of accessing\nthe element or its functionality via the keyboard is available.",
         "schema": {
           "type": "boolean"
@@ -813,12 +921,14 @@
         "name": "render",
         "type": "DOMRenderFunction<\"div\", TextFieldRenderProps>",
         "required": false,
+        "origin": "dom",
         "description": "Overrides the default DOM element with a custom render function.\nThis allows rendering existing components with built-in styles and behaviors\nsuch as router links, animation libraries, and pre-styled components.\n\nRequirements:\n\n- You must render the expected element type (e.g. if `<button>` is expected, you cannot render an\n  `<a>`).\n- Only a single root DOM element can be rendered (no fragments).\n- You must pass through props and ref to the underlying DOM element, merging with your own prop\n  as appropriate."
       },
       {
         "name": "isRequired",
         "type": "boolean",
         "required": false,
+        "origin": "aria",
         "description": "Whether user input is required on the input before form submission.",
         "schema": {
           "type": "boolean"
@@ -828,6 +938,7 @@
         "name": "isReadOnly",
         "type": "boolean",
         "required": false,
+        "origin": "aria",
         "description": "Whether the input can be selected but not changed by the user.",
         "schema": {
           "type": "boolean"
@@ -837,6 +948,7 @@
         "name": "isInvalid",
         "type": "boolean",
         "required": false,
+        "origin": "aria",
         "description": "Whether the value is invalid.",
         "schema": {
           "type": "boolean"
@@ -846,12 +958,14 @@
         "name": "validate",
         "type": "(value: string) => true | ValidationError | null | undefined",
         "required": false,
+        "origin": "aria",
         "description": "A function that returns an error message if a given value is invalid.\nValidation errors are displayed to the user when the form is submitted\nif `validationBehavior=\"native\"`. For realtime validation, use the `isInvalid`\nprop instead."
       },
       {
         "name": "validationBehavior",
         "type": "\"aria\" | \"native\"",
         "required": false,
+        "origin": "aria",
         "description": "Whether to use native HTML form validation to prevent form submission\nwhen the value is missing or invalid, or mark the field as required\nor invalid via ARIA.",
         "schema": {
           "type": "string",
@@ -865,6 +979,7 @@
         "name": "autoComplete",
         "type": "string",
         "required": false,
+        "origin": "aria",
         "description": "Describes the type of autocomplete functionality the input should provide if any. See\n[MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#htmlattrdefautocomplete).",
         "schema": {
           "type": "string"
@@ -874,6 +989,7 @@
         "name": "maxLength",
         "type": "number",
         "required": false,
+        "origin": "aria",
         "description": "The maximum number of characters supported by the input. See\n[MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#htmlattrdefmaxlength).",
         "schema": {
           "type": "number"
@@ -883,6 +999,7 @@
         "name": "minLength",
         "type": "number",
         "required": false,
+        "origin": "aria",
         "description": "The minimum number of characters required by the input. See\n[MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#htmlattrdefminlength).",
         "schema": {
           "type": "number"
@@ -892,6 +1009,7 @@
         "name": "pattern",
         "type": "string",
         "required": false,
+        "origin": "aria",
         "description": "Regex pattern that the value of the input must match to be valid. See\n[MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#htmlattrdefpattern).",
         "schema": {
           "type": "string"
@@ -901,23 +1019,27 @@
         "name": "label",
         "type": "React.ReactNode",
         "required": true,
+        "origin": "own",
         "description": "Always given; the label sits above the field, never inside it."
       },
       {
         "name": "description",
         "type": "React.ReactNode",
-        "required": false
+        "required": false,
+        "origin": "own"
       },
       {
         "name": "errorMessage",
         "type": "React.ReactNode",
         "required": false,
+        "origin": "own",
         "description": "What happened and what to do (\"Enter a valid email: name@example.com\")."
       },
       {
         "name": "isOptional",
         "type": "boolean",
         "required": false,
+        "origin": "own",
         "description": "Shows \"(optional)\" when most of the form is required.",
         "schema": {
           "type": "boolean"
@@ -927,6 +1049,7 @@
         "name": "requiredValidation",
         "type": "RequiredValidation",
         "required": false,
+        "origin": "own",
         "description": "Who says an empty required field is missing: `field` (default) or `app`. With `app` a DS\nForm's `onSubmit` runs with the field empty, and the app's own error must clear on change. See\n{@link RequiredValidation} for the whole contract.",
         "schema": {
           "type": "string",
@@ -940,6 +1063,7 @@
         "name": "placeholder",
         "type": "string",
         "required": false,
+        "origin": "own",
         "schema": {
           "type": "string"
         }
@@ -948,23 +1072,27 @@
         "name": "prefix",
         "type": "React.ReactNode",
         "required": false,
+        "origin": "own",
         "description": "Text, unit or currency before the value (\"€\", \"https://\"), or `<Icon name=\"search\" />`."
       },
       {
         "name": "suffix",
         "type": "React.ReactNode",
-        "required": false
+        "required": false,
+        "origin": "own"
       },
       {
         "name": "actions",
         "type": "React.ReactNode",
         "required": false,
+        "origin": "own",
         "description": "Extra controls at the end of the frame (`InputAction`)."
       },
       {
         "name": "size",
         "type": "FieldSize",
         "required": false,
+        "origin": "own",
         "default": "\"default\"",
         "schema": {
           "type": "string",
@@ -978,6 +1106,7 @@
         "name": "appearance",
         "type": "\"text\" | \"numeric\" | \"code\"",
         "required": false,
+        "origin": "own",
         "default": "\"text\"",
         "description": "`code` for codes, references and IDs; `numeric` for money, distance and counts.",
         "schema": {
@@ -993,6 +1122,7 @@
         "name": "displayCase",
         "type": "\"uppercase\"",
         "required": false,
+        "origin": "own",
         "description": "`uppercase` shows the value in capitals (a code: \"ab 123\" reads \"AB 123\"); display only\n. The input's value, `onChange` and the submitted form value stay exactly as\ntyped; the caret and selection follow the text as drawn. Capitals follow the page's language, as CSS\n`text-transform` does (`lang=\"tr\"`: \"i\" shows as \"İ\"), the same as `toLocaleUpperCase` in that locale. The\nplaceholder keeps its own case. Normalise the stored value in the app if it must be capitals.",
         "schema": {
           "type": "string",
@@ -1005,6 +1135,7 @@
         "name": "autoCapitalize",
         "type": "\"off\" | \"none\" | \"on\" | \"sentences\" | \"words\" | \"characters\" | (string & {})",
         "required": false,
+        "origin": "own",
         "description": "Mobile keyboards' capitalization: `none` for e-mail and codes, `characters` for codes, `words` for names.\nReact Aria's TextField forwards it to the input (useTextField reads it); its types leave it out, so it is declared here.",
         "schema": {
           "type": "string"
@@ -1014,6 +1145,7 @@
         "name": "aria-invalid",
         "type": "boolean | \"true\" | \"false\"",
         "required": false,
+        "origin": "own",
         "description": "Set by a form row that owns the error text (the shared `Field` hands its control `aria-invalid`): the field\nshows its invalid state as with `isInvalid`, and without an `errorMessage` of its own draws no error row,\nso the row's message is the only one. It marks the input for assistive tech and draws it\ninvalid only: unlike `isInvalid` it never becomes the input's native validity, so it never blocks a form's\nsubmit, and the field's own validation runs as without it.",
         "schema": {
           "enum": [
@@ -1028,6 +1160,7 @@
         "name": "min",
         "type": "string | number",
         "required": false,
+        "origin": "own",
         "description": "Bounds and step for `type=\"number\"`; prefer NumberField for money and counts that need formatting.",
         "schema": {
           "type": "string"
@@ -1037,6 +1170,7 @@
         "name": "max",
         "type": "string | number",
         "required": false,
+        "origin": "own",
         "schema": {
           "type": "string"
         }
@@ -1045,6 +1179,7 @@
         "name": "step",
         "type": "string | number",
         "required": false,
+        "origin": "own",
         "schema": {
           "type": "string"
         }
@@ -1053,6 +1188,7 @@
         "name": "valueDir",
         "type": "\"inherit\" | \"ltr\"",
         "required": false,
+        "origin": "own",
         "description": "`ltr` keeps the frame, addons and value, left to right on an RTL page: phone numbers, IBANs and\ncard numbers read LTR in every locale (\"ME +382 67 412 908\", never \"908 412 67 ME +382\"). The\nlabel, help text and error still follow the page. On by default for `type` `url`, `email` and `tel`\n(the placeholder then aligns LTR too); `inherit` turns that off and follows the page. Pass `ltr` for a\ndomain with URL addons: \"https://shop.example.com\", never \"com. shop.example //:https\".",
         "schema": {
           "type": "string",

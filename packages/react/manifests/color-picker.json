@@ -67,12 +67,14 @@
         "name": "label",
         "type": "React.ReactNode",
         "required": true,
+        "origin": "own",
         "description": "\"Brand color\"; names the area, the sliders and the hex field for screen readers."
       },
       {
         "name": "value",
         "type": "string",
         "required": false,
+        "origin": "own",
         "description": "The hex (\"#1E63D0\"); \"#1E63D0CC\" with an alpha channel.",
         "schema": {
           "type": "string"
@@ -82,6 +84,7 @@
         "name": "defaultValue",
         "type": "string",
         "required": false,
+        "origin": "own",
         "default": "DEFAULT_PRIMARY",
         "schema": {
           "type": "string"
@@ -91,18 +94,21 @@
         "name": "onChange",
         "type": "(value: string) => void",
         "required": false,
+        "origin": "own",
         "description": "While dragging and typing: the preview and its contrast check follow every move."
       },
       {
         "name": "onChangeEnd",
         "type": "(value: string) => void",
         "required": false,
+        "origin": "own",
         "description": "On release (and when the hex field commits): save here, not on every move."
       },
       {
         "name": "channels",
         "type": "readonly (\"hue\" | \"alpha\")[]",
         "required": false,
+        "origin": "own",
         "default": "[\"hue\"]",
         "description": "The sliders under the area: hue always, alpha when the color may be translucent.",
         "schema": {
@@ -120,12 +126,14 @@
         "name": "theme",
         "type": "Omit<ThemeInput, \"primary\">",
         "required": false,
+        "origin": "own",
         "description": "The rest of the project's theme input (secondary, radius…): the preview shows the primary button as\n`createTheme({ ...theme, primary })` derives it."
       },
       {
         "name": "showPreview",
         "type": "boolean",
         "required": false,
+        "origin": "own",
         "default": "true",
         "description": "Hide the two-theme preview (the picker inside ColorSwatchPicker shows its own caption).",
         "schema": {

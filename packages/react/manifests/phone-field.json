@@ -96,12 +96,14 @@
         "name": "label",
         "type": "React.ReactNode",
         "required": false,
+        "origin": "own",
         "description": "The visible label above the field. Leave it out only where something else names the number: a non-empty `aria-label`, `aria-labelledby`, or a form row's `<label htmlFor={id}>`. Inside\nthe DS `Field`, which gives its control the id, the Field's label is then the field's only label and its name\n(`aria-labelledby` its `{id}-label`). A development warning says so when nothing names it."
       },
       {
         "name": "aria-label",
         "type": "string",
         "required": false,
+        "origin": "own",
         "description": "Names the number where no visible label is shown (a table cell, a context that already says it).",
         "schema": {
           "type": "string"
@@ -111,6 +113,7 @@
         "name": "aria-labelledby",
         "type": "string",
         "required": false,
+        "origin": "own",
         "description": "Ids of the elements that name the number, where no visible label of its own is shown.",
         "schema": {
           "type": "string"
@@ -120,6 +123,7 @@
         "name": "value",
         "type": "string",
         "required": false,
+        "origin": "own",
         "description": "The number in E.164 (\"+38267123456\"), or \"\" when empty. Controlled with `onChange`.",
         "schema": {
           "type": "string"
@@ -129,6 +133,7 @@
         "name": "defaultValue",
         "type": "string",
         "required": false,
+        "origin": "own",
         "schema": {
           "type": "string"
         }
@@ -137,12 +142,14 @@
         "name": "onChange",
         "type": "(value: string, country: string) => void",
         "required": false,
+        "origin": "own",
         "description": "The new E.164 value and the ISO country, together: an empty number still carries the chosen country,\nso a form can keep both (the old shared field's contract, unchanged)."
       },
       {
         "name": "country",
         "type": "string",
         "required": false,
+        "origin": "own",
         "description": "Controlled ISO country. Left out, it is read from the value, then `defaultCountry`. A shared calling\ncode reads back as the table's first country for it (+1 → US): pass `country` to keep Canada.",
         "schema": {
           "type": "string"
@@ -152,6 +159,7 @@
         "name": "defaultCountry",
         "type": "string",
         "required": false,
+        "origin": "own",
         "description": "The country an empty field opens on; by default the locale's region (\"de-AT\" → AT, \"en\" → US).",
         "schema": {
           "type": "string"
@@ -161,6 +169,7 @@
         "name": "suggestedCountries",
         "type": "readonly string[]",
         "required": false,
+        "origin": "own",
         "default": "[]",
         "description": "ISO codes shown first, above \"All countries\" (the markets this form expects).",
         "schema": {
@@ -173,18 +182,21 @@
       {
         "name": "description",
         "type": "React.ReactNode",
-        "required": false
+        "required": false,
+        "origin": "own"
       },
       {
         "name": "errorMessage",
         "type": "React.ReactNode",
         "required": false,
+        "origin": "own",
         "description": "What happened and what to do. Wins over the field's own required and length checks."
       },
       {
         "name": "isInvalid",
         "type": "boolean",
         "required": false,
+        "origin": "own",
         "schema": {
           "type": "boolean"
         }
@@ -193,6 +205,7 @@
         "name": "isRequired",
         "type": "boolean",
         "required": false,
+        "origin": "own",
         "schema": {
           "type": "boolean"
         }
@@ -201,6 +214,7 @@
         "name": "requiredValidation",
         "type": "RequiredValidation",
         "required": false,
+        "origin": "own",
         "description": "Who says an empty required PhoneField is missing: `field` (default) shows \"Fill in this field.\"\non blur and on a DS Form submit, which it then blocks, inside a DS Form of either `validationBehavior`; `app`\nonly marks the field. Outside a DS Form an empty value shows nothing either way. The app's `isInvalid` (or\n`errorMessage`) wins over this message, and `isInvalid={false}` turns the check off. A disabled, empty, required\nfield still blocks a DS Form's submit and cannot take focus. See {@link RequiredValidation}.",
         "schema": {
           "type": "string",
@@ -214,6 +228,7 @@
         "name": "isDisabled",
         "type": "boolean",
         "required": false,
+        "origin": "own",
         "schema": {
           "type": "boolean"
         }
@@ -222,6 +237,7 @@
         "name": "isReadOnly",
         "type": "boolean",
         "required": false,
+        "origin": "own",
         "schema": {
           "type": "boolean"
         }
@@ -230,6 +246,7 @@
         "name": "isOptional",
         "type": "boolean",
         "required": false,
+        "origin": "own",
         "description": "Shows \"(optional)\" when most of the form is required.",
         "schema": {
           "type": "boolean"
@@ -239,6 +256,7 @@
         "name": "name",
         "type": "string",
         "required": false,
+        "origin": "own",
         "description": "Submits the E.164 value under this name in a native form.",
         "schema": {
           "type": "string"
@@ -248,6 +266,7 @@
         "name": "placeholder",
         "type": "string",
         "required": false,
+        "origin": "own",
         "schema": {
           "type": "string"
         }
@@ -256,6 +275,7 @@
         "name": "autoFocus",
         "type": "boolean",
         "required": false,
+        "origin": "own",
         "schema": {
           "type": "boolean"
         }
@@ -263,12 +283,14 @@
       {
         "name": "onBlur",
         "type": "(event: FocusEvent<HTMLInputElement, Element>) => void",
-        "required": false
+        "required": false,
+        "origin": "own"
       },
       {
         "name": "size",
         "type": "FieldSize",
         "required": false,
+        "origin": "own",
         "default": "\"default\"",
         "schema": {
           "type": "string",
@@ -282,12 +304,14 @@
         "name": "onUnsupportedInternationalPaste",
         "type": "(pasted: string) => void",
         "required": false,
+        "origin": "own",
         "description": "A pasted international number whose country is not offered; the value stays unchanged."
       },
       {
         "name": "id",
         "type": "string",
         "required": false,
+        "origin": "own",
         "description": "The number input's id: an app's `<label htmlFor>` and a focus-on-error reach the input, the\nelement that takes typing. The shared `Field` hands its control one. Left out, React Aria's own id stays.",
         "schema": {
           "type": "string"
@@ -297,6 +321,7 @@
         "name": "aria-describedby",
         "type": "string",
         "required": false,
+        "origin": "own",
         "description": "Ids of text outside the field that describes the number (a form row's hint or error), added to its own.",
         "schema": {
           "type": "string"
@@ -306,6 +331,7 @@
         "name": "aria-invalid",
         "type": "boolean | \"true\" | \"false\"",
         "required": false,
+        "origin": "own",
         "description": "Set by a form row that owns the error text (the shared `Field` hands its control `aria-invalid`): the number is\nmarked invalid for assistive tech and drawn invalid, as with `isInvalid`; the row's message is the one shown,\nsince the field draws an error row only for its own `errorMessage` or length check. This field never uses\nnative validity, so it never blocks a form's submit.",
         "schema": {
           "enum": [
@@ -320,12 +346,14 @@
         "name": "countryLabel",
         "type": "(country: string, callingCode: string) => string",
         "required": false,
+        "origin": "own",
         "description": "The country button's name, from the country's name and its calling code (\"Country: Germany, +49\" by default, in\nthe provider locale). For an app that words it itself; pass it already localized."
       },
       {
         "name": "countryListLabel",
         "type": "string",
         "required": false,
+        "origin": "own",
         "description": "The country list's name (\"Country\" by default), also its popover's. Already localized.",
         "schema": {
           "type": "string"
@@ -335,6 +363,7 @@
         "name": "countrySearchLabel",
         "type": "string",
         "required": false,
+        "origin": "own",
         "description": "The country search box's name (\"Search countries\" by default). Already localized.",
         "schema": {
           "type": "string"
@@ -344,12 +373,14 @@
         "name": "countryEmptyMessage",
         "type": "(query: string) => ReactNode",
         "required": false,
+        "origin": "own",
         "description": "The country list's empty result for the typed search (\"No results for “{query}”.\" by default)."
       },
       {
         "name": "suggestedCountriesLabel",
         "type": "string",
         "required": false,
+        "origin": "own",
         "description": "The name of the country list's first section, the `suggestedCountries` (\"Suggested countries\" by default), which assistive tech\nreads as the section's name. Already localized.",
         "schema": {
           "type": "string"
@@ -359,6 +390,7 @@
         "name": "allCountriesLabel",
         "type": "string",
         "required": false,
+        "origin": "own",
         "description": "The header above the rest of the list, shown when `suggestedCountries` are shown above it (\"All countries\" by\ndefault). Already localized.",
         "schema": {
           "type": "string"

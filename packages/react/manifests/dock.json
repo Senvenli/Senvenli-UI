@@ -45,6 +45,7 @@
         "name": "items",
         "type": "readonly DockItem[]",
         "required": true,
+        "origin": "own",
         "description": "Four or five top destinations.",
         "schema": {
           "type": "array",
@@ -79,6 +80,7 @@
         "name": "currentKey",
         "type": "string",
         "required": false,
+        "origin": "own",
         "schema": {
           "type": "string"
         }
@@ -87,6 +89,7 @@
         "name": "aria-label",
         "type": "string",
         "required": false,
+        "origin": "own",
         "description": "Names the navigation landmark; \"Main menu\" by default.",
         "schema": {
           "type": "string"

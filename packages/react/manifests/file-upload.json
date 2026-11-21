@@ -55,6 +55,7 @@
         "name": "suppressHydrationWarning",
         "type": "boolean",
         "required": false,
+        "origin": "dom",
         "description": "A React-only flag that suppresses the warning React normally logs when an element's\nserver-rendered content doesn't match the client render during hydration. See [React\ndocs](https://react.dev/reference/react-dom/client/hydrateRoot#suppressing-unavoidable-hydration-mismatch-errors).",
         "schema": {
           "type": "boolean"
@@ -64,6 +65,7 @@
         "name": "dir",
         "type": "string",
         "required": false,
+        "origin": "dom",
         "schema": {
           "type": "string"
         }
@@ -72,6 +74,7 @@
         "name": "hidden",
         "type": "boolean",
         "required": false,
+        "origin": "dom",
         "schema": {
           "type": "boolean"
         }
@@ -80,6 +83,7 @@
         "name": "lang",
         "type": "string",
         "required": false,
+        "origin": "dom",
         "schema": {
           "type": "string"
         }
@@ -88,6 +92,7 @@
         "name": "translate",
         "type": "\"yes\" | \"no\"",
         "required": false,
+        "origin": "dom",
         "schema": {
           "type": "string",
           "enum": [
@@ -100,6 +105,7 @@
         "name": "inert",
         "type": "boolean",
         "required": false,
+        "origin": "dom",
         "schema": {
           "type": "boolean"
         }
@@ -108,332 +114,398 @@
         "name": "children",
         "type": "ReactNode & ReactElement<unknown, string | JSXElementConstructor<any>>",
         "required": true,
+        "origin": "aria",
         "description": "The children of the component.\nThe control that opens the picker: a DS Button or Link."
       },
       {
         "name": "onAuxClick",
         "type": "MouseEventHandler<HTMLInputElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onAuxClickCapture",
         "type": "MouseEventHandler<HTMLInputElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onClick",
         "type": "MouseEventHandler<HTMLInputElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onClickCapture",
         "type": "MouseEventHandler<HTMLInputElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onContextMenu",
         "type": "MouseEventHandler<HTMLInputElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onContextMenuCapture",
         "type": "MouseEventHandler<HTMLInputElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onDoubleClick",
         "type": "MouseEventHandler<HTMLInputElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onDoubleClickCapture",
         "type": "MouseEventHandler<HTMLInputElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onMouseDown",
         "type": "MouseEventHandler<HTMLInputElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onMouseDownCapture",
         "type": "MouseEventHandler<HTMLInputElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onMouseEnter",
         "type": "MouseEventHandler<HTMLInputElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onMouseLeave",
         "type": "MouseEventHandler<HTMLInputElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onMouseMove",
         "type": "MouseEventHandler<HTMLInputElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onMouseMoveCapture",
         "type": "MouseEventHandler<HTMLInputElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onMouseOut",
         "type": "MouseEventHandler<HTMLInputElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onMouseOutCapture",
         "type": "MouseEventHandler<HTMLInputElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onMouseOver",
         "type": "MouseEventHandler<HTMLInputElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onMouseOverCapture",
         "type": "MouseEventHandler<HTMLInputElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onMouseUp",
         "type": "MouseEventHandler<HTMLInputElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onMouseUpCapture",
         "type": "MouseEventHandler<HTMLInputElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onTouchCancel",
         "type": "TouchEventHandler<HTMLInputElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onTouchCancelCapture",
         "type": "TouchEventHandler<HTMLInputElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onTouchEnd",
         "type": "TouchEventHandler<HTMLInputElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onTouchEndCapture",
         "type": "TouchEventHandler<HTMLInputElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onTouchMove",
         "type": "TouchEventHandler<HTMLInputElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onTouchMoveCapture",
         "type": "TouchEventHandler<HTMLInputElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onTouchStart",
         "type": "TouchEventHandler<HTMLInputElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onTouchStartCapture",
         "type": "TouchEventHandler<HTMLInputElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onPointerDown",
         "type": "PointerEventHandler<HTMLInputElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onPointerDownCapture",
         "type": "PointerEventHandler<HTMLInputElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onPointerMove",
         "type": "PointerEventHandler<HTMLInputElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onPointerMoveCapture",
         "type": "PointerEventHandler<HTMLInputElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onPointerUp",
         "type": "PointerEventHandler<HTMLInputElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onPointerUpCapture",
         "type": "PointerEventHandler<HTMLInputElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onPointerCancel",
         "type": "PointerEventHandler<HTMLInputElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onPointerCancelCapture",
         "type": "PointerEventHandler<HTMLInputElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onPointerEnter",
         "type": "PointerEventHandler<HTMLInputElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onPointerLeave",
         "type": "PointerEventHandler<HTMLInputElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onPointerOver",
         "type": "PointerEventHandler<HTMLInputElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onPointerOverCapture",
         "type": "PointerEventHandler<HTMLInputElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onPointerOut",
         "type": "PointerEventHandler<HTMLInputElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onPointerOutCapture",
         "type": "PointerEventHandler<HTMLInputElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onGotPointerCapture",
         "type": "PointerEventHandler<HTMLInputElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onGotPointerCaptureCapture",
         "type": "PointerEventHandler<HTMLInputElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onLostPointerCapture",
         "type": "PointerEventHandler<HTMLInputElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onLostPointerCaptureCapture",
         "type": "PointerEventHandler<HTMLInputElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onScroll",
         "type": "UIEventHandler<HTMLInputElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onScrollCapture",
         "type": "UIEventHandler<HTMLInputElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onWheel",
         "type": "WheelEventHandler<HTMLInputElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onWheelCapture",
         "type": "WheelEventHandler<HTMLInputElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onAnimationStart",
         "type": "AnimationEventHandler<HTMLInputElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onAnimationStartCapture",
         "type": "AnimationEventHandler<HTMLInputElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onAnimationEnd",
         "type": "AnimationEventHandler<HTMLInputElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onAnimationEndCapture",
         "type": "AnimationEventHandler<HTMLInputElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onAnimationIteration",
         "type": "AnimationEventHandler<HTMLInputElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onAnimationIterationCapture",
         "type": "AnimationEventHandler<HTMLInputElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onTransitionCancel",
         "type": "TransitionEventHandler<HTMLInputElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onTransitionCancelCapture",
         "type": "TransitionEventHandler<HTMLInputElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onTransitionEnd",
         "type": "TransitionEventHandler<HTMLInputElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onTransitionEndCapture",
         "type": "TransitionEventHandler<HTMLInputElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onTransitionRun",
         "type": "TransitionEventHandler<HTMLInputElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onTransitionRunCapture",
         "type": "TransitionEventHandler<HTMLInputElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onTransitionStart",
         "type": "TransitionEventHandler<HTMLInputElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onTransitionStartCapture",
         "type": "TransitionEventHandler<HTMLInputElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "allowsMultiple",
         "type": "boolean",
         "required": false,
+        "origin": "aria",
         "description": "Whether multiple files can be selected.",
         "schema": {
           "type": "boolean"
@@ -443,6 +515,7 @@
         "name": "defaultCamera",
         "type": "\"user\" | \"environment\"",
         "required": false,
+        "origin": "aria",
         "description": "Specifies the use of a media capture mechanism to capture the media on the spot.",
         "schema": {
           "type": "string",
@@ -456,6 +529,7 @@
         "name": "acceptDirectory",
         "type": "boolean",
         "required": false,
+        "origin": "aria",
         "description": "Enables the selection of directories instead of individual files.",
         "schema": {
           "type": "boolean"
@@ -465,6 +539,7 @@
         "name": "acceptedFileTypes",
         "type": "readonly string[]",
         "required": false,
+        "origin": "own",
         "description": "MIME types or extensions: \"image/jpeg\", \"image/*\", \".heic\", \"application/pdf\".",
         "schema": {
           "type": "array",
@@ -477,6 +552,7 @@
         "name": "maxSize",
         "type": "number",
         "required": false,
+        "origin": "own",
         "description": "Bytes.",
         "schema": {
           "type": "number"
@@ -486,12 +562,14 @@
         "name": "onSelect",
         "type": "(files: File[]) => void",
         "required": false,
+        "origin": "own",
         "description": "Files that passed the rules."
       },
       {
         "name": "onReject",
         "type": "(rejected: RejectedFile[]) => void",
         "required": false,
+        "origin": "own",
         "description": "Files that did not, each with its reason."
       }
     ],
@@ -500,6 +578,7 @@
         "name": "acceptedFileTypes",
         "type": "readonly string[]",
         "required": false,
+        "origin": "own",
         "description": "MIME types or extensions: \"image/jpeg\", \"image/*\", \".heic\", \"application/pdf\".",
         "schema": {
           "type": "array",
@@ -512,6 +591,7 @@
         "name": "maxSize",
         "type": "number",
         "required": false,
+        "origin": "own",
         "description": "Bytes.",
         "schema": {
           "type": "number"
@@ -521,6 +601,7 @@
         "name": "label",
         "type": "string",
         "required": true,
+        "origin": "own",
         "description": "What to drop, as a call to action: \"Drag your photos here\".",
         "schema": {
           "type": "string"
@@ -530,6 +611,7 @@
         "name": "typesLabel",
         "type": "string",
         "required": false,
+        "origin": "own",
         "description": "The accepted types as people read them (\"JPG, PNG, HEIC\"); the size limit is added.",
         "schema": {
           "type": "string"
@@ -539,6 +621,7 @@
         "name": "allowsMultiple",
         "type": "boolean",
         "required": false,
+        "origin": "own",
         "schema": {
           "type": "boolean"
         }
@@ -546,17 +629,20 @@
       {
         "name": "onSelect",
         "type": "(files: File[]) => void",
-        "required": false
+        "required": false,
+        "origin": "own"
       },
       {
         "name": "onReject",
         "type": "(rejected: RejectedFile[]) => void",
-        "required": false
+        "required": false,
+        "origin": "own"
       },
       {
         "name": "isDisabled",
         "type": "boolean",
         "required": false,
+        "origin": "own",
         "schema": {
           "type": "boolean"
         }
@@ -566,12 +652,14 @@
       {
         "name": "children",
         "type": "React.ReactNode",
-        "required": true
+        "required": true,
+        "origin": "own"
       },
       {
         "name": "aria-label",
         "type": "string",
         "required": false,
+        "origin": "own",
         "schema": {
           "type": "string"
         }
@@ -582,12 +670,14 @@
         "name": "file",
         "type": "File",
         "required": false,
+        "origin": "own",
         "description": "The picked file; photos get a thumbnail at once, before upload ends."
       },
       {
         "name": "name",
         "type": "string",
         "required": false,
+        "origin": "own",
         "description": "Shown name and size when there is no File object (a stored document).",
         "schema": {
           "type": "string"
@@ -597,6 +687,7 @@
         "name": "size",
         "type": "number",
         "required": false,
+        "origin": "own",
         "schema": {
           "type": "number"
         }
@@ -605,6 +696,7 @@
         "name": "progress",
         "type": "number",
         "required": false,
+        "origin": "own",
         "description": "0–1 while uploading; omit when done.",
         "schema": {
           "type": "number"
@@ -614,6 +706,7 @@
         "name": "error",
         "type": "string",
         "required": false,
+        "origin": "own",
         "schema": {
           "type": "string"
         }
@@ -621,17 +714,20 @@
       {
         "name": "onCancel",
         "type": "() => void",
-        "required": false
+        "required": false,
+        "origin": "own"
       },
       {
         "name": "onRemove",
         "type": "() => void",
-        "required": false
+        "required": false,
+        "origin": "own"
       },
       {
         "name": "onReplace",
         "type": "() => void",
-        "required": false
+        "required": false,
+        "origin": "own"
       }
     ]
   },

@@ -44,6 +44,7 @@
         "name": "title",
         "type": "string",
         "required": true,
+        "origin": "own",
         "description": "What the chart shows (\"Revenue\").",
         "schema": {
           "type": "string"
@@ -53,6 +54,7 @@
         "name": "period",
         "type": "string",
         "required": false,
+        "origin": "own",
         "description": "The period it covers (\"June–September 2026\").",
         "schema": {
           "type": "string"
@@ -62,12 +64,14 @@
         "name": "total",
         "type": "string | number | bigint | boolean | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<AwaitedReactNode>",
         "required": false,
+        "origin": "own",
         "description": "The headline figure, in `metric-medium` (\"€ 184,2k\")."
       },
       {
         "name": "data",
         "type": "readonly T[]",
         "required": true,
+        "origin": "own",
         "schema": {
           "type": "array",
           "items": {
@@ -87,6 +91,7 @@
         "name": "index",
         "type": "keyof T & string",
         "required": true,
+        "origin": "own",
         "description": "The x key: the period or category of each row.",
         "schema": {
           "type": "string"
@@ -96,18 +101,21 @@
         "name": "labels",
         "type": "Readonly<Partial<Record<string, string>>>",
         "required": false,
+        "origin": "own",
         "description": "Series names by key (\"web\" → \"Website\"); the key by default."
       },
       {
         "name": "indexFormatter",
         "type": "(value: unknown) => string",
         "required": false,
+        "origin": "own",
         "description": "The index label in the tooltip and the table (\"August 2026\")."
       },
       {
         "name": "indexLabel",
         "type": "string",
         "required": false,
+        "origin": "own",
         "description": "The index column's header in the data table; \"Period\" for time charts, \"Category\" for BarChart.",
         "schema": {
           "type": "string"
@@ -117,6 +125,7 @@
         "name": "height",
         "type": "number",
         "required": false,
+        "origin": "own",
         "description": "The plot's height in px; 240 by default.",
         "schema": {
           "type": "number"
@@ -126,6 +135,7 @@
         "name": "isLoading",
         "type": "boolean",
         "required": false,
+        "origin": "own",
         "schema": {
           "type": "boolean"
         }
@@ -134,12 +144,14 @@
         "name": "emptyMessage",
         "type": "{ title: string; description?: string | undefined; }",
         "required": false,
+        "origin": "own",
         "description": "Shown instead of the plot when `data` is empty; \"No data for this period\" by default."
       },
       {
         "name": "bars",
         "type": "readonly ComposedSeries<T>[]",
         "required": true,
+        "origin": "own",
         "description": "Volume: `ds-chart-2` bars.",
         "schema": {
           "type": "array",
@@ -169,6 +181,7 @@
         "name": "lines",
         "type": "readonly ComposedSeries<T>[]",
         "required": true,
+        "origin": "own",
         "description": "Rate: `ds-chart-1` lines with ringed points.",
         "schema": {
           "type": "array",
@@ -198,6 +211,7 @@
         "name": "valueFormatters",
         "type": "{ left: ChartValueFormatter; right: ChartValueFormatter; }",
         "required": true,
+        "origin": "own",
         "description": "One formatter per axis (\"124 orders\", \"€ 54\"); put the units in `period` or the title."
       }
     ]

@@ -44,6 +44,7 @@
         "name": "title",
         "type": "string",
         "required": true,
+        "origin": "own",
         "description": "What the chart shows (\"Income and expenses\").",
         "schema": {
           "type": "string"
@@ -53,6 +54,7 @@
         "name": "period",
         "type": "string",
         "required": false,
+        "origin": "own",
         "description": "The period it covers (\"September 2026\").",
         "schema": {
           "type": "string"
@@ -62,6 +64,7 @@
         "name": "isLoading",
         "type": "boolean",
         "required": false,
+        "origin": "own",
         "schema": {
           "type": "boolean"
         }
@@ -70,12 +73,14 @@
         "name": "emptyMessage",
         "type": "{ title: string; description?: string | undefined; }",
         "required": false,
+        "origin": "own",
         "description": "Shown instead of the plot when there is nothing to draw; \"No data for this period\" by default."
       },
       {
         "name": "rows",
         "type": "readonly string[]",
         "required": true,
+        "origin": "own",
         "description": "The rows, top to bottom (\"Week 1\" …, or the months). Names are unique: cells find their row by name.",
         "schema": {
           "type": "array",
@@ -88,6 +93,7 @@
         "name": "columns",
         "type": "readonly string[]",
         "required": true,
+        "origin": "own",
         "description": "The columns, from the inline start (the weekdays, or the weeks). Names are unique, as for `rows`: a name given\ntwice draws both, but every cell of that name lands in the first (the chart warns).",
         "schema": {
           "type": "array",
@@ -100,6 +106,7 @@
         "name": "data",
         "type": "readonly SeasonalityHeatmapCell[]",
         "required": true,
+        "origin": "own",
         "description": "One entry per cell; a row and column with no entry draws no cell (a day outside the month).",
         "schema": {
           "type": "array",
@@ -132,6 +139,7 @@
         "name": "rowHeader",
         "type": "string",
         "required": false,
+        "origin": "own",
         "description": "The row headers' name (\"Week\"), on the data table's first header and the grid's corner; \"Period\" by default.",
         "schema": {
           "type": "string"
@@ -141,18 +149,21 @@
         "name": "thresholds",
         "type": "readonly [number, number, number, number]",
         "required": false,
+        "origin": "own",
         "description": "Four strictly ascending lower bounds of the four intensity steps; from the positive values' quartiles by\ndefault. Bounds out of order still count each bound a value reaches, so the steps no longer follow the values\n(the chart warns)."
       },
       {
         "name": "valueFormatter",
         "type": "ChartValueFormatter",
         "required": false,
+        "origin": "own",
         "default": "plain"
       },
       {
         "name": "onCellPress",
         "type": "(cell: SeasonalityHeatmapCell) => void",
-        "required": false
+        "required": false,
+        "origin": "own"
       }
     ]
   },

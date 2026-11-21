@@ -56,6 +56,7 @@
         "name": "isOpen",
         "type": "boolean",
         "required": false,
+        "origin": "own",
         "schema": {
           "type": "boolean"
         }
@@ -64,6 +65,7 @@
         "name": "defaultOpen",
         "type": "boolean",
         "required": false,
+        "origin": "own",
         "schema": {
           "type": "boolean"
         }
@@ -71,12 +73,14 @@
       {
         "name": "onOpenChange",
         "type": "(isOpen: boolean) => void",
-        "required": false
+        "required": false,
+        "origin": "own"
       },
       {
         "name": "groups",
         "type": "readonly CommandGroup[]",
         "required": true,
+        "origin": "own",
         "description": "Actions and pages, most used first; matched here, diacritic-insensitive.",
         "schema": {
           "type": "array",
@@ -146,12 +150,14 @@
         "name": "search",
         "type": "(query: string, signal: AbortSignal) => Promise<readonly CommandGroup[]>",
         "required": false,
+        "origin": "own",
         "description": "Records found by the server (codes, order numbers, names, phones); shown before the groups."
       },
       {
         "name": "recent",
         "type": "readonly CommandItem[]",
         "required": false,
+        "origin": "own",
         "default": "[]",
         "description": "Shown while the query is empty, above the five most used actions.",
         "schema": {
@@ -201,12 +207,14 @@
       {
         "name": "onSelect",
         "type": "(item: CommandItem) => void",
-        "required": true
+        "required": true,
+        "origin": "own"
       },
       {
         "name": "shortcut",
         "type": "boolean",
         "required": false,
+        "origin": "own",
         "description": "Bind ⌘K / Ctrl K to open and close it.",
         "schema": {
           "type": "boolean"

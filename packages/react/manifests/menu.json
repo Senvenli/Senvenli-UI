@@ -65,28 +65,33 @@
         "name": "trigger",
         "type": "ReactElement<unknown, string | JSXElementConstructor<any>>",
         "required": true,
+        "origin": "own",
         "description": "The pressable that opens it: the row \"…\" button, the account button."
       },
       {
         "name": "items",
         "type": "readonly MenuEntry[]",
         "required": true,
+        "origin": "own",
         "description": "Items, or sections of items with a title."
       },
       {
         "name": "onAction",
         "type": "(id: Key) => void",
-        "required": false
+        "required": false,
+        "origin": "own"
       },
       {
         "name": "disabledKeys",
         "type": "Iterable<Key>",
-        "required": false
+        "required": false,
+        "origin": "own"
       },
       {
         "name": "placement",
         "type": "Placement",
         "required": false,
+        "origin": "own",
         "default": "\"bottom end\"",
         "description": "\"bottom end\" by default: under the trigger, aligned to its inline end, as row menus sit.",
         "schema": {
@@ -121,6 +126,7 @@
         "name": "selectionMode",
         "type": "\"none\" | \"single\" | \"multiple\"",
         "required": false,
+        "origin": "own",
         "default": "\"none\"",
         "description": "For menus that also hold a choice (a view option): checkmarks on the selected items.",
         "schema": {
@@ -135,22 +141,26 @@
       {
         "name": "selectedKeys",
         "type": "Iterable<Key>",
-        "required": false
+        "required": false,
+        "origin": "own"
       },
       {
         "name": "defaultSelectedKeys",
         "type": "Iterable<Key>",
-        "required": false
+        "required": false,
+        "origin": "own"
       },
       {
         "name": "onSelectionChange",
         "type": "(keys: Selection) => void",
-        "required": false
+        "required": false,
+        "origin": "own"
       },
       {
         "name": "isOpen",
         "type": "boolean",
         "required": false,
+        "origin": "own",
         "schema": {
           "type": "boolean"
         }
@@ -158,12 +168,14 @@
       {
         "name": "onOpenChange",
         "type": "(isOpen: boolean) => void",
-        "required": false
+        "required": false,
+        "origin": "own"
       },
       {
         "name": "aria-label",
         "type": "string",
         "required": false,
+        "origin": "own",
         "description": "Names the menu when the trigger's own name is not enough.",
         "schema": {
           "type": "string"

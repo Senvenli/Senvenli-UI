@@ -42,12 +42,14 @@
         "name": "children",
         "type": "React.ReactNode",
         "required": true,
+        "origin": "own",
         "description": "One key per Kbd; a shortcut is several Kbd separated by a space."
       },
       {
         "name": "label",
         "type": "string",
         "required": false,
+        "origin": "own",
         "description": "What a screen reader says instead of a glyph it may skip (\"Command\" for ⌘); the glyph is then hidden.",
         "schema": {
           "type": "string"

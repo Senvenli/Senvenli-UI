@@ -92,6 +92,7 @@
         "name": "items",
         "type": "readonly AccordionItem[]",
         "required": true,
+        "origin": "own",
         "description": "FAQ entries, settings groups, long-form sections.",
         "schema": {
           "type": "array",
@@ -120,22 +121,26 @@
       {
         "name": "expandedKeys",
         "type": "Iterable<Key>",
-        "required": false
+        "required": false,
+        "origin": "own"
       },
       {
         "name": "defaultExpandedKeys",
         "type": "Iterable<Key>",
-        "required": false
+        "required": false,
+        "origin": "own"
       },
       {
         "name": "onExpandedChange",
         "type": "(keys: Set<Key>) => void",
-        "required": false
+        "required": false,
+        "origin": "own"
       },
       {
         "name": "allowsMultipleExpanded",
         "type": "boolean",
         "required": false,
+        "origin": "own",
         "description": "Several open at once; by default opening one closes the others.",
         "schema": {
           "type": "boolean"
@@ -145,6 +150,7 @@
         "name": "headingLevel",
         "type": "4 | 2 | 3 | 5 | 6",
         "required": false,
+        "origin": "own",
         "schema": {
           "enum": [
             4,
@@ -161,17 +167,20 @@
         "name": "title",
         "type": "React.ReactNode",
         "required": true,
+        "origin": "own",
         "description": "A full question or a clear section name (\"Depozito ne zaman iade edilir?\")."
       },
       {
         "name": "children",
         "type": "React.ReactNode",
-        "required": true
+        "required": true,
+        "origin": "own"
       },
       {
         "name": "isExpanded",
         "type": "boolean",
         "required": false,
+        "origin": "own",
         "schema": {
           "type": "boolean"
         }
@@ -180,6 +189,7 @@
         "name": "defaultExpanded",
         "type": "boolean",
         "required": false,
+        "origin": "own",
         "schema": {
           "type": "boolean"
         }
@@ -187,12 +197,14 @@
       {
         "name": "onExpandedChange",
         "type": "(isExpanded: boolean) => void",
-        "required": false
+        "required": false,
+        "origin": "own"
       },
       {
         "name": "headingLevel",
         "type": "4 | 2 | 3 | 5 | 6",
         "required": false,
+        "origin": "own",
         "default": "3",
         "description": "The heading level of the title in the page outline; 3 by default.",
         "schema": {
@@ -209,6 +221,7 @@
         "name": "id",
         "type": "Key",
         "required": false,
+        "origin": "own",
         "description": "Inside an Accordion: its key.",
         "schema": {
           "type": "string"

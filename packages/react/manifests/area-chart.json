@@ -116,6 +116,7 @@
         "name": "title",
         "type": "string",
         "required": true,
+        "origin": "own",
         "description": "What the chart shows (\"Revenue\").",
         "schema": {
           "type": "string"
@@ -125,6 +126,7 @@
         "name": "period",
         "type": "string",
         "required": false,
+        "origin": "own",
         "description": "The period it covers (\"June–September 2026\").",
         "schema": {
           "type": "string"
@@ -134,12 +136,14 @@
         "name": "total",
         "type": "React.ReactNode",
         "required": false,
+        "origin": "own",
         "description": "The headline figure, in `metric-medium` (\"€ 184,2k\")."
       },
       {
         "name": "data",
         "type": "readonly T[]",
         "required": true,
+        "origin": "own",
         "schema": {
           "type": "array",
           "items": {
@@ -159,6 +163,7 @@
         "name": "index",
         "type": "keyof T & string",
         "required": true,
+        "origin": "own",
         "description": "The x key: the period or category of each row.",
         "schema": {
           "type": "string"
@@ -168,6 +173,7 @@
         "name": "categories",
         "type": "readonly (keyof T & string)[]",
         "required": true,
+        "origin": "own",
         "description": "The series keys, in order; the first is the product's own figure (`ds-chart-1`).",
         "schema": {
           "type": "array",
@@ -180,24 +186,28 @@
         "name": "labels",
         "type": "Readonly<Partial<Record<string, string>>>",
         "required": false,
+        "origin": "own",
         "description": "Series names by key (\"web\" → \"Website\"); the key by default."
       },
       {
         "name": "valueFormatter",
         "type": "ChartValueFormatter",
         "required": false,
+        "origin": "own",
         "description": "Shared by axis, tooltip and table (Intl): \"€ 48.920\"."
       },
       {
         "name": "indexFormatter",
         "type": "(value: unknown) => string",
         "required": false,
+        "origin": "own",
         "description": "The index label in the tooltip and the table (\"August 2026\")."
       },
       {
         "name": "indexLabel",
         "type": "string",
         "required": false,
+        "origin": "own",
         "description": "The index column's header in the data table; \"Period\" for time charts, \"Category\" for BarChart.",
         "schema": {
           "type": "string"
@@ -207,6 +217,7 @@
         "name": "height",
         "type": "number",
         "required": false,
+        "origin": "own",
         "description": "The plot's height in px; 240 by default.",
         "schema": {
           "type": "number"
@@ -216,6 +227,7 @@
         "name": "isLoading",
         "type": "boolean",
         "required": false,
+        "origin": "own",
         "schema": {
           "type": "boolean"
         }
@@ -224,12 +236,14 @@
         "name": "emptyMessage",
         "type": "{ title: string; description?: string | undefined; }",
         "required": false,
+        "origin": "own",
         "description": "Shown instead of the plot when `data` is empty; \"No data for this period\" by default."
       },
       {
         "name": "allowDecimals",
         "type": "boolean",
         "required": false,
+        "origin": "own",
         "description": "`false` for whole counts (orders, new customers): the value axis steps by whole numbers, so a small count\nreads 0 / 1 / 2 / 3, never 0.7 / 1.4 / 2.1. Fractional steps by default. Percent bars keep their\n0–100% steps.",
         "schema": {
           "type": "boolean"
@@ -239,6 +253,7 @@
         "name": "comparison",
         "type": "keyof T & string",
         "required": false,
+        "origin": "own",
         "description": "The previous period's key: a dashed `ds-chart-neutral` line without fill.",
         "schema": {
           "type": "string"
@@ -248,6 +263,7 @@
         "name": "yAxisWidth",
         "type": "number",
         "required": false,
+        "origin": "own",
         "description": "The value axis' width in px; by default wide enough for its longest tick (48–128px).",
         "schema": {
           "type": "number"
@@ -257,6 +273,7 @@
         "name": "onValueChange",
         "type": "(row: T | null) => void",
         "required": false,
+        "origin": "own",
         "description": "A pointer press on the chart: the row under it (keyboard users read values in the tooltip and the table)."
       }
     ]

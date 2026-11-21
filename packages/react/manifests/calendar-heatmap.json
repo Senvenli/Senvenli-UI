@@ -50,6 +50,7 @@
         "name": "title",
         "type": "string",
         "required": true,
+        "origin": "own",
         "schema": {
           "type": "string"
         }
@@ -58,6 +59,7 @@
         "name": "period",
         "type": "string",
         "required": false,
+        "origin": "own",
         "schema": {
           "type": "string"
         }
@@ -66,6 +68,7 @@
         "name": "isLoading",
         "type": "boolean",
         "required": false,
+        "origin": "own",
         "schema": {
           "type": "boolean"
         }
@@ -73,40 +76,47 @@
       {
         "name": "emptyMessage",
         "type": "{ title: string; description?: string | undefined; }",
-        "required": false
+        "required": false,
+        "origin": "own"
       },
       {
         "name": "data",
         "type": "readonly CalendarHeatmapDatum[]",
-        "required": true
+        "required": true,
+        "origin": "own"
       },
       {
         "name": "start",
         "type": "ChartDay",
         "required": false,
+        "origin": "own",
         "description": "The first and last day drawn; the data's range by default."
       },
       {
         "name": "end",
         "type": "ChartDay",
-        "required": false
+        "required": false,
+        "origin": "own"
       },
       {
         "name": "thresholds",
         "type": "readonly [number, number, number, number]",
         "required": false,
+        "origin": "own",
         "description": "Four ascending lower bounds of the four intensity steps; from the data's quartiles by default."
       },
       {
         "name": "valueFormatter",
         "type": "ChartValueFormatter",
         "required": false,
+        "origin": "own",
         "default": "plain"
       },
       {
         "name": "onDayPress",
         "type": "(day: { date: CalendarDate; value: number | undefined; }) => void",
-        "required": false
+        "required": false,
+        "origin": "own"
       }
     ]
   },

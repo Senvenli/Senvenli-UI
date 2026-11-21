@@ -44,6 +44,7 @@
         "name": "code",
         "type": "string",
         "required": true,
+        "origin": "own",
         "description": "The two-letter ISO 3166 code (\"DE\", \"US\") or another short region code, shown as given.",
         "schema": {
           "type": "string"

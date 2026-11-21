@@ -138,12 +138,14 @@
         "name": "label",
         "type": "React.ReactNode",
         "required": false,
+        "origin": "own",
         "description": "The label sits above the field."
       },
       {
         "name": "items",
         "type": "readonly SelectItem[]",
         "required": true,
+        "origin": "own",
         "description": "Up to ~15 options; more, or options people know by name → ComboBox.",
         "schema": {
           "type": "array",
@@ -184,6 +186,7 @@
         "name": "selectedKey",
         "type": "Key",
         "required": false,
+        "origin": "own",
         "description": "Controlled value; `null` is \"nothing chosen\". It may start undefined and become set later.",
         "schema": {
           "type": "string"
@@ -193,6 +196,7 @@
         "name": "defaultSelectedKey",
         "type": "Key",
         "required": false,
+        "origin": "own",
         "schema": {
           "type": "string"
         }
@@ -200,12 +204,14 @@
       {
         "name": "onSelectionChange",
         "type": "(key: Key | null) => void",
-        "required": false
+        "required": false,
+        "origin": "own"
       },
       {
         "name": "placeholder",
         "type": "string",
         "required": false,
+        "origin": "own",
         "description": "Defaults to \"Select\" in the provider locale.",
         "schema": {
           "type": "string"
@@ -214,17 +220,20 @@
       {
         "name": "description",
         "type": "React.ReactNode",
-        "required": false
+        "required": false,
+        "origin": "own"
       },
       {
         "name": "errorMessage",
         "type": "React.ReactNode",
-        "required": false
+        "required": false,
+        "origin": "own"
       },
       {
         "name": "isInvalid",
         "type": "boolean",
         "required": false,
+        "origin": "own",
         "schema": {
           "type": "boolean"
         }
@@ -233,6 +242,7 @@
         "name": "aria-invalid",
         "type": "boolean | \"true\" | \"false\"",
         "required": false,
+        "origin": "own",
         "description": "Set by a form row that owns the error text (the shared `Field` hands its control `aria-invalid`): the field\nshows its invalid state as with `isInvalid`, and without an `errorMessage` of its own draws no error row,\nso the row's message is the only one. The trigger is a button, on which React Aria sets no\n`aria-invalid`: the forwarded invalid state shows as `data-invalid` on the field (its danger border) and\nthrough the row's own error text, not as `aria-invalid` on the trigger. It marks the field invalid for styling and\nassistive tech only: unlike `isInvalid` it never becomes the field's native validity (React Aria's default\noutside a DS Form), so it never blocks a form's submit.",
         "schema": {
           "enum": [
@@ -247,6 +257,7 @@
         "name": "isRequired",
         "type": "boolean",
         "required": false,
+        "origin": "own",
         "schema": {
           "type": "boolean"
         }
@@ -255,6 +266,7 @@
         "name": "requiredValidation",
         "type": "RequiredValidation",
         "required": false,
+        "origin": "own",
         "description": "Who says an empty required Select is missing: `field` (default)\nshows \"Fill in this field.\" on blur and on a DS Form submit, which it then blocks; `app` only marks the field\n(`*`, `aria-required`) and the app shows its own error. See {@link RequiredValidation}.\nThe app's `isInvalid` (`true` with its `errorMessage`, or `false`) overrides the check, as on TextField. Disabled,\nempty and required, it still blocks a DS Form's submit and cannot take focus (as TextField).",
         "schema": {
           "type": "string",
@@ -268,6 +280,7 @@
         "name": "isDisabled",
         "type": "boolean",
         "required": false,
+        "origin": "own",
         "schema": {
           "type": "boolean"
         }
@@ -276,6 +289,7 @@
         "name": "size",
         "type": "FieldSize",
         "required": false,
+        "origin": "own",
         "default": "\"default\"",
         "description": "`compact` (32px) for table filters and toolbars.",
         "schema": {
@@ -290,6 +304,7 @@
         "name": "name",
         "type": "string",
         "required": false,
+        "origin": "own",
         "schema": {
           "type": "string"
         }
@@ -298,6 +313,7 @@
         "name": "aria-label",
         "type": "string",
         "required": false,
+        "origin": "own",
         "description": "Names the field for assistive technology when no visible label is shown.",
         "schema": {
           "type": "string"

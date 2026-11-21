@@ -97,6 +97,7 @@
         "name": "steps",
         "type": "readonly StepperStep[]",
         "required": true,
+        "origin": "own",
         "description": "Three to six steps, in order.",
         "schema": {
           "type": "array",
@@ -125,6 +126,7 @@
         "name": "currentStep",
         "type": "string",
         "required": true,
+        "origin": "own",
         "description": "The step the reader is on: `aria-current=\"step\"`. Ignored with `isComplete`.",
         "schema": {
           "type": "string"
@@ -134,12 +136,14 @@
         "name": "completedSteps",
         "type": "Iterable<string>",
         "required": false,
+        "origin": "own",
         "description": "Done steps; by default every step before the current one. Ignored with `isComplete`."
       },
       {
         "name": "isComplete",
         "type": "boolean",
         "required": false,
+        "origin": "own",
         "description": "The flow is finished: every step shows its done state and none is current, so no step\ncarries `aria-current`. The list is named with the overall state (\"Progress, All steps done\"),\nand the narrow one-line form reads \"All steps done\" over a full bar. A `stepStatus` or\n`statusText` entry still speaks for its step, in the list and, under the done line, in the narrow form\ntoo (\"Domain · With us\"). A finished flow cannot also have a `failed` or `needs-you` step: that\npairing contradicts itself and warns in development; settle the step first. Left out, nothing changes.",
         "schema": {
           "type": "boolean"
@@ -149,12 +153,14 @@
         "name": "onStepPress",
         "type": "(id: string) => void",
         "required": false,
+        "origin": "own",
         "description": "Makes done steps pressable (back to an earlier step). Leave it out where the flow cannot go back."
       },
       {
         "name": "orientation",
         "type": "\"horizontal\" | \"vertical\"",
         "required": false,
+        "origin": "own",
         "description": "`horizontal` for a flow on one page (checkout, signup); `vertical` for checklists (onboarding, setup).",
         "schema": {
           "type": "string",
@@ -168,18 +174,21 @@
         "name": "stepStatus",
         "type": "Partial<Record<string, StepStatus>>",
         "required": false,
+        "origin": "own",
         "description": "A journey across pages (signup → payment → setup): per-step status words. With it, done and current\nsteps say so in words too."
       },
       {
         "name": "statusText",
         "type": "Partial<Record<string, string>>",
         "required": false,
+        "origin": "own",
         "description": "Replaces a step's status words (\"With us · 1–2 business days\")."
       },
       {
         "name": "aria-label",
         "type": "string",
         "required": false,
+        "origin": "own",
         "description": "Names the list; \"Progress\" by default.",
         "schema": {
           "type": "string"

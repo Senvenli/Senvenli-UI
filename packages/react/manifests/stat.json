@@ -80,29 +80,34 @@
       {
         "name": "label",
         "type": "React.ReactNode",
-        "required": true
+        "required": true,
+        "origin": "own"
       },
       {
         "name": "value",
         "type": "React.ReactNode",
         "required": true,
+        "origin": "own",
         "description": "The figure, already formatted with Intl (\"$48,920\")."
       },
       {
         "name": "delta",
         "type": "StatDelta",
-        "required": false
+        "required": false,
+        "origin": "own"
       },
       {
         "name": "comparison",
         "type": "React.ReactNode",
         "required": false,
+        "origin": "own",
         "description": "The period the delta compares against (\"vs. September\"); required next to a delta."
       },
       {
         "name": "trend",
         "type": "number[]",
         "required": false,
+        "origin": "own",
         "description": "A short series for the sparkline.",
         "schema": {
           "type": "array",
@@ -115,6 +120,7 @@
         "name": "href",
         "type": "string",
         "required": false,
+        "origin": "own",
         "description": "Makes the whole tile a link to the report behind it.",
         "schema": {
           "type": "string"
@@ -125,12 +131,14 @@
       {
         "name": "children",
         "type": "React.ReactNode",
-        "required": true
+        "required": true,
+        "origin": "own"
       },
       {
         "name": "aria-label",
         "type": "string",
         "required": false,
+        "origin": "own",
         "schema": {
           "type": "string"
         }

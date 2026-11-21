@@ -63,6 +63,7 @@
         "name": "suppressHydrationWarning",
         "type": "boolean",
         "required": false,
+        "origin": "dom",
         "description": "A React-only flag that suppresses the warning React normally logs when an element's\nserver-rendered content doesn't match the client render during hydration. See [React\ndocs](https://react.dev/reference/react-dom/client/hydrateRoot#suppressing-unavoidable-hydration-mismatch-errors).",
         "schema": {
           "type": "boolean"
@@ -72,6 +73,7 @@
         "name": "autoFocus",
         "type": "boolean",
         "required": false,
+        "origin": "aria",
         "description": "Whether the element should receive focus on render.",
         "schema": {
           "type": "boolean"
@@ -81,6 +83,7 @@
         "name": "dir",
         "type": "string",
         "required": false,
+        "origin": "dom",
         "schema": {
           "type": "string"
         }
@@ -89,6 +92,7 @@
         "name": "hidden",
         "type": "boolean",
         "required": false,
+        "origin": "dom",
         "schema": {
           "type": "boolean"
         }
@@ -97,6 +101,7 @@
         "name": "id",
         "type": "Key",
         "required": false,
+        "origin": "aria",
         "description": "When used in a ToggleButtonGroup, an identifier for the item in `selectedKeys`. When used\nstandalone, a DOM id.",
         "schema": {
           "type": "string"
@@ -106,6 +111,7 @@
         "name": "lang",
         "type": "string",
         "required": false,
+        "origin": "dom",
         "schema": {
           "type": "string"
         }
@@ -114,6 +120,7 @@
         "name": "slot",
         "type": "string",
         "required": false,
+        "origin": "dom",
         "description": "A slot name for the component. Slots allow the component to receive props from a parent\ncomponent. An explicit `null` value indicates that the local props completely override all\nprops received from a parent.",
         "schema": {
           "type": "string"
@@ -123,6 +130,7 @@
         "name": "translate",
         "type": "\"yes\" | \"no\"",
         "required": false,
+        "origin": "dom",
         "schema": {
           "type": "string",
           "enum": [
@@ -135,6 +143,7 @@
         "name": "inert",
         "type": "boolean",
         "required": false,
+        "origin": "dom",
         "schema": {
           "type": "boolean"
         }
@@ -143,6 +152,7 @@
         "name": "aria-controls",
         "type": "string",
         "required": false,
+        "origin": "dom",
         "description": "Identifies the element (or elements) whose contents or presence are controlled by the current\nelement.",
         "schema": {
           "type": "string"
@@ -152,6 +162,7 @@
         "name": "aria-describedby",
         "type": "string",
         "required": false,
+        "origin": "dom",
         "description": "Identifies the element (or elements) that describes the object.",
         "schema": {
           "type": "string"
@@ -161,6 +172,7 @@
         "name": "aria-details",
         "type": "string",
         "required": false,
+        "origin": "dom",
         "description": "Identifies the element (or elements) that provide a detailed, extended description for the\nobject.",
         "schema": {
           "type": "string"
@@ -170,6 +182,7 @@
         "name": "aria-disabled",
         "type": "boolean | \"true\" | \"false\"",
         "required": false,
+        "origin": "dom",
         "description": "Indicates whether the element is disabled to users of assistive technology.",
         "schema": {
           "enum": [
@@ -184,6 +197,7 @@
         "name": "aria-expanded",
         "type": "boolean | \"true\" | \"false\"",
         "required": false,
+        "origin": "dom",
         "description": "Indicates whether the element, or another grouping element it controls, is currently expanded\nor collapsed.",
         "schema": {
           "enum": [
@@ -198,6 +212,7 @@
         "name": "aria-haspopup",
         "type": "boolean | \"true\" | \"false\" | \"menu\" | \"listbox\" | \"tree\" | \"grid\" | \"dialog\"",
         "required": false,
+        "origin": "dom",
         "description": "Indicates the availability and type of interactive popup element, such as menu or dialog, that\ncan be triggered by an element.",
         "schema": {
           "enum": [
@@ -217,6 +232,7 @@
         "name": "aria-label",
         "type": "string",
         "required": false,
+        "origin": "dom",
         "description": "Defines a string value that labels the current element.",
         "schema": {
           "type": "string"
@@ -226,6 +242,7 @@
         "name": "aria-labelledby",
         "type": "string",
         "required": false,
+        "origin": "dom",
         "description": "Identifies the element (or elements) that labels the current element.",
         "schema": {
           "type": "string"
@@ -235,6 +252,7 @@
         "name": "aria-pressed",
         "type": "boolean | \"true\" | \"false\" | \"mixed\"",
         "required": false,
+        "origin": "dom",
         "description": "Indicates the current \"pressed\" state of toggle buttons.",
         "schema": {
           "enum": [
@@ -250,357 +268,427 @@
         "name": "onFocus",
         "type": "(e: FocusEvent<Element, Element>) => void",
         "required": false,
+        "origin": "aria",
         "description": "Handler that is called when the element receives focus."
       },
       {
         "name": "onBlur",
         "type": "(e: FocusEvent<Element, Element>) => void",
         "required": false,
+        "origin": "aria",
         "description": "Handler that is called when the element loses focus."
       },
       {
         "name": "onChange",
         "type": "(isSelected: boolean) => void",
         "required": false,
+        "origin": "aria",
         "description": "Handler that is called when the element's selection state changes."
       },
       {
         "name": "onKeyDown",
         "type": "(e: KeyboardEvent) => void",
         "required": false,
+        "origin": "dom",
         "description": "Handler that is called when a key is pressed."
       },
       {
         "name": "onKeyUp",
         "type": "(e: KeyboardEvent) => void",
         "required": false,
+        "origin": "dom",
         "description": "Handler that is called when a key is released."
       },
       {
         "name": "onAuxClick",
         "type": "MouseEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onAuxClickCapture",
         "type": "MouseEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onClick",
         "type": "(e: MouseEvent<FocusableElement, MouseEvent>) => void",
         "required": false,
+        "origin": "aria",
         "description": "**Not recommended – use `onPress` instead.** `onClick` is an alias for `onPress`\nprovided for compatibility with other libraries. `onPress` provides\nadditional event details for non-mouse interactions."
       },
       {
         "name": "onClickCapture",
         "type": "MouseEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onContextMenu",
         "type": "MouseEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onContextMenuCapture",
         "type": "MouseEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onDoubleClick",
         "type": "MouseEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onDoubleClickCapture",
         "type": "MouseEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onMouseDown",
         "type": "MouseEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onMouseDownCapture",
         "type": "MouseEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onMouseEnter",
         "type": "MouseEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onMouseLeave",
         "type": "MouseEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onMouseMove",
         "type": "MouseEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onMouseMoveCapture",
         "type": "MouseEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onMouseOut",
         "type": "MouseEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onMouseOutCapture",
         "type": "MouseEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onMouseOver",
         "type": "MouseEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onMouseOverCapture",
         "type": "MouseEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onMouseUp",
         "type": "MouseEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onMouseUpCapture",
         "type": "MouseEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onTouchCancel",
         "type": "TouchEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onTouchCancelCapture",
         "type": "TouchEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onTouchEnd",
         "type": "TouchEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onTouchEndCapture",
         "type": "TouchEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onTouchMove",
         "type": "TouchEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onTouchMoveCapture",
         "type": "TouchEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onTouchStart",
         "type": "TouchEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onTouchStartCapture",
         "type": "TouchEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onPointerDown",
         "type": "PointerEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onPointerDownCapture",
         "type": "PointerEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onPointerMove",
         "type": "PointerEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onPointerMoveCapture",
         "type": "PointerEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onPointerUp",
         "type": "PointerEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onPointerUpCapture",
         "type": "PointerEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onPointerCancel",
         "type": "PointerEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onPointerCancelCapture",
         "type": "PointerEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onPointerEnter",
         "type": "PointerEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onPointerLeave",
         "type": "PointerEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onPointerOver",
         "type": "PointerEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onPointerOverCapture",
         "type": "PointerEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onPointerOut",
         "type": "PointerEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onPointerOutCapture",
         "type": "PointerEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onGotPointerCapture",
         "type": "PointerEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onGotPointerCaptureCapture",
         "type": "PointerEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onLostPointerCapture",
         "type": "PointerEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onLostPointerCaptureCapture",
         "type": "PointerEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onScroll",
         "type": "UIEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onScrollCapture",
         "type": "UIEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onWheel",
         "type": "WheelEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onWheelCapture",
         "type": "WheelEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onAnimationStart",
         "type": "AnimationEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onAnimationStartCapture",
         "type": "AnimationEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onAnimationEnd",
         "type": "AnimationEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onAnimationEndCapture",
         "type": "AnimationEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onAnimationIteration",
         "type": "AnimationEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onAnimationIterationCapture",
         "type": "AnimationEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onTransitionCancel",
         "type": "TransitionEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onTransitionCancelCapture",
         "type": "TransitionEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onTransitionEnd",
         "type": "TransitionEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onTransitionEndCapture",
         "type": "TransitionEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onTransitionRun",
         "type": "TransitionEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onTransitionRunCapture",
         "type": "TransitionEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onTransitionStart",
         "type": "TransitionEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onTransitionStartCapture",
         "type": "TransitionEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "isDisabled",
         "type": "boolean",
         "required": false,
+        "origin": "aria",
         "description": "Whether the button is disabled.",
         "schema": {
           "type": "boolean"
@@ -610,42 +698,49 @@
         "name": "onPress",
         "type": "(e: PressEvent) => void",
         "required": false,
+        "origin": "aria",
         "description": "Handler that is called when the press is released over the target."
       },
       {
         "name": "onPressStart",
         "type": "(e: PressEvent) => void",
         "required": false,
+        "origin": "aria",
         "description": "Handler that is called when a press interaction starts."
       },
       {
         "name": "onPressEnd",
         "type": "(e: PressEvent) => void",
         "required": false,
+        "origin": "aria",
         "description": "Handler that is called when a press interaction ends, either\nover the target or when the pointer leaves the target."
       },
       {
         "name": "onPressChange",
         "type": "(isPressed: boolean) => void",
         "required": false,
+        "origin": "aria",
         "description": "Handler that is called when the press state changes."
       },
       {
         "name": "onPressUp",
         "type": "(e: PressEvent) => void",
         "required": false,
+        "origin": "aria",
         "description": "Handler that is called when a press is released over the target, regardless of\nwhether it started on the target or not."
       },
       {
         "name": "onFocusChange",
         "type": "(isFocused: boolean) => void",
         "required": false,
+        "origin": "aria",
         "description": "Handler that is called when the element's focus status changes."
       },
       {
         "name": "preventFocusOnPress",
         "type": "boolean",
         "required": false,
+        "origin": "aria",
         "description": "Whether to prevent focus from moving to the button when pressing it.\n\nCaution, this can make the button inaccessible and should only be used when alternative\nkeyboard interaction is provided, such as ComboBox's MenuTrigger or a NumberField's\nincrement/decrement control.",
         "schema": {
           "type": "boolean"
@@ -655,6 +750,7 @@
         "name": "excludeFromTabOrder",
         "type": "boolean",
         "required": false,
+        "origin": "aria",
         "description": "Whether to exclude the element from the sequential tab order. If true,\nthe element will not be focusable via the keyboard by tabbing. This should\nbe avoided except in rare scenarios where an alternative means of accessing\nthe element or its functionality via the keyboard is available.",
         "schema": {
           "type": "boolean"
@@ -664,30 +760,35 @@
         "name": "onHoverStart",
         "type": "(e: HoverEvent) => void",
         "required": false,
+        "origin": "aria",
         "description": "Handler that is called when a hover interaction starts."
       },
       {
         "name": "onHoverEnd",
         "type": "(e: HoverEvent) => void",
         "required": false,
+        "origin": "aria",
         "description": "Handler that is called when a hover interaction ends."
       },
       {
         "name": "onHoverChange",
         "type": "(isHovering: boolean) => void",
         "required": false,
+        "origin": "aria",
         "description": "Handler that is called when the hover state changes."
       },
       {
         "name": "render",
         "type": "DOMRenderFunction<\"button\", ToggleButtonRenderProps>",
         "required": false,
+        "origin": "dom",
         "description": "Overrides the default DOM element with a custom render function.\nThis allows rendering existing components with built-in styles and behaviors\nsuch as router links, animation libraries, and pre-styled components.\n\nRequirements:\n\n- You must render the expected element type (e.g. if `<button>` is expected, you cannot render an\n  `<a>`).\n- Only a single root DOM element can be rendered (no fragments).\n- You must pass through props and ref to the underlying DOM element, merging with your own prop\n  as appropriate."
       },
       {
         "name": "isSelected",
         "type": "boolean",
         "required": false,
+        "origin": "aria",
         "description": "Whether the element should be selected (controlled).",
         "schema": {
           "type": "boolean"
@@ -697,6 +798,7 @@
         "name": "defaultSelected",
         "type": "boolean",
         "required": false,
+        "origin": "aria",
         "description": "Whether the element should be selected (uncontrolled).",
         "schema": {
           "type": "boolean"
@@ -706,12 +808,14 @@
         "name": "children",
         "type": "React.ReactNode",
         "required": true,
+        "origin": "own",
         "description": "The label never changes with the state; `aria-pressed` carries it."
       },
       {
         "name": "icon",
         "type": "IconName",
         "required": false,
+        "origin": "own",
         "description": "Lucide icon name before the label.",
         "schema": {
           "type": "string",
@@ -722,6 +826,7 @@
         "name": "size",
         "type": "ToggleSize",
         "required": false,
+        "origin": "own",
         "default": "\"default\"",
         "schema": {
           "type": "string",
@@ -737,6 +842,7 @@
         "name": "suppressHydrationWarning",
         "type": "boolean",
         "required": false,
+        "origin": "dom",
         "description": "A React-only flag that suppresses the warning React normally logs when an element's\nserver-rendered content doesn't match the client render during hydration. See [React\ndocs](https://react.dev/reference/react-dom/client/hydrateRoot#suppressing-unavoidable-hydration-mismatch-errors).",
         "schema": {
           "type": "boolean"
@@ -746,6 +852,7 @@
         "name": "dir",
         "type": "string",
         "required": false,
+        "origin": "dom",
         "schema": {
           "type": "string"
         }
@@ -754,6 +861,7 @@
         "name": "hidden",
         "type": "boolean",
         "required": false,
+        "origin": "dom",
         "schema": {
           "type": "boolean"
         }
@@ -762,6 +870,7 @@
         "name": "lang",
         "type": "string",
         "required": false,
+        "origin": "dom",
         "schema": {
           "type": "string"
         }
@@ -770,6 +879,7 @@
         "name": "slot",
         "type": "string",
         "required": false,
+        "origin": "dom",
         "description": "A slot name for the component. Slots allow the component to receive props from a parent\ncomponent. An explicit `null` value indicates that the local props completely override all\nprops received from a parent.",
         "schema": {
           "type": "string"
@@ -779,6 +889,7 @@
         "name": "translate",
         "type": "\"yes\" | \"no\"",
         "required": false,
+        "origin": "dom",
         "schema": {
           "type": "string",
           "enum": [
@@ -791,6 +902,7 @@
         "name": "inert",
         "type": "boolean",
         "required": false,
+        "origin": "dom",
         "schema": {
           "type": "boolean"
         }
@@ -799,6 +911,7 @@
         "name": "aria-describedby",
         "type": "string",
         "required": false,
+        "origin": "dom",
         "description": "Identifies the element (or elements) that describes the object.",
         "schema": {
           "type": "string"
@@ -808,6 +921,7 @@
         "name": "aria-details",
         "type": "string",
         "required": false,
+        "origin": "dom",
         "description": "Identifies the element (or elements) that provide a detailed, extended description for the\nobject.",
         "schema": {
           "type": "string"
@@ -817,6 +931,7 @@
         "name": "aria-labelledby",
         "type": "string",
         "required": false,
+        "origin": "dom",
         "description": "Identifies the element (or elements) that labels the current element.",
         "schema": {
           "type": "string"
@@ -825,327 +940,392 @@
       {
         "name": "onAuxClick",
         "type": "MouseEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onAuxClickCapture",
         "type": "MouseEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onClick",
         "type": "MouseEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onClickCapture",
         "type": "MouseEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onContextMenu",
         "type": "MouseEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onContextMenuCapture",
         "type": "MouseEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onDoubleClick",
         "type": "MouseEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onDoubleClickCapture",
         "type": "MouseEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onMouseDown",
         "type": "MouseEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onMouseDownCapture",
         "type": "MouseEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onMouseEnter",
         "type": "MouseEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onMouseLeave",
         "type": "MouseEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onMouseMove",
         "type": "MouseEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onMouseMoveCapture",
         "type": "MouseEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onMouseOut",
         "type": "MouseEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onMouseOutCapture",
         "type": "MouseEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onMouseOver",
         "type": "MouseEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onMouseOverCapture",
         "type": "MouseEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onMouseUp",
         "type": "MouseEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onMouseUpCapture",
         "type": "MouseEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onTouchCancel",
         "type": "TouchEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onTouchCancelCapture",
         "type": "TouchEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onTouchEnd",
         "type": "TouchEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onTouchEndCapture",
         "type": "TouchEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onTouchMove",
         "type": "TouchEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onTouchMoveCapture",
         "type": "TouchEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onTouchStart",
         "type": "TouchEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onTouchStartCapture",
         "type": "TouchEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onPointerDown",
         "type": "PointerEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onPointerDownCapture",
         "type": "PointerEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onPointerMove",
         "type": "PointerEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onPointerMoveCapture",
         "type": "PointerEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onPointerUp",
         "type": "PointerEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onPointerUpCapture",
         "type": "PointerEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onPointerCancel",
         "type": "PointerEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onPointerCancelCapture",
         "type": "PointerEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onPointerEnter",
         "type": "PointerEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onPointerLeave",
         "type": "PointerEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onPointerOver",
         "type": "PointerEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onPointerOverCapture",
         "type": "PointerEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onPointerOut",
         "type": "PointerEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onPointerOutCapture",
         "type": "PointerEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onGotPointerCapture",
         "type": "PointerEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onGotPointerCaptureCapture",
         "type": "PointerEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onLostPointerCapture",
         "type": "PointerEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onLostPointerCaptureCapture",
         "type": "PointerEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onScroll",
         "type": "UIEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onScrollCapture",
         "type": "UIEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onWheel",
         "type": "WheelEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onWheelCapture",
         "type": "WheelEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onAnimationStart",
         "type": "AnimationEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onAnimationStartCapture",
         "type": "AnimationEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onAnimationEnd",
         "type": "AnimationEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onAnimationEndCapture",
         "type": "AnimationEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onAnimationIteration",
         "type": "AnimationEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onAnimationIterationCapture",
         "type": "AnimationEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onTransitionCancel",
         "type": "TransitionEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onTransitionCancelCapture",
         "type": "TransitionEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onTransitionEnd",
         "type": "TransitionEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onTransitionEndCapture",
         "type": "TransitionEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onTransitionRun",
         "type": "TransitionEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onTransitionRunCapture",
         "type": "TransitionEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onTransitionStart",
         "type": "TransitionEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onTransitionStartCapture",
         "type": "TransitionEventHandler<HTMLDivElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "isDisabled",
         "type": "boolean",
         "required": false,
+        "origin": "dom",
         "description": "Whether all items are disabled.",
         "schema": {
           "type": "boolean"
@@ -1155,12 +1335,14 @@
         "name": "render",
         "type": "DOMRenderFunction<\"div\", ToggleButtonGroupRenderProps>",
         "required": false,
+        "origin": "dom",
         "description": "Overrides the default DOM element with a custom render function.\nThis allows rendering existing components with built-in styles and behaviors\nsuch as router links, animation libraries, and pre-styled components.\n\nRequirements:\n\n- You must render the expected element type (e.g. if `<button>` is expected, you cannot render an\n  `<a>`).\n- Only a single root DOM element can be rendered (no fragments).\n- You must pass through props and ref to the underlying DOM element, merging with your own prop\n  as appropriate."
       },
       {
         "name": "orientation",
         "type": "Orientation",
         "required": false,
+        "origin": "aria",
         "description": "The orientation of the the toggle button group.",
         "schema": {
           "type": "string",
@@ -1174,6 +1356,7 @@
         "name": "selectionMode",
         "type": "\"single\" | \"multiple\"",
         "required": false,
+        "origin": "dom",
         "default": "\"multiple\"",
         "description": "Whether single or multiple selection is enabled.",
         "schema": {
@@ -1188,6 +1371,7 @@
         "name": "disallowEmptySelection",
         "type": "boolean",
         "required": false,
+        "origin": "dom",
         "description": "Whether the collection allows empty selection.",
         "schema": {
           "type": "boolean"
@@ -1197,24 +1381,28 @@
         "name": "selectedKeys",
         "type": "Iterable<Key>",
         "required": false,
+        "origin": "dom",
         "description": "The currently selected keys in the collection (controlled)."
       },
       {
         "name": "defaultSelectedKeys",
         "type": "Iterable<Key>",
         "required": false,
+        "origin": "dom",
         "description": "The initial selected keys in the collection (uncontrolled)."
       },
       {
         "name": "onSelectionChange",
         "type": "(keys: Set<Key>) => void",
         "required": false,
+        "origin": "dom",
         "description": "Handler that is called when the selection changes."
       },
       {
         "name": "label",
         "type": "string",
         "required": true,
+        "origin": "own",
         "description": "Names the group (\"Text alignment\").",
         "schema": {
           "type": "string"
@@ -1223,7 +1411,8 @@
       {
         "name": "children",
         "type": "React.ReactNode",
-        "required": true
+        "required": true,
+        "origin": "own"
       }
     ]
   },

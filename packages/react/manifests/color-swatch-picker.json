@@ -110,12 +110,14 @@
         "name": "label",
         "type": "React.ReactNode",
         "required": true,
+        "origin": "own",
         "description": "\"Theme presets\"."
       },
       {
         "name": "items",
         "type": "readonly ColorSwatchItem[]",
         "required": true,
+        "origin": "own",
         "description": "The preset colors; check them with checkBrandColor so that only a custom color can fail.",
         "schema": {
           "type": "array",
@@ -141,6 +143,7 @@
         "name": "value",
         "type": "string",
         "required": false,
+        "origin": "own",
         "schema": {
           "type": "string"
         }
@@ -149,6 +152,7 @@
         "name": "defaultValue",
         "type": "string",
         "required": false,
+        "origin": "own",
         "schema": {
           "type": "string"
         }
@@ -156,12 +160,14 @@
       {
         "name": "onChange",
         "type": "(value: string) => void",
-        "required": false
+        "required": false,
+        "origin": "own"
       },
       {
         "name": "allowsCustom",
         "type": "boolean",
         "required": false,
+        "origin": "own",
         "description": "Ends with a button that opens ColorPicker for a custom color.",
         "schema": {
           "type": "boolean"
@@ -171,6 +177,7 @@
         "name": "description",
         "type": "React.ReactNode",
         "required": false,
+        "origin": "own",
         "description": "Under the swatches, after \"Ocean · selected\"."
       }
     ]

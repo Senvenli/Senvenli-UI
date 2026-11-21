@@ -105,6 +105,7 @@
         "name": "items",
         "type": "readonly TabItem[]",
         "required": true,
+        "origin": "own",
         "description": "Two to six tabs.",
         "schema": {
           "type": "array",
@@ -137,6 +138,7 @@
         "name": "selectedKey",
         "type": "Key",
         "required": false,
+        "origin": "own",
         "schema": {
           "type": "string"
         }
@@ -145,6 +147,7 @@
         "name": "defaultSelectedKey",
         "type": "Key",
         "required": false,
+        "origin": "own",
         "schema": {
           "type": "string"
         }
@@ -152,12 +155,14 @@
       {
         "name": "onSelectionChange",
         "type": "(key: Key) => void",
-        "required": false
+        "required": false,
+        "origin": "own"
       },
       {
         "name": "aria-label",
         "type": "string",
         "required": false,
+        "origin": "own",
         "description": "Names the tab list when no heading above it does.",
         "schema": {
           "type": "string"
@@ -169,6 +174,7 @@
         "name": "label",
         "type": "string",
         "required": true,
+        "origin": "own",
         "description": "Names the group for assistive tech (\"Period\"); it is not shown.",
         "schema": {
           "type": "string"
@@ -178,6 +184,7 @@
         "name": "items",
         "type": "readonly SegmentedControlItem[]",
         "required": true,
+        "origin": "own",
         "description": "Two to five short options (\"Day\", \"Week\", \"Month\").",
         "schema": {
           "type": "array",
@@ -203,6 +210,7 @@
         "name": "value",
         "type": "Key",
         "required": false,
+        "origin": "own",
         "schema": {
           "type": "string"
         }
@@ -211,6 +219,7 @@
         "name": "defaultValue",
         "type": "Key",
         "required": false,
+        "origin": "own",
         "schema": {
           "type": "string"
         }
@@ -218,12 +227,14 @@
       {
         "name": "onChange",
         "type": "(value: Key) => void",
-        "required": false
+        "required": false,
+        "origin": "own"
       },
       {
         "name": "isDisabled",
         "type": "boolean",
         "required": false,
+        "origin": "own",
         "schema": {
           "type": "boolean"
         }

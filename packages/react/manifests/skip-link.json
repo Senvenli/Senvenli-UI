@@ -41,6 +41,7 @@
         "name": "target",
         "type": "string",
         "required": false,
+        "origin": "own",
         "default": "\"main\"",
         "description": "Where focus goes: the page's main region by default.",
         "schema": {
@@ -51,6 +52,7 @@
         "name": "children",
         "type": "React.ReactNode",
         "required": false,
+        "origin": "own",
         "description": "\"Skip to content\" by default."
       }
     ]

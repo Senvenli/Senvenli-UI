@@ -57,6 +57,7 @@
         "name": "items",
         "type": "CarouselItem[]",
         "required": true,
+        "origin": "own",
         "schema": {
           "type": "array",
           "items": {
@@ -84,6 +85,7 @@
         "name": "aria-label",
         "type": "string",
         "required": true,
+        "origin": "own",
         "description": "Names the carousel (\"Product photos\").",
         "schema": {
           "type": "string"
@@ -93,6 +95,7 @@
         "name": "index",
         "type": "number",
         "required": false,
+        "origin": "own",
         "description": "The shown image, controlled. The carousel calls `onIndexChange` and expects the new value back.",
         "schema": {
           "type": "number"
@@ -102,6 +105,7 @@
         "name": "defaultIndex",
         "type": "number",
         "required": false,
+        "origin": "own",
         "default": "0",
         "description": "The first image shown when uncontrolled.",
         "schema": {
@@ -111,12 +115,14 @@
       {
         "name": "onIndexChange",
         "type": "(index: number) => void",
-        "required": false
+        "required": false,
+        "origin": "own"
       },
       {
         "name": "showThumbnails",
         "type": "boolean",
         "required": false,
+        "origin": "own",
         "description": "A strip of thumbnails under the frame; the current one outlined. The dots then only indicate.",
         "schema": {
           "type": "boolean"
@@ -126,6 +132,7 @@
         "name": "aspectRatio",
         "type": "\"16/9\" | \"4/3\"",
         "required": false,
+        "origin": "own",
         "default": "\"16/9\"",
         "schema": {
           "type": "string",
@@ -139,6 +146,7 @@
         "name": "isLandmark",
         "type": "boolean",
         "required": false,
+        "origin": "own",
         "default": "true",
         "description": "A `region` landmark (default) for a gallery that is part of the page's outline; `false` inside\nrepeated cards, so a listing does not fill the landmark list.",
         "schema": {

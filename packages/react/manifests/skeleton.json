@@ -47,6 +47,7 @@
         "name": "isLoaded",
         "type": "boolean",
         "required": false,
+        "origin": "own",
         "description": "Shows the children instead of the shape once the data is there.",
         "schema": {
           "type": "boolean"
@@ -55,12 +56,14 @@
       {
         "name": "children",
         "type": "React.ReactNode",
-        "required": false
+        "required": false,
+        "origin": "own"
       },
       {
         "name": "delay",
         "type": "number",
         "required": false,
+        "origin": "own",
         "description": "Milliseconds before the shape appears (default 300); the space is held meanwhile.",
         "schema": {
           "type": "number"
@@ -70,6 +73,7 @@
         "name": "width",
         "type": "string | number",
         "required": false,
+        "origin": "own",
         "description": "CSS width (\"60%\", 240); default full width.",
         "schema": {
           "type": "string"
@@ -79,6 +83,7 @@
         "name": "height",
         "type": "string | number",
         "required": false,
+        "origin": "own",
         "default": "12",
         "description": "CSS height; default 12px (a text line).",
         "schema": {
@@ -89,6 +94,7 @@
         "name": "radius",
         "type": "\"none\" | \"large\" | \"small\" | \"medium\" | \"full\"",
         "required": false,
+        "origin": "own",
         "default": "\"small\"",
         "description": "The radius of what it replaces: `medium` for a button, `large` for a card photo.",
         "schema": {
@@ -106,6 +112,7 @@
         "name": "aspectRatio",
         "type": "string",
         "required": false,
+        "origin": "own",
         "description": "Aspect ratio for photos (\"16/9\").",
         "schema": {
           "type": "string"
@@ -117,6 +124,7 @@
         "name": "isLoaded",
         "type": "boolean",
         "required": false,
+        "origin": "own",
         "description": "Shows the children instead of the shape once the data is there.",
         "schema": {
           "type": "boolean"
@@ -125,12 +133,14 @@
       {
         "name": "children",
         "type": "React.ReactNode",
-        "required": false
+        "required": false,
+        "origin": "own"
       },
       {
         "name": "delay",
         "type": "number",
         "required": false,
+        "origin": "own",
         "description": "Milliseconds before the shape appears (default 300); the space is held meanwhile.",
         "schema": {
           "type": "number"
@@ -140,6 +150,7 @@
         "name": "lines",
         "type": "number",
         "required": false,
+        "origin": "own",
         "default": "2",
         "description": "Number of 12px lines; the last one is shorter, as text is.",
         "schema": {
@@ -152,6 +163,7 @@
         "name": "isLoaded",
         "type": "boolean",
         "required": false,
+        "origin": "own",
         "description": "Shows the children instead of the shape once the data is there.",
         "schema": {
           "type": "boolean"
@@ -160,12 +172,14 @@
       {
         "name": "children",
         "type": "React.ReactNode",
-        "required": false
+        "required": false,
+        "origin": "own"
       },
       {
         "name": "delay",
         "type": "number",
         "required": false,
+        "origin": "own",
         "description": "Milliseconds before the shape appears (default 300); the space is held meanwhile.",
         "schema": {
           "type": "number"
@@ -175,6 +189,7 @@
         "name": "size",
         "type": "number",
         "required": false,
+        "origin": "own",
         "default": "32",
         "description": "Diameter in px (32 for a list avatar).",
         "schema": {
@@ -187,6 +202,7 @@
         "name": "label",
         "type": "string",
         "required": true,
+        "origin": "own",
         "description": "What is loading (\"Loading orders\"); the region's name while busy.",
         "schema": {
           "type": "string"
@@ -196,6 +212,7 @@
         "name": "loadedLabel",
         "type": "string",
         "required": false,
+        "origin": "own",
         "description": "The region's name once loaded (\"Orders\"); none by default.",
         "schema": {
           "type": "string"
@@ -205,6 +222,7 @@
         "name": "isLoading",
         "type": "boolean",
         "required": true,
+        "origin": "own",
         "schema": {
           "type": "boolean"
         }
@@ -212,7 +230,8 @@
       {
         "name": "children",
         "type": "React.ReactNode",
-        "required": true
+        "required": true,
+        "origin": "own"
       }
     ]
   },

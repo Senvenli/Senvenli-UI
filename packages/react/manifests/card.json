@@ -94,6 +94,7 @@
         "name": "variant",
         "type": "CardVariant",
         "required": false,
+        "origin": "own",
         "description": "`raised` on the page · `outline` inside cards and settings groups · `sunken` for summaries and code.",
         "schema": {
           "type": "string",
@@ -108,6 +109,7 @@
         "name": "isCompact",
         "type": "boolean",
         "required": false,
+        "origin": "own",
         "description": "16px padding instead of 24px.",
         "schema": {
           "type": "boolean"
@@ -117,12 +119,14 @@
         "name": "children",
         "type": "React.ReactNode",
         "required": true,
+        "origin": "own",
         "description": "Header, media, body and footer parts."
       },
       {
         "name": "aria-label",
         "type": "string",
         "required": false,
+        "origin": "own",
         "description": "The card's name when it is interactive and has no CardHeader title.",
         "schema": {
           "type": "string"
@@ -132,6 +136,7 @@
         "name": "href",
         "type": "string",
         "required": false,
+        "origin": "own",
         "description": "The whole card is a link (the interactive card): one focusable element named by its title.",
         "schema": {
           "type": "string"
@@ -141,6 +146,7 @@
         "name": "onPress",
         "type": "() => void",
         "required": false,
+        "origin": "own",
         "description": "The whole card is a button (opens a panel rather than a page)."
       }
     ],
@@ -148,17 +154,20 @@
       {
         "name": "title",
         "type": "React.ReactNode",
-        "required": true
+        "required": true,
+        "origin": "own"
       },
       {
         "name": "subtitle",
         "type": "React.ReactNode",
-        "required": false
+        "required": false,
+        "origin": "own"
       },
       {
         "name": "headingLevel",
         "type": "CardHeadingLevel",
         "required": false,
+        "origin": "own",
         "default": "3",
         "description": "Heading level of the title; default 3.",
         "schema": {
@@ -175,6 +184,7 @@
         "name": "menu",
         "type": "React.ReactNode",
         "required": false,
+        "origin": "own",
         "description": "A subtle menu button (`Button variant=\"subtle\" iconOnly`); stays clickable above an interactive card."
       }
     ],
@@ -182,14 +192,16 @@
       {
         "name": "children",
         "type": "React.ReactNode",
-        "required": true
+        "required": true,
+        "origin": "own"
       }
     ],
     "CardFooter": [
       {
         "name": "children",
         "type": "React.ReactNode",
-        "required": true
+        "required": true,
+        "origin": "own"
       }
     ],
     "CardMedia": [
@@ -197,6 +209,7 @@
         "name": "src",
         "type": "string",
         "required": false,
+        "origin": "own",
         "description": "The photo, flush to the card edges at 16:9 and covering the frame.",
         "schema": {
           "type": "string"
@@ -206,6 +219,7 @@
         "name": "alt",
         "type": "string",
         "required": false,
+        "origin": "own",
         "default": "\"\"",
         "description": "Describes the photo; \"\" when the title already says what it shows.",
         "schema": {
@@ -216,6 +230,7 @@
         "name": "fallbackIcon",
         "type": "IconName",
         "required": false,
+        "origin": "own",
         "default": "\"image\"",
         "description": "Shown on `ds-surface-sunken` when there is no photo.",
         "schema": {

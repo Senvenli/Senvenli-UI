@@ -53,12 +53,14 @@
         "name": "brand",
         "type": "React.ReactNode",
         "required": true,
+        "origin": "own",
         "description": "The logo and wordmark (the site's logo). It links to `brandHref`."
       },
       {
         "name": "brandHref",
         "type": "string",
         "required": false,
+        "origin": "own",
         "default": "\"/\"",
         "description": "Where the brand goes: the home page.",
         "schema": {
@@ -69,6 +71,7 @@
         "name": "brandLabel",
         "type": "string",
         "required": false,
+        "origin": "own",
         "description": "The brand link's name when the brand alone does not say where it goes (\"Acme home\").",
         "schema": {
           "type": "string"
@@ -78,6 +81,7 @@
         "name": "links",
         "type": "readonly NavbarLink[]",
         "required": true,
+        "origin": "own",
         "description": "Up to five destinations.",
         "schema": {
           "type": "array",
@@ -107,6 +111,7 @@
         "name": "currentKey",
         "type": "string",
         "required": false,
+        "origin": "own",
         "description": "The link of the page (or section) in view: marked `aria-current=\"page\"`.",
         "schema": {
           "type": "string"
@@ -116,18 +121,21 @@
         "name": "endActions",
         "type": "React.ReactNode",
         "required": false,
+        "origin": "own",
         "description": "At the end: sign-in (subtle), then the one primary action, the same on every page."
       },
       {
         "name": "languages",
         "type": "{ current: string; items: readonly NavbarLanguage[]; }",
         "required": false,
+        "origin": "own",
         "description": "The language switch: shows the current code and keeps the page in the other language."
       },
       {
         "name": "isSticky",
         "type": "boolean",
         "required": false,
+        "origin": "own",
         "description": "Pinned to the top while the page scrolls.",
         "schema": {
           "type": "boolean"
@@ -137,6 +145,7 @@
         "name": "isCompact",
         "type": "boolean",
         "required": false,
+        "origin": "own",
         "description": "48px instead of 56px: the compact bar after the hero.",
         "schema": {
           "type": "boolean"
@@ -146,6 +155,7 @@
         "name": "aria-label",
         "type": "string",
         "required": false,
+        "origin": "own",
         "description": "Names the navigation landmark; \"Main menu\" by default.",
         "schema": {
           "type": "string"

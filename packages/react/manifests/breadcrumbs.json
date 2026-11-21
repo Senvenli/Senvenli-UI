@@ -75,6 +75,7 @@
         "name": "items",
         "type": "readonly BreadcrumbItem[]",
         "required": true,
+        "origin": "own",
         "description": "From the section root (\"Filo\"), never \"Ana sayfa\", to the current page.",
         "schema": {
           "type": "array",
@@ -99,6 +100,7 @@
         "name": "aria-label",
         "type": "string",
         "required": false,
+        "origin": "own",
         "description": "Names the navigation landmark; \"Konum\" by default.",
         "schema": {
           "type": "string"

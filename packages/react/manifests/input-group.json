@@ -46,12 +46,14 @@
       {
         "name": "children",
         "type": "React.ReactNode",
-        "required": true
+        "required": true,
+        "origin": "own"
       },
       {
         "name": "size",
         "type": "FieldSize",
         "required": false,
+        "origin": "own",
         "default": "\"default\"",
         "schema": {
           "type": "string",
@@ -65,6 +67,7 @@
         "name": "isDisabled",
         "type": "boolean",
         "required": false,
+        "origin": "own",
         "schema": {
           "type": "boolean"
         }
@@ -73,6 +76,7 @@
         "name": "isInvalid",
         "type": "boolean",
         "required": false,
+        "origin": "own",
         "schema": {
           "type": "boolean"
         }
@@ -81,6 +85,7 @@
         "name": "multiline",
         "type": "boolean",
         "required": false,
+        "origin": "own",
         "description": "Multi-line content (TextArea): items align to the top.",
         "schema": {
           "type": "boolean"
@@ -90,6 +95,7 @@
         "name": "dir",
         "type": "\"ltr\"",
         "required": false,
+        "origin": "own",
         "description": "`ltr` keeps the frame left to right on an RTL page (phone numbers, IBANs).",
         "schema": {
           "type": "string",
@@ -103,12 +109,14 @@
       {
         "name": "children",
         "type": "React.ReactNode",
-        "required": true
+        "required": true,
+        "origin": "own"
       },
       {
         "name": "position",
         "type": "\"start\" | \"end\"",
         "required": false,
+        "origin": "own",
         "default": "\"start\"",
         "description": "Which side of the value it sits on.",
         "schema": {
@@ -123,6 +131,7 @@
         "name": "flush",
         "type": "boolean",
         "required": false,
+        "origin": "own",
         "default": "true",
         "description": "Flush with the frame edge (default). Off when another part, such as a stepper, follows an end addon.",
         "schema": {
@@ -133,6 +142,7 @@
         "name": "onClick",
         "type": "MouseEventHandler<HTMLSpanElement>",
         "required": false,
+        "origin": "own",
         "description": "Extra handler; focus forwarding to the control always runs as well."
       }
     ],
@@ -141,6 +151,7 @@
         "name": "suppressHydrationWarning",
         "type": "boolean",
         "required": false,
+        "origin": "dom",
         "description": "A React-only flag that suppresses the warning React normally logs when an element's\nserver-rendered content doesn't match the client render during hydration. See [React\ndocs](https://react.dev/reference/react-dom/client/hydrateRoot#suppressing-unavoidable-hydration-mismatch-errors).",
         "schema": {
           "type": "boolean"
@@ -150,6 +161,7 @@
         "name": "autoFocus",
         "type": "boolean",
         "required": false,
+        "origin": "aria",
         "description": "Whether the element should receive focus on render.",
         "schema": {
           "type": "boolean"
@@ -159,6 +171,7 @@
         "name": "dir",
         "type": "string",
         "required": false,
+        "origin": "dom",
         "schema": {
           "type": "string"
         }
@@ -167,6 +180,7 @@
         "name": "hidden",
         "type": "boolean",
         "required": false,
+        "origin": "dom",
         "schema": {
           "type": "boolean"
         }
@@ -175,6 +189,7 @@
         "name": "id",
         "type": "string",
         "required": false,
+        "origin": "dom",
         "description": "The element's unique identifier. See\n[MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/id).",
         "schema": {
           "type": "string"
@@ -184,6 +199,7 @@
         "name": "lang",
         "type": "string",
         "required": false,
+        "origin": "dom",
         "schema": {
           "type": "string"
         }
@@ -192,6 +208,7 @@
         "name": "slot",
         "type": "string",
         "required": false,
+        "origin": "dom",
         "description": "A slot name for the component. Slots allow the component to receive props from a parent\ncomponent. An explicit `null` value indicates that the local props completely override all\nprops received from a parent.",
         "schema": {
           "type": "string"
@@ -201,6 +218,7 @@
         "name": "translate",
         "type": "\"yes\" | \"no\"",
         "required": false,
+        "origin": "dom",
         "schema": {
           "type": "string",
           "enum": [
@@ -213,6 +231,7 @@
         "name": "inert",
         "type": "boolean",
         "required": false,
+        "origin": "dom",
         "schema": {
           "type": "boolean"
         }
@@ -221,6 +240,7 @@
         "name": "aria-controls",
         "type": "string",
         "required": false,
+        "origin": "dom",
         "description": "Identifies the element (or elements) whose contents or presence are controlled by the current\nelement.",
         "schema": {
           "type": "string"
@@ -230,6 +250,7 @@
         "name": "aria-current",
         "type": "boolean | \"true\" | \"false\" | \"page\" | \"step\" | \"location\" | \"date\" | \"time\"",
         "required": false,
+        "origin": "dom",
         "description": "Indicates whether this element represents the current item within a container or set of related\nelements.",
         "schema": {
           "enum": [
@@ -249,6 +270,7 @@
         "name": "aria-describedby",
         "type": "string",
         "required": false,
+        "origin": "dom",
         "description": "Identifies the element (or elements) that describes the object.",
         "schema": {
           "type": "string"
@@ -258,6 +280,7 @@
         "name": "aria-details",
         "type": "string",
         "required": false,
+        "origin": "dom",
         "description": "Identifies the element (or elements) that provide a detailed, extended description for the\nobject.",
         "schema": {
           "type": "string"
@@ -267,6 +290,7 @@
         "name": "aria-disabled",
         "type": "boolean | \"true\" | \"false\"",
         "required": false,
+        "origin": "dom",
         "description": "Indicates whether the element is disabled to users of assistive technology.",
         "schema": {
           "enum": [
@@ -281,6 +305,7 @@
         "name": "aria-expanded",
         "type": "boolean | \"true\" | \"false\"",
         "required": false,
+        "origin": "dom",
         "description": "Indicates whether the element, or another grouping element it controls, is currently expanded\nor collapsed.",
         "schema": {
           "enum": [
@@ -295,6 +320,7 @@
         "name": "aria-haspopup",
         "type": "boolean | \"true\" | \"false\" | \"menu\" | \"listbox\" | \"tree\" | \"grid\" | \"dialog\"",
         "required": false,
+        "origin": "dom",
         "description": "Indicates the availability and type of interactive popup element, such as menu or dialog, that\ncan be triggered by an element.",
         "schema": {
           "enum": [
@@ -314,6 +340,7 @@
         "name": "aria-label",
         "type": "string",
         "required": true,
+        "origin": "dom",
         "description": "Defines a string value that labels the current element.\nNames the action (\"Kopyala\", \"Temizle\").",
         "schema": {
           "type": "string"
@@ -323,6 +350,7 @@
         "name": "aria-labelledby",
         "type": "string",
         "required": false,
+        "origin": "dom",
         "description": "Identifies the element (or elements) that labels the current element.",
         "schema": {
           "type": "string"
@@ -332,6 +360,7 @@
         "name": "aria-pressed",
         "type": "boolean | \"true\" | \"false\" | \"mixed\"",
         "required": false,
+        "origin": "dom",
         "description": "Indicates the current \"pressed\" state of toggle buttons.",
         "schema": {
           "enum": [
@@ -347,351 +376,420 @@
         "name": "onFocus",
         "type": "(e: FocusEvent<Element, Element>) => void",
         "required": false,
+        "origin": "aria",
         "description": "Handler that is called when the element receives focus."
       },
       {
         "name": "onBlur",
         "type": "(e: FocusEvent<Element, Element>) => void",
         "required": false,
+        "origin": "aria",
         "description": "Handler that is called when the element loses focus."
       },
       {
         "name": "onKeyDown",
         "type": "(e: KeyboardEvent) => void",
         "required": false,
+        "origin": "dom",
         "description": "Handler that is called when a key is pressed."
       },
       {
         "name": "onKeyUp",
         "type": "(e: KeyboardEvent) => void",
         "required": false,
+        "origin": "dom",
         "description": "Handler that is called when a key is released."
       },
       {
         "name": "onAuxClick",
         "type": "MouseEventHandler<HTMLButtonElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onAuxClickCapture",
         "type": "MouseEventHandler<HTMLButtonElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onClick",
         "type": "(e: MouseEvent<FocusableElement, MouseEvent>) => void",
         "required": false,
+        "origin": "aria",
         "description": "**Not recommended – use `onPress` instead.** `onClick` is an alias for `onPress`\nprovided for compatibility with other libraries. `onPress` provides\nadditional event details for non-mouse interactions."
       },
       {
         "name": "onClickCapture",
         "type": "MouseEventHandler<HTMLButtonElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onContextMenu",
         "type": "MouseEventHandler<HTMLButtonElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onContextMenuCapture",
         "type": "MouseEventHandler<HTMLButtonElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onDoubleClick",
         "type": "MouseEventHandler<HTMLButtonElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onDoubleClickCapture",
         "type": "MouseEventHandler<HTMLButtonElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onMouseDown",
         "type": "MouseEventHandler<HTMLButtonElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onMouseDownCapture",
         "type": "MouseEventHandler<HTMLButtonElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onMouseEnter",
         "type": "MouseEventHandler<HTMLButtonElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onMouseLeave",
         "type": "MouseEventHandler<HTMLButtonElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onMouseMove",
         "type": "MouseEventHandler<HTMLButtonElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onMouseMoveCapture",
         "type": "MouseEventHandler<HTMLButtonElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onMouseOut",
         "type": "MouseEventHandler<HTMLButtonElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onMouseOutCapture",
         "type": "MouseEventHandler<HTMLButtonElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onMouseOver",
         "type": "MouseEventHandler<HTMLButtonElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onMouseOverCapture",
         "type": "MouseEventHandler<HTMLButtonElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onMouseUp",
         "type": "MouseEventHandler<HTMLButtonElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onMouseUpCapture",
         "type": "MouseEventHandler<HTMLButtonElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onTouchCancel",
         "type": "TouchEventHandler<HTMLButtonElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onTouchCancelCapture",
         "type": "TouchEventHandler<HTMLButtonElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onTouchEnd",
         "type": "TouchEventHandler<HTMLButtonElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onTouchEndCapture",
         "type": "TouchEventHandler<HTMLButtonElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onTouchMove",
         "type": "TouchEventHandler<HTMLButtonElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onTouchMoveCapture",
         "type": "TouchEventHandler<HTMLButtonElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onTouchStart",
         "type": "TouchEventHandler<HTMLButtonElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onTouchStartCapture",
         "type": "TouchEventHandler<HTMLButtonElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onPointerDown",
         "type": "PointerEventHandler<HTMLButtonElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onPointerDownCapture",
         "type": "PointerEventHandler<HTMLButtonElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onPointerMove",
         "type": "PointerEventHandler<HTMLButtonElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onPointerMoveCapture",
         "type": "PointerEventHandler<HTMLButtonElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onPointerUp",
         "type": "PointerEventHandler<HTMLButtonElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onPointerUpCapture",
         "type": "PointerEventHandler<HTMLButtonElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onPointerCancel",
         "type": "PointerEventHandler<HTMLButtonElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onPointerCancelCapture",
         "type": "PointerEventHandler<HTMLButtonElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onPointerEnter",
         "type": "PointerEventHandler<HTMLButtonElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onPointerLeave",
         "type": "PointerEventHandler<HTMLButtonElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onPointerOver",
         "type": "PointerEventHandler<HTMLButtonElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onPointerOverCapture",
         "type": "PointerEventHandler<HTMLButtonElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onPointerOut",
         "type": "PointerEventHandler<HTMLButtonElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onPointerOutCapture",
         "type": "PointerEventHandler<HTMLButtonElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onGotPointerCapture",
         "type": "PointerEventHandler<HTMLButtonElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onGotPointerCaptureCapture",
         "type": "PointerEventHandler<HTMLButtonElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onLostPointerCapture",
         "type": "PointerEventHandler<HTMLButtonElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onLostPointerCaptureCapture",
         "type": "PointerEventHandler<HTMLButtonElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onScroll",
         "type": "UIEventHandler<HTMLButtonElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onScrollCapture",
         "type": "UIEventHandler<HTMLButtonElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onWheel",
         "type": "WheelEventHandler<HTMLButtonElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onWheelCapture",
         "type": "WheelEventHandler<HTMLButtonElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onAnimationStart",
         "type": "AnimationEventHandler<HTMLButtonElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onAnimationStartCapture",
         "type": "AnimationEventHandler<HTMLButtonElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onAnimationEnd",
         "type": "AnimationEventHandler<HTMLButtonElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onAnimationEndCapture",
         "type": "AnimationEventHandler<HTMLButtonElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onAnimationIteration",
         "type": "AnimationEventHandler<HTMLButtonElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onAnimationIterationCapture",
         "type": "AnimationEventHandler<HTMLButtonElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onTransitionCancel",
         "type": "TransitionEventHandler<HTMLButtonElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onTransitionCancelCapture",
         "type": "TransitionEventHandler<HTMLButtonElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onTransitionEnd",
         "type": "TransitionEventHandler<HTMLButtonElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onTransitionEndCapture",
         "type": "TransitionEventHandler<HTMLButtonElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onTransitionRun",
         "type": "TransitionEventHandler<HTMLButtonElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onTransitionRunCapture",
         "type": "TransitionEventHandler<HTMLButtonElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onTransitionStart",
         "type": "TransitionEventHandler<HTMLButtonElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "onTransitionStartCapture",
         "type": "TransitionEventHandler<HTMLButtonElement>",
-        "required": false
+        "required": false,
+        "origin": "dom"
       },
       {
         "name": "isDisabled",
         "type": "boolean",
         "required": false,
+        "origin": "aria",
         "description": "Whether the button is disabled.",
         "schema": {
           "type": "boolean"
@@ -701,42 +799,49 @@
         "name": "onPress",
         "type": "(e: PressEvent) => void",
         "required": false,
+        "origin": "aria",
         "description": "Handler that is called when the press is released over the target."
       },
       {
         "name": "onPressStart",
         "type": "(e: PressEvent) => void",
         "required": false,
+        "origin": "aria",
         "description": "Handler that is called when a press interaction starts."
       },
       {
         "name": "onPressEnd",
         "type": "(e: PressEvent) => void",
         "required": false,
+        "origin": "aria",
         "description": "Handler that is called when a press interaction ends, either\nover the target or when the pointer leaves the target."
       },
       {
         "name": "onPressChange",
         "type": "(isPressed: boolean) => void",
         "required": false,
+        "origin": "aria",
         "description": "Handler that is called when the press state changes."
       },
       {
         "name": "onPressUp",
         "type": "(e: PressEvent) => void",
         "required": false,
+        "origin": "aria",
         "description": "Handler that is called when a press is released over the target, regardless of\nwhether it started on the target or not."
       },
       {
         "name": "onFocusChange",
         "type": "(isFocused: boolean) => void",
         "required": false,
+        "origin": "aria",
         "description": "Handler that is called when the element's focus status changes."
       },
       {
         "name": "type",
         "type": "\"button\" | \"submit\" | \"reset\"",
         "required": false,
+        "origin": "aria",
         "description": "The behavior of the button when used in an HTML form.",
         "schema": {
           "type": "string",
@@ -751,6 +856,7 @@
         "name": "preventFocusOnPress",
         "type": "boolean",
         "required": false,
+        "origin": "aria",
         "description": "Whether to prevent focus from moving to the button when pressing it.\n\nCaution, this can make the button inaccessible and should only be used when alternative\nkeyboard interaction is provided, such as ComboBox's MenuTrigger or a NumberField's\nincrement/decrement control.",
         "schema": {
           "type": "boolean"
@@ -760,6 +866,7 @@
         "name": "form",
         "type": "string",
         "required": false,
+        "origin": "aria",
         "description": "The `<form>` element to associate the button with.\nThe value of this attribute must be the id of a `<form>` in the same document.\nSee [MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/button#form).",
         "schema": {
           "type": "string"
@@ -769,12 +876,14 @@
         "name": "formAction",
         "type": "string | ((formData: FormData) => void | Promise<void>)",
         "required": false,
+        "origin": "aria",
         "description": "The URL that processes the information submitted by the button.\nOverrides the action attribute of the button's form owner."
       },
       {
         "name": "formEncType",
         "type": "string",
         "required": false,
+        "origin": "aria",
         "description": "Indicates how to encode the form data that is submitted.",
         "schema": {
           "type": "string"
@@ -784,6 +893,7 @@
         "name": "formMethod",
         "type": "string",
         "required": false,
+        "origin": "aria",
         "description": "Indicates the HTTP method used to submit the form.",
         "schema": {
           "type": "string"
@@ -793,6 +903,7 @@
         "name": "formNoValidate",
         "type": "boolean",
         "required": false,
+        "origin": "aria",
         "description": "Indicates that the form is not to be validated when it is submitted.",
         "schema": {
           "type": "boolean"
@@ -802,6 +913,7 @@
         "name": "formTarget",
         "type": "string",
         "required": false,
+        "origin": "aria",
         "description": "Overrides the target attribute of the button's form owner.",
         "schema": {
           "type": "string"
@@ -811,6 +923,7 @@
         "name": "name",
         "type": "string",
         "required": false,
+        "origin": "aria",
         "description": "Submitted as a pair with the button's value as part of the form data.",
         "schema": {
           "type": "string"
@@ -820,6 +933,7 @@
         "name": "value",
         "type": "string",
         "required": false,
+        "origin": "aria",
         "description": "The value associated with the button's name when it's submitted with the form data.",
         "schema": {
           "type": "string"
@@ -829,6 +943,7 @@
         "name": "excludeFromTabOrder",
         "type": "boolean",
         "required": false,
+        "origin": "aria",
         "description": "Whether to exclude the element from the sequential tab order. If true,\nthe element will not be focusable via the keyboard by tabbing. This should\nbe avoided except in rare scenarios where an alternative means of accessing\nthe element or its functionality via the keyboard is available.",
         "schema": {
           "type": "boolean"
@@ -838,6 +953,7 @@
         "name": "isPending",
         "type": "boolean",
         "required": false,
+        "origin": "aria",
         "description": "Whether the button is in a pending state. This disables press and hover events\nwhile retaining focusability, and announces the pending state to screen readers.",
         "schema": {
           "type": "boolean"
@@ -847,30 +963,35 @@
         "name": "onHoverStart",
         "type": "(e: HoverEvent) => void",
         "required": false,
+        "origin": "aria",
         "description": "Handler that is called when a hover interaction starts."
       },
       {
         "name": "onHoverEnd",
         "type": "(e: HoverEvent) => void",
         "required": false,
+        "origin": "aria",
         "description": "Handler that is called when a hover interaction ends."
       },
       {
         "name": "onHoverChange",
         "type": "(isHovering: boolean) => void",
         "required": false,
+        "origin": "aria",
         "description": "Handler that is called when the hover state changes."
       },
       {
         "name": "render",
         "type": "DOMRenderFunction<\"button\", ButtonRenderProps>",
         "required": false,
+        "origin": "dom",
         "description": "Overrides the default DOM element with a custom render function.\nThis allows rendering existing components with built-in styles and behaviors\nsuch as router links, animation libraries, and pre-styled components.\n\nRequirements:\n\n- You must render the expected element type (e.g. if `<button>` is expected, you cannot render an\n  `<a>`).\n- Only a single root DOM element can be rendered (no fragments).\n- You must pass through props and ref to the underlying DOM element, merging with your own prop\n  as appropriate."
       },
       {
         "name": "icon",
         "type": "IconName",
         "required": true,
+        "origin": "own",
         "description": "Lucide icon name (\"copy\", \"circle-x\").",
         "schema": {
           "type": "string",

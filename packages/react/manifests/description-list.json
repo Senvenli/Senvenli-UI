@@ -111,6 +111,7 @@
         "name": "items",
         "type": "DescriptionListItem[]",
         "required": true,
+        "origin": "own",
         "schema": {
           "type": "array",
           "items": {
@@ -143,6 +144,7 @@
         "name": "layout",
         "type": "\"rows\" | \"stacked\"",
         "required": false,
+        "origin": "own",
         "default": "\"rows\"",
         "description": "`rows` (label beside value, rules between) for detail pages and side panels; `stacked` for summaries and cards.",
         "schema": {
@@ -157,6 +159,7 @@
         "name": "columns",
         "type": "4 | 2 | 3",
         "required": false,
+        "origin": "own",
         "description": "Columns for `stacked`; default fills 150px+ columns.",
         "schema": {
           "enum": [

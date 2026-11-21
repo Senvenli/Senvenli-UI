@@ -85,6 +85,7 @@
         "name": "title",
         "type": "string",
         "required": true,
+        "origin": "own",
         "schema": {
           "type": "string"
         }
@@ -93,6 +94,7 @@
         "name": "period",
         "type": "string",
         "required": false,
+        "origin": "own",
         "schema": {
           "type": "string"
         }
@@ -101,6 +103,7 @@
         "name": "height",
         "type": "number",
         "required": false,
+        "origin": "own",
         "default": "160",
         "schema": {
           "type": "number"
@@ -110,6 +113,7 @@
         "name": "isLoading",
         "type": "boolean",
         "required": false,
+        "origin": "own",
         "schema": {
           "type": "boolean"
         }
@@ -118,6 +122,7 @@
         "name": "value",
         "type": "number",
         "required": true,
+        "origin": "own",
         "schema": {
           "type": "number"
         }
@@ -126,6 +131,7 @@
         "name": "min",
         "type": "number",
         "required": false,
+        "origin": "own",
         "default": "0",
         "description": "0 by default.",
         "schema": {
@@ -136,6 +142,7 @@
         "name": "max",
         "type": "number",
         "required": false,
+        "origin": "own",
         "default": "100",
         "description": "100 by default: gauges are for bounded figures (occupancy, quota).",
         "schema": {
@@ -146,6 +153,7 @@
         "name": "target",
         "type": "number",
         "required": false,
+        "origin": "own",
         "description": "A 2px tick on the arc, named under the value.",
         "schema": {
           "type": "number"
@@ -155,6 +163,7 @@
         "name": "valueFormatter",
         "type": "ChartValueFormatter",
         "required": false,
+        "origin": "own",
         "default": "plain"
       }
     ]

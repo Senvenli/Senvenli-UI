@@ -49,6 +49,7 @@
         "name": "height",
         "type": "number",
         "required": true,
+        "origin": "own",
         "description": "The chart's height in px: loading, empty and the plot all keep it.",
         "schema": {
           "type": "number"
@@ -58,6 +59,7 @@
         "name": "isLoading",
         "type": "boolean",
         "required": false,
+        "origin": "own",
         "schema": {
           "type": "boolean"
         }
@@ -66,24 +68,28 @@
         "name": "emptyMessage",
         "type": "{ title: string; description?: string | undefined; }",
         "required": false,
+        "origin": "own",
         "description": "Shown instead of the plot when there is nothing to draw: one sentence on why, one on what fills it."
       },
       {
         "name": "dataTable",
         "type": "ChartDataTable<T>",
         "required": true,
+        "origin": "own",
         "description": "The same data as a compact Table: always there for screen readers, shown on request. Cells are\nvalues: a `render` that returns text (a formatted figure) is used; anything else falls back to the\nraw value in the hidden table."
       },
       {
         "name": "legend",
         "type": "React.ReactNode",
         "required": false,
+        "origin": "own",
         "description": "The Legend: above the plot, or below it (LineChart)."
       },
       {
         "name": "legendPlacement",
         "type": "\"top\" | \"bottom\"",
         "required": false,
+        "origin": "own",
         "default": "\"top\"",
         "schema": {
           "type": "string",
@@ -97,6 +103,7 @@
         "name": "children",
         "type": "React.ReactNode",
         "required": true,
+        "origin": "own",
         "description": "The Recharts chart (inside a ResponsiveContainer), named by the table's caption. Its keyboard layer\n(arrow keys move between data points, the tooltip follows) stays on; the table carries the data in full."
       }
     ],
@@ -105,6 +112,7 @@
         "name": "items",
         "type": "readonly ChartLegendItem[]",
         "required": true,
+        "origin": "own",
         "schema": {
           "type": "array",
           "items": {
@@ -144,12 +152,14 @@
         "name": "hidden",
         "type": "ReadonlySet<string>",
         "required": false,
+        "origin": "own",
         "description": "From `useChartSeries()`: pressing a key hides or shows its series. Leave out for a static legend."
       },
       {
         "name": "onToggle",
         "type": "(key: string) => void",
-        "required": false
+        "required": false,
+        "origin": "own"
       }
     ],
     "ChartTooltip": [
@@ -157,6 +167,7 @@
         "name": "active",
         "type": "boolean",
         "required": false,
+        "origin": "own",
         "description": "Set by Recharts when used as `<Tooltip content={<ChartTooltip … />} />`.",
         "schema": {
           "type": "boolean"
@@ -166,6 +177,7 @@
         "name": "payload",
         "type": "readonly ChartTooltipEntry[]",
         "required": false,
+        "origin": "own",
         "schema": {
           "type": "array",
           "items": {
@@ -194,12 +206,14 @@
       {
         "name": "label",
         "type": "{}",
-        "required": false
+        "required": false,
+        "origin": "own"
       },
       {
         "name": "valueFormatter",
         "type": "ChartValueFormatter",
         "required": false,
+        "origin": "own",
         "default": "String",
         "description": "Shared with the chart: \"€ 55,0k\"."
       },
@@ -207,18 +221,21 @@
         "name": "labelFormatter",
         "type": "(label: unknown) => ReactNode",
         "required": false,
+        "origin": "own",
         "description": "The period title (\"August 2026\"); the category label by default."
       },
       {
         "name": "labels",
         "type": "Readonly<Record<string, string>>",
         "required": false,
+        "origin": "own",
         "description": "Series names by data key (\"2026\", \"Website\")."
       },
       {
         "name": "change",
         "type": "(payload: readonly ChartTooltipEntry[]) => { label: string; value: string; tone: \"success\" | \"danger\" | \"neutral\" } | null",
         "required": false,
+        "origin": "own",
         "description": "An optional change row, colored by meaning (\"Change +11.8%\")."
       }
     ],
@@ -227,6 +244,7 @@
         "name": "isEnabled",
         "type": "boolean",
         "required": true,
+        "origin": "own",
         "schema": {
           "type": "boolean"
         }
@@ -234,7 +252,8 @@
       {
         "name": "children",
         "type": "React.ReactNode",
-        "required": true
+        "required": true,
+        "origin": "own"
       }
     ]
   },

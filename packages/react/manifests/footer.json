@@ -44,12 +44,14 @@
         "name": "brand",
         "type": "React.ReactNode",
         "required": true,
+        "origin": "own",
         "description": "The logo and wordmark (the site's logo and name). It links to `brandHref`."
       },
       {
         "name": "brandHref",
         "type": "string",
         "required": false,
+        "origin": "own",
         "default": "\"/\"",
         "description": "Where the brand goes: the home page.",
         "schema": {
@@ -60,6 +62,7 @@
         "name": "brandLabel",
         "type": "string",
         "required": false,
+        "origin": "own",
         "description": "The brand link's name when the brand alone does not say where it goes (\"Acme home\").",
         "schema": {
           "type": "string"
@@ -69,18 +72,21 @@
         "name": "about",
         "type": "React.ReactNode",
         "required": false,
+        "origin": "own",
         "description": "One line about the product, under the brand."
       },
       {
         "name": "contact",
         "type": "React.ReactNode",
         "required": false,
+        "origin": "own",
         "description": "A contact link under the about line (a subtle `Link` to the support address)."
       },
       {
         "name": "columns",
         "type": "readonly FooterColumn[]",
         "required": true,
+        "origin": "own",
         "description": "Two to four columns of links.",
         "schema": {
           "type": "array",
@@ -125,18 +131,21 @@
         "name": "legal",
         "type": "React.ReactNode",
         "required": true,
+        "origin": "own",
         "description": "The copyright line (\"© 2026 Acme\"); a platform credit can go here too."
       },
       {
         "name": "languageSwitch",
         "type": "React.ReactNode",
         "required": false,
+        "origin": "own",
         "description": "The language switch at the end of the legal row (a subtle compact Button or Menu)."
       },
       {
         "name": "headingLevel",
         "type": "4 | 2 | 3",
         "required": false,
+        "origin": "own",
         "default": "2",
         "description": "The column titles' heading level: 2 by default, a level below the page's h1.",
         "schema": {

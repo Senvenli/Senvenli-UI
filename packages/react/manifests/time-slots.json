@@ -50,38 +50,45 @@
         "name": "label",
         "type": "React.ReactNode",
         "required": true,
+        "origin": "own",
         "description": "\"Uygun saatler · 14 Eki\"."
       },
       {
         "name": "slots",
         "type": "readonly TimeSlot[]",
-        "required": true
+        "required": true,
+        "origin": "own"
       },
       {
         "name": "value",
         "type": "Time",
-        "required": false
+        "required": false,
+        "origin": "own"
       },
       {
         "name": "defaultValue",
         "type": "Time",
-        "required": false
+        "required": false,
+        "origin": "own"
       },
       {
         "name": "onChange",
         "type": "(value: Time) => void",
-        "required": false
+        "required": false,
+        "origin": "own"
       },
       {
         "name": "description",
         "type": "React.ReactNode",
         "required": false,
+        "origin": "own",
         "description": "Under the grid: opening hours, the out-of-hours fee."
       },
       {
         "name": "hourCycle",
         "type": "12 | 24",
         "required": false,
+        "origin": "own",
         "schema": {
           "enum": [
             12,
@@ -93,6 +100,7 @@
         "name": "isDisabled",
         "type": "boolean",
         "required": false,
+        "origin": "own",
         "schema": {
           "type": "boolean"
         }

@@ -49,6 +49,7 @@
         "name": "title",
         "type": "string",
         "required": true,
+        "origin": "own",
         "schema": {
           "type": "string"
         }
@@ -57,6 +58,7 @@
         "name": "period",
         "type": "string",
         "required": false,
+        "origin": "own",
         "schema": {
           "type": "string"
         }
@@ -65,6 +67,7 @@
         "name": "isLoading",
         "type": "boolean",
         "required": false,
+        "origin": "own",
         "schema": {
           "type": "boolean"
         }
@@ -72,12 +75,14 @@
       {
         "name": "emptyMessage",
         "type": "{ title: string; description?: string | undefined; }",
-        "required": false
+        "required": false,
+        "origin": "own"
       },
       {
         "name": "height",
         "type": "number",
         "required": false,
+        "origin": "own",
         "schema": {
           "type": "number"
         }
@@ -86,6 +91,7 @@
         "name": "data",
         "type": "readonly T[]",
         "required": true,
+        "origin": "own",
         "schema": {
           "type": "array",
           "items": {
@@ -105,6 +111,7 @@
         "name": "name",
         "type": "keyof T & string",
         "required": true,
+        "origin": "own",
         "description": "The key naming each point (a product's SKU); shown on hover and as the table's row header.",
         "schema": {
           "type": "string"
@@ -114,6 +121,7 @@
         "name": "x",
         "type": "keyof T & string",
         "required": true,
+        "origin": "own",
         "schema": {
           "type": "string"
         }
@@ -122,6 +130,7 @@
         "name": "y",
         "type": "keyof T & string",
         "required": true,
+        "origin": "own",
         "schema": {
           "type": "string"
         }
@@ -130,6 +139,7 @@
         "name": "size",
         "type": "keyof T & string",
         "required": false,
+        "origin": "own",
         "description": "A third measure as point size.",
         "schema": {
           "type": "string"
@@ -139,12 +149,14 @@
         "name": "category",
         "type": "{ key: keyof T & string; value: unknown; label: string; otherLabel: string; }",
         "required": false,
+        "origin": "own",
         "description": "A second category: `ds-chart-2` and a diamond, so it differs by shape as well as hue."
       },
       {
         "name": "xLabel",
         "type": "string",
         "required": true,
+        "origin": "own",
         "description": "Axis names with their units (\"Daily price (€)\").",
         "schema": {
           "type": "string"
@@ -154,6 +166,7 @@
         "name": "yLabel",
         "type": "string",
         "required": true,
+        "origin": "own",
         "schema": {
           "type": "string"
         }
@@ -161,12 +174,14 @@
       {
         "name": "valueFormatters",
         "type": "{ x?: ChartValueFormatter | undefined; y?: ChartValueFormatter | undefined; }",
-        "required": false
+        "required": false,
+        "origin": "own"
       },
       {
         "name": "trendLine",
         "type": "boolean",
         "required": false,
+        "origin": "own",
         "description": "A least-squares trend line, dashed in `ds-chart-neutral`.",
         "schema": {
           "type": "boolean"
@@ -176,6 +191,7 @@
         "name": "onPointPress",
         "type": "(row: T) => void",
         "required": false,
+        "origin": "own",
         "description": "Opens the item: the row under the pointer."
       }
     ]

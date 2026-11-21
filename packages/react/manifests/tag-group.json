@@ -118,12 +118,14 @@
       {
         "name": "label",
         "type": "React.ReactNode",
-        "required": true
+        "required": true,
+        "origin": "own"
       },
       {
         "name": "items",
         "type": "readonly TagItem[]",
         "required": true,
+        "origin": "own",
         "schema": {
           "type": "array",
           "items": {
@@ -155,12 +157,14 @@
         "name": "onRemove",
         "type": "(keys: Key[]) => void",
         "required": false,
+        "origin": "own",
         "description": "Makes tags removable (active filters); called with the keys removed."
       },
       {
         "name": "selectionMode",
         "type": "\"single\" | \"multiple\"",
         "required": false,
+        "origin": "own",
         "description": "Makes tags selectable (features, filters).",
         "schema": {
           "type": "string",
@@ -174,6 +178,7 @@
         "name": "selectedKeys",
         "type": "readonly Key[]",
         "required": false,
+        "origin": "own",
         "schema": {
           "type": "array",
           "items": {
@@ -185,6 +190,7 @@
         "name": "defaultSelectedKeys",
         "type": "readonly Key[]",
         "required": false,
+        "origin": "own",
         "schema": {
           "type": "array",
           "items": {
@@ -195,22 +201,26 @@
       {
         "name": "onSelectionChange",
         "type": "(keys: Key[]) => void",
-        "required": false
+        "required": false,
+        "origin": "own"
       },
       {
         "name": "description",
         "type": "React.ReactNode",
-        "required": false
+        "required": false,
+        "origin": "own"
       },
       {
         "name": "errorMessage",
         "type": "React.ReactNode",
-        "required": false
+        "required": false,
+        "origin": "own"
       },
       {
         "name": "emptyMessage",
         "type": "React.ReactNode",
         "required": false,
+        "origin": "own",
         "description": "What to show when there are no tags (\"Filtre yok\")."
       }
     ]

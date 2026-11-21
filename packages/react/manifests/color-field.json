@@ -89,23 +89,27 @@
       {
         "name": "label",
         "type": "React.ReactNode",
-        "required": true
+        "required": true,
+        "origin": "own"
       },
       {
         "name": "description",
         "type": "React.ReactNode",
-        "required": false
+        "required": false,
+        "origin": "own"
       },
       {
         "name": "errorMessage",
         "type": "React.ReactNode",
         "required": false,
+        "origin": "own",
         "description": "Shown while the field is invalid; a malformed hex says what a valid one looks like by itself."
       },
       {
         "name": "value",
         "type": "string",
         "required": false,
+        "origin": "own",
         "description": "\"#1E63D0\" (also \"1e63d0\" and \"#16D\"); `null` for none.",
         "schema": {
           "type": "string"
@@ -115,6 +119,7 @@
         "name": "defaultValue",
         "type": "string",
         "required": false,
+        "origin": "own",
         "schema": {
           "type": "string"
         }
@@ -123,12 +128,14 @@
         "name": "onChange",
         "type": "(value: string | null) => void",
         "required": false,
+        "origin": "own",
         "description": "The normalised hex (\"#1E63D0\"), or `null` when emptied."
       },
       {
         "name": "channel",
         "type": "ColorChannel",
         "required": false,
+        "origin": "own",
         "description": "`hex` by default; a single channel (\"hue\", \"saturation\", \"red\"…) types that channel's number instead.",
         "schema": {
           "type": "string",
@@ -148,6 +155,7 @@
         "name": "isRequired",
         "type": "boolean",
         "required": false,
+        "origin": "own",
         "schema": {
           "type": "boolean"
         }
@@ -156,6 +164,7 @@
         "name": "requiredValidation",
         "type": "RequiredValidation",
         "required": false,
+        "origin": "own",
         "description": "Who says an empty required ColorField is missing: inside a DS Form, `field` (default) shows \"Fill in this\nfield.\" on blur and on submit, which it then blocks; `app` only marks the field. See {@link RequiredValidation}.\nThe app's `isInvalid` (`true` with its `errorMessage`, or `false`) overrides the check, as on TextField. Disabled,\nempty and required, it still blocks a DS Form's submit and cannot take focus (as TextField).",
         "schema": {
           "type": "string",
@@ -169,6 +178,7 @@
         "name": "isDisabled",
         "type": "boolean",
         "required": false,
+        "origin": "own",
         "schema": {
           "type": "boolean"
         }
@@ -177,6 +187,7 @@
         "name": "isReadOnly",
         "type": "boolean",
         "required": false,
+        "origin": "own",
         "schema": {
           "type": "boolean"
         }
@@ -185,6 +196,7 @@
         "name": "isInvalid",
         "type": "boolean",
         "required": false,
+        "origin": "own",
         "schema": {
           "type": "boolean"
         }
@@ -193,6 +205,7 @@
         "name": "name",
         "type": "string",
         "required": false,
+        "origin": "own",
         "schema": {
           "type": "string"
         }
@@ -201,6 +214,7 @@
         "name": "id",
         "type": "string",
         "required": false,
+        "origin": "own",
         "schema": {
           "type": "string"
         }
@@ -209,6 +223,7 @@
         "name": "aria-label",
         "type": "string",
         "required": false,
+        "origin": "own",
         "schema": {
           "type": "string"
         }
@@ -217,6 +232,7 @@
         "name": "aria-labelledby",
         "type": "string",
         "required": false,
+        "origin": "own",
         "schema": {
           "type": "string"
         }

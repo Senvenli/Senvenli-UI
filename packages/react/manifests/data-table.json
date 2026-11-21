@@ -65,6 +65,7 @@
         "name": "aria-label",
         "type": "string",
         "required": true,
+        "origin": "own",
         "description": "Names the table (\"Orders\").",
         "schema": {
           "type": "string"
@@ -73,18 +74,21 @@
       {
         "name": "columns",
         "type": "readonly DataTableColumn<T>[]",
-        "required": true
+        "required": true,
+        "origin": "own"
       },
       {
         "name": "rowKey",
         "type": "(row: T) => Key",
         "required": false,
+        "origin": "own",
         "description": "The row's stable id; `row.id` by default. Selection is kept by it across pages. Ids must be unique within\nthe list; build one from the fields that are when the data has none (`${row.date}:${row.channel}`). A\nrepeated id on a page still renders every row: the later ones are keyed `a#2`, `a#3`, … in row order, and\nselection, bulk actions and `onRowAction` receive those suffixed keys; a development warning names the\nrepeated ids. A suffixed key follows the row's position, not the row: after a sort, filter\nor page change a selection made through it can move to another copy, and an id repeated on two pages is\none key, so selecting it on one page selects it on both."
       },
       {
         "name": "filters",
         "type": "readonly DataTableFilter[]",
         "required": false,
+        "origin": "own",
         "schema": {
           "type": "array",
           "items": {
@@ -128,34 +132,40 @@
       {
         "name": "bulkActions",
         "type": "readonly DataTableBulkAction[]",
-        "required": false
+        "required": false,
+        "origin": "own"
       },
       {
         "name": "defaultSort",
         "type": "SortDescriptor",
-        "required": false
+        "required": false,
+        "origin": "own"
       },
       {
         "name": "columnVisibility",
         "type": "Readonly<Record<string, boolean>>",
         "required": false,
+        "origin": "own",
         "description": "Column key → shown; columns left out are shown. Pass with `onColumnVisibilityChange` to own it."
       },
       {
         "name": "onColumnVisibilityChange",
         "type": "(visibility: Record<string, boolean>) => void",
-        "required": false
+        "required": false,
+        "origin": "own"
       },
       {
         "name": "onRowAction",
         "type": "(key: Key) => void",
         "required": false,
+        "origin": "own",
         "description": "Opens the record (row press while nothing is selected)."
       },
       {
         "name": "pageSize",
         "type": "number",
         "required": false,
+        "origin": "own",
         "description": "20 by default.",
         "schema": {
           "type": "number"
@@ -165,18 +175,21 @@
         "name": "formatRange",
         "type": "(from: number, to: number, total: number) => string",
         "required": false,
+        "origin": "own",
         "description": "The range sentence: (41, 60, 1204) → \"41–60 of 1,204\"."
       },
       {
         "name": "emptyState",
         "type": "{ title: string; description?: string | undefined; action?: ReactNode; }",
         "required": false,
+        "origin": "own",
         "description": "What an empty list says and the action that fills it (with no search or filter active)."
       },
       {
         "name": "urlKey",
         "type": "string",
         "required": false,
+        "origin": "own",
         "description": "Prefixes the URL params (`orders.page`) when two tables share a page.",
         "schema": {
           "type": "string"
@@ -186,18 +199,21 @@
         "name": "searchParams",
         "type": "string | URLSearchParams",
         "required": false,
+        "origin": "own",
         "description": "The URL's search params. Pass them when the page renders on the server (SSR): without them the server\nreads no params while the browser reads `window.location.search`, and a URL with params hydrates with a\nmismatch. A host router can also pass its current params here; the view follows when they change."
       },
       {
         "name": "routerOptions",
         "type": "{}",
         "required": false,
+        "origin": "own",
         "description": "Passed to the provider's `navigate` with each view change (a host router's replace or scroll option)."
       },
       {
         "name": "density",
         "type": "\"default\" | \"compact\"",
         "required": false,
+        "origin": "own",
         "description": "`compact` (36px rows) by default: DataTable is the dense working list of a back office.",
         "schema": {
           "type": "string",
@@ -211,12 +227,14 @@
         "name": "query",
         "type": "(view: DataTableQuery, signal: AbortSignal) => Promise<DataTableResult<T>>",
         "required": false,
+        "origin": "own",
         "description": "A server list: fetches one page for the view; aborted when the view changes again. It is read when\nthe view changes, not when the function does: for a list that depends on something else (a parent\ntab), give the DataTable a `key` from it so it starts afresh."
       },
       {
         "name": "rows",
         "type": "readonly T[]",
         "required": false,
+        "origin": "own",
         "description": "A client list: searched, filtered and sorted here; paged, or virtualized when long.",
         "schema": {
           "type": "array",
@@ -237,6 +255,7 @@
         "name": "virtualizeAbove",
         "type": "number",
         "required": false,
+        "origin": "own",
         "description": "Client lists longer than this render only the rows in view instead of pages. 200 by default.",
         "schema": {
           "type": "number"
@@ -246,6 +265,7 @@
         "name": "height",
         "type": "number",
         "required": false,
+        "origin": "own",
         "description": "The virtualized list's height in px. 480 by default.",
         "schema": {
           "type": "number"

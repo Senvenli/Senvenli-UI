@@ -300,7 +300,8 @@
           "required": [
             "name",
             "type",
-            "required"
+            "required",
+            "origin"
           ],
           "properties": {
             "name": {
@@ -311,6 +312,14 @@
             },
             "required": {
               "type": "boolean"
+            },
+            "origin": {
+              "enum": [
+                "own",
+                "aria",
+                "dom"
+              ],
+              "description": "Where the prop is declared: this library (own), React Aria (aria), or React's DOM and ARIA attribute types (dom)."
             },
             "default": {
               "type": "string"

@@ -50,6 +50,7 @@
         "name": "title",
         "type": "string",
         "required": true,
+        "origin": "own",
         "schema": {
           "type": "string"
         }
@@ -58,6 +59,7 @@
         "name": "period",
         "type": "string",
         "required": false,
+        "origin": "own",
         "schema": {
           "type": "string"
         }
@@ -66,6 +68,7 @@
         "name": "isLoading",
         "type": "boolean",
         "required": false,
+        "origin": "own",
         "schema": {
           "type": "boolean"
         }
@@ -73,12 +76,14 @@
       {
         "name": "emptyMessage",
         "type": "{ title: string; description?: string | undefined; }",
-        "required": false
+        "required": false,
+        "origin": "own"
       },
       {
         "name": "height",
         "type": "number",
         "required": false,
+        "origin": "own",
         "default": "280",
         "schema": {
           "type": "number"
@@ -88,6 +93,7 @@
         "name": "data",
         "type": "readonly T[]",
         "required": true,
+        "origin": "own",
         "description": "One row per dimension (five to eight).",
         "schema": {
           "type": "array",
@@ -108,6 +114,7 @@
         "name": "dimension",
         "type": "keyof T & string",
         "required": true,
+        "origin": "own",
         "description": "The dimension's name key.",
         "schema": {
           "type": "string"
@@ -117,6 +124,7 @@
         "name": "categories",
         "type": "readonly (keyof T & string)[]",
         "required": true,
+        "origin": "own",
         "description": "One or two profiles: the first is the main one, a second is the comparison.",
         "schema": {
           "type": "array",
@@ -128,12 +136,14 @@
       {
         "name": "labels",
         "type": "Readonly<Partial<Record<string, string>>>",
-        "required": false
+        "required": false,
+        "origin": "own"
       },
       {
         "name": "max",
         "type": "number",
         "required": true,
+        "origin": "own",
         "description": "The shared scale's top.",
         "schema": {
           "type": "number"
@@ -143,6 +153,7 @@
         "name": "valueFormatter",
         "type": "ChartValueFormatter",
         "required": false,
+        "origin": "own",
         "default": "plain"
       }
     ]

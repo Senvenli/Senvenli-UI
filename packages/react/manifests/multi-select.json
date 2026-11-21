@@ -120,12 +120,14 @@
         "name": "label",
         "type": "React.ReactNode",
         "required": false,
+        "origin": "own",
         "description": "The label sits above the field."
       },
       {
         "name": "items",
         "type": "readonly SelectItem[]",
         "required": true,
+        "origin": "own",
         "description": "A known list of up to ~15 options; more → a searchable ComboBox with multiple selection. An item's `icon`\n(a flag) shows before its label in the list and in its tag.",
         "schema": {
           "type": "array",
@@ -166,6 +168,7 @@
         "name": "selectedKeys",
         "type": "readonly Key[]",
         "required": false,
+        "origin": "own",
         "description": "Controlled; may start undefined and become set later (never flips control).",
         "schema": {
           "type": "array",
@@ -178,6 +181,7 @@
         "name": "defaultSelectedKeys",
         "type": "readonly Key[]",
         "required": false,
+        "origin": "own",
         "schema": {
           "type": "array",
           "items": {
@@ -188,12 +192,14 @@
       {
         "name": "onSelectionChange",
         "type": "(keys: Key[]) => void",
-        "required": false
+        "required": false,
+        "origin": "own"
       },
       {
         "name": "maxVisibleTags",
         "type": "number",
         "required": false,
+        "origin": "own",
         "description": "Tags shown before the rest collapse into \"+3\".",
         "schema": {
           "type": "number"
@@ -203,6 +209,7 @@
         "name": "allowsSelectAll",
         "type": "boolean",
         "required": false,
+        "origin": "own",
         "description": "Adds the \"Select all\" footer with the selected count.",
         "schema": {
           "type": "boolean"
@@ -212,6 +219,7 @@
         "name": "placeholder",
         "type": "string",
         "required": false,
+        "origin": "own",
         "description": "Shown after the tags (\"Add location\"); defaults to \"Select\".",
         "schema": {
           "type": "string"
@@ -220,17 +228,20 @@
       {
         "name": "description",
         "type": "React.ReactNode",
-        "required": false
+        "required": false,
+        "origin": "own"
       },
       {
         "name": "errorMessage",
         "type": "React.ReactNode",
-        "required": false
+        "required": false,
+        "origin": "own"
       },
       {
         "name": "isInvalid",
         "type": "boolean",
         "required": false,
+        "origin": "own",
         "schema": {
           "type": "boolean"
         }
@@ -239,6 +250,7 @@
         "name": "aria-invalid",
         "type": "boolean | \"true\" | \"false\"",
         "required": false,
+        "origin": "own",
         "description": "Set by a form row that owns the error text (the shared `Field` hands its control `aria-invalid`): the field\nshows its invalid state as with `isInvalid`, and without an `errorMessage` of its own draws no error row,\nso the row's message is the only one. The trigger is a button, on which React Aria sets no\n`aria-invalid`: the forwarded invalid state shows as `data-invalid` on the field (its danger border) and\nthrough the row's own error text, not as `aria-invalid` on the trigger. It marks the field invalid for styling and\nassistive tech only: unlike `isInvalid` it never becomes the field's native validity (React Aria's default\noutside a DS Form), so it never blocks a form's submit.",
         "schema": {
           "enum": [
@@ -253,6 +265,7 @@
         "name": "isRequired",
         "type": "boolean",
         "required": false,
+        "origin": "own",
         "schema": {
           "type": "boolean"
         }
@@ -261,6 +274,7 @@
         "name": "requiredValidation",
         "type": "RequiredValidation",
         "required": false,
+        "origin": "own",
         "description": "Who says a required MultiSelect with nothing chosen is missing: `field` (default) shows\n\"Fill in this field.\" on blur and on a DS Form submit, which it then blocks; `app` only marks the field.\nSee {@link RequiredValidation}.\nThe app's `isInvalid` (`true` with its `errorMessage`, or `false`) overrides the check, as on TextField. Disabled,\nempty and required, it still blocks a DS Form's submit and cannot take focus (as TextField).",
         "schema": {
           "type": "string",
@@ -274,6 +288,7 @@
         "name": "isDisabled",
         "type": "boolean",
         "required": false,
+        "origin": "own",
         "schema": {
           "type": "boolean"
         }
@@ -282,6 +297,7 @@
         "name": "name",
         "type": "string",
         "required": false,
+        "origin": "own",
         "schema": {
           "type": "string"
         }
@@ -290,6 +306,7 @@
         "name": "aria-label",
         "type": "string",
         "required": false,
+        "origin": "own",
         "description": "Names the field for assistive technology when no visible label is shown.",
         "schema": {
           "type": "string"

@@ -46,18 +46,21 @@
         "name": "title",
         "type": "React.ReactNode",
         "required": true,
+        "origin": "own",
         "description": "The page's name; the page's one h1."
       },
       {
         "name": "description",
         "type": "React.ReactNode",
         "required": false,
+        "origin": "own",
         "description": "One line under the title."
       },
       {
         "name": "breadcrumbs",
         "type": "readonly BreadcrumbItem[]",
         "required": false,
+        "origin": "own",
         "description": "Where the page sits, above the title (a detail page under its list).",
         "schema": {
           "type": "array",
@@ -82,6 +85,7 @@
         "name": "actions",
         "type": "React.ReactNode",
         "required": false,
+        "origin": "own",
         "description": "The page's actions: filters, a search field, one primary button."
       }
     ],
@@ -90,6 +94,7 @@
         "name": "menuLabel",
         "type": "string",
         "required": true,
+        "origin": "own",
         "description": "The menu button's name (\"Open menu\"); it opens the Sidebar, which is a panel under 1024px.",
         "schema": {
           "type": "string"
@@ -98,14 +103,16 @@
       {
         "name": "onMenuPress",
         "type": "() => void",
-        "required": true
+        "required": true,
+        "origin": "own"
       }
     ],
     "PanelHeaderProvider": [
       {
         "name": "children",
         "type": "React.ReactNode",
-        "required": true
+        "required": true,
+        "origin": "own"
       }
     ]
   },

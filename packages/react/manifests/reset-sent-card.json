@@ -43,17 +43,20 @@
       {
         "name": "labels",
         "type": "ResetSentLabels",
-        "required": true
+        "required": true,
+        "origin": "own"
       },
       {
         "name": "onResend",
         "type": "() => void | Promise<void>",
-        "required": true
+        "required": true,
+        "origin": "own"
       },
       {
         "name": "cooldownSeconds",
         "type": "number",
         "required": false,
+        "origin": "own",
         "default": "60",
         "description": "Seconds to disable \"Resend\" for after each send. Default 60.",
         "schema": {
@@ -64,6 +67,7 @@
         "name": "resending",
         "type": "boolean",
         "required": false,
+        "origin": "own",
         "default": "false",
         "schema": {
           "type": "boolean"
@@ -73,18 +77,21 @@
         "name": "icon",
         "type": "React.ReactNode",
         "required": false,
+        "origin": "own",
         "description": "Optional icon in place of the default check."
       },
       {
         "name": "backSlot",
         "type": "React.ReactNode",
         "required": false,
+        "origin": "own",
         "description": "\"Back to sign in\" affordance under the actions."
       },
       {
         "name": "className",
         "type": "string",
         "required": false,
+        "origin": "own",
         "schema": {
           "type": "string"
         }
