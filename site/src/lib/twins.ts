@@ -22,7 +22,6 @@ export function manifestToMarkdown(manifest: Manifest, examples: ExampleData[] =
     manifest.description,
     "",
     `- Family: ${manifest.family}`,
-    `- Status: ${manifest.status}`,
     `- Import: \`import { ${manifest.exports.join(", ")} } from "${manifest.import}";\``,
     `- Page: ${origin}/components/${manifest.name}`,
     `- JSON: ${origin}/components/${manifest.name}.json`,

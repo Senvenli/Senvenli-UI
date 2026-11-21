@@ -14,15 +14,8 @@ import {
 import { useThemePreference } from "@senvenli/react/action";
 import { useLayoutEffect, useMemo, useState } from "react";
 import { ComponentsPreview } from "../ComponentsPreview";
-import { PRESET_FORMAT, PRESET_STORAGE_KEY, type StoredPreset } from "../lib/theme-head";
+import { applyTheme, PRESETS, readStoredPreset } from "../lib/preset";
 
-const PRESETS: Array<{ name: string; input: ThemeInput }> = [
-  { name: "Neutral", input: {} },
-  { name: "Gold", input: { primary: "#996a00" } },
-  { name: "Ocean", input: { primary: "#1268ae", secondary: "#e3edf7" } },
-  { name: "Violet", input: { primary: "#6e56cf", tertiary: "#e9e3fb", radius: 1 } },
-  { name: "Forest", input: { primary: "#2f6f4f", radius: 0.375, density: "compact" } },
-];
 
 const ROLE_LABEL: Record<BrandRole, string> = { primary: "Primary", secondary: "Secondary", tertiary: "Tertiary" };
 
@@ -55,25 +48,6 @@ const SWATCHES = [
 /** The origin in the prerendered HTML; the browser's own replaces it after mount (localhost, a preview host). */
 const SITE_ORIGIN = "https://design.senvenli.com";
 
-function readStoredPreset(): StoredPreset | null {
-  try {
-    const stored = JSON.parse(window.localStorage.getItem(PRESET_STORAGE_KEY) ?? "null") as StoredPreset | null;
-    return stored?.v === PRESET_FORMAT ? stored : null;
-  } catch {
-    return null;
-  }
-}
-
-/** Keeps the compiled CSS for the head script (lib/theme-head.ts), so the next page paints with the preset. */
-function storePreset(preset: StoredPreset | null) {
-  try {
-    if (preset) window.localStorage.setItem(PRESET_STORAGE_KEY, JSON.stringify(preset));
-    else window.localStorage.removeItem(PRESET_STORAGE_KEY);
-  } catch {
-    // Storage blocked: the preset lasts this page only.
-  }
-}
-
 type OutputTab = "css" | "native" | "code";
 
 export function CreatePage() {
@@ -104,19 +78,12 @@ export function CreatePage() {
   useLayoutEffect(() => {
     // Not before the URL is read: the neutral first render must not wipe `?p=` or the stored preset.
     if (!ready) return;
-    let el = document.getElementById("theme-vars") as HTMLStyleElement | null;
-    if (!el) {
-      el = document.createElement("style");
-      el.id = "theme-vars";
-      document.head.appendChild(el);
-    }
-    el.textContent = toCSS(theme);
+    applyTheme(theme, code);
     const url = new URL(window.location.href);
     if (Object.keys(theme.input).length) url.searchParams.set("p", code);
     else url.searchParams.delete("p");
     // The router keeps its entry key and scroll position in history.state: pass it through.
     window.history.replaceState(window.history.state, "", url);
-    storePreset(Object.keys(theme.input).length ? { v: PRESET_FORMAT, code, css: el.textContent } : null);
     // The head script hid the preview while a `?p=` it had no CSS for was pending.
     document.documentElement.removeAttribute("data-preset-pending");
   }, [theme, code, ready]);

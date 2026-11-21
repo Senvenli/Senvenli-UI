@@ -1,18 +1,149 @@
-import { Link } from "@senvenli/react/action";
-import { Heading, Text } from "@senvenli/react/display";
+import { Link, LinkButton } from "@senvenli/react/action";
+import { ColorSwatch } from "@senvenli/react/color";
+import { Heading, Lozenge, Text } from "@senvenli/react/display";
+import { SegmentedControl } from "@senvenli/react/navigation";
+import { createTheme, encodePreset, formatHex } from "@senvenli/tokens";
+import { useLayoutEffect, useMemo, useState } from "react";
+import { CodeBlock } from "../components/CodeBlock";
+import { HomeBoard } from "../components/HomeBoard";
+import { familyTitle } from "../lib/manifest";
+import { applyTheme, PRESETS, readStoredPreset } from "../lib/preset";
 
-export function HomePage({ componentCount }: { componentCount: number }) {
+export type HomeData = {
+  componentCount: number;
+  families: { family: string; count: number }[];
+  /** Build-time highlighted snippets. */
+  installHtml?: string;
+  agentHtml?: string;
+  agentCode: string;
+};
+
+const INSTALL = "npm i @senvenli/react @senvenli/tokens";
+const SWATCH_TOKENS = ["ds-background-brand-bold", "ds-text-brand", "ds-background-selected", "ds-border-focused", "ds-background-success-bold", "ds-background-warning-bold", "ds-background-danger-bold", "ds-background-information-bold"];
+
+/** A differentiator: a small heading, two lines, one proof, one way in. */
+function Feature({ title, children, proof, link, planned = false }: { title: string; children: React.ReactNode; proof: React.ReactNode; link?: React.ReactNode; planned?: boolean }) {
   return (
-    <main id="main" className="mx-auto flex max-w-2xl flex-col gap-ds-200 px-ds-300 py-ds-800">
-      <Heading level={1} size="heading-xlarge">
-        Senvenli UI
-      </Heading>
-      <Text size="body-large">A design system that themes itself from zero inputs.</Text>
-      <Text tone="subtle">{componentCount} components, each with a page for people and a Markdown and JSON copy for agents.</Text>
-      <div className="flex gap-ds-200">
-        <Link href="/create">Create a theme</Link>
-        <Link href="/components">Browse components</Link>
+    <div className="flex flex-col gap-ds-200">
+      <div className="flex flex-col gap-ds-075">
+        <div className="flex items-center gap-ds-100">
+          <Heading level={3} size="heading-small">
+            {title}
+          </Heading>
+          {planned && <Lozenge>Planned</Lozenge>}
+        </div>
+        <Text tone="subtle">{children}</Text>
       </div>
+      {proof}
+      {link}
+    </div>
+  );
+}
+
+/**
+ * The home page: a left-aligned claim with the install line, then the hook (pick a preset and the whole page
+ * re-themes, with the AA count), a board of real components, the three differentiators, the families and install.
+ */
+export function HomePage({ data }: { data: HomeData }) {
+  // The prerender is the neutral theme; the visitor's stored preset is read after mount, before paint.
+  const [presetId, setPresetId] = useState("neutral");
+  const [ready, setReady] = useState(false);
+  const preset = PRESETS.find((item) => item.id === presetId) ?? PRESETS[0]!;
+  const theme = useMemo(() => createTheme(preset.input), [preset]);
+  const passing = theme.checks.filter((check) => check.pass).length;
+
+  useLayoutEffect(() => {
+    const stored = readStoredPreset();
+    const match = stored && PRESETS.find((item) => encodePreset(item.input) === stored.code);
+    if (match) setPresetId(match.id);
+    setReady(true);
+  }, []);
+
+  useLayoutEffect(() => {
+    if (ready) applyTheme(theme, encodePreset(preset.input));
+  }, [theme, preset, ready]);
+
+  return (
+    <main id="main" className="mx-auto flex w-full max-w-[1360px] flex-col px-ds-200 pb-ds-1000 sm:px-ds-300">
+      <section aria-labelledby="home-title" className="flex max-w-3xl flex-col gap-ds-300 pt-ds-1000">
+        <Heading id="home-title" level={1} size="display-large">
+          A design system that themes itself.
+        </Heading>
+        <Text size="body-large" tone="subtle">
+          {`Pick up to three colors, or none. Senvenli UI derives the whole theme and checks every color pair against WCAG AA in light and dark. ${data.componentCount} React components, built on React Aria.`}
+        </Text>
+        <div className="flex flex-wrap items-center gap-ds-150">
+          <LinkButton variant="primary" href="/create">
+            Create a theme
+          </LinkButton>
+          <LinkButton href="/components">Browse components</LinkButton>
+        </div>
+        <div className="max-w-md">
+          <CodeBlock code={INSTALL} html={data.installHtml} copyLabel="Copy install command" />
+        </div>
+      </section>
+
+      <section aria-labelledby="try-title" className="mt-ds-800 flex flex-col gap-ds-300">
+        <div className="flex flex-wrap items-end justify-between gap-ds-200">
+          <div className="flex flex-col gap-ds-075">
+            <Heading id="try-title" level={2} size="heading-large">
+              Try a theme
+            </Heading>
+            <Text tone="subtle">Choose one: this page re-themes itself. So will your app.</Text>
+          </div>
+          <div className="flex flex-wrap items-center gap-ds-200">
+            <SegmentedControl label="Theme preset" items={PRESETS.map((item) => ({ id: item.id, label: item.name }))} value={presetId} onChange={(id) => setPresetId(String(id))} />
+            <Text size="body-small" tone="subtle">
+              <span aria-live="polite">{`${passing} of ${theme.checks.length} color pairs pass AA`}</span>
+            </Text>
+          </div>
+        </div>
+        <HomeBoard />
+      </section>
+
+      <section aria-labelledby="why-title" className="mt-ds-1000 flex flex-col gap-ds-400">
+        <Heading id="why-title" level={2} size="heading-large">
+          What sets it apart
+        </Heading>
+        <div className="grid gap-ds-500 md:grid-cols-3">
+          <Feature
+            title="A theme engine"
+            proof={
+              <div className="flex flex-wrap gap-ds-075">
+                {SWATCH_TOKENS.map((token) => (
+                  <ColorSwatch key={token} color={formatHex(theme.light[token]!)} name={token.replace(/^ds-/, "")} />
+                ))}
+              </div>
+            }
+            link={<Link href="/create">Open the theme builder</Link>}
+          >
+            Zero to three colors in, a full light and dark theme out, every text and border pair checked for contrast.
+          </Feature>
+          <Feature title="Built for agents" proof={<CodeBlock code={data.agentCode} html={data.agentHtml} label="button.md" copyLabel="Copy excerpt" />} link={<Link href="/llms.txt">Read llms.txt</Link>}>
+            Every page is also Markdown and JSON, with examples and the full API. An MCP server is planned.
+          </Feature>
+          <Feature title="Generative UI" planned proof={<Text size="body-small" tone="subtlest">A curated catalog of these components, rendered from a JSON spec a model writes.</Text>}>
+            Models describe an interface; the same components render it, themed and accessible.
+          </Feature>
+        </div>
+      </section>
+
+      <section aria-labelledby="families-title" className="mt-ds-1000 flex flex-col gap-ds-300">
+        <div className="flex flex-wrap items-baseline justify-between gap-ds-200">
+          <Heading id="families-title" level={2} size="heading-large">
+            {`${data.componentCount} components in ${data.families.length} families`}
+          </Heading>
+          <Link href="/components">See all components</Link>
+        </div>
+        <ul className="m-0 grid list-none gap-x-ds-400 gap-y-ds-150 p-0 text-body-large sm:grid-cols-2 lg:grid-cols-4">
+          {data.families.map((item) => (
+            <li key={item.family} className="flex items-baseline justify-between gap-ds-200">
+              <Link href={`/components#family-${item.family}`}>{familyTitle(item.family)}</Link>
+              <span className="text-body text-ds-text-subtlest">{item.count}</span>
+            </li>
+          ))}
+        </ul>
+      </section>
     </main>
   );
 }

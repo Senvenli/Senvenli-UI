@@ -63,7 +63,7 @@ describe("server render", () => {
   });
 
   it("the other pages render", () => {
-    expect(render(<HomePage componentCount={index.length} />)).toContain("Senvenli UI");
+    expect(render(<HomePage data={{ componentCount: index.length, families: [{ family: "action", count: 9 }], agentCode: "# Button" }} />)).toContain("themes itself");
     expect(render(<ComponentsIndexPage components={index} />)).toContain("/components/button");
     expect(render(<NotFoundPage />)).toContain("Page not found");
   });
