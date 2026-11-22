@@ -2,7 +2,7 @@ import * as React from "react";
 import { cleanup, render, screen } from "@testing-library/react";
 import { afterEach, describe, expect, it } from "vitest";
 
-import { Split } from "./index";
+import { Split, SplitPane } from "./index";
 
 afterEach(cleanup);
 
@@ -12,8 +12,8 @@ describe("Split", () => {
   it("is a container whose grid sets the ratio as columns above the collapse width, with panes in source order", () => {
     const { container } = render(
       <Split ratio="1.05fr 1fr" collapseBelow="64rem">
-        <Split.Pane as="aside">Brand</Split.Pane>
-        <Split.Pane as="main" align="center">Form</Split.Pane>
+        <SplitPane as="aside">Brand</SplitPane>
+        <SplitPane as="main" align="center">Form</SplitPane>
       </Split>,
     );
     const root = container.querySelector("[data-slot='split']")!;
@@ -28,8 +28,8 @@ describe("Split", () => {
   it("hides the chosen pane only below the collapse width, and nothing by default", () => {
     const { container, rerender } = render(
       <Split>
-        <Split.Pane>A</Split.Pane>
-        <Split.Pane>B</Split.Pane>
+        <SplitPane>A</SplitPane>
+        <SplitPane>B</SplitPane>
       </Split>,
     );
     const grid = () => container.querySelector("[data-slot='split-grid']")!;
@@ -37,8 +37,8 @@ describe("Split", () => {
     expect(classes(grid())).toContain("@3xl:grid-cols-(--ds-split-columns)");
     rerender(
       <Split hideOnNarrow="start" collapseBelow="80rem">
-        <Split.Pane>A</Split.Pane>
-        <Split.Pane>B</Split.Pane>
+        <SplitPane>A</SplitPane>
+        <SplitPane>B</SplitPane>
       </Split>,
     );
     expect(classes(grid())).toContain("@max-7xl:[&>[data-slot=split-pane]:first-child]:hidden");
@@ -47,8 +47,8 @@ describe("Split", () => {
   it("fills the viewport height only when asked, and takes a token gap and pane grounds", () => {
     const { container } = render(
       <Split fullHeight space="space-300">
-        <Split.Pane background="surface-sunken" padding="space-400">A</Split.Pane>
-        <Split.Pane>B</Split.Pane>
+        <SplitPane background="surface-sunken" padding="space-400">A</SplitPane>
+        <SplitPane>B</SplitPane>
       </Split>,
     );
     expect(classes(container.querySelector("[data-slot='split']")!)).toContain("min-h-svh");

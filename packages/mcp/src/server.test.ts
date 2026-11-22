@@ -9,6 +9,9 @@ import { createServer } from "./server.js";
 // A helper, not inline `new URL(…, import.meta.url)`: Vite rewrites the inline form into an asset URL.
 const here = (path: string) => fileURLToPath(new URL(path, import.meta.url));
 
+// Every component the library ships: the manifests index is the source of truth.
+const COMPONENTS = (JSON.parse(readFileSync(here("../../react/manifests/index.json"), "utf8")) as unknown[]).length;
+
 let client: Client;
 
 beforeAll(async () => {
@@ -41,7 +44,7 @@ describe("@senvenli/mcp", () => {
   });
 
   it("lists every component, and one family", async () => {
-    expect((await call("list_components")).text.split("\n")).toHaveLength(114);
+    expect((await call("list_components")).text.split("\n")).toHaveLength(COMPONENTS);
     const charts = (await call("list_components", { family: "charts" })).text.split("\n");
     expect(charts.every((line) => line.includes("(charts)"))).toBe(true);
     expect((await call("list_components", { family: "nope" })).isError).toBe(true);
@@ -180,14 +183,14 @@ describe("@senvenli/mcp", () => {
 
   it("offers components and docs as resources", async () => {
     const { resources } = await client.listResources();
-    expect(resources.filter((item) => item.uri.startsWith("senvenli://components/"))).toHaveLength(114);
+    expect(resources.filter((item) => item.uri.startsWith("senvenli://components/"))).toHaveLength(COMPONENTS);
     const read = await client.readResource({ uri: "senvenli://docs/theming" });
     expect((read.contents[0] as { text: string }).text).toContain("title: Theming");
   });
 
   it("bundles the same Markdown the site serves for a component", async () => {
     const registry = JSON.parse(readFileSync(here("../data/registry.json"), "utf8"));
-    expect(registry.components).toHaveLength(114);
+    expect(registry.components).toHaveLength(COMPONENTS);
     expect(registry.docs.length).toBeGreaterThanOrEqual(8);
   });
 });

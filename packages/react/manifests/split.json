@@ -1,0 +1,6621 @@
+{
+  "$schema": "https://design.senvenli.com/schema/component.full.json",
+  "kind": "component",
+  "family": "layout",
+  "status": "alpha",
+  "import": "@senvenli/react/layout",
+  "name": "split",
+  "title": "Split",
+  "exports": [
+    "Split",
+    "SplitPane"
+  ],
+  "description": "Panes side by side that stack below a width of the layout itself: split screens, list and detail, media and text.",
+  "keywords": [
+    "split screen",
+    "two column",
+    "columns",
+    "sign in",
+    "login",
+    "auth",
+    "list detail",
+    "sidebar"
+  ],
+  "usage": {
+    "when": [
+      "A screen of two (or more) panes that sit side by side when there is room: a sign-in form beside a brand pane, a list beside its detail.",
+      "The split must follow the space the layout gets (a dialog, a shell with a sidebar), not the window."
+    ],
+    "instead": [
+      {
+        "use": "grid",
+        "when": "Equal columns of cards or tiles that wrap."
+      },
+      {
+        "use": "sidebar",
+        "when": "The app's navigation beside the page."
+      }
+    ]
+  },
+  "guidance": [
+    {
+      "rule": "Hide a decorative pane on narrow layouts with hideOnNarrow; never hide the pane that holds the task."
+    },
+    {
+      "rule": "Put the page's one main landmark on the pane that holds the task (`as=\"main\"`) when the Split is the whole page."
+    }
+  ],
+  "a11y": {
+    "builtIn": [
+      "A pane hidden on narrow layouts is display: none, so it leaves the accessibility tree too.",
+      "Panes follow source order in every layout, so reading and tab order never jump."
+    ],
+    "youProvide": [
+      "The landmark of each pane (`as=\"main\"`, `as=\"aside\"`) and the headings in it."
+    ]
+  },
+  "related": [
+    "grid",
+    "form",
+    "card"
+  ],
+  "genui": {
+    "expose": false
+  },
+  "source": [
+    "src/layout/split.tsx"
+  ],
+  "props": {
+    "Split": [
+      {
+        "name": "role",
+        "type": "AriaRole",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "defaultChecked",
+        "type": "boolean",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "defaultValue",
+        "type": "string | number | readonly string[]",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "suppressContentEditableWarning",
+        "type": "boolean",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "suppressHydrationWarning",
+        "type": "boolean",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "accessKey",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "autoCapitalize",
+        "type": "\"off\" | \"none\" | \"on\" | \"sentences\" | \"words\" | \"characters\" | (string & {})",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "autoFocus",
+        "type": "boolean",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "contentEditable",
+        "type": "Booleanish | \"inherit\" | \"plaintext-only\"",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "enum": [
+            false,
+            true,
+            "true",
+            "false",
+            "inherit",
+            "plaintext-only"
+          ]
+        }
+      },
+      {
+        "name": "contextMenu",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "dir",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "draggable",
+        "type": "Booleanish",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "enum": [
+            false,
+            true,
+            "true",
+            "false"
+          ]
+        }
+      },
+      {
+        "name": "enterKeyHint",
+        "type": "\"enter\" | \"done\" | \"go\" | \"next\" | \"previous\" | \"search\" | \"send\"",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "enter",
+            "done",
+            "go",
+            "next",
+            "previous",
+            "search",
+            "send"
+          ]
+        }
+      },
+      {
+        "name": "hidden",
+        "type": "boolean",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "id",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "lang",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "nonce",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "slot",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "spellCheck",
+        "type": "Booleanish",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "enum": [
+            false,
+            true,
+            "true",
+            "false"
+          ]
+        }
+      },
+      {
+        "name": "tabIndex",
+        "type": "number",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "number"
+        }
+      },
+      {
+        "name": "title",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "translate",
+        "type": "\"yes\" | \"no\"",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "yes",
+            "no"
+          ]
+        }
+      },
+      {
+        "name": "radioGroup",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "about",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "content",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "datatype",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "inlist",
+        "type": "any",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "prefix",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "property",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "rel",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "resource",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "rev",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "typeof",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "vocab",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "autoCorrect",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "autoSave",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "itemProp",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "itemScope",
+        "type": "boolean",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "itemType",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "itemID",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "itemRef",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "results",
+        "type": "number",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "number"
+        }
+      },
+      {
+        "name": "security",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "unselectable",
+        "type": "\"off\" | \"on\"",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "off",
+            "on"
+          ]
+        }
+      },
+      {
+        "name": "popover",
+        "type": "\"\" | \"auto\" | \"manual\" | \"hint\"",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "",
+            "auto",
+            "manual",
+            "hint"
+          ]
+        }
+      },
+      {
+        "name": "popoverTargetAction",
+        "type": "\"toggle\" | \"show\" | \"hide\"",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "toggle",
+            "show",
+            "hide"
+          ]
+        }
+      },
+      {
+        "name": "popoverTarget",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "inert",
+        "type": "boolean",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "inputMode",
+        "type": "\"none\" | \"search\" | \"text\" | \"tel\" | \"url\" | \"email\" | \"numeric\" | \"decimal\"",
+        "required": false,
+        "origin": "dom",
+        "description": "Hints at the type of data that might be entered by the user while editing the element or its contents",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "none",
+            "search",
+            "text",
+            "tel",
+            "url",
+            "email",
+            "numeric",
+            "decimal"
+          ]
+        }
+      },
+      {
+        "name": "is",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "description": "Specify that a standard HTML element should behave like a defined custom built-in element",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "exportparts",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "part",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "aria-activedescendant",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "description": "Identifies the currently active element when DOM focus is on a composite widget, textbox, group, or application.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "aria-atomic",
+        "type": "Booleanish",
+        "required": false,
+        "origin": "dom",
+        "description": "Indicates whether assistive technologies will present all, or only parts of, the changed region based on the change notifications defined by the aria-relevant attribute.",
+        "schema": {
+          "enum": [
+            false,
+            true,
+            "true",
+            "false"
+          ]
+        }
+      },
+      {
+        "name": "aria-autocomplete",
+        "type": "\"none\" | \"inline\" | \"list\" | \"both\"",
+        "required": false,
+        "origin": "dom",
+        "description": "Indicates whether inputting text could trigger display of one or more predictions of the user's intended value for an input and specifies how predictions would be\npresented if they are made.",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "none",
+            "inline",
+            "list",
+            "both"
+          ]
+        }
+      },
+      {
+        "name": "aria-braillelabel",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "description": "Defines a string value that labels the current element, which is intended to be converted into Braille.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "aria-brailleroledescription",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "description": "Defines a human-readable, author-localized abbreviated description for the role of an element, which is intended to be converted into Braille.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "aria-busy",
+        "type": "Booleanish",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "enum": [
+            false,
+            true,
+            "true",
+            "false"
+          ]
+        }
+      },
+      {
+        "name": "aria-checked",
+        "type": "boolean | \"true\" | \"false\" | \"mixed\"",
+        "required": false,
+        "origin": "dom",
+        "description": "Indicates the current \"checked\" state of checkboxes, radio buttons, and other widgets.",
+        "schema": {
+          "enum": [
+            false,
+            true,
+            "true",
+            "false",
+            "mixed"
+          ]
+        }
+      },
+      {
+        "name": "aria-colcount",
+        "type": "number",
+        "required": false,
+        "origin": "dom",
+        "description": "Defines the total number of columns in a table, grid, or treegrid.",
+        "schema": {
+          "type": "number"
+        }
+      },
+      {
+        "name": "aria-colindex",
+        "type": "number",
+        "required": false,
+        "origin": "dom",
+        "description": "Defines an element's column index or position with respect to the total number of columns within a table, grid, or treegrid.",
+        "schema": {
+          "type": "number"
+        }
+      },
+      {
+        "name": "aria-colindextext",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "description": "Defines a human readable text alternative of aria-colindex.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "aria-colspan",
+        "type": "number",
+        "required": false,
+        "origin": "dom",
+        "description": "Defines the number of columns spanned by a cell or gridcell within a table, grid, or treegrid.",
+        "schema": {
+          "type": "number"
+        }
+      },
+      {
+        "name": "aria-controls",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "description": "Identifies the element (or elements) whose contents or presence are controlled by the current element.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "aria-current",
+        "type": "boolean | \"true\" | \"false\" | \"page\" | \"step\" | \"location\" | \"date\" | \"time\"",
+        "required": false,
+        "origin": "dom",
+        "description": "Indicates the element that represents the current item within a container or set of related elements.",
+        "schema": {
+          "enum": [
+            false,
+            true,
+            "true",
+            "false",
+            "page",
+            "step",
+            "location",
+            "date",
+            "time"
+          ]
+        }
+      },
+      {
+        "name": "aria-describedby",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "description": "Identifies the element (or elements) that describes the object.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "aria-description",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "description": "Defines a string value that describes or annotates the current element.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "aria-details",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "description": "Identifies the element that provides a detailed, extended description for the object.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "aria-disabled",
+        "type": "Booleanish",
+        "required": false,
+        "origin": "dom",
+        "description": "Indicates that the element is perceivable but disabled, so it is not editable or otherwise operable.",
+        "schema": {
+          "enum": [
+            false,
+            true,
+            "true",
+            "false"
+          ]
+        }
+      },
+      {
+        "name": "aria-dropeffect",
+        "type": "\"none\" | \"copy\" | \"execute\" | \"link\" | \"move\" | \"popup\"",
+        "required": false,
+        "origin": "dom",
+        "description": "Indicates what functions can be performed when a dragged object is released on the drop target.",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "none",
+            "copy",
+            "execute",
+            "link",
+            "move",
+            "popup"
+          ]
+        }
+      },
+      {
+        "name": "aria-errormessage",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "description": "Identifies the element that provides an error message for the object.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "aria-expanded",
+        "type": "Booleanish",
+        "required": false,
+        "origin": "dom",
+        "description": "Indicates whether the element, or another grouping element it controls, is currently expanded or collapsed.",
+        "schema": {
+          "enum": [
+            false,
+            true,
+            "true",
+            "false"
+          ]
+        }
+      },
+      {
+        "name": "aria-flowto",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "description": "Identifies the next element (or elements) in an alternate reading order of content which, at the user's discretion,\nallows assistive technology to override the general default of reading in document source order.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "aria-grabbed",
+        "type": "Booleanish",
+        "required": false,
+        "origin": "dom",
+        "description": "Indicates an element's \"grabbed\" state in a drag-and-drop operation.",
+        "schema": {
+          "enum": [
+            false,
+            true,
+            "true",
+            "false"
+          ]
+        }
+      },
+      {
+        "name": "aria-haspopup",
+        "type": "boolean | \"true\" | \"false\" | \"menu\" | \"listbox\" | \"tree\" | \"grid\" | \"dialog\"",
+        "required": false,
+        "origin": "dom",
+        "description": "Indicates the availability and type of interactive popup element, such as menu or dialog, that can be triggered by an element.",
+        "schema": {
+          "enum": [
+            false,
+            true,
+            "true",
+            "false",
+            "menu",
+            "listbox",
+            "tree",
+            "grid",
+            "dialog"
+          ]
+        }
+      },
+      {
+        "name": "aria-hidden",
+        "type": "Booleanish",
+        "required": false,
+        "origin": "dom",
+        "description": "Indicates whether the element is exposed to an accessibility API.",
+        "schema": {
+          "enum": [
+            false,
+            true,
+            "true",
+            "false"
+          ]
+        }
+      },
+      {
+        "name": "aria-invalid",
+        "type": "boolean | \"true\" | \"false\" | \"grammar\" | \"spelling\"",
+        "required": false,
+        "origin": "dom",
+        "description": "Indicates the entered value does not conform to the format expected by the application.",
+        "schema": {
+          "enum": [
+            false,
+            true,
+            "true",
+            "false",
+            "grammar",
+            "spelling"
+          ]
+        }
+      },
+      {
+        "name": "aria-keyshortcuts",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "description": "Indicates keyboard shortcuts that an author has implemented to activate or give focus to an element.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "aria-label",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "description": "Defines a string value that labels the current element.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "aria-labelledby",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "description": "Identifies the element (or elements) that labels the current element.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "aria-level",
+        "type": "number",
+        "required": false,
+        "origin": "dom",
+        "description": "Defines the hierarchical level of an element within a structure.",
+        "schema": {
+          "type": "number"
+        }
+      },
+      {
+        "name": "aria-live",
+        "type": "\"off\" | \"assertive\" | \"polite\"",
+        "required": false,
+        "origin": "dom",
+        "description": "Indicates that an element will be updated, and describes the types of updates the user agents, assistive technologies, and user can expect from the live region.",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "off",
+            "assertive",
+            "polite"
+          ]
+        }
+      },
+      {
+        "name": "aria-modal",
+        "type": "Booleanish",
+        "required": false,
+        "origin": "dom",
+        "description": "Indicates whether an element is modal when displayed.",
+        "schema": {
+          "enum": [
+            false,
+            true,
+            "true",
+            "false"
+          ]
+        }
+      },
+      {
+        "name": "aria-multiline",
+        "type": "Booleanish",
+        "required": false,
+        "origin": "dom",
+        "description": "Indicates whether a text box accepts multiple lines of input or only a single line.",
+        "schema": {
+          "enum": [
+            false,
+            true,
+            "true",
+            "false"
+          ]
+        }
+      },
+      {
+        "name": "aria-multiselectable",
+        "type": "Booleanish",
+        "required": false,
+        "origin": "dom",
+        "description": "Indicates that the user may select more than one item from the current selectable descendants.",
+        "schema": {
+          "enum": [
+            false,
+            true,
+            "true",
+            "false"
+          ]
+        }
+      },
+      {
+        "name": "aria-orientation",
+        "type": "\"horizontal\" | \"vertical\"",
+        "required": false,
+        "origin": "dom",
+        "description": "Indicates whether the element's orientation is horizontal, vertical, or unknown/ambiguous.",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "horizontal",
+            "vertical"
+          ]
+        }
+      },
+      {
+        "name": "aria-owns",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "description": "Identifies an element (or elements) in order to define a visual, functional, or contextual parent/child relationship\nbetween DOM elements where the DOM hierarchy cannot be used to represent the relationship.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "aria-placeholder",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "description": "Defines a short hint (a word or short phrase) intended to aid the user with data entry when the control has no value.\nA hint could be a sample value or a brief description of the expected format.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "aria-posinset",
+        "type": "number",
+        "required": false,
+        "origin": "dom",
+        "description": "Defines an element's number or position in the current set of listitems or treeitems. Not required if all elements in the set are present in the DOM.",
+        "schema": {
+          "type": "number"
+        }
+      },
+      {
+        "name": "aria-pressed",
+        "type": "boolean | \"true\" | \"false\" | \"mixed\"",
+        "required": false,
+        "origin": "dom",
+        "description": "Indicates the current \"pressed\" state of toggle buttons.",
+        "schema": {
+          "enum": [
+            false,
+            true,
+            "true",
+            "false",
+            "mixed"
+          ]
+        }
+      },
+      {
+        "name": "aria-readonly",
+        "type": "Booleanish",
+        "required": false,
+        "origin": "dom",
+        "description": "Indicates that the element is not editable, but is otherwise operable.",
+        "schema": {
+          "enum": [
+            false,
+            true,
+            "true",
+            "false"
+          ]
+        }
+      },
+      {
+        "name": "aria-relevant",
+        "type": "\"additions\" | \"additions removals\" | \"additions text\" | \"all\" | \"removals\" | \"removals additions\" | \"removals text\" | \"text\" | \"text additions\" | \"text removals\" | undefined",
+        "required": false,
+        "origin": "dom",
+        "description": "Indicates what notifications the user agent will trigger when the accessibility tree within a live region is modified.",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "text",
+            "additions",
+            "additions removals",
+            "additions text",
+            "all",
+            "removals",
+            "removals additions",
+            "removals text",
+            "text additions",
+            "text removals"
+          ]
+        }
+      },
+      {
+        "name": "aria-required",
+        "type": "Booleanish",
+        "required": false,
+        "origin": "dom",
+        "description": "Indicates that user input is required on the element before a form may be submitted.",
+        "schema": {
+          "enum": [
+            false,
+            true,
+            "true",
+            "false"
+          ]
+        }
+      },
+      {
+        "name": "aria-roledescription",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "description": "Defines a human-readable, author-localized description for the role of an element.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "aria-rowcount",
+        "type": "number",
+        "required": false,
+        "origin": "dom",
+        "description": "Defines the total number of rows in a table, grid, or treegrid.",
+        "schema": {
+          "type": "number"
+        }
+      },
+      {
+        "name": "aria-rowindex",
+        "type": "number",
+        "required": false,
+        "origin": "dom",
+        "description": "Defines an element's row index or position with respect to the total number of rows within a table, grid, or treegrid.",
+        "schema": {
+          "type": "number"
+        }
+      },
+      {
+        "name": "aria-rowindextext",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "description": "Defines a human readable text alternative of aria-rowindex.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "aria-rowspan",
+        "type": "number",
+        "required": false,
+        "origin": "dom",
+        "description": "Defines the number of rows spanned by a cell or gridcell within a table, grid, or treegrid.",
+        "schema": {
+          "type": "number"
+        }
+      },
+      {
+        "name": "aria-selected",
+        "type": "Booleanish",
+        "required": false,
+        "origin": "dom",
+        "description": "Indicates the current \"selected\" state of various widgets.",
+        "schema": {
+          "enum": [
+            false,
+            true,
+            "true",
+            "false"
+          ]
+        }
+      },
+      {
+        "name": "aria-setsize",
+        "type": "number",
+        "required": false,
+        "origin": "dom",
+        "description": "Defines the number of items in the current set of listitems or treeitems. Not required if all elements in the set are present in the DOM.",
+        "schema": {
+          "type": "number"
+        }
+      },
+      {
+        "name": "aria-sort",
+        "type": "\"none\" | \"ascending\" | \"descending\" | \"other\"",
+        "required": false,
+        "origin": "dom",
+        "description": "Indicates if items in a table or grid are sorted in ascending or descending order.",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "none",
+            "ascending",
+            "descending",
+            "other"
+          ]
+        }
+      },
+      {
+        "name": "aria-valuemax",
+        "type": "number",
+        "required": false,
+        "origin": "dom",
+        "description": "Defines the maximum allowed value for a range widget.",
+        "schema": {
+          "type": "number"
+        }
+      },
+      {
+        "name": "aria-valuemin",
+        "type": "number",
+        "required": false,
+        "origin": "dom",
+        "description": "Defines the minimum allowed value for a range widget.",
+        "schema": {
+          "type": "number"
+        }
+      },
+      {
+        "name": "aria-valuenow",
+        "type": "number",
+        "required": false,
+        "origin": "dom",
+        "description": "Defines the current value for a range widget.",
+        "schema": {
+          "type": "number"
+        }
+      },
+      {
+        "name": "aria-valuetext",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "description": "Defines the human readable text alternative of aria-valuenow for a range widget.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "children",
+        "type": "React.ReactNode",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "dangerouslySetInnerHTML",
+        "type": "{ __html: string | TrustedHTML; }",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onCopy",
+        "type": "ClipboardEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onCopyCapture",
+        "type": "ClipboardEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onCut",
+        "type": "ClipboardEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onCutCapture",
+        "type": "ClipboardEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onPaste",
+        "type": "ClipboardEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onPasteCapture",
+        "type": "ClipboardEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onCompositionEnd",
+        "type": "CompositionEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onCompositionEndCapture",
+        "type": "CompositionEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onCompositionStart",
+        "type": "CompositionEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onCompositionStartCapture",
+        "type": "CompositionEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onCompositionUpdate",
+        "type": "CompositionEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onCompositionUpdateCapture",
+        "type": "CompositionEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onFocus",
+        "type": "FocusEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onFocusCapture",
+        "type": "FocusEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onBlur",
+        "type": "FocusEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onBlurCapture",
+        "type": "FocusEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onChange",
+        "type": "ChangeEventHandler<HTMLElement, Element>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onChangeCapture",
+        "type": "ChangeEventHandler<HTMLElement, Element>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onBeforeInput",
+        "type": "InputEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onBeforeInputCapture",
+        "type": "InputEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onInput",
+        "type": "InputEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onInputCapture",
+        "type": "InputEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onReset",
+        "type": "ReactEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onResetCapture",
+        "type": "ReactEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onSubmit",
+        "type": "SubmitEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onSubmitCapture",
+        "type": "SubmitEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onInvalid",
+        "type": "ReactEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onInvalidCapture",
+        "type": "ReactEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onLoad",
+        "type": "ReactEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onLoadCapture",
+        "type": "ReactEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onError",
+        "type": "ReactEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onErrorCapture",
+        "type": "ReactEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onKeyDown",
+        "type": "KeyboardEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onKeyDownCapture",
+        "type": "KeyboardEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onKeyPress",
+        "type": "KeyboardEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onKeyPressCapture",
+        "type": "KeyboardEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onKeyUp",
+        "type": "KeyboardEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onKeyUpCapture",
+        "type": "KeyboardEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onAbort",
+        "type": "ReactEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onAbortCapture",
+        "type": "ReactEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onCanPlay",
+        "type": "ReactEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onCanPlayCapture",
+        "type": "ReactEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onCanPlayThrough",
+        "type": "ReactEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onCanPlayThroughCapture",
+        "type": "ReactEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onDurationChange",
+        "type": "ReactEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onDurationChangeCapture",
+        "type": "ReactEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onEmptied",
+        "type": "ReactEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onEmptiedCapture",
+        "type": "ReactEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onEncrypted",
+        "type": "ReactEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onEncryptedCapture",
+        "type": "ReactEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onEnded",
+        "type": "ReactEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onEndedCapture",
+        "type": "ReactEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onLoadedData",
+        "type": "ReactEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onLoadedDataCapture",
+        "type": "ReactEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onLoadedMetadata",
+        "type": "ReactEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onLoadedMetadataCapture",
+        "type": "ReactEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onLoadStart",
+        "type": "ReactEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onLoadStartCapture",
+        "type": "ReactEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onPause",
+        "type": "ReactEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onPauseCapture",
+        "type": "ReactEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onPlay",
+        "type": "ReactEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onPlayCapture",
+        "type": "ReactEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onPlaying",
+        "type": "ReactEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onPlayingCapture",
+        "type": "ReactEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onProgress",
+        "type": "ReactEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onProgressCapture",
+        "type": "ReactEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onRateChange",
+        "type": "ReactEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onRateChangeCapture",
+        "type": "ReactEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onSeeked",
+        "type": "ReactEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onSeekedCapture",
+        "type": "ReactEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onSeeking",
+        "type": "ReactEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onSeekingCapture",
+        "type": "ReactEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onStalled",
+        "type": "ReactEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onStalledCapture",
+        "type": "ReactEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onSuspend",
+        "type": "ReactEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onSuspendCapture",
+        "type": "ReactEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onTimeUpdate",
+        "type": "ReactEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onTimeUpdateCapture",
+        "type": "ReactEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onVolumeChange",
+        "type": "ReactEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onVolumeChangeCapture",
+        "type": "ReactEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onWaiting",
+        "type": "ReactEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onWaitingCapture",
+        "type": "ReactEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onAuxClick",
+        "type": "MouseEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onAuxClickCapture",
+        "type": "MouseEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onClick",
+        "type": "MouseEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onClickCapture",
+        "type": "MouseEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onContextMenu",
+        "type": "MouseEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onContextMenuCapture",
+        "type": "MouseEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onDoubleClick",
+        "type": "MouseEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onDoubleClickCapture",
+        "type": "MouseEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onDrag",
+        "type": "DragEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onDragCapture",
+        "type": "DragEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onDragEnd",
+        "type": "DragEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onDragEndCapture",
+        "type": "DragEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onDragEnter",
+        "type": "DragEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onDragEnterCapture",
+        "type": "DragEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onDragExit",
+        "type": "DragEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onDragExitCapture",
+        "type": "DragEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onDragLeave",
+        "type": "DragEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onDragLeaveCapture",
+        "type": "DragEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onDragOver",
+        "type": "DragEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onDragOverCapture",
+        "type": "DragEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onDragStart",
+        "type": "DragEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onDragStartCapture",
+        "type": "DragEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onDrop",
+        "type": "DragEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onDropCapture",
+        "type": "DragEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onMouseDown",
+        "type": "MouseEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onMouseDownCapture",
+        "type": "MouseEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onMouseEnter",
+        "type": "MouseEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onMouseLeave",
+        "type": "MouseEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onMouseMove",
+        "type": "MouseEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onMouseMoveCapture",
+        "type": "MouseEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onMouseOut",
+        "type": "MouseEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onMouseOutCapture",
+        "type": "MouseEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onMouseOver",
+        "type": "MouseEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onMouseOverCapture",
+        "type": "MouseEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onMouseUp",
+        "type": "MouseEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onMouseUpCapture",
+        "type": "MouseEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onSelect",
+        "type": "ReactEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onSelectCapture",
+        "type": "ReactEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onTouchCancel",
+        "type": "TouchEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onTouchCancelCapture",
+        "type": "TouchEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onTouchEnd",
+        "type": "TouchEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onTouchEndCapture",
+        "type": "TouchEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onTouchMove",
+        "type": "TouchEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onTouchMoveCapture",
+        "type": "TouchEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onTouchStart",
+        "type": "TouchEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onTouchStartCapture",
+        "type": "TouchEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onPointerDown",
+        "type": "PointerEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onPointerDownCapture",
+        "type": "PointerEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onPointerMove",
+        "type": "PointerEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onPointerMoveCapture",
+        "type": "PointerEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onPointerUp",
+        "type": "PointerEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onPointerUpCapture",
+        "type": "PointerEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onPointerCancel",
+        "type": "PointerEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onPointerCancelCapture",
+        "type": "PointerEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onPointerEnter",
+        "type": "PointerEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onPointerLeave",
+        "type": "PointerEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onPointerOver",
+        "type": "PointerEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onPointerOverCapture",
+        "type": "PointerEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onPointerOut",
+        "type": "PointerEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onPointerOutCapture",
+        "type": "PointerEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onGotPointerCapture",
+        "type": "PointerEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onGotPointerCaptureCapture",
+        "type": "PointerEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onLostPointerCapture",
+        "type": "PointerEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onLostPointerCaptureCapture",
+        "type": "PointerEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onScroll",
+        "type": "UIEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onScrollCapture",
+        "type": "UIEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onScrollEnd",
+        "type": "UIEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onScrollEndCapture",
+        "type": "UIEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onWheel",
+        "type": "WheelEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onWheelCapture",
+        "type": "WheelEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onAnimationStart",
+        "type": "AnimationEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onAnimationStartCapture",
+        "type": "AnimationEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onAnimationEnd",
+        "type": "AnimationEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onAnimationEndCapture",
+        "type": "AnimationEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onAnimationIteration",
+        "type": "AnimationEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onAnimationIterationCapture",
+        "type": "AnimationEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onToggle",
+        "type": "ToggleEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onBeforeToggle",
+        "type": "ToggleEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onTransitionCancel",
+        "type": "TransitionEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onTransitionCancelCapture",
+        "type": "TransitionEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onTransitionEnd",
+        "type": "TransitionEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onTransitionEndCapture",
+        "type": "TransitionEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onTransitionRun",
+        "type": "TransitionEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onTransitionRunCapture",
+        "type": "TransitionEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onTransitionStart",
+        "type": "TransitionEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onTransitionStartCapture",
+        "type": "TransitionEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "default",
+        "type": "boolean",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "list",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "step",
+        "type": "string | number",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "href",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "target",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "type",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "form",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "formAction",
+        "type": "string | ((formData: FormData) => void | Promise<void>)",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "formEncType",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "formMethod",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "formNoValidate",
+        "type": "boolean",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "formTarget",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "name",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "value",
+        "type": "string | number | readonly string[]",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "download",
+        "type": "any",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "rows",
+        "type": "number",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "number"
+        }
+      },
+      {
+        "name": "summary",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "size",
+        "type": "number",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "number"
+        }
+      },
+      {
+        "name": "label",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "hrefLang",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "span",
+        "type": "number",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "number"
+        }
+      },
+      {
+        "name": "media",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "multiple",
+        "type": "boolean",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "data",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "height",
+        "type": "string | number",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "start",
+        "type": "number",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "number"
+        }
+      },
+      {
+        "name": "high",
+        "type": "number",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "number"
+        }
+      },
+      {
+        "name": "low",
+        "type": "number",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "number"
+        }
+      },
+      {
+        "name": "action",
+        "type": "string | ((formData: FormData) => void | Promise<void>)",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "encType",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "method",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "autoComplete",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "accept",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "alt",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "capture",
+        "type": "boolean | \"user\" | \"environment\"",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "enum": [
+            false,
+            true,
+            "user",
+            "environment"
+          ]
+        }
+      },
+      {
+        "name": "checked",
+        "type": "boolean",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "max",
+        "type": "string | number",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "maxLength",
+        "type": "number",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "number"
+        }
+      },
+      {
+        "name": "min",
+        "type": "string | number",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "minLength",
+        "type": "number",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "number"
+        }
+      },
+      {
+        "name": "pattern",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "placeholder",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "readOnly",
+        "type": "boolean",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "required",
+        "type": "boolean",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "src",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "width",
+        "type": "string | number",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "acceptCharset",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "allowFullScreen",
+        "type": "boolean",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "allowTransparency",
+        "type": "boolean",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "async",
+        "type": "boolean",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "autoPlay",
+        "type": "boolean",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "cellPadding",
+        "type": "string | number",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "cellSpacing",
+        "type": "string | number",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "charSet",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "challenge",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "cite",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "classID",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "cols",
+        "type": "number",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "number"
+        }
+      },
+      {
+        "name": "colSpan",
+        "type": "number",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "number"
+        }
+      },
+      {
+        "name": "controls",
+        "type": "boolean",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "coords",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "crossOrigin",
+        "type": "\"\" | \"anonymous\" | \"use-credentials\"",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "",
+            "anonymous",
+            "use-credentials"
+          ]
+        }
+      },
+      {
+        "name": "dateTime",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "defer",
+        "type": "boolean",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "frameBorder",
+        "type": "string | number",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "headers",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "htmlFor",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "httpEquiv",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "integrity",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "keyParams",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "keyType",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "kind",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "loop",
+        "type": "boolean",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "manifest",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "marginHeight",
+        "type": "number",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "number"
+        }
+      },
+      {
+        "name": "marginWidth",
+        "type": "number",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "number"
+        }
+      },
+      {
+        "name": "mediaGroup",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "muted",
+        "type": "boolean",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "noValidate",
+        "type": "boolean",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "open",
+        "type": "boolean",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "optimum",
+        "type": "number",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "number"
+        }
+      },
+      {
+        "name": "playsInline",
+        "type": "boolean",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "poster",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "preload",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "reversed",
+        "type": "boolean",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "rowSpan",
+        "type": "number",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "number"
+        }
+      },
+      {
+        "name": "sandbox",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "scope",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "scoped",
+        "type": "boolean",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "scrolling",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "seamless",
+        "type": "boolean",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "selected",
+        "type": "boolean",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "shape",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "sizes",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "srcDoc",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "srcLang",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "srcSet",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "useMap",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "wmode",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "as",
+        "type": "LayoutElement",
+        "required": false,
+        "origin": "own",
+        "default": "\"div\"",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "form",
+            "section",
+            "div",
+            "span",
+            "article",
+            "main",
+            "aside",
+            "header",
+            "footer",
+            "nav",
+            "ul",
+            "ol",
+            "li",
+            "fieldset"
+          ]
+        }
+      },
+      {
+        "name": "ratio",
+        "type": "string",
+        "required": false,
+        "origin": "own",
+        "default": "\"1fr 1fr\"",
+        "description": "The columns side by side, as a CSS grid template: `\"1fr 1fr\"` (default), `\"1.05fr 1fr\"`, `\"20rem 1fr\"`.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "collapseBelow",
+        "type": "SplitCollapse",
+        "required": false,
+        "origin": "own",
+        "default": "\"48rem\"",
+        "description": "Below this width of the layout itself the panes stack in one column. Default `\"48rem\"`.",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "48rem",
+            "64rem",
+            "80rem"
+          ]
+        }
+      },
+      {
+        "name": "hideOnNarrow",
+        "type": "\"start\" | \"end\"",
+        "required": false,
+        "origin": "own",
+        "description": "The pane that is left out when stacked (a brand or picture pane that adds nothing on a phone). Default: none.",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "start",
+            "end"
+          ]
+        }
+      },
+      {
+        "name": "space",
+        "type": "Space",
+        "required": false,
+        "origin": "own",
+        "description": "The gap between the panes. Default none: panes meet edge to edge, each with its own ground.",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "space-0",
+            "space-025",
+            "space-050",
+            "space-075",
+            "space-100",
+            "space-150",
+            "space-200",
+            "space-250",
+            "space-300",
+            "space-400",
+            "space-500",
+            "space-600",
+            "space-800",
+            "space-1000"
+          ]
+        }
+      },
+      {
+        "name": "fullHeight",
+        "type": "boolean",
+        "required": false,
+        "origin": "own",
+        "default": "false",
+        "description": "At least as tall as the viewport: a screen of its own, like a sign-in page.",
+        "schema": {
+          "type": "boolean"
+        }
+      }
+    ],
+    "SplitPane": [
+      {
+        "name": "padding",
+        "type": "Space",
+        "required": false,
+        "origin": "own",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "space-0",
+            "space-025",
+            "space-050",
+            "space-075",
+            "space-100",
+            "space-150",
+            "space-200",
+            "space-250",
+            "space-300",
+            "space-400",
+            "space-500",
+            "space-600",
+            "space-800",
+            "space-1000"
+          ]
+        }
+      },
+      {
+        "name": "paddingInline",
+        "type": "Space",
+        "required": false,
+        "origin": "own",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "space-0",
+            "space-025",
+            "space-050",
+            "space-075",
+            "space-100",
+            "space-150",
+            "space-200",
+            "space-250",
+            "space-300",
+            "space-400",
+            "space-500",
+            "space-600",
+            "space-800",
+            "space-1000"
+          ]
+        }
+      },
+      {
+        "name": "paddingBlock",
+        "type": "Space",
+        "required": false,
+        "origin": "own",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "space-0",
+            "space-025",
+            "space-050",
+            "space-075",
+            "space-100",
+            "space-150",
+            "space-200",
+            "space-250",
+            "space-300",
+            "space-400",
+            "space-500",
+            "space-600",
+            "space-800",
+            "space-1000"
+          ]
+        }
+      },
+      {
+        "name": "background",
+        "type": "Background",
+        "required": false,
+        "origin": "own",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "danger",
+            "success",
+            "neutral",
+            "warning",
+            "information",
+            "selected",
+            "surface",
+            "surface-raised",
+            "surface-sunken",
+            "surface-overlay",
+            "brand-subtle"
+          ]
+        }
+      },
+      {
+        "name": "radius",
+        "type": "Radius",
+        "required": false,
+        "origin": "own",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "large",
+            "small",
+            "medium",
+            "full",
+            "xsmall",
+            "xlarge"
+          ]
+        }
+      },
+      {
+        "name": "shadow",
+        "type": "Shadow",
+        "required": false,
+        "origin": "own",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "raised",
+            "overflow",
+            "overlay"
+          ]
+        }
+      },
+      {
+        "name": "border",
+        "type": "Border",
+        "required": false,
+        "origin": "own",
+        "schema": {
+          "enum": [
+            false,
+            true,
+            "bold"
+          ]
+        }
+      },
+      {
+        "name": "role",
+        "type": "AriaRole",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "defaultChecked",
+        "type": "boolean",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "defaultValue",
+        "type": "string | number | readonly string[]",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "suppressContentEditableWarning",
+        "type": "boolean",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "suppressHydrationWarning",
+        "type": "boolean",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "accessKey",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "autoCapitalize",
+        "type": "\"off\" | \"none\" | \"on\" | \"sentences\" | \"words\" | \"characters\" | (string & {})",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "autoFocus",
+        "type": "boolean",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "contentEditable",
+        "type": "Booleanish | \"inherit\" | \"plaintext-only\"",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "enum": [
+            false,
+            true,
+            "true",
+            "false",
+            "inherit",
+            "plaintext-only"
+          ]
+        }
+      },
+      {
+        "name": "contextMenu",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "dir",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "draggable",
+        "type": "Booleanish",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "enum": [
+            false,
+            true,
+            "true",
+            "false"
+          ]
+        }
+      },
+      {
+        "name": "enterKeyHint",
+        "type": "\"enter\" | \"done\" | \"go\" | \"next\" | \"previous\" | \"search\" | \"send\"",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "enter",
+            "done",
+            "go",
+            "next",
+            "previous",
+            "search",
+            "send"
+          ]
+        }
+      },
+      {
+        "name": "hidden",
+        "type": "boolean",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "id",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "lang",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "nonce",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "slot",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "spellCheck",
+        "type": "Booleanish",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "enum": [
+            false,
+            true,
+            "true",
+            "false"
+          ]
+        }
+      },
+      {
+        "name": "tabIndex",
+        "type": "number",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "number"
+        }
+      },
+      {
+        "name": "title",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "translate",
+        "type": "\"yes\" | \"no\"",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "yes",
+            "no"
+          ]
+        }
+      },
+      {
+        "name": "radioGroup",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "about",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "content",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "datatype",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "inlist",
+        "type": "any",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "prefix",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "property",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "rel",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "resource",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "rev",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "typeof",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "vocab",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "autoCorrect",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "autoSave",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "itemProp",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "itemScope",
+        "type": "boolean",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "itemType",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "itemID",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "itemRef",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "results",
+        "type": "number",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "number"
+        }
+      },
+      {
+        "name": "security",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "unselectable",
+        "type": "\"off\" | \"on\"",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "off",
+            "on"
+          ]
+        }
+      },
+      {
+        "name": "popover",
+        "type": "\"\" | \"auto\" | \"manual\" | \"hint\"",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "",
+            "auto",
+            "manual",
+            "hint"
+          ]
+        }
+      },
+      {
+        "name": "popoverTargetAction",
+        "type": "\"toggle\" | \"show\" | \"hide\"",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "toggle",
+            "show",
+            "hide"
+          ]
+        }
+      },
+      {
+        "name": "popoverTarget",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "inert",
+        "type": "boolean",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "inputMode",
+        "type": "\"none\" | \"search\" | \"text\" | \"tel\" | \"url\" | \"email\" | \"numeric\" | \"decimal\"",
+        "required": false,
+        "origin": "dom",
+        "description": "Hints at the type of data that might be entered by the user while editing the element or its contents",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "none",
+            "search",
+            "text",
+            "tel",
+            "url",
+            "email",
+            "numeric",
+            "decimal"
+          ]
+        }
+      },
+      {
+        "name": "is",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "description": "Specify that a standard HTML element should behave like a defined custom built-in element",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "exportparts",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "part",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "aria-activedescendant",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "description": "Identifies the currently active element when DOM focus is on a composite widget, textbox, group, or application.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "aria-atomic",
+        "type": "Booleanish",
+        "required": false,
+        "origin": "dom",
+        "description": "Indicates whether assistive technologies will present all, or only parts of, the changed region based on the change notifications defined by the aria-relevant attribute.",
+        "schema": {
+          "enum": [
+            false,
+            true,
+            "true",
+            "false"
+          ]
+        }
+      },
+      {
+        "name": "aria-autocomplete",
+        "type": "\"none\" | \"inline\" | \"list\" | \"both\"",
+        "required": false,
+        "origin": "dom",
+        "description": "Indicates whether inputting text could trigger display of one or more predictions of the user's intended value for an input and specifies how predictions would be\npresented if they are made.",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "none",
+            "inline",
+            "list",
+            "both"
+          ]
+        }
+      },
+      {
+        "name": "aria-braillelabel",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "description": "Defines a string value that labels the current element, which is intended to be converted into Braille.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "aria-brailleroledescription",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "description": "Defines a human-readable, author-localized abbreviated description for the role of an element, which is intended to be converted into Braille.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "aria-busy",
+        "type": "Booleanish",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "enum": [
+            false,
+            true,
+            "true",
+            "false"
+          ]
+        }
+      },
+      {
+        "name": "aria-checked",
+        "type": "boolean | \"true\" | \"false\" | \"mixed\"",
+        "required": false,
+        "origin": "dom",
+        "description": "Indicates the current \"checked\" state of checkboxes, radio buttons, and other widgets.",
+        "schema": {
+          "enum": [
+            false,
+            true,
+            "true",
+            "false",
+            "mixed"
+          ]
+        }
+      },
+      {
+        "name": "aria-colcount",
+        "type": "number",
+        "required": false,
+        "origin": "dom",
+        "description": "Defines the total number of columns in a table, grid, or treegrid.",
+        "schema": {
+          "type": "number"
+        }
+      },
+      {
+        "name": "aria-colindex",
+        "type": "number",
+        "required": false,
+        "origin": "dom",
+        "description": "Defines an element's column index or position with respect to the total number of columns within a table, grid, or treegrid.",
+        "schema": {
+          "type": "number"
+        }
+      },
+      {
+        "name": "aria-colindextext",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "description": "Defines a human readable text alternative of aria-colindex.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "aria-colspan",
+        "type": "number",
+        "required": false,
+        "origin": "dom",
+        "description": "Defines the number of columns spanned by a cell or gridcell within a table, grid, or treegrid.",
+        "schema": {
+          "type": "number"
+        }
+      },
+      {
+        "name": "aria-controls",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "description": "Identifies the element (or elements) whose contents or presence are controlled by the current element.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "aria-current",
+        "type": "boolean | \"true\" | \"false\" | \"page\" | \"step\" | \"location\" | \"date\" | \"time\"",
+        "required": false,
+        "origin": "dom",
+        "description": "Indicates the element that represents the current item within a container or set of related elements.",
+        "schema": {
+          "enum": [
+            false,
+            true,
+            "true",
+            "false",
+            "page",
+            "step",
+            "location",
+            "date",
+            "time"
+          ]
+        }
+      },
+      {
+        "name": "aria-describedby",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "description": "Identifies the element (or elements) that describes the object.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "aria-description",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "description": "Defines a string value that describes or annotates the current element.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "aria-details",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "description": "Identifies the element that provides a detailed, extended description for the object.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "aria-disabled",
+        "type": "Booleanish",
+        "required": false,
+        "origin": "dom",
+        "description": "Indicates that the element is perceivable but disabled, so it is not editable or otherwise operable.",
+        "schema": {
+          "enum": [
+            false,
+            true,
+            "true",
+            "false"
+          ]
+        }
+      },
+      {
+        "name": "aria-dropeffect",
+        "type": "\"none\" | \"copy\" | \"execute\" | \"link\" | \"move\" | \"popup\"",
+        "required": false,
+        "origin": "dom",
+        "description": "Indicates what functions can be performed when a dragged object is released on the drop target.",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "none",
+            "copy",
+            "execute",
+            "link",
+            "move",
+            "popup"
+          ]
+        }
+      },
+      {
+        "name": "aria-errormessage",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "description": "Identifies the element that provides an error message for the object.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "aria-expanded",
+        "type": "Booleanish",
+        "required": false,
+        "origin": "dom",
+        "description": "Indicates whether the element, or another grouping element it controls, is currently expanded or collapsed.",
+        "schema": {
+          "enum": [
+            false,
+            true,
+            "true",
+            "false"
+          ]
+        }
+      },
+      {
+        "name": "aria-flowto",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "description": "Identifies the next element (or elements) in an alternate reading order of content which, at the user's discretion,\nallows assistive technology to override the general default of reading in document source order.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "aria-grabbed",
+        "type": "Booleanish",
+        "required": false,
+        "origin": "dom",
+        "description": "Indicates an element's \"grabbed\" state in a drag-and-drop operation.",
+        "schema": {
+          "enum": [
+            false,
+            true,
+            "true",
+            "false"
+          ]
+        }
+      },
+      {
+        "name": "aria-haspopup",
+        "type": "boolean | \"true\" | \"false\" | \"menu\" | \"listbox\" | \"tree\" | \"grid\" | \"dialog\"",
+        "required": false,
+        "origin": "dom",
+        "description": "Indicates the availability and type of interactive popup element, such as menu or dialog, that can be triggered by an element.",
+        "schema": {
+          "enum": [
+            false,
+            true,
+            "true",
+            "false",
+            "menu",
+            "listbox",
+            "tree",
+            "grid",
+            "dialog"
+          ]
+        }
+      },
+      {
+        "name": "aria-hidden",
+        "type": "Booleanish",
+        "required": false,
+        "origin": "dom",
+        "description": "Indicates whether the element is exposed to an accessibility API.",
+        "schema": {
+          "enum": [
+            false,
+            true,
+            "true",
+            "false"
+          ]
+        }
+      },
+      {
+        "name": "aria-invalid",
+        "type": "boolean | \"true\" | \"false\" | \"grammar\" | \"spelling\"",
+        "required": false,
+        "origin": "dom",
+        "description": "Indicates the entered value does not conform to the format expected by the application.",
+        "schema": {
+          "enum": [
+            false,
+            true,
+            "true",
+            "false",
+            "grammar",
+            "spelling"
+          ]
+        }
+      },
+      {
+        "name": "aria-keyshortcuts",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "description": "Indicates keyboard shortcuts that an author has implemented to activate or give focus to an element.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "aria-label",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "description": "Defines a string value that labels the current element.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "aria-labelledby",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "description": "Identifies the element (or elements) that labels the current element.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "aria-level",
+        "type": "number",
+        "required": false,
+        "origin": "dom",
+        "description": "Defines the hierarchical level of an element within a structure.",
+        "schema": {
+          "type": "number"
+        }
+      },
+      {
+        "name": "aria-live",
+        "type": "\"off\" | \"assertive\" | \"polite\"",
+        "required": false,
+        "origin": "dom",
+        "description": "Indicates that an element will be updated, and describes the types of updates the user agents, assistive technologies, and user can expect from the live region.",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "off",
+            "assertive",
+            "polite"
+          ]
+        }
+      },
+      {
+        "name": "aria-modal",
+        "type": "Booleanish",
+        "required": false,
+        "origin": "dom",
+        "description": "Indicates whether an element is modal when displayed.",
+        "schema": {
+          "enum": [
+            false,
+            true,
+            "true",
+            "false"
+          ]
+        }
+      },
+      {
+        "name": "aria-multiline",
+        "type": "Booleanish",
+        "required": false,
+        "origin": "dom",
+        "description": "Indicates whether a text box accepts multiple lines of input or only a single line.",
+        "schema": {
+          "enum": [
+            false,
+            true,
+            "true",
+            "false"
+          ]
+        }
+      },
+      {
+        "name": "aria-multiselectable",
+        "type": "Booleanish",
+        "required": false,
+        "origin": "dom",
+        "description": "Indicates that the user may select more than one item from the current selectable descendants.",
+        "schema": {
+          "enum": [
+            false,
+            true,
+            "true",
+            "false"
+          ]
+        }
+      },
+      {
+        "name": "aria-orientation",
+        "type": "\"horizontal\" | \"vertical\"",
+        "required": false,
+        "origin": "dom",
+        "description": "Indicates whether the element's orientation is horizontal, vertical, or unknown/ambiguous.",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "horizontal",
+            "vertical"
+          ]
+        }
+      },
+      {
+        "name": "aria-owns",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "description": "Identifies an element (or elements) in order to define a visual, functional, or contextual parent/child relationship\nbetween DOM elements where the DOM hierarchy cannot be used to represent the relationship.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "aria-placeholder",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "description": "Defines a short hint (a word or short phrase) intended to aid the user with data entry when the control has no value.\nA hint could be a sample value or a brief description of the expected format.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "aria-posinset",
+        "type": "number",
+        "required": false,
+        "origin": "dom",
+        "description": "Defines an element's number or position in the current set of listitems or treeitems. Not required if all elements in the set are present in the DOM.",
+        "schema": {
+          "type": "number"
+        }
+      },
+      {
+        "name": "aria-pressed",
+        "type": "boolean | \"true\" | \"false\" | \"mixed\"",
+        "required": false,
+        "origin": "dom",
+        "description": "Indicates the current \"pressed\" state of toggle buttons.",
+        "schema": {
+          "enum": [
+            false,
+            true,
+            "true",
+            "false",
+            "mixed"
+          ]
+        }
+      },
+      {
+        "name": "aria-readonly",
+        "type": "Booleanish",
+        "required": false,
+        "origin": "dom",
+        "description": "Indicates that the element is not editable, but is otherwise operable.",
+        "schema": {
+          "enum": [
+            false,
+            true,
+            "true",
+            "false"
+          ]
+        }
+      },
+      {
+        "name": "aria-relevant",
+        "type": "\"additions\" | \"additions removals\" | \"additions text\" | \"all\" | \"removals\" | \"removals additions\" | \"removals text\" | \"text\" | \"text additions\" | \"text removals\" | undefined",
+        "required": false,
+        "origin": "dom",
+        "description": "Indicates what notifications the user agent will trigger when the accessibility tree within a live region is modified.",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "text",
+            "additions",
+            "additions removals",
+            "additions text",
+            "all",
+            "removals",
+            "removals additions",
+            "removals text",
+            "text additions",
+            "text removals"
+          ]
+        }
+      },
+      {
+        "name": "aria-required",
+        "type": "Booleanish",
+        "required": false,
+        "origin": "dom",
+        "description": "Indicates that user input is required on the element before a form may be submitted.",
+        "schema": {
+          "enum": [
+            false,
+            true,
+            "true",
+            "false"
+          ]
+        }
+      },
+      {
+        "name": "aria-roledescription",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "description": "Defines a human-readable, author-localized description for the role of an element.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "aria-rowcount",
+        "type": "number",
+        "required": false,
+        "origin": "dom",
+        "description": "Defines the total number of rows in a table, grid, or treegrid.",
+        "schema": {
+          "type": "number"
+        }
+      },
+      {
+        "name": "aria-rowindex",
+        "type": "number",
+        "required": false,
+        "origin": "dom",
+        "description": "Defines an element's row index or position with respect to the total number of rows within a table, grid, or treegrid.",
+        "schema": {
+          "type": "number"
+        }
+      },
+      {
+        "name": "aria-rowindextext",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "description": "Defines a human readable text alternative of aria-rowindex.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "aria-rowspan",
+        "type": "number",
+        "required": false,
+        "origin": "dom",
+        "description": "Defines the number of rows spanned by a cell or gridcell within a table, grid, or treegrid.",
+        "schema": {
+          "type": "number"
+        }
+      },
+      {
+        "name": "aria-selected",
+        "type": "Booleanish",
+        "required": false,
+        "origin": "dom",
+        "description": "Indicates the current \"selected\" state of various widgets.",
+        "schema": {
+          "enum": [
+            false,
+            true,
+            "true",
+            "false"
+          ]
+        }
+      },
+      {
+        "name": "aria-setsize",
+        "type": "number",
+        "required": false,
+        "origin": "dom",
+        "description": "Defines the number of items in the current set of listitems or treeitems. Not required if all elements in the set are present in the DOM.",
+        "schema": {
+          "type": "number"
+        }
+      },
+      {
+        "name": "aria-sort",
+        "type": "\"none\" | \"ascending\" | \"descending\" | \"other\"",
+        "required": false,
+        "origin": "dom",
+        "description": "Indicates if items in a table or grid are sorted in ascending or descending order.",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "none",
+            "ascending",
+            "descending",
+            "other"
+          ]
+        }
+      },
+      {
+        "name": "aria-valuemax",
+        "type": "number",
+        "required": false,
+        "origin": "dom",
+        "description": "Defines the maximum allowed value for a range widget.",
+        "schema": {
+          "type": "number"
+        }
+      },
+      {
+        "name": "aria-valuemin",
+        "type": "number",
+        "required": false,
+        "origin": "dom",
+        "description": "Defines the minimum allowed value for a range widget.",
+        "schema": {
+          "type": "number"
+        }
+      },
+      {
+        "name": "aria-valuenow",
+        "type": "number",
+        "required": false,
+        "origin": "dom",
+        "description": "Defines the current value for a range widget.",
+        "schema": {
+          "type": "number"
+        }
+      },
+      {
+        "name": "aria-valuetext",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "description": "Defines the human readable text alternative of aria-valuenow for a range widget.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "children",
+        "type": "React.ReactNode",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "dangerouslySetInnerHTML",
+        "type": "{ __html: string | TrustedHTML; }",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onCopy",
+        "type": "ClipboardEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onCopyCapture",
+        "type": "ClipboardEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onCut",
+        "type": "ClipboardEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onCutCapture",
+        "type": "ClipboardEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onPaste",
+        "type": "ClipboardEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onPasteCapture",
+        "type": "ClipboardEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onCompositionEnd",
+        "type": "CompositionEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onCompositionEndCapture",
+        "type": "CompositionEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onCompositionStart",
+        "type": "CompositionEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onCompositionStartCapture",
+        "type": "CompositionEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onCompositionUpdate",
+        "type": "CompositionEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onCompositionUpdateCapture",
+        "type": "CompositionEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onFocus",
+        "type": "FocusEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onFocusCapture",
+        "type": "FocusEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onBlur",
+        "type": "FocusEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onBlurCapture",
+        "type": "FocusEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onChange",
+        "type": "ChangeEventHandler<HTMLElement, Element>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onChangeCapture",
+        "type": "ChangeEventHandler<HTMLElement, Element>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onBeforeInput",
+        "type": "InputEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onBeforeInputCapture",
+        "type": "InputEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onInput",
+        "type": "InputEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onInputCapture",
+        "type": "InputEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onReset",
+        "type": "ReactEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onResetCapture",
+        "type": "ReactEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onSubmit",
+        "type": "SubmitEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onSubmitCapture",
+        "type": "SubmitEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onInvalid",
+        "type": "ReactEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onInvalidCapture",
+        "type": "ReactEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onLoad",
+        "type": "ReactEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onLoadCapture",
+        "type": "ReactEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onError",
+        "type": "ReactEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onErrorCapture",
+        "type": "ReactEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onKeyDown",
+        "type": "KeyboardEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onKeyDownCapture",
+        "type": "KeyboardEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onKeyPress",
+        "type": "KeyboardEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onKeyPressCapture",
+        "type": "KeyboardEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onKeyUp",
+        "type": "KeyboardEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onKeyUpCapture",
+        "type": "KeyboardEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onAbort",
+        "type": "ReactEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onAbortCapture",
+        "type": "ReactEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onCanPlay",
+        "type": "ReactEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onCanPlayCapture",
+        "type": "ReactEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onCanPlayThrough",
+        "type": "ReactEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onCanPlayThroughCapture",
+        "type": "ReactEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onDurationChange",
+        "type": "ReactEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onDurationChangeCapture",
+        "type": "ReactEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onEmptied",
+        "type": "ReactEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onEmptiedCapture",
+        "type": "ReactEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onEncrypted",
+        "type": "ReactEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onEncryptedCapture",
+        "type": "ReactEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onEnded",
+        "type": "ReactEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onEndedCapture",
+        "type": "ReactEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onLoadedData",
+        "type": "ReactEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onLoadedDataCapture",
+        "type": "ReactEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onLoadedMetadata",
+        "type": "ReactEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onLoadedMetadataCapture",
+        "type": "ReactEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onLoadStart",
+        "type": "ReactEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onLoadStartCapture",
+        "type": "ReactEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onPause",
+        "type": "ReactEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onPauseCapture",
+        "type": "ReactEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onPlay",
+        "type": "ReactEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onPlayCapture",
+        "type": "ReactEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onPlaying",
+        "type": "ReactEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onPlayingCapture",
+        "type": "ReactEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onProgress",
+        "type": "ReactEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onProgressCapture",
+        "type": "ReactEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onRateChange",
+        "type": "ReactEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onRateChangeCapture",
+        "type": "ReactEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onSeeked",
+        "type": "ReactEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onSeekedCapture",
+        "type": "ReactEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onSeeking",
+        "type": "ReactEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onSeekingCapture",
+        "type": "ReactEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onStalled",
+        "type": "ReactEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onStalledCapture",
+        "type": "ReactEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onSuspend",
+        "type": "ReactEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onSuspendCapture",
+        "type": "ReactEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onTimeUpdate",
+        "type": "ReactEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onTimeUpdateCapture",
+        "type": "ReactEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onVolumeChange",
+        "type": "ReactEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onVolumeChangeCapture",
+        "type": "ReactEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onWaiting",
+        "type": "ReactEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onWaitingCapture",
+        "type": "ReactEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onAuxClick",
+        "type": "MouseEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onAuxClickCapture",
+        "type": "MouseEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onClick",
+        "type": "MouseEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onClickCapture",
+        "type": "MouseEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onContextMenu",
+        "type": "MouseEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onContextMenuCapture",
+        "type": "MouseEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onDoubleClick",
+        "type": "MouseEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onDoubleClickCapture",
+        "type": "MouseEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onDrag",
+        "type": "DragEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onDragCapture",
+        "type": "DragEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onDragEnd",
+        "type": "DragEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onDragEndCapture",
+        "type": "DragEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onDragEnter",
+        "type": "DragEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onDragEnterCapture",
+        "type": "DragEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onDragExit",
+        "type": "DragEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onDragExitCapture",
+        "type": "DragEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onDragLeave",
+        "type": "DragEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onDragLeaveCapture",
+        "type": "DragEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onDragOver",
+        "type": "DragEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onDragOverCapture",
+        "type": "DragEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onDragStart",
+        "type": "DragEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onDragStartCapture",
+        "type": "DragEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onDrop",
+        "type": "DragEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onDropCapture",
+        "type": "DragEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onMouseDown",
+        "type": "MouseEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onMouseDownCapture",
+        "type": "MouseEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onMouseEnter",
+        "type": "MouseEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onMouseLeave",
+        "type": "MouseEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onMouseMove",
+        "type": "MouseEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onMouseMoveCapture",
+        "type": "MouseEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onMouseOut",
+        "type": "MouseEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onMouseOutCapture",
+        "type": "MouseEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onMouseOver",
+        "type": "MouseEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onMouseOverCapture",
+        "type": "MouseEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onMouseUp",
+        "type": "MouseEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onMouseUpCapture",
+        "type": "MouseEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onSelect",
+        "type": "ReactEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onSelectCapture",
+        "type": "ReactEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onTouchCancel",
+        "type": "TouchEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onTouchCancelCapture",
+        "type": "TouchEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onTouchEnd",
+        "type": "TouchEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onTouchEndCapture",
+        "type": "TouchEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onTouchMove",
+        "type": "TouchEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onTouchMoveCapture",
+        "type": "TouchEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onTouchStart",
+        "type": "TouchEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onTouchStartCapture",
+        "type": "TouchEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onPointerDown",
+        "type": "PointerEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onPointerDownCapture",
+        "type": "PointerEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onPointerMove",
+        "type": "PointerEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onPointerMoveCapture",
+        "type": "PointerEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onPointerUp",
+        "type": "PointerEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onPointerUpCapture",
+        "type": "PointerEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onPointerCancel",
+        "type": "PointerEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onPointerCancelCapture",
+        "type": "PointerEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onPointerEnter",
+        "type": "PointerEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onPointerLeave",
+        "type": "PointerEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onPointerOver",
+        "type": "PointerEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onPointerOverCapture",
+        "type": "PointerEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onPointerOut",
+        "type": "PointerEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onPointerOutCapture",
+        "type": "PointerEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onGotPointerCapture",
+        "type": "PointerEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onGotPointerCaptureCapture",
+        "type": "PointerEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onLostPointerCapture",
+        "type": "PointerEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onLostPointerCaptureCapture",
+        "type": "PointerEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onScroll",
+        "type": "UIEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onScrollCapture",
+        "type": "UIEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onScrollEnd",
+        "type": "UIEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onScrollEndCapture",
+        "type": "UIEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onWheel",
+        "type": "WheelEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onWheelCapture",
+        "type": "WheelEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onAnimationStart",
+        "type": "AnimationEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onAnimationStartCapture",
+        "type": "AnimationEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onAnimationEnd",
+        "type": "AnimationEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onAnimationEndCapture",
+        "type": "AnimationEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onAnimationIteration",
+        "type": "AnimationEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onAnimationIterationCapture",
+        "type": "AnimationEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onToggle",
+        "type": "ToggleEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onBeforeToggle",
+        "type": "ToggleEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onTransitionCancel",
+        "type": "TransitionEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onTransitionCancelCapture",
+        "type": "TransitionEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onTransitionEnd",
+        "type": "TransitionEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onTransitionEndCapture",
+        "type": "TransitionEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onTransitionRun",
+        "type": "TransitionEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onTransitionRunCapture",
+        "type": "TransitionEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onTransitionStart",
+        "type": "TransitionEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "onTransitionStartCapture",
+        "type": "TransitionEventHandler<HTMLElement>",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "default",
+        "type": "boolean",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "list",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "step",
+        "type": "string | number",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "href",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "target",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "type",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "form",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "formAction",
+        "type": "string | ((formData: FormData) => void | Promise<void>)",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "formEncType",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "formMethod",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "formNoValidate",
+        "type": "boolean",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "formTarget",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "name",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "value",
+        "type": "string | number | readonly string[]",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "download",
+        "type": "any",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "rows",
+        "type": "number",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "number"
+        }
+      },
+      {
+        "name": "summary",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "size",
+        "type": "number",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "number"
+        }
+      },
+      {
+        "name": "label",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "hrefLang",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "span",
+        "type": "number",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "number"
+        }
+      },
+      {
+        "name": "media",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "multiple",
+        "type": "boolean",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "data",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "height",
+        "type": "string | number",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "start",
+        "type": "number",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "number"
+        }
+      },
+      {
+        "name": "high",
+        "type": "number",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "number"
+        }
+      },
+      {
+        "name": "low",
+        "type": "number",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "number"
+        }
+      },
+      {
+        "name": "action",
+        "type": "string | ((formData: FormData) => void | Promise<void>)",
+        "required": false,
+        "origin": "dom"
+      },
+      {
+        "name": "encType",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "method",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "autoComplete",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "accept",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "alt",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "capture",
+        "type": "boolean | \"user\" | \"environment\"",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "enum": [
+            false,
+            true,
+            "user",
+            "environment"
+          ]
+        }
+      },
+      {
+        "name": "checked",
+        "type": "boolean",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "max",
+        "type": "string | number",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "maxLength",
+        "type": "number",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "number"
+        }
+      },
+      {
+        "name": "min",
+        "type": "string | number",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "minLength",
+        "type": "number",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "number"
+        }
+      },
+      {
+        "name": "pattern",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "placeholder",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "readOnly",
+        "type": "boolean",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "required",
+        "type": "boolean",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "src",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "width",
+        "type": "string | number",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "acceptCharset",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "allowFullScreen",
+        "type": "boolean",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "allowTransparency",
+        "type": "boolean",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "async",
+        "type": "boolean",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "autoPlay",
+        "type": "boolean",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "cellPadding",
+        "type": "string | number",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "cellSpacing",
+        "type": "string | number",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "charSet",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "challenge",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "cite",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "classID",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "cols",
+        "type": "number",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "number"
+        }
+      },
+      {
+        "name": "colSpan",
+        "type": "number",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "number"
+        }
+      },
+      {
+        "name": "controls",
+        "type": "boolean",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "coords",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "crossOrigin",
+        "type": "\"\" | \"anonymous\" | \"use-credentials\"",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "",
+            "anonymous",
+            "use-credentials"
+          ]
+        }
+      },
+      {
+        "name": "dateTime",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "defer",
+        "type": "boolean",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "frameBorder",
+        "type": "string | number",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "headers",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "htmlFor",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "httpEquiv",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "integrity",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "keyParams",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "keyType",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "kind",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "loop",
+        "type": "boolean",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "manifest",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "marginHeight",
+        "type": "number",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "number"
+        }
+      },
+      {
+        "name": "marginWidth",
+        "type": "number",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "number"
+        }
+      },
+      {
+        "name": "mediaGroup",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "muted",
+        "type": "boolean",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "noValidate",
+        "type": "boolean",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "open",
+        "type": "boolean",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "optimum",
+        "type": "number",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "number"
+        }
+      },
+      {
+        "name": "playsInline",
+        "type": "boolean",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "poster",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "preload",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "reversed",
+        "type": "boolean",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "rowSpan",
+        "type": "number",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "number"
+        }
+      },
+      {
+        "name": "sandbox",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "scope",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "scoped",
+        "type": "boolean",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "scrolling",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "seamless",
+        "type": "boolean",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "selected",
+        "type": "boolean",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "shape",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "sizes",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "srcDoc",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "srcLang",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "srcSet",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "useMap",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "wmode",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "as",
+        "type": "LayoutElement",
+        "required": false,
+        "origin": "own",
+        "default": "\"div\"",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "form",
+            "section",
+            "div",
+            "span",
+            "article",
+            "main",
+            "aside",
+            "header",
+            "footer",
+            "nav",
+            "ul",
+            "ol",
+            "li",
+            "fieldset"
+          ]
+        }
+      },
+      {
+        "name": "align",
+        "type": "\"center\" | \"stretch\"",
+        "required": false,
+        "origin": "own",
+        "default": "\"stretch\"",
+        "description": "`stretch` (default): content fills the pane. `center`: content sits in the middle, both ways.",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "center",
+            "stretch"
+          ]
+        }
+      }
+    ]
+  },
+  "tokens": [
+    "ds-background-brand-subtle",
+    "ds-background-danger",
+    "ds-background-information",
+    "ds-background-neutral",
+    "ds-background-selected",
+    "ds-background-success",
+    "ds-background-warning",
+    "ds-border",
+    "ds-border-bold",
+    "ds-radius-full",
+    "ds-radius-large",
+    "ds-radius-medium",
+    "ds-radius-small",
+    "ds-radius-xlarge",
+    "ds-radius-xsmall",
+    "ds-shadow-overflow",
+    "ds-shadow-overlay",
+    "ds-shadow-raised",
+    "ds-space-0",
+    "ds-space-025",
+    "ds-space-050",
+    "ds-space-075",
+    "ds-space-100",
+    "ds-space-1000",
+    "ds-space-150",
+    "ds-space-200",
+    "ds-space-250",
+    "ds-space-300",
+    "ds-space-400",
+    "ds-space-500",
+    "ds-space-600",
+    "ds-space-800",
+    "ds-surface",
+    "ds-surface-overlay",
+    "ds-surface-raised",
+    "ds-surface-sunken"
+  ],
+  "strings": [],
+  "quality": {
+    "tests": true,
+    "a11y": false,
+    "docs": false,
+    "visual": false,
+    "dark": false,
+    "rtl": false,
+    "mcp": true,
+    "generic": true
+  }
+}

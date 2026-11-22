@@ -40,7 +40,7 @@ export type SplitPaneProps = BoxProps & {
 };
 
 /** One side of a Split: a Box that is a flex column, so its content can fill it or sit centered. */
-const SplitPane = React.forwardRef<HTMLElement, SplitPaneProps>(function SplitPane(
+export const SplitPane = React.forwardRef<HTMLElement, SplitPaneProps>(function SplitPane(
   { as = "div", align = "stretch", padding, paddingInline, paddingBlock, background, radius, shadow, border, children, ...rest },
   ref,
 ) {
@@ -63,9 +63,9 @@ const SplitPane = React.forwardRef<HTMLElement, SplitPaneProps>(function SplitPa
 /**
  * Two or more panes side by side that stack below a width, measured on the layout itself, not the viewport. The
  * pattern under split screens (sign-in beside a brand pane), list and detail, media and text. Every pane is a
- * `Split.Pane`; what goes in it, and how it looks, is the app's.
+ * `SplitPane`; what goes in it, and how it looks, is the app's.
  */
-const SplitRoot = React.forwardRef<HTMLElement, SplitProps>(function Split(
+export const Split = React.forwardRef<HTMLElement, SplitProps>(function Split(
   { as = "div", ratio = "1fr 1fr", collapseBelow = "48rem", hideOnNarrow, space, fullHeight = false, children, ...rest },
   ref,
 ) {
@@ -83,5 +83,3 @@ const SplitRoot = React.forwardRef<HTMLElement, SplitProps>(function Split(
   );
 });
 
-export const Split = Object.assign(SplitRoot, { Pane: SplitPane });
-export { SplitPane };

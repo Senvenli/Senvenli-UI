@@ -1,6 +1,6 @@
 import { List, type ListProps } from "@senvenli/react/collection";
 import { Heading, Text } from "@senvenli/react/display";
-import { Split, Stack } from "@senvenli/react/layout";
+import { Split, SplitPane, Stack } from "@senvenli/react/layout";
 import { useState } from "react";
 
 const INVOICES = [
@@ -17,24 +17,23 @@ export default function Example() {
   const invoice = INVOICES.find((item) => item.id === id)!;
   return (
     <Split ratio="16rem 1fr" space="space-300">
-      <Split.Pane>
+      <SplitPane>
         <List
           aria-label="Invoices"
           items={INVOICES}
           selectionMode="single"
-          disallowEmptySelection
           selectedKeys={selected}
           onSelectionChange={setSelected}
           renderItem={(item) => ({ id: item.id, title: item.customer, description: item.total })}
         />
-      </Split.Pane>
-      <Split.Pane background="surface-sunken" radius="large" padding="space-300">
+      </SplitPane>
+      <SplitPane background="surface-sunken" radius="large" padding="space-300">
         <Stack space="space-100">
           <Heading level={3} size="heading-small">{invoice.customer}</Heading>
           <Text size="body-large" weight="medium">{invoice.total}</Text>
           <Text tone="subtle">{invoice.due}</Text>
         </Stack>
-      </Split.Pane>
+      </SplitPane>
     </Split>
   );
 }
