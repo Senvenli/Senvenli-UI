@@ -8,7 +8,7 @@ export function NotFoundPage() {
         Page not found
       </Heading>
       <Text tone="subtle">This address has no page. Check the link, or start from the component list.</Text>
-      <Link href="/components">See all components</Link>
+      <Link href="/docs/components">See all components</Link>
     </main>
   );
 }

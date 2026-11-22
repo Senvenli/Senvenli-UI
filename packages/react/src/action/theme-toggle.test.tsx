@@ -314,6 +314,29 @@ describe("ThemeToggle", () => {
   });
 });
 
+describe("ThemeToggle appearance=menu", () => {
+  // jsdom has no CSS.escape; React Aria's Menu uses it to find the focused item.
+  beforeEach(() => {
+    globalThis.CSS ??= {} as typeof CSS;
+    CSS.escape ??= (value: string) => value.replace(/[^\w-]/g, (char) => `\\${char}`);
+  });
+
+  it("is one button naming the choice; its menu picks, checks and stores a theme", async () => {
+    inProvider(<ThemeToggle appearance="menu" />);
+    const trigger = screen.getByRole("button", { name: `${DS_STRINGS.theme.en}: System` });
+    fireEvent.click(trigger);
+    const menu = await screen.findByRole("menu");
+    expect(menu.getAttribute("aria-label")).toBe(DS_STRINGS.theme.en);
+    const items = within(menu).getAllByRole("menuitemradio");
+    expect(items.map((item) => item.textContent)).toEqual(["System", "Light", "Dark"]);
+    expect(items[0]!.getAttribute("aria-checked")).toBe("true");
+    fireEvent.click(items[2]!);
+    expect(html().dataset.theme ?? html().getAttribute("data-theme")).toBe("dark");
+    expect(window.localStorage.getItem(KEY)).toBe("dark");
+    expect(screen.getByRole("button", { name: `${DS_STRINGS.theme.en}: Dark` })).toBeTruthy();
+  });
+});
+
 describe("themeScript", () => {
   function run(source: string) {
     new Function(source)();

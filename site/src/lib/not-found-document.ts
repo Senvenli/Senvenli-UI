@@ -10,7 +10,7 @@ let visited: string | null = null;
 
 /**
  * Call before hydrating. 404.html holds the page prerendered at /404, and nginx serves it at any
- * unknown URL. The router must hydrate the page the file holds: at "/components/nope" it would match
+ * unknown URL. The router must hydrate the page the file holds: at "/docs/components/nope" it would match
  * the component route instead, find no build-time data and fail hydration. So on that document the
  * router starts at /404, and `useRestoreVisitedUrl` gives the address bar the visitor's URL back.
  */

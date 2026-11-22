@@ -5,9 +5,9 @@ import { SiteSearch } from "../components/SiteSearch";
 import type { ManifestIndexEntry } from "../lib/manifest";
 
 const LINKS = [
-  { key: "components", label: "Components", href: "/components" },
+  { key: "docs", label: "Docs", href: "/docs" },
+  { key: "components", label: "Components", href: "/docs/components" },
   { key: "create", label: "Create", href: "/create" },
-  { key: "docs", label: "Docs", href: "/docs/getting-started" },
 ];
 
 /**
@@ -34,9 +34,9 @@ export function SiteShell({ children, section, components = [], docs = [], onNav
         currentKey={section}
         isSticky
         endActions={
-          <span className="flex items-center gap-ds-150">
+          <span className="flex items-center gap-ds-100">
             {onNavigate && <SiteSearch components={components} docs={docs} onNavigate={onNavigate} />}
-            <ThemeToggle />
+            <ThemeToggle appearance="menu" />
           </span>
         }
       />
@@ -47,7 +47,7 @@ export function SiteShell({ children, section, components = [], docs = [], onNav
           <Link variant="subtle" href="/llms.txt">
             llms.txt
           </Link>
-          <Link variant="subtle" href="/components">
+          <Link variant="subtle" href="/docs/components">
             Components
           </Link>
         </span>
