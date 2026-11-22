@@ -11,7 +11,7 @@ import { BUTTON_BASE, BUTTON_SIZE, BUTTON_VARIANT, ICON_ONLY_SIZE, LINK_BUTTON_P
 afterEach(cleanup);
 
 const PHYSICAL = /(^|\s|:)(-?m[lr]-|p[lr]-|-?left-|-?right-|border-[lr](-|\s|$)|rounded-[lr]-|text-left|text-right)/;
-const VARIANTS: ButtonVariant[] = ["primary", "default", "subtle", "danger", "link"];
+const VARIANTS: ButtonVariant[] = ["primary", "default", "subtle", "link"];
 const SIZES: ButtonSize[] = ["small", "medium", "large"];
 const classesOf = (element: Element | null) => element?.getAttribute("class") ?? "";
 const classSet = (element: Element | null) => new Set(classesOf(element).split(/\s+/).filter(Boolean));
@@ -310,6 +310,23 @@ describe("LinkButton, disabled", () => {
     );
     expect(html).not.toContain("href=");
     expect(html).toContain('aria-disabled="true"');
+  });
+});
+
+describe("Button tone and fullWidth", () => {
+  it("tone=\"danger\" keeps the variant's shape: a red fill for primary, red text for subtle; fullWidth fills", () => {
+    withProvider(
+      <>
+        <Button variant="primary" tone="danger">Delete</Button>
+        <Button variant="subtle" tone="danger">Remove</Button>
+        <Button fullWidth>Wide</Button>
+      </>,
+    );
+    const fill = screen.getByRole("button", { name: "Delete" });
+    expect(fill.dataset.tone).toBe("danger");
+    expect(classSet(fill).has("bg-ds-background-danger-bold")).toBe(true);
+    expect(classSet(screen.getByRole("button", { name: "Remove" })).has("text-ds-text-danger")).toBe(true);
+    expect(classSet(screen.getByRole("button", { name: "Wide" })).has("w-full")).toBe(true);
   });
 });
 

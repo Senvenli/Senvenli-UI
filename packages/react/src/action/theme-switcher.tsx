@@ -207,7 +207,7 @@ export type ThemeSwitcherProps = {
    * `segmented`: three icon buttons. `menu`: one icon button (the theme in effect) that opens System / Light / Dark,
    * the compact form for a busy header. `list`: a three-option list with a check, for the phone menu.
    */
-  appearance?: "segmented" | "menu" | "list";
+  variant?: "segmented" | "menu" | "list";
 };
 
 const SEGMENT =
@@ -222,10 +222,10 @@ const ROW =
 /**
  * System, Light or Dark for a public site, as a radio group: Tab enters and leaves once, arrow keys
  * move and select. System is the default and follows the device; a choice is kept in localStorage.
- * One per page, in the Navbar's end area (`segmented` or `menu`); `appearance="list"` in the phone menu. Put
+ * One per page, in the Navbar's end area (`segmented` or `menu`); `variant="list"` in the phone menu. Put
  * `themeScript(nonce)` in <head> so the first paint already has the theme.
  */
-export function ThemeSwitcher({ value, onChange, labels: given, storageKey, appearance = "segmented" }: ThemeSwitcherProps) {
+export function ThemeSwitcher({ value, onChange, labels: given, storageKey, variant: appearance = "segmented" }: ThemeSwitcherProps) {
   const { locale, direction } = useLocale();
   const labelId = `${React.useId()}-label`;
   const labels = { ...themeLabels(locale), ...given };
@@ -287,7 +287,7 @@ export function ThemeSwitcher({ value, onChange, labels: given, storageKey, appe
         <AriaButton
           aria-label={`${labels.theme}: ${name(choice)}`}
           data-slot="theme-switcher"
-          data-appearance="menu"
+          data-variant="menu"
           className={
             "grid size-8 cursor-pointer place-items-center rounded-ds-medium text-ds-icon-subtle outline-hidden " +
             "data-[hovered]:bg-ds-background-neutral-subtle-hovered data-[hovered]:text-ds-icon data-[pressed]:bg-ds-background-neutral-pressed " +
@@ -341,7 +341,7 @@ export function ThemeSwitcher({ value, onChange, labels: given, storageKey, appe
 
   if (appearance === "list") {
     return (
-      <div data-slot="theme-switcher" data-appearance="list" className="flex flex-col gap-ds-050">
+      <div data-slot="theme-switcher" data-variant="list" className="flex flex-col gap-ds-050">
         <span id={labelId} lang={contentLang(locale)} data-slot="theme-switcher-label" className="px-ds-150 text-heading-xxsmall text-ds-text-subtle uppercase">
           {labels.theme}
         </span>
@@ -377,7 +377,7 @@ export function ThemeSwitcher({ value, onChange, labels: given, storageKey, appe
       selectedKeys={[choice]}
       onSelectionChange={onSelectionChange}
       data-slot="theme-switcher"
-      data-appearance="segmented"
+      data-variant="segmented"
       className="inline-flex gap-0.5 rounded-ds-medium bg-ds-background-neutral p-0.5"
     >
       {CHOICES.map(({ id, icon }) => {

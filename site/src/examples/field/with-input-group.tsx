@@ -2,7 +2,7 @@ import { Field, InputAddon, InputGroup, InputGroupInput } from "@senvenli/react/
 
 export default function Example() {
   return (
-    <Field label="Budget" htmlFor="budget" hint="Monthly, before tax." error="Enter a budget of at least $50.">
+    <Field label="Budget" htmlFor="budget" description="Monthly, before tax." errorMessage="Enter a budget of at least $50.">
       <InputGroup>
         <InputAddon position="start">$</InputAddon>
         <InputGroupInput inputMode="decimal" defaultValue="20" />

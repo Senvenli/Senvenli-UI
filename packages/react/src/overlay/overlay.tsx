@@ -670,7 +670,8 @@ function DialogContent({
           {primaryAction && (
             <Button
               {...dataAttributes(primaryAction)}
-              variant={primaryAction.variant ?? "primary"}
+              variant="primary"
+              tone={primaryAction.variant === "danger" ? "danger" : "neutral"}
               isPending={primaryAction.isPending}
               isDisabled={primaryAction.isDisabled}
               iconBefore={primaryAction.iconBefore}
@@ -898,7 +899,7 @@ function AlertContent({
             value={typed}
             onChange={setTyped}
             placeholder={requireTypedConfirmation}
-            appearance="code"
+            variant="code"
             autoComplete="off"
             isDisabled={pending}
           />
@@ -907,7 +908,8 @@ function AlertContent({
       <div data-slot="alert-dialog-footer" className={cancelLabel?.trim() ? `${ALERT_FOOTER} ${CUSTOM_CANCEL_FOOTER}` : ALERT_FOOTER}>
         <Button ref={cancel} variant="subtle" onPress={close} isDisabled={pending} data-slot="alert-dialog-cancel">{cancelLabel?.trim() || defaultCancelLabel(locale)}</Button>
         <Button
-          variant={tone === "danger" ? "danger" : "primary"}
+          variant="primary"
+          tone={tone === "danger" ? "danger" : "neutral"}
           isDisabled={!ready || Boolean(isConfirmDisabled)}
           isPending={pending}
           onPress={confirm}
@@ -1077,7 +1079,7 @@ function UnsavedPrompt({ isOpen, onKeep, onDiscard }: { isOpen: boolean; onKeep:
           <span data-slot="drawer-unsaved-body" className="text-body text-ds-text-subtle">{unsavedBodyLabel(locale)}</span>
           <div data-slot="drawer-unsaved-actions" className="flex flex-wrap justify-end gap-ds-100">
             <Button variant="subtle" autoFocus onPress={onKeep} data-slot="drawer-keep-editing">{keepEditingLabel(locale)}</Button>
-            <Button variant="danger" onPress={onDiscard} data-slot="drawer-discard">{discardCloseLabel(locale)}</Button>
+            <Button variant="primary" tone="danger" onPress={onDiscard} data-slot="drawer-discard">{discardCloseLabel(locale)}</Button>
           </div>
         </AriaDialog>
       </Modal>

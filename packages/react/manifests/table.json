@@ -142,7 +142,7 @@
         "density": {
           "type": "string",
           "enum": [
-            "default",
+            "comfortable",
             "compact"
           ],
           "description": "`compact` (36px rows) for dense working screens; `default` (48px) for public and content pages."
@@ -296,14 +296,14 @@
       },
       {
         "name": "density",
-        "type": "\"default\" | \"compact\"",
+        "type": "Density",
         "required": false,
         "origin": "own",
         "description": "`compact` (36px rows) for dense working screens; `default` (48px) for public and content pages.",
         "schema": {
           "type": "string",
           "enum": [
-            "default",
+            "comfortable",
             "compact"
           ]
         }

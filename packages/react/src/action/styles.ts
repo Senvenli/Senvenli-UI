@@ -17,7 +17,9 @@
 export const FOCUS_INSET = "outline-hidden data-[focus-visible]:inset-ring-2";
 export const FOCUS_COLOR = "data-[focus-visible]:inset-ring-ds-border-focused";
 
-export type ButtonVariant = "primary" | "default" | "subtle" | "danger" | "link";
+export type ButtonVariant = "primary" | "default" | "subtle" | "link";
+/** What the action means: `neutral` (default) or `danger` for a destructive one (delete, discard). */
+export type ButtonTone = "neutral" | "danger";
 export type ButtonSize = "small" | "medium" | "large";
 
 export const BUTTON_BASE =
@@ -26,7 +28,7 @@ export const BUTTON_BASE =
   FOCUS_INSET +
   " data-[disabled]:cursor-not-allowed data-[pending]:cursor-wait";
 
-export const BUTTON_VARIANT: Record<ButtonVariant, string> = {
+export const BUTTON_VARIANT: Record<ButtonVariant | "danger" | "subtleDanger" | "linkDanger", string> = {
   primary:
     "data-[focus-visible]:inset-ring-ds-text-on-brand bg-ds-background-brand-bold text-ds-text-on-brand data-[hovered]:bg-ds-background-brand-bold-hovered data-[pressed]:bg-ds-background-brand-bold-pressed " +
     "data-[disabled]:bg-ds-background-disabled data-[disabled]:text-ds-text-disabled",
@@ -43,7 +45,24 @@ export const BUTTON_VARIANT: Record<ButtonVariant, string> = {
   link:
     "data-[focus-visible]:inset-ring-ds-border-focused bg-transparent text-ds-link underline-offset-3 data-[hovered]:underline data-[pressed]:text-ds-link-pressed " +
     "data-[disabled]:text-ds-text-disabled data-[disabled]:no-underline",
+  subtleDanger:
+    "data-[focus-visible]:inset-ring-ds-border-focused bg-transparent text-ds-text-danger data-[hovered]:bg-ds-background-danger data-[pressed]:bg-ds-background-danger " +
+    "data-[disabled]:text-ds-text-disabled",
+  linkDanger:
+    "data-[focus-visible]:inset-ring-ds-border-focused bg-transparent text-ds-text-danger underline-offset-3 data-[hovered]:underline " +
+    "data-[disabled]:text-ds-text-disabled data-[disabled]:no-underline",
 };
+
+/**
+ * The classes for a variant in a tone. `danger` keeps the shape of its variant: a red fill for `primary` and
+ * `default`, red text for `subtle` and `link`.
+ */
+export function buttonVariantClasses(variant: ButtonVariant, tone: ButtonTone = "neutral"): string {
+  if (tone !== "danger") return BUTTON_VARIANT[variant];
+  if (variant === "subtle") return BUTTON_VARIANT.subtleDanger;
+  if (variant === "link") return BUTTON_VARIANT.linkDanger;
+  return BUTTON_VARIANT.danger;
+}
 
 /**
  * A 44px hit area under a coarse pointer, invisible, for

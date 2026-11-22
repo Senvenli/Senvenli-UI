@@ -80,7 +80,7 @@
         }
       },
       {
-        "name": "appearance",
+        "name": "variant",
         "type": "\"list\" | \"menu\" | \"segmented\"",
         "required": false,
         "origin": "own",

@@ -27,9 +27,9 @@ type Options = {
   locales?: readonly string[];
   current?: string;
   label?: string;
-  loading?: boolean;
-  sidebar?: boolean;
-  collapsed?: boolean;
+  isLoading?: boolean;
+  variant?: "button" | "sidebar";
+  isCollapsed?: boolean;
   renderMark?: (locale: string) => React.ReactNode;
 };
 
@@ -55,7 +55,7 @@ const checkOf = (item: Element) => item.querySelector('[data-slot="language-swit
 
 describe("LanguageSwitcher current language", () => {
   it("shows the current language's name in the trigger and every language's name in the list", () => {
-    renderSwitcher({ current: "en", sidebar: true });
+    renderSwitcher({ current: "en", variant: "sidebar" as const });
 
     const trigger = screen.getByRole("button", { name: "Language" });
     expect(trigger.textContent).toBe("English");
@@ -130,11 +130,11 @@ describe("LanguageSwitcher accessible name", () => {
   });
 
   it("keeps the label while the control is still disabled", () => {
-    renderSwitcher({ label: "Display language", loading: true });
+    renderSwitcher({ label: "Display language", isLoading: true });
     expect(screen.getByRole("button", { name: "Display language" }).hasAttribute("disabled")).toBe(true);
     cleanup();
 
-    renderSwitcher({ loading: true });
+    renderSwitcher({ isLoading: true });
     expect(screen.getByRole("button", { name: "Language" }).hasAttribute("disabled")).toBe(true);
   });
 
@@ -169,7 +169,7 @@ describe("LanguageSwitcher locale list", () => {
 
   it("stays shut while the list is still resolving", () => {
     // A product restricted to one language must never flash the full list on a cold cache.
-    renderSwitcher({ loading: true });
+    renderSwitcher({ isLoading: true });
 
     const trigger = screen.getByRole("button", { name: "Language" });
     expect(trigger.hasAttribute("disabled")).toBe(true);
@@ -287,7 +287,7 @@ describe("LanguageSwitcher keyboard and layouts", () => {
   });
 
   it("collapsed with a mark: the mark alone shows, and the name stays for screen readers", () => {
-    renderSwitcher({ current: "tr", label: "Language", collapsed: true, renderMark: mark });
+    renderSwitcher({ current: "tr", label: "Language", isCollapsed: true, renderMark: mark });
     const trigger = screen.getByRole("button", { name: "Language" });
 
     expect(trigger.querySelector('[data-slot="language-mark"]')?.textContent).toBe("[tr]");
@@ -296,7 +296,7 @@ describe("LanguageSwitcher keyboard and layouts", () => {
   });
 
   it("collapsed without a mark: the name stays visible, there is nothing else to show", () => {
-    renderSwitcher({ current: "de", label: "Language", collapsed: true });
+    renderSwitcher({ current: "de", label: "Language", isCollapsed: true });
     const trigger = screen.getByRole("button", { name: "Language" });
 
     expect(trigger.querySelector('[data-slot="language-mark"]')).toBeNull();
@@ -305,19 +305,19 @@ describe("LanguageSwitcher keyboard and layouts", () => {
   });
 
   it("collapsed and still resolving: the disabled trigger follows the same rule", () => {
-    renderSwitcher({ current: "de", label: "Language", collapsed: true, loading: true, renderMark: mark });
+    renderSwitcher({ current: "de", label: "Language", isCollapsed: true, isLoading: true, renderMark: mark });
     const withMark = screen.getByRole("button", { name: "Language" });
     expect(withMark.hasAttribute("disabled")).toBe(true);
     expect(withMark.querySelector('[data-slot="language-mark"]')?.textContent).toBe("[de]");
     expect(withMark.querySelector(".sr-only")?.textContent).toBe("Deutsch");
     cleanup();
 
-    renderSwitcher({ current: "de", label: "Language", collapsed: true, loading: true });
+    renderSwitcher({ current: "de", label: "Language", isCollapsed: true, isLoading: true });
     expect(screen.getByRole("button", { name: "Language" }).querySelector(".sr-only")).toBeNull();
   });
 
   it("fills the sidebar row", () => {
-    renderSwitcher({ sidebar: true });
+    renderSwitcher({ variant: "sidebar" as const });
     expect(screen.getByRole("button", { name: "Language" }).className.split(/\s+/)).toContain("w-full");
   });
 });
@@ -336,7 +336,7 @@ describe("LanguageSwitcher renderMark", () => {
 
   it("renders each row's own mark before its name, hidden from assistive technology", () => {
     const renderMark = vi.fn(mark);
-    renderSwitcher({ current: "en", sidebar: true, renderMark });
+    renderSwitcher({ current: "en", variant: "sidebar" as const, renderMark });
     openList();
 
     for (const locale of LOCALES) {
@@ -466,7 +466,7 @@ describe("LanguageSwitcher with app-registered names", () => {
 
 describe("LanguageSwitcher collapsed with no mark for the current language", () => {
   it("keeps the name visible when renderMark returns nothing, so the trigger is never empty", () => {
-    renderSwitcher({ collapsed: true, renderMark: (locale) => (locale === "de" ? mark(locale) : null) });
+    renderSwitcher({ isCollapsed: true, renderMark: (locale) => (locale === "de" ? mark(locale) : null) });
     const trigger = screen.getByRole("button", { name: "Language" });
     expect(trigger.querySelector('[data-slot="language-mark"]')).toBeNull();
     const name = trigger.querySelector('[data-slot="language-label"] > span:last-child')!;

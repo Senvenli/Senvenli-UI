@@ -52,7 +52,7 @@ describe("generated manifests", () => {
   it("read props from the source, merging union arms", () => {
     const card = result.manifests.find((m) => m.name === "card")!;
     const names = card.props.Card!.map((p) => p.name);
-    expect(names).toEqual(expect.arrayContaining(["variant", "isCompact", "children", "href", "onPress"]));
+    expect(names).toEqual(expect.arrayContaining(["variant", "density", "children", "href", "onPress"]));
     expect(card.props.Card!.find((p) => p.name === "href")!.required).toBe(false);
     const badge = result.manifests.find((m) => m.name === "badge")!;
     const value = badge.props.Badge!.find((p) => p.name === "value")!;

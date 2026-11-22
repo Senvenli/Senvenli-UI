@@ -149,8 +149,8 @@ describe("TextField", () => {
   it("renders text, unit and icon affixes and sets code / numeric type", () => {
     inLocale(
       <>
-        <TextField label="Price" prefix="€" appearance="numeric" defaultValue="62.00" />
-        <TextField label="Order number" appearance="code" defaultValue="AB-482" />
+        <TextField label="Price" prefix="€" variant="numeric" defaultValue="62.00" />
+        <TextField label="Order number" variant="code" defaultValue="AB-482" />
         <TextField label="Search" prefix={<Icon name="search" />} />
       </>,
     );

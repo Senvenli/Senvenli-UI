@@ -10,7 +10,7 @@ import {
   type Key,
 } from "react-aria-components";
 
-import { BUTTON_BASE, BUTTON_SIZE, BUTTON_VARIANT, ICON_ONLY_SIZE } from "../action/styles";
+import { BUTTON_BASE, BUTTON_SIZE, buttonVariantClasses, ICON_ONLY_SIZE } from "../action/styles";
 import { IconGlyph } from "../display/icon";
 import { TooltipFor } from "../overlay/floating";
 import { LISTBOX, OPTION } from "../selection/listbox";
@@ -47,11 +47,11 @@ export interface LanguageSwitcherProps<Locale extends string> {
   /** The trigger's accessible name and tooltip; "Language" (the DS string) by default. */
   label?: string;
   /** Hold the disabled trigger while the product's locale list resolves. */
-  loading?: boolean;
-  /** Layout only: a full-width row whose list opens upward, for a panel sidebar. */
-  sidebar?: boolean;
+  isLoading?: boolean;
+  /** `button` (default): a trigger in a bar. `sidebar`: a full-width row whose list opens upward, for a panel sidebar. */
+  variant?: "button" | "sidebar";
   /** A collapsed rail: the mark alone (or the name, without one), kept for screen readers either way. */
-  collapsed?: boolean;
+  isCollapsed?: boolean;
   /**
    * A mark before each language's name: a flag, an `IsoChip`, an icon. None by default: a language is not a
    * country, and the name alone tells the options apart.
@@ -61,7 +61,7 @@ export interface LanguageSwitcherProps<Locale extends string> {
   size?: "small" | "medium";
   /**
    * Ids of elements that describe the trigger ("Changes the language of the whole panel"). It lands on the
-   * trigger button, the focusable control, also while it is disabled for `loading`; left out, nothing is
+   * trigger button, the focusable control, also while it is disabled for `isLoading`; left out, nothing is
    * added. While the trigger's tooltip is open it takes the place of the tooltip's id, which only
    * repeats `label`.
    */
@@ -88,13 +88,14 @@ export function LanguageSwitcher<Locale extends string>({
   current,
   onSelect,
   label: labelProp,
-  loading = false,
-  sidebar = false,
-  collapsed = false,
+  isLoading: loading = false,
+  variant = "button",
+  isCollapsed: collapsed = false,
   size = "medium",
   renderMark,
   "aria-describedby": describedBy,
 }: LanguageSwitcherProps<Locale>) {
+  const sidebar = variant === "sidebar";
   const label = labelProp ?? languageLabel(current);
   // A collapsed trigger hides the name only behind a mark that is really there.
   const currentMark = renderMark?.(current) ?? null;
@@ -103,7 +104,7 @@ export function LanguageSwitcher<Locale extends string>({
   const square = collapsed && !sidebar;
   const trigger = cn(
     BUTTON_BASE,
-    BUTTON_VARIANT.subtle,
+    buttonVariantClasses("subtle"),
     BUTTON_SIZE[buttonSize],
     "font-normal",
     square && ICON_ONLY_SIZE[buttonSize],

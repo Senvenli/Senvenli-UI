@@ -33,7 +33,7 @@ export type TextFieldProps = Omit<AriaTextFieldProps, "className" | "style" | "c
   actions?: React.ReactNode;
   size?: FieldSize;
   /** `code` for codes, references and IDs; `numeric` for money, distance and counts. */
-  appearance?: "text" | "code" | "numeric";
+  variant?: "text" | "code" | "numeric";
   /**
    * `uppercase` shows the value in capitals (a code: "ab 123" reads "AB 123"); display only
    *. The input's value, `onChange` and the submitted form value stay exactly as
@@ -104,7 +104,7 @@ const DISPLAY_UPPERCASE = "uppercase placeholder:normal-case";
  */
 export const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(function TextField(
   {
-    label, description, errorMessage, isOptional, placeholder, prefix, suffix, actions, size = "medium", appearance = "text", displayCase,
+    label, description, errorMessage, isOptional, placeholder, prefix, suffix, actions, size = "medium", variant: appearance = "text", displayCase,
     min, max, step, valueDir, validate, onBlur, onChange, "aria-invalid": ariaInvalid, requiredValidation, ...rest
   },
   ref,

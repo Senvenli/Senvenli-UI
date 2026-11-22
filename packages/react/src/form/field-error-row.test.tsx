@@ -100,7 +100,7 @@ describe("DS Form: an invalid Select or MultiSelect blocks submit and takes focu
 
   it("a Select inside a Field with an error", () => {
     const onSubmit = inForm(
-      <Field label="Region" error="Select a region.">
+      <Field label="Region" errorMessage="Select a region.">
         <Select aria-label="Region" items={COUNTRIES} />
       </Field>,
     );
@@ -111,7 +111,7 @@ describe("DS Form: an invalid Select or MultiSelect blocks submit and takes focu
 
   it("a MultiSelect inside a Field with an error", () => {
     const onSubmit = inForm(
-      <Field label="Countries" error="Select at least one country.">
+      <Field label="Countries" errorMessage="Select at least one country.">
         <MultiSelect aria-label="Countries" items={COUNTRIES} />
       </Field>,
     );
@@ -122,7 +122,7 @@ describe("DS Form: an invalid Select or MultiSelect blocks submit and takes focu
 
   it("a MultiSelect with chosen tags: the trigger, not a tag's remove button", () => {
     const onSubmit = inForm(
-      <Field label="Countries" error="These countries cannot be selected together.">
+      <Field label="Countries" errorMessage="These countries cannot be selected together.">
         <MultiSelect aria-label="Countries" items={COUNTRIES} defaultSelectedKeys={["DE", "FR"]} />
       </Field>,
     );
@@ -141,10 +141,10 @@ describe("DS Form: an invalid Select or MultiSelect blocks submit and takes focu
   it("the first invalid field in the form's order takes focus; a text field's input as before", () => {
     const onSubmit = inForm(
       <>
-        <Field label="Code row" error="A code is required.">
+        <Field label="Code row" errorMessage="A code is required.">
           <TextField label="Code" />
         </Field>
-        <Field label="Region" error="Select a region.">
+        <Field label="Region" errorMessage="Select a region.">
           <Select aria-label="Region" items={COUNTRIES} />
         </Field>
       </>,

@@ -85,7 +85,7 @@ describe("PhoneField id and aria-describedby", () => {
 
   it("inside the DS Field: the generated id, the hint and the error reach the number input, and its error marks it", () => {
     const { rerender } = inLocale(
-      <Field label="Phone (form)" hint="In international format">
+      <Field label="Phone (form)" description="In international format">
         <PhoneField label="Phone" />
       </Field>,
     );
@@ -97,7 +97,7 @@ describe("PhoneField id and aria-describedby", () => {
     expect(input.getAttribute("aria-invalid")).toBeNull();
     rerender(
       <DesignSystemProvider locale="en" navigate={vi.fn()}>
-        <Field label="Phone (form)" error="A phone number is required">
+        <Field label="Phone (form)" errorMessage="A phone number is required">
           <PhoneField label="Phone" />
         </Field>
       </DesignSystemProvider>,

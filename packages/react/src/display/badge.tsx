@@ -4,8 +4,9 @@ import * as React from "react";
 import { useLocale } from "react-aria-components";
 
 import { cn } from "../utils";
+import type { Tone } from "../tone";
 
-export type BadgeTone = "neutral" | "information" | "brand" | "success" | "warning" | "danger";
+export type BadgeTone = Tone;
 
 
 const SUBTLE: Record<BadgeTone, string> = {

@@ -870,6 +870,30 @@
         "description": "Overrides the default DOM element with a custom render function.\nThis allows rendering existing components with built-in styles and behaviors\nsuch as router links, animation libraries, and pre-styled components.\n\nRequirements:\n\n- You must render the expected element type (e.g. if `<button>` is expected, you cannot render an\n  `<a>`).\n- Only a single root DOM element can be rendered (no fragments).\n- You must pass through props and ref to the underlying DOM element, merging with your own prop\n  as appropriate."
       },
       {
+        "name": "tone",
+        "type": "ButtonTone",
+        "required": false,
+        "origin": "own",
+        "description": "`danger` for a destructive action (delete, discard); it keeps the variant's shape.",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "neutral",
+            "danger"
+          ]
+        }
+      },
+      {
+        "name": "fullWidth",
+        "type": "boolean",
+        "required": false,
+        "origin": "own",
+        "description": "As wide as its container (a form's submit on a phone, a stacked set of actions).",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
         "name": "size",
         "type": "ButtonSize",
         "required": false,
@@ -900,6 +924,7 @@
     "ds-background-brand-bold",
     "ds-background-brand-bold-hovered",
     "ds-background-brand-bold-pressed",
+    "ds-background-danger",
     "ds-background-danger-bold",
     "ds-background-danger-bold-hovered",
     "ds-background-disabled",
@@ -929,6 +954,7 @@
     "ds-space-150",
     "ds-space-200",
     "ds-text",
+    "ds-text-danger",
     "ds-text-disabled",
     "ds-text-on-brand",
     "ds-text-on-danger",

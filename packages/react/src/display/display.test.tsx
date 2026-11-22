@@ -60,7 +60,7 @@ describe("Card", () => {
   it("has outline and sunken variants and a compact padding", () => {
     inLocale(
       <>
-        <Card variant="outline" isCompact><CardBody>Outline</CardBody></Card>
+        <Card variant="outline" density="compact"><CardBody>Outline</CardBody></Card>
         <Card variant="sunken"><CardBody>Sunken</CardBody></Card>
       </>,
     );
@@ -360,7 +360,7 @@ describe("Separator", () => {
       <>
         <Separator />
         <div style={{ display: "flex" }}><span>List</span><Separator orientation="vertical" /><span>Calendar</span></div>
-        <Separator decorative />
+        <Separator isDecorative />
         <Separator>or continue with email</Separator>
       </>,
     );

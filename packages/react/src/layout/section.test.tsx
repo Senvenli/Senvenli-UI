@@ -78,10 +78,10 @@ describe("Section, Container", () => {
   });
 
   it("renders progressively without dropping content from the server HTML", () => {
-    const html = renderToString(<DesignSystemProvider locale="en" navigate={vi.fn()}>{band({ progressive: true })}</DesignSystemProvider>);
+    const html = renderToString(<DesignSystemProvider locale="en" navigate={vi.fn()}>{band({ isProgressive: true })}</DesignSystemProvider>);
     expect(html).toContain("Live in four steps");
     expect(html).toContain("Content");
-    inProvider(band({ progressive: true }));
+    inProvider(band({ isProgressive: true }));
     const section = slot("section");
     // Reserved size keeps the layout from shifting; nothing animates, so reduced motion needs nothing.
     expect(classesOf(section).split(/\s+/)).toEqual(expect.arrayContaining(["[content-visibility:auto]", "[contain-intrinsic-size:auto_720px]"]));
@@ -105,7 +105,7 @@ describe("Section, Container", () => {
   });
 
   it("uses logical properties only, so RTL needs no override", () => {
-    const { container } = inProvider(<div dir="rtl">{band({ tone: "sunken", progressive: true })}</div>);
+    const { container } = inProvider(<div dir="rtl">{band({ tone: "sunken", isProgressive: true })}</div>);
     for (const part of Array.from(container.querySelectorAll("[data-slot]"))) {
       expect(classesOf(part), part.getAttribute("data-slot") ?? "").not.toMatch(PHYSICAL);
     }

@@ -1,5 +1,6 @@
 "use client";
 
+import type { Density } from "../density";
 import * as React from "react";
 import {
   Cell as AriaCell,
@@ -67,7 +68,7 @@ export type TableProps<T> = {
   sortDescriptor?: SortDescriptor;
   onSortChange?: (descriptor: SortDescriptor) => void;
   /** `compact` (36px rows) for dense working screens; `default` (48px) for public and content pages. */
-  density?: "default" | "compact";
+  density?: Density;
   /** One sentence on why it is empty and the action that fills it. */
   renderEmptyState?: () => React.ReactNode;
   /** Opens the record: the whole row is the target. */
@@ -219,7 +220,7 @@ export function TableView<T extends object>({
   onSelectionChange,
   sortDescriptor,
   onSortChange,
-  density = "default",
+  density = "comfortable",
   renderEmptyState,
   onRowAction,
   maxHeight,

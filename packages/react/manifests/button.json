@@ -93,10 +93,9 @@
             "default",
             "link",
             "primary",
-            "subtle",
-            "danger"
+            "subtle"
           ],
-          "description": "`primary` is the one main action of a view; `danger` only confirms a destructive step."
+          "description": "`primary` is the one main action of a view; `subtle` for toolbars and rows; `link` for a quiet text action."
         },
         "size": {
           "type": "string",
@@ -973,16 +972,39 @@
         "type": "ButtonVariant",
         "required": false,
         "origin": "own",
-        "description": "`primary` is the one main action of a view; `danger` only confirms a destructive step.",
+        "description": "`primary` is the one main action of a view; `subtle` for toolbars and rows; `link` for a quiet text action.",
         "schema": {
           "type": "string",
           "enum": [
             "default",
             "link",
             "primary",
-            "subtle",
+            "subtle"
+          ]
+        }
+      },
+      {
+        "name": "tone",
+        "type": "ButtonTone",
+        "required": false,
+        "origin": "own",
+        "description": "`danger` for a destructive action (delete, discard); it keeps the variant's shape.",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "neutral",
             "danger"
           ]
+        }
+      },
+      {
+        "name": "fullWidth",
+        "type": "boolean",
+        "required": false,
+        "origin": "own",
+        "description": "As wide as its container (a form's submit on a phone, a stacked set of actions).",
+        "schema": {
+          "type": "boolean"
         }
       },
       {
@@ -1120,6 +1142,7 @@
     "ds-background-brand-bold",
     "ds-background-brand-bold-hovered",
     "ds-background-brand-bold-pressed",
+    "ds-background-danger",
     "ds-background-danger-bold",
     "ds-background-danger-bold-hovered",
     "ds-background-disabled",
@@ -1149,6 +1172,7 @@
     "ds-space-150",
     "ds-space-200",
     "ds-text",
+    "ds-text-danger",
     "ds-text-disabled",
     "ds-text-on-brand",
     "ds-text-on-danger",

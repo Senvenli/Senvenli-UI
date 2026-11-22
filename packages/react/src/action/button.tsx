@@ -6,15 +6,19 @@ import { Button as AriaButton, type ButtonProps as AriaButtonProps } from "react
 import { IconGlyph, type IconName } from "../display/icon";
 import { cn } from "../utils";
 import {
-  BUTTON_BASE, BUTTON_SIZE, BUTTON_VARIANT, ICON, ICON_ONLY_SIZE, LINK_BUTTON_PADDING, hasTouchTarget,
-  type ButtonSize, type ButtonVariant,
+  BUTTON_BASE, BUTTON_SIZE, buttonVariantClasses, ICON, ICON_ONLY_SIZE, LINK_BUTTON_PADDING, hasTouchTarget,
+  type ButtonSize, type ButtonTone, type ButtonVariant,
 } from "./styles";
 import { TouchTarget } from "./touch-target";
 import { LinkButton, type LinkButtonProps } from "./link-button";
 
 type BaseProps = Omit<AriaButtonProps, "className" | "style" | "children"> & {
-  /** `primary` is the one main action of a view; `danger` only confirms a destructive step. */
+  /** `primary` is the one main action of a view; `subtle` for toolbars and rows; `link` for a quiet text action. */
   variant?: ButtonVariant;
+  /** `danger` for a destructive action (delete, discard); it keeps the variant's shape. */
+  tone?: ButtonTone;
+  /** As wide as its container (a form's submit on a phone, a stacked set of actions). */
+  fullWidth?: boolean;
   size?: ButtonSize;
   /** Lucide icon name shown before the label ("plus"). */
   iconBefore?: IconName;
@@ -54,7 +58,7 @@ function Spinner() {
  * are 44px to a coarse pointer, with nothing drawn (`TouchTarget`).
  */
 const PressButton = React.forwardRef<HTMLButtonElement, Omit<ButtonActionProps, "href">>(function PressButton(
-  { variant = "default", size = "medium", iconBefore, iconAfter, iconOnly, children, type = "button", isPending, ...rest },
+  { variant = "default", tone = "neutral", fullWidth = false, size = "medium", iconBefore, iconAfter, iconOnly, children, type = "button", isPending, ...rest },
   forwardedRef,
 ) {
   // React Aria announces the pending state but does not forward `aria-busy`;
@@ -83,10 +87,12 @@ const PressButton = React.forwardRef<HTMLButtonElement, Omit<ButtonActionProps, 
       isPending={isPending}
       data-slot={(rest as { "data-slot"?: string })["data-slot"] ?? "button"}
       data-variant={variant}
+      data-tone={tone}
       data-size={size}
       className={cn(
         BUTTON_BASE,
-        BUTTON_VARIANT[variant],
+        fullWidth && "w-full",
+        buttonVariantClasses(variant, tone),
         BUTTON_SIZE[size],
         variant === "link" && LINK_BUTTON_PADDING,
         iconOnly && ICON_ONLY_SIZE[size],

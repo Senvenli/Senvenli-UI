@@ -160,7 +160,7 @@ describe("ThemeSwitcher", () => {
   });
 
   it("keeps two toggles on one page in step (Navbar and phone menu)", () => {
-    const { container } = inProvider(<><ThemeSwitcher /><ThemeSwitcher appearance="list" /></>);
+    const { container } = inProvider(<><ThemeSwitcher /><ThemeSwitcher variant="list" /></>);
     const [segmented, list] = Array.from(container.querySelectorAll('[role="radiogroup"]')) as HTMLElement[];
     fireEvent.click(within(list).getAllByRole("radio")[2]);
     expect(within(segmented).getAllByRole("radio")[2].getAttribute("aria-checked")).toBe("true");
@@ -226,10 +226,10 @@ describe("ThemeSwitcher", () => {
       throw new Error("blocked");
     });
     try {
-      const first = inProvider(<ThemeSwitcher appearance="list" />);
+      const first = inProvider(<ThemeSwitcher variant="list" />);
       fireEvent.click(radio(DS_STRINGS.themeDark.en));
       first.unmount();
-      inProvider(<ThemeSwitcher appearance="list" />);
+      inProvider(<ThemeSwitcher variant="list" />);
       expect(radio(DS_STRINGS.themeDark.en).getAttribute("aria-checked")).toBe("true");
       expect(html().getAttribute("data-theme")).toBe("dark");
     } finally {
@@ -259,7 +259,7 @@ describe("ThemeSwitcher", () => {
   });
 
   it("moves with Left and Right in the vertical list too", () => {
-    inProvider(<ThemeSwitcher appearance="list" />);
+    inProvider(<ThemeSwitcher variant="list" />);
     const [system, light] = screen.getAllByRole("radio");
     act(() => system.focus());
     fireEvent.keyDown(system, { key: "ArrowRight" });
@@ -294,7 +294,7 @@ describe("ThemeSwitcher", () => {
 
   it("can be controlled, and becomes a checked list in the phone menu", () => {
     const onChange = vi.fn();
-    inProvider(<ThemeSwitcher value="light" onChange={onChange} appearance="list" />);
+    inProvider(<ThemeSwitcher value="light" onChange={onChange} variant="list" />);
     const group = screen.getByRole("radiogroup", { name: DS_STRINGS.theme.en });
     const rows = within(group).getAllByRole("radio");
     expect(rows.map((row) => row.textContent)).toEqual([DS_STRINGS.themeSystem.en, DS_STRINGS.themeLight.en, DS_STRINGS.themeDark.en]);
@@ -314,7 +314,7 @@ describe("ThemeSwitcher", () => {
   });
 });
 
-describe("ThemeSwitcher appearance=menu", () => {
+describe("ThemeSwitcher variant=menu", () => {
   // jsdom has no CSS.escape; React Aria's Menu uses it to find the focused item.
   beforeEach(() => {
     globalThis.CSS ??= {} as typeof CSS;
@@ -322,7 +322,7 @@ describe("ThemeSwitcher appearance=menu", () => {
   });
 
   it("is one button naming the choice; its menu picks, checks and stores a theme", async () => {
-    inProvider(<ThemeSwitcher appearance="menu" />);
+    inProvider(<ThemeSwitcher variant="menu" />);
     const trigger = screen.getByRole("button", { name: `${DS_STRINGS.theme.en}: System` });
     fireEvent.click(trigger);
     const menu = await screen.findByRole("menu");
@@ -384,7 +384,7 @@ describe("strings and direction", () => {
     registerDsStrings("de", german);
     expect(themeLabels("de-AT")).toEqual({ theme: "Design", system: "Automatisch", light: "Hell", dark: "Dunkel", nowLight: "jetzt hell", nowDark: "jetzt dunkel" });
     const rows = (locale: string, name: string) => {
-      const { unmount } = render(<DesignSystemProvider locale={locale} navigate={vi.fn()}><ThemeSwitcher appearance="list" /></DesignSystemProvider>);
+      const { unmount } = render(<DesignSystemProvider locale={locale} navigate={vi.fn()}><ThemeSwitcher variant="list" /></DesignSystemProvider>);
       const texts = within(screen.getByRole("radiogroup", { name })).getAllByRole("radio").map((row) => row.textContent);
       unmount();
       return texts;
@@ -399,13 +399,13 @@ describe("strings and direction", () => {
   it("uses logical classes and moves with the arrows in RTL", () => {
     const { container } = render(
       <DesignSystemProvider locale="ar" navigate={vi.fn()}>
-        <div dir="rtl"><ThemeSwitcher /><ThemeSwitcher appearance="list" /></div>
+        <div dir="rtl"><ThemeSwitcher /><ThemeSwitcher variant="list" /></div>
       </DesignSystemProvider>,
     );
     for (const part of Array.from(container.querySelectorAll("[data-slot]"))) {
       expect(classesOf(part), part.getAttribute("data-slot") ?? "").not.toMatch(PHYSICAL);
     }
-    const radios = within(container.querySelector('[data-appearance="segmented"]') as HTMLElement).getAllByRole("radio");
+    const radios = within(container.querySelector('[data-variant="segmented"]') as HTMLElement).getAllByRole("radio");
     act(() => radios[0].focus());
     // In RTL the next segment is to the left.
     fireEvent.keyDown(radios[0], { key: "ArrowLeft" });

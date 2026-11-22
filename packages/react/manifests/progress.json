@@ -114,8 +114,8 @@
           "type": "string",
           "enum": [
             "danger",
-            "brand",
-            "success"
+            "success",
+            "brand"
           ]
         }
       },
@@ -227,8 +227,8 @@
           "type": "string",
           "enum": [
             "danger",
-            "brand",
-            "success"
+            "success",
+            "brand"
           ]
         }
       },

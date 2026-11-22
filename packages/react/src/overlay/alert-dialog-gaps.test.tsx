@@ -90,11 +90,12 @@ describe("AlertDialog tone neutral", () => {
   it("danger and warning are unchanged", () => {
     inLocale(<AlertDialog defaultOpen title="T" confirmLabel="Delete" onConfirm={vi.fn()}>M</AlertDialog>);
     expect(slot("alert-dialog-icon")!.className).toContain("bg-ds-background-danger");
-    expect(screen.getByRole("button", { name: "Delete" }).getAttribute("data-variant")).toBe("danger");
+    expect(screen.getByRole("button", { name: "Delete" }).getAttribute("data-tone")).toBe("danger");
     cleanup();
     inLocale(<AlertDialog defaultOpen tone="warning" title="T" confirmLabel="Continue" onConfirm={vi.fn()}>M</AlertDialog>);
     expect(slot("alert-dialog-icon")!.className).toContain("bg-ds-background-warning");
     expect(screen.getByRole("button", { name: "Continue" }).getAttribute("data-variant")).toBe("primary");
+    expect(screen.getByRole("button", { name: "Continue" }).getAttribute("data-tone")).toBe("neutral");
   });
 });
 

@@ -243,12 +243,12 @@ describe("Navbar", () => {
   });
 
   it("sticky pins it above page content and pads it for the notch; compact is 48px", () => {
-    inLocale(<SiteNavbar isSticky isCompact />);
+    inLocale(<SiteNavbar isSticky density="compact" />);
     const header = document.querySelector("[data-slot='navbar']")!;
     expect(classesOf(header)).toMatch(/\bsticky\b/);
     expect(classesOf(header)).toContain("z-20");
     expect(classesOf(header)).toContain("safe-area-inset-top");
-    expect(header.hasAttribute("data-compact")).toBe(true);
+    expect(header.getAttribute("data-density")).toBe("compact");
     expect(classesOf(header.firstElementChild)).toContain("h-12");
   });
 

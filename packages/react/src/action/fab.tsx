@@ -8,20 +8,17 @@ import { cn } from "../utils";
 import { newTabLabel } from "../i18n";
 import { LAYER } from "../layers";
 
-export type FabTone = "brand";
 
-const TONE: Record<FabTone, string> = {
-  brand:
-    "bg-ds-background-brand-bold text-ds-text-on-brand data-[hovered]:bg-ds-background-brand-bold-hovered " +
-    "data-[pressed]:bg-ds-background-brand-bold-pressed data-[focus-visible]:inset-ring-ds-text-on-brand",
-};
+/** The brand fill: the one tone a Fab has. */
+const FILL =
+  "bg-ds-background-brand-bold text-ds-text-on-brand data-[hovered]:bg-ds-background-brand-bold-hovered " +
+  "data-[pressed]:bg-ds-background-brand-bold-pressed data-[focus-visible]:inset-ring-ds-text-on-brand";
 
 export type FabProps = {
   /** The task, as a verb ("Contact us", "New order"); also the name when icon-only. */
   label: string;
   /** Lucide icon name ("message-circle", "calendar-plus"). */
   icon: IconName;
-  tone?: FabTone;
   onPress?: (event: PressEvent) => void;
   /** A link (a chat or contact URL) instead of an action; it opens in a new tab unless `target` says otherwise. */
   href?: string;
@@ -64,7 +61,7 @@ function useCollapsed(enabled: boolean) {
  * never over a dialog, sheet or a sticky summary bar (the app decides).
  */
 export const Fab = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, FabProps>(function Fab(
-  { label, icon, tone = "brand", onPress, href, target = "_blank", placement = "fixed", collapseOnScroll = true, iconOnly = false },
+  { label, icon, onPress, href, target = "_blank", placement = "fixed", collapseOnScroll = true, iconOnly = false },
   ref,
 ) {
   const { locale } = useLocale();
@@ -82,7 +79,7 @@ export const Fab = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, FabPr
     placement === "fixed" &&
       "fixed end-ds-300 bottom-[max(calc(var(--ds-space-300)+env(safe-area-inset-bottom,0px)),calc(var(--ds-floating-banner-offset,0px)+var(--ds-space-150)))]",
     placement === "fixed" && LAYER.fab,
-    TONE[tone],
+    FILL,
   );
   const content = (
     <>
@@ -92,7 +89,6 @@ export const Fab = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, FabPr
   );
   const common = {
     "data-slot": "fab",
-    "data-tone": tone,
     "data-collapsed": collapsed || undefined,
     // Icon-only keeps its label as the accessible name; a new tab adds Link's words after the visible label.
     "aria-label": collapsed || external ? `${label}${external}` : undefined,

@@ -54,7 +54,7 @@
     "description": "A surface grouping content about one object. Put a heading and text inside; do not nest cards.",
     "props": [
       "variant",
-      "isCompact"
+      "density"
     ],
     "children": [
       "heading",

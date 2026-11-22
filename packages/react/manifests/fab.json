@@ -68,19 +68,6 @@
         }
       },
       {
-        "name": "tone",
-        "type": "\"brand\"",
-        "required": false,
-        "origin": "own",
-        "default": "\"brand\"",
-        "schema": {
-          "type": "string",
-          "enum": [
-            "brand"
-          ]
-        }
-      },
-      {
         "name": "onPress",
         "type": "(event: PressEvent) => void",
         "required": false,

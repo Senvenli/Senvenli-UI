@@ -134,13 +134,18 @@
         }
       },
       {
-        "name": "isCompact",
-        "type": "boolean",
+        "name": "density",
+        "type": "Density",
         "required": false,
         "origin": "own",
-        "description": "48px instead of 56px: the compact bar after the hero.",
+        "default": "\"comfortable\"",
+        "description": "`compact`: 48px instead of 56px, the bar after the hero.",
         "schema": {
-          "type": "boolean"
+          "type": "string",
+          "enum": [
+            "comfortable",
+            "compact"
+          ]
         }
       },
       {

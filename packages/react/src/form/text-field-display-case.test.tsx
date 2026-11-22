@@ -66,7 +66,7 @@ describe("TextField displayCase", () => {
   });
 
   it("works with appearance code and in RTL: the mono code style and capitals together, no physical classes", () => {
-    const { container } = inLocale(<TextField label="رمز" appearance="code" displayCase="uppercase" defaultValue="ab 123" />, "rtl");
+    const { container } = inLocale(<TextField label="رمز" variant="code" displayCase="uppercase" defaultValue="ab 123" />, "rtl");
     const classes = classesOf(inputOf(container));
     expect(classes).toEqual(expect.arrayContaining(["font-ds-mono", "text-code", "uppercase"]));
     expect(classes.some((name) => /(^|:)(text-left|text-right|ml-|mr-|pl-|pr-)/.test(name))).toBe(false);

@@ -83,7 +83,7 @@ describe("OtpField on an RTL page", () => {
 
 describe("TextField valueDir on an RTL page", () => {
   it('keeps the frame, addon and value left to right with valueDir="ltr"', () => {
-    inRtl(<TextField label="Phone" prefix="US +1" appearance="numeric" valueDir="ltr" defaultValue="555 010 4477" description="We will call before delivery." />);
+    inRtl(<TextField label="Phone" prefix="US +1" variant="numeric" valueDir="ltr" defaultValue="555 010 4477" description="We will call before delivery." />);
     const frame = document.querySelector('[data-slot="input-group"]')!;
     expect(frame.getAttribute("dir")).toBe("ltr");
     const addon = document.querySelector('[data-slot="input-addon"]')!;

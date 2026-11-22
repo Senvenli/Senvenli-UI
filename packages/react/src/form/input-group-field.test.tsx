@@ -11,7 +11,7 @@ afterEach(cleanup);
 describe("Field + InputGroup + InputGroupInput", () => {
   it("the label names the input and the hint describes it", () => {
     render(
-      <Field label="Amount" htmlFor="amount" hint="Before tax">
+      <Field label="Amount" htmlFor="amount" description="Before tax">
         <InputGroup>
           <InputAddon position="start">$</InputAddon>
           <InputGroupInput inputMode="decimal" />
@@ -27,7 +27,7 @@ describe("Field + InputGroup + InputGroupInput", () => {
 
   it("an error marks the input and the frame invalid and describes the input", () => {
     render(
-      <Field label="Amount" htmlFor="amount" error="Enter an amount.">
+      <Field label="Amount" htmlFor="amount" errorMessage="Enter an amount.">
         <InputGroup>
           <InputGroupInput />
         </InputGroup>

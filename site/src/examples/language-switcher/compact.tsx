@@ -11,7 +11,7 @@ export default function Example() {
   return (
     <Stack direction="horizontal" space="space-200">
       <LanguageSwitcher size="small" locales={LOCALES} current={locale} onSelect={setLocale} />
-      <LanguageSwitcher size="small" collapsed label="Interface language" locales={LOCALES} current={locale} onSelect={setLocale} renderMark={mark} />
+      <LanguageSwitcher size="small" isCollapsed label="Interface language" locales={LOCALES} current={locale} onSelect={setLocale} renderMark={mark} />
     </Stack>
   );
 }

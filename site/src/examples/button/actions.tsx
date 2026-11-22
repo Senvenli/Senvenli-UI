@@ -8,7 +8,7 @@ export default function Example() {
       <Button>Cancel</Button>
       <Button variant="subtle">Reset filters</Button>
       <Button variant="link">Show details</Button>
-      <Button variant="danger">Delete order</Button>
+      <Button variant="primary" tone="danger">Delete order</Button>
     </Stack>
   );
 }
