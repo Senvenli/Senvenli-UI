@@ -1,4 +1,5 @@
 import { highlight } from "../lib/highlight.server";
+import { commandVariants } from "../lib/package-managers.server";
 import { orderComponents } from "../lib/manifest";
 import { loadIndex, loadManifest } from "../lib/manifest.server";
 import { loadExamples } from "../lib/examples.server";
@@ -17,8 +18,12 @@ export async function loader() {
   const button = await loadManifest("button");
   // The first lines of a real Markdown twin: what an agent reads.
   const agentCode = button ? manifestToMarkdown(button, await loadExamples("button")).split("\n").slice(0, 9).join("\n") : "";
-  const [installHtml, agentHtml] = await Promise.all([highlight("npm i @senvenli/react", "bash"), highlight(agentCode, "md")]);
-  return { data: { componentCount: index.length, families, installHtml, agentHtml, agentCode } };
+  const [installHtml, installVariants, agentHtml] = await Promise.all([
+    highlight("npm i @senvenli/react", "bash"),
+    commandVariants("npm i @senvenli/react"),
+    highlight(agentCode, "md"),
+  ]);
+  return { data: { componentCount: index.length, families, installHtml, installVariants, agentHtml, agentCode } };
 }
 
 export default function HomeRoute({ loaderData }: Route.ComponentProps) {

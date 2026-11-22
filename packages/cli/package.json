@@ -1,16 +1,41 @@
 {
   "name": "@senvenli/cli",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Write Senvenli UI theme files from a preset code or options.",
   "license": "MIT",
+  "author": "Senvenli",
+  "homepage": "https://design.senvenli.com",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Senvenli/Senvenli-UI.git",
+    "directory": "packages/cli"
+  },
+  "bugs": "https://github.com/Senvenli/Senvenli-UI/issues",
+  "keywords": [
+    "design-system",
+    "theme",
+    "cli",
+    "tailwindcss",
+    "wcag"
+  ],
   "type": "module",
-  "bin": { "senvenli-ui": "./dist/index.js" },
-  "files": ["dist"],
+  "bin": {
+    "senvenli-ui": "./dist/index.js"
+  },
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "dependencies": {
-    "@senvenli/tokens": "workspace:*"
+    "@senvenli/tokens": "workspace:^"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
