@@ -3,7 +3,8 @@ import { act, cleanup, fireEvent, render, screen } from "@testing-library/react"
 import { renderToStaticMarkup } from "react-dom/server";
 import { afterEach, describe, expect, it, vi } from "vitest";
 
-import { DateField, DatePicker, DateRangePicker, TimeField } from "../date/index";
+import { DateField, DatePicker, TimeField } from "../date/index";
+import { DateRangePicker } from "../date/pickers";
 import { DesignSystemProvider } from "../provider";
 import { Form, OtpField, TextArea } from "./index";
 import { NumberField } from "./number-field";

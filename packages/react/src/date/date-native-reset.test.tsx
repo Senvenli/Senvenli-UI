@@ -5,7 +5,8 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 
 import { DesignSystemProvider } from "../provider";
 import { Form } from "../form/index";
-import { DateField, DatePicker, DateRangePicker, TimeField } from "./index";
+import { DateField, DatePicker, TimeField } from "./index";
+import { DateRangePicker } from "./pickers";
 
 /**
  * A Form's reset under validationBehavior "native". After a blocked submit, a programmatic `form.reset()` (outside a

@@ -6,7 +6,8 @@ import { afterEach, beforeAll, describe, expect, it, vi } from "vitest";
 import { DesignSystemProvider } from "../provider";
 import { AXIS_MAX, TICK_INSET, labelText, textLines, textUnits, textWidth, tickAxisWidth, tickOverhang, tickText, tickWrapWidth, valueAxisTicks } from "./axis-width";
 import { PlottedTooltip, barLabelLines } from "./core-charts";
-import { AreaChart, BarChart, ChartAnimation, ComposedChart, LineChart, ScatterChart, WaterfallChart } from "./index";
+import { AreaChart, BarChart, ChartAnimation, ComposedChart, LineChart, ScatterChart } from "./index";
+import { WaterfallChart } from "./report-charts";
 import { waterfallAxisWidth } from "./report-charts";
 import { CategoryTick, ValueTick, edgeShift, firstLineDy } from "./value-tick";
 

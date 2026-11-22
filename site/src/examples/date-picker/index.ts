@@ -7,4 +7,7 @@ export default [
   { id: "month", title: "A month", description: "For a report period: the popover is a grid of months." },
   { id: "spanish", title: "In Spanish", description: "The locale names the months and days and orders the date; the label is yours." },
   { id: "arabic", title: "In Arabic, right to left", description: "`dir=\"rtl\"` mirrors the field and the calendar; digits follow the locale." },
+  { id: "range-report-period", title: "A range: A period", description: "Start and end in one control over one calendar." },
+  { id: "range-with-times", title: "A range: With times", description: "`granularity=\"hour\"` adds a start and an end time." },
+  { id: "range-with-a-total", title: "A range: Named halves and a total", description: "Your own labels for the two halves, and a figure beside the day count under the calendar." },
 ] satisfies ExampleMeta[];

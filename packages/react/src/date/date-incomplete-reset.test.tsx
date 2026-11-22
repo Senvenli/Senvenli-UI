@@ -6,7 +6,8 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import type { TimeValue } from "react-aria-components";
 
 import { DesignSystemProvider } from "../provider";
-import { DateField, DatePicker, DateRangePicker, TimeField, type DateRangePickerValue } from "./index";
+import { DateField, DatePicker, TimeField, type DateRangePickerValue } from "./index";
+import { DateRangePicker } from "./pickers";
 
 /**
  * Clearing a field the user left typed in part. Its value is already null (the field reported it),

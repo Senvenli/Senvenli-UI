@@ -3,7 +3,8 @@ import { act, cleanup, fireEvent, render, screen, within } from "@testing-librar
 import { afterEach, beforeAll, describe, expect, it, vi } from "vitest";
 
 import { DesignSystemProvider } from "../provider";
-import { ChartAnimation, SeasonalityHeatmap, WaterfallChart } from "./index";
+import { ChartAnimation, SeasonalityHeatmap } from "./index";
+import { WaterfallChart } from "./report-charts";
 import { waterfallAxisWidth, waterfallRows } from "./report-charts";
 
 // The waterfall and the seasonality heatmap, as charts on ChartParts.

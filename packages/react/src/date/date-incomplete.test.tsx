@@ -6,7 +6,8 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import { DesignSystemProvider } from "../provider";
 import { Form } from "../form/index";
 import { registerDsStrings } from "../i18n";
-import { DateField, DatePicker, DateRangePicker, type DateRangePickerValue } from "./index";
+import { DateField, DatePicker, type DateRangePickerValue } from "./index";
+import { DateRangePicker } from "./pickers";
 
 /**
  * A date typed in part is no date. React Aria keeps its last complete value until every segment is cleared, and a

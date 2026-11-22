@@ -5,7 +5,8 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 
 import { DesignSystemProvider } from "../provider";
 import { Form } from "../form/index";
-import { DateField, DatePicker, DateRangePicker, TimeField, type DateRangePickerValue } from "./index";
+import { DateField, DatePicker, TimeField, type DateRangePickerValue } from "./index";
+import { DateRangePicker } from "./pickers";
 
 /**
  * The form value of a date or time field follows the value the field reports. React Aria writes the
