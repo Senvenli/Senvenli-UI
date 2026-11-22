@@ -338,7 +338,8 @@ function deriveMode(mode: Mode, colors: Partial<Record<Role, OKLCH>>, adjusted: 
 }
 
 /** Every text pair (4.5:1) and non-text mark (3:1) the engine promises. */
-function checksFor(mode: Mode, t: ModeTokens): ContrastCheck[] {
+/** The contrast pairs every theme is held to, measured on one mode's tokens. Exported for checking supplied tokens. */
+export function checkTokens(mode: Mode, t: ModeTokens, missing?: Set<string>): ContrastCheck[] {
   const pairs: Array<[string, string, number]> = [];
   const text = (fg: string, ...bgs: string[]) => bgs.forEach((bg) => pairs.push([fg, bg, AA_TEXT]));
   const mark = (fg: string, ...bgs: string[]) => bgs.forEach((bg) => pairs.push([fg, bg, AA_NON_TEXT]));
@@ -364,9 +365,17 @@ function checksFor(mode: Mode, t: ModeTokens): ContrastCheck[] {
   }
   text("ds-text-on-bold", "ds-background-success-bold", "ds-background-information-bold");
 
-  return pairs.map(([fg, bg, required]) => {
-    const ratio = contrast(t[fg] as OKLCH, t[bg] as OKLCH);
-    return { mode, foreground: fg, background: bg, ratio, required, pass: ratio >= required };
+  // Supplied tokens (checkThemeCss) may lack one: that pair is skipped and the name reported in `missing`.
+  return pairs.flatMap(([fg, bg, required]) => {
+    const a = t[fg];
+    const b = t[bg];
+    if (!a || !b) {
+      if (!a) missing?.add(fg);
+      if (!b) missing?.add(bg);
+      return [];
+    }
+    const ratio = contrast(a, b);
+    return [{ mode, foreground: fg, background: bg, ratio, required, pass: ratio >= required }];
   });
 }
 
@@ -411,6 +420,6 @@ export function createTheme(raw: ThemeInput = {}): Theme {
     dark,
     layout,
     adjusted: ROLES.filter((r) => adjusted.has(r)),
-    checks: [...checksFor("light", light), ...checksFor("dark", dark)],
+    checks: [...checkTokens("light", light), ...checkTokens("dark", dark)],
   };
 }

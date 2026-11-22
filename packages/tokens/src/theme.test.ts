@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { createTheme, decodePreset, encodePreset, formatHex, INK, layoutTokens, PAPER, toCSS, toNative } from "./index.js";
+import { checkThemeCss, createTheme, decodePreset, encodePreset, formatHex, INK, layoutTokens, PAPER, toCSS, toNative } from "./index.js";
 
 const failures = (input: Parameters<typeof createTheme>[0]) =>
   createTheme(input)
@@ -116,5 +116,28 @@ describe("outputs", () => {
   it("exposes paper and ink", () => {
     expect(formatHex(PAPER)).toBe("#fcfcfb");
     expect(formatHex(INK)).toBe("#0c0c0b");
+  });
+});
+
+describe("checkThemeCss", () => {
+  it("a theme the engine wrote passes every pair it checks, with nothing missing", () => {
+    const theme = createTheme({ primary: "#1268ae" });
+    const report = checkThemeCss(toCSS(theme, { tailwind: true }));
+    expect(report.missing).toEqual([]);
+    expect(report.checks).toHaveLength(theme.checks.length);
+    expect(report.checks.every((check) => check.pass)).toBe(true);
+  });
+
+  it("finds a pair an edit broke, in the mode it was broken in", () => {
+    const css = toCSS(createTheme()).replace(/(\[data-theme="dark"\][^{]*\{[^}]*--ds-text-subtle:\s*)[^;]+;/, "$1#2a2a28;");
+    const failing = checkThemeCss(css).checks.filter((check) => !check.pass);
+    expect(failing.length).toBeGreaterThan(0);
+    expect(failing.every((check) => check.mode === "dark" && check.foreground === "ds-text-subtle")).toBe(true);
+  });
+
+  it("reports a token a pair needs that the CSS does not define", () => {
+    const css = toCSS(createTheme()).replace(/--ds-link:[^;]+;/g, "");
+    const report = checkThemeCss(css);
+    expect(report.missing).toEqual(expect.arrayContaining([{ mode: "light", token: "ds-link" }, { mode: "dark", token: "ds-link" }]));
   });
 });
