@@ -470,7 +470,7 @@ function LinkItem({ item, shared, nested }: { item: SidebarItem; shared: Shared;
       href={item.href}
       data-slot="sidebar-item"
       aria-current={item.id === shared.currentKey ? "page" : undefined}
-      className={cn("group/row", ROW, nested && "h-7")}
+      className={cn("group/row", ROW)}
     >
       <Label item={item} />
     </AriaLink>
@@ -531,7 +531,7 @@ function GroupItem({ item, shared }: { item: SidebarItem; shared: Shared }) {
         trigger
       )}
       <DisclosurePanel data-slot="sidebar-group-panel" className={WHEN_COLLAPSED.hidden}>
-        <div className="ms-[19px] mt-0.5 border-s border-ds-border ps-ds-100">
+        <div className="mt-0.5 ps-ds-400">
           <Tree items={item.children ?? []} shared={shared} nested />
         </div>
       </DisclosurePanel>

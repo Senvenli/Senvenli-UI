@@ -253,7 +253,8 @@ describe("Pagination", () => {
     const nav = screen.getByRole("navigation", { name: "Pages" });
     const current = within(nav).getByRole("button", { name: "Page 3" });
     expect(current.getAttribute("aria-current")).toBe("page");
-    expect(classesOf(current)).toContain("aria-[current=page]:inset-ring-ds-border-selected");
+    expect(classesOf(current)).toContain("aria-[current=page]:bg-ds-background-neutral-hovered");
+    expect(classesOf(current)).not.toContain("inset-ring-ds-border-selected");
     expect(document.querySelector("[data-slot='pagination-compact']")!.textContent).toBe("Page 3 of 61");
   });
 

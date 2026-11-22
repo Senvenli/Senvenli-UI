@@ -1,7 +1,6 @@
 import { cn } from "@senvenli/react";
-import { Icon } from "@senvenli/react/display";
-import { useEffect, useId, useRef, useState } from "react";
-import { Button as AriaButton, Link as AriaLink } from "react-aria-components";
+import { useEffect, useRef } from "react";
+import { Link as AriaLink } from "react-aria-components";
 import { familyTitle, orderComponents } from "../lib/manifest";
 import { useSiteData } from "../lib/site-data";
 
@@ -30,44 +29,14 @@ function Group({ title, children }: { title: string; children: React.ReactNode }
   );
 }
 
-/** A family of components as a nested, collapsible group: its title is a button that shows or hides its rows. */
-function Family({ title, isOpen, onToggle, children }: { title: string; isOpen: boolean; onToggle: () => void; children: React.ReactNode }) {
-  const id = useId();
-  return (
-    <li>
-      <AriaButton aria-expanded={isOpen} aria-controls={id} onPress={onToggle} className={cn(ROW, "w-full justify-between font-medium text-ds-text")}>
-        {title}
-        <Icon name={isOpen ? "chevron-down" : "chevron-right"} size="small" color="subtle" />
-      </AriaButton>
-      <ul id={id} hidden={!isOpen} className="m-0 ms-ds-150 flex list-none flex-col gap-ds-025 border-s border-ds-border p-0 ps-ds-075">
-        {children}
-      </ul>
-    </li>
-  );
-}
-
 /**
- * The one sidebar of every page under /docs, as shadcn lays it out: "Sections" (the introduction, the component list
- * and every doc, in reading order), then the components. The current page is a filled row, scrolled into
- * view on arrival; the list scrolls on its own under the sticky header. Components are grouped by family, each a
- * collapsible group; the family of the page in view opens by itself.
+ * The one sidebar of every page under /docs: "Sections" (the introduction, the component list and every doc, in
+ * reading order), then one labelled section per component family, every row visible (no accordion to open). The
+ * current page is a filled row, scrolled into view on arrival; the list scrolls on its own under the sticky header.
  */
 export function DocsSidebar() {
   const data = useSiteData();
   const path = data?.path ?? "";
-  const currentFamily = data?.components.find((item) => path === `/docs/components/${item.name}`)?.family;
-  const [open, setOpen] = useState<Set<string>>(() => new Set(currentFamily ? [currentFamily] : []));
-  // Moving to a component of a closed family opens it; the families opened by hand stay open.
-  useEffect(() => {
-    if (currentFamily) setOpen((now) => (now.has(currentFamily) ? now : new Set(now).add(currentFamily)));
-  }, [currentFamily]);
-  const toggle = (family: string) =>
-    setOpen((now) => {
-      const next = new Set(now);
-      if (next.has(family)) next.delete(family);
-      else next.add(family);
-      return next;
-    });
   const list = useRef<HTMLElement>(null);
   useEffect(() => {
     // Only the list scrolls: scrollIntoView would move the page too.
@@ -97,19 +66,17 @@ export function DocsSidebar() {
             </Row>
           ))}
         </Group>
-        <Group title="Components">
-          {families.map((family) => (
-            <Family key={family} title={familyTitle(family)} isOpen={open.has(family)} onToggle={() => toggle(family)}>
-              {components
-                .filter((item) => item.family === family)
-                .map((item) => (
-                  <Row key={item.name} href={`/docs/components/${item.name}`} current={path === `/docs/components/${item.name}`}>
-                    {item.title}
-                  </Row>
-                ))}
-            </Family>
-          ))}
-        </Group>
+        {families.map((family) => (
+          <Group key={family} title={familyTitle(family)}>
+            {components
+              .filter((item) => item.family === family)
+              .map((item) => (
+                <Row key={item.name} href={`/docs/components/${item.name}`} current={path === `/docs/components/${item.name}`}>
+                  {item.title}
+                </Row>
+              ))}
+          </Group>
+        ))}
       </div>
     </nav>
   );
