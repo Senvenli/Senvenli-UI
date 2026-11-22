@@ -28,7 +28,10 @@
       "action",
       "submit",
       "cta",
-      "press"
+      "press",
+      "link",
+      "navigation",
+      "href"
     ],
     "import": "@senvenli/react/action",
     "exports": [
@@ -94,32 +97,12 @@
     "genui": false
   },
   {
-    "name": "link-button",
-    "title": "Link button",
-    "family": "action",
-    "status": "alpha",
-    "description": "A link that looks like a button: a call to action that goes to another page.",
-    "keywords": [
-      "link",
-      "button",
-      "cta",
-      "navigation",
-      "href"
-    ],
-    "import": "@senvenli/react/action",
-    "exports": [
-      "LinkButton"
-    ],
-    "genui": true
-  },
-  {
     "name": "link",
     "title": "Link",
     "family": "action",
     "status": "alpha",
     "description": "Text that goes to another page, inline in running text or as a standalone subtle link.",
     "keywords": [
-      "link",
       "anchor",
       "href",
       "navigation"
@@ -760,7 +743,11 @@
       "notification",
       "unread",
       "dot",
-      "live"
+      "live",
+      "country",
+      "language",
+      "code",
+      "iso"
     ],
     "import": "@senvenli/react/display",
     "exports": [
@@ -900,24 +887,6 @@
     "import": "@senvenli/react/display",
     "exports": [
       "ImageViewer"
-    ],
-    "genui": false
-  },
-  {
-    "name": "iso-chip",
-    "title": "ISO chip",
-    "family": "display",
-    "status": "alpha",
-    "description": "A small neutral chip with a country or language code, in place of a flag.",
-    "keywords": [
-      "country",
-      "language",
-      "code",
-      "iso"
-    ],
-    "import": "@senvenli/react/display",
-    "exports": [
-      "IsoChip"
     ],
     "genui": false
   },
@@ -1181,7 +1150,6 @@
     "status": "alpha",
     "description": "A form with consistent rhythm, sections with legends, side-by-side rows and a footer for its actions.",
     "keywords": [
-      "form",
       "fieldset",
       "submit",
       "section",
@@ -1225,7 +1193,6 @@
     "status": "alpha",
     "description": "One text-entry field with a label, description and error; `type` picks text, email, url, password, search, number or tel.",
     "keywords": [
-      "input",
       "text",
       "email",
       "url",
@@ -1321,7 +1288,6 @@
     "status": "alpha",
     "description": "Equal columns, fixed or auto-fit to a minimum width, with a token gap.",
     "keywords": [
-      "grid",
       "columns",
       "layout",
       "responsive",
@@ -1330,25 +1296,6 @@
     "import": "@senvenli/react/layout",
     "exports": [
       "Grid"
-    ],
-    "genui": true
-  },
-  {
-    "name": "inline",
-    "title": "Inline",
-    "family": "layout",
-    "status": "alpha",
-    "description": "Lays children out side by side on the inline axis, wrapping by default.",
-    "keywords": [
-      "horizontal",
-      "row",
-      "flex",
-      "wrap",
-      "gap"
-    ],
-    "import": "@senvenli/react/layout",
-    "exports": [
-      "Inline"
     ],
     "genui": true
   },
@@ -1426,7 +1373,10 @@
       "column",
       "flex",
       "gap",
-      "spacing"
+      "spacing",
+      "horizontal",
+      "row",
+      "wrap"
     ],
     "import": "@senvenli/react/layout",
     "exports": [
@@ -1869,25 +1819,6 @@
     "genui": true
   },
   {
-    "name": "multi-select",
-    "title": "Multi-select",
-    "family": "selection",
-    "status": "alpha",
-    "description": "Pick several options from a dropdown; the choices show as removable tags, with an optional select-all.",
-    "keywords": [
-      "multiselect",
-      "tags",
-      "multiple",
-      "dropdown",
-      "filter"
-    ],
-    "import": "@senvenli/react/selection",
-    "exports": [
-      "MultiSelect"
-    ],
-    "genui": true
-  },
-  {
     "name": "radio",
     "title": "Radio group",
     "family": "selection",
@@ -1917,7 +1848,11 @@
       "dropdown",
       "picker",
       "options",
-      "choose"
+      "choose",
+      "multiselect",
+      "tags",
+      "multiple",
+      "filter"
     ],
     "import": "@senvenli/react/selection",
     "exports": [

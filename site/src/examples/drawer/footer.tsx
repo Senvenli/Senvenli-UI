@@ -1,13 +1,13 @@
 import { Button } from "@senvenli/react/action";
 import { Badge, Text } from "@senvenli/react/display";
-import { Inline } from "@senvenli/react/layout";
+import { Stack } from "@senvenli/react/layout";
 import { DialogTrigger, Drawer, toast, useDrawerClose } from "@senvenli/react/overlay";
 
 // Rendered inside the drawer, so `useDrawerClose` reaches it.
 function InvoiceActions() {
   const close = useDrawerClose();
   return (
-    <Inline space="space-100" justify="end">
+    <Stack direction="horizontal" space="space-100" justify="end">
       <Button variant="subtle" onPress={() => close()}>
         Close
       </Button>
@@ -21,7 +21,7 @@ function InvoiceActions() {
       >
         Send reminder
       </Button>
-    </Inline>
+    </Stack>
   );
 }
 

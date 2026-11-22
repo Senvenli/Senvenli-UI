@@ -1,7 +1,7 @@
 import { Button } from "@senvenli/react/action";
 import { Avatar, Text } from "@senvenli/react/display";
 import { SkeletonCircle, SkeletonGroup, SkeletonText } from "@senvenli/react/feedback";
-import { Inline, Stack } from "@senvenli/react/layout";
+import { Stack } from "@senvenli/react/layout";
 import { useState } from "react";
 
 export default function Example() {
@@ -10,7 +10,7 @@ export default function Example() {
     <Stack space="space-200" align="start">
       <div className="w-full">
         <SkeletonGroup label="Loading customer" loadedLabel="Customer" isLoading={isLoading}>
-          <Inline space="space-150" wrap={false}>
+          <Stack direction="horizontal" space="space-150" wrap={false}>
             <SkeletonCircle size={32} isLoaded={!isLoading}>
               <Avatar name="Sofia Marin" src="/avatars/05.webp" />
             </SkeletonCircle>
@@ -22,7 +22,7 @@ export default function Example() {
                 </Stack>
               </SkeletonText>
             </div>
-          </Inline>
+          </Stack>
         </SkeletonGroup>
       </div>
       <Button onPress={() => setLoading((current) => !current)}>{isLoading ? "Show the content" : "Show the skeleton"}</Button>

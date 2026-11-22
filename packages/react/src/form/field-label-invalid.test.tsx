@@ -8,7 +8,8 @@ import { FieldError } from "./field-parts";
 import { Field } from "./index";
 import { TextField } from "./text-field";
 import type { Key } from "react-aria-components";
-import { ComboBox, MultiSelect, Select } from "../selection/index";
+import { ComboBox, Select } from "../selection/index";
+import { MultiSelect } from "../selection/multi-select";
 
 // Field label id and invalid forwarding: a picker can sit in the Field, which owns the label and the error text.
 // The label gets `{controlId}-label`, and a DS control handed the Field's `aria-invalid` shows the invalid state

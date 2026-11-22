@@ -1,12 +1,12 @@
 import { Button } from "@senvenli/react/action";
-import { Inline } from "@senvenli/react/layout";
+import { Stack } from "@senvenli/react/layout";
 import { toast } from "@senvenli/react/overlay";
 import { useRef } from "react";
 
 export default function Example() {
   const key = useRef<string | null>(null);
   return (
-    <Inline space="space-100">
+    <Stack direction="horizontal" space="space-100">
       <Button
         onPress={() => {
           if (key.current) toast.dismiss(key.current);
@@ -18,6 +18,6 @@ export default function Example() {
       <Button variant="subtle" onPress={() => key.current && toast.dismiss(key.current)}>
         Dismiss it
       </Button>
-    </Inline>
+    </Stack>
   );
 }

@@ -1,6 +1,6 @@
 import { Link } from "@senvenli/react/action";
 import { Separator, Text } from "@senvenli/react/display";
-import { Box, Grid, Inline, Stack } from "@senvenli/react/layout";
+import { Box, Grid, Stack } from "@senvenli/react/layout";
 import { LanguageSwitcher } from "@senvenli/react/navigation";
 import { useState } from "react";
 
@@ -33,10 +33,10 @@ export default function Example() {
           ))}
         </Grid>
         <Separator />
-        <Inline space="space-200" justify="between" align="center">
+        <Stack direction="horizontal" space="space-200" justify="between" align="center">
           <Text size="body-small" tone="subtle">© 2026 Acme, Inc.</Text>
           <LanguageSwitcher locales={["en", "de", "tr"]} current={locale} onSelect={setLocale} />
-        </Inline>
+        </Stack>
       </Stack>
     </Box>
   );

@@ -5,7 +5,8 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { DesignSystemProvider } from "../provider";
 import { Field, Form } from "./index";
 import { TextField } from "./text-field";
-import { ComboBox, MultiSelect, Select } from "../selection/index";
+import { ComboBox, Select } from "../selection/index";
+import { MultiSelect } from "../selection/multi-select";
 
 // (1) A control's own error row is linked through aria-describedby whenever it shows, also when it comes or goes
 // while a forwarded aria-invalid stays on; (2) a DS Form blocks submit for an invalid Select or MultiSelect too, and

@@ -1,6 +1,6 @@
 import { Button } from "@senvenli/react/action";
 import { Heading, Text } from "@senvenli/react/display";
-import { Container, Inline, Section, Stack } from "@senvenli/react/layout";
+import { Container, Stack, Section } from "@senvenli/react/layout";
 
 export default function Example() {
   return (
@@ -10,10 +10,10 @@ export default function Example() {
           <Heading id="start-title" level={2} size="heading-xxlarge">Start your first project</Heading>
           <Text size="body-large" tone="subtle">Free for 14 days. No credit card needed.</Text>
         </Stack>
-        <Inline space="space-100" justify="center">
+        <Stack direction="horizontal" space="space-100" justify="center">
           <Button variant="primary">Start free trial</Button>
           <Button variant="subtle">Talk to sales</Button>
-        </Inline>
+        </Stack>
       </Container>
     </Section>
   );

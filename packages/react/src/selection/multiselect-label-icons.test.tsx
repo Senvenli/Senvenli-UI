@@ -4,7 +4,8 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import { DesignSystemProvider } from "../provider";
 import { DS_STRINGS } from "../i18n";
-import { MultiSelect, Select, type SelectItem } from "./index";
+import { Select, type SelectItem } from "./index";
+import { MultiSelect } from "./multi-select";
 
 // MultiSelect aria-label and item icons: an app can name the field with an `aria-label` (its dialog row has its own
 // heading) and give each option an `icon` (a flag mark here), shown before the name in the list and in the selected

@@ -10,6 +10,7 @@ import {
   type ButtonSize, type ButtonVariant,
 } from "./styles";
 import { TouchTarget } from "./touch-target";
+import { LinkButton, type LinkButtonProps } from "./link-button";
 
 type BaseProps = Omit<AriaButtonProps, "className" | "style" | "children"> & {
   /** `primary` is the one main action of a view; `danger` only confirms a destructive step. */
@@ -21,7 +22,8 @@ type BaseProps = Omit<AriaButtonProps, "className" | "style" | "children"> & {
   iconAfter?: IconName;
 };
 
-export type ButtonProps = BaseProps &
+/** The press form's props: an action in place (no `href`). */
+export type ButtonActionProps = BaseProps & { href?: never } &
   (
     | { /** The label: the verb of what happens ("Save"). */ children: React.ReactNode; iconOnly?: false }
     | {
@@ -44,14 +46,14 @@ function Spinner() {
 }
 
 /**
- * Triggers an action in place; never navigates (use Link). `type="button"`
+ * Triggers an action in place. `type="button"`
  * by default so it never submits a form by accident. While `isPending` the
  * label stays in the layout and in the accessible name (only its opacity
  * drops, so the width never jumps), a spinner covers it and
  * `aria-busy` is set; React Aria keeps focus and ignores presses. Compact and small icon-only buttons
  * are 44px to a coarse pointer, with nothing drawn (`TouchTarget`).
  */
-export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(function Button(
+const PressButton = React.forwardRef<HTMLButtonElement, Omit<ButtonActionProps, "href">>(function PressButton(
   { variant = "default", size = "medium", iconBefore, iconAfter, iconOnly, children, type = "button", isPending, ...rest },
   forwardedRef,
 ) {
@@ -102,4 +104,17 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(function 
       {hasTouchTarget(size, iconOnly) && <TouchTarget />}
     </AriaButton>
   );
+});
+
+export type ButtonProps = ButtonActionProps | LinkButtonProps;
+
+/**
+ * A button: an action in place, or with `href` a link that looks like one (a page in the app, a download, another
+ * site), as MUI and Ant Design do. `iconOnly` makes a square icon button named by its `aria-label`. `type="button"`
+ * by default, so it never submits a form by accident; `isPending` keeps the label in place under a spinner.
+ */
+export const Button = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonProps>(function Button(props, ref) {
+  if (props.href !== undefined) return <LinkButton {...(props as LinkButtonProps)} ref={ref as React.Ref<HTMLAnchorElement>} />;
+  const { href: _href, ...rest } = props as ButtonActionProps;
+  return <PressButton {...rest} ref={ref as React.Ref<HTMLButtonElement>} />;
 });

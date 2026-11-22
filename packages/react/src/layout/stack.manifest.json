@@ -15,18 +15,17 @@
     "column",
     "flex",
     "gap",
-    "spacing"
+    "spacing",
+    "horizontal",
+    "row",
+    "wrap"
   ],
   "usage": {
     "when": [
-      "Laying out content top to bottom with even spacing."
+      "Laying out content top to bottom with even spacing.",
+      "Placing buttons, tags or short items in a row."
     ],
-    "instead": [
-      {
-        "use": "inline",
-        "when": "Items flow side by side."
-      }
-    ]
+    "instead": []
   },
   "guidance": [
     {
@@ -35,12 +34,12 @@
   ],
   "a11y": {
     "builtIn": [
-      "Layout only; no role."
+      "Layout only; no role.",
+      "Follows the reading direction, so it flips in right-to-left languages."
     ],
     "youProvide": []
   },
   "related": [
-    "inline",
     "grid",
     "box"
   ],
@@ -61,11 +60,8 @@
       "icon",
       "card",
       "button",
-      "link-button",
       "link",
       "box",
-      "stack",
-      "inline",
       "grid"
     ]
   }

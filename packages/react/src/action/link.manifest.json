@@ -11,7 +11,6 @@
   ],
   "description": "Text that goes to another page, inline in running text or as a standalone subtle link.",
   "keywords": [
-    "link",
     "anchor",
     "href",
     "navigation"
@@ -22,7 +21,7 @@
     ],
     "instead": [
       {
-        "use": "link-button",
+        "use": "button",
         "when": "The link is a call to action that should look like a button."
       }
     ]
@@ -47,7 +46,7 @@
     ]
   },
   "related": [
-    "link-button"
+    "button"
   ],
   "genui": {
     "expose": true,

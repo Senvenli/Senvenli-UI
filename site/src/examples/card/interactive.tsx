@@ -1,5 +1,5 @@
 import { Card, CardBody, CardHeader, Badge, Text } from "@senvenli/react/display";
-import { Inline } from "@senvenli/react/layout";
+import { Stack } from "@senvenli/react/layout";
 
 export default function Example() {
   return (
@@ -7,10 +7,10 @@ export default function Example() {
       <Card href="#">
         <CardHeader title="Project Atlas" subtitle="Website redesign" />
         <CardBody>
-          <Inline space="space-100">
+          <Stack direction="horizontal" space="space-100">
             <Badge tone="information">In progress</Badge>
             <Text tone="subtle">12 open tasks</Text>
-          </Inline>
+          </Stack>
         </CardBody>
       </Card>
     </div>

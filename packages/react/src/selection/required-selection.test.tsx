@@ -5,7 +5,8 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import { Form } from "../form/index";
 import { TextField } from "../form/text-field";
 import { DesignSystemProvider } from "../provider";
-import { Autocomplete, Checkbox, CheckboxGroup, ComboBox, MultiSelect, RadioGroup, Select } from "./index";
+import { Autocomplete, Checkbox, CheckboxGroup, ComboBox, RadioGroup, Select } from "./index";
+import { MultiSelect } from "./multi-select";
 
 // A required Select, ComboBox or MultiSelect (and Autocomplete, RadioGroup (cards too), Checkbox,
 // CheckboxGroup) left empty must block a DS Form submit under `aria` validation (the

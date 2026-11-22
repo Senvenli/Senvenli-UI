@@ -1,13 +1,13 @@
 import { Button } from "@senvenli/react/action";
 import { TextArea } from "@senvenli/react/form";
-import { Inline } from "@senvenli/react/layout";
+import { Stack } from "@senvenli/react/layout";
 import { DialogTrigger, Drawer, useDrawerClose } from "@senvenli/react/overlay";
 import { useState } from "react";
 
 function SaveActions({ onSave }: { onSave: () => void }) {
   const close = useDrawerClose();
   return (
-    <Inline space="space-100" justify="end">
+    <Stack direction="horizontal" space="space-100" justify="end">
       <Button variant="subtle" onPress={() => close()}>
         Cancel
       </Button>
@@ -21,7 +21,7 @@ function SaveActions({ onSave }: { onSave: () => void }) {
       >
         Save note
       </Button>
-    </Inline>
+    </Stack>
   );
 }
 

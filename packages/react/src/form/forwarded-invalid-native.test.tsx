@@ -5,7 +5,8 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { DesignSystemProvider } from "../provider";
 import { Field } from "./index";
 import { TextField } from "./text-field";
-import { ComboBox, MultiSelect, Select } from "../selection/index";
+import { ComboBox, Select } from "../selection/index";
+import { MultiSelect } from "../selection/multi-select";
 
 // A form row's forwarded `aria-invalid` (the DS Field hands it to its control) marks the control for
 // assistive tech and draws it invalid; it never becomes the control's native validity. Before, it went into React

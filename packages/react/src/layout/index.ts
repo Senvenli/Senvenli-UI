@@ -1,10 +1,10 @@
-// @senvenli/react/layout: Box, Stack, Inline, Grid and Pressable with token-only layout
+// @senvenli/react/layout: Box, Stack (vertical or horizontal), Grid and Pressable with token-only layout
 // props, `gap` between siblings and logical properties; Section and Container
 // for page bands.
 export { Box } from "./box";
 export type { BoxProps, BoxStyleProps } from "./box";
-export { Stack, Inline } from "./stack";
-export type { StackProps, InlineProps } from "./stack";
+export { Stack } from "./stack";
+export type { StackHorizontalProps, StackProps, StackVerticalProps } from "./stack";
 export { Grid } from "./grid";
 export type { GridProps } from "./grid";
 export { Pressable } from "./pressable";

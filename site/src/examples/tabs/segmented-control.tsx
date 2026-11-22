@@ -1,5 +1,5 @@
 import { Text } from "@senvenli/react/display";
-import { Inline } from "@senvenli/react/layout";
+import { Stack } from "@senvenli/react/layout";
 import { SegmentedControl } from "@senvenli/react/navigation";
 import { useState } from "react";
 
@@ -8,7 +8,7 @@ const REVENUE: Record<string, string> = { day: "$4,280", week: "$31,460", month:
 export default function Example() {
   const [period, setPeriod] = useState<string | number>("week");
   return (
-    <Inline space="space-200">
+    <Stack direction="horizontal" space="space-200">
       <SegmentedControl
         label="Period"
         value={period}
@@ -20,6 +20,6 @@ export default function Example() {
         ]}
       />
       <Text isNumeric>Revenue: {REVENUE[period]}</Text>
-    </Inline>
+    </Stack>
   );
 }

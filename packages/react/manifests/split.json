@@ -2396,10 +2396,28 @@
         "origin": "dom"
       },
       {
+        "name": "hrefLang",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
         "name": "download",
         "type": "any",
         "required": false,
         "origin": "dom"
+      },
+      {
+        "name": "span",
+        "type": "number",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "number"
+        }
       },
       {
         "name": "rows",
@@ -2429,34 +2447,16 @@
         }
       },
       {
-        "name": "label",
-        "type": "string",
-        "required": false,
-        "origin": "dom",
-        "schema": {
-          "type": "string"
-        }
-      },
-      {
-        "name": "hrefLang",
-        "type": "string",
-        "required": false,
-        "origin": "dom",
-        "schema": {
-          "type": "string"
-        }
-      },
-      {
-        "name": "span",
-        "type": "number",
-        "required": false,
-        "origin": "dom",
-        "schema": {
-          "type": "number"
-        }
-      },
-      {
         "name": "media",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "label",
         "type": "string",
         "required": false,
         "origin": "dom",
@@ -3183,9 +3183,9 @@
           "type": "string",
           "enum": [
             "form",
-            "section",
             "div",
             "span",
+            "section",
             "article",
             "main",
             "aside",
@@ -5749,10 +5749,28 @@
         "origin": "dom"
       },
       {
+        "name": "hrefLang",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
         "name": "download",
         "type": "any",
         "required": false,
         "origin": "dom"
+      },
+      {
+        "name": "span",
+        "type": "number",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "number"
+        }
       },
       {
         "name": "rows",
@@ -5782,34 +5800,16 @@
         }
       },
       {
-        "name": "label",
-        "type": "string",
-        "required": false,
-        "origin": "dom",
-        "schema": {
-          "type": "string"
-        }
-      },
-      {
-        "name": "hrefLang",
-        "type": "string",
-        "required": false,
-        "origin": "dom",
-        "schema": {
-          "type": "string"
-        }
-      },
-      {
-        "name": "span",
-        "type": "number",
-        "required": false,
-        "origin": "dom",
-        "schema": {
-          "type": "number"
-        }
-      },
-      {
         "name": "media",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "label",
         "type": "string",
         "required": false,
         "origin": "dom",
@@ -6536,9 +6536,9 @@
           "type": "string",
           "enum": [
             "form",
-            "section",
             "div",
             "span",
+            "section",
             "article",
             "main",
             "aside",

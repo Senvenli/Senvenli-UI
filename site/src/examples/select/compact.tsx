@@ -1,11 +1,11 @@
-import { Inline } from "@senvenli/react/layout";
+import { Stack } from "@senvenli/react/layout";
 import { Select } from "@senvenli/react/selection";
 import { useState } from "react";
 
 export default function Example() {
   const [period, setPeriod] = useState<string | number | null>("30");
   return (
-    <Inline space="space-100">
+    <Stack direction="horizontal" space="space-100">
       <Select
         aria-label="Period"
         size="small"
@@ -26,6 +26,6 @@ export default function Example() {
           { id: "retail", label: "Retail" },
         ]}
       />
-    </Inline>
+    </Stack>
   );
 }

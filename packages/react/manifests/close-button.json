@@ -935,7 +935,8 @@
     "ds-text-subtle"
   ],
   "strings": [
-    "close"
+    "close",
+    "newTab"
   ],
   "quality": {
     "tests": true,

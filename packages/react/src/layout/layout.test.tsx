@@ -5,7 +5,7 @@ import { createTheme, toCSS } from "@senvenli/tokens";
 import { afterEach, describe, expect, it, vi } from "vitest";
 
 import { DesignSystemProvider } from "../provider";
-import { Box, Grid, Inline, Pressable, SPACE_TOKENS, Stack } from "./index";
+import { Box, Grid, Stack, Pressable, SPACE_TOKENS } from "./index";
 import { BACKGROUND, GAP, PADDING, PADDING_BLOCK, PADDING_INLINE, RADIUS, SHADOW } from "./tokens";
 import { pressableClasses } from "./pressable";
 
@@ -89,8 +89,8 @@ describe("Stack and Inline", () => {
   it("wraps Inline by default and can turn wrapping off", () => {
     render(
       <>
-        <Inline data-testid="wrap" space="space-100" />
-        <Inline data-testid="nowrap" wrap={false} justify="between" />
+        <Stack direction="horizontal" data-testid="wrap" space="space-100" />
+        <Stack direction="horizontal" data-testid="nowrap" wrap={false} justify="between" />
       </>,
     );
     expect(classesOf(screen.getByTestId("wrap"))).toContain("flex-wrap");
@@ -129,9 +129,9 @@ describe("right-to-left", () => {
     const { container } = render(
       <div dir="rtl">
         <Stack space="space-200" padding="space-300" paddingInline="space-400" border>
-          <Inline space="space-100" justify="start" paddingBlock="space-100">
+          <Stack direction="horizontal" space="space-100" justify="start" paddingBlock="space-100">
             <Box padding="space-100" radius="small">ا</Box>
-          </Inline>
+          </Stack>
           <Grid minColumnWidth={120} space="space-100">
             <Pressable onPress={() => {}} padding="space-200">ب</Pressable>
           </Grid>

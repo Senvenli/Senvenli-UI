@@ -1,6 +1,6 @@
 import { Button } from "@senvenli/react/action";
 import { Kbd, ModifierKbd, Text } from "@senvenli/react/display";
-import { Inline } from "@senvenli/react/layout";
+import { Stack } from "@senvenli/react/layout";
 import { Command, toast, type CommandGroup, type CommandItem } from "@senvenli/react/overlay";
 import { useState } from "react";
 
@@ -23,7 +23,7 @@ const RECENT: CommandItem[] = [
 export default function Example() {
   const [isOpen, setIsOpen] = useState(false);
   return (
-    <Inline space="space-150">
+    <Stack direction="horizontal" space="space-150">
       <Button onPress={() => setIsOpen(true)}>Open the palette</Button>
       <Text tone="subtle">
         or press <ModifierKbd /> <Kbd>K</Kbd>
@@ -36,6 +36,6 @@ export default function Example() {
         recent={RECENT}
         onSelect={(item) => toast(`Opened ${item.detail ?? item.label}`)}
       />
-    </Inline>
+    </Stack>
   );
 }

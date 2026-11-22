@@ -6,7 +6,7 @@ export default function Example() {
   return (
     <DialogTrigger>
       <Button iconBefore="arrow-up-down">Sort</Button>
-      <Drawer placement="bottom" title="Sort orders">
+      <Drawer position="bottom" title="Sort orders">
         <RadioGroup
           label="Sort by"
           defaultValue="newest"

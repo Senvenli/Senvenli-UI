@@ -128,16 +128,18 @@
         }
       },
       {
-        "name": "placement",
-        "type": "\"bottom\" | \"end\"",
+        "name": "position",
+        "type": "DrawerPosition",
         "required": false,
         "origin": "own",
         "default": "\"end\"",
-        "description": "`end` (the side; a bottom sheet on phones) or `bottom` everywhere.",
+        "description": "The edge it slides in from, at every width (the app decides, e.g. `bottom` on phones): `end` (default) and\n`start` are the inline sides and mirror in right-to-left; `bottom` is a sheet that snaps between half and full\nheight; `top` drops down from above.",
         "schema": {
           "type": "string",
           "enum": [
+            "top",
             "bottom",
+            "start",
             "end"
           ]
         }

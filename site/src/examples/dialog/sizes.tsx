@@ -1,6 +1,6 @@
 import { Button } from "@senvenli/react/action";
 import { Text } from "@senvenli/react/display";
-import { Inline } from "@senvenli/react/layout";
+import { Stack } from "@senvenli/react/layout";
 import { Dialog, DialogTrigger } from "@senvenli/react/overlay";
 
 const SIZES = [
@@ -12,7 +12,7 @@ const SIZES = [
 
 export default function Example() {
   return (
-    <Inline space="space-100">
+    <Stack direction="horizontal" space="space-100">
       {SIZES.map(({ size, width }) => (
         <DialogTrigger key={size}>
           <Button>{size}</Button>
@@ -23,6 +23,6 @@ export default function Example() {
           </Dialog>
         </DialogTrigger>
       ))}
-    </Inline>
+    </Stack>
   );
 }

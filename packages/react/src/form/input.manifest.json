@@ -11,7 +11,6 @@
   ],
   "description": "One text-entry field with a label, description and error; `type` picks text, email, url, password, search, number or tel.",
   "keywords": [
-    "input",
     "text",
     "email",
     "url",
@@ -102,7 +101,7 @@
   "related": [
     "text-area",
     "field",
-    "iso-chip"
+    "badge"
   ],
   "genui": {
     "expose": true,

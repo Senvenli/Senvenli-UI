@@ -1,5 +1,5 @@
 import { Button } from "@senvenli/react/action";
-import { Card, CardBody, CardHeader, Heading, IsoChip, Text } from "@senvenli/react/display";
+import { Card, CardBody, CardHeader, Heading, Badge, Text } from "@senvenli/react/display";
 import { EmptyState, useCooldownAction } from "@senvenli/react/feedback";
 import { Form, Input } from "@senvenli/react/form";
 import { Stack } from "@senvenli/react/layout";
@@ -37,7 +37,7 @@ export function AuthPreview() {
         <CardBody>
           <div className="flex flex-wrap items-center gap-ds-200">
             <LanguageSwitcher locales={LOCALES} current={locale} onSelect={setLocale} />
-            <LanguageSwitcher locales={LOCALES} current={locale} onSelect={setLocale} renderMark={(l) => <IsoChip code={REGION[l]} />} />
+            <LanguageSwitcher locales={LOCALES} current={locale} onSelect={setLocale} renderMark={(l) => <Badge>{REGION[l]}</Badge>} />
           </div>
         </CardBody>
       </Card>

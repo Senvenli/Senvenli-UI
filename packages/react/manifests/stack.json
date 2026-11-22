@@ -15,18 +15,17 @@
     "column",
     "flex",
     "gap",
-    "spacing"
+    "spacing",
+    "horizontal",
+    "row",
+    "wrap"
   ],
   "usage": {
     "when": [
-      "Laying out content top to bottom with even spacing."
+      "Laying out content top to bottom with even spacing.",
+      "Placing buttons, tags or short items in a row."
     ],
-    "instead": [
-      {
-        "use": "inline",
-        "when": "Items flow side by side."
-      }
-    ]
+    "instead": []
   },
   "guidance": [
     {
@@ -35,12 +34,12 @@
   ],
   "a11y": {
     "builtIn": [
-      "Layout only; no role."
+      "Layout only; no role.",
+      "Follows the reading direction, so it flips in right-to-left languages."
     ],
     "youProvide": []
   },
   "related": [
-    "inline",
     "grid",
     "box"
   ],
@@ -61,11 +60,8 @@
       "icon",
       "card",
       "button",
-      "link-button",
       "link",
       "box",
-      "stack",
-      "inline",
       "grid"
     ],
     "schema": {
@@ -98,7 +94,8 @@
             "start",
             "end",
             "center",
-            "stretch"
+            "stretch",
+            "baseline"
           ],
           "description": "Cross-axis alignment (inline axis)."
         },
@@ -2599,10 +2596,28 @@
         "origin": "dom"
       },
       {
+        "name": "hrefLang",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
         "name": "download",
         "type": "any",
         "required": false,
         "origin": "dom"
+      },
+      {
+        "name": "span",
+        "type": "number",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "number"
+        }
       },
       {
         "name": "rows",
@@ -2632,34 +2647,16 @@
         }
       },
       {
-        "name": "label",
-        "type": "string",
-        "required": false,
-        "origin": "dom",
-        "schema": {
-          "type": "string"
-        }
-      },
-      {
-        "name": "hrefLang",
-        "type": "string",
-        "required": false,
-        "origin": "dom",
-        "schema": {
-          "type": "string"
-        }
-      },
-      {
-        "name": "span",
-        "type": "number",
-        "required": false,
-        "origin": "dom",
-        "schema": {
-          "type": "number"
-        }
-      },
-      {
         "name": "media",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "label",
         "type": "string",
         "required": false,
         "origin": "dom",
@@ -3381,14 +3378,13 @@
         "type": "LayoutElement",
         "required": false,
         "origin": "own",
-        "default": "\"div\"",
         "schema": {
           "type": "string",
           "enum": [
             "form",
-            "section",
             "div",
             "span",
+            "section",
             "article",
             "main",
             "aside",
@@ -3399,6 +3395,20 @@
             "ol",
             "li",
             "fieldset"
+          ]
+        }
+      },
+      {
+        "name": "direction",
+        "type": "\"vertical\" | \"horizontal\"",
+        "required": false,
+        "origin": "own",
+        "description": "`vertical` (default): children stacked on the block axis.",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "vertical",
+            "horizontal"
           ]
         }
       },
@@ -3430,7 +3440,7 @@
       },
       {
         "name": "align",
-        "type": "\"start\" | \"end\" | \"center\" | \"stretch\"",
+        "type": "\"start\" | \"end\" | \"center\" | \"stretch\" | Align",
         "required": false,
         "origin": "own",
         "description": "Cross-axis alignment (inline axis).",
@@ -3440,8 +3450,35 @@
             "start",
             "end",
             "center",
-            "stretch"
+            "stretch",
+            "baseline"
           ]
+        }
+      },
+      {
+        "name": "justify",
+        "type": "Justify",
+        "required": false,
+        "origin": "own",
+        "description": "Distribution along the inline axis; `start` is the reading start, so RTL flips with it.",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "start",
+            "end",
+            "center",
+            "between"
+          ]
+        }
+      },
+      {
+        "name": "wrap",
+        "type": "boolean",
+        "required": false,
+        "origin": "own",
+        "description": "Wrap onto new lines when space runs out. Default `true`.",
+        "schema": {
+          "type": "boolean"
         }
       }
     ]
