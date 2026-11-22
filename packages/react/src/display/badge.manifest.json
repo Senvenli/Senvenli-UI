@@ -23,12 +23,17 @@
     "notification",
     "unread",
     "dot",
-    "live"
+    "live",
+    "country",
+    "language",
+    "code",
+    "iso"
   ],
   "usage": {
     "when": [
       "Showing the state of an item: draft, paid, overdue.",
-      "Showing how many items need attention."
+      "Showing how many items need attention.",
+      "Marking a country or language next to its name."
     ],
     "instead": []
   },
@@ -47,15 +52,18 @@
     "builtIn": [
       "Text meets WCAG AA in both appearances.",
       "Counts above `max` show as \"max+\".",
-      "On an icon the badge is hidden; the control's label must say the count."
+      "On an icon the badge is hidden; the control's label must say the count.",
+      "Hidden from screen readers when the name is next to it."
     ],
     "youProvide": [
       "A status word that makes sense without color.",
-      "The count in the control's accessible name when the badge sits on an icon."
+      "The count in the control's accessible name when the badge sits on an icon.",
+      "The name beside it."
     ]
   },
   "related": [
-    "icon"
+    "icon",
+    "input"
   ],
   "genui": {
     "expose": true,

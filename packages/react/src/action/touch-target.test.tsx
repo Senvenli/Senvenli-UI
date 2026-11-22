@@ -6,7 +6,8 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import { DesignSystemProvider } from "../provider";
 import { DescriptionList } from "../display/index";
 import { GridList } from "../collection/index";
-import { Button, ButtonGroup, CloseButton, LinkButton } from "./index";
+import { Button, ButtonGroup, CloseButton } from "./index";
+import { LinkButton } from "./link-button";
 import { hasTouchTarget, TOUCH_TARGET } from "./styles";
 
 afterEach(cleanup);

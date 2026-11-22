@@ -7,7 +7,8 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 
 import { DesignSystemProvider } from "../provider";
 import { DS_STRINGS, moreCountLabel, registerDsStrings, removeItemLabel, selectAllLabel, selectPlaceholder, selectedCountLabel } from "../i18n";
-import { MultiSelect, Select } from "./index";
+import { Select } from "./index";
+import { MultiSelect } from "./multi-select";
 import { LISTBOX, OPTION, OPTION_BOX, OPTION_BOX_SELECTED, POPOVER } from "./listbox";
 import { MULTI_FIELD, MULTI_FOOTER, SELECT_ALL, TAG, TAG_REMOVE } from "./multi-select";
 import { SELECT_TRIGGER } from "./select";

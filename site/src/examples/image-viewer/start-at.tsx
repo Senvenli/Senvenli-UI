@@ -1,6 +1,6 @@
 import { Button } from "@senvenli/react/action";
 import { ImageViewer } from "@senvenli/react/display";
-import { Inline } from "@senvenli/react/layout";
+import { Stack } from "@senvenli/react/layout";
 import { useState } from "react";
 
 // Flat placeholder photos drawn in the file, so the example needs no network.
@@ -19,13 +19,13 @@ export default function Example() {
   const [openAt, setOpenAt] = useState<number | null>(null);
   return (
     <>
-      <Inline space="space-100">
+      <Stack direction="horizontal" space="space-100">
         {PHOTOS.map((item, index) => (
           <Button key={item.label} onPress={() => setOpenAt(index)}>
             {item.label}
           </Button>
         ))}
-      </Inline>
+      </Stack>
       {openAt !== null && (
         <ImageViewer
           photos={PHOTOS.map((item) => item.src)}

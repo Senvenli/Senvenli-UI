@@ -1,5 +1,5 @@
 import { Badge } from "@senvenli/react/display";
-import { Inline } from "@senvenli/react/layout";
+import { Stack } from "@senvenli/react/layout";
 
 const STATUSES = [
   { label: "Draft", tone: "neutral" },
@@ -11,10 +11,10 @@ const STATUSES = [
 
 export default function Example() {
   return (
-    <Inline space="space-100">
+    <Stack direction="horizontal" space="space-100">
       {STATUSES.map((status) => (
         <Badge key={status.label} tone={status.tone}>{status.label}</Badge>
       ))}
-    </Inline>
+    </Stack>
   );
 }

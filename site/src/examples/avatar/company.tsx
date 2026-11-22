@@ -1,5 +1,5 @@
 import { Avatar } from "@senvenli/react/display";
-import { Inline } from "@senvenli/react/layout";
+import { Stack } from "@senvenli/react/layout";
 
 // A flat placeholder logo drawn in the file, so the example needs no network.
 const LOGO = `data:image/svg+xml,${encodeURIComponent(
@@ -8,9 +8,9 @@ const LOGO = `data:image/svg+xml,${encodeURIComponent(
 
 export default function Example() {
   return (
-    <Inline space="space-150">
+    <Stack direction="horizontal" space="space-150">
       <Avatar name="Northwind Traders" shape="square" />
       <Avatar name="Summit Supply" shape="square" src={LOGO} />
-    </Inline>
+    </Stack>
   );
 }

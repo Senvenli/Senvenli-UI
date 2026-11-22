@@ -15,11 +15,16 @@
     "dropdown",
     "picker",
     "options",
-    "choose"
+    "choose",
+    "multiselect",
+    "tags",
+    "multiple",
+    "filter"
   ],
   "usage": {
     "when": [
-      "One choice from about 5 to 15 options."
+      "One choice from about 5 to 15 options.",
+      "Several choices from a medium list."
     ],
     "instead": [
       {
@@ -29,6 +34,10 @@
       {
         "use": "combobox",
         "when": "The list is long and people type to find."
+      },
+      {
+        "use": "checkbox",
+        "when": "A few options should all stay visible."
       }
     ]
   },
@@ -45,16 +54,17 @@
     ],
     "builtIn": [
       "Announced as a button that opens a listbox.",
-      "Required fields show \"Fill in this field.\" after a blur or a submit; your own `errorMessage` replaces it."
+      "Required fields show \"Fill in this field.\" after a blur or a submit; your own `errorMessage` replaces it.",
+      "Each tag has a remove button named after its option."
     ],
     "youProvide": [
       "A visible label."
     ]
   },
   "related": [
-    "multi-select",
     "combobox",
-    "radio"
+    "radio",
+    "tag-group"
   ],
   "genui": {
     "expose": true,

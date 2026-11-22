@@ -1,4 +1,4 @@
-import { Link, LinkButton } from "@senvenli/react/action";
+import { Link, Button } from "@senvenli/react/action";
 import { ColorSwatch } from "@senvenli/react/color";
 import { Heading, Icon, Badge, Text } from "@senvenli/react/display";
 import { Pressable } from "@senvenli/react/layout";
@@ -85,10 +85,10 @@ export function HomePage({ data }: { data: HomeData }) {
           {`Pick up to three colors, or none. Senvenli UI derives the whole theme and checks every color pair against WCAG AA in light and dark. ${data.componentCount} accessible React components, built on React Aria.`}
         </Text>
         <div className="flex flex-wrap items-center justify-center gap-ds-150">
-          <LinkButton variant="primary" href="/docs">
+          <Button variant="primary" href="/docs">
             Get started
-          </LinkButton>
-          <LinkButton href="/docs/components">View components</LinkButton>
+          </Button>
+          <Button href="/docs/components">View components</Button>
         </div>
         <div className="w-full max-w-sm text-start">
           <CodeBlock code={INSTALL} html={data.installHtml} variants={data.installVariants} copyLabel="Copy install command" />

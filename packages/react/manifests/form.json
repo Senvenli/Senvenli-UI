@@ -14,7 +14,6 @@
   ],
   "description": "A form with consistent rhythm, sections with legends, side-by-side rows and a footer for its actions.",
   "keywords": [
-    "form",
     "fieldset",
     "submit",
     "section",
@@ -64,7 +63,6 @@
       "text-area",
       "button",
       "stack",
-      "inline",
       "heading",
       "text",
       "separator"

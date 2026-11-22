@@ -1,10 +1,10 @@
 import { Button } from "@senvenli/react/action";
-import { Inline } from "@senvenli/react/layout";
+import { Stack } from "@senvenli/react/layout";
 import { Tooltip } from "@senvenli/react/overlay";
 
 export default function Example() {
   return (
-    <Inline space="space-050">
+    <Stack direction="horizontal" space="space-050">
       <Tooltip content="Edit">
         <Button variant="subtle" iconOnly iconBefore="pencil" aria-label="Edit" />
       </Tooltip>
@@ -14,6 +14,6 @@ export default function Example() {
       <Tooltip content="Archive">
         <Button variant="subtle" iconOnly iconBefore="archive" aria-label="Archive" />
       </Tooltip>
-    </Inline>
+    </Stack>
   );
 }

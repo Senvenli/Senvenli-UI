@@ -29,5 +29,3 @@ export type { ImageCropperAspect, ImageCropperPreset, ImageCropperProps, ImageCr
 export type { CropFit, CropOutputType } from "./image-crop";
 export { ImageViewer, wrapPhotoIndex } from "./image-viewer";
 export type { ImageViewerImage, ImageViewerImageProps, ImageViewerProps } from "./image-viewer";
-export { IsoChip } from "./iso-chip";
-export type { IsoChipProps } from "./iso-chip";

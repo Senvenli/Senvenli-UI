@@ -334,7 +334,7 @@ export function CreatePage() {
           <Button variant="primary" iconBefore="palette">
             Edit theme
           </Button>
-          <Drawer placement="bottom" title="Edit theme">
+          <Drawer position="bottom" title="Edit theme">
             {controls}
           </Drawer>
         </DialogTrigger>

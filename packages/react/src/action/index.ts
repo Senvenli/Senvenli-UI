@@ -2,7 +2,7 @@
 // Button, ButtonGroup, CloseButton, ToggleButton, ToggleGroup and Link on React
 // Aria Components; FileTrigger, DropZone, file rows and Fab; ThemeSwitcher.
 export { Button } from "./button";
-export type { ButtonProps } from "./button";
+export type { ButtonActionProps, ButtonProps } from "./button";
 export { ButtonGroup } from "./button-group";
 export type { ButtonGroupProps } from "./button-group";
 export { CloseButton } from "./close-button";
@@ -11,7 +11,7 @@ export { ToggleButton, ToggleGroup } from "./toggle";
 export type { ToggleButtonProps, ToggleGroupProps } from "./toggle";
 export { Link } from "./link";
 export type { LinkProps } from "./link";
-export { LinkButton, type LinkButtonProps } from "./link-button";
+export type { LinkButtonProps } from "./link-button";
 export type { ButtonSize, ButtonVariant, LinkVariant, ToggleSize } from "./styles";
 export { FileTrigger, DropZone, FileUploadList, FileRow, validateFiles, formatFileSize } from "./files";
 export type { FileTriggerProps, DropZoneProps, FileRowProps, FileRules, RejectedFile } from "./files";

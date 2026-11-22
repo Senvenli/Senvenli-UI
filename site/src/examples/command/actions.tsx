@@ -1,6 +1,6 @@
 import { Button } from "@senvenli/react/action";
 import { Text } from "@senvenli/react/display";
-import { Inline } from "@senvenli/react/layout";
+import { Stack } from "@senvenli/react/layout";
 import { Command, type CommandGroup } from "@senvenli/react/overlay";
 import { useState } from "react";
 
@@ -29,12 +29,12 @@ export default function Example() {
   const [isOpen, setIsOpen] = useState(false);
   const [chosen, setChosen] = useState("nothing yet");
   return (
-    <Inline space="space-150">
+    <Stack direction="horizontal" space="space-150">
       <Button iconBefore="search" onPress={() => setIsOpen(true)}>
         Search
       </Button>
       <Text tone="subtle">Chosen: {chosen}</Text>
       <Command isOpen={isOpen} onOpenChange={setIsOpen} groups={GROUPS} onSelect={(item) => setChosen(item.label)} />
-    </Inline>
+    </Stack>
   );
 }

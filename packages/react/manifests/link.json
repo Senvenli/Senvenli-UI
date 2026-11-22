@@ -11,7 +11,6 @@
   ],
   "description": "Text that goes to another page, inline in running text or as a standalone subtle link.",
   "keywords": [
-    "link",
     "anchor",
     "href",
     "navigation"
@@ -22,7 +21,7 @@
     ],
     "instead": [
       {
-        "use": "link-button",
+        "use": "button",
         "when": "The link is a call to action that should look like a button."
       }
     ]
@@ -47,7 +46,7 @@
     ]
   },
   "related": [
-    "link-button"
+    "button"
   ],
   "genui": {
     "expose": true,
@@ -730,13 +729,6 @@
         "description": "Overrides the default DOM element with a custom render function.\nThis allows rendering existing components with built-in styles and behaviors\nsuch as router links, animation libraries, and pre-styled components.\n\nNote: You can check if `'href' in props` in order to tell whether to render an `<a>` element.\n\nRequirements:\n\n- You must render the expected element type (e.g. if `<a>` is expected, you cannot render a\n  `<button>`).\n- Only a single root DOM element can be rendered (no fragments).\n- You must pass through props and ref to the underlying DOM element, merging with your own prop\n  as appropriate."
       },
       {
-        "name": "download",
-        "type": "string | boolean",
-        "required": false,
-        "origin": "aria",
-        "description": "Causes the browser to download the linked URL. A string may be provided to suggest a file name.\nSee [MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#download)."
-      },
-      {
         "name": "hrefLang",
         "type": "string",
         "required": false,
@@ -745,6 +737,13 @@
         "schema": {
           "type": "string"
         }
+      },
+      {
+        "name": "download",
+        "type": "string | boolean",
+        "required": false,
+        "origin": "aria",
+        "description": "Causes the browser to download the linked URL. A string may be provided to suggest a file name.\nSee [MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#download)."
       },
       {
         "name": "ping",

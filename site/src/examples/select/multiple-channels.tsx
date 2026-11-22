@@ -1,9 +1,9 @@
-import { MultiSelect } from "@senvenli/react/selection";
+import { Select } from "@senvenli/react/selection";
 
 export default function Example() {
   return (
     <div className="max-w-80">
-      <MultiSelect
+      <Select selectionMode="multiple"
         label="Notify by"
         placeholder="Add channel"
         defaultSelectedKeys={["email"]}

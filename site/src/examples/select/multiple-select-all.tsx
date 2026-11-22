@@ -1,4 +1,4 @@
-import { MultiSelect } from "@senvenli/react/selection";
+import { Select } from "@senvenli/react/selection";
 
 const REGIONS = [
   { id: "na", label: "North America" },
@@ -12,7 +12,7 @@ const REGIONS = [
 export default function Example() {
   return (
     <div className="max-w-80">
-      <MultiSelect
+      <Select selectionMode="multiple"
         label="Regions"
         description="Orders from these regions appear in the report."
         allowsSelectAll

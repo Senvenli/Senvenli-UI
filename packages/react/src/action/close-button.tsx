@@ -3,12 +3,12 @@
 import * as React from "react";
 import { useLocale } from "react-aria-components";
 
-import { Button, type ButtonProps } from "./button";
+import { Button, type ButtonActionProps } from "./button";
 import { closeLabel } from "../i18n";
 
 export { closeLabel } from "../i18n";
 
-export type CloseButtonProps = Omit<ButtonProps, "variant" | "iconOnly" | "iconBefore" | "iconAfter" | "children" | "aria-label"> & {
+export type CloseButtonProps = Omit<ButtonActionProps, "variant" | "iconOnly" | "iconBefore" | "iconAfter" | "children" | "aria-label"> & {
   /** Overrides the localized "Close" name. */
   "aria-label"?: string;
 };

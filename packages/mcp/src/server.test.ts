@@ -68,7 +68,7 @@ describe("@senvenli/mcp", () => {
     ["modal dialog", "dialog"],
     ["keyboard shortcut", "kbd"],
     ["button", "button"],
-    ["I need a component that lets users choose several options from a long list", "|multi-select"],
+    ["I need a component that lets users choose several options from a long list", "|select"],
   ];
   it.each(golden)("search: %s → %s", async (query, expected) => {
     const names = (await call("search_components", { query })).text

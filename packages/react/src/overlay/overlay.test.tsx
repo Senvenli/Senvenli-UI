@@ -222,14 +222,14 @@ describe("AlertDialog", () => {
 });
 
 describe("Drawer", () => {
-  function Record({ unsaved, placement }: { unsaved?: boolean; placement?: "end" | "bottom" }) {
+  function Record({ unsaved, position }: { unsaved?: boolean; position?: "start" | "end" | "top" | "bottom" }) {
     return (
       <DialogTrigger>
         <Button>Open</Button>
         <Drawer
           title="ORD-482"
           subtitle="Jordan Lee · 14–18 Oct"
-          placement={placement}
+          position={position}
           hasUnsavedChanges={unsaved}
           footer={<Button variant="primary">Save</Button>}
         >
@@ -250,7 +250,7 @@ describe("Drawer", () => {
   });
 
   it("bottom sheet: a grip snaps it between half and full height", () => {
-    inLocale(<Record placement="bottom" />);
+    inLocale(<Record position="bottom" />);
     fireEvent.click(screen.getByRole("button", { name: "Open" }));
     const drawer = document.querySelector("[data-slot='drawer']")!;
     expect(drawer.className).toContain("h-[50dvh]");
@@ -261,15 +261,18 @@ describe("Drawer", () => {
     expect(document.querySelector("[data-slot='drawer']")!.className).toContain("100dvh");
   });
 
-  it("on a phone the side drawer becomes the bottom sheet", () => {
+  it("comes from the edge `position` names, at every width (a phone included): the app decides", () => {
     const original = window.matchMedia;
     window.matchMedia = ((query: string) => ({
       matches: query.includes("max-width: 639px"), media: query, addEventListener: () => {}, removeEventListener: () => {},
     })) as unknown as typeof window.matchMedia;
     try {
-      inLocale(<Record />);
-      fireEvent.click(screen.getByRole("button", { name: "Open" }));
-      expect(document.querySelector("[data-slot='drawer-overlay']")!.getAttribute("data-placement")).toBe("bottom");
+      for (const position of ["start", "end", "top", "bottom"] as const) {
+        const { unmount } = inLocale(<Record position={position} />);
+        fireEvent.click(screen.getByRole("button", { name: "Open" }));
+        expect(document.querySelector("[data-slot='drawer-overlay']")!.getAttribute("data-position")).toBe(position);
+        unmount();
+      }
     } finally {
       window.matchMedia = original;
     }
@@ -414,7 +417,7 @@ describe("Overlay close, nesting and safe areas", () => {
   });
 
   it("the grip: swipe up expands, swipe down from half asks to close", () => {
-    inLocale(<Drawer defaultOpen placement="bottom" title="Filters" hasUnsavedChanges>x</Drawer>);
+    inLocale(<Drawer defaultOpen position="bottom" title="Filters" hasUnsavedChanges>x</Drawer>);
     const grip = document.querySelector("[data-slot='drawer-grip']")!;
     fireEvent.pointerDown(grip, { clientY: 400 });
     fireEvent.pointerUp(grip, { clientY: 330 });
@@ -478,7 +481,7 @@ describe("Drawer close hook, trigger and grip", () => {
   });
 
   it("the grip keeps the pointer while it drags", () => {
-    inLocale(<Drawer defaultOpen placement="bottom" title="Filters">x</Drawer>);
+    inLocale(<Drawer defaultOpen position="bottom" title="Filters">x</Drawer>);
     const grip = document.querySelector("[data-slot='drawer-grip']") as HTMLElement;
     const capture = vi.fn();
     grip.setPointerCapture = capture;
@@ -490,7 +493,7 @@ describe("Drawer close hook, trigger and grip", () => {
     inLocale(
       <DialogTrigger>
         <Button>Open</Button>
-        <Drawer placement="bottom" title="Filters">x</Drawer>
+        <Drawer position="bottom" title="Filters">x</Drawer>
       </DialogTrigger>,
     );
     fireEvent.click(screen.getByRole("button", { name: "Open" }));

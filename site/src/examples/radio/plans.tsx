@@ -1,5 +1,5 @@
 import { Badge, Text } from "@senvenli/react/display";
-import { Inline, Stack } from "@senvenli/react/layout";
+import { Stack } from "@senvenli/react/layout";
 import { Radio, RadioGroup } from "@senvenli/react/selection";
 
 // A card's content is yours: here a name with a "Recommended" Badge, a line of detail and a price.
@@ -14,10 +14,10 @@ export default function Example() {
       </Radio>
       <Radio value="team" description="Up to 20 people.">
         <Stack as="span" space="space-050">
-          <Inline as="span" space="space-075" align="center">
+          <Stack direction="horizontal" as="span" space="space-075" align="center">
             <span>Team</span>
             <Badge tone="brand">Recommended</Badge>
-          </Inline>
+          </Stack>
           <Text size="body-large" weight="medium" isNumeric>$12 / month</Text>
         </Stack>
       </Radio>

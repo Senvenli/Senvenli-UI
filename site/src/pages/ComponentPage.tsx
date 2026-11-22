@@ -1,4 +1,4 @@
-import { Link, LinkButton } from "@senvenli/react/action";
+import { Link, Button } from "@senvenli/react/action";
 import { Heading, Kbd, Text } from "@senvenli/react/display";
 import { Breadcrumbs, Disclosure } from "@senvenli/react/navigation";
 import type { ReactNode } from "react";
@@ -105,10 +105,10 @@ export function ComponentPage({ manifest, examples = [], components = [], import
             <div className="flex items-center gap-ds-050">
               <CopyButton label="Copy page" getText={() => fetch(`/docs/components/${manifest.name}.md`).then((response) => response.text())} />
               {previous && (
-                  <LinkButton size="small" variant="subtle" iconOnly iconBefore="arrow-left" aria-label={`Previous: ${previous.title}`} href={`/docs/components/${previous.name}`} />
+                  <Button size="small" variant="subtle" iconOnly iconBefore="arrow-left" aria-label={`Previous: ${previous.title}`} href={`/docs/components/${previous.name}`} />
               )}
               {next && (
-                  <LinkButton size="small" variant="subtle" iconOnly iconBefore="arrow-right" aria-label={`Next: ${next.title}`} href={`/docs/components/${next.name}`} />
+                  <Button size="small" variant="subtle" iconOnly iconBefore="arrow-right" aria-label={`Next: ${next.title}`} href={`/docs/components/${next.name}`} />
               )}
             </div>
           </div>
@@ -289,11 +289,11 @@ export function ComponentPage({ manifest, examples = [], components = [], import
 function PageLink({ direction, href, title }: { direction: "previous" | "next"; href: string; title: string }) {
   const end = direction === "next";
   return (
-    <LinkButton variant="subtle" href={href} iconBefore={end ? undefined : "arrow-left"} iconAfter={end ? "arrow-right" : undefined}>
+    <Button variant="subtle" href={href} iconBefore={end ? undefined : "arrow-left"} iconAfter={end ? "arrow-right" : undefined}>
       <span className={end ? "flex flex-col items-end" : "flex flex-col items-start"}>
         <span className="text-body-small font-normal text-ds-text-subtle">{end ? "Next" : "Previous"}</span>
         <span>{title}</span>
       </span>
-    </LinkButton>
+    </Button>
   );
 }

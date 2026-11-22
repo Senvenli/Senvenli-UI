@@ -3,7 +3,8 @@ import { cleanup, render } from "@testing-library/react";
 import { afterEach, describe, expect, it, vi } from "vitest";
 
 import { DesignSystemProvider } from "../provider";
-import { Button, LinkButton } from "../action/index";
+import { Button } from "../action/index";
+import { LinkButton } from "../action/link-button";
 import { Breadcrumbs } from "../navigation/index";
 import { DIRECTIONAL_ICONS, Icon, MIRROR_IN_RTL } from "./icon";
 

@@ -1,5 +1,5 @@
-import { IsoChip, Text } from "@senvenli/react/display";
-import { Inline, Stack } from "@senvenli/react/layout";
+import { Badge, Text } from "@senvenli/react/display";
+import { Stack } from "@senvenli/react/layout";
 
 const COUNTRIES = [
   { code: "DE", name: "Germany" },
@@ -11,10 +11,10 @@ export default function Example() {
   return (
     <Stack space="space-100">
       {COUNTRIES.map((country) => (
-        <Inline key={country.code} space="space-100">
-          <IsoChip code={country.code} />
+        <Stack direction="horizontal" key={country.code} space="space-100">
+          <Badge>{country.code}</Badge>
           <Text>{country.name}</Text>
-        </Inline>
+        </Stack>
       ))}
     </Stack>
   );

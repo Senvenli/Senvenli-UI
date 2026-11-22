@@ -1,9 +1,9 @@
 import { Link } from "@senvenli/react/action";
-import { Inline } from "@senvenli/react/layout";
+import { Stack } from "@senvenli/react/layout";
 
 export default function Example() {
   return (
-    <Inline space="space-200">
+    <Stack direction="horizontal" space="space-200">
       <Link href="#" variant="subtle">
         Privacy policy
       </Link>
@@ -13,6 +13,6 @@ export default function Example() {
       <Link href="#" variant="subtle">
         System status
       </Link>
-    </Inline>
+    </Stack>
   );
 }

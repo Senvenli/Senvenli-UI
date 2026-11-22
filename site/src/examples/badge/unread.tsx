@@ -1,11 +1,11 @@
 import { Badge, Text } from "@senvenli/react/display";
-import { Inline } from "@senvenli/react/layout";
+import { Stack } from "@senvenli/react/layout";
 
 export default function Example() {
   return (
-    <Inline space="space-075">
+    <Stack direction="horizontal" space="space-075">
       <Badge variant="count" isDot />
       <Text>New comments on Project Atlas</Text>
-    </Inline>
+    </Stack>
   );
 }

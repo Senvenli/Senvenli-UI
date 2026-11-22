@@ -5,7 +5,8 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import { DesignSystemProvider } from "../provider";
 import { DatePicker } from "../date/index";
 import { TextField } from "../form/text-field";
-import { ComboBox, MultiSelect, Select } from "../selection/index";
+import { ComboBox, Select } from "../selection/index";
+import { MultiSelect } from "../selection/multi-select";
 import { Dialog } from "./index";
 
 /**

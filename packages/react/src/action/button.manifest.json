@@ -15,17 +15,17 @@
     "action",
     "submit",
     "cta",
-    "press"
+    "press",
+    "link",
+    "navigation",
+    "href"
   ],
   "usage": {
     "when": [
-      "The press changes something on this page: save, send, open a dialog."
+      "The press changes something on this page: save, send, open a dialog.",
+      "A call to action that navigates: \"Add product\" to /products/new."
     ],
     "instead": [
-      {
-        "use": "link-button",
-        "when": "The press goes to another page."
-      },
       {
         "use": "link",
         "when": "The action sits inside running text."
@@ -48,20 +48,26 @@
       {
         "keys": "Enter, Space",
         "does": "Presses the button."
+      },
+      {
+        "keys": "Enter",
+        "does": "Follows the link."
       }
     ],
     "builtIn": [
       "Pending and disabled states are exposed to assistive technology.",
-      "A 44px hit area under coarse pointers without changing the layout."
+      "A 44px hit area under coarse pointers without changing the layout.",
+      "Keeps link semantics: role link and a real href that works without JavaScript."
     ],
     "youProvide": [
-      "An `aria-label` when the button shows only an icon."
+      "An `aria-label` when the button shows only an icon.",
+      "An `aria-label` when it shows only an icon."
     ]
   },
   "related": [
-    "link-button",
     "button-group",
-    "toggle-button"
+    "toggle-button",
+    "link"
   ],
   "genui": {
     "expose": true,

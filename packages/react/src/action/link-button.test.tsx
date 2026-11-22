@@ -4,7 +4,8 @@ import { act, cleanup, fireEvent, render, screen } from "@testing-library/react"
 import { afterEach, describe, expect, it, vi } from "vitest";
 
 import { DesignSystemProvider } from "../provider";
-import { Button, LinkButton } from "./index";
+import { Button } from "./index";
+import { LinkButton } from "./link-button";
 import { BUTTON_BASE, BUTTON_SIZE, BUTTON_VARIANT, ICON_ONLY_SIZE, LINK_BUTTON_PADDING, type ButtonSize, type ButtonVariant } from "./styles";
 
 afterEach(cleanup);

@@ -15,17 +15,17 @@
     "action",
     "submit",
     "cta",
-    "press"
+    "press",
+    "link",
+    "navigation",
+    "href"
   ],
   "usage": {
     "when": [
-      "The press changes something on this page: save, send, open a dialog."
+      "The press changes something on this page: save, send, open a dialog.",
+      "A call to action that navigates: \"Add product\" to /products/new."
     ],
     "instead": [
-      {
-        "use": "link-button",
-        "when": "The press goes to another page."
-      },
       {
         "use": "link",
         "when": "The action sits inside running text."
@@ -48,20 +48,26 @@
       {
         "keys": "Enter, Space",
         "does": "Presses the button."
+      },
+      {
+        "keys": "Enter",
+        "does": "Follows the link."
       }
     ],
     "builtIn": [
       "Pending and disabled states are exposed to assistive technology.",
-      "A 44px hit area under coarse pointers without changing the layout."
+      "A 44px hit area under coarse pointers without changing the layout.",
+      "Keeps link semantics: role link and a real href that works without JavaScript."
     ],
     "youProvide": [
-      "An `aria-label` when the button shows only an icon."
+      "An `aria-label` when the button shows only an icon.",
+      "An `aria-label` when it shows only an icon."
     ]
   },
   "related": [
-    "link-button",
     "button-group",
-    "toggle-button"
+    "toggle-button",
+    "link"
   ],
   "genui": {
     "expose": true,
@@ -377,13 +383,13 @@
       },
       {
         "name": "onAuxClick",
-        "type": "MouseEventHandler<HTMLButtonElement>",
+        "type": "MouseEventHandler<HTMLButtonElement> | MouseEventHandler<HTMLAnchorElement>",
         "required": false,
         "origin": "dom"
       },
       {
         "name": "onAuxClickCapture",
-        "type": "MouseEventHandler<HTMLButtonElement>",
+        "type": "MouseEventHandler<HTMLButtonElement> | MouseEventHandler<HTMLAnchorElement>",
         "required": false,
         "origin": "dom"
       },
@@ -396,367 +402,367 @@
       },
       {
         "name": "onClickCapture",
-        "type": "MouseEventHandler<HTMLButtonElement>",
+        "type": "MouseEventHandler<HTMLButtonElement> | MouseEventHandler<HTMLAnchorElement>",
         "required": false,
         "origin": "dom"
       },
       {
         "name": "onContextMenu",
-        "type": "MouseEventHandler<HTMLButtonElement>",
+        "type": "MouseEventHandler<HTMLButtonElement> | MouseEventHandler<HTMLAnchorElement>",
         "required": false,
         "origin": "dom"
       },
       {
         "name": "onContextMenuCapture",
-        "type": "MouseEventHandler<HTMLButtonElement>",
+        "type": "MouseEventHandler<HTMLButtonElement> | MouseEventHandler<HTMLAnchorElement>",
         "required": false,
         "origin": "dom"
       },
       {
         "name": "onDoubleClick",
-        "type": "MouseEventHandler<HTMLButtonElement>",
+        "type": "MouseEventHandler<HTMLButtonElement> | MouseEventHandler<HTMLAnchorElement>",
         "required": false,
         "origin": "dom"
       },
       {
         "name": "onDoubleClickCapture",
-        "type": "MouseEventHandler<HTMLButtonElement>",
+        "type": "MouseEventHandler<HTMLButtonElement> | MouseEventHandler<HTMLAnchorElement>",
         "required": false,
         "origin": "dom"
       },
       {
         "name": "onMouseDown",
-        "type": "MouseEventHandler<HTMLButtonElement>",
+        "type": "MouseEventHandler<HTMLButtonElement> | MouseEventHandler<HTMLAnchorElement>",
         "required": false,
         "origin": "dom"
       },
       {
         "name": "onMouseDownCapture",
-        "type": "MouseEventHandler<HTMLButtonElement>",
+        "type": "MouseEventHandler<HTMLButtonElement> | MouseEventHandler<HTMLAnchorElement>",
         "required": false,
         "origin": "dom"
       },
       {
         "name": "onMouseEnter",
-        "type": "MouseEventHandler<HTMLButtonElement>",
+        "type": "MouseEventHandler<HTMLButtonElement> | MouseEventHandler<HTMLAnchorElement>",
         "required": false,
         "origin": "dom"
       },
       {
         "name": "onMouseLeave",
-        "type": "MouseEventHandler<HTMLButtonElement>",
+        "type": "MouseEventHandler<HTMLButtonElement> | MouseEventHandler<HTMLAnchorElement>",
         "required": false,
         "origin": "dom"
       },
       {
         "name": "onMouseMove",
-        "type": "MouseEventHandler<HTMLButtonElement>",
+        "type": "MouseEventHandler<HTMLButtonElement> | MouseEventHandler<HTMLAnchorElement>",
         "required": false,
         "origin": "dom"
       },
       {
         "name": "onMouseMoveCapture",
-        "type": "MouseEventHandler<HTMLButtonElement>",
+        "type": "MouseEventHandler<HTMLButtonElement> | MouseEventHandler<HTMLAnchorElement>",
         "required": false,
         "origin": "dom"
       },
       {
         "name": "onMouseOut",
-        "type": "MouseEventHandler<HTMLButtonElement>",
+        "type": "MouseEventHandler<HTMLButtonElement> | MouseEventHandler<HTMLAnchorElement>",
         "required": false,
         "origin": "dom"
       },
       {
         "name": "onMouseOutCapture",
-        "type": "MouseEventHandler<HTMLButtonElement>",
+        "type": "MouseEventHandler<HTMLButtonElement> | MouseEventHandler<HTMLAnchorElement>",
         "required": false,
         "origin": "dom"
       },
       {
         "name": "onMouseOver",
-        "type": "MouseEventHandler<HTMLButtonElement>",
+        "type": "MouseEventHandler<HTMLButtonElement> | MouseEventHandler<HTMLAnchorElement>",
         "required": false,
         "origin": "dom"
       },
       {
         "name": "onMouseOverCapture",
-        "type": "MouseEventHandler<HTMLButtonElement>",
+        "type": "MouseEventHandler<HTMLButtonElement> | MouseEventHandler<HTMLAnchorElement>",
         "required": false,
         "origin": "dom"
       },
       {
         "name": "onMouseUp",
-        "type": "MouseEventHandler<HTMLButtonElement>",
+        "type": "MouseEventHandler<HTMLButtonElement> | MouseEventHandler<HTMLAnchorElement>",
         "required": false,
         "origin": "dom"
       },
       {
         "name": "onMouseUpCapture",
-        "type": "MouseEventHandler<HTMLButtonElement>",
+        "type": "MouseEventHandler<HTMLButtonElement> | MouseEventHandler<HTMLAnchorElement>",
         "required": false,
         "origin": "dom"
       },
       {
         "name": "onTouchCancel",
-        "type": "TouchEventHandler<HTMLButtonElement>",
+        "type": "TouchEventHandler<HTMLButtonElement> | TouchEventHandler<HTMLAnchorElement>",
         "required": false,
         "origin": "dom"
       },
       {
         "name": "onTouchCancelCapture",
-        "type": "TouchEventHandler<HTMLButtonElement>",
+        "type": "TouchEventHandler<HTMLButtonElement> | TouchEventHandler<HTMLAnchorElement>",
         "required": false,
         "origin": "dom"
       },
       {
         "name": "onTouchEnd",
-        "type": "TouchEventHandler<HTMLButtonElement>",
+        "type": "TouchEventHandler<HTMLButtonElement> | TouchEventHandler<HTMLAnchorElement>",
         "required": false,
         "origin": "dom"
       },
       {
         "name": "onTouchEndCapture",
-        "type": "TouchEventHandler<HTMLButtonElement>",
+        "type": "TouchEventHandler<HTMLButtonElement> | TouchEventHandler<HTMLAnchorElement>",
         "required": false,
         "origin": "dom"
       },
       {
         "name": "onTouchMove",
-        "type": "TouchEventHandler<HTMLButtonElement>",
+        "type": "TouchEventHandler<HTMLButtonElement> | TouchEventHandler<HTMLAnchorElement>",
         "required": false,
         "origin": "dom"
       },
       {
         "name": "onTouchMoveCapture",
-        "type": "TouchEventHandler<HTMLButtonElement>",
+        "type": "TouchEventHandler<HTMLButtonElement> | TouchEventHandler<HTMLAnchorElement>",
         "required": false,
         "origin": "dom"
       },
       {
         "name": "onTouchStart",
-        "type": "TouchEventHandler<HTMLButtonElement>",
+        "type": "TouchEventHandler<HTMLButtonElement> | TouchEventHandler<HTMLAnchorElement>",
         "required": false,
         "origin": "dom"
       },
       {
         "name": "onTouchStartCapture",
-        "type": "TouchEventHandler<HTMLButtonElement>",
+        "type": "TouchEventHandler<HTMLButtonElement> | TouchEventHandler<HTMLAnchorElement>",
         "required": false,
         "origin": "dom"
       },
       {
         "name": "onPointerDown",
-        "type": "PointerEventHandler<HTMLButtonElement>",
+        "type": "PointerEventHandler<HTMLButtonElement> | PointerEventHandler<HTMLAnchorElement>",
         "required": false,
         "origin": "dom"
       },
       {
         "name": "onPointerDownCapture",
-        "type": "PointerEventHandler<HTMLButtonElement>",
+        "type": "PointerEventHandler<HTMLButtonElement> | PointerEventHandler<HTMLAnchorElement>",
         "required": false,
         "origin": "dom"
       },
       {
         "name": "onPointerMove",
-        "type": "PointerEventHandler<HTMLButtonElement>",
+        "type": "PointerEventHandler<HTMLButtonElement> | PointerEventHandler<HTMLAnchorElement>",
         "required": false,
         "origin": "dom"
       },
       {
         "name": "onPointerMoveCapture",
-        "type": "PointerEventHandler<HTMLButtonElement>",
+        "type": "PointerEventHandler<HTMLButtonElement> | PointerEventHandler<HTMLAnchorElement>",
         "required": false,
         "origin": "dom"
       },
       {
         "name": "onPointerUp",
-        "type": "PointerEventHandler<HTMLButtonElement>",
+        "type": "PointerEventHandler<HTMLButtonElement> | PointerEventHandler<HTMLAnchorElement>",
         "required": false,
         "origin": "dom"
       },
       {
         "name": "onPointerUpCapture",
-        "type": "PointerEventHandler<HTMLButtonElement>",
+        "type": "PointerEventHandler<HTMLButtonElement> | PointerEventHandler<HTMLAnchorElement>",
         "required": false,
         "origin": "dom"
       },
       {
         "name": "onPointerCancel",
-        "type": "PointerEventHandler<HTMLButtonElement>",
+        "type": "PointerEventHandler<HTMLButtonElement> | PointerEventHandler<HTMLAnchorElement>",
         "required": false,
         "origin": "dom"
       },
       {
         "name": "onPointerCancelCapture",
-        "type": "PointerEventHandler<HTMLButtonElement>",
+        "type": "PointerEventHandler<HTMLButtonElement> | PointerEventHandler<HTMLAnchorElement>",
         "required": false,
         "origin": "dom"
       },
       {
         "name": "onPointerEnter",
-        "type": "PointerEventHandler<HTMLButtonElement>",
+        "type": "PointerEventHandler<HTMLButtonElement> | PointerEventHandler<HTMLAnchorElement>",
         "required": false,
         "origin": "dom"
       },
       {
         "name": "onPointerLeave",
-        "type": "PointerEventHandler<HTMLButtonElement>",
+        "type": "PointerEventHandler<HTMLButtonElement> | PointerEventHandler<HTMLAnchorElement>",
         "required": false,
         "origin": "dom"
       },
       {
         "name": "onPointerOver",
-        "type": "PointerEventHandler<HTMLButtonElement>",
+        "type": "PointerEventHandler<HTMLButtonElement> | PointerEventHandler<HTMLAnchorElement>",
         "required": false,
         "origin": "dom"
       },
       {
         "name": "onPointerOverCapture",
-        "type": "PointerEventHandler<HTMLButtonElement>",
+        "type": "PointerEventHandler<HTMLButtonElement> | PointerEventHandler<HTMLAnchorElement>",
         "required": false,
         "origin": "dom"
       },
       {
         "name": "onPointerOut",
-        "type": "PointerEventHandler<HTMLButtonElement>",
+        "type": "PointerEventHandler<HTMLButtonElement> | PointerEventHandler<HTMLAnchorElement>",
         "required": false,
         "origin": "dom"
       },
       {
         "name": "onPointerOutCapture",
-        "type": "PointerEventHandler<HTMLButtonElement>",
+        "type": "PointerEventHandler<HTMLButtonElement> | PointerEventHandler<HTMLAnchorElement>",
         "required": false,
         "origin": "dom"
       },
       {
         "name": "onGotPointerCapture",
-        "type": "PointerEventHandler<HTMLButtonElement>",
+        "type": "PointerEventHandler<HTMLButtonElement> | PointerEventHandler<HTMLAnchorElement>",
         "required": false,
         "origin": "dom"
       },
       {
         "name": "onGotPointerCaptureCapture",
-        "type": "PointerEventHandler<HTMLButtonElement>",
+        "type": "PointerEventHandler<HTMLButtonElement> | PointerEventHandler<HTMLAnchorElement>",
         "required": false,
         "origin": "dom"
       },
       {
         "name": "onLostPointerCapture",
-        "type": "PointerEventHandler<HTMLButtonElement>",
+        "type": "PointerEventHandler<HTMLButtonElement> | PointerEventHandler<HTMLAnchorElement>",
         "required": false,
         "origin": "dom"
       },
       {
         "name": "onLostPointerCaptureCapture",
-        "type": "PointerEventHandler<HTMLButtonElement>",
+        "type": "PointerEventHandler<HTMLButtonElement> | PointerEventHandler<HTMLAnchorElement>",
         "required": false,
         "origin": "dom"
       },
       {
         "name": "onScroll",
-        "type": "UIEventHandler<HTMLButtonElement>",
+        "type": "UIEventHandler<HTMLButtonElement> | UIEventHandler<HTMLAnchorElement>",
         "required": false,
         "origin": "dom"
       },
       {
         "name": "onScrollCapture",
-        "type": "UIEventHandler<HTMLButtonElement>",
+        "type": "UIEventHandler<HTMLButtonElement> | UIEventHandler<HTMLAnchorElement>",
         "required": false,
         "origin": "dom"
       },
       {
         "name": "onWheel",
-        "type": "WheelEventHandler<HTMLButtonElement>",
+        "type": "WheelEventHandler<HTMLButtonElement> | WheelEventHandler<HTMLAnchorElement>",
         "required": false,
         "origin": "dom"
       },
       {
         "name": "onWheelCapture",
-        "type": "WheelEventHandler<HTMLButtonElement>",
+        "type": "WheelEventHandler<HTMLButtonElement> | WheelEventHandler<HTMLAnchorElement>",
         "required": false,
         "origin": "dom"
       },
       {
         "name": "onAnimationStart",
-        "type": "AnimationEventHandler<HTMLButtonElement>",
+        "type": "AnimationEventHandler<HTMLButtonElement> | AnimationEventHandler<HTMLAnchorElement>",
         "required": false,
         "origin": "dom"
       },
       {
         "name": "onAnimationStartCapture",
-        "type": "AnimationEventHandler<HTMLButtonElement>",
+        "type": "AnimationEventHandler<HTMLButtonElement> | AnimationEventHandler<HTMLAnchorElement>",
         "required": false,
         "origin": "dom"
       },
       {
         "name": "onAnimationEnd",
-        "type": "AnimationEventHandler<HTMLButtonElement>",
+        "type": "AnimationEventHandler<HTMLButtonElement> | AnimationEventHandler<HTMLAnchorElement>",
         "required": false,
         "origin": "dom"
       },
       {
         "name": "onAnimationEndCapture",
-        "type": "AnimationEventHandler<HTMLButtonElement>",
+        "type": "AnimationEventHandler<HTMLButtonElement> | AnimationEventHandler<HTMLAnchorElement>",
         "required": false,
         "origin": "dom"
       },
       {
         "name": "onAnimationIteration",
-        "type": "AnimationEventHandler<HTMLButtonElement>",
+        "type": "AnimationEventHandler<HTMLButtonElement> | AnimationEventHandler<HTMLAnchorElement>",
         "required": false,
         "origin": "dom"
       },
       {
         "name": "onAnimationIterationCapture",
-        "type": "AnimationEventHandler<HTMLButtonElement>",
+        "type": "AnimationEventHandler<HTMLButtonElement> | AnimationEventHandler<HTMLAnchorElement>",
         "required": false,
         "origin": "dom"
       },
       {
         "name": "onTransitionCancel",
-        "type": "TransitionEventHandler<HTMLButtonElement>",
+        "type": "TransitionEventHandler<HTMLButtonElement> | TransitionEventHandler<HTMLAnchorElement>",
         "required": false,
         "origin": "dom"
       },
       {
         "name": "onTransitionCancelCapture",
-        "type": "TransitionEventHandler<HTMLButtonElement>",
+        "type": "TransitionEventHandler<HTMLButtonElement> | TransitionEventHandler<HTMLAnchorElement>",
         "required": false,
         "origin": "dom"
       },
       {
         "name": "onTransitionEnd",
-        "type": "TransitionEventHandler<HTMLButtonElement>",
+        "type": "TransitionEventHandler<HTMLButtonElement> | TransitionEventHandler<HTMLAnchorElement>",
         "required": false,
         "origin": "dom"
       },
       {
         "name": "onTransitionEndCapture",
-        "type": "TransitionEventHandler<HTMLButtonElement>",
+        "type": "TransitionEventHandler<HTMLButtonElement> | TransitionEventHandler<HTMLAnchorElement>",
         "required": false,
         "origin": "dom"
       },
       {
         "name": "onTransitionRun",
-        "type": "TransitionEventHandler<HTMLButtonElement>",
+        "type": "TransitionEventHandler<HTMLButtonElement> | TransitionEventHandler<HTMLAnchorElement>",
         "required": false,
         "origin": "dom"
       },
       {
         "name": "onTransitionRunCapture",
-        "type": "TransitionEventHandler<HTMLButtonElement>",
+        "type": "TransitionEventHandler<HTMLButtonElement> | TransitionEventHandler<HTMLAnchorElement>",
         "required": false,
         "origin": "dom"
       },
       {
         "name": "onTransitionStart",
-        "type": "TransitionEventHandler<HTMLButtonElement>",
+        "type": "TransitionEventHandler<HTMLButtonElement> | TransitionEventHandler<HTMLAnchorElement>",
         "required": false,
         "origin": "dom"
       },
       {
         "name": "onTransitionStartCapture",
-        "type": "TransitionEventHandler<HTMLButtonElement>",
+        "type": "TransitionEventHandler<HTMLButtonElement> | TransitionEventHandler<HTMLAnchorElement>",
         "required": false,
         "origin": "dom"
       },
@@ -772,7 +778,7 @@
       },
       {
         "name": "onPress",
-        "type": "(e: PressEvent) => void",
+        "type": "(e: PressEvent) => void | (event: MouseEvent<HTMLAnchorElement, MouseEvent>) => void",
         "required": false,
         "origin": "aria",
         "description": "Handler that is called when the press is released over the target."
@@ -817,7 +823,6 @@
         "type": "\"button\" | \"submit\" | \"reset\"",
         "required": false,
         "origin": "aria",
-        "default": "\"button\"",
         "description": "The behavior of the button when used in an HTML form.",
         "schema": {
           "type": "string",
@@ -958,7 +963,7 @@
       },
       {
         "name": "render",
-        "type": "DOMRenderFunction<\"button\", ButtonRenderProps>",
+        "type": "DOMRenderFunction<\"button\", ButtonRenderProps> | (props: DetailedHTMLProps<LinkWithRequiredHref, HTMLAnchorElement> | React.JSX.IntrinsicElements[Fallback], renderProps: T) => ReactElement",
         "required": false,
         "origin": "dom",
         "description": "Overrides the default DOM element with a custom render function.\nThis allows rendering existing components with built-in styles and behaviors\nsuch as router links, animation libraries, and pre-styled components.\n\nRequirements:\n\n- You must render the expected element type (e.g. if `<button>` is expected, you cannot render an\n  `<a>`).\n- Only a single root DOM element can be rendered (no fragments).\n- You must pass through props and ref to the underlying DOM element, merging with your own prop\n  as appropriate."
@@ -968,7 +973,6 @@
         "type": "ButtonVariant",
         "required": false,
         "origin": "own",
-        "default": "\"default\"",
         "description": "`primary` is the one main action of a view; `danger` only confirms a destructive step.",
         "schema": {
           "type": "string",
@@ -986,7 +990,6 @@
         "type": "ButtonSize",
         "required": false,
         "origin": "own",
-        "default": "\"medium\"",
         "schema": {
           "type": "string",
           "enum": [
@@ -1032,6 +1035,84 @@
         "schema": {
           "type": "boolean"
         }
+      },
+      {
+        "name": "rel",
+        "type": "string",
+        "required": false,
+        "origin": "aria",
+        "description": "The relationship between the linked resource and the current page. See\n[MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/rel).",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "hrefLang",
+        "type": "string",
+        "required": false,
+        "origin": "aria",
+        "description": "Hints at the human language of the linked URL.\nSee[MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#hreflang).",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "download",
+        "type": "string | boolean",
+        "required": false,
+        "origin": "aria",
+        "description": "Causes the browser to download the linked URL. A string may be provided to suggest a file name.\nSee [MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#download)."
+      },
+      {
+        "name": "ping",
+        "type": "string",
+        "required": false,
+        "origin": "aria",
+        "description": "A space-separated list of URLs to ping when the link is followed. See\n[MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#ping).",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "referrerPolicy",
+        "type": "HTMLAttributeReferrerPolicy",
+        "required": false,
+        "origin": "aria",
+        "description": "How much of the referrer to send when following the link. See\n[MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#referrerpolicy).",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "",
+            "no-referrer",
+            "no-referrer-when-downgrade",
+            "origin",
+            "origin-when-cross-origin",
+            "same-origin",
+            "strict-origin",
+            "strict-origin-when-cross-origin",
+            "unsafe-url"
+          ]
+        }
+      },
+      {
+        "name": "href",
+        "type": "string",
+        "required": false,
+        "origin": "own",
+        "description": "Where it goes. Rendered as a real `href`, so the link works before (and without) JavaScript.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "isExternal",
+        "type": "boolean",
+        "required": false,
+        "origin": "own",
+        "description": "Link's convention: opens in a new tab with `noopener noreferrer`, shows `arrow-up-right` after the label\n(unless `iconAfter` is set) and tells screen readers it opens a new tab. With `onPress` a plain click\nopens nothing (the app handles it in place), so the arrow and the new-tab words are left out; `target`\nand `rel` stay for the page before JavaScript. Disabled, it opens nothing either: no `target`, `rel` or\nnew-tab words (the arrow stays, as `iconAfter` would).",
+        "schema": {
+          "type": "boolean"
+        }
       }
     ]
   },
@@ -1073,7 +1154,9 @@
     "ds-text-on-danger",
     "ds-text-subtle"
   ],
-  "strings": [],
+  "strings": [
+    "newTab"
+  ],
   "quality": {
     "tests": true,
     "a11y": false,

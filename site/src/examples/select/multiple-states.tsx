@@ -1,5 +1,5 @@
 import { Stack } from "@senvenli/react/layout";
-import { MultiSelect } from "@senvenli/react/selection";
+import { Select } from "@senvenli/react/selection";
 import { useState } from "react";
 
 const ROLES = [
@@ -13,7 +13,7 @@ export default function Example() {
   return (
     <div className="max-w-80">
       <Stack space="space-300">
-        <MultiSelect
+        <Select selectionMode="multiple"
           label="Roles"
           isRequired
           requiredValidation="app"
@@ -23,7 +23,7 @@ export default function Example() {
           onSelectionChange={setRoles}
           items={ROLES}
         />
-        <MultiSelect label="Inherited roles" isDisabled defaultSelectedKeys={["support"]} items={ROLES} />
+        <Select selectionMode="multiple" label="Inherited roles" isDisabled defaultSelectedKeys={["support"]} items={ROLES} />
       </Stack>
     </div>
   );

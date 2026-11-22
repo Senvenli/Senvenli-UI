@@ -1,5 +1,5 @@
 import { Avatar, Icon, Text } from "@senvenli/react/display";
-import { Inline } from "@senvenli/react/layout";
+import { Stack } from "@senvenli/react/layout";
 import { Sidebar } from "@senvenli/react/navigation";
 
 export default function Example() {
@@ -43,10 +43,10 @@ export default function Example() {
           ],
         }}
         footer={
-          <Inline space="space-100" wrap={false}>
+          <Stack direction="horizontal" space="space-100" wrap={false}>
             <Avatar name="Sofia Marin" src="/avatars/05.webp" size="small" />
             <Text>Sofia Marin</Text>
-          </Inline>
+          </Stack>
         }
       />
       <div className="min-w-0 flex-1 p-ds-300">

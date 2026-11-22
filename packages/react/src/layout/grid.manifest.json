@@ -11,7 +11,6 @@
   ],
   "description": "Equal columns, fixed or auto-fit to a minimum width, with a token gap.",
   "keywords": [
-    "grid",
     "columns",
     "layout",
     "responsive",
@@ -49,12 +48,9 @@
       "icon",
       "card",
       "button",
-      "link-button",
       "link",
       "box",
-      "stack",
-      "inline",
-      "grid"
+      "stack"
     ]
   }
 }
