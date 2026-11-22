@@ -18,7 +18,7 @@ export type HomeData = {
   agentCode: string;
 };
 
-const INSTALL = "npm i @senvenli/react @senvenli/tokens";
+const INSTALL = "npm i @senvenli/react";
 const SWATCH_TOKENS = ["ds-background-brand-bold", "ds-text-brand", "ds-background-selected", "ds-border-focused", "ds-background-success-bold", "ds-background-warning-bold", "ds-background-danger-bold", "ds-background-information-bold"];
 
 /** A differentiator: a small heading, two lines, one proof, one way in. */
