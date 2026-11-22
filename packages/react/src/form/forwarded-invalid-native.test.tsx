@@ -112,7 +112,7 @@ function renderForm(control: Control, { error, extra = {} }: { error?: string; e
   const view = render(
     <DesignSystemProvider locale="en" navigate={vi.fn()}>
       <form onSubmit={onSubmit}>
-        <Field htmlFor="row" error={error}>
+        <Field htmlFor="row" errorMessage={error}>
           {control.make({ id: "row", ...extra })}
         </Field>
         <input aria-label="Note" name="note" />
@@ -217,7 +217,7 @@ describe("a forwarded aria-invalid never sets native validity", () => {
             setError("This country is already added.");
           }}
         >
-          <Field label="Shipping country" htmlFor="countryCode" error={error}>
+          <Field label="Shipping country" htmlFor="countryCode" errorMessage={error}>
             <ComboBox id="countryCode" name="countryCode" items={COUNTRIES} defaultSelectedKey="FR" />
           </Field>
           <button type="submit">Add</button>
@@ -303,7 +303,7 @@ describe("unchanged: an explicit isInvalid and the field's own validation", () =
     const { container } = render(
       <DesignSystemProvider locale="en" navigate={vi.fn()}>
         <form onSubmit={onSubmit}>
-          <Field htmlFor="row" error="Row error">
+          <Field htmlFor="row" errorMessage="Row error">
             <TextField id="row" label="Row" validationBehavior="native" isRequired />
           </Field>
           <button type="submit">Add</button>

@@ -30,9 +30,9 @@ import { cn } from "../utils";
 export function Field({
   label,
   htmlFor,
-  error,
-  hint,
-  required,
+  errorMessage: error,
+  description: hint,
+  isRequired: required,
   requiredClassName,
   children,
   className,
@@ -44,9 +44,11 @@ export function Field({
    * which forwards it to its input. The library's own fields (TextField, Select…) carry their
    * own label, hint and error, so they do not go inside a Field. */
   htmlFor?: string;
-  error?: ReactNode;
-  hint?: ReactNode;
-  required?: boolean;
+  /** What went wrong and what to do; shown under the control and announced. */
+  errorMessage?: ReactNode;
+  /** A line of help under the control (hidden while there is an error). */
+  description?: ReactNode;
+  isRequired?: boolean;
   /** Class for the required "*" asterisk. Defaults to the danger text token; a brand
    * marketing form can override it without forking this component. */
   requiredClassName?: string;

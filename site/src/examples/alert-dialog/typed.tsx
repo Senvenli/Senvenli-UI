@@ -4,7 +4,7 @@ import { AlertDialog, DialogTrigger } from "@senvenli/react/overlay";
 export default function Example() {
   return (
     <DialogTrigger>
-      <Button variant="danger">Delete project</Button>
+      <Button variant="primary" tone="danger">Delete project</Button>
       <AlertDialog
         title="Delete the project Atlas?"
         confirmLabel="Delete project"

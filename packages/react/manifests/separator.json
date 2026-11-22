@@ -89,7 +89,7 @@
         "description": "A label in the line (\"or continue with email\"), for auth forms only, not section titles. Always horizontal."
       },
       {
-        "name": "decorative",
+        "name": "isDecorative",
         "type": "boolean",
         "required": false,
         "origin": "own",

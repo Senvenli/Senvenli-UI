@@ -1,5 +1,6 @@
 "use client";
 
+import type { Density } from "../density";
 import * as React from "react";
 import { Link as AriaLink, useLocale } from "react-aria-components";
 
@@ -36,8 +37,8 @@ export type NavbarProps = {
   endActions?: React.ReactNode;
   /** Pinned to the top while the page scrolls. */
   isSticky?: boolean;
-  /** 48px instead of 56px: the compact bar after the hero. */
-  isCompact?: boolean;
+  /** `compact`: 48px instead of 56px, the bar after the hero. */
+  density?: Density;
   /** Names the navigation landmark; "Main menu" by default. */
   "aria-label"?: string;
 };
@@ -61,7 +62,7 @@ export function Navbar({
   currentKey,
   endActions,
   isSticky,
-  isCompact,
+  density = "comfortable",
   "aria-label": label,
 }: NavbarProps) {
   const { locale } = useLocale();
@@ -80,7 +81,7 @@ export function Navbar({
   return (
     <header
       data-slot="navbar"
-      data-compact={isCompact ? "" : undefined}
+      data-density={density}
       className={cn(
         "border-b border-ds-border bg-ds-surface-raised text-ds-text",
         isSticky && cn("sticky top-0 pt-[env(safe-area-inset-top,0px)]", LAYER.stickyBar),
@@ -92,7 +93,7 @@ export function Navbar({
           // Safe-area insets are physical edges, so they pair with physical padding.
           "[padding-left:max(var(--ds-space-200),env(safe-area-inset-left,0px))] [padding-right:max(var(--ds-space-200),env(safe-area-inset-right,0px))]",
           "md:[padding-left:max(var(--ds-space-300),env(safe-area-inset-left,0px))] md:[padding-right:max(var(--ds-space-300),env(safe-area-inset-right,0px))]",
-          isCompact ? "h-12" : "h-14",
+          density === "compact" ? "h-12" : "h-14",
         )}
       >
         {brandLink}

@@ -112,7 +112,7 @@
       "placeholder",
       "type",
       "isRequired",
-      "appearance"
+      "variant"
     ],
     "children": "none",
     "events": [
@@ -149,7 +149,7 @@
           "type": "boolean",
           "description": "Whether user input is required on the input before form submission."
         },
-        "appearance": {
+        "variant": {
           "type": "string",
           "enum": [
             "text",
@@ -945,6 +945,21 @@
         "origin": "dom"
       },
       {
+        "name": "variant",
+        "type": "\"text\" | \"numeric\" | \"code\"",
+        "required": false,
+        "origin": "own",
+        "description": "`code` for codes, references and IDs; `numeric` for money, distance and counts.",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "text",
+            "numeric",
+            "code"
+          ]
+        }
+      },
+      {
         "name": "step",
         "type": "string | number | number",
         "required": false,
@@ -1205,21 +1220,6 @@
         "required": false,
         "origin": "own",
         "description": "Extra controls at the end of the frame (`InputAction`)."
-      },
-      {
-        "name": "appearance",
-        "type": "\"text\" | \"numeric\" | \"code\"",
-        "required": false,
-        "origin": "own",
-        "description": "`code` for codes, references and IDs; `numeric` for money, distance and counts.",
-        "schema": {
-          "type": "string",
-          "enum": [
-            "text",
-            "numeric",
-            "code"
-          ]
-        }
       },
       {
         "name": "displayCase",

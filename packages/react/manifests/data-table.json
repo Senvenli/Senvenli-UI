@@ -211,14 +211,14 @@
       },
       {
         "name": "density",
-        "type": "\"default\" | \"compact\"",
+        "type": "Density",
         "required": false,
         "origin": "own",
         "description": "`compact` (36px rows) by default: DataTable is the dense working list of a back office.",
         "schema": {
           "type": "string",
           "enum": [
-            "default",
+            "comfortable",
             "compact"
           ]
         }

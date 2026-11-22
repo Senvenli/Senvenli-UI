@@ -122,7 +122,7 @@ describe("PhoneField: the country list's section names from the app", () => {
 describe("PhoneField named from outside, label left out", () => {
   it("inside the DS Field: one label, the Field's, names the number; hint and error still describe it", () => {
     const { container } = inLocale(
-      <Field label="Customer phone" error="A phone number is required.">
+      <Field label="Customer phone" errorMessage="A phone number is required.">
         <PhoneField />
       </Field>,
     );
@@ -218,7 +218,7 @@ describe("PhoneField named from outside, label left out", () => {
   it("server render and hydration agree, and the name is the Field's before and after", async () => {
     const ui = (
       <DesignSystemProvider locale="en" navigate={vi.fn()}>
-        <Field label="Phone" htmlFor="ssr-phone" hint="With the country code.">
+        <Field label="Phone" htmlFor="ssr-phone" description="With the country code.">
           <PhoneField id="ssr-phone" />
         </Field>
       </DesignSystemProvider>

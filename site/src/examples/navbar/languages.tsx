@@ -8,7 +8,7 @@ export default function Example() {
   return (
     <div className="overflow-hidden rounded-ds-large border border-ds-border">
       <Navbar
-        isCompact
+        density="compact"
         brand="Acme"
         brandHref="#"
         brandLabel="Acme home"

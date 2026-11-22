@@ -63,8 +63,8 @@
           "enum": [
             "danger",
             "success",
-            "warning",
-            "information"
+            "information",
+            "warning"
           ]
         }
       },

@@ -41,11 +41,11 @@ const PRESSED_FILL: Partial<Record<Background | "none", string>> = {
  * on hover and settles back to the raised one while pressed (the interactive
  * Card rule); every Pressable also takes the hover / pressed fill of its ground.
  */
-export function pressableClasses(style: BoxStyleProps & { width?: PressableWidth }) {
+export function pressableClasses(style: BoxStyleProps & { fullWidth?: boolean }) {
   const ground = style.background ?? "none";
   return cn(
     // A <button> sizes to its content even as a block; `w-full` makes it fill like the link form does.
-    style.width === "content" ? "w-fit" : "w-full",
+    style.fullWidth === false ? "w-fit" : "w-full",
     "relative block min-h-6 min-w-6 cursor-pointer appearance-none text-start text-inherit [font:inherit] outline-hidden select-none",
     "transition-[background-color,box-shadow] duration-(--ds-duration-instant) ease-ds-standard",
     // Keyboard focus: a 2px inner border (no outer ring); pointer focus shows nothing.
@@ -58,11 +58,9 @@ export function pressableClasses(style: BoxStyleProps & { width?: PressableWidth
   );
 }
 
-export type PressableWidth = "fill" | "content";
-
 type PressableBase = BoxStyleProps & {
-  /** `fill` (default): as wide as its container, as a button or a link. `content`: as wide as what it holds. */
-  width?: PressableWidth;
+  /** As wide as its container (default `true`), as a button or a link; `false` hugs what it holds. */
+  fullWidth?: boolean;
   children?: React.ReactNode;
   isDisabled?: boolean;
   /** Required when the content has no text that names the action. */
@@ -86,10 +84,10 @@ export type PressableProps = PressableBase &
  * elements): lay it out with `Stack` / `Inline` / `Box` `as="span"`.
  */
 export const Pressable = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, PressableProps>(function Pressable(
-  { padding, paddingInline, paddingBlock, background, radius, shadow, border, width, children, ...rest },
+  { padding, paddingInline, paddingBlock, background, radius, shadow, border, fullWidth = true, children, ...rest },
   ref,
 ) {
-  const className = pressableClasses({ padding, paddingInline, paddingBlock, background, radius, shadow, border, width });
+  const className = pressableClasses({ padding, paddingInline, paddingBlock, background, radius, shadow, border, fullWidth });
   if (rest.href !== undefined) {
     return (
       <Link {...rest} ref={ref as React.Ref<HTMLAnchorElement>} data-slot="pressable" className={className}>

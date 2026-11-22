@@ -112,7 +112,7 @@
       "placeholder",
       "type",
       "isRequired",
-      "appearance"
+      "variant"
     ],
     "children": "none",
     "events": [

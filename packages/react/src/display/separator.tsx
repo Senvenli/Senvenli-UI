@@ -10,14 +10,14 @@ export type SeparatorProps = {
   /** A label in the line ("or continue with email"), for auth forms only, not section titles. Always horizontal. */
   children?: React.ReactNode;
   /** Hides it from assistive tech when it only decorates. */
-  decorative?: boolean;
+  isDecorative?: boolean;
 };
 
 /**
  * A 1px `ds-border` line between groups that spacing alone does not separate.
  * Prefer space over lines.
  */
-export function Separator({ orientation = "horizontal", children, decorative }: SeparatorProps) {
+export function Separator({ orientation = "horizontal", children, isDecorative: decorative }: SeparatorProps) {
   if (children != null) {
     // The label is read as text; the two lines around it only decorate.
     return (

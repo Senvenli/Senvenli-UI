@@ -1,4 +1,6 @@
 export { DesignSystemProvider, type DesignSystemProviderProps } from "./provider";
+export type { Tone } from "./tone";
+export type { Density } from "./density";
 export { cn, TEXT_STYLES } from "./utils";
 export { LAYER, FLOATING_BANNER_OFFSET } from "./layers";
 export { registerDsStrings, hasDsStrings, type DsStringKey, type DsStringsInput } from "./i18n";

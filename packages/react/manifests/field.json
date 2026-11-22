@@ -69,19 +69,21 @@
         }
       },
       {
-        "name": "error",
+        "name": "errorMessage",
         "type": "ReactNode",
         "required": false,
-        "origin": "own"
+        "origin": "own",
+        "description": "What went wrong and what to do; shown under the control and announced."
       },
       {
-        "name": "hint",
+        "name": "description",
         "type": "ReactNode",
         "required": false,
-        "origin": "own"
+        "origin": "own",
+        "description": "A line of help under the control (hidden while there is an error)."
       },
       {
-        "name": "required",
+        "name": "isRequired",
         "type": "boolean",
         "required": false,
         "origin": "own",

@@ -137,11 +137,11 @@
         "schema": {
           "type": "string",
           "enum": [
+            "neutral",
             "danger",
             "success",
-            "neutral",
-            "warning",
             "information",
+            "warning",
             "selected",
             "surface",
             "surface-raised",
@@ -196,17 +196,14 @@
         }
       },
       {
-        "name": "width",
-        "type": "PressableWidth",
+        "name": "fullWidth",
+        "type": "boolean",
         "required": false,
         "origin": "own",
-        "description": "`fill` (default): as wide as its container, as a button or a link. `content`: as wide as what it holds.",
+        "default": "true",
+        "description": "As wide as its container (default `true`), as a button or a link; `false` hugs what it holds.",
         "schema": {
-          "type": "string",
-          "enum": [
-            "content",
-            "fill"
-          ]
+          "type": "boolean"
         }
       },
       {

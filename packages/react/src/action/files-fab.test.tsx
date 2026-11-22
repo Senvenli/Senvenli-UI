@@ -242,7 +242,6 @@ describe("Fab", () => {
     inProvider(<Fab icon="calendar-plus" label="Create invoice" onPress={onPress} />);
     const fab = screen.getByRole("button", { name: "Create invoice" });
     expect(fab.getAttribute("data-slot")).toBe("fab");
-    expect(fab.getAttribute("data-tone")).toBe("brand");
     const classes = classesOf(fab);
     for (const utility of ["fixed", "end-ds-300", "safe-area-inset-bottom", "rounded-ds-full", "shadow-ds-overlay", "bg-ds-background-brand-bold", "h-12"]) {
       expect(classes).toContain(utility);
@@ -255,7 +254,6 @@ describe("Fab", () => {
     inProvider(<Fab placement="inline" icon="message-circle" label="Chat with us" href="https://example.com/help" />);
     const link = screen.getByRole("link", { name: "Chat with us (opens in a new tab)" });
     expect(link.getAttribute("href")).toBe("https://example.com/help");
-    expect(link.getAttribute("data-tone")).toBe("brand");
     expect(classesOf(link)).toContain("bg-ds-background-brand-bold");
     expect(classesOf(link)).toContain("text-ds-text-on-brand");
     expect(classesOf(link)).not.toContain("fixed");

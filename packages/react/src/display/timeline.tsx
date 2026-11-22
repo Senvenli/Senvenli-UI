@@ -1,5 +1,6 @@
 "use client";
 
+import type { Tone } from "../tone";
 import * as React from "react";
 import { useLocale } from "react-aria-components";
 
@@ -7,7 +8,7 @@ import { formatDateTime } from "../intl-locale";
 import { cn } from "../utils";
 import { IconGlyph, type IconName } from "./icon";
 
-export type TimelineTone = "neutral" | "brand" | "success" | "danger";
+export type TimelineTone = Extract<Tone, "neutral" | "brand" | "success" | "danger">;
 
 const NODE: Record<TimelineTone, string> = {
   neutral: "bg-ds-background-neutral text-ds-icon-subtle",

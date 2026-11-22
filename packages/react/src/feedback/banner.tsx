@@ -4,11 +4,12 @@ import * as React from "react";
 import { createPortal } from "react-dom";
 
 import { cn } from "../utils";
+import type { Tone } from "../tone";
 import { CloseButton } from "../action/close-button";
 import { IconGlyph, type IconName } from "../display/icon";
 import { FLOATING_BANNER_OFFSET, LAYER } from "../layers";
 
-export type BannerTone = "information" | "success" | "warning" | "danger";
+export type BannerTone = Exclude<Tone, "neutral" | "brand">;
 
 const TONE: Record<BannerTone, { frame: string; icon: IconName; iconColor: "information" | "success" | "warning" | "danger" }> = {
   information: { frame: "bg-ds-background-information inset-ring-ds-border-information", icon: "info", iconColor: "information" },

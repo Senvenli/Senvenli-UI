@@ -1,5 +1,6 @@
 "use client";
 
+import type { Tone } from "../tone";
 import * as React from "react";
 import {
   Text,
@@ -18,7 +19,7 @@ import { LAYER } from "../layers";
 // Built on React Aria's toast . React Aria
 // still exports it as UNSTABLE_*; if that API changes, only this wrapper changes, never a call site.
 
-export type ToastTone = "success" | "danger" | "information";
+export type ToastTone = Extract<Tone, "information" | "success" | "danger">;
 
 export type ToastOptions = {
   /** Past tense of what happened: "Order confirmed". */

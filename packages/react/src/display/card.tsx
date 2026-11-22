@@ -1,5 +1,6 @@
 "use client";
 
+import type { Density } from "../density";
 import * as React from "react";
 import { Button as AriaButton, Link as AriaLink, type LinkProps as AriaLinkProps } from "react-aria-components";
 
@@ -28,8 +29,8 @@ const PAD_TOP = { compact: "pt-ds-200", default: "pt-ds-300" } as const;
 type CardBase = {
   /** `raised` on the page · `outline` inside cards and settings groups · `sunken` for summaries and code. */
   variant?: CardVariant;
-  /** 16px padding instead of 24px. */
-  isCompact?: boolean;
+  /** `compact`: 16px padding instead of 24px. */
+  density?: Density;
   /** Header, media, body and footer parts. */
   children: React.ReactNode;
   /** The card's name when it is interactive and has no CardHeader title. */
@@ -60,7 +61,7 @@ export type CardProps = CardBase &
 
 /** Shared card frame; `isSelected` draws the 2px selected outline of a selectable card. */
 export function CardFrame({
-  variant = "raised", isCompact = false, children, href, routerOptions, onPress, "aria-label": ariaLabel, isSelected,
+  variant = "raised", density = "comfortable", children, href, routerOptions, onPress, "aria-label": ariaLabel, isSelected,
 }: CardProps & { isSelected?: boolean }) {
   const titleId = React.useId();
   // CardHeader registers its title so the overlay is never labelled by an id that is not there.
@@ -75,6 +76,7 @@ export function CardFrame({
       if (titles.current === 0) setHasNoTitle(true);
     };
   }, []);
+  const isCompact = density === "compact";
   const context = React.useMemo(() => ({ isCompact, titleId, registerTitle }), [isCompact, titleId, registerTitle]);
   const interactive = href !== undefined || onPress !== undefined;
   // Children's layout effects have run by now: no header means no title to point at.

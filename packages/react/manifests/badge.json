@@ -89,12 +89,12 @@
         "tone": {
           "type": "string",
           "enum": [
-            "danger",
-            "brand",
-            "success",
             "neutral",
-            "warning",
+            "danger",
+            "success",
+            "brand",
             "information",
+            "warning",
             "inverse"
           ],
           "description": "One meaning per tone: information (Approved, In progress) · brand (Featured) · success\n(Completed, Available, Paid) · warning (Payment pending, Under review) · danger (Canceled,\nFailed, Overdue) · neutral (Draft, Inactive)."
@@ -109,19 +109,19 @@
     "Badge": [
       {
         "name": "tone",
-        "type": "BadgeTone | BadgeCountTone",
+        "type": "Tone | BadgeCountTone",
         "required": false,
         "origin": "own",
         "description": "One meaning per tone: information (Approved, In progress) · brand (Featured) · success\n(Completed, Available, Paid) · warning (Payment pending, Under review) · danger (Canceled,\nFailed, Overdue) · neutral (Draft, Inactive).",
         "schema": {
           "type": "string",
           "enum": [
-            "danger",
-            "brand",
-            "success",
             "neutral",
-            "warning",
+            "danger",
+            "success",
+            "brand",
             "information",
+            "warning",
             "inverse"
           ]
         }

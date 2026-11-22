@@ -25,7 +25,7 @@ describe("Field from ./form", () => {
 
   it("a hint describes the control; an error replaces it, marks the control invalid and keeps its own describedby", () => {
     const { rerender } = render(
-      <Field label="Name" htmlFor="name" hint="As on your ID">
+      <Field label="Name" htmlFor="name" description="As on your ID">
         <input id="name" aria-describedby="extra" />
       </Field>,
     );
@@ -34,7 +34,7 @@ describe("Field from ./form", () => {
     expect(describedBy()[0]).toBe("extra");
     expect(document.getElementById(describedBy()[1]!)!.textContent).toBe("As on your ID");
     rerender(
-      <Field label="Name" htmlFor="name" hint="As on your ID" error="Required">
+      <Field label="Name" htmlFor="name" description="As on your ID" errorMessage="Required">
         <input id="name" aria-describedby="extra" />
       </Field>,
     );
@@ -66,10 +66,10 @@ describe("Field from ./form", () => {
   it("the required mark takes the default or the given class; className joins the row's spacing", () => {
     const html = renderToStaticMarkup(
       <>
-        <Field label="First name" htmlFor="a" required className="flex flex-col">
+        <Field label="First name" htmlFor="a" isRequired className="flex flex-col">
           <input id="a" />
         </Field>
-        <Field label="Last name" htmlFor="b" required requiredClassName="text-ds-text-brand">
+        <Field label="Last name" htmlFor="b" isRequired requiredClassName="text-ds-text-brand">
           <input id="b" />
         </Field>
       </>,

@@ -117,7 +117,7 @@
       },
       {
         "name": "tone",
-        "type": "\"danger\" | \"neutral\"",
+        "type": "\"neutral\" | \"danger\"",
         "required": false,
         "origin": "own",
         "default": "\"neutral\"",
@@ -125,8 +125,8 @@
         "schema": {
           "type": "string",
           "enum": [
-            "danger",
-            "neutral"
+            "neutral",
+            "danger"
           ]
         }
       },

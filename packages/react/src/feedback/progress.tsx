@@ -4,10 +4,11 @@ import * as React from "react";
 import { Label, Meter as AriaMeter, ProgressBar as AriaProgressBar } from "react-aria-components";
 
 import { cn } from "../utils";
+import type { Tone } from "../tone";
 import { LABEL } from "../form/styles";
 import { useLoop } from "./motion";
 
-export type ProgressTone = "brand" | "success" | "danger";
+export type ProgressTone = Extract<Tone, "brand" | "success" | "danger">;
 
 const FILL: Record<ProgressTone, string> = {
   brand: "bg-ds-background-brand-bold",

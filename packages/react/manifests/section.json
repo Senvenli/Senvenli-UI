@@ -66,15 +66,15 @@
       },
       {
         "name": "density",
-        "type": "\"default\" | \"compact\"",
+        "type": "Density",
         "required": false,
         "origin": "own",
-        "default": "\"default\"",
+        "default": "\"comfortable\"",
         "description": "Vertical padding: ds-space-1000 from 768px and ds-space-600 below; `compact` keeps ds-space-600 throughout.",
         "schema": {
           "type": "string",
           "enum": [
-            "default",
+            "comfortable",
             "compact"
           ]
         }
@@ -100,7 +100,7 @@
         }
       },
       {
-        "name": "progressive",
+        "name": "isProgressive",
         "type": "boolean",
         "required": false,
         "origin": "own",

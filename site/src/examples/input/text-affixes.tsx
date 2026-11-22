@@ -7,7 +7,7 @@ export default function Example() {
     <Stack space="space-200">
       <Input label="Customer" prefix={<Icon name="user" />} defaultValue="Ada Lovelace" />
       <Input label="Workspace URL" prefix="https://" suffix=".example.com" valueDir="ltr" defaultValue="acme" />
-      <Input label="Hourly rate" appearance="numeric" inputMode="decimal" prefix="$" suffix="per hour" defaultValue="85.00" />
+      <Input label="Hourly rate" variant="numeric" inputMode="decimal" prefix="$" suffix="per hour" defaultValue="85.00" />
     </Stack>
   );
 }

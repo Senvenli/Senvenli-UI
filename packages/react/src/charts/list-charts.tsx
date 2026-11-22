@@ -7,6 +7,7 @@
  * throughout, so the layout mirrors in RTL on its own.
  */
 
+import type { Tone } from "../tone";
 import * as React from "react";
 import { Link as AriaLink, Button as AriaButton, useLocale } from "react-aria-components";
 import { getDayOfWeek, parseDate, startOfWeek, type CalendarDate } from "@internationalized/date";
@@ -430,7 +431,7 @@ const HeatCell = React.memo(function HeatCell({
 
 /* ── Tracker ──────────────────────────────────────────────────────────────── */
 
-export type TrackerTone = "success" | "warning" | "danger" | "neutral";
+export type TrackerTone = Extract<Tone, "neutral" | "success" | "warning" | "danger">;
 export type TrackerDatum = { date: ChartDay; status: string; tooltip?: string };
 
 export type TrackerProps = FrameProps & {

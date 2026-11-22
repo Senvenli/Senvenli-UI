@@ -71,7 +71,7 @@ export function HomePage({ data }: { data: HomeData }) {
       {/* Centered, as shadcn's: a quiet "what's new" pill, the claim, one sentence, two ways in, the install line. */}
       <section aria-labelledby="home-title" className="mx-auto flex max-w-3xl flex-col items-center gap-ds-300 pt-ds-1000 text-center">
         <div className="w-fit">
-          <Pressable href="/docs/agents" background="neutral" radius="full" paddingInline="space-150" width="content">
+          <Pressable href="/docs/agents" background="neutral" radius="full" paddingInline="space-150" fullWidth={false}>
             <span className="flex h-7 items-center gap-ds-075 text-body-small font-medium text-ds-text">
               An MCP server for coding agents
               <Icon name="arrow-right" size="small" color="subtle" />

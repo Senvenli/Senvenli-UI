@@ -54,7 +54,7 @@
     "description": "A surface grouping content about one object. Put a heading and text inside; do not nest cards.",
     "props": [
       "variant",
-      "isCompact"
+      "density"
     ],
     "children": [
       "heading",
@@ -77,9 +77,13 @@
           ],
           "description": "`raised` on the page · `outline` inside cards and settings groups · `sunken` for summaries and code."
         },
-        "isCompact": {
-          "type": "boolean",
-          "description": "16px padding instead of 24px."
+        "density": {
+          "type": "string",
+          "enum": [
+            "comfortable",
+            "compact"
+          ],
+          "description": "`compact`: 16px padding instead of 24px."
         }
       }
     }
@@ -105,13 +109,17 @@
         }
       },
       {
-        "name": "isCompact",
-        "type": "boolean",
+        "name": "density",
+        "type": "Density",
         "required": false,
         "origin": "own",
-        "description": "16px padding instead of 24px.",
+        "description": "`compact`: 16px padding instead of 24px.",
         "schema": {
-          "type": "boolean"
+          "type": "string",
+          "enum": [
+            "comfortable",
+            "compact"
+          ]
         }
       },
       {

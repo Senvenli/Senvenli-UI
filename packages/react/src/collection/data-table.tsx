@@ -1,5 +1,6 @@
 "use client";
 
+import type { Density } from "../density";
 import * as React from "react";
 import { useLocale, type Key, type Selection, type SortDescriptor } from "react-aria-components";
 
@@ -100,7 +101,7 @@ type DataTableBase<T> = {
   /** Passed to the provider's `navigate` with each view change (a host router's replace or scroll option). */
   routerOptions?: unknown;
   /** `compact` (36px rows) by default: DataTable is the dense working list of a back office. */
-  density?: "default" | "compact";
+  density?: Density;
 };
 
 export type DataTableProps<T> = DataTableBase<T> &

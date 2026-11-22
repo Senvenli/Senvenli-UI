@@ -145,12 +145,12 @@ describe("right-to-left", () => {
 });
 
 describe("Pressable", () => {
-  it("fills its container by default, as a button and as a link; width=content hugs what it holds", () => {
+  it("fills its container by default, as a button and as a link; fullWidth={false} hugs what it holds", () => {
     render(
       <>
         <Pressable onPress={() => {}}>Button</Pressable>
         <Pressable href="/x">Link</Pressable>
-        <Pressable onPress={() => {}} width="content">Hug</Pressable>
+        <Pressable onPress={() => {}} fullWidth={false}>Hug</Pressable>
       </>,
     );
     expect(screen.getByRole("button", { name: "Button" }).className.split(/\s+/)).toContain("w-full");

@@ -97,7 +97,7 @@
         }
       },
       {
-        "name": "loading",
+        "name": "isLoading",
         "type": "boolean",
         "required": false,
         "origin": "own",
@@ -108,18 +108,22 @@
         }
       },
       {
-        "name": "sidebar",
-        "type": "boolean",
+        "name": "variant",
+        "type": "\"button\" | \"sidebar\"",
         "required": false,
         "origin": "own",
-        "default": "false",
-        "description": "Layout only: a full-width row whose list opens upward, for a panel sidebar.",
+        "default": "\"button\"",
+        "description": "`button` (default): a trigger in a bar. `sidebar`: a full-width row whose list opens upward, for a panel sidebar.",
         "schema": {
-          "type": "boolean"
+          "type": "string",
+          "enum": [
+            "button",
+            "sidebar"
+          ]
         }
       },
       {
-        "name": "collapsed",
+        "name": "isCollapsed",
         "type": "boolean",
         "required": false,
         "origin": "own",
@@ -156,7 +160,7 @@
         "type": "string",
         "required": false,
         "origin": "own",
-        "description": "Ids of elements that describe the trigger (\"Changes the language of the whole panel\"). It lands on the\ntrigger button, the focusable control, also while it is disabled for `loading`; left out, nothing is\nadded. While the trigger's tooltip is open it takes the place of the tooltip's id, which only\nrepeats `label`.",
+        "description": "Ids of elements that describe the trigger (\"Changes the language of the whole panel\"). It lands on the\ntrigger button, the focusable control, also while it is disabled for `isLoading`; left out, nothing is\nadded. While the trigger's tooltip is open it takes the place of the tooltip's id, which only\nrepeats `label`.",
         "schema": {
           "type": "string"
         }

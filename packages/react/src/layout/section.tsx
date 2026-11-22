@@ -1,5 +1,6 @@
 "use client";
 
+import type { Density } from "../density";
 import * as React from "react";
 
 import { cn } from "../utils";
@@ -9,7 +10,7 @@ export type SectionProps = {
   /** `default` on ds-surface; `sunken` for an alternate or CTA band. Never two sunken bands in a row. */
   tone?: "default" | "sunken";
   /** Vertical padding: ds-space-1000 from 768px and ds-space-600 below; `compact` keeps ds-space-600 throughout. */
-  density?: "default" | "compact";
+  density?: Density;
   /** Anchor target for the Navbar; scrolling to it leaves room for the 56px sticky Navbar. */
   id?: string;
   /** The id of the heading that names the band (a landmark needs a name to be listed). */
@@ -25,7 +26,7 @@ export type SectionProps = {
    * and floating banners to <body>), and the first, above-the-fold band is never progressive. The
    * 720px is a desktop-tuned estimate; once painted, the browser remembers the real height.
    */
-  progressive?: boolean;
+  isProgressive?: boolean;
 };
 
 /**
@@ -33,7 +34,7 @@ export type SectionProps = {
  * a Container. Spacing is padding and gap from ds-space tokens, never
  * margins between sibling sections; logical properties only.
  */
-export function Section({ children, tone = "default", density = "default", id, "aria-labelledby": labelledBy, progressive }: SectionProps) {
+export function Section({ children, tone = "default", density = "comfortable", id, "aria-labelledby": labelledBy, isProgressive: progressive }: SectionProps) {
   return (
     <section
       id={id}

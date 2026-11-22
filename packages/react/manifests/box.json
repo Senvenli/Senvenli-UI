@@ -88,11 +88,11 @@
         "background": {
           "type": "string",
           "enum": [
+            "neutral",
             "danger",
             "success",
-            "neutral",
-            "warning",
             "information",
+            "warning",
             "selected",
             "surface",
             "surface-raised",
@@ -210,11 +210,11 @@
         "schema": {
           "type": "string",
           "enum": [
+            "neutral",
             "danger",
             "success",
-            "neutral",
-            "warning",
             "information",
+            "warning",
             "selected",
             "surface",
             "surface-raised",

@@ -8,7 +8,7 @@ export type { StackHorizontalProps, StackProps, StackVerticalProps } from "./sta
 export { Grid } from "./grid";
 export type { GridProps } from "./grid";
 export { Pressable } from "./pressable";
-export type { PressableProps, PressableWidth } from "./pressable";
+export type { PressableProps } from "./pressable";
 export { Container, Section } from "./section";
 export type { ContainerProps, SectionProps } from "./section";
 export { SPACE_TOKENS } from "./tokens";

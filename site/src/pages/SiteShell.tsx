@@ -36,7 +36,7 @@ export function SiteShell({ children, section, components = [], docs = [], onNav
         endActions={
           <span className="flex items-center gap-ds-100">
             {onNavigate && <SiteSearch components={components} docs={docs} onNavigate={onNavigate} />}
-            <ThemeSwitcher appearance="menu" />
+            <ThemeSwitcher variant="menu" />
           </span>
         }
       />

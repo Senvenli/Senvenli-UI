@@ -77,7 +77,7 @@ describe("Field label id", () => {
 
   it("no label, no id", () => {
     const { container } = inLocale(
-      <Field error="Required">
+      <Field errorMessage="Required">
         <input />
       </Field>,
     );
@@ -88,13 +88,13 @@ describe("Field label id", () => {
   it("two Fields on a page: no duplicate ids", () => {
     inLocale(
       <>
-        <Field label="Name" error="Required">
+        <Field label="Name" errorMessage="Required">
           <input />
         </Field>
-        <Field label="Surname" hint="As on your ID">
+        <Field label="Surname" description="As on your ID">
           <input />
         </Field>
-        <Field label="Country" htmlFor="country" error="Select a country">
+        <Field label="Country" htmlFor="country" errorMessage="Select a country">
           <ComboBox id="country" items={COUNTRIES} />
         </Field>
       </>,
@@ -148,7 +148,7 @@ describe("Field invalid forwarding", () => {
     "%s ComboBox: the Field's error makes it invalid; its only error row is the Field's, which describes it",
     (_, multiple) => {
       inLocale(
-        <Field label="Country" htmlFor="cc" error="Select a country.">
+        <Field label="Country" htmlFor="cc" errorMessage="Select a country.">
           {multiple ? <ComboBox selectionMode="multiple" id="cc" items={COUNTRIES} /> : <ComboBox id="cc" items={COUNTRIES} />}
         </Field>,
       );
@@ -178,7 +178,7 @@ describe("Field invalid forwarding", () => {
     function Row() {
       const [value, setValue] = React.useState<Key | null>(null);
       return (
-        <Field label="Country" htmlFor="cc" error={value ? undefined : "Select a country."}>
+        <Field label="Country" htmlFor="cc" errorMessage={value ? undefined : "Select a country."}>
           <ComboBox id="cc" items={COUNTRIES} selectedKey={value} onSelectionChange={setValue} />
         </Field>
       );
@@ -203,10 +203,10 @@ describe("Field invalid forwarding", () => {
   it("MultiSelect and Select: the Field's aria-invalid marks the field invalid (data-invalid), no empty row", () => {
     inLocale(
       <>
-        <Field label="Countries" htmlFor="ms" error="Select at least one country.">
+        <Field label="Countries" htmlFor="ms" errorMessage="Select at least one country.">
           <MultiSelect aria-label="Countries" items={COUNTRIES} />
         </Field>
-        <Field label="Country" htmlFor="sl" error="Select a country.">
+        <Field label="Country" htmlFor="sl" errorMessage="Select a country.">
           <Select aria-label="Country" items={COUNTRIES} />
         </Field>
       </>,

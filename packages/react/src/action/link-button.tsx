@@ -7,8 +7,8 @@ import { IconGlyph, type IconName } from "../display/icon";
 import { cn } from "../utils";
 import { newTabLabel } from "../i18n";
 import {
-  BUTTON_BASE, BUTTON_SIZE, BUTTON_VARIANT, ICON, ICON_ONLY_SIZE, LINK_BUTTON_PADDING, hasTouchTarget,
-  type ButtonSize, type ButtonVariant,
+  BUTTON_BASE, BUTTON_SIZE, buttonVariantClasses, ICON, ICON_ONLY_SIZE, LINK_BUTTON_PADDING, hasTouchTarget,
+  type ButtonSize, type ButtonTone, type ButtonVariant,
 } from "./styles";
 import { TouchTarget } from "./touch-target";
 
@@ -20,6 +20,10 @@ type BaseProps = Omit<
   href: string;
   /** Button's look: `primary` for the one main call to action of a view. */
   variant?: ButtonVariant;
+  /** `danger` for a destructive action; it keeps the variant's shape. */
+  tone?: ButtonTone;
+  /** As wide as its container. */
+  fullWidth?: boolean;
   size?: ButtonSize;
   /** Lucide icon name shown before the label. */
   iconBefore?: IconName;
@@ -68,7 +72,7 @@ function isModifiedClick(event: React.MouseEvent) {
  * ring. Actions that change data in place use Button.
  */
 export const LinkButton = React.forwardRef<HTMLAnchorElement, LinkButtonProps>(function LinkButton(
-  { variant = "default", size = "medium", iconBefore, iconAfter, iconOnly, isExternal, rel, href, onPress, onClickCapture, children, ...rest },
+  { variant = "default", tone = "neutral", fullWidth = false, size = "medium", iconBefore, iconAfter, iconOnly, isExternal, rel, href, onPress, onClickCapture, children, ...rest },
   ref,
 ) {
   const { locale } = useLocale();
@@ -98,12 +102,14 @@ export const LinkButton = React.forwardRef<HTMLAnchorElement, LinkButtonProps>(f
       onClickCapture={handleClickCapture}
       data-slot="link-button"
       data-variant={variant}
+      data-tone={tone}
       data-size={size}
       className={cn(
         BUTTON_BASE,
+        fullWidth && "w-full",
         // An anchor is underlined by default; Button's own `link` variant still underlines on hover.
         "no-underline",
-        BUTTON_VARIANT[variant],
+        buttonVariantClasses(variant, tone),
         BUTTON_SIZE[size],
         variant === "link" && LINK_BUTTON_PADDING,
         iconOnly && ICON_ONLY_SIZE[size],

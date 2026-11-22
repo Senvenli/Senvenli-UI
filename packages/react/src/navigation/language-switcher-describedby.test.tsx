@@ -25,7 +25,7 @@ const HINT = "Changes the language of the whole panel.";
 /** No `label` is passed anywhere in this file: the trigger is named by the design system's own string. */
 const LABEL = "Language";
 
-type Extra = { loading?: boolean; sidebar?: boolean; collapsed?: boolean; size?: "default" | "sm"; "aria-describedby"?: string };
+type Extra = { isLoading?: boolean; variant?: "button" | "sidebar"; isCollapsed?: boolean; size?: "small" | "medium"; "aria-describedby"?: string };
 
 function renderSwitcher(extra: Extra = {}, { locale = "en", dir, current = "en" }: { locale?: string; dir?: "rtl"; current?: Locale } = {}) {
   const onSelect = vi.fn();
@@ -84,14 +84,14 @@ describe("LanguageSwitcher aria-describedby", () => {
   });
 
   it("while loading, the disabled trigger carries it too", () => {
-    renderSwitcher({ "aria-describedby": "language-hint", loading: true });
+    renderSwitcher({ "aria-describedby": "language-hint", isLoading: true });
     const trigger = screen.getByRole("button", { name: LABEL, description: HINT });
     expect(trigger.hasAttribute("disabled")).toBe(true);
     expect(described()).toEqual([trigger]);
   });
 
   it("every layout: sidebar, collapsed, compact", () => {
-    for (const extra of [{ sidebar: true }, { collapsed: true }, { sidebar: true, collapsed: true }, { size: "sm" as const }]) {
+    for (const extra of [{ variant: "sidebar" as const }, { isCollapsed: true }, { variant: "sidebar" as const, isCollapsed: true }, { size: "small" as const }]) {
       renderSwitcher({ ...extra, "aria-describedby": "language-hint" });
       expect(described(), JSON.stringify(extra)).toEqual([screen.getByRole("button", { name: LABEL, description: HINT })]);
       cleanup();
@@ -99,7 +99,7 @@ describe("LanguageSwitcher aria-describedby", () => {
   });
 
   it("left out, nothing is added: no aria-describedby, and the DOM is byte-identical to aria-describedby={undefined}", () => {
-    for (const extra of [{}, { loading: true }, { sidebar: true }, { collapsed: true }, { size: "sm" as const }] as Extra[]) {
+    for (const extra of [{}, { isLoading: true }, { variant: "sidebar" as const }, { isCollapsed: true }, { size: "small" as const }] as Extra[]) {
       const omitted = stableIds(renderSwitcher(extra).container.innerHTML);
       expect(described(), JSON.stringify(extra)).toEqual([]);
       cleanup();
