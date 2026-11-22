@@ -196,6 +196,20 @@
         }
       },
       {
+        "name": "width",
+        "type": "PressableWidth",
+        "required": false,
+        "origin": "own",
+        "description": "`fill` (default): as wide as its container, as a button or a link. `content`: as wide as what it holds.",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "content",
+            "fill"
+          ]
+        }
+      },
+      {
         "name": "children",
         "type": "React.ReactNode",
         "required": false,

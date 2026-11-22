@@ -33,8 +33,13 @@ export type InputOTPProps = Omit<
    * when it succeeds, and a rejection says "try again" instead.
    */
   onResend?: () => unknown;
-  /** Seconds to wait before resending; also the wait after the first code was sent. */
+  /** Seconds to wait before resending again after a code was sent. */
   resendCooldown?: number;
+  /**
+   * The wait already running when the field appears. Default `resendCooldown`: the first code was just sent. Pass 0
+   * when it was sent long ago, or the server's "retry after"; a new value restarts the wait.
+   */
+  initialResendCooldown?: number;
   /**
    * Who says an empty required field is missing: `field` (default) or `app`. With `app` a DS
    * Form's `onSubmit` runs with the field empty, and the app's own error must clear on change. See
@@ -60,14 +65,14 @@ function takeCode(text: string, previous: string, length: number) {
 }
 
 export const InputOTP = React.forwardRef<HTMLInputElement, InputOTPProps>(function InputOTP(
-  { label, length = 6, description, errorMessage, onComplete, onResend, resendCooldown = 0, value, defaultValue, onChange, validate, onBlur, requiredValidation, ...rest },
+  { label, length = 6, description, errorMessage, onComplete, onResend, resendCooldown = 0, initialResendCooldown, value, defaultValue, onChange, validate, onBlur, requiredValidation, ...rest },
   ref,
 ) {
   const { locale } = useLocale();
   const [uncontrolled, setUncontrolled] = React.useState(defaultValue ?? "");
   const code = (value ?? uncontrolled).replace(/\D/g, "").slice(0, length);
   const [focused, setFocused] = React.useState(false);
-  const resend = useCooldownAction(onResend, resendCooldown, resendCooldown);
+  const resend = useCooldownAction(onResend, resendCooldown, initialResendCooldown ?? resendCooldown);
   const wait = resend.remaining;
   const inputRef = React.useRef<HTMLInputElement | null>(null);
 

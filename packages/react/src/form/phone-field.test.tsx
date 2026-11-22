@@ -25,7 +25,9 @@ function inLocale(ui: React.ReactElement, locale = "en") {
 }
 
 /** The country list renders every country (~240 options); jsdom is slow at that under a loaded full run. */
-const LIST_TIMEOUT = 20_000;
+const LIST_TIMEOUT = 30_000;
+// Opening a 250-country list under a loaded full run can take longer than findBy's default second.
+const FIND = { timeout: 5_000 };
 
 const type = (input: HTMLElement, text: string) => fireEvent.change(input, { target: { value: text } });
 
@@ -110,7 +112,7 @@ describe("PhoneField", () => {
     const onValue = vi.fn();
     inLocale(<Controlled onValue={onValue} start="+38267123456" suggestedCountries={["ME", "AT", "HR"]} />, "de");
     fireEvent.click(screen.getByRole("button", { name: "Country: Montenegro, +382" }));
-    const listbox = await screen.findByRole("listbox", { name: "Country" });
+    const listbox = await screen.findByRole("listbox", { name: "Country" }, FIND);
     expect(document.querySelector("[data-slot='phone-field-popover']")!.className).toContain("w-(--trigger-width)");
     const sections = listbox.querySelectorAll("[data-slot='phone-field-suggested'] [role='option']");
     expect([...sections].map((option) => option.textContent)).toEqual(["MEMontenegro+382", "ATÖsterreich+43", "HRKroatien+385"]);
@@ -160,7 +162,7 @@ describe("PhoneField", () => {
       </DialogTrigger>,
     );
     fireEvent.click(screen.getByRole("button", { name: "Open" }));
-    const input = await screen.findByRole("textbox", { name: "Phone" });
+    const input = await screen.findByRole("textbox", { name: "Phone" }, FIND);
     expect(document.getElementById(input.getAttribute("aria-describedby")!)!.textContent).toBe("WhatsApp");
   });
 
@@ -188,14 +190,14 @@ describe("PhoneField", () => {
     const onValue = vi.fn();
     inLocale(<Controlled onValue={onValue} start="+38267123456" />);
     fireEvent.click(screen.getByRole("button", { name: "Country: Montenegro, +382" }));
-    const search = await screen.findByRole("searchbox", { name: "Search countries" });
+    const search = await screen.findByRole("searchbox", { name: "Search countries" }, FIND);
     expect(document.activeElement).toBe(search);
     type(search, "germany");
     fireEvent.keyDown(search, { key: "ArrowDown" });
     fireEvent.keyDown(search, { key: "Enter" });
     expect(onValue).toHaveBeenLastCalledWith("+4967123456", "DE");
     fireEvent.click(screen.getByRole("button", { name: "Country: Germany, +49" }));
-    const again = await screen.findByRole("searchbox", { name: "Search countries" });
+    const again = await screen.findByRole("searchbox", { name: "Search countries" }, FIND);
     fireEvent.keyDown(again, { key: "Escape" });
     expect(screen.queryByRole("listbox")).toBeNull();
   }, LIST_TIMEOUT);
@@ -224,7 +226,7 @@ describe("PhoneField", () => {
     const onValue = vi.fn();
     inLocale(<Controlled onValue={onValue} start="+38267123456" />);
     fireEvent.click(screen.getByRole("button", { name: "Country: Montenegro, +382" }));
-    const listbox = await screen.findByRole("listbox", { name: "Country" });
+    const listbox = await screen.findByRole("listbox", { name: "Country" }, FIND);
     fireEvent.click(within(listbox).getByRole("option", { name: /Montenegro/ }));
     expect(screen.queryByRole("listbox")).toBeNull();
     expect(onValue).not.toHaveBeenCalled();

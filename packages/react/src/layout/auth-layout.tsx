@@ -35,6 +35,11 @@ export interface AuthLayoutProps {
   topRightSlot?: React.ReactNode;
   /** The credentials content — typically an `AuthFormLayout`. */
   children: React.ReactNode;
+  /**
+   * The credentials pane's element: `main` (default) when the layout is the page, `div` when the app's shell already
+   * renders the page's one `<main>`.
+   */
+  credentialsElement?: "main" | "div";
   className?: string;
 }
 
@@ -48,7 +53,10 @@ export interface AuthLayoutProps {
  * decoration as `brandBackdrop`, the footer motif as `brandFooterLead`, so two
  * apps that want to look unrelated still share one skeleton.
  *
- * The brand pane is desktop-only; on mobile the credentials pane is the screen,
+ * The split follows the layout's own width (a container query, 64rem and up), not the viewport's, so it also holds
+ * inside a dialog, a preview frame or a shell with a sidebar.
+ *
+ * The brand pane is wide-only; on a narrow layout the credentials pane is the screen,
  * so a compact brand header belongs to the form (`AuthFormLayout`'s `logoSlot`).
  * The corner control sits at the inline end, so it mirrors in right-to-left.
  */
@@ -61,43 +69,47 @@ export function AuthLayout({
   brandClassName,
   topRightSlot,
   children,
+  credentialsElement: Credentials = "main",
   className,
 }: AuthLayoutProps) {
   return (
-    <div data-slot="auth-layout" className={cn("grid min-h-svh lg:grid-cols-[1.05fr_1fr]", className)}>
-      <aside
-        data-slot="auth-brand"
-        className={cn(
-          "relative hidden overflow-hidden lg:flex lg:flex-col lg:justify-between lg:p-ds-600 xl:p-ds-800",
-          brandClassName,
-        )}
-      >
-        {brandBackdrop}
+    // The container is the outer box: an element cannot query its own width, so the grid is one level in.
+    <div data-slot="auth-layout" className={cn("@container min-h-svh", className)}>
+      <div data-slot="auth-layout-grid" className="grid min-h-svh @5xl:grid-cols-[1.05fr_1fr]">
+        <aside
+          data-slot="auth-brand"
+          className={cn(
+            "relative hidden overflow-hidden @5xl:flex @5xl:flex-col @5xl:justify-between @5xl:p-ds-600 @7xl:p-ds-800",
+            brandClassName,
+          )}
+        >
+          {brandBackdrop}
 
-        {brandLogo && <div className="relative">{brandLogo}</div>}
+          {brandLogo && <div className="relative">{brandLogo}</div>}
 
-        {brandContent && <div className="relative">{brandContent}</div>}
+          {brandContent && <div className="relative">{brandContent}</div>}
 
-        {/* Always rendered, even when it holds nothing. The pane is a `justify-between` column, so
+          {/* Always rendered, even when it holds nothing. The pane is a `justify-between` column, so
             dropping this row slams the narrative against the bottom edge; a zero-height
             spacer holds the top / middle / bottom rhythm whatever the consumer supplies. */}
-        <div data-slot="auth-brand-footer" className="relative flex items-center gap-ds-200">
-          {brandFooterLead}
-          {brandFooter && <div className="min-w-0">{brandFooter}</div>}
-        </div>
-      </aside>
-
-      <main
-        data-slot="auth-credentials"
-        className="relative flex h-full min-h-0 flex-col items-center justify-center bg-ds-surface px-ds-250 py-ds-600 text-ds-text"
-      >
-        {topRightSlot && (
-          <div data-slot="auth-corner" className="absolute top-ds-200 end-ds-200 z-10">
-            {topRightSlot}
+          <div data-slot="auth-brand-footer" className="relative flex items-center gap-ds-200">
+            {brandFooterLead}
+            {brandFooter && <div className="min-w-0">{brandFooter}</div>}
           </div>
-        )}
-        {children}
-      </main>
+        </aside>
+
+        <Credentials
+          data-slot="auth-credentials"
+          className="relative flex h-full min-h-0 flex-col items-center justify-center bg-ds-surface px-ds-250 py-ds-600 text-ds-text"
+        >
+          {topRightSlot && (
+            <div data-slot="auth-corner" className="absolute top-ds-200 end-ds-200 z-10">
+              {topRightSlot}
+            </div>
+          )}
+          {children}
+        </Credentials>
+      </div>
     </div>
   );
 }

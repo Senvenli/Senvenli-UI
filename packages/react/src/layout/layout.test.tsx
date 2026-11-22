@@ -145,6 +145,21 @@ describe("right-to-left", () => {
 });
 
 describe("Pressable", () => {
+  it("fills its container by default, as a button and as a link; width=content hugs what it holds", () => {
+    render(
+      <>
+        <Pressable onPress={() => {}}>Button</Pressable>
+        <Pressable href="/x">Link</Pressable>
+        <Pressable onPress={() => {}} width="content">Hug</Pressable>
+      </>,
+    );
+    expect(screen.getByRole("button", { name: "Button" }).className.split(/\s+/)).toContain("w-full");
+    expect(screen.getByRole("link", { name: "Link" }).className.split(/\s+/)).toContain("w-full");
+    const hug = screen.getByRole("button", { name: "Hug" }).className.split(/\s+/);
+    expect(hug).toContain("w-fit");
+    expect(hug).not.toContain("w-full");
+  });
+
   it("is a button that fires onPress for pointer and keyboard", () => {
     const onPress = vi.fn();
     render(<Pressable onPress={onPress}>Select item</Pressable>);
