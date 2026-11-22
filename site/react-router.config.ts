@@ -19,9 +19,10 @@ export default {
   ssr: false,
   prerender: {
     paths: ({ getStaticPaths }) => [
-      ...getStaticPaths(), // "/", "/create", "/components", "/schema/component.full.json", "/llms.txt"
-      ...slugs.flatMap((slug) => [`/components/${slug}`, `/components/${slug}.json`, `/components/${slug}.md`]),
-      ...docs.flatMap((slug) => [`/docs/${slug}`, `/docs/${slug}.md`]),
+      ...getStaticPaths(), // "/", "/create", "/docs", "/docs/components", "/schema/component.full.json", "/llms.txt"
+      ...slugs.flatMap((slug) => [`/docs/components/${slug}`, `/docs/components/${slug}.json`, `/docs/components/${slug}.md`]),
+      // The introduction is the page at /docs; its Markdown twin keeps its name.
+      ...docs.flatMap((slug) => (slug === "introduction" ? [`/docs/${slug}.md`] : [`/docs/${slug}`, `/docs/${slug}.md`])),
       "/404", // lib/not-found-document.ts: NOT_FOUND_PATH
     ],
     concurrency: 4,

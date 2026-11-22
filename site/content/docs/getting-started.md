@@ -82,4 +82,4 @@ export function Profile() {
 
 - [Theming](/docs/theming): what the inputs do and how the rest is derived.
 - [Dark mode](/docs/dark-mode): light, dark and the visitor's choice without a flash.
-- [Components](/components): every component with live examples and its API.
+- [Components](/docs/components): every component with live examples and its API.

@@ -10,6 +10,7 @@ import { useRestoreVisitedUrl } from "./lib/not-found-document";
 import { presetScriptSource } from "./lib/theme-head";
 import { NotFoundPage } from "./pages/NotFoundPage";
 import { SiteShell } from "./pages/SiteShell";
+import { SiteDataContext } from "./lib/site-data";
 import "./tailwind.css";
 import "./styles.css";
 
@@ -54,12 +55,17 @@ export default function Root({ loaderData }: Route.ComponentProps) {
   // and the page path differs between the prerender ("/create/") and the browser ("/create").
   const navigate = useNavigate();
   useRestoreVisitedUrl();
-  // The first path segment only: the prerender renders "/components/" and the browser "/components", the same key.
-  const section = useLocation().pathname.split("/").filter(Boolean)[0];
+  // The top link to mark: "components" anywhere under /docs/components, otherwise the first path segment ("docs",
+  // "create"). Segments, not the raw path: the prerender renders "/create/" and the browser "/create".
+  const pathname = useLocation().pathname;
+  const [first, second] = pathname.split("/").filter(Boolean);
+  const section = first === "docs" && second === "components" ? "components" : first;
   return (
     <DesignSystemProvider locale="en" navigate={navigate}>
       <SiteShell section={section} components={loaderData.components} docs={loaderData.docs} onNavigate={(href) => navigate(href)}>
-        <Outlet />
+        <SiteDataContext.Provider value={{ components: loaderData.components, docs: loaderData.docs, path: pathname.replace(/\/$/, "") || "/" }}>
+          <Outlet />
+        </SiteDataContext.Provider>
       </SiteShell>
     </DesignSystemProvider>
   );

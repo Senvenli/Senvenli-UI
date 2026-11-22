@@ -15,8 +15,8 @@ Senvenli UI is written to be read by coding agents as well as people.
 
 Each component page has two twins:
 
-- `/components/<name>.md`: the page as Markdown, with the examples' code, the guidelines, the accessibility notes and the API.
-- `/components/<name>.json`: the component's manifest, the same data as structured fields. Its schema is at [/schema/component.full.json](/schema/component.full.json).
+- `/docs/components/<name>.md`: the page as Markdown, with the examples' code, the guidelines, the accessibility notes and the API.
+- `/docs/components/<name>.json`: the component's manifest, the same data as structured fields. Its schema is at [/schema/component.full.json](/schema/component.full.json).
 
 Each doc has a Markdown twin too: `/docs/<name>.md`. **Copy page** on a component page copies its Markdown, ready to paste into a chat.
 

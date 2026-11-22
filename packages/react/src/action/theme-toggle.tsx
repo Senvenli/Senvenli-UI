@@ -2,6 +2,11 @@
 
 import * as React from "react";
 import {
+  Button as AriaButton,
+  Menu as AriaMenu,
+  MenuItem as AriaMenuItem,
+  MenuTrigger,
+  Popover as AriaPopover,
   ToggleButton as AriaToggleButton,
   ToggleButtonGroup as AriaToggleButtonGroup,
   Tooltip as AriaTooltip,
@@ -198,8 +203,11 @@ export type ThemeToggleProps = {
   /** Localized names; the locale's built-in strings by default. */
   labels?: Partial<ThemeLabels>;
   storageKey?: string;
-  /** `segmented` for the Navbar; `list` (a three-option list with a check) for the phone menu. */
-  appearance?: "segmented" | "list";
+  /**
+   * `segmented`: three icon buttons. `menu`: one icon button (the theme in effect) that opens System / Light / Dark,
+   * the compact form for a busy header. `list`: a three-option list with a check, for the phone menu.
+   */
+  appearance?: "segmented" | "menu" | "list";
 };
 
 const SEGMENT =
@@ -214,7 +222,7 @@ const ROW =
 /**
  * System, Light or Dark for a public site, as a radio group: Tab enters and leaves once, arrow keys
  * move and select. System is the default and follows the device; a choice is kept in localStorage.
- * One per page, in the Navbar's end area; `appearance="list"` in the phone menu. Put
+ * One per page, in the Navbar's end area (`segmented` or `menu`); `appearance="list"` in the phone menu. Put
  * `themeScript(nonce)` in <head> so the first paint already has the theme.
  */
 export function ThemeToggle({ value, onChange, labels: given, storageKey, appearance = "segmented" }: ThemeToggleProps) {
@@ -269,6 +277,67 @@ export function ThemeToggle({ value, onChange, labels: given, storageKey, appear
     arrowed.current = false;
     if (id !== choice) choose(id);
   };
+
+  if (appearance === "menu") {
+    // The menu is React Aria's, styled as the library's Menu (overlay/floating.tsx), which this file cannot import
+    // without a cycle (overlay imports the action family).
+    const shown = choice === "system" ? (preference.systemTheme === "dark" ? "moon" : "sun") : CHOICES.find(({ id }) => id === choice)!.icon;
+    return (
+      <MenuTrigger>
+        <AriaButton
+          aria-label={`${labels.theme}: ${name(choice)}`}
+          data-slot="theme-toggle"
+          data-appearance="menu"
+          className={
+            "grid size-8 cursor-pointer place-items-center rounded-ds-medium text-ds-icon-subtle outline-hidden " +
+            "data-[hovered]:bg-ds-background-neutral-subtle-hovered data-[hovered]:text-ds-icon data-[pressed]:bg-ds-background-neutral-pressed " +
+            "data-[focus-visible]:inset-ring-2 data-[focus-visible]:inset-ring-ds-border-focused"
+          }
+        >
+          <IconGlyph name={shown} />
+        </AriaButton>
+        <AriaPopover
+          placement="bottom end"
+          offset={4}
+          data-slot="theme-toggle-popover"
+          className={
+            "min-w-40 rounded-ds-xlarge bg-ds-surface-overlay p-ds-050 text-ds-text shadow-ds-overlay outline-hidden " +
+            "transition-opacity duration-(--ds-duration-medium) data-[entering]:opacity-0 data-[exiting]:opacity-0 motion-reduce:transition-none"
+          }
+        >
+          <AriaMenu
+            aria-label={labels.theme}
+            selectionMode="single"
+            disallowEmptySelection
+            selectedKeys={[choice]}
+            onSelectionChange={(keys) => keys !== "all" && onSelectionChange(keys as Set<Key>)}
+            className="flex flex-col outline-hidden"
+          >
+            {CHOICES.map(({ id, icon }) => (
+              <AriaMenuItem
+                key={id}
+                id={id}
+                textValue={name(id)}
+                data-slot="theme-toggle-option"
+                className={
+                  "flex min-h-8 cursor-default items-center gap-ds-100 rounded-ds-small px-ds-100 text-body outline-hidden select-none " +
+                  "data-[focused]:bg-ds-background-neutral-subtle-hovered data-[pressed]:bg-ds-background-neutral-pressed"
+                }
+              >
+                {({ isSelected }) => (
+                  <>
+                    <IconGlyph name={icon} color="subtle" />
+                    <span className="flex-1">{name(id)}</span>
+                    {isSelected && <IconGlyph name="check" data-slot="theme-toggle-check" />}
+                  </>
+                )}
+              </AriaMenuItem>
+            ))}
+          </AriaMenu>
+        </AriaPopover>
+      </MenuTrigger>
+    );
+  }
 
   if (appearance === "list") {
     return (
