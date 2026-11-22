@@ -1,7 +1,7 @@
 import { Button } from "@senvenli/react/action";
 import { Icon, Kbd } from "@senvenli/react/display";
 import { Pressable } from "@senvenli/react/layout";
-import { CommandPalette, type CommandGroup, type CommandItem } from "@senvenli/react/overlay";
+import { Command, type CommandGroup, type CommandItem } from "@senvenli/react/overlay";
 import { useEffect, useMemo, useState } from "react";
 import { familyTitle, type ManifestIndexEntry } from "../lib/manifest";
 
@@ -17,7 +17,7 @@ function readRecent(): CommandItem[] {
 
 /**
  * ⌘K search over the whole site: every component (found by title, family and description words), the docs and the
- * builder. The library's CommandPalette does the matching; the last five picks show while the query is empty.
+ * builder. The library's Command does the matching; the last five picks show while the query is empty.
  */
 export function SiteSearch({ components, docs = [], onNavigate }: { components: ManifestIndexEntry[]; docs?: { slug: string; title: string; description: string }[]; onNavigate: (href: string) => void }) {
   const [open, setOpen] = useState(false);
@@ -96,7 +96,7 @@ export function SiteSearch({ components, docs = [], onNavigate }: { components: 
       <span className="md:hidden">
         <Button variant="subtle" iconOnly iconBefore="search" aria-label="Search" onPress={() => setOpen(true)} />
       </span>
-      <CommandPalette isOpen={open} onOpenChange={setOpen} groups={groups} recent={recent} onSelect={select} shortcut />
+      <Command isOpen={open} onOpenChange={setOpen} groups={groups} recent={recent} onSelect={select} shortcut />
     </>
   );
 }

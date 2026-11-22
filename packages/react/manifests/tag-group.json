@@ -23,7 +23,7 @@
     ],
     "instead": [
       {
-        "use": "lozenge",
+        "use": "badge",
         "when": "The tag is an item's status."
       }
     ]
@@ -48,7 +48,7 @@
   },
   "related": [
     "multi-select",
-    "lozenge"
+    "badge"
   ],
   "genui": {
     "expose": true,

@@ -24,7 +24,7 @@
     ],
     "instead": [
       {
-        "use": "lozenge",
+        "use": "badge",
         "when": "The status needs a word, not only a symbol."
       }
     ]
@@ -48,8 +48,7 @@
     ]
   },
   "related": [
-    "badge",
-    "lozenge"
+    "badge"
   ],
   "genui": {
     "expose": true,

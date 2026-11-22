@@ -1,5 +1,5 @@
 import { Button } from "@senvenli/react/action";
-import { CommandPalette, toast, type CommandGroup, type CommandItem } from "@senvenli/react/overlay";
+import { Command, toast, type CommandGroup, type CommandItem } from "@senvenli/react/overlay";
 import { useState } from "react";
 
 const GROUPS: CommandGroup[] = [
@@ -27,7 +27,7 @@ export default function Example() {
       <Button iconBefore="search" onPress={() => setIsOpen(true)}>
         Find a customer
       </Button>
-      <CommandPalette isOpen={isOpen} onOpenChange={setIsOpen} groups={GROUPS} search={search} onSelect={(item) => toast(`Opened ${item.label}`)} />
+      <Command isOpen={isOpen} onOpenChange={setIsOpen} groups={GROUPS} search={search} onSelect={(item) => toast(`Opened ${item.label}`)} />
     </>
   );
 }

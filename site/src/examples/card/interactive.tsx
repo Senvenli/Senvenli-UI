@@ -1,4 +1,4 @@
-import { Card, CardBody, CardHeader, Lozenge, Text } from "@senvenli/react/display";
+import { Card, CardBody, CardHeader, Badge, Text } from "@senvenli/react/display";
 import { Inline } from "@senvenli/react/layout";
 
 export default function Example() {
@@ -8,7 +8,7 @@ export default function Example() {
         <CardHeader title="Project Atlas" subtitle="Website redesign" />
         <CardBody>
           <Inline space="space-100">
-            <Lozenge tone="information">In progress</Lozenge>
+            <Badge tone="information">In progress</Badge>
             <Text tone="subtle">12 open tasks</Text>
           </Inline>
         </CardBody>

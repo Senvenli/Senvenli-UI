@@ -1,5 +1,5 @@
 import { DataTable, GridList, List, ListItem, ListSection, Table } from "@senvenli/react/collection";
-import { Card, CardBody, CardHeader, Lozenge, Text } from "@senvenli/react/display";
+import { Card, CardBody, CardHeader, Badge, Text } from "@senvenli/react/display";
 import { Stack } from "@senvenli/react/layout";
 
 type Order = { id: string; customer: string; email: string; status: "paid" | "pending" | "refunded"; total: number; placed: string };
@@ -39,7 +39,7 @@ const COLUMNS = [
     header: "Status",
     isHideable: true,
     value: (o: Order) => o.status,
-    render: (o: Order) => <Lozenge tone={STATUS[o.status].tone}>{STATUS[o.status].label}</Lozenge>,
+    render: (o: Order) => <Badge tone={STATUS[o.status].tone}>{STATUS[o.status].label}</Badge>,
   },
   { key: "placed", header: "Placed", isSortable: true, isHideable: true, hideBelow: "md" as const, value: (o: Order) => o.placed },
   { key: "total", header: "Total", align: "end" as const, isSortable: true, value: (o: Order) => o.total, render: (o: Order) => money.format(o.total) },
@@ -106,8 +106,8 @@ export function CollectionPreview() {
             />
             <List aria-label="Deliveries">
               <ListSection title="Today">
-                <ListItem id="1042" title="Order #1042" description="10:00 · Berlin" trailing={<Lozenge tone="success">Paid</Lozenge>} />
-                <ListItem id="1043" title="Order #1043" description="14:30 · Lisbon" trailing={<Lozenge tone="warning">Pending</Lozenge>} />
+                <ListItem id="1042" title="Order #1042" description="10:00 · Berlin" trailing={<Badge tone="success">Paid</Badge>} />
+                <ListItem id="1043" title="Order #1043" description="14:30 · Lisbon" trailing={<Badge tone="warning">Pending</Badge>} />
               </ListSection>
               <ListSection title="Tomorrow">
                 <ListItem id="1044" title="Order #1044" description="09:15 · Oslo" />

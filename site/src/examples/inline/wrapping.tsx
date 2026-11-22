@@ -1,4 +1,4 @@
-import { Lozenge } from "@senvenli/react/display";
+import { Badge } from "@senvenli/react/display";
 import { Inline } from "@senvenli/react/layout";
 
 const STATUSES = [
@@ -13,7 +13,7 @@ export default function Example() {
   return (
     <Inline space="space-100">
       {STATUSES.map((status) => (
-        <Lozenge key={status.label} tone={status.tone}>{status.label}</Lozenge>
+        <Badge key={status.label} tone={status.tone}>{status.label}</Badge>
       ))}
     </Inline>
   );

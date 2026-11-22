@@ -1,5 +1,5 @@
 import { Button } from "@senvenli/react/action";
-import { Lozenge, Text } from "@senvenli/react/display";
+import { Badge, Text } from "@senvenli/react/display";
 import { Inline } from "@senvenli/react/layout";
 import { DialogTrigger, Drawer, toast, useDrawerClose } from "@senvenli/react/overlay";
 
@@ -33,7 +33,7 @@ export default function Example() {
         size="large"
         title="Invoice INV-2038"
         subtitle="Northwind Traders · due March 4"
-        headerActions={<Lozenge tone="danger">Overdue</Lozenge>}
+        headerActions={<Badge tone="danger">Overdue</Badge>}
         footer={<InvoiceActions />}
       >
         <Text elementType="p">$1,920.00 has been outstanding for 14 days. Two reminders were sent, the last one on March 11.</Text>

@@ -747,13 +747,20 @@
     "title": "Badge",
     "family": "display",
     "status": "alpha",
-    "description": "A count or an unread dot next to a label or on an icon.",
+    "description": "A short label beside content: a record's status in a pill (subtle or bold), a live state as a dot and a word, or a count.",
     "keywords": [
+      "status",
+      "tag",
+      "label",
+      "pill",
+      "chip",
+      "state",
       "count",
       "counter",
       "notification",
       "unread",
-      "dot"
+      "dot",
+      "live"
     ],
     "import": "@senvenli/react/display",
     "exports": [
@@ -932,26 +939,6 @@
       "ModifierKbd"
     ],
     "genui": false
-  },
-  {
-    "name": "lozenge",
-    "title": "Lozenge",
-    "family": "display",
-    "status": "alpha",
-    "description": "A short status word in a colored pill, one meaning per tone.",
-    "keywords": [
-      "status",
-      "tag",
-      "label",
-      "pill",
-      "chip",
-      "state"
-    ],
-    "import": "@senvenli/react/display",
-    "exports": [
-      "Lozenge"
-    ],
-    "genui": true
   },
   {
     "name": "scroll-area",
@@ -1749,8 +1736,8 @@
     "genui": false
   },
   {
-    "name": "command-palette",
-    "title": "Command palette",
+    "name": "command",
+    "title": "Command",
     "family": "overlay",
     "status": "alpha",
     "description": "A ⌘K search over actions and records, with recent items, groups and server results.",
@@ -1763,7 +1750,7 @@
     ],
     "import": "@senvenli/react/overlay",
     "exports": [
-      "CommandPalette"
+      "Command"
     ],
     "genui": false
   },

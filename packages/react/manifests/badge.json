@@ -10,41 +10,51 @@
     "Badge",
     "BadgeAnchor"
   ],
-  "description": "A count or an unread dot next to a label or on an icon.",
+  "description": "A short label beside content: a record's status in a pill (subtle or bold), a live state as a dot and a word, or a count.",
   "keywords": [
+    "status",
+    "tag",
+    "label",
+    "pill",
+    "chip",
+    "state",
     "count",
     "counter",
     "notification",
     "unread",
-    "dot"
+    "dot",
+    "live"
   ],
   "usage": {
     "when": [
+      "Showing the state of an item: draft, paid, overdue.",
       "Showing how many items need attention."
     ],
-    "instead": [
-      {
-        "use": "lozenge",
-        "when": "The status is a word, not a number."
-      }
-    ]
+    "instead": []
   },
   "guidance": [
+    {
+      "rule": "The word carries the meaning, never the color alone; use sentence case."
+    },
+    {
+      "rule": "Use the bold appearance sparingly, for the one status that matters most."
+    },
     {
       "rule": "Use `danger` only for counts that need action now."
     }
   ],
   "a11y": {
     "builtIn": [
+      "Text meets WCAG AA in both appearances.",
       "Counts above `max` show as \"max+\".",
       "On an icon the badge is hidden; the control's label must say the count."
     ],
     "youProvide": [
+      "A status word that makes sense without color.",
       "The count in the control's accessible name when the badge sits on an icon."
     ]
   },
   "related": [
-    "lozenge",
     "icon"
   ],
   "genui": {
@@ -73,10 +83,13 @@
           "enum": [
             "danger",
             "brand",
+            "success",
             "neutral",
+            "warning",
+            "information",
             "inverse"
           ],
-          "description": "`danger` only for counts that need action now (overdue, unpaid)."
+          "description": "One meaning per tone: information (Approved, In progress) · brand (Featured) · success\n(Completed, Available, Paid) · warning (Payment pending, Under review) · danger (Canceled,\nFailed, Overdue) · neutral (Draft, Inactive)."
         }
       }
     }
@@ -88,19 +101,74 @@
     "Badge": [
       {
         "name": "tone",
-        "type": "BadgeTone",
+        "type": "BadgeTone | BadgeCountTone",
         "required": false,
         "origin": "own",
-        "default": "\"neutral\"",
-        "description": "`danger` only for counts that need action now (overdue, unpaid).",
+        "description": "One meaning per tone: information (Approved, In progress) · brand (Featured) · success\n(Completed, Available, Paid) · warning (Payment pending, Under review) · danger (Canceled,\nFailed, Overdue) · neutral (Draft, Inactive).",
         "schema": {
           "type": "string",
           "enum": [
             "danger",
             "brand",
+            "success",
             "neutral",
+            "warning",
+            "information",
             "inverse"
           ]
+        }
+      },
+      {
+        "name": "variant",
+        "type": "\"bold\" | \"dot\" | \"subtle\" | \"count\"",
+        "required": false,
+        "origin": "own",
+        "description": "`subtle` (default): the status of a record in a pill. `bold`: the one status on the screen that needs attention\nnow. `dot`: a dot and the word, for a live system state (online, syncing).",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "bold",
+            "dot",
+            "subtle",
+            "count"
+          ]
+        }
+      },
+      {
+        "name": "hasDot",
+        "type": "boolean",
+        "required": false,
+        "origin": "own",
+        "description": "A 6px dot inside a pill (subtle or bold), for live states. `dot` always has its dot.",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "isLive",
+        "type": "boolean",
+        "required": false,
+        "origin": "own",
+        "description": "`dot` only: a 3px halo for a state that is active right now (connected, syncing).",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "children",
+        "type": "React.ReactNode",
+        "required": false,
+        "origin": "own",
+        "description": "The status word, sentence case (\"Payment pending\"); the word carries the meaning, never the colour."
+      },
+      {
+        "name": "aria-label",
+        "type": "string",
+        "required": false,
+        "origin": "own",
+        "description": "`dot` only, where a visible word is impossible (a dense table cell with its own column header).",
+        "schema": {
+          "type": "string"
         }
       },
       {
@@ -155,18 +223,41 @@
   },
   "tokens": [
     "ds-background-brand-bold",
+    "ds-background-brand-subtle",
+    "ds-background-danger",
     "ds-background-danger-bold",
+    "ds-background-information",
+    "ds-background-information-bold",
     "ds-background-neutral",
     "ds-background-neutral-bold",
+    "ds-background-success",
+    "ds-background-success-bold",
+    "ds-background-warning",
+    "ds-background-warning-bold",
+    "ds-icon-brand",
     "ds-icon-danger",
+    "ds-icon-information",
+    "ds-icon-subtle",
+    "ds-icon-success",
+    "ds-icon-warning",
     "ds-radius-full",
+    "ds-radius-xsmall",
     "ds-space-050",
+    "ds-space-075",
     "ds-space-100",
     "ds-surface",
     "ds-text",
+    "ds-text-brand",
+    "ds-text-danger",
+    "ds-text-information",
     "ds-text-inverse",
+    "ds-text-on-bold",
     "ds-text-on-brand",
-    "ds-text-on-danger"
+    "ds-text-on-danger",
+    "ds-text-on-warning",
+    "ds-text-subtle",
+    "ds-text-success",
+    "ds-text-warning"
   ],
   "strings": [],
   "quality": {

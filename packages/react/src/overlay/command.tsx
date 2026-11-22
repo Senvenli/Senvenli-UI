@@ -18,7 +18,7 @@ import {
 import { cn } from "../utils";
 import { IconGlyph, type IconName } from "../display/icon";
 import { Kbd } from "../display/kbd";
-import { Lozenge, type LozengeTone } from "../display/lozenge";
+import { Badge, type BadgeTone } from "../display/badge";
 import { actionFailedLabel, commandHints, commandPaletteLabel, commandSearchLabel, frequentActionsLabel, loadingLabel, noMatchLabel, recentRecordsLabel } from "../i18n";
 import { Highlight, matchesQuery } from "../selection/match";
 
@@ -30,7 +30,7 @@ export type CommandItem = {
   detail?: string;
   icon?: IconName;
   /** A record's status ("Available", success). */
-  status?: { label: string; tone: LozengeTone };
+  status?: { label: string; tone: BadgeTone };
   /** An action's shortcut ("N"). */
   shortcut?: string;
   /** Extra words it is found by (a customer's phone number, an old name). */
@@ -41,7 +41,7 @@ export type CommandItem = {
 
 export type CommandGroup = { id: string; title: string; items: readonly CommandItem[] };
 
-export type CommandPaletteProps = {
+export type CommandProps = {
   isOpen?: boolean;
   defaultOpen?: boolean;
   onOpenChange?: (isOpen: boolean) => void;
@@ -66,7 +66,7 @@ function byKind(groups: readonly CommandGroup[]) {
 }
 
 /** The server's results for a query, debounced and cancelled when the query moves on. */
-function useSearch(query: string, search: CommandPaletteProps["search"]) {
+function useSearch(query: string, search: CommandProps["search"]) {
   const [state, setState] = React.useState<{ query: string; groups: readonly CommandGroup[]; loading: boolean; failed: boolean }>({
     query: "", groups: [], loading: false, failed: false,
   });
@@ -116,7 +116,7 @@ function Row({ item, query, rowId }: { item: CommandItem; query: string; rowId: 
           </>
         )}
       </span>
-      {item.status && <Lozenge tone={item.status.tone}>{item.status.label}</Lozenge>}
+      {item.status && <Badge tone={item.status.tone}>{item.status.label}</Badge>}
       {item.shortcut && <Kbd>{item.shortcut}</Kbd>}
     </ListBoxItem>
   );
@@ -133,7 +133,7 @@ function Row({ item, query, rowId }: { item: CommandItem; query: string; rowId: 
  * Autocomplete keeps its virtual focus); arrows reach the records first in the list.
  * Everything here must also be reachable through visible UI.
  */
-export function CommandPalette({ isOpen, defaultOpen, onOpenChange, groups, search, recent = [], onSelect, shortcut }: CommandPaletteProps) {
+export function Command({ isOpen, defaultOpen, onOpenChange, groups, search, recent = [], onSelect, shortcut }: CommandProps) {
   const { locale } = useLocale();
   const [own, setOwn] = React.useState(defaultOpen ?? false);
   const open = isOpen ?? own;
@@ -196,14 +196,14 @@ export function CommandPalette({ isOpen, defaultOpen, onOpenChange, groups, sear
       isOpen={open}
       onOpenChange={setOpen}
       isDismissable
-      data-slot="command-palette-overlay"
+      data-slot="command-overlay"
       className="fixed inset-0 z-50 flex items-start justify-center bg-ds-blanket px-ds-200 pt-[15dvh] transition-opacity duration-(--ds-duration-medium) data-[entering]:opacity-0 data-[exiting]:opacity-0 motion-reduce:transition-none"
     >
       <Modal
-        data-slot="command-palette"
+        data-slot="command"
         className="flex max-h-[70dvh] w-full max-w-140 flex-col overflow-hidden rounded-ds-xlarge bg-ds-surface-overlay text-ds-text shadow-ds-overlay outline-hidden"
       >
-        <AriaDialog aria-label={commandPaletteLabel(locale)} data-slot="command-palette-dialog" className="flex min-h-0 flex-1 flex-col outline-hidden">
+        <AriaDialog aria-label={commandPaletteLabel(locale)} data-slot="command-dialog" className="flex min-h-0 flex-1 flex-col outline-hidden">
           <div
             className="flex min-h-0 flex-1 flex-col"
             // Esc closes at once, as the footer says (the search field would otherwise clear itself first).
@@ -216,18 +216,18 @@ export function CommandPalette({ isOpen, defaultOpen, onOpenChange, groups, sear
             }}
           >
           <Autocomplete inputValue={query} onInputChange={setQuery}>
-            <SearchField aria-label={commandSearchLabel(locale)} autoFocus data-slot="command-palette-search" className="flex min-h-13 items-center gap-ds-150 border-b border-ds-border px-ds-200">
+            <SearchField aria-label={commandSearchLabel(locale)} autoFocus data-slot="command-search" className="flex min-h-13 items-center gap-ds-150 border-b border-ds-border px-ds-200">
               <IconGlyph name="search" className="size-5 shrink-0 text-ds-icon-subtle" />
               <Input
                 placeholder={commandSearchLabel(locale)}
-                data-slot="command-palette-input"
+                data-slot="command-input"
                 className="min-w-0 flex-1 bg-transparent text-body text-ds-text outline-hidden placeholder:text-ds-text-subtlest [&::-webkit-search-cancel-button]:hidden"
               />
               <Kbd>Esc</Kbd>
             </SearchField>
             <ListBox
               aria-label={commandPaletteLabel(locale)}
-              data-slot="command-palette-results"
+              data-slot="command-results"
               onAction={(key) => {
                 const item = items.get(String(key));
                 if (!item) return;
@@ -235,26 +235,26 @@ export function CommandPalette({ isOpen, defaultOpen, onOpenChange, groups, sear
                 onSelect(item);
               }}
               renderEmptyState={() => (
-                <div data-slot="command-palette-empty" className="px-ds-200 py-ds-300 text-center text-body text-ds-text-subtle">
+                <div data-slot="command-empty" className="px-ds-200 py-ds-300 text-center text-body text-ds-text-subtle">
                   {remote.loading ? loadingLabel(locale) : remote.failed ? actionFailedLabel(locale) : empty ? null : noMatchLabel(locale, query.trim())}
                 </div>
               )}
               className="min-h-0 flex-1 overflow-y-auto p-ds-100 outline-hidden"
             >
               {shown.map((group) => (
-                <ListBoxSection key={group.id} id={group.id} data-slot="command-palette-group" className="flex flex-col">
-                  <Header data-slot="command-palette-group-title" className="px-ds-150 pt-ds-150 pb-ds-050 text-heading-xxsmall text-ds-text-subtle">
+                <ListBoxSection key={group.id} id={group.id} data-slot="command-group" className="flex flex-col">
+                  <Header data-slot="command-group-title" className="px-ds-150 pt-ds-150 pb-ds-050 text-heading-xxsmall text-ds-text-subtle">
                     {group.title}
                   </Header>
                   {group.items.map((item) => <Row key={rowKey(group, item)} rowId={rowKey(group, item)} item={item} query={empty ? "" : query} />)}
                 </ListBoxSection>
               ))}
             </ListBox>
-            <span aria-live="polite" className="sr-only" data-slot="command-palette-status">
+            <span aria-live="polite" className="sr-only" data-slot="command-status">
               {remote.loading ? loadingLabel(locale) : ""}
             </span>
           </Autocomplete>
-          <div data-slot="command-palette-footer" className="flex flex-wrap items-center gap-ds-300 border-t border-ds-border bg-ds-surface-sunken px-ds-200 py-ds-100 text-body-small text-ds-text-subtle">
+          <div data-slot="command-footer" className="flex flex-wrap items-center gap-ds-300 border-t border-ds-border bg-ds-surface-sunken px-ds-200 py-ds-100 text-body-small text-ds-text-subtle">
             <span className="flex items-center gap-ds-050"><Kbd>↑</Kbd><Kbd>↓</Kbd>{hints.move}</span>
             <span className="flex items-center gap-ds-050"><Kbd>↵</Kbd>{hints.open}</span>
             <span className="flex items-center gap-ds-050"><Kbd>Esc</Kbd>{hints.close}</span>

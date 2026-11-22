@@ -83,7 +83,7 @@ export function Tabs({ items, selectedKey, defaultSelectedKey, onSelectionChange
             {item.label}
             {item.count !== undefined && item.count > 0 && (
               <span data-slot="tab-count" className="flex">
-                <Badge value={item.count} />
+                <Badge variant="count" value={item.count} />
               </span>
             )}
           </Tab>

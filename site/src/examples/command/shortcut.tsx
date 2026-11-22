@@ -1,7 +1,7 @@
 import { Button } from "@senvenli/react/action";
 import { Kbd, ModifierKbd, Text } from "@senvenli/react/display";
 import { Inline } from "@senvenli/react/layout";
-import { CommandPalette, toast, type CommandGroup, type CommandItem } from "@senvenli/react/overlay";
+import { Command, toast, type CommandGroup, type CommandItem } from "@senvenli/react/overlay";
 import { useState } from "react";
 
 const GROUPS: CommandGroup[] = [
@@ -28,7 +28,7 @@ export default function Example() {
       <Text tone="subtle">
         or press <ModifierKbd /> <Kbd>K</Kbd>
       </Text>
-      <CommandPalette
+      <Command
         shortcut
         isOpen={isOpen}
         onOpenChange={setIsOpen}

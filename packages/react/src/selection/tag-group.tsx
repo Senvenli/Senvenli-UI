@@ -93,7 +93,7 @@ export type TagGroupProps = {
 
 /**
  * A set of short labels the user can remove or select: active filters,
- * features or filters. Tags are not status (that is Lozenge). Removable groups
+ * features or filters. Tags are not status (that is a Badge). Removable groups
  * of three or more offer "Clear all".
  */
 export function TagGroup({

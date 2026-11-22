@@ -7,9 +7,7 @@ export type { CardHeaderProps, CardHeadingLevel, CardMediaProps, CardProps, Card
 export { Avatar, AvatarGroup } from "./avatar";
 export type { AvatarGroupProps, AvatarProps, AvatarShape, AvatarSize } from "./avatar";
 export { Badge, BadgeAnchor } from "./badge";
-export type { BadgeProps, BadgeTone } from "./badge";
-export { Lozenge } from "./lozenge";
-export type { LozengeAppearance, LozengeProps, LozengeTone } from "./lozenge";
+export type { BadgeCountProps, BadgeCountTone, BadgeProps, BadgeStatusProps, BadgeTone, BadgeVariant } from "./badge";
 export { Separator } from "./separator";
 export type { SeparatorProps } from "./separator";
 export { Kbd, ModifierKbd } from "./kbd";

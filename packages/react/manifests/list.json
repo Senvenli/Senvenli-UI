@@ -213,7 +213,7 @@
         "type": "React.ReactNode",
         "required": false,
         "origin": "own",
-        "description": "At the end: a Lozenge for status, then a subtle icon-button menu."
+        "description": "At the end: a Badge for status, then a subtle icon-button menu."
       },
       {
         "name": "href",

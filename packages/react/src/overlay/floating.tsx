@@ -112,7 +112,7 @@ const ARIA_TRIGGERS = new Set<unknown>([Button, CloseButton, ToggleButton, Link,
 
 /**
  * The tooltip's trigger. A DS button or link is used as it is. A plain element gets a tab stop (keeping one it
- * already has). Any other component (a Lozenge, a truncated value) is wrapped in a focusable span, since React
+ * already has). Any other component (a Badge, a truncated value) is wrapped in a focusable span, since React
  * Aria can only attach to an element it can reach; the wrapper takes no tab stop of its own when what it holds
  * is already focusable (a raw React Aria button), so keyboard users still meet one stop. For a Menu or a
  * Popover, put the Tooltip on its trigger button, not around the whole component.

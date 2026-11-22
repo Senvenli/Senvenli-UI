@@ -23,7 +23,7 @@ export type RadioProps = {
 
 /**
  * One option of a RadioGroup; the whole row (or card) is the hit target. Named by its children, described by
- * `description`; in a card group the children can hold any content (a title with a Lozenge, a price).
+ * `description`; in a card group the children can hold any content (a title with a Badge, a price).
  */
 export const Radio = React.forwardRef<HTMLLabelElement, RadioProps>(function Radio({ children, description, ...rest }, ref) {
   const text = useChoiceText(description, undefined);

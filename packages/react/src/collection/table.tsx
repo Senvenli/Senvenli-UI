@@ -194,7 +194,7 @@ function useRepeatedKeyWarning(component: string, label: string, repeated: reado
  * Records the user scans, compares, sorts and acts on: orders, customers, invoices. On
  * `ds-surface-raised` with a raised shadow; a sunken header row; 48px rows (36px compact) divided by
  * `ds-border`; selection by checkbox with a 2px marker on the leading edge; the row opens the record.
- * Status is a Lozenge, money right-aligned and formatted by the locale ("$1,248.00"). Under 640px use a List.
+ * Status is a Badge, money right-aligned and formatted by the locale ("$1,248.00"). Under 640px use a List.
  *
  * Pressing a row opens the record while nothing is selected; once rows are ticked a press toggles
  * selection, and a record link in the row-header cell always opens, so a link is never trapped behind selection.

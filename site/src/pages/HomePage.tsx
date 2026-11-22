@@ -1,6 +1,6 @@
 import { Link, LinkButton } from "@senvenli/react/action";
 import { ColorSwatch } from "@senvenli/react/color";
-import { Heading, Icon, Lozenge, Text } from "@senvenli/react/display";
+import { Heading, Icon, Badge, Text } from "@senvenli/react/display";
 import { Pressable } from "@senvenli/react/layout";
 import { SegmentedControl } from "@senvenli/react/navigation";
 import { createTheme, encodePreset, formatHex } from "@senvenli/tokens";
@@ -33,7 +33,7 @@ function Feature({ title, children, proof, link, planned = false }: { title: str
           <Heading level={3} size="heading-small">
             {title}
           </Heading>
-          {planned && <Lozenge>Planned</Lozenge>}
+          {planned && <Badge>Planned</Badge>}
         </div>
         <Text tone="subtle">{children}</Text>
       </div>

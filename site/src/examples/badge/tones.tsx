@@ -1,25 +1,15 @@
-import { Badge, Text } from "@senvenli/react/display";
+import { Badge } from "@senvenli/react/display";
 import { Inline } from "@senvenli/react/layout";
 
 export default function Example() {
   return (
-    <Inline space="space-300">
-      <Inline space="space-075">
-        <Text>Drafts</Text>
-        <Badge value={4} />
-      </Inline>
-      <Inline space="space-075">
-        <Text>New customers</Text>
-        <Badge value={7} tone="brand" />
-      </Inline>
-      <Inline space="space-075">
-        <Text>Overdue invoices</Text>
-        <Badge value={2} tone="danger" />
-      </Inline>
-      <Inline space="space-075">
-        <Text>Archived</Text>
-        <Badge value={31} tone="inverse" />
-      </Inline>
+    <Inline space="space-100">
+      <Badge>Draft</Badge>
+      <Badge tone="information">In progress</Badge>
+      <Badge tone="brand">Featured</Badge>
+      <Badge tone="success">Completed</Badge>
+      <Badge tone="warning">Payment pending</Badge>
+      <Badge tone="danger">Canceled</Badge>
     </Inline>
   );
 }

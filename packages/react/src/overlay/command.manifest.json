@@ -7,10 +7,10 @@
   "genui": {
     "expose": false
   },
-  "name": "command-palette",
-  "title": "Command palette",
+  "name": "command",
+  "title": "Command",
   "exports": [
-    "CommandPalette"
+    "Command"
   ],
   "description": "A ⌘K search over actions and records, with recent items, groups and server results.",
   "keywords": [

@@ -11,7 +11,7 @@ import {
 
 import { cn } from "../utils";
 import { Button } from "../action/button";
-import { Badge, type BadgeTone } from "../display/badge";
+import { Badge, type BadgeCountTone } from "../display/badge";
 import { IconGlyph, type IconName } from "../display/icon";
 import { collapseSidebarLabel, expandSidebarLabel, mainNavigationLabel } from "../i18n";
 import { Tooltip, TooltipFor } from "../overlay/floating";
@@ -27,7 +27,7 @@ export type SidebarItem = {
   /** The page; an item with `children` is a group and has none. */
   href?: string;
   /** A count ("4 new"): a Badge after the label, on the icon when collapsed. */
-  badge?: { value: number; tone?: BadgeTone };
+  badge?: { value: number; tone?: BadgeCountTone };
   /** Nested items, shown indented on a rail under the group. */
   children?: readonly SidebarItem[];
 };
@@ -457,7 +457,7 @@ function Label({ item }: { item: SidebarItem }) {
       </span>
       {item.badge && item.badge.value > 0 && (
         <span data-slot="sidebar-item-badge" className={cn("ms-auto", WHEN_COLLAPSED.badge)}>
-          <Badge value={item.badge.value} tone={item.badge.tone} />
+          <Badge variant="count" value={item.badge.value} tone={item.badge.tone} />
         </span>
       )}
     </>

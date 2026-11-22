@@ -1,5 +1,5 @@
 import { Text } from "@senvenli/react/display";
-import { Lozenge } from "@senvenli/react/display";
+import { Badge } from "@senvenli/react/display";
 import { Inline, Stack } from "@senvenli/react/layout";
 
 const INTEGRATIONS = [
@@ -13,7 +13,7 @@ export default function Example() {
     <Stack space="space-100">
       {INTEGRATIONS.map((integration) => (
         <Inline key={integration.name} space="space-100">
-          <Lozenge appearance="plain" tone={integration.tone} aria-label={integration.state} />
+          <Badge variant="dot" tone={integration.tone} aria-label={integration.state} />
           <Text>{integration.name}</Text>
         </Inline>
       ))}

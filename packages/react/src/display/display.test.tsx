@@ -8,9 +8,7 @@ import { Button } from "../action/index";
 import { DS_STRINGS, intlLocale, registerDsStrings } from "../i18n";
 import { registerLocaleAliases } from "../intl-locale";
 import { DesignSystemProvider } from "../provider";
-import {
-  Avatar, AvatarGroup, Badge, BadgeAnchor, Card, CardBody, CardFooter, CardHeader, CardMedia, Kbd, Lozenge, ModifierKbd, Separator,
-} from "./index";
+import { Avatar, AvatarGroup, Badge, BadgeAnchor, Card, CardBody, CardFooter, CardHeader, CardMedia, Kbd, ModifierKbd, Separator } from "./index";
 
 const here = (file: string) => new URL(file, import.meta.url);
 const theme = toCSS(createTheme(), { tailwind: true }) + fs.readFileSync(here("../../styles/theme.css"), "utf8");
@@ -297,12 +295,12 @@ describe("Badge", () => {
   it("shows a count, hides at 0, and caps at 99+ (9+ on an icon)", () => {
     inLocale(
       <>
-        <span>Messages <Badge value={3} tone="brand" /></span>
-        <Badge value={0} />
-        <Badge value={120} />
+        <span>Messages <Badge variant="count" value={3} tone="brand" /></span>
+        <Badge variant="count" value={0} />
+        <Badge variant="count" value={120} />
         <BadgeAnchor>
           <Button variant="subtle" iconOnly iconBefore="bell" aria-label="Notifications, 9+ unread" />
-          <Badge value={12} tone="danger" isOnIcon />
+          <Badge variant="count" value={12} tone="danger" isOnIcon />
         </BadgeAnchor>
       </>,
     );
@@ -320,7 +318,7 @@ describe("Badge", () => {
     inLocale(
       <BadgeAnchor>
         <Button variant="subtle" iconOnly iconBefore="message-square" aria-label="Messages, new message" />
-        <Badge isDot isOnIcon />
+        <Badge variant="count" isDot isOnIcon />
       </BadgeAnchor>,
     );
     const dot = slot("badge");
@@ -330,22 +328,22 @@ describe("Badge", () => {
   });
 });
 
-describe("Lozenge", () => {
+describe("Badge (status: subtle, bold)", () => {
   it("always carries the word, in the subtle or bold status colours", () => {
     inLocale(
       <>
-        <Lozenge tone="information">Approved</Lozenge>
-        <Lozenge tone="warning" hasDot>Under review</Lozenge>
-        <Lozenge tone="danger" appearance="bold">Overdue</Lozenge>
-        <Lozenge>Draft</Lozenge>
+        <Badge tone="information">Approved</Badge>
+        <Badge tone="warning" hasDot>Under review</Badge>
+        <Badge tone="danger" variant="bold">Overdue</Badge>
+        <Badge>Draft</Badge>
       </>,
     );
-    const lozenges = Array.from(document.querySelectorAll('[data-slot="lozenge"]'));
+    const lozenges = Array.from(document.querySelectorAll('[data-slot="badge"]'));
     expect(lozenges.map((lozenge) => lozenge.textContent)).toEqual(["Approved", "Under review", "Overdue", "Draft"]);
     expect(classesOf(lozenges[0])).toContain("bg-ds-background-information");
     expect(classesOf(lozenges[2])).toContain("bg-ds-background-danger-bold");
     expect(lozenges[3]!.getAttribute("data-tone")).toBe("neutral");
-    expect(slot("lozenge-dot", lozenges[1])?.getAttribute("aria-hidden")).toBe("true");
+    expect(slot("badge-dot", lozenges[1])?.getAttribute("aria-hidden")).toBe("true");
     for (const lozenge of lozenges) {
       expect(lozenge.hasAttribute("role")).toBe(false);
       // Sentence case at medium weight: never upper-cased, never semibold.
@@ -441,8 +439,8 @@ describe("strings and direction", () => {
       <div dir="rtl">
         <Card href="/x"><CardMedia /><CardHeader title="ا" menu={<Button aria-label="ب" iconOnly iconBefore="ellipsis" />} /><CardBody>ج</CardBody><CardFooter>د</CardFooter></Card>
         <AvatarGroup><Avatar name="ز ح" presence="online" /><Avatar name="ط" /></AvatarGroup>
-        <BadgeAnchor><span>ي</span><Badge value={4} isOnIcon /></BadgeAnchor>
-        <Lozenge hasDot>ك</Lozenge>
+        <BadgeAnchor><span>ي</span><Badge variant="count" value={4} isOnIcon /></BadgeAnchor>
+        <Badge hasDot>ك</Badge>
         <Separator>ل</Separator>
         <Kbd>م</Kbd>
       </div>,
