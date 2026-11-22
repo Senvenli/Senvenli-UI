@@ -11,6 +11,7 @@ import {
 import { IconGlyph, type IconName } from "../display/icon";
 
 import { cn } from "../utils";
+import { radiusClass, useComponentDefaults, type ComponentRadius } from "../defaults";
 import { ICON, TOGGLE, TOGGLE_SIZE, type ToggleSize } from "./styles";
 
 export type ToggleButtonProps = Omit<AriaToggleButtonProps, "className" | "style" | "children"> & {
@@ -19,15 +20,20 @@ export type ToggleButtonProps = Omit<AriaToggleButtonProps, "className" | "style
   /** Lucide icon name before the label. */
   icon?: IconName;
   size?: ToggleSize;
+  /** Corner radius; the provider's default otherwise. */
+  radius?: ComponentRadius;
 };
 
 /** A button that stays pressed: `ds-background-selected` with the selected border while on. */
 export const ToggleButton = React.forwardRef<HTMLButtonElement, ToggleButtonProps>(function ToggleButton(
-  { children, icon, size = "medium", ...rest },
+  { children, icon, size: sizeProp, radius: radiusProp, ...rest },
   ref,
 ) {
+  const defaults = useComponentDefaults();
+  const size: ToggleSize = sizeProp ?? (defaults.size === "small" ? "small" : "medium");
+  const radius = radiusProp ?? defaults.radius;
   return (
-    <AriaToggleButton {...rest} ref={ref} data-slot="toggle-button" className={cn(TOGGLE, TOGGLE_SIZE[size])}>
+    <AriaToggleButton {...rest} ref={ref} data-slot="toggle-button" className={cn(TOGGLE, TOGGLE_SIZE[size], radiusClass(radius))}>
       {icon && <IconGlyph name={icon} data-slot="toggle-button-icon" className={ICON} />}
       {children}
     </AriaToggleButton>

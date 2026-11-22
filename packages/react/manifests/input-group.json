@@ -55,7 +55,6 @@
         "type": "FieldSize",
         "required": false,
         "origin": "own",
-        "default": "\"medium\"",
         "schema": {
           "type": "string",
           "enum": [

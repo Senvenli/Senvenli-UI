@@ -3,6 +3,7 @@
 import * as React from "react";
 import { I18nProvider, RouterProvider } from "react-aria-components";
 
+import { ComponentDefaultsProvider, type ComponentDefaults } from "./defaults";
 import { intlLocale } from "./intl-locale";
 import { NavigateContext } from "./navigate-context";
 import { ToasterRoot } from "./overlay/toast";
@@ -16,6 +17,11 @@ export type DesignSystemProviderProps = {
   navigate?: RouterProviderProps["navigate"];
   /** Turns a route into an `href` the host router understands (base paths, locale prefixes). */
   useHref?: RouterProviderProps["useHref"];
+  /**
+   * App-wide defaults: `size` (small | medium | large) and `radius` (none | small | medium | large | full) for every
+   * component that has them. A component's own prop always wins.
+   */
+  defaults?: ComponentDefaults;
   children: React.ReactNode;
 };
 
@@ -25,10 +31,12 @@ export type DesignSystemProviderProps = {
  * Component strings for other languages come from `registerDsStrings`. The toast region
  * is mounted once here, so `toast(...)` works anywhere under the provider.
  */
-export function DesignSystemProvider({ locale = "en", navigate, useHref, children }: DesignSystemProviderProps) {
+export function DesignSystemProvider({ locale = "en", navigate, useHref, defaults, children }: DesignSystemProviderProps) {
   const content = (
     <I18nProvider locale={intlLocale(locale)}>
-      <ToasterRoot>{children}</ToasterRoot>
+      <ComponentDefaultsProvider value={defaults ?? {}}>
+        <ToasterRoot>{children}</ToasterRoot>
+      </ComponentDefaultsProvider>
     </I18nProvider>
   );
   if (!navigate) return content;

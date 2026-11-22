@@ -17,6 +17,7 @@ import {
 } from "react-aria-components";
 
 import { cn } from "../utils";
+import { ComponentDefaultsProvider, radiusClass, splitRadius, useFieldSize, useRadius, type WithRadius } from "../defaults";
 import { IconGlyph, type IconName } from "../display/icon";
 import { FieldDescription, FieldError, FieldLabel } from "../form/field-parts";
 import { FIELD_FRAME, FIELD_ICON, FIELD_SIZE, FIELD_STACK, INPUT, type FieldSize } from "../form/styles";
@@ -38,7 +39,7 @@ export type AutocompleteSuggestion = {
   group?: string;
 };
 
-export type AutocompleteProps = {
+type AutocompleteFieldProps = {
   label: React.ReactNode;
   /** The free text; it is a valid value on its own. */
   value: string;
@@ -93,10 +94,12 @@ function CloseWhenEmpty({ count, loading }: { count: number; loading: boolean })
  * ComboBox the typed text is itself the value; a suggestion only fills it.
  * Suggests after 2 characters, debounced 250ms, with a spinner while it loads.
  */
-export function Autocomplete({
+function AutocompleteField({
   label, value, onChange, getSuggestions, onSelectSuggestion, groups, icon = "search", description, errorMessage: errorMessageProp, placeholder,
-  minLength = 2, debounce = 250, size = "medium", requiredValidation, isInvalid: isInvalidProp, ...rest
-}: AutocompleteProps) {
+  minLength = 2, debounce = 250, size: fieldSize, requiredValidation, isInvalid: isInvalidProp, ...rest
+}: AutocompleteFieldProps) {
+  const size = useFieldSize(fieldSize);
+  const frameRadius = useRadius(undefined);
   const { locale } = useLocale();
   // React Aria has no required check under `aria` validation; the DS does. The typed text is the value.
   const required = useRequiredChoice({
@@ -207,7 +210,7 @@ export function Autocomplete({
       {({ isInvalid, isDisabled }) => (
         <>
           <FieldLabel isRequired={rest.isRequired}>{label}</FieldLabel>
-          <Group data-slot="autocomplete-field" isInvalid={isInvalid} isDisabled={isDisabled} className={cn(FIELD_FRAME, FIELD_SIZE[size])}>
+          <Group data-slot="autocomplete-field" isInvalid={isInvalid} isDisabled={isDisabled} className={cn(FIELD_FRAME, FIELD_SIZE[size], radiusClass(frameRadius))}>
             <IconGlyph name={icon} className={FIELD_ICON} data-slot="field-icon" />
             <Input placeholder={placeholder} data-slot="autocomplete-input" className={cn(INPUT, "text-body")} />
             {loading && <FieldSpinner />}
@@ -242,5 +245,17 @@ export function Autocomplete({
         </>
       )}
     </AriaComboBox>
+  );
+}
+
+export type AutocompleteProps = AutocompleteFieldProps & WithRadius;
+
+/** Free text with suggestions as you type (the value is the text; a suggestion only fills it in). */
+export function Autocomplete(allProps: AutocompleteProps) {
+  const [radius, props] = splitRadius(allProps);
+  return (
+    <ComponentDefaultsProvider value={{ radius }}>
+      <AutocompleteField {...props} />
+    </ComponentDefaultsProvider>
   );
 }

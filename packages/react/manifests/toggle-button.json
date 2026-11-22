@@ -827,12 +827,28 @@
         "type": "ToggleSize",
         "required": false,
         "origin": "own",
-        "default": "\"medium\"",
         "schema": {
           "type": "string",
           "enum": [
             "small",
             "medium"
+          ]
+        }
+      },
+      {
+        "name": "radius",
+        "type": "ComponentRadius",
+        "required": false,
+        "origin": "own",
+        "description": "Corner radius; the provider's default otherwise.",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "none",
+            "small",
+            "medium",
+            "large",
+            "full"
           ]
         }
       }

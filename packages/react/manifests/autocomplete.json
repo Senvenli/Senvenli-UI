@@ -101,7 +101,6 @@
         "type": "IconName",
         "required": false,
         "origin": "own",
-        "default": "\"search\"",
         "description": "The field's context icon (default `search`).",
         "schema": {
           "type": "string",
@@ -184,7 +183,6 @@
         "type": "number",
         "required": false,
         "origin": "own",
-        "default": "2",
         "description": "Characters before suggesting (default 2).",
         "schema": {
           "type": "number"
@@ -195,7 +193,6 @@
         "type": "number",
         "required": false,
         "origin": "own",
-        "default": "250",
         "description": "Debounce in ms (default 250).",
         "schema": {
           "type": "number"
@@ -206,12 +203,28 @@
         "type": "FieldSize",
         "required": false,
         "origin": "own",
-        "default": "\"medium\"",
         "schema": {
           "type": "string",
           "enum": [
             "small",
             "medium"
+          ]
+        }
+      },
+      {
+        "name": "radius",
+        "type": "ComponentRadius",
+        "required": false,
+        "origin": "own",
+        "description": "Corner radius: `none`, `small`, `medium` (the design), `large` or `full`. The provider's default otherwise.",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "none",
+            "small",
+            "medium",
+            "large",
+            "full"
           ]
         }
       }

@@ -5,6 +5,7 @@ import { Button as AriaButton, Group, type ButtonProps as AriaButtonProps } from
 import { IconGlyph, type IconName } from "../display/icon";
 
 import { cn } from "../utils";
+import { radiusClass, useRadius, useFieldSize } from "../defaults";
 import { ADDON, ADDON_END, ADDON_END_FLUSH, ADDON_START, FIELD_FRAME, FIELD_SIZE, INLINE_ACTION, INPUT, type FieldSize } from "./styles";
 
 /**
@@ -45,8 +46,10 @@ const InputGroupContext = React.createContext<ControlLink | null>(null);
  * focuses the control, so addons never swallow focus.
  */
 export function InputGroup({
-  children, size = "medium", isDisabled, isInvalid: isInvalidProp, multiline, dir, id, "aria-describedby": describedBy, "aria-invalid": ariaInvalid,
+  children, size: fieldSize, isDisabled, isInvalid: isInvalidProp, multiline, dir, id, "aria-describedby": describedBy, "aria-invalid": ariaInvalid,
 }: InputGroupProps) {
+  const size = useFieldSize(fieldSize);
+  const frameRadius = useRadius(undefined);
   const ref = React.useRef<HTMLDivElement>(null);
   const isInvalid = isInvalidProp ?? (ariaInvalid === true || ariaInvalid === "true");
   const link = React.useMemo<ControlLink>(() => ({ id, describedBy, invalid: isInvalid, disabled: isDisabled }), [id, describedBy, isInvalid, isDisabled]);
@@ -59,7 +62,7 @@ export function InputGroup({
       dir={dir}
       data-slot="input-group"
       data-size={size}
-      className={cn(FIELD_FRAME, FIELD_SIZE[size], multiline ? "items-start py-ds-100" : "")}
+      className={cn(FIELD_FRAME, FIELD_SIZE[size], multiline ? "items-start py-ds-100" : "", radiusClass(frameRadius))}
       onMouseDown={(event) => {
         const target = event.target as HTMLElement;
         if (target.closest("input, textarea, select, button, a, label, [role='button'], [role='spinbutton'], [contenteditable], [data-slot='input-action']")) return;

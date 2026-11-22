@@ -5,6 +5,7 @@ import * as React from "react";
 import { Button as AriaButton, Link as AriaLink, type LinkProps as AriaLinkProps } from "react-aria-components";
 
 import { cn } from "../utils";
+import { radiusClass, useRadius, type ComponentRadius } from "../defaults";
 import { IconGlyph, type IconName } from "./icon";
 
 export type CardVariant = "raised" | "outline" | "sunken";
@@ -31,6 +32,8 @@ type CardBase = {
   variant?: CardVariant;
   /** `compact`: 16px padding instead of 24px. */
   density?: Density;
+  /** Corner radius: `none` to `full`; the design's `large` (or the provider's default) otherwise. */
+  radius?: ComponentRadius;
   /** Header, media, body and footer parts. */
   children: React.ReactNode;
   /** The card's name when it is interactive and has no CardHeader title. */
@@ -61,8 +64,9 @@ export type CardProps = CardBase &
 
 /** Shared card frame; `isSelected` draws the 2px selected outline of a selectable card. */
 export function CardFrame({
-  variant = "raised", density = "comfortable", children, href, routerOptions, onPress, "aria-label": ariaLabel, isSelected,
+  variant = "raised", density = "comfortable", radius: radiusProp, children, href, routerOptions, onPress, "aria-label": ariaLabel, isSelected,
 }: CardProps & { isSelected?: boolean }) {
+  const radius = useRadius(radiusProp);
   const titleId = React.useId();
   // CardHeader registers its title so the overlay is never labelled by an id that is not there.
   const titles = React.useRef(0);
@@ -99,6 +103,7 @@ export function CardFrame({
         className={cn(
           "relative flex flex-col overflow-hidden rounded-ds-large text-ds-text",
           VARIANT[variant],
+          radiusClass(radius),
           interactive && variant === "raised" &&
             "transition-shadow duration-(--ds-duration-instant) ease-ds-standard has-[[data-slot=card-link][data-hovered]]:shadow-ds-overlay has-[[data-slot=card-link][data-pressed]]:shadow-ds-raised",
           interactive && variant !== "raised" && "has-[[data-slot=card-link][data-hovered]]:bg-ds-surface-hovered",

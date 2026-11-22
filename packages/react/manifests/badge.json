@@ -153,6 +153,23 @@
         }
       },
       {
+        "name": "radius",
+        "type": "ComponentRadius",
+        "required": false,
+        "origin": "own",
+        "description": "Pills only (`subtle`, `bold`): corner radius, `none` to `full`; the design's small step (or the provider's default) otherwise.",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "none",
+            "small",
+            "medium",
+            "large",
+            "full"
+          ]
+        }
+      },
+      {
         "name": "isLive",
         "type": "boolean",
         "required": false,

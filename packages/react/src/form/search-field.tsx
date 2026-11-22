@@ -11,6 +11,7 @@ import {
 import { IconGlyph } from "../display/icon";
 
 import { cn } from "../utils";
+import { useFieldSize } from "../defaults";
 import { clearLabel } from "../i18n";
 import { FieldLabel } from "./field-parts";
 import { InputGroup } from "./input-group";
@@ -34,9 +35,10 @@ export type SearchFieldProps = Omit<AriaSearchFieldProps, "className" | "style" 
  * is text, Esc clears, Enter submits (`onSubmit`). Debounce in the app.
  */
 export const SearchField = React.forwardRef<HTMLInputElement, SearchFieldProps>(function SearchField(
-  { label, placeholder, shortcut, size = "medium", ...rest },
+  { label, placeholder, shortcut, size: fieldSize, ...rest },
   ref,
 ) {
+  const size = useFieldSize(fieldSize);
   const { locale } = useLocale();
   const { wrapperProps, controlData } = splitDataAttributes(rest);
   return (

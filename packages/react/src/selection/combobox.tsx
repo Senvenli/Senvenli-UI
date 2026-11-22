@@ -20,6 +20,7 @@ import {
 } from "react-aria-components";
 
 import { cn } from "../utils";
+import { ComponentDefaultsProvider, radiusClass, splitRadius, useFieldSize, useRadius, type WithRadius } from "../defaults";
 import { IconGlyph } from "../display/icon";
 import { ControlFieldError, FieldDescription, FieldLabel, forwardedInvalid, useErrorRowLink, useFieldName } from "../form/field-parts";
 import { FIELD_FRAME, FIELD_ICON, FIELD_SIZE, FIELD_STACK, INLINE_ACTION, INPUT, type FieldSize } from "../form/styles";
@@ -188,7 +189,7 @@ export type ComboBoxMultipleProps = ComboBoxLabelProps & BaseProps & {
   selectedItems?: readonly ComboBoxItem[];
 };
 
-export type ComboBoxProps = ComboBoxSingleProps | ComboBoxMultipleProps;
+export type ComboBoxProps = (ComboBoxSingleProps | ComboBoxMultipleProps) & WithRadius;
 
 const CREATE_KEY = "__ds-combobox-create__";
 
@@ -508,15 +509,22 @@ function useShowAll() {
  * renders its own label, give neither and pass `id` for its `<label htmlFor>`;
  * `aria-describedby` adds the form's hint or error.
  */
-export function ComboBox(props: ComboBoxProps) {
-  return props.selectionMode === "multiple" ? <MultipleComboBox {...props} /> : <SingleComboBox {...props} />;
+export function ComboBox(allProps: ComboBoxProps) {
+  const [radius, props] = splitRadius(allProps) as [ComboBoxProps["radius"], ComboBoxProps];
+  return (
+    <ComponentDefaultsProvider value={{ radius }}>
+      {props.selectionMode === "multiple" ? <MultipleComboBox {...props} /> : <SingleComboBox {...props} />}
+    </ComponentDefaultsProvider>
+  );
 }
 
 function SingleComboBox({
   label, "aria-label": ariaLabel, items, loadItems, description, errorMessage: errorMessageProp, placeholder, menuTrigger = "input", emptyMessage, allowsCustomValue,
-  onCreate, createLabel, onInputChange, size = "medium", selectedKey, defaultSelectedKey, onSelectionChange, selectedItem,
+  onCreate, createLabel, onInputChange, size: fieldSize, selectedKey, defaultSelectedKey, onSelectionChange, selectedItem,
   isLoading, loadingText, "aria-invalid": ariaInvalid, onSearchChange, onLoadMore, requiredValidation, isInvalid: isInvalidProp, ...rest
 }: ComboBoxSingleProps) {
+  const size = useFieldSize(fieldSize);
+  const frameRadius = useRadius(undefined);
   const { locale } = useLocale();
   const inputRef = React.useRef<HTMLInputElement>(null);
   const { named, showLabel, externalNameProps } = useFieldName("ComboBox", label, ariaLabel, (rest as { "aria-labelledby"?: string })["aria-labelledby"], rest.id, inputRef);
@@ -641,7 +649,7 @@ function SingleComboBox({
         <>
           <StateBridge into={state} />
           {showLabel && <FieldLabel isRequired={rest.isRequired}>{label}</FieldLabel>}
-          <Group data-slot="combobox-field" isInvalid={isInvalid || forwarded.invalid} isDisabled={isDisabled} className={cn(FIELD_FRAME, FIELD_SIZE[size], "pe-ds-050")}>
+          <Group data-slot="combobox-field" isInvalid={isInvalid || forwarded.invalid} isDisabled={isDisabled} className={cn(FIELD_FRAME, FIELD_SIZE[size], "pe-ds-050", radiusClass(frameRadius))}>
             {/* The chosen item's mark while the field shows its label; typing other text hides it.
                 A press on it focuses the input, as a press on the label text would; dimmed with the field when disabled. */}
             {current && hasContent(current.icon) && input === current.label && (
@@ -701,9 +709,11 @@ function sameKeys(a: readonly Key[], b: readonly Key[]) {
 
 function MultipleComboBox({
   label, "aria-label": ariaLabel, items, loadItems, description, errorMessage: errorMessageProp, placeholder, menuTrigger = "input", emptyMessage, onCreate,
-  createLabel, onInputChange, size = "medium", selectedKeys, defaultSelectedKeys, onSelectionChange, selectedItems,
+  createLabel, onInputChange, size: fieldSize, selectedKeys, defaultSelectedKeys, onSelectionChange, selectedItems,
   isLoading, loadingText, "aria-invalid": ariaInvalid, onSearchChange, onLoadMore, requiredValidation, isInvalid: isInvalidProp, ...rest
 }: ComboBoxMultipleProps) {
+  const size = useFieldSize(fieldSize);
+  const frameRadius = useRadius(undefined);
   const { locale } = useLocale();
   const inputRef = React.useRef<HTMLInputElement>(null);
   const { named, showLabel, externalNameProps } = useFieldName("ComboBox", label, ariaLabel, (rest as { "aria-labelledby"?: string })["aria-labelledby"], rest.id, inputRef);
@@ -790,7 +800,7 @@ function MultipleComboBox({
             data-slot="combobox-field"
             isInvalid={isInvalid || forwarded.invalid}
             isDisabled={isDisabled}
-            className={cn(FIELD_FRAME, FIELD_SIZE[size], "flex-wrap gap-ds-050 py-[3px] pe-ds-050")}
+            className={cn(FIELD_FRAME, FIELD_SIZE[size], "flex-wrap gap-ds-050 py-[3px] pe-ds-050", radiusClass(frameRadius))}
           >
             {chosen.map((item) => (
               <span key={String(item.id)} data-slot="combobox-tag" className={TAG}>

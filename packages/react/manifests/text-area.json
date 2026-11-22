@@ -1042,7 +1042,6 @@
         "type": "boolean",
         "required": false,
         "origin": "own",
-        "default": "true",
         "description": "Shows the \"89 / 500\" count under the field; `true` by default whenever `maxLength`\nis set. `false` hides only the visible count: the limit still marks the field invalid past\n`maxLength`, and screen readers still hear when it is exceeded.",
         "schema": {
           "type": "boolean"
@@ -1059,6 +1058,23 @@
           "enum": [
             "field",
             "app"
+          ]
+        }
+      },
+      {
+        "name": "radius",
+        "type": "ComponentRadius",
+        "required": false,
+        "origin": "own",
+        "description": "Corner radius: `none`, `small`, `medium` (the design), `large` or `full`. The provider's default otherwise.",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "none",
+            "small",
+            "medium",
+            "large",
+            "full"
           ]
         }
       }

@@ -123,6 +123,23 @@
         }
       },
       {
+        "name": "radius",
+        "type": "ComponentRadius",
+        "required": false,
+        "origin": "own",
+        "description": "Corner radius: `none` to `full`; the design's `large` (or the provider's default) otherwise.",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "none",
+            "small",
+            "medium",
+            "large",
+            "full"
+          ]
+        }
+      },
+      {
         "name": "children",
         "type": "React.ReactNode",
         "required": true,
