@@ -4,6 +4,7 @@ import * as React from "react";
 import { Button as AriaButton, useLocale } from "react-aria-components";
 
 import { cn } from "../utils";
+import { MotionScope, type WithMotion } from "../defaults";
 import { usePrefersReducedMotion } from "../feedback/motion";
 import { goToImageLabel, imagePositionLabel, nextImageLabel, previousImageLabel } from "../i18n";
 import { IconGlyph } from "./icon";
@@ -52,7 +53,7 @@ const clamp = (value: number, count: number) => Math.min(Math.max(value, 0), Mat
  * scroll settles. Arrow keys act only while focus is inside the carousel; the
  * shown image resets to the first when the set of images changes.
  */
-export function Carousel({
+function CarouselBody({
   items, "aria-label": ariaLabel, index: controlled, defaultIndex = 0, onIndexChange, showThumbnails, aspectRatio = "16/9",
   isLandmark = true,
 }: CarouselProps) {
@@ -332,5 +333,14 @@ export function Carousel({
         </div>
       )}
     </Root>
+  );
+}
+
+/** Carousel with its own `motion` (auto, reduce or none); see CarouselBody for the component itself. */
+export function Carousel({ motion, ...props }: CarouselProps & WithMotion) {
+  return (
+    <MotionScope motion={motion}>
+      <CarouselBody {...(props as CarouselProps)} />
+    </MotionScope>
   );
 }

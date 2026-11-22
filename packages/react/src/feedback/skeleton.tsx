@@ -3,6 +3,7 @@
 import * as React from "react";
 
 import { cn } from "../utils";
+import { MotionScope, type WithMotion } from "../defaults";
 import { useLoop } from "./motion";
 
 /** The design's rule: fast responses should not flash, so shapes appear after 300ms. */
@@ -68,7 +69,7 @@ function Shape({ className, style, delay = 300 }: { className: string; style?: R
  * when data arrives. Mirror the real layout; mark the loading region with
  * `aria-busy` and a label (SkeletonGroup does both).
  */
-export function Skeleton({ isLoaded, children, delay, width, height = 12, radius = "small", aspectRatio }: SkeletonProps) {
+function SkeletonBody({ isLoaded, children, delay, width, height = 12, radius = "small", aspectRatio }: SkeletonProps) {
   if (isLoaded) return <>{children}</>;
   return <Shape delay={delay} className={RADIUS[radius]} style={{ width: width ?? "100%", height: aspectRatio ? undefined : height, aspectRatio }} />;
 }
@@ -115,5 +116,14 @@ export function SkeletonGroup({ label, loadedLabel, isLoading, children }: Skele
     <div role={name ? "group" : undefined} aria-label={name} aria-busy={isLoading || undefined} data-slot="skeleton-group">
       {children}
     </div>
+  );
+}
+
+/** Skeleton with its own `motion` (auto, reduce or none); see SkeletonBody for the component itself. */
+export function Skeleton({ motion, ...props }: SkeletonProps & WithMotion) {
+  return (
+    <MotionScope motion={motion}>
+      <SkeletonBody {...(props as SkeletonProps)} />
+    </MotionScope>
   );
 }

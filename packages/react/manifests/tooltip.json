@@ -115,6 +115,21 @@
         "schema": {
           "type": "boolean"
         }
+      },
+      {
+        "name": "motion",
+        "type": "ComponentMotion",
+        "required": false,
+        "origin": "own",
+        "description": "`auto` (follow the device), `reduce` or `none`, for this component; the provider's setting otherwise.",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "none",
+            "auto",
+            "reduce"
+          ]
+        }
       }
     ]
   },

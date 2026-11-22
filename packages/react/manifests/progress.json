@@ -61,7 +61,6 @@
         "type": "number",
         "required": false,
         "origin": "own",
-        "default": "0",
         "schema": {
           "type": "number"
         }
@@ -71,7 +70,6 @@
         "type": "number",
         "required": false,
         "origin": "own",
-        "default": "0",
         "schema": {
           "type": "number"
         }
@@ -81,7 +79,6 @@
         "type": "number",
         "required": false,
         "origin": "own",
-        "default": "100",
         "schema": {
           "type": "number"
         }
@@ -108,7 +105,6 @@
         "type": "ProgressTone",
         "required": false,
         "origin": "own",
-        "default": "\"brand\"",
         "description": "`success` / `danger` for a finished or failed task; pair it with a word in `valueLabel`.",
         "schema": {
           "type": "string",
@@ -124,13 +120,27 @@
         "type": "\"medium\" | \"large\"",
         "required": false,
         "origin": "own",
-        "default": "\"medium\"",
         "description": "`medium` (4px, default); `large` (8px) for onboarding.",
         "schema": {
           "type": "string",
           "enum": [
             "medium",
             "large"
+          ]
+        }
+      },
+      {
+        "name": "motion",
+        "type": "ComponentMotion",
+        "required": false,
+        "origin": "own",
+        "description": "`auto` (follow the device), `reduce` or `none`, for this component; the provider's setting otherwise.",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "none",
+            "auto",
+            "reduce"
           ]
         }
       }

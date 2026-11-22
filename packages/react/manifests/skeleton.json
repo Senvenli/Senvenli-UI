@@ -84,7 +84,6 @@
         "type": "string | number",
         "required": false,
         "origin": "own",
-        "default": "12",
         "description": "CSS height; default 12px (a text line).",
         "schema": {
           "type": "string"
@@ -95,7 +94,6 @@
         "type": "\"none\" | \"small\" | \"medium\" | \"large\" | \"full\"",
         "required": false,
         "origin": "own",
-        "default": "\"small\"",
         "description": "The radius of what it replaces: `medium` for a button, `large` for a card photo.",
         "schema": {
           "type": "string",
@@ -116,6 +114,21 @@
         "description": "Aspect ratio for photos (\"16/9\").",
         "schema": {
           "type": "string"
+        }
+      },
+      {
+        "name": "motion",
+        "type": "ComponentMotion",
+        "required": false,
+        "origin": "own",
+        "description": "`auto` (follow the device), `reduce` or `none`, for this component; the provider's setting otherwise.",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "none",
+            "auto",
+            "reduce"
+          ]
         }
       }
     ],

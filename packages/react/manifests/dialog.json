@@ -173,7 +173,6 @@
         "type": "\"fullscreen\" | \"xlarge\" | OverlaySize",
         "required": false,
         "origin": "own",
-        "default": "\"small\"",
         "description": "`small` (default, 440px), `medium` (600px) or `large` (800px); `xlarge` (1152px) for a form in two\nor three columns over the page it edits, such as an order edit; or `fullscreen` for a long\ntask that needs the whole screen, such as a signup: it fills the viewport at every width, slides up as a sheet\non phones (below 640px) and fades in above. The header (title, close) and the footer (actions) stay put, clear\nof the notch and the home indicator, while the body scrolls between them. Below its width every size but\n`fullscreen` takes the viewport less 24px a side, and its body scrolls inside 100dvh less 48px. Focus, Esc and\nnaming are the same at every size.",
         "schema": {
           "type": "string",
@@ -191,7 +190,6 @@
         "type": "boolean",
         "required": false,
         "origin": "own",
-        "default": "true",
         "description": "Scrim click and Esc close it (default). Off for destructive flows with typed input. A `fullscreen`\ndialog has no scrim, so a press outside it (a toast or banner layered above) never closes it; there\nthis prop controls Esc only. It is independent of `isCloseButtonHidden`: a locked view sets\nboth, `isCloseButtonHidden` and `isDismissable={false}`; a locked dialog inside a DialogTrigger has no close\nhandle, so control it with `isOpen`.",
         "schema": {
           "type": "boolean"
@@ -226,6 +224,21 @@
         "description": "`fullscreen` only. Hides the title visually, for a frame whose header shows a logo instead;\nthe title stays in the DOM and still names the dialog (`aria-labelledby`), so `title` is still required.\nA description, when given, stays visible. An empty title (`\"\"`, blank, `null`, `false`) would leave the dialog\nunnamed, and warns in development.",
         "schema": {
           "type": "boolean"
+        }
+      },
+      {
+        "name": "motion",
+        "type": "ComponentMotion",
+        "required": false,
+        "origin": "own",
+        "description": "`auto` (follow the device), `reduce` or `none`, for this component; the provider's setting otherwise.",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "none",
+            "auto",
+            "reduce"
+          ]
         }
       }
     ],

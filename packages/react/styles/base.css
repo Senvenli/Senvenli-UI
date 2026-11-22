@@ -42,3 +42,15 @@
     background-clip: padding-box;
   }
 }
+
+/* motion="none": no transitions or animations at all in the region (reduce keeps fades through motion-reduce:). */
+@layer base {
+  [data-ds-motion="none"],
+  [data-ds-motion="none"] * {
+    transition-duration: 0s !important;
+    transition-delay: 0s !important;
+    animation-duration: 0s !important;
+    animation-iteration-count: 1 !important;
+  }
+}
+

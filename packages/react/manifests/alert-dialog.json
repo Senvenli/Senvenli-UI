@@ -190,6 +190,21 @@
         "required": false,
         "origin": "own",
         "description": "Where focus goes when the alert closes and React Aria's return would leave it on the page or on the\nopener, as on Dialog. Needed when the element React Aria returns to is gone by the close: an alert\nopened from a menu whose trigger unmounts when it closes (pass a stable button), or a confirmed action that removes the row\nwith its Menu (pass a stable element). Opened from a DS Menu item it is not needed: React Aria returns focus to\nthe Menu button itself, and a ref naming another element does not override that. Read when the alert closes; if\nthe app has already moved focus elsewhere on close, it stays there; if the ref is empty, focus returns as before.\nThere is no `initialFocusRef`: the alert's controls are its own, and \"Cancel\" takes the first focus. Nor is there a\n`titleRef`: the alert is announced with its title and consequence when it opens (`aria-labelledby`,\n`aria-describedby`), and focus starts on the safe answer, never on its text."
+      },
+      {
+        "name": "motion",
+        "type": "ComponentMotion",
+        "required": false,
+        "origin": "own",
+        "description": "`auto` (follow the device), `reduce` or `none`, for this component; the provider's setting otherwise.",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "none",
+            "auto",
+            "reduce"
+          ]
+        }
       }
     ]
   },

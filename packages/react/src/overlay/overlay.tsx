@@ -13,6 +13,7 @@ import {
 } from "react-aria-components";
 
 import { cn } from "../utils";
+import { MotionScope, type WithMotion, useMotionAttribute } from "../defaults";
 import { Button, type ButtonActionProps } from "../action/button";
 import { CloseButton } from "../action/close-button";
 import { IconGlyph, type IconName } from "../display/icon";
@@ -457,6 +458,7 @@ function DialogFrame({ size, children, role, isDismissable, escapeCloses, isOpen
 }) {
   return (
     <ModalOverlay
+      {...useMotionAttribute()}
       // Always controlled here: closing goes through `onClose` only, so it is reported once.
       isOpen={isOpen}
       onOpenChange={(next) => {
@@ -498,6 +500,7 @@ function FullScreenFrame({ children, isDismissable, isOpen, onClose, describedBy
   const sheet = useNarrow();
   return (
     <ModalOverlay
+      {...useMotionAttribute()}
       isOpen={isOpen}
       onOpenChange={(next) => {
         if (!next) onClose();
@@ -745,7 +748,7 @@ function useHiddenEmptyTitleWarning(isTitleHidden: boolean | undefined, title: R
  * dialog and its parts (`partData`, the actions' own), and focus hooks (`initialFocusRef`, `returnFocusRef`). A
  * focusable title (`titleRef`), which `initialFocusRef` can name to open on it.
  */
-export function Dialog({
+function DialogBody({
   size = "small", isDismissable = true, isOpen, defaultOpen, onOpenChange, footerLayout, headerStart, isTitleHidden, ...content
 }: DialogProps) {
   const state = useOverlayOpen({ isOpen, defaultOpen, onOpenChange });
@@ -929,7 +932,7 @@ function AlertContent({
  * skip it and offer "Undo" in a Toast. Opened from a menu whose trigger unmounts, or when the confirmed action
  * removes the opener, pass `returnFocusRef` so focus has somewhere to go back to.
  */
-export function AlertDialog({ isOpen, defaultOpen, onOpenChange, "aria-describedby": ariaDescribedBy, ...content }: AlertDialogProps) {
+function AlertDialogBody({ isOpen, defaultOpen, onOpenChange, "aria-describedby": ariaDescribedBy, ...content }: AlertDialogProps) {
   const state = useOverlayOpen({ isOpen, defaultOpen, onOpenChange });
   const descriptionId = React.useId();
   const [pending, setPending] = React.useState(false);
@@ -1065,6 +1068,7 @@ function UnsavedPrompt({ isOpen, onKeep, onDiscard }: { isOpen: boolean; onKeep:
   const { locale } = useLocale();
   return (
     <ModalOverlay
+      {...useMotionAttribute()}
       isOpen={isOpen}
       onOpenChange={(next) => {
         if (!next) onKeep();
@@ -1095,7 +1099,7 @@ function UnsavedPrompt({ isOpen, onKeep, onDiscard }: { isOpen: boolean; onKeep:
  * indicator. With unsaved edits every way of closing asks first. The title names the drawer and the
  * subtitle, when there is one, describes it.
  */
-export function Drawer({
+function DrawerBody({
   size = "small", position = "end", isOpen, defaultOpen, onOpenChange, hasUnsavedChanges,
   title, subtitle, headerActions, children, footer,
 }: DrawerProps) {
@@ -1118,6 +1122,7 @@ export function Drawer({
   const close: DrawerClose = (options) => (options?.force ? state.close() : request());
   return (
     <ModalOverlay
+      {...useMotionAttribute()}
       isOpen={state.isOpen}
       onOpenChange={(next) => {
         if (!next) request();
@@ -1184,5 +1189,32 @@ export function Drawer({
         </AriaDialog>
       </Modal>
     </ModalOverlay>
+  );
+}
+
+/** Dialog with its own `motion` (auto, reduce or none); see DialogBody for the component itself. */
+export function Dialog({ motion, ...props }: DialogProps & WithMotion) {
+  return (
+    <MotionScope motion={motion}>
+      <DialogBody {...(props as DialogProps)} />
+    </MotionScope>
+  );
+}
+
+/** AlertDialog with its own `motion` (auto, reduce or none); see AlertDialogBody for the component itself. */
+export function AlertDialog({ motion, ...props }: AlertDialogProps & WithMotion) {
+  return (
+    <MotionScope motion={motion}>
+      <AlertDialogBody {...(props as AlertDialogProps)} />
+    </MotionScope>
+  );
+}
+
+/** Drawer with its own `motion` (auto, reduce or none); see DrawerBody for the component itself. */
+export function Drawer({ motion, ...props }: DrawerProps & WithMotion) {
+  return (
+    <MotionScope motion={motion}>
+      <DrawerBody {...(props as DrawerProps)} />
+    </MotionScope>
   );
 }

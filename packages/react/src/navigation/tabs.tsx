@@ -12,6 +12,7 @@ import {
 } from "react-aria-components";
 
 import { cn } from "../utils";
+import { MotionScope, type WithMotion } from "../defaults";
 import { Badge } from "../display/badge";
 
 export type TabItem = {
@@ -47,7 +48,7 @@ const TAB =
  * (a scroll position, a half-filled filter) survives switching. On a narrow screen the row scrolls
  * sideways and the selected tab scrolls into view.
  */
-export function Tabs({ items, selectedKey, defaultSelectedKey, onSelectionChange, "aria-label": label }: TabsProps) {
+function TabsBody({ items, selectedKey, defaultSelectedKey, onSelectionChange, "aria-label": label }: TabsProps) {
   const list = React.useRef<HTMLDivElement>(null);
   const [own, setOwn] = React.useState<Key | undefined>(defaultSelectedKey ?? items[0]?.id);
   const current = selectedKey ?? own;
@@ -154,5 +155,14 @@ export function SegmentedControl({ label, items, value, defaultValue, onChange, 
         </AriaToggleButton>
       ))}
     </AriaToggleButtonGroup>
+  );
+}
+
+/** Tabs with its own `motion` (auto, reduce or none); see TabsBody for the component itself. */
+export function Tabs({ motion, ...props }: TabsProps & WithMotion) {
+  return (
+    <MotionScope motion={motion}>
+      <TabsBody {...(props as TabsProps)} />
+    </MotionScope>
   );
 }

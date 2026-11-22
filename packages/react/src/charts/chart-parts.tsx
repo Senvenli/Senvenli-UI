@@ -4,6 +4,7 @@ import * as React from "react";
 import { Button as AriaButton, useLocale } from "react-aria-components";
 
 import { cn } from "../utils";
+import { useMotionSetting } from "../defaults";
 /** The OS reduced-motion preference. */
 const REDUCED_MOTION_QUERY = "(prefers-reduced-motion: reduce)";
 import { Table, type TableColumn } from "../collection/table";
@@ -62,7 +63,8 @@ const reducedMotionNow = () => typeof window !== "undefined" && !!window.matchMe
 export function useChartAnimation(): boolean {
   const enabled = React.useContext(ChartAnimationContext);
   const reduced = React.useSyncExternalStore(subscribeReducedMotion, reducedMotionNow, () => false);
-  return enabled && !reduced;
+  const setting = useMotionSetting();
+  return enabled && !reduced && setting === "auto";
 }
 
 /* ── Direction ───────────────────────────────────────────────────────────── */

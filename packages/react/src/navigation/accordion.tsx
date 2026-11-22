@@ -1,6 +1,8 @@
 "use client";
 
 import * as React from "react";
+
+import { MotionScope, type WithMotion } from "../defaults";
 import {
   Button as AriaButton,
   Disclosure as AriaDisclosure,
@@ -75,7 +77,7 @@ export type AccordionProps = {
 };
 
 /** Stacked Disclosures with a 1px rule between them (FAQ, settings groups, long forms). */
-export function Accordion({ items, expandedKeys, defaultExpandedKeys, onExpandedChange, allowsMultipleExpanded, headingLevel }: AccordionProps) {
+function AccordionBody({ items, expandedKeys, defaultExpandedKeys, onExpandedChange, allowsMultipleExpanded, headingLevel }: AccordionProps) {
   return (
     <DisclosureGroup
       expandedKeys={expandedKeys}
@@ -91,5 +93,14 @@ export function Accordion({ items, expandedKeys, defaultExpandedKeys, onExpanded
         </Disclosure>
       ))}
     </DisclosureGroup>
+  );
+}
+
+/** Accordion with its own `motion` (auto, reduce or none); see AccordionBody for the component itself. */
+export function Accordion({ motion, ...props }: AccordionProps & WithMotion) {
+  return (
+    <MotionScope motion={motion}>
+      <AccordionBody {...(props as AccordionProps)} />
+    </MotionScope>
   );
 }

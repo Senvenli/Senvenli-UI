@@ -106,7 +106,6 @@
         "type": "number",
         "required": false,
         "origin": "own",
-        "default": "0",
         "description": "The first image shown when uncontrolled.",
         "schema": {
           "type": "number"
@@ -133,7 +132,6 @@
         "type": "\"16/9\" | \"4/3\"",
         "required": false,
         "origin": "own",
-        "default": "\"16/9\"",
         "schema": {
           "type": "string",
           "enum": [
@@ -147,10 +145,24 @@
         "type": "boolean",
         "required": false,
         "origin": "own",
-        "default": "true",
         "description": "A `region` landmark (default) for a gallery that is part of the page's outline; `false` inside\nrepeated cards, so a listing does not fill the landmark list.",
         "schema": {
           "type": "boolean"
+        }
+      },
+      {
+        "name": "motion",
+        "type": "ComponentMotion",
+        "required": false,
+        "origin": "own",
+        "description": "`auto` (follow the device), `reduce` or `none`, for this component; the provider's setting otherwise.",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "none",
+            "auto",
+            "reduce"
+          ]
         }
       }
     ]

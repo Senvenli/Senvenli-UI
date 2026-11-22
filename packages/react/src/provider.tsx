@@ -18,8 +18,8 @@ export type DesignSystemProviderProps = {
   /** Turns a route into an `href` the host router understands (base paths, locale prefixes). */
   useHref?: RouterProviderProps["useHref"];
   /**
-   * App-wide defaults: `size` (small | medium | large) and `radius` (none | small | medium | large | full) for every
-   * component that has them. A component's own prop always wins.
+   * App-wide defaults: `size` (small | medium | large), `radius` (none | small | medium | large | full) and `motion`
+   * (auto | reduce | none) for every component that has them. A component's own prop always wins.
    */
   defaults?: ComponentDefaults;
   children: React.ReactNode;
@@ -32,6 +32,14 @@ export type DesignSystemProviderProps = {
  * is mounted once here, so `toast(...)` works anywhere under the provider.
  */
 export function DesignSystemProvider({ locale = "en", navigate, useHref, defaults, children }: DesignSystemProviderProps) {
+  // The app-wide motion setting reaches CSS everywhere, overlays in portals included, through the root element.
+  const motion = defaults?.motion;
+  React.useEffect(() => {
+    if (!motion || motion === "auto" || typeof document === "undefined") return;
+    const root = document.documentElement;
+    root.setAttribute("data-ds-motion", motion);
+    return () => root.removeAttribute("data-ds-motion");
+  }, [motion]);
   const content = (
     <I18nProvider locale={intlLocale(locale)}>
       <ComponentDefaultsProvider value={defaults ?? {}}>
