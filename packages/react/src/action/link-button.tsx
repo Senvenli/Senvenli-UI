@@ -68,7 +68,7 @@ function isModifiedClick(event: React.MouseEvent) {
  * ring. Actions that change data in place use Button.
  */
 export const LinkButton = React.forwardRef<HTMLAnchorElement, LinkButtonProps>(function LinkButton(
-  { variant = "default", size = "default", iconBefore, iconAfter, iconOnly, isExternal, rel, href, onPress, onClickCapture, children, ...rest },
+  { variant = "default", size = "medium", iconBefore, iconAfter, iconOnly, isExternal, rel, href, onPress, onClickCapture, children, ...rest },
   ref,
 ) {
   const { locale } = useLocale();

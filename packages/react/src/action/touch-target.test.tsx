@@ -38,11 +38,11 @@ describe("44px touch target under a coarse pointer", () => {
     }
   });
 
-  it("which sizes get it: compact, and icon-only compact and default; large is already 44px", () => {
-    expect(hasTouchTarget("compact", false)).toBe(true);
-    expect(hasTouchTarget("compact", true)).toBe(true);
-    expect(hasTouchTarget("default", true)).toBe(true);
-    expect(hasTouchTarget("default", false)).toBe(false);
+  it("which sizes get it: small, and icon-only small and medium; large is already 44px", () => {
+    expect(hasTouchTarget("small", false)).toBe(true);
+    expect(hasTouchTarget("small", true)).toBe(true);
+    expect(hasTouchTarget("medium", true)).toBe(true);
+    expect(hasTouchTarget("medium", false)).toBe(false);
     expect(hasTouchTarget("large", true)).toBe(false);
     expect(hasTouchTarget("large", false)).toBe(false);
   });
@@ -50,8 +50,8 @@ describe("44px touch target under a coarse pointer", () => {
   it("compact buttons and the compact and default icon-only buttons render it, aria-hidden and empty", () => {
     withProvider(
       <>
-        <Button size="compact">Edit</Button>
-        <Button size="compact" iconOnly iconBefore="plus" aria-label="Add" />
+        <Button size="small">Edit</Button>
+        <Button size="small" iconOnly iconBefore="plus" aria-label="Add" />
         <Button iconOnly iconBefore="settings" aria-label="Settings" />
       </>,
     );
@@ -83,7 +83,7 @@ describe("44px touch target under a coarse pointer", () => {
   });
 
   it("the size and position classes of the button itself are unchanged", () => {
-    withProvider(<Button size="compact" iconOnly iconBefore="plus" aria-label="Add" />);
+    withProvider(<Button size="small" iconOnly iconBefore="plus" aria-label="Add" />);
     const button = screen.getByRole("button", { name: "Add" });
     for (const utility of ["relative", "h-ds-control-compact", "w-ds-control-compact", "px-0"]) expect(classSet(button).has(utility), utility).toBe(true);
     expect([...classSet(button)].some((utility) => utility.includes("coarse") || utility.includes("before:"))).toBe(false);
@@ -103,7 +103,7 @@ describe("44px touch target under a coarse pointer", () => {
   it("LinkButton renders the same hit area as Button", () => {
     withProvider(
       <>
-        <LinkButton href="/x" size="compact" iconOnly iconBefore="download" aria-label="Download" />
+        <LinkButton href="/x" size="small" iconOnly iconBefore="download" aria-label="Download" />
         <LinkButton href="/y">Orders</LinkButton>
       </>,
     );
@@ -114,8 +114,8 @@ describe("44px touch target under a coarse pointer", () => {
   it("inside a ButtonGroup the buttons render it; the group rules keep its sides on the button's", () => {
     withProvider(
       <ButtonGroup aria-label="View">
-        <Button size="compact" iconOnly iconBefore="list" aria-label="List" />
-        <Button size="compact" iconOnly iconBefore="map" aria-label="Map" />
+        <Button size="small" iconOnly iconBefore="list" aria-label="List" />
+        <Button size="small" iconOnly iconBefore="map" aria-label="Map" />
       </ButtonGroup>,
     );
     expect(screen.getByRole("group", { name: "View" }).dataset.slot).toBe("button-group");
@@ -163,7 +163,7 @@ describe("44px touch target under a coarse pointer", () => {
   it("server render: the span is in the markup, so hydration matches", () => {
     const html = renderToStaticMarkup(
       <DesignSystemProvider locale="en" navigate={() => {}}>
-        <Button size="compact">Edit</Button>
+        <Button size="small">Edit</Button>
       </DesignSystemProvider>,
     );
     expect(html).toContain('data-slot="button-touch-target"');

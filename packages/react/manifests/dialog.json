@@ -179,9 +179,9 @@
           "type": "string",
           "enum": [
             "fullscreen",
-            "large",
             "small",
             "medium",
+            "large",
             "xlarge"
           ]
         }

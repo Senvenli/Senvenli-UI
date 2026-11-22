@@ -322,7 +322,7 @@ export function Sidebar({
             <Tooltip content={toggleLabel} placement="end">
               <Button
                 variant="subtle"
-                size="compact"
+                size="small"
                 iconOnly
                 // The panel edge is the inline start: left in LTR, right in RTL.
                 iconBefore={

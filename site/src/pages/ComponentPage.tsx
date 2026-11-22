@@ -105,10 +105,10 @@ export function ComponentPage({ manifest, examples = [], components = [], import
             <div className="flex items-center gap-ds-050">
               <CopyButton label="Copy page" getText={() => fetch(`/docs/components/${manifest.name}.md`).then((response) => response.text())} />
               {previous && (
-                  <LinkButton size="compact" variant="subtle" iconOnly iconBefore="arrow-left" aria-label={`Previous: ${previous.title}`} href={`/docs/components/${previous.name}`} />
+                  <LinkButton size="small" variant="subtle" iconOnly iconBefore="arrow-left" aria-label={`Previous: ${previous.title}`} href={`/docs/components/${previous.name}`} />
               )}
               {next && (
-                  <LinkButton size="compact" variant="subtle" iconOnly iconBefore="arrow-right" aria-label={`Next: ${next.title}`} href={`/docs/components/${next.name}`} />
+                  <LinkButton size="small" variant="subtle" iconOnly iconBefore="arrow-right" aria-label={`Next: ${next.title}`} href={`/docs/components/${next.name}`} />
               )}
             </div>
           </div>

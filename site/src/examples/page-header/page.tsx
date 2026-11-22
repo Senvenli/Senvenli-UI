@@ -9,7 +9,7 @@ export default function Example() {
       description="1,204 orders, 18 awaiting payment."
       actions={
         <>
-          <SearchField aria-label="Search orders" placeholder="Order number or customer" size="compact" />
+          <SearchField aria-label="Search orders" placeholder="Order number or customer" size="small" />
           <Button variant="primary" iconBefore="plus">
             Create order
           </Button>

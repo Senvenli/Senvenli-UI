@@ -14,7 +14,7 @@ export default function Example() {
       <OtpField label="Code from your text message" length={4} description="Sent to the number ending in 0132." />
       <Stack space="space-050">
         <div>
-          <Button size="compact" variant="subtle" isDisabled={resend.remaining > 0} isPending={resend.isPending} onPress={() => void resend.run()}>
+          <Button size="small" variant="subtle" isDisabled={resend.remaining > 0} isPending={resend.isPending} onPress={() => void resend.run()}>
             {resend.remaining > 0 ? `Send again in 0:${String(resend.remaining).padStart(2, "0")}` : "Send again"}
           </Button>
         </div>

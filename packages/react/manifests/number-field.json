@@ -984,12 +984,12 @@
         "type": "FieldSize",
         "required": false,
         "origin": "own",
-        "default": "\"default\"",
+        "default": "\"medium\"",
         "schema": {
           "type": "string",
           "enum": [
-            "default",
-            "compact"
+            "small",
+            "medium"
           ]
         }
       },

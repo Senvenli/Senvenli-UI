@@ -198,7 +198,7 @@ describe("Select", () => {
     inLocale(
       <>
         <Select label="Currency" items={[{ id: "eur", label: "Euro" }]} isDisabled />
-        <Select label="Status" items={[{ id: "all", label: "All" }]} size="compact" />
+        <Select label="Status" items={[{ id: "all", label: "All" }]} size="small" />
       </>,
     );
     expect((screen.getByRole("button", { name: /Currency/ }) as HTMLButtonElement).disabled).toBe(true);

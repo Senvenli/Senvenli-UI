@@ -54,7 +54,7 @@ export function Breadcrumbs({ items, "aria-label": label }: BreadcrumbsProps) {
                   placement="bottom start"
                   items={hidden.map((level, i) => ({ id: `level-${i}`, label: level.label, href: level.href }))}
                   trigger={
-                    <Button variant="subtle" size="compact" iconOnly iconBefore="ellipsis" aria-label={showHiddenLevelsLabel(locale)} data-slot="breadcrumbs-fold" />
+                    <Button variant="subtle" size="small" iconOnly iconBefore="ellipsis" aria-label={showHiddenLevelsLabel(locale)} data-slot="breadcrumbs-fold" />
                   }
                 />
               ) : last ? (

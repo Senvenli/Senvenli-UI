@@ -199,10 +199,10 @@ describe("Toolbar and BulkBar", () => {
   function Bar() {
     return (
       <Toolbar aria-label="Record tools">
-        <Button size="compact" iconBefore="filter">Filter</Button>
-        <Button size="compact" iconBefore="calendar">This week</Button>
+        <Button size="small" iconBefore="filter">Filter</Button>
+        <Button size="small" iconBefore="calendar">This week</Button>
         <ToolbarSpacer />
-        <Button size="compact" variant="subtle" iconOnly iconBefore="download" aria-label="Export" />
+        <Button size="small" variant="subtle" iconOnly iconBefore="download" aria-label="Export" />
       </Toolbar>
     );
   }
@@ -244,7 +244,7 @@ describe("Toolbar and BulkBar", () => {
   it("the bulk bar announces the selected count, holds the actions and clears", () => {
     const onClear = vi.fn();
     const { rerender } = inLocale(
-      <BulkBar aria-label="Selected records" selectedCount={3} actions={<Button size="compact">Export</Button>} onClear={onClear} />,
+      <BulkBar aria-label="Selected records" selectedCount={3} actions={<Button size="small">Export</Button>} onClear={onClear} />,
     );
     const bar = screen.getByRole("toolbar", { name: "Selected records" });
     const count = bar.querySelector("[data-slot='bulk-bar-count']")!;
@@ -259,7 +259,7 @@ describe("Toolbar and BulkBar", () => {
     rerender(
       <div>
         <DesignSystemProvider locale="en" navigate={vi.fn()}>
-          <BulkBar aria-label="Selected records" selectedCount={4} actions={<Button size="compact">Export</Button>} onClear={onClear} />
+          <BulkBar aria-label="Selected records" selectedCount={4} actions={<Button size="small">Export</Button>} onClear={onClear} />
         </DesignSystemProvider>
       </div>,
     );

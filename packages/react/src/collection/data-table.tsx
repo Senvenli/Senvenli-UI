@@ -346,13 +346,13 @@ export function DataTable<T extends object>(props: DataTableProps<T>) {
   const empty = () =>
     isFiltered ? (
       <EmptyState
-        size="compact"
+        size="small"
         icon="search-x"
         title={tableNoResultsLabel(locale)}
-        primaryAction={<Button size="compact" onPress={clearFilters}>{tableClearFiltersLabel(locale)}</Button>}
+        primaryAction={<Button size="small" onPress={clearFilters}>{tableClearFiltersLabel(locale)}</Button>}
       />
     ) : (
-      <EmptyState size="compact" icon="inbox" title={emptyState?.title ?? tableEmptyLabel(locale)} description={emptyState?.description} primaryAction={emptyState?.action} />
+      <EmptyState size="small" icon="inbox" title={emptyState?.title ?? tableEmptyLabel(locale)} description={emptyState?.description} primaryAction={emptyState?.action} />
     );
 
   return (
@@ -363,7 +363,7 @@ export function DataTable<T extends object>(props: DataTableProps<T>) {
           selectedCount={selected.size}
           onClear={() => setSelected(new Set())}
           actions={bulkActions.map((action) => (
-            <Button key={action.id} size="compact" isPending={pendingAction === action.id} isDisabled={pendingAction !== null} onPress={() => void runBulk(action)}>
+            <Button key={action.id} size="small" isPending={pendingAction === action.id} isDisabled={pendingAction !== null} onPress={() => void runBulk(action)}>
               {action.label}
             </Button>
           ))}
@@ -374,7 +374,7 @@ export function DataTable<T extends object>(props: DataTableProps<T>) {
             <SearchField
               aria-label={tableSearchLabel(locale)}
               placeholder={tableSearchLabel(locale)}
-              size="compact"
+              size="small"
               value={searchInput}
               onChange={onSearch}
             />
@@ -391,7 +391,7 @@ export function DataTable<T extends object>(props: DataTableProps<T>) {
                 onSelectionChange={(keys) => setView({ filters: { ...view.filters, [filter.key]: keys === "all" ? filter.options.map((option) => option.id) : [...keys].map(String) } })}
                 items={filter.options.map((option) => ({ id: option.id, label: option.label }))}
                 trigger={
-                  <Button size="compact" variant={values.length ? "default" : "subtle"} iconBefore="filter">
+                  <Button size="small" variant={values.length ? "default" : "subtle"} iconBefore="filter">
                     {values.length ? `${filter.label} · ${values.length}` : filter.label}
                   </Button>
                 }
@@ -410,7 +410,7 @@ export function DataTable<T extends object>(props: DataTableProps<T>) {
               }}
               items={hideable.map((column) => ({ id: column.key, label: column.header }))}
               trigger={
-                <Button size="compact" variant="subtle" iconBefore="columns-3">
+                <Button size="small" variant="subtle" iconBefore="columns-3">
                   {tableColumnsLabel(locale)}
                 </Button>
               }
@@ -422,14 +422,14 @@ export function DataTable<T extends object>(props: DataTableProps<T>) {
       {status === "error" ? (
         <div data-slot="data-table-error" className="rounded-ds-large bg-ds-surface-raised py-ds-400 shadow-ds-raised">
           <EmptyState
-            size="compact"
+            size="small"
             tone="danger"
             icon="cloud-off"
             announce
             title={tableLoadFailedLabel(locale)}
             description={tableLoadFailedHintLabel(locale)}
             primaryAction={
-              <Button size="compact" iconBefore="rotate-cw" onPress={() => setReload((n) => n + 1)}>
+              <Button size="small" iconBefore="rotate-cw" onPress={() => setReload((n) => n + 1)}>
                 {retryLabel(locale)}
               </Button>
             }

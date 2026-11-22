@@ -11,7 +11,7 @@ export default function Example() {
           label: "Shipping address",
           value: "12 St James's Square, London",
           action: (
-            <Button variant="link" size="compact">
+            <Button variant="link" size="small">
               Edit
             </Button>
           ),

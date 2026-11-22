@@ -15,7 +15,7 @@ const SIZE: Record<AvatarSize, string> = {
   medium: "size-ds-400 text-[12px]",
   large: "size-ds-600 text-[16px]",
 };
-const ICON_SIZE = { small: "small", medium: "default", large: "large" } as const;
+const ICON_SIZE = { small: "small", medium: "medium", large: "large" } as const;
 
 // Initials sit on one of four tints, chosen from the name so a person keeps their colour.
 const TINTS = [

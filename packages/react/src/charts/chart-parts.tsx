@@ -270,7 +270,7 @@ export function ChartFrame<T extends object>({ height, isLoading, emptyMessage, 
   ) : emptyMessage ? (
     // At least the chart's height; a very short chart grows rather than clipping the message.
     <div data-slot="chart-empty" style={{ minHeight: height }} className="grid place-items-center">
-      <EmptyState size="compact" icon="chart-column" title={emptyMessage.title} description={emptyMessage.description} />
+      <EmptyState size="small" icon="chart-column" title={emptyMessage.title} description={emptyMessage.description} />
     </div>
   ) : (
     <div

@@ -66,7 +66,7 @@ function LanguageMenu() {
       selectedKeys={[LANGUAGES.current]}
       items={LANGUAGES.items.map((item) => ({ id: item.code, label: item.label, href: item.href, lang: item.code }))}
       trigger={
-        <Button variant="subtle" size="compact" iconBefore="globe" aria-label={`Language: ${active.label} (${LANGUAGES.current.toUpperCase()})`} data-slot="navbar-language">
+        <Button variant="subtle" size="small" iconBefore="globe" aria-label={`Language: ${active.label} (${LANGUAGES.current.toUpperCase()})`} data-slot="navbar-language">
           <span aria-hidden>{LANGUAGES.current.toUpperCase()}</span>
         </Button>
       }

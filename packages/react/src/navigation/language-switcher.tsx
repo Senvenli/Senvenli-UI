@@ -57,8 +57,8 @@ export interface LanguageSwitcherProps<Locale extends string> {
    * country, and the name alone tells the options apart.
    */
   renderMark?: (locale: Locale) => React.ReactNode;
-  /** Control height: `default` matches the DS controls, `sm` is the compact step. */
-  size?: "default" | "sm";
+  /** Control height: `medium` (default) matches the DS controls, `small` is the compact step. */
+  size?: "small" | "medium";
   /**
    * Ids of elements that describe the trigger ("Changes the language of the whole panel"). It lands on the
    * trigger button, the focusable control, also while it is disabled for `loading`; left out, nothing is
@@ -91,7 +91,7 @@ export function LanguageSwitcher<Locale extends string>({
   loading = false,
   sidebar = false,
   collapsed = false,
-  size = "default",
+  size = "medium",
   renderMark,
   "aria-describedby": describedBy,
 }: LanguageSwitcherProps<Locale>) {
@@ -99,7 +99,7 @@ export function LanguageSwitcher<Locale extends string>({
   // A collapsed trigger hides the name only behind a mark that is really there.
   const currentMark = renderMark?.(current) ?? null;
   const mounted = React.useSyncExternalStore(subscribeToClient, () => true, () => false);
-  const buttonSize = size === "sm" ? "compact" : "default";
+  const buttonSize = size;
   const square = collapsed && !sidebar;
   const trigger = cn(
     BUTTON_BASE,

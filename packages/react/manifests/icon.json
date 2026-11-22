@@ -73,9 +73,9 @@
         "size": {
           "type": "string",
           "enum": [
-            "default",
-            "large",
-            "small"
+            "small",
+            "medium",
+            "large"
           ],
           "description": "`small` 12px, `default` 16px, `large` 20px (`ds-size-icon-*`)."
         },
@@ -128,9 +128,9 @@
         "schema": {
           "type": "string",
           "enum": [
-            "default",
-            "large",
-            "small"
+            "small",
+            "medium",
+            "large"
           ]
         }
       },

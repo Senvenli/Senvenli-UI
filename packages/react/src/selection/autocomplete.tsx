@@ -95,7 +95,7 @@ function CloseWhenEmpty({ count, loading }: { count: number; loading: boolean })
  */
 export function Autocomplete({
   label, value, onChange, getSuggestions, onSelectSuggestion, groups, icon = "search", description, errorMessage: errorMessageProp, placeholder,
-  minLength = 2, debounce = 250, size = "default", requiredValidation, isInvalid: isInvalidProp, ...rest
+  minLength = 2, debounce = 250, size = "medium", requiredValidation, isInvalid: isInvalidProp, ...rest
 }: AutocompleteProps) {
   const { locale } = useLocale();
   // React Aria has no required check under `aria` validation; the DS does. The typed text is the value.

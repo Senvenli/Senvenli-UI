@@ -30,9 +30,9 @@ function bar(field: React.ReactElement, locale: string, x: Record<string, number
     <div dir={dir}>
       <DesignSystemProvider locale={locale} navigate={vi.fn()}>
         <Toolbar aria-label="Tools">
-          <Button size="compact">Before</Button>
+          <Button size="small">Before</Button>
           {field}
-          <Button size="compact">After</Button>
+          <Button size="small">After</Button>
         </Toolbar>
       </DesignSystemProvider>
     </div>,

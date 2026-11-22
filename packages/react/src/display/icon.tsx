@@ -40,7 +40,7 @@ export function resolveIcon(name: IconName): LucideIcon | undefined {
 
 const SIZE: Record<IconSize, string> = {
   small: "size-ds-icon-small",
-  default: "size-ds-icon",
+  medium: "size-ds-icon",
   large: "size-ds-icon-large",
 };
 
@@ -98,7 +98,7 @@ export const MIRROR_IN_RTL = "rtl:-scale-x-100 [&:dir(ltr)]:scale-x-100";
 
 /** The DS-internal form: also takes classes and a stroke (12px marks use 3). Not exported from the package. */
 export function IconGlyph({
-  name, size = "default", color = "inherit", label, isDirectional, className, strokeWidth = 2, ...data
+  name, size = "medium", color = "inherit", label, isDirectional, className, strokeWidth = 2, ...data
 }: IconProps & { className?: string; strokeWidth?: number; "data-slot"?: string }) {
   const Component = resolveIcon(name);
   const a11y = label ? { role: "img" as const, "aria-label": label } : { "aria-hidden": true as const };

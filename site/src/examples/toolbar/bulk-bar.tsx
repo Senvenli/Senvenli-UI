@@ -25,10 +25,10 @@ export default function Example() {
           onClear={() => setSelected([])}
           actions={
             <>
-              <Button size="compact" iconBefore="mail" onPress={() => toast.success("Reminders sent")}>
+              <Button size="small" iconBefore="mail" onPress={() => toast.success("Reminders sent")}>
                 Send reminder
               </Button>
-              <Button size="compact" iconBefore="download">
+              <Button size="small" iconBefore="download">
                 Export
               </Button>
             </>

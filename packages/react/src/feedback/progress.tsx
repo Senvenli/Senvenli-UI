@@ -33,8 +33,8 @@ export type ProgressBarProps = {
   isIndeterminate?: boolean;
   /** `success` / `danger` for a finished or failed task; pair it with a word in `valueLabel`. */
   tone?: ProgressTone;
-  /** `large` (8px) for onboarding; `default` 4px. */
-  size?: "default" | "large";
+  /** `medium` (4px, default); `large` (8px) for onboarding. */
+  size?: "medium" | "large";
 };
 
 /** The sweeping segment of an indeterminate bar (Web Animations, so no global keyframes; off under reduced motion). */
@@ -59,7 +59,7 @@ function Sweep({ tone }: { tone: ProgressTone }) {
  * Show it only for tasks over ~1s; shorter waits get a Spinner or nothing.
  */
 export function ProgressBar({
-  label, value = 0, minValue = 0, maxValue = 100, valueLabel, isIndeterminate, tone = "brand", size = "default",
+  label, value = 0, minValue = 0, maxValue = 100, valueLabel, isIndeterminate, tone = "brand", size = "medium",
 }: ProgressBarProps) {
   return (
     <AriaProgressBar

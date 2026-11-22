@@ -104,7 +104,7 @@ const DISPLAY_UPPERCASE = "uppercase placeholder:normal-case";
  */
 export const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(function TextField(
   {
-    label, description, errorMessage, isOptional, placeholder, prefix, suffix, actions, size = "default", appearance = "text", displayCase,
+    label, description, errorMessage, isOptional, placeholder, prefix, suffix, actions, size = "medium", appearance = "text", displayCase,
     min, max, step, valueDir, validate, onBlur, onChange, "aria-invalid": ariaInvalid, requiredValidation, ...rest
   },
   ref,

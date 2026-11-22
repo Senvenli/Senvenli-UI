@@ -52,7 +52,7 @@ function Spinner() {
  * are 44px to a coarse pointer, with nothing drawn (`TouchTarget`).
  */
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(function Button(
-  { variant = "default", size = "default", iconBefore, iconAfter, iconOnly, children, type = "button", isPending, ...rest },
+  { variant = "default", size = "medium", iconBefore, iconAfter, iconOnly, children, type = "button", isPending, ...rest },
   forwardedRef,
 ) {
   // React Aria announces the pending state but does not forward `aria-busy`;

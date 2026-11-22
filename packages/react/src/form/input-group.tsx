@@ -45,7 +45,7 @@ const InputGroupContext = React.createContext<ControlLink | null>(null);
  * focuses the control, so addons never swallow focus.
  */
 export function InputGroup({
-  children, size = "default", isDisabled, isInvalid: isInvalidProp, multiline, dir, id, "aria-describedby": describedBy, "aria-invalid": ariaInvalid,
+  children, size = "medium", isDisabled, isInvalid: isInvalidProp, multiline, dir, id, "aria-describedby": describedBy, "aria-invalid": ariaInvalid,
 }: InputGroupProps) {
   const ref = React.useRef<HTMLDivElement>(null);
   const isInvalid = isInvalidProp ?? (ariaInvalid === true || ariaInvalid === "true");

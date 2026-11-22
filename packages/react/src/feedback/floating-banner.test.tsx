@@ -33,7 +33,7 @@ function Consent({ onDismiss = vi.fn(), onAccept = vi.fn() }: { onDismiss?: () =
       placement="floating"
       aria-label="Cookie notice"
       icon="cookie"
-      actions={<Button size="compact" onPress={onAccept}>Got it</Button>}
+      actions={<Button size="small" onPress={onAccept}>Got it</Button>}
       onDismiss={onDismiss}
     >
       We use essential cookies to run the site. Details are in the <Link href="/cookie-policy" variant="inline">cookie policy</Link>.

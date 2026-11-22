@@ -34,7 +34,7 @@ export type SearchFieldProps = Omit<AriaSearchFieldProps, "className" | "style" 
  * is text, Esc clears, Enter submits (`onSubmit`). Debounce in the app.
  */
 export const SearchField = React.forwardRef<HTMLInputElement, SearchFieldProps>(function SearchField(
-  { label, placeholder, shortcut, size = "default", ...rest },
+  { label, placeholder, shortcut, size = "medium", ...rest },
   ref,
 ) {
   const { locale } = useLocale();

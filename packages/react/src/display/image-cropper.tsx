@@ -454,7 +454,7 @@ export function ImageCropper({
           />
         )}
         <div data-slot="image-cropper-zoom" className="flex min-w-48 flex-1 items-center gap-ds-100">
-          <Button size="compact" variant="subtle" iconOnly iconBefore="minus" aria-label={cropZoomOutLabel(locale)} isDisabled={!loaded || zoom <= MIN_ZOOM} onPress={() => zoomBy(-ZOOM_STEP)} />
+          <Button size="small" variant="subtle" iconOnly iconBefore="minus" aria-label={cropZoomOutLabel(locale)} isDisabled={!loaded || zoom <= MIN_ZOOM} onPress={() => zoomBy(-ZOOM_STEP)} />
           <AriaSlider
             aria-label={cropZoomLabel(locale)}
             minValue={MIN_ZOOM}
@@ -479,14 +479,14 @@ export function ImageCropper({
               )}
             </SliderTrack>
           </AriaSlider>
-          <Button size="compact" variant="subtle" iconOnly iconBefore="plus" aria-label={cropZoomInLabel(locale)} isDisabled={!loaded || zoom >= MAX_ZOOM} onPress={() => zoomBy(ZOOM_STEP)} />
+          <Button size="small" variant="subtle" iconOnly iconBefore="plus" aria-label={cropZoomInLabel(locale)} isDisabled={!loaded || zoom >= MAX_ZOOM} onPress={() => zoomBy(ZOOM_STEP)} />
           <span data-slot="image-cropper-zoom-value" className="w-12 text-body-small tabular-nums text-ds-text-subtle">
             {percent.format(zoom)}
           </span>
         </div>
         <span aria-hidden className="h-5 w-px bg-ds-border" />
-        <Button size="compact" variant="subtle" iconOnly iconBefore="rotate-ccw" aria-label={cropRotateLeftLabel(locale)} isDisabled={!loaded} onPress={() => rotate(-90)} />
-        <Button size="compact" variant="subtle" iconOnly iconBefore="rotate-cw" aria-label={cropRotateRightLabel(locale)} isDisabled={!loaded} onPress={() => rotate(90)} />
+        <Button size="small" variant="subtle" iconOnly iconBefore="rotate-ccw" aria-label={cropRotateLeftLabel(locale)} isDisabled={!loaded} onPress={() => rotate(-90)} />
+        <Button size="small" variant="subtle" iconOnly iconBefore="rotate-cw" aria-label={cropRotateRightLabel(locale)} isDisabled={!loaded} onPress={() => rotate(90)} />
         {presets && (
           <SegmentedControl
             label={cropFitLabel(locale)}

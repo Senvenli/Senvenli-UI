@@ -8,7 +8,7 @@ export default function Example() {
         <InputGroupInput aria-label="Discount" defaultValue="140" inputMode="numeric" />
         <InputAddon position="end">%</InputAddon>
       </InputGroup>
-      <InputGroup size="compact" isDisabled>
+      <InputGroup size="small" isDisabled>
         <InputGroupInput aria-label="Tax rate" defaultValue="20" />
         <InputAddon position="end">%</InputAddon>
       </InputGroup>

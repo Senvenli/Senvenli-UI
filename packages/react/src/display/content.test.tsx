@@ -185,7 +185,7 @@ describe("DescriptionList", () => {
     { label: "Order", value: "ORD-2026-10-0914", copyValue: "ORD-2026-10-0914" },
     { label: "Total", value: "$248.00" },
     { label: "Note", value: "" },
-    { label: "Customer", value: "Ada Lovelace", action: <Button variant="link" size="compact">Edit</Button> },
+    { label: "Customer", value: "Ada Lovelace", action: <Button variant="link" size="small">Edit</Button> },
   ];
   const copyName = DS_STRINGS.copyValue.en.replace("{label}", "Order");
 

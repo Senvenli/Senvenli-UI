@@ -92,7 +92,7 @@
       },
       {
         "name": "radius",
-        "type": "\"none\" | \"large\" | \"small\" | \"medium\" | \"full\"",
+        "type": "\"none\" | \"small\" | \"medium\" | \"large\" | \"full\"",
         "required": false,
         "origin": "own",
         "default": "\"small\"",
@@ -101,9 +101,9 @@
           "type": "string",
           "enum": [
             "none",
-            "large",
             "small",
             "medium",
+            "large",
             "full"
           ]
         }

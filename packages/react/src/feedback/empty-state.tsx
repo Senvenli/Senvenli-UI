@@ -5,23 +5,23 @@ import * as React from "react";
 import { cn } from "../utils";
 import { IconGlyph, type IconName } from "../display/icon";
 
-export type StateSize = "default" | "compact";
+export type StateSize = "small" | "medium";
 
 const FRAME: Record<StateSize, string> = {
-  default: "gap-ds-150 px-ds-300 py-ds-600",
-  compact: "gap-ds-100 px-ds-200 py-ds-300",
+  medium: "gap-ds-150 px-ds-300 py-ds-600",
+  small: "gap-ds-100 px-ds-200 py-ds-300",
 };
 const GAP: Record<StateSize, string> = {
-  default: "gap-ds-150",
-  compact: "gap-ds-100",
+  medium: "gap-ds-150",
+  small: "gap-ds-100",
 };
 const TITLE: Record<StateSize, string> = {
-  default: "text-heading-small",
-  compact: "text-body-strong",
+  medium: "text-heading-small",
+  small: "text-body-strong",
 };
 const DESCRIPTION: Record<StateSize, string> = {
-  default: "text-body",
-  compact: "text-body-small",
+  medium: "text-body",
+  small: "text-body-small",
 };
 
 /** 1 where the state is the whole page (a 404, a page-level error); 2–4 inside a page. */
@@ -104,7 +104,7 @@ export type EmptyStateProps = {
  * use, no results, cleared, or (with `tone="danger"`) a load that failed and its retry. Use it instead of an empty
  * table with only headers.
  */
-export function EmptyState({ icon, title, headingLevel, description, primaryAction, secondaryAction, size = "default", tone = "neutral", details, announce }: EmptyStateProps) {
+export function EmptyState({ icon, title, headingLevel, description, primaryAction, secondaryAction, size = "medium", tone = "neutral", details, announce }: EmptyStateProps) {
   return (
     <StateFrame
       slot="empty-state"

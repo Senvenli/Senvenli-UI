@@ -105,13 +105,13 @@
         "type": "StateSize",
         "required": false,
         "origin": "own",
-        "default": "\"default\"",
+        "default": "\"medium\"",
         "description": "`compact` inside tables and cards.",
         "schema": {
           "type": "string",
           "enum": [
-            "default",
-            "compact"
+            "small",
+            "medium"
           ]
         }
       },

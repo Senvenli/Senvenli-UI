@@ -165,7 +165,7 @@ describe("TextField", () => {
   });
 
   it("goes compact for toolbars and disables cleanly", () => {
-    inLocale(<TextField label="Branch" size="compact" isDisabled defaultValue="Main office" />);
+    inLocale(<TextField label="Branch" size="small" isDisabled defaultValue="Main office" />);
     const group = document.querySelector('[data-slot="input-group"]')!;
     expect(classesOf(group)).toContain("min-h-ds-control-compact");
     expect(group.hasAttribute("data-disabled")).toBe(true);

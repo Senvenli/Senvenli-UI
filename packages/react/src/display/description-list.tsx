@@ -54,7 +54,7 @@ function CopyButton({ text, label }: { text: string; label: string }) {
       >
         <Button
           variant="subtle"
-          size="compact"
+          size="small"
           iconOnly
           iconBefore={result ? (result.ok ? "check" : "x") : "copy"}
           aria-label={copyValueLabel(locale, label)}

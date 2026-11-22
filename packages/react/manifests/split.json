@@ -3384,9 +3384,9 @@
         "schema": {
           "type": "string",
           "enum": [
-            "large",
             "small",
             "medium",
+            "large",
             "full",
             "xsmall",
             "xlarge"
