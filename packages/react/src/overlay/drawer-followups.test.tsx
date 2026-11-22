@@ -18,7 +18,7 @@ function inLocale(ui: React.ReactElement, locale = "en", dir?: "rtl") {
 describe("Drawer subtitle describes the drawer", () => {
   it("a subtitle is the dialog's aria-describedby", () => {
     for (const [locale, dir] of [["en", undefined], ["ar", "rtl"]] as const) {
-      inLocale(<Drawer defaultOpen title="Project Atlas" subtitle="Ana Petrov · 14–18 Oct">Body</Drawer>, locale, dir);
+      inLocale(<Drawer defaultOpen title="Project Atlas" description="Ana Petrov · 14–18 Oct">Body</Drawer>, locale, dir);
       const dialog = screen.getByRole("dialog");
       const subtitle = document.querySelector<HTMLElement>("[data-slot='drawer-subtitle']")!;
       expect(subtitle.id, locale).not.toBe("");
@@ -31,14 +31,14 @@ describe("Drawer subtitle describes the drawer", () => {
   });
 
   it("a node subtitle describes the drawer too", () => {
-    inLocale(<Drawer defaultOpen title="Project Atlas" subtitle={<span>Ana · <b>14–18 Oct</b></span>}>Body</Drawer>);
+    inLocale(<Drawer defaultOpen title="Project Atlas" description={<span>Ana · <b>14–18 Oct</b></span>}>Body</Drawer>);
     const describedBy = screen.getByRole("dialog").getAttribute("aria-describedby");
     expect(document.getElementById(describedBy!)?.textContent).toBe("Ana · 14–18 Oct");
   });
 
   it("without a subtitle (or with an empty one) there is no aria-describedby and no subtitle node", () => {
     for (const subtitle of [undefined, "", null, false]) {
-      inLocale(<Drawer defaultOpen title="Project Atlas" subtitle={subtitle}>Body</Drawer>);
+      inLocale(<Drawer defaultOpen title="Project Atlas" description={subtitle}>Body</Drawer>);
       const dialog = screen.getByRole("dialog");
       expect(dialog.hasAttribute("aria-describedby"), String(subtitle)).toBe(false);
       expect(document.querySelector("[data-slot='drawer-subtitle']"), String(subtitle)).toBeNull();
@@ -51,7 +51,7 @@ describe("Drawer subtitle describes the drawer", () => {
     inLocale(<Drawer defaultOpen title="Project Atlas">Body</Drawer>);
     const plain = strip();
     cleanup();
-    inLocale(<Drawer defaultOpen title="Project Atlas" subtitle="">Body</Drawer>);
+    inLocale(<Drawer defaultOpen title="Project Atlas" description="">Body</Drawer>);
     expect(strip()).toBe(plain);
   });
 });

@@ -33,7 +33,7 @@ export function SiteShell({ children, section, components = [], docs = [], onNav
         links={LINKS}
         currentKey={section}
         isSticky
-        endActions={
+        actions={
           <span className="flex items-center gap-ds-100">
             {onNavigate && <SiteSearch components={components} docs={docs} onNavigate={onNavigate} />}
             <ThemeSwitcher variant="menu" />

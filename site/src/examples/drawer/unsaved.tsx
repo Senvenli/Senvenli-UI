@@ -33,7 +33,7 @@ export default function Example() {
       <Button>Edit note</Button>
       <Drawer
         title="Customer note"
-        subtitle="Ada Lovelace"
+        description="Ada Lovelace"
         hasUnsavedChanges={draft !== saved}
         footer={<SaveActions onSave={() => setSaved(draft)} />}
       >

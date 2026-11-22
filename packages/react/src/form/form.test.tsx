@@ -149,9 +149,9 @@ describe("TextField", () => {
   it("renders text, unit and icon affixes and sets code / numeric type", () => {
     inLocale(
       <>
-        <TextField label="Price" prefix="€" variant="numeric" defaultValue="62.00" />
+        <TextField label="Price" leading="€" variant="numeric" defaultValue="62.00" />
         <TextField label="Order number" variant="code" defaultValue="AB-482" />
-        <TextField label="Search" prefix={<Icon name="search" />} />
+        <TextField label="Search" leading={<Icon name="search" />} />
       </>,
     );
     expect(screen.getByText("€").getAttribute("data-slot")).toBe("input-addon");
@@ -422,7 +422,7 @@ describe("right-to-left", () => {
   it("renders every field part without physical classes", () => {
     const { container } = inLocale(
       <div dir="rtl">
-        <TextField label="ا" prefix="€" />
+        <TextField label="ا" leading="€" />
         <TextArea label="ب" maxLength={5} />
         <SearchField aria-label="ت" defaultValue="ث" />
         <PasswordField label="ج" autoComplete="new-password" showStrength defaultValue="Abcdefgh12!" />

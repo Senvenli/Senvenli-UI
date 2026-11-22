@@ -6,7 +6,7 @@ export default function Example() {
   return (
     <DialogTrigger>
       <Button>View order</Button>
-      <Drawer title="Order ORD-1040" subtitle="Ada Lovelace · placed March 18">
+      <Drawer title="Order ORD-1040" description="Ada Lovelace · placed March 18">
         <DescriptionList
           items={[
             { label: "Status", value: "Shipped" },

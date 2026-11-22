@@ -104,7 +104,7 @@ describe("NumberField", () => {
       <>
         <NumberField label="Price" locale="nl-NL" defaultValue={248} currency="EUR" />
         <NumberField label="Share" locale="nl-NL" defaultValue={0.874} formatOptions={{ style: "percent", maximumFractionDigits: 1 }} />
-        <NumberField label="Distance" locale="nl-NL" defaultValue={1250} suffix="km" />
+        <NumberField label="Distance" locale="nl-NL" defaultValue={1250} trailing="km" />
       </>,
     );
     // "€ 248,00": the symbol is a leading addon, the amount keeps two decimals.
@@ -130,7 +130,7 @@ describe("NumberField", () => {
   });
 
   it("keeps an end addon off the frame edge when the stepper follows it", () => {
-    inLocale(<NumberField label="Days" defaultValue={2} suffix="days" showStepper />);
+    inLocale(<NumberField label="Days" defaultValue={2} trailing="days" showStepper />);
     expect(screen.getByText("days").closest('[data-slot="input-addon"]')?.getAttribute("class")).not.toContain("-me-(--field-pad)");
   });
 

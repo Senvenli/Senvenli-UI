@@ -85,18 +85,18 @@
         "origin": "own"
       },
       {
-        "name": "subtitle",
+        "name": "description",
         "type": "React.ReactNode",
         "required": false,
         "origin": "own",
-        "description": "Under the title: \"Ana Petrović · 14–18 Eki\". When given, the drawer is described by it\n(`aria-describedby`); without it (or with `\"\"`, `false`, `null`) nothing is rendered."
+        "description": "Under the title: \"Jordan Lee · 14–18 Oct\". When given, the drawer is described by it\n(`aria-describedby`); without it (or with `\"\"`, `false`, `null`) nothing is rendered."
       },
       {
         "name": "headerActions",
         "type": "React.ReactNode",
         "required": false,
         "origin": "own",
-        "description": "Beside the close button: a status lozenge, a menu."
+        "description": "Beside the close button: a status Badge, a menu."
       },
       {
         "name": "children",

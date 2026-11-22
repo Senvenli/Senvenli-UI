@@ -51,7 +51,7 @@ function ArchiveDialog({ onArchive = vi.fn(), isDismissable }: { onArchive?: () 
       <Dialog
         title="Archive order"
         isDismissable={isDismissable}
-        primaryAction={{ label: "Archive order", variant: "danger", onPress: onArchive }}
+        primaryAction={{ label: "Archive order", tone: "danger", onPress: onArchive }}
       >
         The customer gets an email about it.
         <TextField label="Refund amount" defaultValue="248.00" />
@@ -228,7 +228,7 @@ describe("Drawer", () => {
         <Button>Open</Button>
         <Drawer
           title="ORD-482"
-          subtitle="Jordan Lee · 14–18 Oct"
+          description="Jordan Lee · 14–18 Oct"
           position={position}
           hasUnsavedChanges={unsaved}
           footer={<Button variant="primary">Save</Button>}

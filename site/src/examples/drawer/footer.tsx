@@ -32,7 +32,7 @@ export default function Example() {
       <Drawer
         size="large"
         title="Invoice INV-2038"
-        subtitle="Northwind Traders · due March 4"
+        description="Northwind Traders · due March 4"
         headerActions={<Badge tone="danger">Overdue</Badge>}
         footer={<InvoiceActions />}
       >

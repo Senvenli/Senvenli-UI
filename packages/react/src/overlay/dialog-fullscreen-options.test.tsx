@@ -43,7 +43,7 @@ function SignupFrame(props: Partial<DialogProps>) {
       <Dialog
         size="fullscreen"
         title="Create account"
-        headerStart={<Logo />}
+        headerLeading={<Logo />}
         isTitleHidden
         secondaryAction={null}
         {...props}
@@ -182,9 +182,9 @@ describe("Dialog size=\"fullscreen\" options", () => {
     });
   });
 
-  describe("headerStart", () => {
+  describe("headerLeading", () => {
     it("comes first in the header, then the title, then the close button", () => {
-      inLocale(<Dialog defaultOpen size="fullscreen" title="Create account" headerStart={<Logo />} primaryAction={{ label: "Continue" }}>x</Dialog>);
+      inLocale(<Dialog defaultOpen size="fullscreen" title="Create account" headerLeading={<Logo />} primaryAction={{ label: "Continue" }}>x</Dialog>);
       const header = slot("dialog-header")!;
       expect(children(header)).toEqual(["dialog-header-start", "dialog-heading", "dialog-close-wrap"]);
       expect(within(slot("dialog-header-start")!).getByTestId("logo")).toBeTruthy();
@@ -193,14 +193,14 @@ describe("Dialog size=\"fullscreen\" options", () => {
     });
 
     it("the title side shrinks and the title truncates to one line; the close button does not shrink", () => {
-      inLocale(<Dialog defaultOpen size="fullscreen" title="A very long sign-up title" headerStart={<Logo />}>x</Dialog>);
+      inLocale(<Dialog defaultOpen size="fullscreen" title="A very long sign-up title" headerLeading={<Logo />}>x</Dialog>);
       expect(slot("dialog-heading")!.className.split(" ")).toEqual(expect.arrayContaining(["min-w-0", "flex-1"]));
       expect(slot("dialog-title")!.className.split(" ")).toContain("truncate");
       expect(slot("dialog-close")!.className.split(" ")).toContain("shrink-0");
     });
 
     it("with a description, the title truncates and the description sits under it", () => {
-      inLocale(<Dialog defaultOpen size="fullscreen" title="Sign up" description="Step 1 of 2" headerStart={<Logo />}>x</Dialog>);
+      inLocale(<Dialog defaultOpen size="fullscreen" title="Sign up" description="Step 1 of 2" headerLeading={<Logo />}>x</Dialog>);
       expect(children(slot("dialog-heading")!)).toEqual(["dialog-title", "dialog-description"]);
       expect(slot("dialog-heading")!.className.split(" ")).toEqual(expect.arrayContaining(["min-w-0", "flex-1"]));
       expect(screen.getByRole("dialog", { name: "Sign up" }).getAttribute("aria-describedby")).toBe(slot("dialog-description")!.id);
@@ -208,7 +208,7 @@ describe("Dialog size=\"fullscreen\" options", () => {
 
     it("the close button still closes it", () => {
       const onOpenChange = vi.fn();
-      inLocale(<Dialog isOpen onOpenChange={onOpenChange} size="fullscreen" title="Sign up" headerStart={<Logo />}>x</Dialog>);
+      inLocale(<Dialog isOpen onOpenChange={onOpenChange} size="fullscreen" title="Sign up" headerLeading={<Logo />}>x</Dialog>);
       fireEvent.click(slot("dialog-close")!);
       expect(onOpenChange.mock.calls).toEqual([[false]]);
     });
@@ -225,7 +225,7 @@ describe("Dialog size=\"fullscreen\" options", () => {
       expect(slot("dialog-header")!.className).toContain("[&>[data-slot=dialog-close-wrap]]:ms-auto");
     });
 
-    it("with headerStart: the logo, the hidden title, the close button; still named", () => {
+    it("with headerLeading: the logo, the hidden title, the close button; still named", () => {
       inLocale(<SignupFrame />);
       open();
       expect(screen.getByRole("dialog", { name: "Create account" })).toBeTruthy();
@@ -298,7 +298,7 @@ describe("Dialog size=\"fullscreen\" options", () => {
           defaultOpen
           size="fullscreen"
           title="إنشاء حساب"
-          headerStart={<Logo />}
+          headerLeading={<Logo />}
           isTitleHidden
           footerLayout="spread"
           secondaryAction={{ label: "رجوع" }}
@@ -328,9 +328,9 @@ describe("Dialog size=\"fullscreen\" options", () => {
       expect(slot("dialog-footer")!.querySelector("[data-slot='button-icon']")).toBeNull();
     });
 
-    it("an empty headerStart (null, false, \"\") counts as none", () => {
+    it("an empty headerLeading (null, false, \"\") counts as none", () => {
       for (const empty of [null, false, ""]) {
-        inLocale(<Dialog defaultOpen size="fullscreen" title="Sign up" headerStart={empty}>x</Dialog>);
+        inLocale(<Dialog defaultOpen size="fullscreen" title="Sign up" headerLeading={empty}>x</Dialog>);
         expect(slot("dialog-header-start"), String(empty)).toBeNull();
         expect(children(slot("dialog-header")!)).toEqual(["dialog-title", "dialog-close-wrap"]);
         cleanup();
@@ -345,13 +345,13 @@ describe("Dialog size=\"fullscreen\" options", () => {
         expect(warn).not.toHaveBeenCalled();
         cleanup();
         inLocale(
-          <Dialog defaultOpen size={size} title="Note" primaryAction={{ label: "Save" }} footerLayout="spread" headerStart={<Logo />} isTitleHidden>
+          <Dialog defaultOpen size={size} title="Note" primaryAction={{ label: "Save" }} footerLayout="spread" headerLeading={<Logo />} isTitleHidden>
             x
           </Dialog>,
         );
         expect(screen.getByRole("dialog").outerHTML.replace(/react-aria\S*?"/g, "")).toBe(plain);
         expect(warn.mock.calls.map(([message]) => String(message))).toEqual([
-          `Dialog: footerLayout, headerStart, isTitleHidden only apply to size="fullscreen"; size="${size}" ignores them.`,
+          `Dialog: footerLayout, headerLeading, isTitleHidden only apply to size="fullscreen"; size="${size}" ignores them.`,
         ]);
       });
     }
@@ -372,10 +372,10 @@ describe("Dialog follow-ups", () => {
 
   describe("the full-screen-only warning names only values that would change a full-screen dialog", () => {
     for (const size of ["small", "medium", "large"] as const) {
-      it(`${size}: the full-screen defaults (isTitleHidden={false}, footerLayout="end", an empty headerStart) say nothing`, () => {
+      it(`${size}: the full-screen defaults (isTitleHidden={false}, footerLayout="end", an empty headerLeading) say nothing`, () => {
         const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
         for (const empty of [null, false, true, ""]) {
-          inLocale(<Dialog defaultOpen size={size} title="Note" isTitleHidden={false} footerLayout="end" headerStart={empty}>x</Dialog>);
+          inLocale(<Dialog defaultOpen size={size} title="Note" isTitleHidden={false} footerLayout="end" headerLeading={empty}>x</Dialog>);
           cleanup();
         }
         inLocale(<Dialog defaultOpen size={size} title="Note" secondaryAction={undefined}>x</Dialog>);
@@ -387,10 +387,10 @@ describe("Dialog follow-ups", () => {
         const cases: Array<[Partial<DialogProps>, string]> = [
           [{ isTitleHidden: true }, "isTitleHidden"],
           [{ footerLayout: "spread" }, "footerLayout"],
-          [{ headerStart: <Logo /> }, "headerStart"],
-          [{ headerStart: "Acme" }, "headerStart"],
-          [{ headerStart: 0 }, "headerStart"],
-          [{ isTitleHidden: false, footerLayout: "spread", headerStart: null }, "footerLayout"],
+          [{ headerLeading: <Logo /> }, "headerLeading"],
+          [{ headerLeading: "Acme" }, "headerLeading"],
+          [{ headerLeading: 0 }, "headerLeading"],
+          [{ isTitleHidden: false, footerLayout: "spread", headerLeading: null }, "footerLayout"],
         ];
         for (const [props] of cases) {
           inLocale(<Dialog defaultOpen size={size} title="Note" {...props}>x</Dialog>);
@@ -402,7 +402,7 @@ describe("Dialog follow-ups", () => {
 
     it("fullscreen never warns about its own options", () => {
       const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
-      inLocale(<Dialog defaultOpen size="fullscreen" title="Sign up" isTitleHidden footerLayout="spread" headerStart={<Logo />} secondaryAction={null}>x</Dialog>);
+      inLocale(<Dialog defaultOpen size="fullscreen" title="Sign up" isTitleHidden footerLayout="spread" headerLeading={<Logo />} secondaryAction={null}>x</Dialog>);
       expect(dialogWarnings(warn)).toEqual([]);
     });
   });
@@ -459,7 +459,7 @@ describe("Dialog follow-ups", () => {
   describe("a danger primary with no secondary", () => {
     it("focus goes to the body's first field, as for any other dialog", async () => {
       inLocale(
-        <Dialog defaultOpen size="fullscreen" title="Delete account" secondaryAction={null} primaryAction={{ label: "Delete", variant: "danger" }}>
+        <Dialog defaultOpen size="fullscreen" title="Delete account" secondaryAction={null} primaryAction={{ label: "Delete", tone: "danger" }}>
           <TextField label="Confirmation" />
         </Dialog>,
       );
@@ -468,7 +468,7 @@ describe("Dialog follow-ups", () => {
 
     it("without a field, focus stays on the dialog itself (never the destructive button)", async () => {
       inLocale(
-        <Dialog defaultOpen size="fullscreen" title="Delete account" secondaryAction={null} primaryAction={{ label: "Delete", variant: "danger" }}>
+        <Dialog defaultOpen size="fullscreen" title="Delete account" secondaryAction={null} primaryAction={{ label: "Delete", tone: "danger" }}>
           This cannot be undone.
         </Dialog>,
       );
@@ -479,7 +479,7 @@ describe("Dialog follow-ups", () => {
 
     it("with the secondary there, it still starts on the secondary (unchanged)", async () => {
       inLocale(
-        <Dialog defaultOpen title="Delete account" primaryAction={{ label: "Delete", variant: "danger" }}>
+        <Dialog defaultOpen title="Delete account" primaryAction={{ label: "Delete", tone: "danger" }}>
           <TextField label="Confirmation" />
         </Dialog>,
       );

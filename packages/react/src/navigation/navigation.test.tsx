@@ -80,7 +80,7 @@ function SiteNavbar(props: Partial<React.ComponentProps<typeof Navbar>>) {
       brand={<span>Acme</span>}
       links={LINKS}
       currentKey="pricing"
-      endActions={
+      actions={
         <>
           <LanguageMenu />
           <Button variant="primary">Get started</Button>
@@ -149,7 +149,7 @@ describe("Navbar", () => {
     const { Link } = await import("../action/index");
     const { navigate } = inLocale(
       <SiteNavbar
-        endActions={
+        actions={
           <>
             <LanguageMenu />
             <Link href="/sign-in/">Sign in</Link>
@@ -177,7 +177,7 @@ describe("Navbar", () => {
     const { ToggleButton } = await import("../action/index");
     inLocale(
       <SiteNavbar
-        endActions={
+        actions={
           <>
             <ToggleButton aria-label="Bold">B</ToggleButton>
             <Button variant="primary" onPress={onStart}>Get started</Button>
@@ -196,7 +196,7 @@ describe("Navbar", () => {
 
   it("from the keyboard too: Enter on a plain action button closes the panel and still runs", async () => {
     const onStart = vi.fn();
-    inLocale(<SiteNavbar endActions={<Button variant="primary" onPress={onStart}>Get started</Button>} />);
+    inLocale(<SiteNavbar actions={<Button variant="primary" onPress={onStart}>Get started</Button>} />);
     fireEvent.click(screen.getByRole("button", { name: "Open menu" }));
     const panel = await screen.findByRole("dialog", { name: "Main menu" });
     const start = within(panel).getByRole("button", { name: "Get started" });
