@@ -5,7 +5,7 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 
 import { DesignSystemProvider } from "../provider";
 import { Form } from "../form/index";
-import { DateField, DatePicker, DateRangeField, TimeField } from "./index";
+import { DateField, DatePicker, DateRangePicker, TimeField } from "./index";
 
 /**
  * A Form's reset under validationBehavior "native". After a blocked submit, a programmatic `form.reset()` (outside a
@@ -91,9 +91,9 @@ const CASES: Case[] = [
     message: MONTH_MISSING,
   },
   {
-    name: "DateRangeField, a half typed in part",
+    name: "DateRangePicker, a half typed in part",
     field: (
-      <DateRangeField
+      <DateRangePicker
         label="Trip dates"
         startName="from"
         endName="to"

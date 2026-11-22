@@ -6,7 +6,7 @@ import { CalendarDate, Time } from "@internationalized/date";
 import { afterEach, describe, expect, it, vi } from "vitest";
 
 import { DesignSystemProvider } from "../provider";
-import { Calendar, DateField, DatePicker, DateRangeField, RangeCalendar, TimeField } from "./index";
+import { Calendar, DateField, DatePicker, DateRangePicker, RangeCalendar, TimeField } from "./index";
 
 afterEach(() => {
   cleanup();
@@ -155,13 +155,13 @@ describe("DateField and TimeField: every id once", () => {
     host.remove();
   });
 
-  it("the other date components already have every id once (DatePicker, DateRangeField, calendars)", () => {
+  it("the other date components already have every id once (DatePicker, DateRangePicker, calendars)", () => {
     inLocale(
       <>
         <DatePicker label="Start date" />
         <DatePicker id="p" label="Month" granularity="month" />
-        <DateRangeField label="Trip dates" />
-        <DateRangeField id="r" label="Trip dates" />
+        <DateRangePicker label="Trip dates" />
+        <DateRangePicker id="r" label="Trip dates" />
         <Calendar aria-label="Calendar" />
         <RangeCalendar aria-label="Range" />
       </>,

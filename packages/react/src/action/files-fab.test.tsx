@@ -5,7 +5,7 @@ import { createTheme, toCSS } from "@senvenli/tokens";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import { DesignSystemProvider } from "../provider";
-import { Button, DropZone, Fab, FileList, FileRow, FileTrigger, formatFileSize, validateFiles } from "./index";
+import { Button, DropZone, Fab, FileUploadList, FileRow, FileTrigger, formatFileSize, validateFiles } from "./index";
 import { DS_STRINGS, registerDsStrings } from "../i18n";
 import { filesFrom } from "./files";
 
@@ -146,7 +146,7 @@ describe("DropZone", () => {
   });
 });
 
-describe("FileRow and FileList", () => {
+describe("FileRow and FileUploadList", () => {
   const create = vi.fn(() => "blob:thumb");
   const revoke = vi.fn();
   beforeEach(() => {
@@ -157,7 +157,7 @@ describe("FileRow and FileList", () => {
 
   it("shows a photo's thumbnail at once and revokes its URL on unmount", () => {
     const photo = file("front.jpg", 2_400_000, "image/jpeg");
-    const { unmount } = inProvider(<FileList aria-label="Files"><FileRow file={photo} onRemove={() => {}} /></FileList>);
+    const { unmount } = inProvider(<FileUploadList aria-label="Files"><FileRow file={photo} onRemove={() => {}} /></FileUploadList>);
     expect(document.querySelector('[data-slot="file-thumbnail"] img')?.getAttribute("src")).toBe("blob:thumb");
     expect(screen.getByRole("list", { name: "Files" }).getAttribute("role")).toBe("list");
     unmount();
@@ -290,7 +290,7 @@ describe("tokens, strings and direction", () => {
     const { container } = inProvider(
       <>
         <DropZone label="Document" typesLabel="PDF" maxSize={1000} />
-        <FileList><FileRow name="a.jpg" size={10} progress={0.3} onCancel={() => {}} /><FileRow name="b" error="x" /></FileList>
+        <FileUploadList><FileRow name="a.jpg" size={10} progress={0.3} onCancel={() => {}} /><FileRow name="b" error="x" /></FileUploadList>
         <Fab icon="calendar-plus" label="New" />
         <Fab icon="message-circle" label="Chat" placement="inline" />
       </>,

@@ -5,7 +5,7 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 
 import { DesignSystemProvider } from "../provider";
 import { Form } from "../form/index";
-import { DateField, DatePicker, DateRangeField, TimeField, type DateRangeFieldValue } from "./index";
+import { DateField, DatePicker, DateRangePicker, TimeField, type DateRangePickerValue } from "./index";
 
 /**
  * The form value of a date or time field follows the value the field reports. React Aria writes the
@@ -171,7 +171,7 @@ describe("DateField's form value follows the value it reports", () => {
   });
 });
 
-describe("DatePicker, DateRangeField and TimeField send what they report", () => {
+describe("DatePicker, DateRangePicker and TimeField send what they report", () => {
   it("DatePicker: a date typed in part sends nothing; a complete one is sent", () => {
     const { container } = inLocale(
       <NativeForm>
@@ -185,11 +185,11 @@ describe("DatePicker, DateRangeField and TimeField send what they report", () =>
     expect(submit(container)).toEqual({ review: "2026-05-24" });
   });
 
-  it("DateRangeField: one half typed in part sends neither half; complete, both are sent", () => {
-    const RANGE: DateRangeFieldValue = { start: new CalendarDate(2026, 10, 14), end: new CalendarDate(2026, 10, 18) };
+  it("DateRangePicker: one half typed in part sends neither half; complete, both are sent", () => {
+    const RANGE: DateRangePickerValue = { start: new CalendarDate(2026, 10, 14), end: new CalendarDate(2026, 10, 18) };
     const { container } = inLocale(
       <NativeForm>
-        <DateRangeField label="Trip dates" startName="start" endName="end" defaultValue={RANGE} />
+        <DateRangePicker label="Trip dates" startName="start" endName="end" defaultValue={RANGE} />
       </NativeForm>,
     );
     expect(submit(container)).toEqual({ start: "2026-10-14", end: "2026-10-18" });
@@ -199,11 +199,11 @@ describe("DatePicker, DateRangeField and TimeField send what they report", () =>
     expect(submit(container)).toEqual({ start: "2026-10-14", end: "2026-10-18" });
   });
 
-  it("DateRangeField with hours: a time typed in part sends neither half", () => {
-    const RANGE: DateRangeFieldValue = { start: new CalendarDateTime(2026, 10, 14, 10, 0), end: new CalendarDateTime(2026, 10, 18, 10, 0) };
+  it("DateRangePicker with hours: a time typed in part sends neither half", () => {
+    const RANGE: DateRangePickerValue = { start: new CalendarDateTime(2026, 10, 14, 10, 0), end: new CalendarDateTime(2026, 10, 18, 10, 0) };
     const { container } = inLocale(
       <NativeForm>
-        <DateRangeField label="Trip dates" granularity="hour" startName="start" endName="end" defaultValue={RANGE} />
+        <DateRangePicker label="Trip dates" granularity="hour" startName="start" endName="end" defaultValue={RANGE} />
       </NativeForm>,
     );
     expect(submit(container)).toEqual({ start: "2026-10-14T10:00:00", end: "2026-10-18T10:00:00" });

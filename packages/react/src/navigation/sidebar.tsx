@@ -187,8 +187,9 @@ const ROW =
   "transition-colors duration-(--ds-duration-fast) motion-reduce:transition-none " +
   "data-[hovered]:bg-ds-background-neutral-subtle-hovered data-[hovered]:text-ds-text data-[pressed]:bg-ds-background-neutral-pressed " +
   "data-[focus-visible]:inset-ring-2 data-[focus-visible]:inset-ring-ds-border-focused " +
-  "aria-[current=page]:bg-ds-background-selected aria-[current=page]:font-medium aria-[current=page]:text-ds-text " +
-  "aria-[current=page]:shadow-[inset_2px_0_0_var(--ds-border-selected)] rtl:aria-[current=page]:shadow-[inset_-2px_0_0_var(--ds-border-selected)] " +
+  // The page in view: a soft neutral fill and the full text color, no edge marker (a 2px inset bent into a bracket on
+  // the rounded row). One step darker than the sunken sidebar ground, which equals ds-background-neutral.
+  "aria-[current=page]:bg-ds-background-neutral-hovered aria-[current=page]:text-ds-text aria-[current=page]:data-[hovered]:bg-ds-background-neutral-hovered " +
   // Collapsed: the icon alone, centred in the 56px rail.
   "group-data-[collapsed]/sidebar:justify-center [:root[data-ds-sidebar=collapsed]_[data-slot=sidebar]_&]:justify-center";
 
@@ -469,7 +470,7 @@ function LinkItem({ item, shared, nested }: { item: SidebarItem; shared: Shared;
       href={item.href}
       data-slot="sidebar-item"
       aria-current={item.id === shared.currentKey ? "page" : undefined}
-      className={cn("group/row", ROW, nested && "h-7")}
+      className={cn("group/row", ROW)}
     >
       <Label item={item} />
     </AriaLink>
@@ -503,7 +504,7 @@ function GroupItem({ item, shared }: { item: SidebarItem; shared: Shared }) {
       className={cn(
         "group/row",
         ROW,
-        "group-data-[collapsed]/sidebar:data-[current]:bg-ds-background-selected [:root[data-ds-sidebar=collapsed]_[data-slot=sidebar]_&]:data-[current]:bg-ds-background-selected",
+        "group-data-[collapsed]/sidebar:data-[current]:bg-ds-background-neutral-hovered [:root[data-ds-sidebar=collapsed]_[data-slot=sidebar]_&]:data-[current]:bg-ds-background-neutral-hovered",
       )}
     >
       <Label item={item} />
@@ -530,7 +531,7 @@ function GroupItem({ item, shared }: { item: SidebarItem; shared: Shared }) {
         trigger
       )}
       <DisclosurePanel data-slot="sidebar-group-panel" className={WHEN_COLLAPSED.hidden}>
-        <div className="ms-[19px] mt-0.5 border-s border-ds-border ps-ds-100">
+        <div className="mt-0.5 ps-ds-400">
           <Tree items={item.children ?? []} shared={shared} nested />
         </div>
       </DisclosurePanel>

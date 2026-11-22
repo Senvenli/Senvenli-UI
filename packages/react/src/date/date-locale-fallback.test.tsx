@@ -6,7 +6,7 @@ import { afterEach, beforeAll, describe, expect, it, vi } from "vitest";
 import { DesignSystemProvider } from "../provider";
 import { contentLang, hasDsStrings, hasIntlData, intlLocale, nextMonthLabel, previousMonthLabel, registerDsStrings, todayLabel } from "../i18n";
 import { registerLocaleAliases } from "../intl-locale";
-import { Calendar, DateField, DateRangeField, RangeCalendar, TimeField } from "./index";
+import { Calendar, DateField, DateRangePicker, RangeCalendar, TimeField } from "./index";
 import { breakAtLastSpace } from "./segments";
 
 /**
@@ -66,7 +66,7 @@ describe("an LTR locale on an RTL page", () => {
       const { container } = onRtlPage(
         <>
           <TimeField label="Time" defaultValue={new Time(10, 30)} />
-          <DateRangeField label="Trip dates" granularity="hour" defaultValue={{ start: new CalendarDateTime(2026, 10, 14, 10), end: new CalendarDateTime(2026, 10, 18, 10) }} />
+          <DateRangePicker label="Trip dates" granularity="hour" defaultValue={{ start: new CalendarDateTime(2026, 10, 14, 10), end: new CalendarDateTime(2026, 10, 18, 10) }} />
           <DateField label="Date" defaultValue={new CalendarDate(2026, 10, 14)} />
         </>,
         locale,
@@ -121,7 +121,7 @@ describe("breakAtLastSpace: the date–time separator breaks only before the tim
   it("renders the separator that way in a range with hours (bg)", () => {
     const { container } = render(
       <DesignSystemProvider locale="bg" navigate={vi.fn()}>
-        <DateRangeField label="Trip dates" granularity="hour" defaultValue={{ start: new CalendarDateTime(2026, 10, 14, 10), end: new CalendarDateTime(2026, 10, 18, 10) }} />
+        <DateRangePicker label="Trip dates" granularity="hour" defaultValue={{ start: new CalendarDateTime(2026, 10, 14, 10), end: new CalendarDateTime(2026, 10, 18, 10) }} />
       </DesignSystemProvider>,
     );
     const breaks = Array.from(container.querySelectorAll<HTMLElement>("[data-slot='date-segment'].whitespace-pre-wrap"));

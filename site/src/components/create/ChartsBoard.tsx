@@ -1,4 +1,4 @@
-import { AreaChart, BarChart, BarList, DonutChart, Gauge, Sparkline } from "@senvenli/react/charts";
+import { AreaChart, BarChart, BarList, DonutChart, GaugeChart, Sparkline } from "@senvenli/react/charts";
 import { Card, CardBody } from "@senvenli/react/display";
 
 const money = new Intl.NumberFormat("en", { style: "currency", currency: "USD", notation: "compact", maximumFractionDigits: 1 });
@@ -77,7 +77,7 @@ export function ChartsPreview() {
 
       <Card>
         <CardBody>
-          <Gauge title="Quota" period="Q4" value={72} max={100} target={80} valueFormatter={(v) => `${v}%`} />
+          <GaugeChart title="Quota" period="Q4" value={72} max={100} target={80} valueFormatter={(v) => `${v}%`} />
         </CardBody>
       </Card>
 

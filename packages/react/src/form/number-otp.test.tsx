@@ -3,7 +3,7 @@ import { act, cleanup, fireEvent, render, screen } from "@testing-library/react"
 import { afterEach, describe, expect, it, vi } from "vitest";
 
 import { DesignSystemProvider } from "../provider";
-import { InputOTP, NumberField, TextArea } from "./index";
+import { OtpField, NumberField, TextArea } from "./index";
 
 afterEach(() => {
   cleanup();
@@ -157,24 +157,24 @@ describe("NumberField", () => {
   });
 });
 
-describe("InputOTP", () => {
+describe("OtpField", () => {
   it("is one real input for SMS autofill and paste", () => {
-    inLocale(<InputOTP label="Verification code" />);
+    inLocale(<OtpField label="Verification code" />);
     const input = screen.getByRole("textbox", { name: "Verification code" });
     expect(input.getAttribute("autocomplete")).toBe("one-time-code");
     expect(input.getAttribute("inputmode")).toBe("numeric");
     // No maxlength: a browser would cut a pasted "482 917" to six characters before the digits are picked out.
     expect(input.hasAttribute("maxlength")).toBe(false);
-    expect(document.querySelectorAll('[data-slot="input-otp-box"][aria-hidden="true"]')).toHaveLength(6);
-    expect(document.querySelectorAll('[data-slot="input-otp-separator"]')).toHaveLength(1);
+    expect(document.querySelectorAll('[data-slot="otp-field-box"][aria-hidden="true"]')).toHaveLength(6);
+    expect(document.querySelectorAll('[data-slot="otp-field-separator"]')).toHaveLength(1);
   });
 
   it("fills every box from a paste, keeps only digits and completes once", () => {
     const onComplete = vi.fn();
-    inLocale(<InputOTP label="Code" onComplete={onComplete} />);
+    inLocale(<OtpField label="Code" onComplete={onComplete} />);
     const input = screen.getByRole("textbox", { name: "Code" });
     fireEvent.change(input, { target: { value: "48 2-917" } });
-    const boxes = Array.from(document.querySelectorAll('[data-slot="input-otp-box"]')).map((box) => box.textContent);
+    const boxes = Array.from(document.querySelectorAll('[data-slot="otp-field-box"]')).map((box) => box.textContent);
     expect(boxes).toEqual(["4", "8", "2", "9", "1", "7"]);
     expect(onComplete).toHaveBeenCalledTimes(1);
     expect(onComplete).toHaveBeenCalledWith("482917");
@@ -182,7 +182,7 @@ describe("InputOTP", () => {
 
   it("completes again when a new full code replaces an old one", () => {
     const onComplete = vi.fn();
-    inLocale(<InputOTP label="Code" onComplete={onComplete} />);
+    inLocale(<OtpField label="Code" onComplete={onComplete} />);
     const input = screen.getByRole("textbox", { name: "Code" });
     fireEvent.change(input, { target: { value: "111111" } });
     fireEvent.change(input, { target: { value: "222222" } });
@@ -192,7 +192,7 @@ describe("InputOTP", () => {
 
   it("takes a full code pasted or autofilled after an old one (caret pinned to the end)", () => {
     const onComplete = vi.fn();
-    inLocale(<InputOTP label="Code" onComplete={onComplete} />);
+    inLocale(<OtpField label="Code" onComplete={onComplete} />);
     const input = screen.getByRole("textbox", { name: "Code" }) as HTMLInputElement;
     fireEvent.change(input, { target: { value: "111111" } });
     fireEvent.change(input, { target: { value: "111111222 222" } });
@@ -204,7 +204,7 @@ describe("InputOTP", () => {
   });
 
   it("finishes a partial code from a paste that only adds the rest", () => {
-    inLocale(<InputOTP label="Code" />);
+    inLocale(<OtpField label="Code" />);
     const input = screen.getByRole("textbox", { name: "Code" }) as HTMLInputElement;
     fireEvent.change(input, { target: { value: "48" } });
     fireEvent.change(input, { target: { value: "482917" } });
@@ -212,15 +212,15 @@ describe("InputOTP", () => {
   });
 
   it("never pushes a narrow column sideways: the row fits its column and the cells may shrink", () => {
-    render(<DesignSystemProvider locale="en" navigate={vi.fn()}><InputOTP label="Code" /></DesignSystemProvider>);
-    const row = document.querySelector('[data-slot="input-otp-box"]')?.parentElement;
+    render(<DesignSystemProvider locale="en" navigate={vi.fn()}><OtpField label="Code" /></DesignSystemProvider>);
+    const row = document.querySelector('[data-slot="otp-field-box"]')?.parentElement;
     expect(row?.getAttribute("class")?.split(/\s+/)).toEqual(expect.arrayContaining(["w-full", "max-w-fit"]));
-    for (const box of Array.from(document.querySelectorAll('[data-slot="input-otp-box"]'))) expect(box.getAttribute("class")).toContain("min-w-0");
-    expect(document.querySelector('[data-slot="input-otp-separator"]')?.getAttribute("class")).toContain("shrink-0");
+    for (const box of Array.from(document.querySelectorAll('[data-slot="otp-field-box"]'))) expect(box.getAttribute("class")).toContain("min-w-0");
+    expect(document.querySelector('[data-slot="otp-field-separator"]')?.getAttribute("class")).toContain("shrink-0");
   });
 
   it("is required like the other fields", () => {
-    inLocale(<InputOTP label="Code" isRequired />);
+    inLocale(<OtpField label="Code" isRequired />);
     const input = screen.getByRole("textbox", { name: "Code" }) as HTMLInputElement;
     act(() => input.focus());
     act(() => input.blur());
@@ -228,13 +228,13 @@ describe("InputOTP", () => {
   });
 
   it("supports 4 digits without a separator", () => {
-    inLocale(<InputOTP label="PIN" length={4} />);
-    expect(document.querySelectorAll('[data-slot="input-otp-box"]')).toHaveLength(4);
-    expect(document.querySelector('[data-slot="input-otp-separator"]')).toBeNull();
+    inLocale(<OtpField label="PIN" length={4} />);
+    expect(document.querySelectorAll('[data-slot="otp-field-box"]')).toHaveLength(4);
+    expect(document.querySelector('[data-slot="otp-field-separator"]')).toBeNull();
   });
 
   it("keeps the digits and shows the error when invalid", () => {
-    inLocale(<InputOTP label="Code" isInvalid defaultValue="123456" errorMessage="Wrong code. Enter the latest code from your phone." />);
+    inLocale(<OtpField label="Code" isInvalid defaultValue="123456" errorMessage="Wrong code. Enter the latest code from your phone." />);
     const input = screen.getByRole("textbox", { name: "Code" }) as HTMLInputElement;
     expect(input.value).toBe("123456");
     expect(input.getAttribute("aria-invalid")).toBe("true");

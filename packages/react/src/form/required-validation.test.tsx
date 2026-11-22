@@ -3,9 +3,9 @@ import { act, cleanup, fireEvent, render, screen } from "@testing-library/react"
 import { renderToStaticMarkup } from "react-dom/server";
 import { afterEach, describe, expect, it, vi } from "vitest";
 
-import { DateField, DatePicker, DateRangeField, TimeField } from "../date/index";
+import { DateField, DatePicker, DateRangePicker, TimeField } from "../date/index";
 import { DesignSystemProvider } from "../provider";
-import { Form, InputOTP, NumberField, PasswordField, TextArea, TextField } from "./index";
+import { Form, OtpField, NumberField, PasswordField, TextArea, TextField } from "./index";
 
 // requiredValidation: an app that validates on submit and shows its own error wants the required asterisk and
 // aria-required without the built-in "Fill in this field." message on blur. `requiredValidation="app"` marks the
@@ -44,11 +44,11 @@ const FIELDS: { name: string; render: (props: Mode & Extra) => React.ReactElemen
   },
   { name: "TextArea", render: (p) => <TextArea label="Notes" isRequired {...p} />, control: () => screen.getByRole("textbox") },
   { name: "NumberField", render: (p) => <NumberField label="Amount" isRequired {...p} />, control: () => screen.getByRole("textbox") },
-  { name: "InputOTP", render: (p) => <InputOTP label="Code" isRequired {...p} />, control: () => screen.getByRole("textbox") },
+  { name: "OtpField", render: (p) => <OtpField label="Code" isRequired {...p} />, control: () => screen.getByRole("textbox") },
   { name: "DateField", render: (p) => <DateField label="Birth date" isRequired {...p} />, control: () => screen.getAllByRole("spinbutton")[0]! },
   { name: "TimeField", render: (p) => <TimeField label="Time" isRequired {...p} />, control: () => screen.getAllByRole("spinbutton")[0]! },
   { name: "DatePicker", render: (p) => <DatePicker label="Due date" isRequired {...p} />, control: () => screen.getAllByRole("spinbutton")[0]! },
-  { name: "DateRangeField", render: (p) => <DateRangeField label="Period" isRequired {...p} />, control: () => screen.getAllByRole("spinbutton")[0]! },
+  { name: "DateRangePicker", render: (p) => <DateRangePicker label="Period" isRequired {...p} />, control: () => screen.getAllByRole("spinbutton")[0]! },
 ];
 
 /** Keyboard focus in, then out (Tab away), with nothing typed. */

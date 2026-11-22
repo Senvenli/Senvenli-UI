@@ -3,7 +3,7 @@ import { act, cleanup, fireEvent, render, screen, within } from "@testing-librar
 import { afterEach, describe, expect, it, vi } from "vitest";
 
 import { DesignSystemProvider } from "../provider";
-import { BarList, CalendarHeatmap, ChartAnimation, Funnel, Tracker } from "./index";
+import { BarList, CalendarHeatmap, ChartAnimation, FunnelChart, Tracker } from "./index";
 import { heatmapThresholds } from "./list-charts";
 
 afterEach(cleanup);
@@ -167,7 +167,7 @@ describe("Funnel", () => {
   ];
 
   it("shows every count and step conversion as text, and the total conversion in the subtitle", () => {
-    inLocale(<Funnel title="Order funnel" period="September" steps={STEPS} valueFormatter={(value) => new Intl.NumberFormat("en-US").format(value)} />);
+    inLocale(<FunnelChart title="Order funnel" period="September" steps={STEPS} valueFormatter={(value) => new Intl.NumberFormat("en-US").format(value)} />);
     const steps = [...document.querySelectorAll("[data-slot='funnel-step']")];
     expect(steps.map((step) => step.textContent)).toEqual(["Search4,820", "Product selected2,14044%", "Checkout81238%"]);
     expect(document.querySelector("[data-slot='chart-header']")!.textContent).toContain("September · Conversion 16.8%");
@@ -179,7 +179,7 @@ describe("Funnel", () => {
 
   it("no tab stops in a figure with nothing to act on; warns when a step outgrows the one before", () => {
     const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
-    inLocale(<Funnel title="Funnel" steps={[{ name: "a", value: 10 }, { name: "b", value: 12 }]} showStepConversion={false} showTotalConversion={false} />);
+    inLocale(<FunnelChart title="Funnel" steps={[{ name: "a", value: 10 }, { name: "b", value: 12 }]} showStepConversion={false} showTotalConversion={false} />);
     expect(document.querySelectorAll("[data-slot='funnel'] [tabindex]")).toHaveLength(0);
     expect(document.querySelector("[data-slot='funnel-conversion']")).toBeNull();
     expect(warn.mock.calls.some(([message]) => String(message).includes("subset"))).toBe(true);
@@ -189,7 +189,7 @@ describe("Funnel", () => {
 
 describe("ChartFrame's hidden table", () => {
   it("stays clipped inside the frame while collapsed, so a long caption cannot widen the page", () => {
-    inLocale(<Funnel title="Order funnel" period="September 2026 · website · every device and every channel" steps={[{ name: "Search", value: 10 }, { name: "Checkout", value: 4 }]} />);
+    inLocale(<FunnelChart title="Order funnel" period="September 2026 · website · every device and every channel" steps={[{ name: "Search", value: 10 }, { name: "Checkout", value: 4 }]} />);
     const box = document.querySelector<HTMLElement>("[data-slot='chart-data-table']")!;
     expect(box.className).toContain("overflow-hidden");
     expect(box.className).toContain("relative");

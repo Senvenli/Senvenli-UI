@@ -243,7 +243,7 @@ export function DonutChart({ title, period, data, valueFormatter = plain, center
 
 /* ── Gauge ────────────────────────────────────────────────────────────────── */
 
-export type GaugeProps = Omit<FrameProps, "emptyMessage"> & {
+export type GaugeChartProps = Omit<FrameProps, "emptyMessage"> & {
   value: number;
   /** 0 by default. */
   min?: number;
@@ -262,7 +262,7 @@ const polar = (cx: number, cy: number, r: number, angle: number) => [cx + r * Ma
  * `ds-text` tick, the value in the center with the target under it. Only for bounded percentages
  * (occupancy, quota), never money or open counts. A meter to screen readers.
  */
-export function Gauge({ title, period, value, min = 0, max = 100, target, valueFormatter = plain, isLoading, height = 160 }: GaugeProps) {
+export function GaugeChart({ title, period, value, min = 0, max = 100, target, valueFormatter = plain, isLoading, height = 160 }: GaugeChartProps) {
   const { locale } = useLocale();
   const { isRtl } = useChartDirection();
   // A missing value reads as the minimum, and an empty range draws no fill or tick.

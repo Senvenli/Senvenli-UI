@@ -27,7 +27,7 @@ function firstError(result: ValidationResult): string | string[] | null {
 
 /**
  * Who says an empty required field is missing: the `requiredValidation` prop of TextField,
- * PasswordField, TextArea, NumberField, InputOTP, DateField, TimeField, DatePicker and DateRangeField, and since
+ * PasswordField, TextArea, NumberField, OtpField, DateField, TimeField, DatePicker and DateRangePicker, and since
  * of Select, MultiSelect, ComboBox, Autocomplete, RadioGroup, Checkbox, CheckboxGroup,
  * ColorField and PhoneField (empty there: no chosen item, no tag, nothing checked; see {@link useRequiredChoice}).
  *

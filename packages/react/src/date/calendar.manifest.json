@@ -50,7 +50,7 @@
   },
   "related": [
     "date-picker",
-    "date-range-field"
+    "date-range-picker"
   ],
   "genui": {
     "expose": false

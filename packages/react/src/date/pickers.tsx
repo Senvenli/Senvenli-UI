@@ -148,7 +148,7 @@ function PickerActions({ timeZone, month }: { timeZone?: string; month?: { minVa
 /**
  * A DateField with a calendar popover: type when you know the date, pick when you are browsing. The label
  * names the field and the calendar button; picking fills the field and closes (unless
- * `shouldCloseOnSelect={false}`). For a period (a stay, a trip) use DateRangeField; for a birth date, DateField. For a
+ * `shouldCloseOnSelect={false}`). For a period (a stay, a trip) use DateRangePicker; for a birth date, DateField. For a
  * year and a month (a history from–to filter), `granularity="month"`: a month grid instead of the days.
  */
 export function DatePicker({
@@ -245,9 +245,9 @@ export function DatePicker({
 
 type Span<T extends DateValue = CalendarDate> = { start: T; end: T };
 /** Start and end: both calendar dates (`granularity="day"`) or both date-times (`"hour"`). */
-export type DateRangeFieldValue = Span<CalendarDate> | Span<CalendarDateTime>;
+export type DateRangePickerValue = Span<CalendarDate> | Span<CalendarDateTime>;
 
-export type DateRangeFieldProps = {
+export type DateRangePickerProps = {
   /** "Trip dates". */
   label: React.ReactNode;
   description?: React.ReactNode;
@@ -260,9 +260,9 @@ export type DateRangeFieldProps = {
    * changes nothing: the value already is null. To clear the field (an app's own "Temizle" or form reset), give it a new
    * `key` along with the value: React remounts it empty, or at the value given.
    */
-  value?: DateRangeFieldValue | null;
-  defaultValue?: DateRangeFieldValue | null;
-  onChange?: (value: DateRangeFieldValue | null) => void;
+  value?: DateRangePickerValue | null;
+  defaultValue?: DateRangePickerValue | null;
+  onChange?: (value: DateRangePickerValue | null) => void;
   /** `hour` adds start and end times. */
   granularity?: "day" | "hour";
   /** Now plus the lead time. */
@@ -364,7 +364,9 @@ function RangeTimes({ timeZone }: { timeZone?: string }) {
 
 /** One half: its overline ("Start") over the typed date; the half being edited is underlined. */
 const HALF =
-  "relative flex min-w-0 flex-1 flex-col justify-center py-ds-050 " +
+  // `flex-auto`, not `flex-1`: each half starts from its own content, so a field sized to its content never cuts the
+  // longer date ("3/18/2026" beside "3/2/2026"); on a narrow column both still shrink (min-w-0).
+  "relative flex min-w-0 flex-auto flex-col justify-center py-ds-050 " +
   "after:pointer-events-none after:absolute after:inset-x-0 after:bottom-0 after:h-0.5 after:rounded-ds-full after:bg-transparent " +
   "focus-within:after:bg-ds-border-selected";
 const OVERLINE = "text-heading-xxsmall text-ds-text-subtle group-data-[disabled]/range:text-ds-text-disabled";
@@ -376,10 +378,10 @@ const OVERLINE = "text-heading-xxsmall text-ds-text-subtle group-data-[disabled]
  * every field. With hours, a half too narrow for its date and time on one line (a phone column) puts the
  * time under the date, so the field fits a 320px screen in every locale.
  */
-export function DateRangeField({
+export function DateRangePicker({
   label, description, errorMessage, isOptional, granularity = "day", isDateUnavailable, unavailableReason, allowsNonContiguousRanges,
   startLabel, endLabel, firstDayOfWeek, timeZone, footer, validate, onBlur, onChange, value, defaultValue, requiredValidation, id, ...rest
-}: DateRangeFieldProps) {
+}: DateRangePickerProps) {
   const { locale } = useLocale();
   const wide = useWide();
   const { timing, reporter, emptyError, value: held, reported } = useDateValidation<Span<DateValue>>({
@@ -403,7 +405,7 @@ export function DateRangeField({
       validate={timing.validate as (value: Span<DateValue> | null) => string | string[] | true | null | undefined}
       onBlur={timing.onBlur}
       onChange={timing.onChange as (value: Span<DateValue> | null) => void}
-      data-slot="date-range-field"
+      data-slot="date-range-picker"
       className={cn("group/range", FIELD_STACK)}
     >
       {({ isInvalid, isDisabled }) => (

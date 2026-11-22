@@ -5,10 +5,10 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 
 import { DesignSystemProvider } from "../provider";
 import { Form } from "../form/index";
-import { DateField, DateRangeField, TimeField, type DateRangeFieldValue } from "./index";
+import { DateField, DateRangePicker, TimeField, type DateRangePickerValue } from "./index";
 
 /**
- * A time typed in part is no time: DateField, DatePicker and DateRangeField report an incomplete
+ * A time typed in part is no time: DateField, DatePicker and DateRangePicker report an incomplete
  * value as incomplete or invalid, as a date typed in part is no date: React Aria keeps its last complete value until
  * every segment is cleared, so a TimeField or a range with hours left at "10:––" still held the old minutes.
  */
@@ -159,12 +159,12 @@ describe("TimeField: a time typed in part", () => {
   });
 });
 
-describe("DateRangeField granularity hour: a date and time typed in part", () => {
+describe("DateRangePicker granularity hour: a date and time typed in part", () => {
   const RANGE = { start: new CalendarDateTime(2026, 10, 14, 10, 0), end: new CalendarDateTime(2026, 10, 18, 10, 0) };
 
   it("the start minutes cleared: null and the minutes named in the date-and-time sentence", () => {
     const onChange = vi.fn();
-    const { container } = inLocale(<DateRangeField label="Trip dates" granularity="hour" defaultValue={RANGE} onChange={onChange} />);
+    const { container } = inLocale(<DateRangePicker label="Trip dates" granularity="hour" defaultValue={RANGE} onChange={onChange} />);
     clear(segment(container, "minute", 0));
     expect(onChange).toHaveBeenLastCalledWith(null);
     blur();
@@ -173,7 +173,7 @@ describe("DateRangeField granularity hour: a date and time typed in part", () =>
   });
 
   it("the end's day and hour cleared name both, in the field's order", () => {
-    const { container } = inLocale(<DateRangeField label="Trip dates" granularity="hour" defaultValue={RANGE} />);
+    const { container } = inLocale(<DateRangePicker label="Trip dates" granularity="hour" defaultValue={RANGE} />);
     clear(segment(container, "day", 1));
     clear(segment(container, "hour", 1));
     blur();
@@ -181,10 +181,10 @@ describe("DateRangeField granularity hour: a date and time typed in part", () =>
   });
 
   it("the end half emptied while the start stands: every part of it named; typed again, the range again", () => {
-    const seen: (DateRangeFieldValue | null)[] = [];
+    const seen: (DateRangePickerValue | null)[] = [];
     function Trip() {
-      const [value, setValue] = React.useState<DateRangeFieldValue | null>(RANGE);
-      return <DateRangeField label="Trip dates" granularity="hour" value={value} onChange={(next) => { seen.push(next); setValue(next); }} />;
+      const [value, setValue] = React.useState<DateRangePickerValue | null>(RANGE);
+      return <DateRangePicker label="Trip dates" granularity="hour" value={value} onChange={(next) => { seen.push(next); setValue(next); }} />;
     }
     const { container } = inLocale(<Trip />);
     for (const kind of ["day", "month", "year", "hour", "minute"]) clear(segment(container, kind, 1));
@@ -198,7 +198,7 @@ describe("DateRangeField granularity hour: a date and time typed in part", () =>
 
   it("granularity day is unchanged: the date sentence", () => {
     const { container } = inLocale(
-      <DateRangeField label="Trip dates" defaultValue={{ start: new CalendarDate(2026, 10, 14), end: new CalendarDate(2026, 10, 18) }} />,
+      <DateRangePicker label="Trip dates" defaultValue={{ start: new CalendarDate(2026, 10, 14), end: new CalendarDate(2026, 10, 18) }} />,
     );
     clear(segment(container, "month", 1));
     blur();

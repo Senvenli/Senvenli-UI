@@ -3,7 +3,7 @@ import { act, cleanup, fireEvent, render, screen } from "@testing-library/react"
 import { afterEach, describe, expect, it, vi } from "vitest";
 
 import { DesignSystemProvider } from "../provider";
-import { InputOTP, TextField } from "./index";
+import { OtpField, TextField } from "./index";
 
 /**
  * Codes, PINs and phone numbers read left to right inside an RTL UI: on a `dir="rtl"`
@@ -31,13 +31,13 @@ function classesOf(element: Element | null) {
   return element?.getAttribute("class") ?? "";
 }
 
-describe("InputOTP on an RTL page", () => {
+describe("OtpField on an RTL page", () => {
   it("lays the cells, separator and hidden input out left to right", () => {
-    inRtl(<InputOTP label="Code" defaultValue="123456" />);
-    const row = document.querySelector('[data-slot="input-otp-boxes"]')!;
+    inRtl(<OtpField label="Code" defaultValue="123456" />);
+    const row = document.querySelector('[data-slot="otp-field-boxes"]')!;
     expect(row.getAttribute("dir")).toBe("ltr");
-    const boxes = Array.from(document.querySelectorAll('[data-slot="input-otp-box"]'));
-    for (const part of [...boxes, document.querySelector('[data-slot="input-otp-separator"]')!, screen.getByRole("textbox", { name: "Code" })]) {
+    const boxes = Array.from(document.querySelectorAll('[data-slot="otp-field-box"]'));
+    for (const part of [...boxes, document.querySelector('[data-slot="otp-field-separator"]')!, screen.getByRole("textbox", { name: "Code" })]) {
       expect(directionOf(part), part.getAttribute("data-slot") ?? "").toBe("ltr");
     }
     // In an LTR row, DOM order is the visual order from the left: the first digit is the leftmost cell.
@@ -45,25 +45,25 @@ describe("InputOTP on an RTL page", () => {
   });
 
   it("leaves the label, description and error with the page direction", () => {
-    inRtl(<InputOTP label="PIN" length={4} isInvalid defaultValue="1234" description="Four digits." errorMessage="Wrong PIN." />);
-    const field = document.querySelector('[data-slot="input-otp"]')!;
+    inRtl(<OtpField label="PIN" length={4} isInvalid defaultValue="1234" description="Four digits." errorMessage="Wrong PIN." />);
+    const field = document.querySelector('[data-slot="otp-field"]')!;
     expect(field.hasAttribute("dir")).toBe(false);
     for (const text of ["PIN", "Four digits.", "Wrong PIN."]) expect(directionOf(screen.getByText(text))).toBe("rtl");
   });
 
   it("keeps its classes logical, so nothing is pinned to a physical side", () => {
-    inRtl(<InputOTP label="Code" />);
-    const parts = document.querySelectorAll('[data-slot^="input-otp"]');
+    inRtl(<OtpField label="Code" />);
+    const parts = document.querySelectorAll('[data-slot^="otp-field"]');
     expect(parts.length).toBeGreaterThan(6);
     for (const part of Array.from(parts)) expect(classesOf(part), part.getAttribute("data-slot") ?? "").not.toMatch(PHYSICAL);
   });
 
   it("ArrowLeft and ArrowRight keep the caret on the next empty cell, right of the typed digits", () => {
-    inRtl(<InputOTP label="PIN" length={4} />);
+    inRtl(<OtpField label="PIN" length={4} />);
     const input = screen.getByRole("textbox", { name: "PIN" }) as HTMLInputElement;
     act(() => input.focus());
     fireEvent.change(input, { target: { value: "12" } });
-    const active = () => Array.from(document.querySelectorAll('[data-slot="input-otp-box"]')).findIndex((box) => box.hasAttribute("data-active"));
+    const active = () => Array.from(document.querySelectorAll('[data-slot="otp-field-box"]')).findIndex((box) => box.hasAttribute("data-active"));
     expect(active()).toBe(2);
     for (const key of ["ArrowLeft", "ArrowRight", "ArrowLeft", "Home"]) {
       // The browser moves the caret on keydown; the field puts it back on keyup.
@@ -76,7 +76,7 @@ describe("InputOTP on an RTL page", () => {
     // Typing continues in the cell to the right of "2", not a mirrored one.
     fireEvent.change(input, { target: { value: "123" } });
     expect(active()).toBe(3);
-    expect(Array.from(document.querySelectorAll('[data-slot="input-otp-box"]')).map((box) => box.textContent)).toEqual(["1", "2", "3", ""]);
+    expect(Array.from(document.querySelectorAll('[data-slot="otp-field-box"]')).map((box) => box.textContent)).toEqual(["1", "2", "3", ""]);
   });
 });
 

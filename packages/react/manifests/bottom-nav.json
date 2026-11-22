@@ -1,0 +1,129 @@
+{
+  "$schema": "https://design.senvenli.com/schema/component.full.json",
+  "kind": "component",
+  "family": "navigation",
+  "status": "alpha",
+  "import": "@senvenli/react/navigation",
+  "name": "bottom-nav",
+  "title": "Bottom navigation",
+  "exports": [
+    "BottomNav"
+  ],
+  "description": "A bottom tab bar for phones with four or five top destinations and badges.",
+  "keywords": [
+    "bottom navigation",
+    "tab bar",
+    "mobile",
+    "bottom-nav"
+  ],
+  "usage": {
+    "when": [
+      "The main navigation of an app on phones."
+    ]
+  },
+  "a11y": {
+    "builtIn": [
+      "Hides while the on-screen keyboard is open.",
+      "Badges are announced with their item."
+    ],
+    "youProvide": [
+      "Short labels."
+    ]
+  },
+  "related": [
+    "sidebar"
+  ],
+  "genui": {
+    "expose": false
+  },
+  "source": [
+    "src/navigation/bottom-nav.tsx"
+  ],
+  "props": {
+    "BottomNav": [
+      {
+        "name": "items",
+        "type": "readonly BottomNavItem[]",
+        "required": true,
+        "origin": "own",
+        "description": "Four or five top destinations.",
+        "schema": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "key": {
+                "type": "string"
+              },
+              "label": {
+                "type": "string"
+              },
+              "icon": {
+                "type": "string",
+                "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+              },
+              "href": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "key",
+              "label",
+              "icon",
+              "href"
+            ]
+          }
+        }
+      },
+      {
+        "name": "currentKey",
+        "type": "string",
+        "required": false,
+        "origin": "own",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "aria-label",
+        "type": "string",
+        "required": false,
+        "origin": "own",
+        "description": "Names the navigation landmark; \"Main menu\" by default.",
+        "schema": {
+          "type": "string"
+        }
+      }
+    ]
+  },
+  "tokens": [
+    "ds-background-neutral-pressed",
+    "ds-border",
+    "ds-border-focused",
+    "ds-icon-brand",
+    "ds-radius-medium",
+    "ds-shadow-overflow",
+    "ds-space-025",
+    "ds-space-050",
+    "ds-space-075",
+    "ds-space-100",
+    "ds-space-150",
+    "ds-surface-overlay",
+    "ds-text",
+    "ds-text-subtle"
+  ],
+  "strings": [
+    "mainNavigation"
+  ],
+  "quality": {
+    "tests": true,
+    "a11y": false,
+    "docs": false,
+    "visual": false,
+    "dark": false,
+    "rtl": false,
+    "mcp": true,
+    "generic": true
+  }
+}

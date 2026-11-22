@@ -23,13 +23,13 @@ Pass a `nonce` if your Content Security Policy needs one: `themeScript(nonce)`.
 
 ## Let people choose
 
-`ThemeToggle` offers System, Light and Dark, stores the choice and applies it:
+`ThemeSwitcher` offers System, Light and Dark, stores the choice and applies it:
 
 ```tsx
-import { ThemeToggle } from "@senvenli/react/action";
+import { ThemeSwitcher } from "@senvenli/react/action";
 
 export function Header() {
-  return <ThemeToggle />;
+  return <ThemeSwitcher />;
 }
 ```
 
@@ -37,4 +37,4 @@ To read the current mode in your own code, use `useThemePreference()`. It return
 
 ## Storage
 
-The choice is kept in `localStorage` under `ds-theme`. Both `themeScript` and `ThemeToggle` take a different key if you need one.
+The choice is kept in `localStorage` under `ds-theme`. Both `themeScript` and `ThemeSwitcher` take a different key if you need one.

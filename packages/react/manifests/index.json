@@ -88,7 +88,7 @@
     "exports": [
       "FileTrigger",
       "DropZone",
-      "FileList",
+      "FileUploadList",
       "FileRow"
     ],
     "genui": false
@@ -131,8 +131,8 @@
     "genui": true
   },
   {
-    "name": "theme-toggle",
-    "title": "Theme toggle",
+    "name": "theme-switcher",
+    "title": "Theme switcher",
     "family": "action",
     "status": "alpha",
     "description": "Lets people choose system, light or dark theme, stored per device and applied before first paint.",
@@ -144,7 +144,7 @@
     ],
     "import": "@senvenli/react/action",
     "exports": [
-      "ThemeToggle"
+      "ThemeSwitcher"
     ],
     "genui": false
   },
@@ -299,37 +299,37 @@
     "genui": true
   },
   {
-    "name": "funnel",
-    "title": "Funnel",
+    "name": "funnel-chart",
+    "title": "Funnel chart",
     "family": "charts",
     "status": "alpha",
     "description": "Steps of a process with how many reach each one and the conversion between them.",
     "keywords": [
-      "funnel",
+      "funnel-chart",
       "conversion",
       "steps"
     ],
     "import": "@senvenli/react/charts",
     "exports": [
-      "Funnel"
+      "FunnelChart"
     ],
     "genui": false
   },
   {
-    "name": "gauge",
-    "title": "Gauge",
+    "name": "gauge-chart",
+    "title": "Gauge chart",
     "family": "charts",
     "status": "alpha",
     "description": "One value against its range and an optional target, as a half ring.",
     "keywords": [
       "chart",
-      "gauge",
+      "gauge-chart",
       "progress",
       "target"
     ],
     "import": "@senvenli/react/charts",
     "exports": [
-      "Gauge"
+      "GaugeChart"
     ],
     "genui": true
   },
@@ -685,8 +685,8 @@
     "genui": true
   },
   {
-    "name": "date-range-field",
-    "title": "Date range field",
+    "name": "date-range-picker",
+    "title": "Date range picker",
     "family": "date",
     "status": "alpha",
     "description": "A start and an end in one control over one calendar (two months on wide screens), with optional times.",
@@ -699,7 +699,7 @@
     ],
     "import": "@senvenli/react/date",
     "exports": [
-      "DateRangeField"
+      "DateRangePicker"
     ],
     "genui": true
   },
@@ -1095,7 +1095,7 @@
     "description": "A segmented gauge for a quantity within a known range, with warning and danger thresholds.",
     "keywords": [
       "meter",
-      "gauge",
+      "gauge-chart",
       "quota",
       "usage",
       "capacity"
@@ -1232,25 +1232,6 @@
     "genui": false
   },
   {
-    "name": "input-otp",
-    "title": "One-time code",
-    "family": "form",
-    "status": "alpha",
-    "description": "Boxes for a one-time verification code, with paste, autofill and a resend cooldown.",
-    "keywords": [
-      "otp",
-      "code",
-      "verification",
-      "2fa",
-      "pin"
-    ],
-    "import": "@senvenli/react/form",
-    "exports": [
-      "InputOTP"
-    ],
-    "genui": false
-  },
-  {
     "name": "number-field",
     "title": "Number field",
     "family": "form",
@@ -1268,6 +1249,25 @@
       "NumberField"
     ],
     "genui": true
+  },
+  {
+    "name": "otp-field",
+    "title": "One-time code",
+    "family": "form",
+    "status": "alpha",
+    "description": "Boxes for a one-time verification code, with paste, autofill and a resend cooldown.",
+    "keywords": [
+      "otp",
+      "code",
+      "verification",
+      "2fa",
+      "pin"
+    ],
+    "import": "@senvenli/react/form",
+    "exports": [
+      "OtpField"
+    ],
+    "genui": false
   },
   {
     "name": "password-field",
@@ -1522,6 +1522,24 @@
     "genui": true
   },
   {
+    "name": "bottom-nav",
+    "title": "Bottom navigation",
+    "family": "navigation",
+    "status": "alpha",
+    "description": "A bottom tab bar for phones with four or five top destinations and badges.",
+    "keywords": [
+      "bottom navigation",
+      "tab bar",
+      "mobile",
+      "bottom-nav"
+    ],
+    "import": "@senvenli/react/navigation",
+    "exports": [
+      "BottomNav"
+    ],
+    "genui": false
+  },
+  {
     "name": "breadcrumbs",
     "title": "Breadcrumbs",
     "family": "navigation",
@@ -1538,24 +1556,6 @@
       "Breadcrumbs"
     ],
     "genui": true
-  },
-  {
-    "name": "dock",
-    "title": "Dock",
-    "family": "navigation",
-    "status": "alpha",
-    "description": "A bottom tab bar for phones with four or five top destinations and badges.",
-    "keywords": [
-      "bottom navigation",
-      "tab bar",
-      "mobile",
-      "dock"
-    ],
-    "import": "@senvenli/react/navigation",
-    "exports": [
-      "Dock"
-    ],
-    "genui": false
   },
   {
     "name": "language-switcher",
@@ -1596,6 +1596,26 @@
     "genui": false
   },
   {
+    "name": "page-header",
+    "title": "Page header",
+    "family": "navigation",
+    "status": "alpha",
+    "description": "An app page's header bar: menu button on small screens, the page title and its actions.",
+    "keywords": [
+      "page header",
+      "title bar",
+      "app shell",
+      "header"
+    ],
+    "import": "@senvenli/react/navigation",
+    "exports": [
+      "PageHeader",
+      "PageHeaderBar",
+      "PageHeaderProvider"
+    ],
+    "genui": false
+  },
+  {
     "name": "pagination",
     "title": "Pagination",
     "family": "navigation",
@@ -1612,26 +1632,6 @@
       "Pagination"
     ],
     "genui": true
-  },
-  {
-    "name": "panel-header",
-    "title": "Panel header",
-    "family": "navigation",
-    "status": "alpha",
-    "description": "An app page's header bar: menu button on small screens, the page title and its actions.",
-    "keywords": [
-      "page header",
-      "title bar",
-      "app shell",
-      "header"
-    ],
-    "import": "@senvenli/react/navigation",
-    "exports": [
-      "PanelHeader",
-      "PanelHeaderBar",
-      "PanelHeaderProvider"
-    ],
-    "genui": false
   },
   {
     "name": "sidebar",

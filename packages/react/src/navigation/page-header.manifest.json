@@ -1,0 +1,40 @@
+{
+  "$schema": "../../manifest/component.schema.json",
+  "kind": "component",
+  "family": "navigation",
+  "status": "alpha",
+  "import": "@senvenli/react/navigation",
+  "name": "page-header",
+  "title": "Page header",
+  "exports": [
+    "PageHeader",
+    "PageHeaderBar",
+    "PageHeaderProvider"
+  ],
+  "description": "An app page's header bar: menu button on small screens, the page title and its actions.",
+  "keywords": [
+    "page header",
+    "title bar",
+    "app shell",
+    "header"
+  ],
+  "usage": {
+    "when": [
+      "Titling a page inside an app shell with a sidebar."
+    ]
+  },
+  "a11y": {
+    "builtIn": [
+      "The menu button is named \"Open menu\" and opens the sidebar panel."
+    ],
+    "youProvide": [
+      "A page title."
+    ]
+  },
+  "related": [
+    "sidebar"
+  ],
+  "genui": {
+    "expose": false
+  }
+}

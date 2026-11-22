@@ -266,7 +266,7 @@ describe("Sidebar sections", () => {
     inLocale(<Panel />, "he", "rtl");
     const nav = screen.getByRole("navigation", { name: "Main menu" });
     for (const label of LABELS) expect(within(nav).getByRole("group", { name: label })).toBeTruthy();
-    expect(classesOf(within(nav).getByRole("link", { name: "Products" }))).toContain("rtl:aria-[current=page]:shadow-[inset_-2px_0_0_var(--ds-border-selected)]");
+    expect(classesOf(within(nav).getByRole("link", { name: "Products" }))).toContain("aria-[current=page]:bg-ds-background-neutral-hovered");
     for (const slot of ["sidebar-sections", "sidebar-nav-section", "sidebar-nav-section-label", "sidebar-nav-section-separator"]) {
       for (const element of document.querySelectorAll(`[data-slot='${slot}']`)) expect(classesOf(element)).not.toMatch(PHYSICAL);
     }

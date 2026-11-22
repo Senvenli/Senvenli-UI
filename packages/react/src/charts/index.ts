@@ -32,24 +32,24 @@ export type {
   ComposedSeries,
   LineChartProps,
 } from "./core-charts";
-export { DonutChart, Gauge, RadarChart, RadialChart, ScatterChart, Sparkline } from "./more-charts";
+export { DonutChart, GaugeChart, RadarChart, RadialChart, ScatterChart, Sparkline } from "./more-charts";
 export type {
   DonutChartProps,
   DonutDatum,
-  GaugeProps,
+  GaugeChartProps,
   RadarChartProps,
   RadialChartProps,
   ScatterChartProps,
   SparklineProps,
 } from "./more-charts";
-export { BarList, CalendarHeatmap, Funnel, Tracker } from "./list-charts";
+export { BarList, CalendarHeatmap, FunnelChart, Tracker } from "./list-charts";
 export type {
   BarListDatum,
   BarListProps,
   CalendarHeatmapDatum,
   CalendarHeatmapProps,
   ChartDay,
-  FunnelProps,
+  FunnelChartProps,
   FunnelStep,
   TrackerDatum,
   TrackerProps,

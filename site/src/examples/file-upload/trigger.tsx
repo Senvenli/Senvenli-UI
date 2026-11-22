@@ -1,4 +1,4 @@
-import { Button, FileList, FileRow, FileTrigger } from "@senvenli/react/action";
+import { Button, FileUploadList, FileRow, FileTrigger } from "@senvenli/react/action";
 import { Stack } from "@senvenli/react/layout";
 import { useState } from "react";
 
@@ -10,9 +10,9 @@ export default function Example() {
         <Button iconBefore="upload">Upload a logo</Button>
       </FileTrigger>
       {file && (
-        <FileList aria-label="Logo">
+        <FileUploadList aria-label="Logo">
           <FileRow file={file} onRemove={() => setFile(undefined)} />
-        </FileList>
+        </FileUploadList>
       )}
     </Stack>
   );

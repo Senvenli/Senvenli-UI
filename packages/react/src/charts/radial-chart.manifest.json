@@ -22,7 +22,7 @@
     ],
     "instead": [
       {
-        "use": "gauge",
+        "use": "gauge-chart",
         "when": "There is only one figure."
       }
     ]
@@ -36,7 +36,7 @@
     ]
   },
   "related": [
-    "gauge"
+    "gauge-chart"
   ],
   "genui": {
     "expose": false

@@ -3,7 +3,7 @@ import { act, cleanup, fireEvent, render, screen, within } from "@testing-librar
 import { afterEach, beforeAll, describe, expect, it, vi } from "vitest";
 
 import { DesignSystemProvider } from "../provider";
-import { ChartAnimation, DonutChart, Gauge, RadarChart, RadialChart, ScatterChart, Sparkline } from "./index";
+import { ChartAnimation, DonutChart, GaugeChart, RadarChart, RadialChart, ScatterChart, Sparkline } from "./index";
 import { sharesOf } from "./more-charts";
 
 beforeAll(() => {
@@ -72,7 +72,7 @@ describe("DonutChart", () => {
 
 describe("Gauge", () => {
   it("is a meter with the value and target in words, and draws the value and target tick", () => {
-    inLocale(<Gauge title="Utilization" value={72} target={80} valueFormatter={(value) => `${value}%`} />);
+    inLocale(<GaugeChart title="Utilization" value={72} target={80} valueFormatter={(value) => `${value}%`} />);
     const meter = screen.getByRole("meter", { name: "Utilization" });
     expect(meter.getAttribute("aria-valuenow")).toBe("72");
     expect(meter.getAttribute("aria-valuemin")).toBe("0");
@@ -84,15 +84,15 @@ describe("Gauge", () => {
   });
 
   it("clamps a value outside the range", () => {
-    inLocale(<Gauge title="Quota" value={130} />);
+    inLocale(<GaugeChart title="Quota" value={130} />);
     expect(screen.getByRole("meter").getAttribute("aria-valuenow")).toBe("100");
   });
 
   it("fills from the inline start: mirrored in RTL, not in LTR", () => {
-    const { unmount } = inLocale(<Gauge title="Utilization" value={40} />);
+    const { unmount } = inLocale(<GaugeChart title="Utilization" value={40} />);
     expect(document.querySelector("[data-slot='gauge'] svg")!.getAttribute("class")).not.toContain("-scale-x-100");
     unmount();
-    inLocale(<Gauge title="Utilization" value={40} />, "ar-AE");
+    inLocale(<GaugeChart title="Utilization" value={40} />, "ar-AE");
     expect(document.querySelector("[data-slot='gauge'] svg")!.getAttribute("class")).toContain("-scale-x-100");
   });
 });
@@ -283,7 +283,7 @@ describe("edges and tab stops", () => {
   });
 
   it("Gauge: an empty range or a missing value draws no NaN", () => {
-    inLocale(<Gauge title="Quota" value={Number.NaN} min={5} max={5} target={5} />);
+    inLocale(<GaugeChart title="Quota" value={Number.NaN} min={5} max={5} target={5} />);
     expect(screen.getByRole("meter").getAttribute("aria-valuenow")).toBe("5");
     expect(document.querySelector("[data-slot='gauge-target']")).toBeNull();
     expect(document.querySelector("[data-slot='gauge'] svg")!.innerHTML).not.toContain("NaN");
@@ -298,7 +298,7 @@ describe("edges and tab stops", () => {
 
 describe("missing values, warnings and the trend key", () => {
   it("Gauge: a missing value is said as missing, not as NaN", () => {
-    inLocale(<Gauge title="Utilization" value={Number.NaN} />);
+    inLocale(<GaugeChart title="Utilization" value={Number.NaN} />);
     expect(document.querySelector("[data-slot='gauge-text']")!.textContent).toBe("—");
     expect(screen.getByRole("meter").getAttribute("aria-valuetext")).toBe("No data for this period");
   });

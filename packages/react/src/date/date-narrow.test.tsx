@@ -4,7 +4,7 @@ import { CalendarDate, CalendarDateTime, Time } from "@internationalized/date";
 import { afterEach, describe, expect, it, vi } from "vitest";
 
 import { DesignSystemProvider } from "../provider";
-import { DateField, DatePicker, DateRangeField, TimeField } from "./index";
+import { DateField, DatePicker, DateRangePicker, TimeField } from "./index";
 import { isDateTimeBreak } from "./segments";
 
 /**
@@ -74,8 +74,8 @@ describe("isDateTimeBreak", () => {
 // Real locales whose order the synthetic cases above stand in for: vi puts the time first, ko puts the AM/PM before
 // the hour after the date. The break stays the one literal at the seam, whichever side the date is on.
 describe.each(["vi", "ko"] as const)("%s, a locale with another date-time order", (locale) => {
-  it.each(DIRS)("DateRangeField with hours breaks each half once, at the date-time seam (%s)", (dir) => {
-    const { container } = inLocale(<DateRangeField label="Trip dates" granularity="hour" defaultValue={RANGE_HOURS} />, locale, dir);
+  it.each(DIRS)("DateRangePicker with hours breaks each half once, at the date-time seam (%s)", (dir) => {
+    const { container } = inLocale(<DateRangePicker label="Trip dates" granularity="hour" defaultValue={RANGE_HOURS} />, locale, dir);
     for (const half of ["start", "end"]) {
       const input = container.querySelector(`[data-slot='date-range-${half}'] [data-slot='date-input']`)!;
       const breaks = breaksOf(input);
@@ -90,7 +90,7 @@ describe.each(["vi", "ko"] as const)("%s, a locale with another date-time order"
   });
 
   it("vi puts the time first and ko the AM/PM before the hour, as the synthetic cases assume", () => {
-    const { container } = inLocale(<DateRangeField label="Trip dates" granularity="hour" defaultValue={RANGE_HOURS} />, locale, "ltr");
+    const { container } = inLocale(<DateRangePicker label="Trip dates" granularity="hour" defaultValue={RANGE_HOURS} />, locale, "ltr");
     const types = segmentsOf(container.querySelector("[data-slot='date-range-start']")!)
       .map((segment) => segment.getAttribute("data-type"))
       .filter((type) => type !== "literal");
@@ -101,8 +101,8 @@ describe.each(["vi", "ko"] as const)("%s, a locale with another date-time order"
 
 describe.each(LOCALES)("%s", (locale) => {
   describe.each(DIRS)("%s", (dir) => {
-    it("DateRangeField with hours: each half may break once, between its date and its time", () => {
-      const { container } = inLocale(<DateRangeField label="Trip dates" granularity="hour" defaultValue={RANGE_HOURS} />, locale, dir);
+    it("DateRangePicker with hours: each half may break once, between its date and its time", () => {
+      const { container } = inLocale(<DateRangePicker label="Trip dates" granularity="hour" defaultValue={RANGE_HOURS} />, locale, dir);
       for (const half of ["start", "end"]) {
         const input = container.querySelector(`[data-slot='date-range-${half}'] [data-slot='date-input']`)!;
         // The segments themselves still never wrap: only the one separator's space does.
@@ -120,10 +120,10 @@ describe.each(LOCALES)("%s", (locale) => {
     });
 
     it("the segment order is the locale's, whatever the page direction", () => {
-      const ltr = inLocale(<DateRangeField label="Trip dates" granularity="hour" defaultValue={RANGE_HOURS} />, locale, "ltr");
+      const ltr = inLocale(<DateRangePicker label="Trip dates" granularity="hour" defaultValue={RANGE_HOURS} />, locale, "ltr");
       const order = segmentsOf(ltr.container).map((segment) => segment.getAttribute("data-type"));
       cleanup();
-      const other = inLocale(<DateRangeField label="Trip dates" granularity="hour" defaultValue={RANGE_HOURS} />, locale, dir);
+      const other = inLocale(<DateRangePicker label="Trip dates" granularity="hour" defaultValue={RANGE_HOURS} />, locale, dir);
       expect(segmentsOf(other.container).map((segment) => segment.getAttribute("data-type"))).toEqual(order);
     });
 
@@ -135,7 +135,7 @@ describe.each(LOCALES)("%s", (locale) => {
           <DateField label="Season start" hideYear defaultValue={new CalendarDate(2000, 6, 1)} />
           <DatePicker label="Due date" defaultValue={new CalendarDate(2026, 10, 14)} />
           <DatePicker label="Month" granularity="month" defaultValue={new CalendarDate(2026, 10, 1)} />
-          <DateRangeField label="Trip dates" defaultValue={{ start: new CalendarDate(2026, 10, 14), end: new CalendarDate(2026, 10, 18) }} />
+          <DateRangePicker label="Trip dates" defaultValue={{ start: new CalendarDate(2026, 10, 14), end: new CalendarDate(2026, 10, 18) }} />
           <TimeField label="Time" defaultValue={new Time(10, 30)} />
           <TimeField label="Time (12-hour)" hourCycle={12} defaultValue={new Time(10, 30)} />
           <TimeField label="Time (empty)" />
@@ -151,7 +151,7 @@ describe.each(LOCALES)("%s", (locale) => {
     });
 
     it("an empty range with hours breaks at the same place (placeholders)", () => {
-      const { container } = inLocale(<DateRangeField label="Trip dates" granularity="hour" />, locale, dir);
+      const { container } = inLocale(<DateRangePicker label="Trip dates" granularity="hour" />, locale, dir);
       const breaks = breaksOf(container);
       expect(breaks).toHaveLength(2);
       for (const mark of breaks) {
