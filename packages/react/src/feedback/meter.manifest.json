@@ -25,6 +25,10 @@
       {
         "use": "progress",
         "when": "The value is a task's progress."
+      },
+      {
+        "use": "gauge-chart",
+        "when": "One headline value on a dashboard reads better as a half ring with a target."
       }
     ]
   },

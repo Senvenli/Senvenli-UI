@@ -18,6 +18,12 @@
   "usage": {
     "when": [
       "Closing a surface that can be dismissed."
+    ],
+    "instead": [
+      {
+        "use": "button",
+        "when": "The action does more than dismiss, or needs a visible label."
+      }
     ]
   },
   "a11y": {

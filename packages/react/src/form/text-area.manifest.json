@@ -20,6 +20,12 @@
   "usage": {
     "when": [
       "Longer free text: a message, notes, a description."
+    ],
+    "instead": [
+      {
+        "use": "input",
+        "when": "The answer fits on one line."
+      }
     ]
   },
   "a11y": {

@@ -19,6 +19,20 @@
   "usage": {
     "when": [
       "Daily activity over months."
+    ],
+    "instead": [
+      {
+        "use": "seasonality-heatmap",
+        "when": "The pattern is by weekday and hour, not by date."
+      },
+      {
+        "use": "tracker",
+        "when": "One status per day matters, not an amount."
+      },
+      {
+        "use": "line-chart",
+        "when": "The trend over time matters more than single days."
+      }
     ]
   },
   "a11y": {

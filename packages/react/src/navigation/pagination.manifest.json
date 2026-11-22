@@ -19,6 +19,16 @@
   "usage": {
     "when": [
       "A list or table with more results than fit one page."
+    ],
+    "instead": [
+      {
+        "use": "data-table",
+        "when": "The rows already live in a table with paging built in."
+      },
+      {
+        "use": "button",
+        "when": "A single Load more continues a feed."
+      }
     ]
   },
   "a11y": {

@@ -23,6 +23,16 @@
   "usage": {
     "when": [
       "Before a destructive or risky action: delete, revoke, discard."
+    ],
+    "instead": [
+      {
+        "use": "dialog",
+        "when": "The task needs a form or more than a confirm."
+      },
+      {
+        "use": "toast",
+        "when": "The action can be undone, so offer Undo instead of asking first."
+      }
     ]
   },
   "guidance": [

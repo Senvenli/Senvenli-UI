@@ -25,6 +25,10 @@
       {
         "use": "select",
         "when": "The list is short."
+      },
+      {
+        "use": "command",
+        "when": "People search across actions and records with ⌘K, not fill a field."
       }
     ]
   },

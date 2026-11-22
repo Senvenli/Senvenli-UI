@@ -20,6 +20,16 @@
   "usage": {
     "when": [
       "Telling people which key or shortcut does something."
+    ],
+    "instead": [
+      {
+        "use": "badge",
+        "when": "The label is a status, not a key."
+      },
+      {
+        "use": "text",
+        "when": "Code or a value is shown, not a key to press."
+      }
     ]
   },
   "a11y": {

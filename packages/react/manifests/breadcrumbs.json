@@ -19,6 +19,16 @@
   "usage": {
     "when": [
       "Pages nested two or more levels deep."
+    ],
+    "instead": [
+      {
+        "use": "link",
+        "when": "One way back to the parent page is enough."
+      },
+      {
+        "use": "stepper",
+        "when": "The levels are steps of a flow."
+      }
     ]
   },
   "a11y": {

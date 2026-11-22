@@ -27,6 +27,10 @@
       {
         "use": "tooltip",
         "when": "It is only a short hint."
+      },
+      {
+        "use": "hover-card",
+        "when": "A preview of a link or person that opens on hover, with no click."
       }
     ]
   },

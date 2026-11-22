@@ -26,7 +26,16 @@
       "Picking a date where seeing the month helps.",
       "Picking a period: a stay, a trip, a report range."
     ],
-    "instead": []
+    "instead": [
+      {
+        "use": "date-field",
+        "when": "People type a known date, such as a birth date, and a calendar adds nothing."
+      },
+      {
+        "use": "calendar",
+        "when": "The month grid stays visible on the page."
+      }
+    ]
   },
   "a11y": {
     "keyboard": [

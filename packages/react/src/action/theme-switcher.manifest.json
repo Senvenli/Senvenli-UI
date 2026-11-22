@@ -19,6 +19,16 @@
   "usage": {
     "when": [
       "An app or site offers light and dark themes."
+    ],
+    "instead": [
+      {
+        "use": "switch",
+        "when": "Only two themes exist and the system option is not offered."
+      },
+      {
+        "use": "menu",
+        "when": "The theme choice sits among other account settings."
+      }
     ]
   },
   "a11y": {

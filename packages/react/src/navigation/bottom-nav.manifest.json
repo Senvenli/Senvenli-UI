@@ -19,6 +19,16 @@
   "usage": {
     "when": [
       "The main navigation of an app on phones."
+    ],
+    "instead": [
+      {
+        "use": "sidebar",
+        "when": "There are more than five destinations or a wide screen."
+      },
+      {
+        "use": "tabs",
+        "when": "The views belong to one page, not the whole app."
+      }
     ]
   },
   "a11y": {

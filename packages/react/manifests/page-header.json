@@ -21,6 +21,16 @@
   "usage": {
     "when": [
       "Titling a page inside an app shell with a sidebar."
+    ],
+    "instead": [
+      {
+        "use": "navbar",
+        "when": "A public site needs brand, links and actions in one top bar."
+      },
+      {
+        "use": "heading",
+        "when": "A title alone, without actions or a menu button."
+      }
     ]
   },
   "a11y": {

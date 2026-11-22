@@ -25,7 +25,16 @@
       "Laying out content top to bottom with even spacing.",
       "Placing buttons, tags or short items in a row."
     ],
-    "instead": []
+    "instead": [
+      {
+        "use": "grid",
+        "when": "Children form equal columns."
+      },
+      {
+        "use": "split",
+        "when": "Panes side by side should stack below a width."
+      }
+    ]
   },
   "guidance": [
     {

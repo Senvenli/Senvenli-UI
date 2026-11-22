@@ -22,6 +22,16 @@
   "usage": {
     "when": [
       "Building marketing or landing pages from stacked bands."
+    ],
+    "instead": [
+      {
+        "use": "box",
+        "when": "A padded surface inside a page, not a full-width band."
+      },
+      {
+        "use": "card",
+        "when": "The group is about one object."
+      }
     ]
   },
   "a11y": {

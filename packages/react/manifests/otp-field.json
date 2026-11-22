@@ -20,6 +20,12 @@
   "usage": {
     "when": [
       "Entering a code sent by text message or email."
+    ],
+    "instead": [
+      {
+        "use": "input",
+        "when": "The code is long, mixed or pasted from elsewhere, with `type=\"number\"` or text."
+      }
     ]
   },
   "a11y": {

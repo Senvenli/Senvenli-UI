@@ -22,6 +22,16 @@
   "usage": {
     "when": [
       "A layout is loading and its shape is known."
+    ],
+    "instead": [
+      {
+        "use": "spinner",
+        "when": "The layout of what loads is unknown or very small."
+      },
+      {
+        "use": "progress",
+        "when": "The task's progress can be measured."
+      }
     ]
   },
   "a11y": {

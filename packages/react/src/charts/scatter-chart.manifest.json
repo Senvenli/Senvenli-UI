@@ -18,6 +18,16 @@
   "usage": {
     "when": [
       "How two measures of the same items relate."
+    ],
+    "instead": [
+      {
+        "use": "line-chart",
+        "when": "One axis is time."
+      },
+      {
+        "use": "bar-chart",
+        "when": "One axis is a category."
+      }
     ]
   },
   "a11y": {

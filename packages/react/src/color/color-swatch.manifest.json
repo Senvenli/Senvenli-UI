@@ -18,6 +18,16 @@
   "usage": {
     "when": [
       "Showing a color next to its name or value."
+    ],
+    "instead": [
+      {
+        "use": "color-swatch-picker",
+        "when": "People pick one of the colors."
+      },
+      {
+        "use": "badge",
+        "when": "The color marks a status that also needs words."
+      }
     ]
   },
   "a11y": {

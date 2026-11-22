@@ -19,6 +19,12 @@
   "usage": {
     "when": [
       "Every page with navigation before the main content."
+    ],
+    "instead": [
+      {
+        "use": "link",
+        "when": "The link is part of the visible navigation."
+      }
     ]
   },
   "a11y": {

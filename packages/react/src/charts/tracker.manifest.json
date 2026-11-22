@@ -19,6 +19,16 @@
   "usage": {
     "when": [
       "Status over a run of days or checks."
+    ],
+    "instead": [
+      {
+        "use": "calendar-heatmap",
+        "when": "Each day has an amount, not a status."
+      },
+      {
+        "use": "progress",
+        "when": "Only the overall share done matters."
+      }
     ]
   },
   "a11y": {

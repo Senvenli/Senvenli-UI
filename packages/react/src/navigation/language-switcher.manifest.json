@@ -20,6 +20,16 @@
   "usage": {
     "when": [
       "The header or sidebar of a product offered in several languages."
+    ],
+    "instead": [
+      {
+        "use": "select",
+        "when": "The language is one form field among others."
+      },
+      {
+        "use": "menu",
+        "when": "The language sits among other account actions."
+      }
     ]
   },
   "a11y": {

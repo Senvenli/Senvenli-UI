@@ -22,6 +22,16 @@
   "usage": {
     "when": [
       "Collecting input that is submitted together."
+    ],
+    "instead": [
+      {
+        "use": "field",
+        "when": "One control needs a label, hint and error row outside a form."
+      },
+      {
+        "use": "dialog",
+        "when": "The form is a short focused task over the page."
+      }
     ]
   },
   "guidance": [

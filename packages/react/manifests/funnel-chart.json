@@ -18,6 +18,16 @@
   "usage": {
     "when": [
       "Where people drop out of a flow."
+    ],
+    "instead": [
+      {
+        "use": "bar-list",
+        "when": "The steps are independent categories, not a sequence people drop out of."
+      },
+      {
+        "use": "stepper",
+        "when": "The steps are a flow to complete, not counts to compare."
+      }
     ]
   },
   "a11y": {

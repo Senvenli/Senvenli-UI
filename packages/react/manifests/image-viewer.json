@@ -19,6 +19,16 @@
   "usage": {
     "when": [
       "Looking at photos full size."
+    ],
+    "instead": [
+      {
+        "use": "carousel",
+        "when": "Pictures page in place, inside the layout."
+      },
+      {
+        "use": "image",
+        "when": "One picture is shown at its place in the page."
+      }
     ]
   },
   "a11y": {

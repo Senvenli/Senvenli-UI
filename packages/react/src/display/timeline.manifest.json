@@ -19,6 +19,16 @@
   "usage": {
     "when": [
       "What happened to one record, and when."
+    ],
+    "instead": [
+      {
+        "use": "stepper",
+        "when": "The steps lie ahead and are a flow to complete."
+      },
+      {
+        "use": "list",
+        "when": "Events have no time order that matters."
+      }
     ]
   },
   "a11y": {

@@ -20,6 +20,16 @@
   "usage": {
     "when": [
       "Before an uploaded image is saved: a cover photo, an avatar, a logo."
+    ],
+    "instead": [
+      {
+        "use": "file-upload",
+        "when": "Files are kept as picked, without framing."
+      },
+      {
+        "use": "image",
+        "when": "The picture is only shown."
+      }
     ]
   },
   "a11y": {

@@ -18,6 +18,16 @@
   "usage": {
     "when": [
       "A count and a rate over the same periods, e.g. orders and conversion."
+    ],
+    "instead": [
+      {
+        "use": "bar-chart",
+        "when": "Only one kind of mark is needed."
+      },
+      {
+        "use": "line-chart",
+        "when": "All series are trends over time."
+      }
     ]
   },
   "a11y": {
