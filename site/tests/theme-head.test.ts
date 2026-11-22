@@ -20,11 +20,11 @@ describe("preset head script", () => {
   const stored = { v: PRESET_FORMAT, code: "abc", css: ":root{--ds-surface:red}" };
 
   it("does nothing for a first visit", () => {
-    expect(run({ pathname: "/components/button" })).toEqual({ attributes: {}, head: [] });
+    expect(run({ pathname: "/docs/components/button" })).toEqual({ attributes: {}, head: [] });
   });
 
   it("replays the stored preset on any page", () => {
-    expect(run({ pathname: "/components/button", stored }).head).toEqual([{ id: "theme-vars", textContent: stored.css }]);
+    expect(run({ pathname: "/docs/components/button", stored }).head).toEqual([{ id: "theme-vars", textContent: stored.css }]);
   });
 
   it("replays it on /create when ?p= is the stored code", () => {
@@ -39,11 +39,11 @@ describe("preset head script", () => {
   });
 
   it("ignores a preset stored in another format (token names changed since)", () => {
-    expect(run({ pathname: "/components/button", stored: { ...stored, v: PRESET_FORMAT + 1 } }).head).toEqual([]);
-    expect(run({ pathname: "/components/button", stored: { code: "abc", css: stored.css } }).head).toEqual([]);
+    expect(run({ pathname: "/docs/components/button", stored: { ...stored, v: PRESET_FORMAT + 1 } }).head).toEqual([]);
+    expect(run({ pathname: "/docs/components/button", stored: { code: "abc", css: stored.css } }).head).toEqual([]);
   });
 
   it("ignores ?p= outside /create", () => {
-    expect(run({ pathname: "/components", search: "?p=other", stored }).head).toHaveLength(1);
+    expect(run({ pathname: "/docs/components", search: "?p=other", stored }).head).toHaveLength(1);
   });
 });

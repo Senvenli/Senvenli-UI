@@ -51,7 +51,7 @@ function Block({ code, html, label, copyLabel = "Copy code", bare = false, heade
     </pre>
   );
   return (
-    <div data-slot="code-block" className={cn("overflow-hidden", !bare && "rounded-ds-large bg-ds-surface-sunken")}>
+    <div data-slot="code-block" className={cn("overflow-hidden", !bare && "rounded-ds-xlarge bg-ds-surface-sunken")}>
       {label || header ? (
         <div className={cn("flex items-center justify-between pe-ds-075", header ? "min-h-10 ps-ds-075 pt-ds-075" : "h-9 ps-ds-200")}>
           {header ?? <span className="text-body-small text-ds-text-subtle">{label}</span>}

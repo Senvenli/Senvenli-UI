@@ -23,8 +23,8 @@ export function manifestToMarkdown(manifest: Manifest, examples: ExampleData[] =
     "",
     `- Family: ${manifest.family}`,
     `- Import: \`import { ${manifest.exports.join(", ")} } from "${manifest.import}";\``,
-    `- Page: ${origin}/components/${manifest.name}`,
-    `- JSON: ${origin}/components/${manifest.name}.json`,
+    `- Page: ${origin}/docs/components/${manifest.name}`,
+    `- JSON: ${origin}/docs/components/${manifest.name}.json`,
   ];
   examples.forEach((example, index) => {
     lines.push("", index === 0 ? `## Example: ${example.title}` : `### ${example.title}`, "");
@@ -34,7 +34,7 @@ export function manifestToMarkdown(manifest: Manifest, examples: ExampleData[] =
   });
   lines.push("", "## Guidelines", "", "### When to use it", "", ...manifest.usage.when.map((line) => `- ${line}`));
   if (manifest.usage.instead?.length) {
-    lines.push("", "### Use something else when", "", ...manifest.usage.instead.map((item) => `- [${item.use}](${origin}/components/${item.use}.md): ${item.when}`));
+    lines.push("", "### Use something else when", "", ...manifest.usage.instead.map((item) => `- [${item.use}](${origin}/docs/components/${item.use}.md): ${item.when}`));
   }
   if (manifest.guidance?.length) {
     lines.push("", "### Do and avoid", "");
@@ -64,7 +64,7 @@ export function manifestToMarkdown(manifest: Manifest, examples: ExampleData[] =
   }
   if (manifest.tokens.length) lines.push("", "### Tokens it reads", "", manifest.tokens.map((token) => `\`--${token}\``).join(", "));
   if (manifest.related?.length) {
-    lines.push("", "## Related", "", ...manifest.related.map((slug) => `- [${slug}](${origin}/components/${slug}.md)`));
+    lines.push("", "## Related", "", ...manifest.related.map((slug) => `- [${slug}](${origin}/docs/components/${slug}.md)`));
   }
   return `${lines.join("\n")}\n`;
 }

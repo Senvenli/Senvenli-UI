@@ -10,7 +10,8 @@ export const meta: Route.MetaFunction = ({ loaderData }) => [
 
 /** Build time: the Markdown rendered once; the browser gets HTML and code as loader data. */
 export async function loader({ params }: Route.LoaderArgs) {
-  const doc = await renderDoc(params.slug);
+  // "/docs" has no slug: it is the introduction.
+  const doc = await renderDoc(params.slug ?? "introduction");
   if (!doc) throw data(null, { status: 404 });
   return { ...doc, docs: listDocs() };
 }

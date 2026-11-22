@@ -41,11 +41,11 @@ describe("server render", () => {
     expect(index.map((entry) => entry.name).sort()).toEqual(files.sort());
   });
 
-  it.each(index.map((entry) => entry.name))("/components/%s renders", async (slug) => {
+  it.each(index.map((entry) => entry.name))("/docs/components/%s renders", async (slug) => {
     const manifest = read<Manifest>(`${slug}.json`);
     const html = render(<ComponentPage manifest={manifest} examples={await loadExamples(slug)} components={index} />);
     expect(html).toContain(`<h1`);
-    expect(html).toContain(`/components/${slug}.md`);
+    expect(html).toContain(`/docs/components/${slug}.md`);
   });
 
   it("every example folder belongs to a manifest, and lists exactly the files it has", () => {
@@ -66,7 +66,7 @@ describe("server render", () => {
 
   it("the other pages render", () => {
     expect(render(<HomePage data={{ componentCount: index.length, families: [{ family: "action", count: 9 }], agentCode: "# Button" }} />)).toContain("themes itself");
-    expect(render(<ComponentsIndexPage components={index} />)).toContain("/components/button");
+    expect(render(<ComponentsIndexPage components={index} />)).toContain("/docs/components/button");
     expect(render(<NotFoundPage />)).toContain("Page not found");
   });
 
@@ -96,14 +96,14 @@ describe("server render", () => {
   it("docs link only to pages that exist", async () => {
     const slugs = new Set(index.map((entry) => entry.name));
     const docs = new Set(listDocs().map((doc) => doc.slug));
-    const fixed = new Set(["/create", "/components", "/llms.txt", "/schema/component.full.json"]);
+    const fixed = new Set(["/create", "/docs/components", "/llms.txt", "/schema/component.full.json"]);
     for (const doc of listDocs()) {
       const rendered = (await renderDoc(doc.slug))!;
       const html = rendered.parts.map((part) => (part.kind === "html" ? part.html : "")).join("");
       for (const [, href] of html.matchAll(/href="([^"]+)"/g)) {
         if (/^https?:/.test(href!)) continue;
         const path = href!.split("#")[0]!;
-        const ok = fixed.has(path) || (path.startsWith("/docs/") && docs.has(path.slice(6))) || (path.startsWith("/components/") && slugs.has(path.slice(12)));
+        const ok = fixed.has(path) || (path.startsWith("/docs/") && docs.has(path.slice(6))) || (path.startsWith("/docs/components/") && slugs.has(path.slice(17)));
         expect(ok, `${doc.slug} links to ${href}`).toBe(true);
       }
     }

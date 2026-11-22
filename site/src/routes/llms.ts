@@ -27,7 +27,7 @@ export async function loader() {
   for (const family of families) {
     lines.push(`## ${familyTitle(family)}`, "");
     for (const item of components.filter((entry) => entry.family === family)) {
-      lines.push(`- [${item.title}](${ORIGIN}/components/${item.name}.md): ${item.description}`);
+      lines.push(`- [${item.title}](${ORIGIN}/docs/components/${item.name}.md): ${item.description}`);
     }
     lines.push("");
   }

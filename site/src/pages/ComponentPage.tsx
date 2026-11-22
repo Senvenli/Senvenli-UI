@@ -3,7 +3,7 @@ import { Heading, Kbd, Text } from "@senvenli/react/display";
 import { Breadcrumbs, Disclosure } from "@senvenli/react/navigation";
 import type { ReactNode } from "react";
 import { CodeBlock } from "../components/CodeBlock";
-import { ComponentNav } from "../components/ComponentNav";
+import { DocsLayout } from "../components/DocsLayout";
 import { CopyButton } from "../components/CopyButton";
 import { DocText } from "../components/DocText";
 import { ExampleBlock } from "../components/ExampleBlock";
@@ -92,28 +92,23 @@ export function ComponentPage({ manifest, examples = [], components = [], import
   ];
 
   return (
-    <div className="mx-auto grid w-full max-w-[1360px] gap-ds-600 px-ds-200 sm:px-ds-300 lg:grid-cols-[15rem_minmax(0,1fr)] xl:grid-cols-[15rem_minmax(0,47.5rem)_12.5rem]">
-      <aside className="hidden lg:block">
-        <div className="sticky top-14 h-[calc(100dvh-3.5rem)]">
-          <ComponentNav components={components} current={manifest.name} />
-        </div>
-      </aside>
+    <DocsLayout aside={<OnThisPage sections={sections} />}>
 
       <main id="main" className="flex min-w-0 flex-col py-ds-600">
         <header className="flex flex-col gap-ds-150">
-          {/* The family is a breadcrumb level only: the URL stays /components/<slug>. The title is not repeated. */}
-          <Breadcrumbs items={[{ label: "Components", href: "/components" }, { label: familyTitle(manifest.family) }]} />
+          {/* The family is a breadcrumb level only: the URL stays /docs/components/<slug>. The title is not repeated. */}
+          <Breadcrumbs items={[{ label: "Components", href: "/docs/components" }, { label: familyTitle(manifest.family) }]} />
           <div className="flex flex-wrap items-center justify-between gap-ds-200">
             <Heading level={1} size="heading-xxlarge">
               {manifest.title}
             </Heading>
             <div className="flex items-center gap-ds-050">
-              <CopyButton label="Copy page" getText={() => fetch(`/components/${manifest.name}.md`).then((response) => response.text())} />
+              <CopyButton label="Copy page" getText={() => fetch(`/docs/components/${manifest.name}.md`).then((response) => response.text())} />
               {previous && (
-                  <LinkButton size="compact" variant="subtle" iconOnly iconBefore="arrow-left" aria-label={`Previous: ${previous.title}`} href={`/components/${previous.name}`} />
+                  <LinkButton size="compact" variant="subtle" iconOnly iconBefore="arrow-left" aria-label={`Previous: ${previous.title}`} href={`/docs/components/${previous.name}`} />
               )}
               {next && (
-                  <LinkButton size="compact" variant="subtle" iconOnly iconBefore="arrow-right" aria-label={`Next: ${next.title}`} href={`/components/${next.name}`} />
+                  <LinkButton size="compact" variant="subtle" iconOnly iconBefore="arrow-right" aria-label={`Next: ${next.title}`} href={`/docs/components/${next.name}`} />
               )}
             </div>
           </div>
@@ -122,10 +117,10 @@ export function ComponentPage({ manifest, examples = [], components = [], import
           </Text>
           {/* Real links in the prerendered HTML: this is where agents find the page's Markdown and JSON. */}
           <div className="flex flex-wrap gap-ds-300 text-body-small">
-            <Link variant="subtle" href={`/components/${manifest.name}.md`}>
+            <Link variant="subtle" href={`/docs/components/${manifest.name}.md`}>
               Markdown
             </Link>
-            <Link variant="subtle" href={`/components/${manifest.name}.json`}>
+            <Link variant="subtle" href={`/docs/components/${manifest.name}.json`}>
               JSON
             </Link>
           </div>
@@ -161,7 +156,7 @@ export function ComponentPage({ manifest, examples = [], components = [], import
                 items={manifest.usage.instead.map((item) => (
                   <>
                     <DocText text={item.when} inline />{" "}
-                    <Link variant="inline" href={`/components/${item.use}`}>
+                    <Link variant="inline" href={`/docs/components/${item.use}`}>
                       {titleOf(item.use)}
                     </Link>
                   </>
@@ -272,7 +267,7 @@ export function ComponentPage({ manifest, examples = [], components = [], import
             <ul className="m-0 flex list-none flex-wrap gap-x-ds-400 gap-y-ds-150 p-0 text-body-large">
               {manifest.related.map((slug) => (
                 <li key={slug}>
-                  <Link href={`/components/${slug}`}>{titleOf(slug)}</Link>
+                  <Link href={`/docs/components/${slug}`}>{titleOf(slug)}</Link>
                 </li>
               ))}
             </ul>
@@ -281,18 +276,12 @@ export function ComponentPage({ manifest, examples = [], components = [], import
 
         {(previous || next) && (
           <nav aria-label="Previous and next" className="mt-ds-800 grid grid-cols-2 gap-ds-200">
-            <div>{previous && <PageLink direction="previous" href={`/components/${previous.name}`} title={previous.title} />}</div>
-            <div>{next && <PageLink direction="next" href={`/components/${next.name}`} title={next.title} />}</div>
+            <div>{previous && <PageLink direction="previous" href={`/docs/components/${previous.name}`} title={previous.title} />}</div>
+            <div>{next && <PageLink direction="next" href={`/docs/components/${next.name}`} title={next.title} />}</div>
           </nav>
         )}
       </main>
-
-      <aside className="hidden xl:block">
-        <div className="sticky top-14 pt-ds-600">
-          <OnThisPage sections={sections} />
-        </div>
-      </aside>
-    </div>
+    </DocsLayout>
   );
 }
 

@@ -1,6 +1,7 @@
 import { Link, LinkButton } from "@senvenli/react/action";
 import { ColorSwatch } from "@senvenli/react/color";
-import { Heading, Lozenge, Text } from "@senvenli/react/display";
+import { Heading, Icon, Lozenge, Text } from "@senvenli/react/display";
+import { Pressable } from "@senvenli/react/layout";
 import { SegmentedControl } from "@senvenli/react/navigation";
 import { createTheme, encodePreset, formatHex } from "@senvenli/tokens";
 import { useLayoutEffect, useMemo, useState } from "react";
@@ -67,20 +68,29 @@ export function HomePage({ data }: { data: HomeData }) {
 
   return (
     <main id="main" className="mx-auto flex w-full max-w-[1360px] flex-col px-ds-200 pb-ds-1000 sm:px-ds-300">
-      <section aria-labelledby="home-title" className="flex max-w-3xl flex-col gap-ds-300 pt-ds-1000">
+      {/* Centered, as shadcn's: a quiet "what's new" pill, the claim, one sentence, two ways in, the install line. */}
+      <section aria-labelledby="home-title" className="mx-auto flex max-w-3xl flex-col items-center gap-ds-300 pt-ds-1000 text-center">
+        <div className="w-fit">
+          <Pressable href="/docs/agents" background="neutral" radius="full" paddingInline="space-150" width="content">
+            <span className="flex h-7 items-center gap-ds-075 text-body-small font-medium text-ds-text">
+              An MCP server for coding agents
+              <Icon name="arrow-right" size="small" color="subtle" />
+            </span>
+          </Pressable>
+        </div>
         <Heading id="home-title" level={1} size="display-large">
           A design system that themes itself.
         </Heading>
         <Text size="body-large" tone="subtle">
-          {`Pick up to three colors, or none. Senvenli UI derives the whole theme and checks every color pair against WCAG AA in light and dark. ${data.componentCount} React components, built on React Aria.`}
+          {`Pick up to three colors, or none. Senvenli UI derives the whole theme and checks every color pair against WCAG AA in light and dark. ${data.componentCount} accessible React components, built on React Aria.`}
         </Text>
-        <div className="flex flex-wrap items-center gap-ds-150">
-          <LinkButton variant="primary" href="/create">
-            Create a theme
+        <div className="flex flex-wrap items-center justify-center gap-ds-150">
+          <LinkButton variant="primary" href="/docs">
+            Get started
           </LinkButton>
-          <LinkButton href="/components">Browse components</LinkButton>
+          <LinkButton href="/docs/components">View components</LinkButton>
         </div>
-        <div className="max-w-md">
+        <div className="w-full max-w-sm text-start">
           <CodeBlock code={INSTALL} html={data.installHtml} variants={data.installVariants} copyLabel="Copy install command" />
         </div>
       </section>
@@ -122,7 +132,7 @@ export function HomePage({ data }: { data: HomeData }) {
             Zero to three colors in, a full light and dark theme out, every text and border pair checked for contrast.
           </Feature>
           <Feature title="Built for agents" proof={<CodeBlock code={data.agentCode} html={data.agentHtml} label="button.md" copyLabel="Copy excerpt" />} link={<Link href="/llms.txt">Read llms.txt</Link>}>
-            Every page is also Markdown and JSON, with examples and the full API. An MCP server is planned.
+            Every page is also Markdown and JSON, with examples and the full API, and an MCP server answers your agent.
           </Feature>
           <Feature title="Generative UI" planned proof={<Text size="body-small" tone="subtlest">A curated catalog of these components, rendered from a JSON spec a model writes.</Text>}>
             Models describe an interface; the same components render it, themed and accessible.
@@ -135,12 +145,12 @@ export function HomePage({ data }: { data: HomeData }) {
           <Heading id="families-title" level={2} size="heading-large">
             {`${data.componentCount} components in ${data.families.length} families`}
           </Heading>
-          <Link href="/components">See all components</Link>
+          <Link href="/docs/components">See all components</Link>
         </div>
         <ul className="m-0 grid list-none gap-x-ds-400 gap-y-ds-150 p-0 text-body-large sm:grid-cols-2 lg:grid-cols-4">
           {data.families.map((item) => (
             <li key={item.family} className="flex items-baseline justify-between gap-ds-200">
-              <Link href={`/components#family-${item.family}`}>{familyTitle(item.family)}</Link>
+              <Link href={`/docs/components#family-${item.family}`}>{familyTitle(item.family)}</Link>
               <span className="text-body text-ds-text-subtlest">{item.count}</span>
             </li>
           ))}
