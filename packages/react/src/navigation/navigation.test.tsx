@@ -288,7 +288,7 @@ describe("Sidebar", () => {
     const nav = screen.getByRole("navigation", { name: "Main menu" });
     const current = within(nav).getByRole("link", { name: /Orders/ });
     expect(current.getAttribute("aria-current")).toBe("page");
-    expect(classesOf(current)).toContain("aria-[current=page]:bg-ds-background-selected");
+    expect(classesOf(current)).toContain("aria-[current=page]:bg-ds-background-neutral-hovered");
     expect(within(current).getByText("4")).toBeTruthy();
     expect(within(nav).getByRole("group", { name: "Settings" })).toBeTruthy();
   });
@@ -430,7 +430,7 @@ describe("Sidebar", () => {
     inLocale(<Panel />, "he", "rtl");
     expect(screen.getByRole("navigation", { name: "Main menu" })).toBeTruthy();
     expect(allClasses()).not.toMatch(PHYSICAL);
-    expect(classesOf(screen.getByRole("link", { name: /Orders/ }))).toContain("rtl:aria-[current=page]:shadow-[inset_-2px_0_0_var(--ds-border-selected)]");
+    expect(classesOf(screen.getByRole("link", { name: /Orders/ }))).toContain("aria-[current=page]:bg-ds-background-neutral-hovered");
   });
 });
 
