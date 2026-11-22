@@ -290,7 +290,7 @@ export function FileRow({ file, name, size, progress, error, onCancel, onRemove,
 }
 
 /** The list of picked or stored files. */
-export function FileList({ children, "aria-label": ariaLabel }: { children: React.ReactNode; "aria-label"?: string }) {
+export function FileUploadList({ children, "aria-label": ariaLabel }: { children: React.ReactNode; "aria-label"?: string }) {
   return (
     // role="list": Safari drops the list role from a `list-none` list.
     <ul role="list" aria-label={ariaLabel} data-slot="file-list" className="m-0 flex list-none flex-col gap-ds-100 p-0">

@@ -6,7 +6,7 @@ import { CalendarDate, Time } from "@internationalized/date";
 import { afterEach, describe, expect, it, vi } from "vitest";
 
 import { DesignSystemProvider } from "../provider";
-import { DateField, DatePicker, DateRangeField, TimeField } from "./index";
+import { DateField, DatePicker, DateRangePicker, TimeField } from "./index";
 
 afterEach(cleanup);
 
@@ -77,8 +77,8 @@ describe("date and time fields: a focusable id target", () => {
     expect(focusById("birth")!.getAttribute("data-type")).toBe("month");
   });
 
-  it("DateRangeField: the start half's first segment takes the id", () => {
-    const { container } = inLocale(<DateRangeField id="trip" label="Trip dates" />);
+  it("DateRangePicker: the start half's first segment takes the id", () => {
+    const { container } = inLocale(<DateRangePicker id="trip" label="Trip dates" />);
     const target = focusById("trip")!;
     expect(target.getAttribute("role")).toBe("spinbutton");
     expect(container.querySelector("[data-slot='date-range-start']")!.contains(target)).toBe(true);
@@ -162,7 +162,7 @@ describe("date and time fields: the id target keeps its spoken name", () => {
     ["DateField month", (id) => <DateField id={id} label={LABEL} granularity="month" />],
     ["DateField month–day", (id) => <DateField id={id} label={LABEL} hideYear />],
     ["TimeField", (id) => <TimeField id={id} label={LABEL} defaultValue={new Time(10, 30)} />],
-    ["DateRangeField", (id) => <DateRangeField id={id} label={LABEL} />],
+    ["DateRangePicker", (id) => <DateRangePicker id={id} label={LABEL} />],
   ];
 
   for (const locale of LOCALES) {
@@ -198,7 +198,7 @@ describe("date and time fields: the id target keeps its spoken name", () => {
     const ui = (
       <DesignSystemProvider locale="en-GB" navigate={vi.fn()}>
         <DatePicker id="ssr-date" label={LABEL} />
-        <DateRangeField id="ssr-range" label={LABEL} />
+        <DateRangePicker id="ssr-range" label={LABEL} />
       </DesignSystemProvider>
     );
     const host = document.createElement("div");

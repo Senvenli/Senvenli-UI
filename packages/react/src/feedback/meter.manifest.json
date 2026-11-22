@@ -12,7 +12,7 @@
   "description": "A segmented gauge for a quantity within a known range, with warning and danger thresholds.",
   "keywords": [
     "meter",
-    "gauge",
+    "gauge-chart",
     "quota",
     "usage",
     "capacity"

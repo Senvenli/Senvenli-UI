@@ -4,7 +4,7 @@ import { CalendarDate, CalendarDateTime, Time } from "@internationalized/date";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import { DesignSystemProvider } from "../provider";
-import { DateField, DatePicker, DateRangeField, TimeField } from "./index";
+import { DateField, DatePicker, DateRangePicker, TimeField } from "./index";
 import { rangeDuration } from "./pickers";
 
 afterEach(cleanup);
@@ -314,11 +314,11 @@ describe("DatePicker", () => {
   });
 });
 
-describe("DateRangeField", () => {
+describe("DateRangePicker", () => {
   const range = { start: new CalendarDate(2026, 10, 14), end: new CalendarDate(2026, 10, 18) };
 
   it("two halves with their overlines; the label names the control", () => {
-    const { container } = inLocale(<DateRangeField label="Date range" defaultValue={range} />);
+    const { container } = inLocale(<DateRangePicker label="Date range" defaultValue={range} />);
     expect(container.querySelector("[data-slot='date-range-start']")?.textContent).toContain("Start");
     expect(container.querySelector("[data-slot='date-range-end']")?.textContent).toContain("End");
     expect(shown(container.querySelector("[data-slot='date-range-start']")!)).toEqual(["14", "/", "10", "/", "2026"]);
@@ -327,7 +327,7 @@ describe("DateRangeField", () => {
 
   it("picks the start then the end in the calendar; the footer counts the days beside the app's own content", () => {
     const onChange = vi.fn();
-    inLocale(<DateRangeField label="Date range" defaultValue={range} onChange={onChange} footer="Total 248.00" />);
+    inLocale(<DateRangePicker label="Date range" defaultValue={range} onChange={onChange} footer="Total 248.00" />);
     fireEvent.click(screen.getByRole("button", { name: /Date range/ }));
     const dialog = screen.getByRole("dialog");
     expect(dialog.querySelector("[data-slot='date-range-duration']")?.textContent).toBe("4 days");
@@ -339,14 +339,14 @@ describe("DateRangeField", () => {
   });
 
   it("disabled, required, id and the error work on the range field", () => {
-    const { container, rerender } = inLocale(<DateRangeField label="Date range" id="range" isRequired isInvalid errorMessage="Choose the dates" />);
+    const { container, rerender } = inLocale(<DateRangePicker label="Date range" id="range" isRequired isInvalid errorMessage="Choose the dates" />);
     expect(container.querySelector("#range")).toBeTruthy();
     expect(container.querySelector("[data-slot='field-required']")).toBeTruthy();
     expect(screen.getByText("Choose the dates")).toBeTruthy();
     rerender(
       <div>
         <DesignSystemProvider locale="en-GB" navigate={vi.fn()}>
-          <DateRangeField label="Date range" isDisabled defaultValue={range} />
+          <DateRangePicker label="Date range" isDisabled defaultValue={range} />
         </DesignSystemProvider>
       </div>,
     );
@@ -356,7 +356,7 @@ describe("DateRangeField", () => {
 
   it("granularity hour: the halves carry the time and the calendar has time fields", () => {
     const withTime = { start: new CalendarDateTime(2026, 10, 14, 10, 0), end: new CalendarDateTime(2026, 10, 18, 10, 0) };
-    const { container } = inLocale(<DateRangeField label="Period" granularity="hour" defaultValue={withTime} />);
+    const { container } = inLocale(<DateRangePicker label="Period" granularity="hour" defaultValue={withTime} />);
     expect(shown(container.querySelector("[data-slot='date-range-start']")!).join("")).toBe("14/10/2026, 10:00");
     fireEvent.click(screen.getByRole("button", { name: /Period/ }));
     const dialog = screen.getByRole("dialog");
@@ -368,7 +368,7 @@ describe("DateRangeField", () => {
   it("hour mode: one pick reports one change (the calendar does not commit twice)", () => {
     const onChange = vi.fn();
     const withTime = { start: new CalendarDateTime(2026, 10, 14, 10, 0), end: new CalendarDateTime(2026, 10, 18, 10, 0) };
-    inLocale(<DateRangeField label="Period" granularity="hour" defaultValue={withTime} onChange={onChange} />);
+    inLocale(<DateRangePicker label="Period" granularity="hour" defaultValue={withTime} onChange={onChange} />);
     fireEvent.click(screen.getByRole("button", { name: /Period/ }));
     const dialog = screen.getByRole("dialog");
     const day = (n: number) => within(dialog).getAllByRole("button").find((b) => new RegExp(`(^|, )${n} October 2026`).test(b.getAttribute("aria-label") ?? ""))!;
@@ -379,7 +379,7 @@ describe("DateRangeField", () => {
   });
 
   it("a press under End focuses the end half, not the start", () => {
-    const { container } = inLocale(<DateRangeField label="Date range" defaultValue={range} />);
+    const { container } = inLocale(<DateRangePicker label="Date range" defaultValue={range} />);
     const end = container.querySelector<HTMLElement>("[data-slot='date-range-end']")!;
     fireEvent.mouseDown(end.querySelector("[data-slot='date-range-overline']")!);
     expect(end.contains(document.activeElement)).toBe(true);
@@ -390,7 +390,7 @@ describe("DateRangeField", () => {
 
   it("an impossible date in the end half shows the error and is not clamped", () => {
     const onChange = vi.fn();
-    const { container } = inLocale(<DateRangeField label="Date range" defaultValue={range} onChange={onChange} />);
+    const { container } = inLocale(<DateRangePicker label="Date range" defaultValue={range} onChange={onChange} />);
     const end = container.querySelector<HTMLElement>("[data-slot='date-range-end']")!;
     type(segment(end, "day"), "31");
     type(segment(end, "month"), "11");
@@ -407,7 +407,7 @@ describe("DateRangeField", () => {
   });
 
   it("RTL: no physical classes", () => {
-    const { container } = inLocale(<DateRangeField label="التواريخ" defaultValue={range} footer="Total 248" />, "ar", "rtl");
+    const { container } = inLocale(<DateRangePicker label="التواريخ" defaultValue={range} footer="Total 248" />, "ar", "rtl");
     for (const el of Array.from(container.querySelectorAll("[class]"))) expect(el.getAttribute("class")).not.toMatch(PHYSICAL);
   });
 });

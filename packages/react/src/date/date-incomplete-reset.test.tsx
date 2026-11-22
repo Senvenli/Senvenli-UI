@@ -6,7 +6,7 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import type { TimeValue } from "react-aria-components";
 
 import { DesignSystemProvider } from "../provider";
-import { DateField, DatePicker, DateRangeField, TimeField, type DateRangeFieldValue } from "./index";
+import { DateField, DatePicker, DateRangePicker, TimeField, type DateRangePickerValue } from "./index";
 
 /**
  * Clearing a field the user left typed in part. Its value is already null (the field reported it),
@@ -155,14 +155,14 @@ describe("clearing a field typed in part: a new key", () => {
     expect(screen.queryByText("Incomplete time: enter the minutes, or clear the field.")).toBeNull();
   });
 
-  it("DateRangeField: null alone keeps a half typed in part; null with a new key empties both halves", () => {
+  it("DateRangePicker: null alone keeps a half typed in part; null with a new key empties both halves", () => {
     const seen: (string | null)[] = [];
     function App() {
-      const [value, setValue] = React.useState<DateRangeFieldValue | null>({ start: new CalendarDate(2026, 10, 1), end: new CalendarDate(2026, 10, 5) });
+      const [value, setValue] = React.useState<DateRangePickerValue | null>({ start: new CalendarDate(2026, 10, 1), end: new CalendarDate(2026, 10, 5) });
       const [key, setKey] = React.useState(0);
       return (
         <>
-          <DateRangeField key={key} label="Trip dates" value={value} onChange={(next) => { seen.push(next ? `${next.start}/${next.end}` : null); setValue(next); }} />
+          <DateRangePicker key={key} label="Trip dates" value={value} onChange={(next) => { seen.push(next ? `${next.start}/${next.end}` : null); setValue(next); }} />
           <button type="button" onClick={() => setValue(null)}>null</button>
           <button type="button" onClick={() => { setValue(null); setKey((k) => k + 1); }}>reset</button>
         </>

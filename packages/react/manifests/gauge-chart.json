@@ -1,0 +1,226 @@
+{
+  "$schema": "https://design.senvenli.com/schema/component.full.json",
+  "kind": "component",
+  "family": "charts",
+  "status": "alpha",
+  "import": "@senvenli/react/charts",
+  "name": "gauge-chart",
+  "title": "Gauge chart",
+  "exports": [
+    "GaugeChart"
+  ],
+  "description": "One value against its range and an optional target, as a half ring.",
+  "keywords": [
+    "chart",
+    "gauge-chart",
+    "progress",
+    "target"
+  ],
+  "usage": {
+    "when": [
+      "One figure against a goal: utilization, a quota."
+    ]
+  },
+  "a11y": {
+    "builtIn": [
+      "A \"Show as table\" button shows the same data as a table, which screen readers get by default."
+    ],
+    "youProvide": [
+      "A title that says what the figure is."
+    ]
+  },
+  "related": [
+    "stat"
+  ],
+  "genui": {
+    "expose": true,
+    "description": "One value against a range and an optional target.",
+    "props": [
+      "title",
+      "period",
+      "value",
+      "min",
+      "max",
+      "target"
+    ],
+    "children": "none",
+    "schema": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "period": {
+          "type": "string"
+        },
+        "value": {
+          "type": "number"
+        },
+        "min": {
+          "type": "number",
+          "description": "0 by default."
+        },
+        "max": {
+          "type": "number",
+          "description": "100 by default: gauges are for bounded figures (occupancy, quota)."
+        },
+        "target": {
+          "type": "number",
+          "description": "A 2px tick on the arc, named under the value."
+        }
+      },
+      "required": [
+        "title",
+        "value"
+      ]
+    }
+  },
+  "source": [
+    "src/charts/more-charts.tsx"
+  ],
+  "props": {
+    "GaugeChart": [
+      {
+        "name": "title",
+        "type": "string",
+        "required": true,
+        "origin": "own",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "period",
+        "type": "string",
+        "required": false,
+        "origin": "own",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "height",
+        "type": "number",
+        "required": false,
+        "origin": "own",
+        "default": "160",
+        "schema": {
+          "type": "number"
+        }
+      },
+      {
+        "name": "isLoading",
+        "type": "boolean",
+        "required": false,
+        "origin": "own",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "value",
+        "type": "number",
+        "required": true,
+        "origin": "own",
+        "schema": {
+          "type": "number"
+        }
+      },
+      {
+        "name": "min",
+        "type": "number",
+        "required": false,
+        "origin": "own",
+        "default": "0",
+        "description": "0 by default.",
+        "schema": {
+          "type": "number"
+        }
+      },
+      {
+        "name": "max",
+        "type": "number",
+        "required": false,
+        "origin": "own",
+        "default": "100",
+        "description": "100 by default: gauges are for bounded figures (occupancy, quota).",
+        "schema": {
+          "type": "number"
+        }
+      },
+      {
+        "name": "target",
+        "type": "number",
+        "required": false,
+        "origin": "own",
+        "description": "A 2px tick on the arc, named under the value.",
+        "schema": {
+          "type": "number"
+        }
+      },
+      {
+        "name": "valueFormatter",
+        "type": "ChartValueFormatter",
+        "required": false,
+        "origin": "own",
+        "default": "plain"
+      }
+    ]
+  },
+  "tokens": [
+    "ds-background-neutral",
+    "ds-background-neutral-pressed",
+    "ds-border",
+    "ds-border-bold",
+    "ds-border-focused",
+    "ds-chart-1",
+    "ds-chart-2",
+    "ds-chart-3",
+    "ds-chart-4",
+    "ds-chart-5",
+    "ds-chart-neutral",
+    "ds-link",
+    "ds-radius-medium",
+    "ds-radius-small",
+    "ds-radius-xsmall",
+    "ds-shadow-overlay",
+    "ds-space-050",
+    "ds-space-075",
+    "ds-space-100",
+    "ds-space-150",
+    "ds-space-200",
+    "ds-space-300",
+    "ds-space-400",
+    "ds-surface-overlay",
+    "ds-surface-raised",
+    "ds-text",
+    "ds-text-danger",
+    "ds-text-subtle",
+    "ds-text-subtlest",
+    "ds-text-success"
+  ],
+  "strings": [
+    "chartCategory",
+    "chartNoData",
+    "chartOther",
+    "chartPeriod",
+    "chartShare",
+    "chartTrend",
+    "chartValue",
+    "gaugeTarget",
+    "hideDataTable",
+    "showDataTable",
+    "sparklineSummary"
+  ],
+  "quality": {
+    "tests": true,
+    "a11y": false,
+    "docs": false,
+    "visual": false,
+    "dark": false,
+    "rtl": false,
+    "mcp": true,
+    "generic": true
+  }
+}

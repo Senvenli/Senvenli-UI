@@ -239,7 +239,7 @@ const FRAME = "inline-flex w-fit max-w-full flex-col gap-ds-100 rounded-ds-large
 /** Inside a picker's popover the popover is the surface; the calendar only lays out its months. */
 const BARE = "flex flex-col gap-ds-100 text-ds-text outline-hidden";
 
-/** Set by DatePicker and DateRangeField around their calendar (internal; not exported from the package). */
+/** Set by DatePicker and DateRangePicker around their calendar (internal; not exported from the package). */
 export const CalendarInPopoverContext = React.createContext(false);
 
 /**
@@ -355,7 +355,7 @@ function AnchorWatcher({ onAnchor }: { onAnchor: (date: CalendarDate | null) => 
 }
 
 /**
- * A start and an end across two months: the grid inside DateRangeField and range flows. The ends
+ * A start and an end across two months: the grid inside DateRangePicker and range flows. The ends
  * sit on the brand fill, rounded on their outer side; the days between form one square band on
  * ds-background-selected that runs across week rows and month edges, joined to both ends.
  */
@@ -384,7 +384,7 @@ function RangeCalendarBody({
   useLocalAriaLabels(rangeRoot, locale, ariaLabel);
   const [anchor, setAnchor] = React.useState<CalendarDate | null>(null);
   const inPopover = React.useContext(CalendarInPopoverContext);
-  // Inside DateRangeField the picker owns the value; the calendar reads and reports through it.
+  // Inside DateRangePicker the picker owns the value; the calendar reads and reports through it.
   const picker = useSlottedContext(RangeCalendarContext) as { value?: DateRange | null; onChange?: (value: DateRange) => void } | null;
   const [own, setOwn] = React.useState<DateRange | null>(defaultValue ?? null);
   const range = picker ? (picker.value ?? null) : value === undefined ? own : value;

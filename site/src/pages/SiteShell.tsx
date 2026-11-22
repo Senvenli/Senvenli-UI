@@ -1,4 +1,4 @@
-import { Link, ThemeToggle } from "@senvenli/react/action";
+import { Link, ThemeSwitcher } from "@senvenli/react/action";
 import { Navbar, SkipLink } from "@senvenli/react/navigation";
 import type { ReactNode } from "react";
 import { SiteSearch } from "../components/SiteSearch";
@@ -36,7 +36,7 @@ export function SiteShell({ children, section, components = [], docs = [], onNav
         endActions={
           <span className="flex items-center gap-ds-100">
             {onNavigate && <SiteSearch components={components} docs={docs} onNavigate={onNavigate} />}
-            <ThemeToggle appearance="menu" />
+            <ThemeSwitcher appearance="menu" />
           </span>
         }
       />

@@ -9,7 +9,7 @@
   "exports": [
     "FileTrigger",
     "DropZone",
-    "FileList",
+    "FileUploadList",
     "FileRow"
   ],
   "description": "Pick files with a button or by dropping them, validate size and type, and show each file with its progress or error.",

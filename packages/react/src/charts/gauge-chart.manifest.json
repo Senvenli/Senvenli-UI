@@ -1,0 +1,48 @@
+{
+  "$schema": "../../manifest/component.schema.json",
+  "kind": "component",
+  "family": "charts",
+  "status": "alpha",
+  "import": "@senvenli/react/charts",
+  "name": "gauge-chart",
+  "title": "Gauge chart",
+  "exports": [
+    "GaugeChart"
+  ],
+  "description": "One value against its range and an optional target, as a half ring.",
+  "keywords": [
+    "chart",
+    "gauge-chart",
+    "progress",
+    "target"
+  ],
+  "usage": {
+    "when": [
+      "One figure against a goal: utilization, a quota."
+    ]
+  },
+  "a11y": {
+    "builtIn": [
+      "A \"Show as table\" button shows the same data as a table, which screen readers get by default."
+    ],
+    "youProvide": [
+      "A title that says what the figure is."
+    ]
+  },
+  "related": [
+    "stat"
+  ],
+  "genui": {
+    "expose": true,
+    "description": "One value against a range and an optional target.",
+    "props": [
+      "title",
+      "period",
+      "value",
+      "min",
+      "max",
+      "target"
+    ],
+    "children": "none"
+  }
+}

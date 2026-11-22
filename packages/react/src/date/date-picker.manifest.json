@@ -22,7 +22,7 @@
     ],
     "instead": [
       {
-        "use": "date-range-field",
+        "use": "date-range-picker",
         "when": "A start and an end are picked together."
       }
     ]
@@ -45,7 +45,7 @@
   "related": [
     "calendar",
     "date-field",
-    "date-range-field"
+    "date-range-picker"
   ],
   "genui": {
     "expose": true,

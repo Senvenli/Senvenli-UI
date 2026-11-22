@@ -1,0 +1,397 @@
+{
+  "$schema": "https://design.senvenli.com/schema/component.full.json",
+  "kind": "component",
+  "family": "date",
+  "status": "alpha",
+  "import": "@senvenli/react/date",
+  "name": "date-range-picker",
+  "title": "Date range picker",
+  "exports": [
+    "DateRangePicker"
+  ],
+  "description": "A start and an end in one control over one calendar (two months on wide screens), with optional times.",
+  "keywords": [
+    "date range",
+    "start end",
+    "period",
+    "trip dates",
+    "range picker"
+  ],
+  "usage": {
+    "when": [
+      "Picking a period: a stay, a trip, a report range."
+    ]
+  },
+  "a11y": {
+    "builtIn": [
+      "Both halves are labelled (\"Start\", \"End\") and typed independently.",
+      "The range may not cross an unavailable day unless allowed.",
+      "Required fields show \"Fill in this field.\"; a partly typed date says what is missing."
+    ],
+    "youProvide": [
+      "A label for the range."
+    ]
+  },
+  "related": [
+    "calendar",
+    "date-picker"
+  ],
+  "genui": {
+    "expose": true,
+    "description": "A start and end date in one control. Emits change.",
+    "props": [
+      "label",
+      "description",
+      "granularity",
+      "isRequired"
+    ],
+    "children": "none",
+    "events": [
+      "change"
+    ],
+    "schema": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "label": {
+          "type": "string",
+          "description": "\"Trip dates\"."
+        },
+        "description": {
+          "type": "string"
+        },
+        "granularity": {
+          "type": "string",
+          "enum": [
+            "day",
+            "hour"
+          ],
+          "description": "`hour` adds start and end times."
+        },
+        "isRequired": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "label"
+      ]
+    }
+  },
+  "source": [
+    "src/date/pickers.tsx"
+  ],
+  "props": {
+    "DateRangePicker": [
+      {
+        "name": "label",
+        "type": "React.ReactNode",
+        "required": true,
+        "origin": "own",
+        "description": "\"Trip dates\"."
+      },
+      {
+        "name": "description",
+        "type": "React.ReactNode",
+        "required": false,
+        "origin": "own"
+      },
+      {
+        "name": "errorMessage",
+        "type": "React.ReactNode",
+        "required": false,
+        "origin": "own"
+      },
+      {
+        "name": "value",
+        "type": "DateRangePickerValue",
+        "required": false,
+        "origin": "own",
+        "description": "Start and end: calendar dates (`day`) or date-times (`hour`) in the location's time zone.\n\nWhile the user leaves a half typed in part or impossible (\"14.aa.2026\", \"10:––\", \"31.11.2026\"), or one half empty\nwhile the other stands, the field reports `onChange(null)` and keeps the typed parts on screen, so setting `null`\nchanges nothing: the value already is null. To clear the field (an app's own \"Temizle\" or form reset), give it a new\n`key` along with the value: React remounts it empty, or at the value given."
+      },
+      {
+        "name": "defaultValue",
+        "type": "DateRangePickerValue",
+        "required": false,
+        "origin": "own"
+      },
+      {
+        "name": "onChange",
+        "type": "(value: DateRangePickerValue | null) => void",
+        "required": false,
+        "origin": "own"
+      },
+      {
+        "name": "granularity",
+        "type": "\"day\" | \"hour\"",
+        "required": false,
+        "origin": "own",
+        "default": "\"day\"",
+        "description": "`hour` adds start and end times.",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "day",
+            "hour"
+          ]
+        }
+      },
+      {
+        "name": "minValue",
+        "type": "DateValue",
+        "required": false,
+        "origin": "own",
+        "description": "Now plus the lead time."
+      },
+      {
+        "name": "maxValue",
+        "type": "DateValue",
+        "required": false,
+        "origin": "own"
+      },
+      {
+        "name": "isDateUnavailable",
+        "type": "(date: CalendarDate) => boolean",
+        "required": false,
+        "origin": "own",
+        "description": "Fleet availability: those days stay visible, struck through, and say why (`unavailableReason`)."
+      },
+      {
+        "name": "unavailableReason",
+        "type": "(date: CalendarDate) => string | undefined",
+        "required": false,
+        "origin": "own"
+      },
+      {
+        "name": "allowsNonContiguousRanges",
+        "type": "boolean",
+        "required": false,
+        "origin": "own",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "startLabel",
+        "type": "string",
+        "required": false,
+        "origin": "own",
+        "description": "Overline labels of the two halves; \"Start\" and \"End\" by default.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "endLabel",
+        "type": "string",
+        "required": false,
+        "origin": "own",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "firstDayOfWeek",
+        "type": "FirstDayOfWeek",
+        "required": false,
+        "origin": "own",
+        "description": "Week start and month names; the provider locale by default.",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "sun",
+            "mon",
+            "tue",
+            "wed",
+            "thu",
+            "fri",
+            "sat"
+          ]
+        }
+      },
+      {
+        "name": "timeZone",
+        "type": "string",
+        "required": false,
+        "origin": "own",
+        "description": "The location's zone, for \"today\" in the calendar.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "footer",
+        "type": "React.ReactNode",
+        "required": false,
+        "origin": "own",
+        "description": "Right of the duration under the calendar: the price total (`metric-small`)."
+      },
+      {
+        "name": "isRequired",
+        "type": "boolean",
+        "required": false,
+        "origin": "own",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "requiredValidation",
+        "type": "RequiredValidation",
+        "required": false,
+        "origin": "own",
+        "description": "Who says an empty required field is missing: `field` (default) or `app`. With `app` a DS\nForm's `onSubmit` runs with the field empty, and the app's own error must clear on change. See\n{@link RequiredValidation} for the whole contract.",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "field",
+            "app"
+          ]
+        }
+      },
+      {
+        "name": "isDisabled",
+        "type": "boolean",
+        "required": false,
+        "origin": "own",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "isReadOnly",
+        "type": "boolean",
+        "required": false,
+        "origin": "own",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "isInvalid",
+        "type": "boolean",
+        "required": false,
+        "origin": "own",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "isOptional",
+        "type": "boolean",
+        "required": false,
+        "origin": "own",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "id",
+        "type": "string",
+        "required": false,
+        "origin": "own",
+        "description": "The id of the start half's first typed segment, the element that takes focus, as on DateField:\n`document.getElementById(id).focus()` puts the user in the field. Left out, the DOM is as before.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "startName",
+        "type": "string",
+        "required": false,
+        "origin": "own",
+        "description": "Form field names for the two halves (ISO strings).",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "endName",
+        "type": "string",
+        "required": false,
+        "origin": "own",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "validate",
+        "type": "(value: Span<DateValue> | null) => string | true | string[] | null | undefined",
+        "required": false,
+        "origin": "own"
+      },
+      {
+        "name": "onBlur",
+        "type": "(event: FocusEvent<Element, Element>) => void",
+        "required": false,
+        "origin": "own"
+      }
+    ]
+  },
+  "tokens": [
+    "ds-background-brand-bold",
+    "ds-background-brand-bold-hovered",
+    "ds-background-neutral-subtle-hovered",
+    "ds-background-selected",
+    "ds-background-selected-hovered",
+    "ds-border",
+    "ds-border-focused",
+    "ds-border-selected",
+    "ds-icon",
+    "ds-icon-brand",
+    "ds-radius-full",
+    "ds-radius-large",
+    "ds-radius-medium",
+    "ds-radius-small",
+    "ds-shadow-raised",
+    "ds-size-control",
+    "ds-size-control-compact",
+    "ds-space-050",
+    "ds-space-100",
+    "ds-space-150",
+    "ds-space-200",
+    "ds-space-400",
+    "ds-surface-raised",
+    "ds-text",
+    "ds-text-disabled",
+    "ds-text-on-brand",
+    "ds-text-subtle",
+    "ds-text-subtlest"
+  ],
+  "strings": [
+    "clear",
+    "dateIncomplete",
+    "dateMax",
+    "dateMin",
+    "dateTimeIncomplete",
+    "dateUnavailable",
+    "monthHasDays",
+    "monthMax",
+    "monthMin",
+    "nextMonth",
+    "nextYear",
+    "previousMonth",
+    "previousYear",
+    "rangeCrossesClosed",
+    "rangeEnd",
+    "rangeEndTime",
+    "rangeStart",
+    "rangeStartTime",
+    "rangeTooLong",
+    "rangeTooShort",
+    "required",
+    "thisMonth",
+    "thisMonthHasDays",
+    "timeIncomplete",
+    "today"
+  ],
+  "quality": {
+    "tests": true,
+    "a11y": false,
+    "docs": false,
+    "visual": false,
+    "dark": false,
+    "rtl": false,
+    "mcp": true,
+    "generic": true
+  }
+}

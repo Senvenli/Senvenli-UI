@@ -1,4 +1,4 @@
-import { DropZone, FileList, FileRow, type RejectedFile } from "@senvenli/react/action";
+import { DropZone, FileUploadList, FileRow, type RejectedFile } from "@senvenli/react/action";
 import { Stack } from "@senvenli/react/layout";
 import { useState } from "react";
 
@@ -17,14 +17,14 @@ export default function Example() {
         onReject={setRejected}
       />
       {files.length + rejected.length > 0 && (
-        <FileList aria-label="Invoices">
+        <FileUploadList aria-label="Invoices">
           {files.map((file, index) => (
             <FileRow key={`${index}-${file.name}`} file={file} onRemove={() => setFiles(files.filter((item) => item !== file))} />
           ))}
           {rejected.map(({ file, reason }, index) => (
             <FileRow key={`rejected-${index}-${file.name}`} file={file} error={reason} onRemove={() => setRejected(rejected.filter((item) => item.file !== file))} />
           ))}
-        </FileList>
+        </FileUploadList>
       )}
     </Stack>
   );

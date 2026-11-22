@@ -6,7 +6,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { Button } from "../action/index";
 import { Menu } from "../overlay/index";
 import { DesignSystemProvider } from "../provider";
-import { Dock, Navbar, Sidebar, sidebarScript, type SidebarItem } from "./index";
+import { BottomNav, Navbar, Sidebar, sidebarScript, type SidebarItem } from "./index";
 
 const PHYSICAL = /(^|\s|:)(-?m[lr]-|p[lr]-|-?left-|-?right-|border-[lr](-|\s|$)|rounded-[lr]-|text-left|text-right)/;
 
@@ -442,9 +442,9 @@ const DOCK = [
   { key: "more", label: "More", icon: "menu" as const, href: "/more" },
 ];
 
-describe("Dock", () => {
+describe("BottomNav", () => {
   it("icon over label for each destination; the current one is the page", () => {
-    inLocale(<Dock items={DOCK} currentKey="projects" />);
+    inLocale(<BottomNav items={DOCK} currentKey="projects" />);
     const nav = screen.getByRole("navigation", { name: "Main menu" });
     expect(within(nav).getAllByRole("link")).toHaveLength(5);
     expect(within(nav).getByRole("link", { name: "Projects" }).getAttribute("aria-current")).toBe("page");
@@ -453,8 +453,8 @@ describe("Dock", () => {
   });
 
   it("sits on the bottom edge, padded for the home indicator, phones only", () => {
-    inLocale(<Dock items={DOCK} />);
-    const dock = document.querySelector("[data-slot='dock']")!;
+    inLocale(<BottomNav items={DOCK} />);
+    const dock = document.querySelector("[data-slot='bottom-nav']")!;
     expect(classesOf(dock)).toMatch(/\bfixed\b.*\bbottom-0\b/);
     expect(classesOf(dock)).toContain("safe-area-inset-bottom");
     expect(classesOf(dock)).toContain("md:hidden");
@@ -469,10 +469,10 @@ describe("Dock", () => {
     inLocale(
       <>
         <input aria-label="Search" />
-        <Dock items={DOCK} />
+        <BottomNav items={DOCK} />
       </>,
     );
-    const dock = () => document.querySelector("[data-slot='dock']")!;
+    const dock = () => document.querySelector("[data-slot='bottom-nav']")!;
     act(() => screen.getByRole("textbox", { name: "Search" }).focus());
     viewport.height = 450;
     act(() => listeners.resize?.());
@@ -486,7 +486,7 @@ describe("Dock", () => {
   });
 
   it("uses logical sides only (RTL)", () => {
-    inLocale(<Dock items={DOCK} />, "ar", "rtl");
+    inLocale(<BottomNav items={DOCK} />, "ar", "rtl");
     expect(allClasses()).not.toMatch(PHYSICAL);
   });
 });

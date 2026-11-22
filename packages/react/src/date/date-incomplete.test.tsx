@@ -6,7 +6,7 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import { DesignSystemProvider } from "../provider";
 import { Form } from "../form/index";
 import { registerDsStrings } from "../i18n";
-import { DateField, DatePicker, DateRangeField, type DateRangeFieldValue } from "./index";
+import { DateField, DatePicker, DateRangePicker, type DateRangePickerValue } from "./index";
 
 /**
  * A date typed in part is no date. React Aria keeps its last complete value until every segment is cleared, and a
@@ -174,12 +174,12 @@ describe("DatePicker: a date typed in part", () => {
   });
 });
 
-describe("DateRangeField: start and end", () => {
+describe("DateRangePicker: start and end", () => {
   const RANGE = { start: new CalendarDate(2026, 10, 14), end: new CalendarDate(2026, 10, 18) };
 
   it("the start month cleared: null and the missing month", () => {
     const onChange = vi.fn();
-    const { container } = inLocale(<DateRangeField label="Trip dates" defaultValue={RANGE} onChange={onChange} />);
+    const { container } = inLocale(<DateRangePicker label="Trip dates" defaultValue={RANGE} onChange={onChange} />);
     clear(segment(container, "month", 0));
     expect(onChange).toHaveBeenLastCalledWith(null);
     blur();
@@ -187,10 +187,10 @@ describe("DateRangeField: start and end", () => {
   });
 
   it("the end half emptied while the start stands: null, all of its parts missing; typed again, the range again", () => {
-    const seen: (DateRangeFieldValue | null)[] = [];
+    const seen: (DateRangePickerValue | null)[] = [];
     function Trip() {
-      const [value, setValue] = React.useState<DateRangeFieldValue | null>(RANGE);
-      return <DateRangeField label="Trip dates" value={value} onChange={(next) => { seen.push(next); setValue(next); }} />;
+      const [value, setValue] = React.useState<DateRangePickerValue | null>(RANGE);
+      return <DateRangePicker label="Trip dates" value={value} onChange={(next) => { seen.push(next); setValue(next); }} />;
     }
     const { container } = inLocale(<Trip />);
     clear(segment(container, "day", 1));

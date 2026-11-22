@@ -546,7 +546,7 @@ export function Tracker({ title, period, data, statusMap, summary, isLoading, em
 
 export type FunnelStep = { name: string; value: number };
 
-export type FunnelProps = FrameProps & {
+export type FunnelChartProps = FrameProps & {
   /** Truly ordered steps, each a subset of the one before. */
   steps: readonly FunnelStep[];
   valueFormatter?: ChartValueFormatter;
@@ -562,7 +562,7 @@ export type FunnelProps = FrameProps & {
  * name before the bar, the count after it and the conversion from the previous step in
  * `ds-text-subtlest`. The subtitle states the total conversion. Every figure is text.
  */
-export function Funnel({ title, period, steps, valueFormatter = plain, showStepConversion = true, showTotalConversion = true, isLoading, emptyMessage }: FunnelProps) {
+export function FunnelChart({ title, period, steps, valueFormatter = plain, showStepConversion = true, showTotalConversion = true, isLoading, emptyMessage }: FunnelChartProps) {
   const { locale } = useLocale();
   const valid = steps.filter((step) => Number.isFinite(step.value) && step.value >= 0);
   useOnce(valid.length < steps.length, "Funnel: steps without a finite, non-negative value are left out.");

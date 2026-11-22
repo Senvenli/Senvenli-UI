@@ -6,7 +6,7 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import type { TimeValue } from "react-aria-components";
 
 import { DesignSystemProvider } from "../provider";
-import { DateField, DatePicker, DateRangeField, TimeField, type DateRangeFieldValue } from "./index";
+import { DateField, DatePicker, DateRangePicker, TimeField, type DateRangePickerValue } from "./index";
 
 /**
  * The value a field reports matches its parts on screen, once per change. A part typed to complete a
@@ -61,7 +61,7 @@ const invalid = (root: ParentNode) => root.querySelector("[data-slot='input-grou
 function text(value: unknown): string | null {
   if (value == null) return null;
   if (typeof value === "object" && "start" in value && "end" in value) {
-    const range = value as DateRangeFieldValue;
+    const range = value as DateRangePickerValue;
     return `${range.start.toString()}–${range.end.toString()}`;
   }
   return String(value);
@@ -145,10 +145,10 @@ describe.each(MODES)("the exact values reported, %s", (mode) => {
     expect(seen).toEqual([null, "2026-01-24", "2026-11-24"]);
   });
 
-  describe("DateRangeField with hours, both halves", () => {
-    const RANGE: DateRangeFieldValue = { start: new CalendarDateTime(2026, 10, 14, 10, 0), end: new CalendarDateTime(2026, 10, 18, 10, 0) };
-    const field = (props: { value?: DateRangeFieldValue | null; defaultValue?: DateRangeFieldValue | null; onChange: (next: DateRangeFieldValue | null) => void }) => (
-      <DateRangeField label="Trip dates" granularity="hour" {...props} />
+  describe("DateRangePicker with hours, both halves", () => {
+    const RANGE: DateRangePickerValue = { start: new CalendarDateTime(2026, 10, 14, 10, 0), end: new CalendarDateTime(2026, 10, 18, 10, 0) };
+    const field = (props: { value?: DateRangePickerValue | null; defaultValue?: DateRangePickerValue | null; onChange: (next: DateRangePickerValue | null) => void }) => (
+      <DateRangePicker label="Trip dates" granularity="hour" {...props} />
     );
 
     it("start minutes cleared, 4 then 5 typed; end minutes cleared, 3 then 0 typed", () => {
@@ -272,9 +272,9 @@ describe.each(MODES)("a first 0 is no value, %s", (mode) => {
     expect(screen.getByText("Incomplete time: enter the hour, or clear the field.")).toBeTruthy();
   });
 
-  it("DateRangeField: the end month 0 is no month", () => {
-    const RANGE: DateRangeFieldValue = { start: new CalendarDate(2026, 10, 14), end: new CalendarDate(2026, 10, 18) };
-    const { container, seen } = mount<DateRangeFieldValue>(mode, RANGE, (props) => <DateRangeField label="Trip dates" {...props} />);
+  it("DateRangePicker: the end month 0 is no month", () => {
+    const RANGE: DateRangePickerValue = { start: new CalendarDate(2026, 10, 14), end: new CalendarDate(2026, 10, 18) };
+    const { container, seen } = mount<DateRangePickerValue>(mode, RANGE, (props) => <DateRangePicker label="Trip dates" {...props} />);
     clear(segment(container, "month", 1));
     expect(seen).toEqual(["2026-10-14–2026-01-18", null]);
     type(segment(container, "month", 1), "0");

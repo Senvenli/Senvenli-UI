@@ -53,13 +53,13 @@ describe("@senvenli/mcp", () => {
   // What an agent types, and the component that must come first (or, after a "|", within the top three).
   const golden: [string, string][] = [
     ["upload a file", "file-upload"],
-    ["date range", "date-range-field"],
+    ["date range", "date-range-picker"],
     ["confirm a delete", "alert-dialog"],
     ["DatePicker", "date-picker"],
     ["date picker", "date-picker"],
     ["pick a color", "color-picker"],
     ["show a toast notification", "toast"],
-    ["one time code", "input-otp"],
+    ["one time code", "otp-field"],
     ["sidebar navigation", "sidebar"],
     ["loading placeholder", "skeleton"],
     ["table with sorting", "table"],

@@ -219,7 +219,7 @@ export function CreatePage() {
   const [input, setInput] = useState<ThemeInput>({});
   const [ready, setReady] = useState(false);
   const [origin, setOrigin] = useState(SITE_ORIGIN);
-  // Light or dark belongs to the library (ThemeToggle in the site header, themeScript in <head>).
+  // Light or dark belongs to the library (ThemeSwitcher in the site header, themeScript in <head>).
   const dark = useThemePreference().resolved === "dark";
 
   const theme = useMemo(() => createTheme(input), [input]);
