@@ -158,6 +158,23 @@ describe("NumberField", () => {
 });
 
 describe("InputOTP", () => {
+  it("waits resendCooldown after the first code by default; initialResendCooldown 0 starts ready", () => {
+    vi.useFakeTimers();
+    try {
+      render(<InputOTP label="Code" onResend={() => {}} resendCooldown={3} />);
+      expect(screen.getByRole("button", { name: /3/ }).hasAttribute("disabled")).toBe(true);
+      act(() => {
+        vi.advanceTimersByTime(3000);
+      });
+      expect(screen.getByRole("button", { name: /resend/i }).hasAttribute("disabled")).toBe(false);
+      cleanup();
+      render(<InputOTP label="Code" onResend={() => {}} resendCooldown={3} initialResendCooldown={0} />);
+      expect(screen.getByRole("button", { name: /resend/i }).hasAttribute("disabled")).toBe(false);
+    } finally {
+      vi.useRealTimers();
+    }
+  });
+
   it("is one real input for SMS autofill and paste", () => {
     inLocale(<InputOTP label="Verification code" />);
     const input = screen.getByRole("textbox", { name: "Verification code" });

@@ -351,7 +351,7 @@ export function checkTokens(mode: Mode, t: ModeTokens, missing?: Set<string>): C
   text("ds-text-subtlest", "ds-surface", "ds-surface-raised");
   text("ds-text-inverse", "ds-background-neutral-bold");
   text("ds-text-on-brand", "ds-background-brand-bold", "ds-background-brand-bold-hovered", "ds-background-brand-bold-pressed");
-  text("ds-text-brand", "ds-surface", "ds-surface-raised", "ds-background-selected-pressed");
+  text("ds-text-brand", "ds-surface", "ds-surface-raised", "ds-surface-sunken", "ds-background-selected-pressed");
   text("ds-link", "ds-surface", "ds-surface-raised");
   mark("ds-border-focused", "ds-surface", "ds-surface-raised");
   for (const role of ["secondary", "tertiary"]) {

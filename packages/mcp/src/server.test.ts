@@ -137,7 +137,7 @@ describe("@senvenli/mcp", () => {
 
   it("creates a theme: by default the AA report, the preset code and the command to write it", async () => {
     const { text } = await call("create_theme", { primary: "#1268ae" });
-    expect(text).toMatch(/Contrast: 126 of 126 pairs pass/);
+    expect(text).toMatch(/Contrast: (\d+) of \1 pairs pass/);
     const code = text.match(/Preset code: (\S+)/)![1]!;
     expect(text).toContain(`npx @senvenli/cli theme ${code} --tailwind`);
     expect(text).not.toContain("--ds-background-brand-bold");
@@ -164,7 +164,7 @@ describe("@senvenli/mcp", () => {
 
   it("validates a theme.css: all pass as written, a hand edit that breaks contrast is named", async () => {
     const css = (await call("create_theme", { primary: "#1268ae", format: "tailwind" })).text.split("\n\n").slice(3).join("\n\n");
-    expect((await call("validate_theme", { css })).text).toMatch(/^Contrast: 126 of 126 checked pairs pass/);
+    expect((await call("validate_theme", { css })).text).toMatch(/^Contrast: (\d+) of \1 checked pairs pass/);
     const edited = css.replace(/(:root[^{]*\{[^}]*--ds-text-subtle:\s*)[^;]+;/, "$1#d0d0d0;");
     const { text } = await call("validate_theme", { css: edited });
     expect(text).toMatch(/- FAIL light: ds-text-subtle on /);

@@ -39,11 +39,14 @@ export function useCooldownAction(action: (() => unknown) | undefined, seconds: 
     setRemaining(initial);
   }, [initial]);
 
+  // One interval for the whole wait, counting down with a functional update: no per-tick rescheduling, so a long jump
+  // of the clock (a backgrounded tab, fake timers) still lands on the right second.
+  const cooling = remaining > 0;
   React.useEffect(() => {
-    if (remaining <= 0) return;
-    const timer = window.setTimeout(() => setRemaining((current) => current - 1), 1000);
-    return () => window.clearTimeout(timer);
-  }, [remaining]);
+    if (!cooling) return;
+    const timer = window.setInterval(() => setRemaining((current) => Math.max(0, current - 1)), 1000);
+    return () => window.clearInterval(timer);
+  }, [cooling]);
 
   const run = React.useCallback(async () => {
     // One run at a time, and none while the wait is on.

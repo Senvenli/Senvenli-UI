@@ -28,6 +28,18 @@ function codeOf(file: string) {
 }
 
 describe("AuthLayout", () => {
+  it("splits on its own width (a container query), and renders a div instead of main when asked", () => {
+    const { container, rerender } = render(<AuthLayout>Form</AuthLayout>);
+    expect(container.querySelector('[data-slot="auth-layout"]')!.className.split(/\s+/)).toContain("@container");
+    const grid = container.querySelector('[data-slot="auth-layout-grid"]')!.className;
+    expect(grid).toContain("@5xl:grid-cols-");
+    expect(grid).not.toMatch(/(^|\s)lg:/);
+    expect(container.querySelector("main[data-slot='auth-credentials']")).not.toBeNull();
+    rerender(<AuthLayout credentialsElement="div">Form</AuthLayout>);
+    expect(container.querySelector("main")).toBeNull();
+    expect(container.querySelector("div[data-slot='auth-credentials']")).not.toBeNull();
+  });
+
   it("brings no identity of its own — no ground, no backdrop, no motif", () => {
     const { container } = render(
       <AuthLayout brandContent={<p>Narrative</p>}>

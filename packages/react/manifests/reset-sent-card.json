@@ -50,7 +50,8 @@
         "name": "onResend",
         "type": "() => void | Promise<void>",
         "required": true,
-        "origin": "own"
+        "origin": "own",
+        "description": "Sends the link again. A rejected promise (or a throw) starts no wait and shows `labels.resendFailed`."
       },
       {
         "name": "cooldownSeconds",
@@ -58,7 +59,17 @@
         "required": false,
         "origin": "own",
         "default": "60",
-        "description": "Seconds to disable \"Resend\" for after each send. Default 60.",
+        "description": "Seconds to disable \"Resend\" for after each successful send. Default 60.",
+        "schema": {
+          "type": "number"
+        }
+      },
+      {
+        "name": "initialCooldown",
+        "type": "number",
+        "required": false,
+        "origin": "own",
+        "description": "The wait already running when the card appears. Default `cooldownSeconds`: the link was just sent. Pass 0 when the\ncard shows long after the send, or the server's \"retry after\"; a new value restarts the wait.",
         "schema": {
           "type": "number"
         }
@@ -122,6 +133,7 @@
     "ds-space-400",
     "ds-surface-raised",
     "ds-text",
+    "ds-text-danger",
     "ds-text-subtle",
     "ds-text-success"
   ],

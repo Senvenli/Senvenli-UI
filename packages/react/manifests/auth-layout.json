@@ -101,6 +101,21 @@
         "description": "The credentials content — typically an `AuthFormLayout`."
       },
       {
+        "name": "credentialsElement",
+        "type": "\"div\" | \"main\"",
+        "required": false,
+        "origin": "own",
+        "default": "\"main\"",
+        "description": "The credentials pane's element: `main` (default) when the layout is the page, `div` when the app's shell already\nrenders the page's one `<main>`.",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "div",
+            "main"
+          ]
+        }
+      },
+      {
         "name": "className",
         "type": "string",
         "required": false,
