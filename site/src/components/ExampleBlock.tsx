@@ -35,7 +35,7 @@ export function ExampleBlock({ slug, family, example, isHero = false }: { slug: 
           data-slot="example-stage"
           className={cn(
             "flex min-h-40 overflow-x-auto rounded-ds-large bg-ds-surface-raised p-ds-250 sm:p-ds-500",
-            stretch ? "items-stretch" : "items-center justify-center",
+            stretch ? "items-center" : "items-center justify-center",
           )}
         >
           <div className={cn("min-w-0", stretch && "w-full")}>

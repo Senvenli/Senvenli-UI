@@ -9,8 +9,8 @@ export default function Example() {
   // With no aria-label, the formatter writes the summary screen readers hear (first, last, low, high).
   return (
     <Inline space="space-150">
-      <Text weight="medium" isNumeric>{usd.format(48920)}</Text>
-      <Sparkline data={WEEKLY_REVENUE} width={120} valueFormatter={usd.format} />
+      <Text size="body-large" weight="medium" isNumeric>{usd.format(48920)}</Text>
+      <Sparkline data={WEEKLY_REVENUE} width={220} height={48} valueFormatter={usd.format} />
     </Inline>
   );
 }
