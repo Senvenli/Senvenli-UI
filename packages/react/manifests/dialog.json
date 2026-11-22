@@ -69,7 +69,8 @@
     "popover"
   ],
   "source": [
-    "src/overlay/overlay.tsx"
+    "src/overlay/dialog.tsx",
+    "src/overlay/overlay-base.tsx"
   ],
   "props": {
     "Dialog": [
@@ -279,28 +280,16 @@
     ]
   },
   "tokens": [
-    "ds-background-danger",
-    "ds-background-neutral",
-    "ds-background-warning",
     "ds-blanket",
     "ds-border",
-    "ds-border-bold",
     "ds-border-focused",
     "ds-easing-enter",
     "ds-easing-exit",
-    "ds-icon",
-    "ds-icon-danger",
-    "ds-icon-warning",
-    "ds-radius-full",
     "ds-radius-small",
     "ds-radius-xlarge",
     "ds-shadow-overlay",
-    "ds-size-control",
-    "ds-space-025",
     "ds-space-050",
-    "ds-space-075",
     "ds-space-100",
-    "ds-space-150",
     "ds-space-200",
     "ds-space-300",
     "ds-surface-overlay",
@@ -308,13 +297,7 @@
     "ds-text-subtle"
   ],
   "strings": [
-    "collapseSheet",
-    "discardClose",
-    "expandSheet",
-    "keepEditing",
-    "typeToConfirm",
-    "unsavedBody",
-    "unsavedTitle"
+    "cancel"
   ],
   "quality": {
     "tests": true,

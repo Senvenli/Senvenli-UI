@@ -1,9 +1,19 @@
-// @senvenli/react/overlay: Dialog, AlertDialog, Drawer and DialogTrigger; Popover, Tooltip and Menu;
+// @senvenli/react/overlay: Dialog, AlertDialog, Drawer and DialogTrigger; Popover, Tooltip, Menu, ContextMenu and HoverCard;
 // Command, Toaster and toast(). Each is built on React Aria Components.
-export { AlertDialog, Dialog, DialogTrigger, Drawer, useDrawerClose } from "./overlay";
-export type { AlertDialogProps, DialogAction, DialogProps, DrawerClose, DrawerPosition, DrawerProps, OverlaySize } from "./overlay";
-export { ContextMenu, HoverCard, Menu, Popover, Tooltip } from "./floating";
-export type { ContextMenuProps, HoverCardProps, MenuEntry, MenuItemDef, MenuProps, MenuSectionDef, PopoverProps, TooltipProps } from "./floating";
+export { DialogTrigger } from "./overlay-base";
+export type { OverlaySize } from "./overlay-base";
+export { Dialog } from "./dialog";
+export type { DialogAction, DialogProps } from "./dialog";
+export { AlertDialog } from "./alert-dialog";
+export type { AlertDialogProps } from "./alert-dialog";
+export { Drawer, useDrawerClose } from "./drawer";
+export type { DrawerClose, DrawerPosition, DrawerProps } from "./drawer";
+export { Menu, Popover, Tooltip } from "./floating";
+export type { MenuEntry, MenuItemDef, MenuProps, MenuSectionDef, PopoverProps, TooltipProps } from "./floating";
+export { ContextMenu } from "./context-menu";
+export type { ContextMenuProps } from "./context-menu";
+export { HoverCard } from "./hover-card";
+export type { HoverCardProps } from "./hover-card";
 export { Command } from "./command";
 export type { CommandGroup, CommandItem, CommandProps } from "./command";
 export { Toaster, toast } from "./toast";
