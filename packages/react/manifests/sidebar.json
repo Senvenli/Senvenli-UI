@@ -67,7 +67,6 @@
         "type": "string",
         "required": false,
         "origin": "own",
-        "default": "\"/\"",
         "schema": {
           "type": "string"
         }
@@ -265,7 +264,6 @@
         "type": "boolean",
         "required": false,
         "origin": "own",
-        "default": "false",
         "description": "Keeps the account (`footer`) and the collapse toggle in view at the bottom: the brand stays at\nthe top and only the navigation (`items`, `sections`, then `settings`) scrolls between them, expanded and\ncollapsed. In the phone panel the account stays at the bottom the same way. The DOM order, and so the Tab\norder, is the same as without it. Off by default: the whole sidebar scrolls as one, as before.",
         "schema": {
           "type": "boolean"
@@ -286,7 +284,6 @@
         "type": "boolean",
         "required": false,
         "origin": "own",
-        "default": "false",
         "schema": {
           "type": "boolean"
         }
@@ -312,7 +309,6 @@
         "type": "boolean",
         "required": false,
         "origin": "own",
-        "default": "false",
         "description": "Under 1024px the sidebar is a menu panel from the start edge; the app's menu button opens it.",
         "schema": {
           "type": "boolean"
@@ -332,6 +328,21 @@
         "description": "Names the navigation landmark; \"Main menu\" by default.",
         "schema": {
           "type": "string"
+        }
+      },
+      {
+        "name": "motion",
+        "type": "ComponentMotion",
+        "required": false,
+        "origin": "own",
+        "description": "`auto` (follow the device), `reduce` or `none`, for this component; the provider's setting otherwise.",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "none",
+            "auto",
+            "reduce"
+          ]
         }
       }
     ]

@@ -4,6 +4,7 @@ import * as React from "react";
 import { Label, Meter as AriaMeter, ProgressBar as AriaProgressBar } from "react-aria-components";
 
 import { cn } from "../utils";
+import { MotionScope, type WithMotion } from "../defaults";
 import type { Tone } from "../tone";
 import { LABEL } from "../form/styles";
 import { useLoop } from "./motion";
@@ -59,7 +60,7 @@ function Sweep({ tone }: { tone: ProgressTone }) {
  * How far a known task has gone, or that an unknown-length one is running.
  * Show it only for tasks over ~1s; shorter waits get a Spinner or nothing.
  */
-export function ProgressBar({
+function ProgressBarBody({
   label, value = 0, minValue = 0, maxValue = 100, valueLabel, isIndeterminate, tone = "brand", size = "medium",
 }: ProgressBarProps) {
   return (
@@ -187,5 +188,14 @@ export function ProgressCircle({
     <AriaMeter {...common}>{ring}</AriaMeter>
   ) : (
     <AriaProgressBar {...common} isIndeterminate={isIndeterminate}>{ring}</AriaProgressBar>
+  );
+}
+
+/** ProgressBar with its own `motion` (auto, reduce or none); see ProgressBarBody for the component itself. */
+export function ProgressBar({ motion, ...props }: ProgressBarProps & WithMotion) {
+  return (
+    <MotionScope motion={motion}>
+      <ProgressBarBody {...(props as ProgressBarProps)} />
+    </MotionScope>
   );
 }

@@ -12,6 +12,17 @@
 
 @custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *, .dark, .dark *));
 
+/* Reduced motion: the device's setting, or the app's `motion="reduce" | "none"` (DesignSystemProvider defaults, a
+   component's `motion`, MotionScope), written as data-ds-motion. Every motion-reduce: utility follows both. */
+@custom-variant motion-reduce {
+  @media (prefers-reduced-motion: reduce) {
+    @slot;
+  }
+  &:where([data-ds-motion="reduce"], [data-ds-motion="reduce"] *, [data-ds-motion="none"], [data-ds-motion="none"] *) {
+    @slot;
+  }
+}
+
 :root,
 [data-theme="light"] {
   --ds-shadow-raised: 0 1px 2px rgba(60, 44, 16, 0.04), 0 2px 6px rgba(60, 44, 16, 0.04), 0 8px 24px rgba(60, 44, 16, 0.06);

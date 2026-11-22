@@ -10,6 +10,7 @@ import {
 } from "react-aria-components";
 
 import { cn } from "../utils";
+import { MotionScope, type WithMotion } from "../defaults";
 import { Button } from "../action/button";
 import { Badge, type BadgeCountTone } from "../display/badge";
 import { IconGlyph, type IconName } from "../display/icon";
@@ -242,7 +243,7 @@ function useRepeatedIdWarning(items: readonly SidebarItem[], sections: readonly 
  * labelled `sections`, settings at the bottom and the account. Collapses to 56px icons
  * (tooltips carry the labels); under 1024px it is a menu panel from the start edge.
  */
-export function Sidebar({
+function SidebarBody({
   brand,
   brandHref = "/",
   items,
@@ -536,5 +537,14 @@ function GroupItem({ item, shared }: { item: SidebarItem; shared: Shared }) {
         </div>
       </DisclosurePanel>
     </Disclosure>
+  );
+}
+
+/** Sidebar with its own `motion` (auto, reduce or none); see SidebarBody for the component itself. */
+export function Sidebar({ motion, ...props }: SidebarProps & WithMotion) {
+  return (
+    <MotionScope motion={motion}>
+      <SidebarBody {...(props as SidebarProps)} />
+    </MotionScope>
   );
 }

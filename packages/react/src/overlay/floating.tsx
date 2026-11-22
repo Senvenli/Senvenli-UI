@@ -24,6 +24,7 @@ import {
 } from "react-aria-components";
 
 import { cn } from "../utils";
+import { MotionScope, type WithMotion, useMotionAttribute } from "../defaults";
 import { Button, CloseButton, Fab, Link, ToggleButton } from "../action/index";
 import { IconGlyph, type IconName } from "../display/icon";
 import { Kbd } from "../display/kbd";
@@ -74,11 +75,11 @@ export type PopoverProps = {
  * with an arrow to the trigger. Esc and an outside click close it; focus moves in on open and back to the
  * trigger on close. One small task; more than about four fields belongs in a Drawer.
  */
-export function Popover({ trigger, children, placement = "bottom start", isOpen, defaultOpen, onOpenChange, title, "aria-label": ariaLabel }: PopoverProps) {
+function PopoverBody({ trigger, children, placement = "bottom start", isOpen, defaultOpen, onOpenChange, title, "aria-label": ariaLabel }: PopoverProps) {
   return (
     <AriaDialogTrigger isOpen={isOpen} defaultOpen={defaultOpen} onOpenChange={onOpenChange}>
       {trigger}
-      <AriaPopover data-slot="popover" placement={placement} offset={10} className={cn(SURFACE, "min-w-60 max-w-90")}>
+      <AriaPopover {...useMotionAttribute()} data-slot="popover" placement={placement} offset={10} className={cn(SURFACE, "min-w-60 max-w-90")}>
         <Arrow />
         <AriaDialog aria-label={title ? undefined : ariaLabel} data-slot="popover-dialog" className={cn(SCROLL, "flex flex-col gap-ds-150 p-ds-200 outline-hidden")}>
           <OverlayContents>
@@ -150,7 +151,7 @@ function TooltipTarget({ children }: { children: React.ReactElement }) {
  * touch users never see a tooltip, so it never holds anything needed to finish a task. With `openOnTouch` a tap
  * toggles it, for a value that a touch user should also be able to read. No provider needed.
  */
-export function Tooltip(props: TooltipProps) {
+function TooltipBody(props: TooltipProps) {
   return <TooltipFor {...props} children={<TooltipTarget>{props.children}</TooltipTarget>} />;
 }
 
@@ -174,6 +175,7 @@ const TooltipBubble = React.forwardRef<HTMLDivElement, Pick<TooltipProps, "conte
 ) {
   return (
     <AriaTooltip
+      {...useMotionAttribute()}
       ref={ref}
       data-slot="tooltip"
       placement={placement}
@@ -345,6 +347,7 @@ function Submenu({ items }: { items: readonly MenuItemDef[] }) {
   const narrow = useNarrow();
   return (
     <AriaPopover
+      {...useMotionAttribute()}
       data-slot="menu-submenu"
       placement={narrow ? "bottom end" : "end top"}
       offset={narrow ? 2 : -4}
@@ -434,14 +437,14 @@ function Item({ item }: { item: MenuItemDef }) {
  * its trigger on every viewport and in RTL. Arrows move, typing jumps, Home/End go to the ends,
  * Enter acts, Esc closes and returns focus to the trigger. Choosing a value is a Select, not a Menu.
  */
-export function Menu({
+function MenuRoot({
   trigger, items, onAction, disabledKeys, placement = "bottom end", selectionMode = "none", selectedKeys, defaultSelectedKeys,
   onSelectionChange, isOpen, onOpenChange, "aria-label": ariaLabel,
 }: MenuProps) {
   return (
     <MenuTrigger isOpen={isOpen} onOpenChange={onOpenChange}>
       {trigger}
-      <AriaPopover data-slot="menu-popover" placement={placement} offset={4} className={cn(SURFACE, "min-w-60 max-w-90")}>
+      <AriaPopover {...useMotionAttribute()} data-slot="menu-popover" placement={placement} offset={4} className={cn(SURFACE, "min-w-60 max-w-90")}>
         <AriaMenu
           aria-label={ariaLabel}
           onAction={onAction}
@@ -457,5 +460,32 @@ export function Menu({
         </AriaMenu>
       </AriaPopover>
     </MenuTrigger>
+  );
+}
+
+/** Popover with its own `motion` (auto, reduce or none); see PopoverBody for the component itself. */
+export function Popover({ motion, ...props }: PopoverProps & WithMotion) {
+  return (
+    <MotionScope motion={motion}>
+      <PopoverBody {...(props as PopoverProps)} />
+    </MotionScope>
+  );
+}
+
+/** Menu with its own `motion` (auto, reduce or none); see MenuRoot for the component itself. */
+export function Menu({ motion, ...props }: MenuProps & WithMotion) {
+  return (
+    <MotionScope motion={motion}>
+      <MenuRoot {...(props as MenuProps)} />
+    </MotionScope>
+  );
+}
+
+/** Tooltip with its own `motion` (auto, reduce or none); see TooltipBody for the component itself. */
+export function Tooltip({ motion, ...props }: TooltipProps & WithMotion) {
+  return (
+    <MotionScope motion={motion}>
+      <TooltipBody {...(props as TooltipProps)} />
+    </MotionScope>
   );
 }

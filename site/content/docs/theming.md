@@ -60,13 +60,26 @@ npx @senvenli/cli theme <preset-code> --tailwind
 Size and corner radius can be set once, for every component that has them. A component's own prop always wins:
 
 ```tsx
-<DesignSystemProvider locale="en" defaults={{ size: "small", radius: "full" }}>
+<DesignSystemProvider locale="en" defaults={{ size: "small", radius: "full", motion: "reduce" }}>
   <App />
 </DesignSystemProvider>
 ```
 
 - `size`: `small`, `medium` (the design) or `large`. Fields come in small and medium; `large` reads as medium for them.
 - `radius`: `none`, `small`, `medium`, `large` or `full`. Buttons, fields (their frames), selects, cards and badges follow it; without it, each keeps its designed corner.
+- `motion`: `auto` (the default) follows the device's "reduce motion" setting; `reduce` keeps fades and state changes but no movement; `none` turns every transition and animation off. No value can bring motion back for someone whose device asks for less.
 
 The theme's own radius (the builder's slider) scales every step at once; `radius` picks which step a component uses.
+
+## Motion for one part
+
+Dialogs, drawers, popovers, menus, tooltips, tabs, accordions, the sidebar, carousels, skeletons and progress bars take their own `motion`; any region can be wrapped in `MotionScope`:
+
+```tsx
+<Drawer title="Filters" motion="none">…</Drawer>
+
+<MotionScope motion="reduce">
+  <Dashboard />
+</MotionScope>
+```
 

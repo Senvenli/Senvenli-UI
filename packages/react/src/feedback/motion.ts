@@ -3,12 +3,16 @@
 import * as React from "react";
 import { useLocale } from "react-aria-components";
 
+import { useMotionSetting } from "../defaults";
+
 /** True when the user asked for reduced motion; follows changes. */
 function readReduced() {
   return typeof window !== "undefined" && typeof window.matchMedia === "function" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 }
 
+/** True when motion should be reduced: the device asks for it, or the app's motion setting in effect is reduce/none. */
 export function usePrefersReducedMotion() {
+  const setting = useMotionSetting();
   // Read on the first render, so no animation starts and is cancelled a moment later.
   const [reduced, setReduced] = React.useState(readReduced);
   React.useEffect(() => {
@@ -23,7 +27,7 @@ export function usePrefersReducedMotion() {
     media.addListener?.(update);
     return () => media.removeListener?.(update);
   }, []);
-  return reduced;
+  return reduced || setting !== "auto";
 }
 
 /**
