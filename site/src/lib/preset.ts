@@ -35,12 +35,11 @@ export function storePreset(preset: StoredPreset | null) {
  * so every page the visitor opens next paints with it. A theme with no input clears the stored preset.
  */
 export function applyTheme(theme: Theme, code: string) {
-  let el = document.getElementById("theme-vars") as HTMLStyleElement | null;
-  if (!el) {
-    el = document.createElement("style");
-    el.id = "theme-vars";
-    document.head.appendChild(el);
-  }
+  const el = (document.getElementById("theme-vars") as HTMLStyleElement | null) ?? document.createElement("style");
+  el.id = "theme-vars";
+  // Last in <head> every time: the theme's variables tie with the default theme's in specificity, so order decides,
+  // and a stylesheet injected after the head script (Vite's dev styles) would otherwise win.
+  document.head.appendChild(el);
   el.textContent = toCSS(theme);
   storePreset(Object.keys(theme.input).length ? { v: PRESET_FORMAT, code, css: el.textContent } : null);
 }
