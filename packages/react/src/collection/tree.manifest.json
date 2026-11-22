@@ -1,0 +1,61 @@
+{
+  "$schema": "../../manifest/component.schema.json",
+  "kind": "component",
+  "family": "collection",
+  "status": "alpha",
+  "import": "@senvenli/react/collection",
+  "name": "tree",
+  "title": "Tree",
+  "exports": [
+    "Tree"
+  ],
+  "description": "A hierarchy to browse: folders and files, categories, with nodes that open and close.",
+  "keywords": [
+    "tree",
+    "tree view",
+    "hierarchy",
+    "folders",
+    "nested list",
+    "outline"
+  ],
+  "usage": {
+    "when": [
+      "Data with parents and children people browse: files, categories, an org chart."
+    ],
+    "instead": [
+      {
+        "use": "list",
+        "when": "The items have no hierarchy."
+      },
+      {
+        "use": "sidebar",
+        "when": "It is the app's navigation."
+      },
+      {
+        "use": "accordion",
+        "when": "A few sections of content, not data."
+      }
+    ]
+  },
+  "guidance": [
+    {
+      "rule": "Keep labels short; three or four levels at most."
+    }
+  ],
+  "a11y": {
+    "builtIn": [
+      "Arrows move, Right opens and Left closes a node, Home and End jump; the chevron and Enter expand."
+    ],
+    "youProvide": [
+      "An aria-label naming the tree."
+    ]
+  },
+  "related": [
+    "list",
+    "sidebar",
+    "accordion"
+  ],
+  "genui": {
+    "expose": false
+  }
+}

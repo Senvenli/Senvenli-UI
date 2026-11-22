@@ -1,0 +1,192 @@
+{
+  "$schema": "https://design.senvenli.com/schema/component.full.json",
+  "kind": "component",
+  "family": "action",
+  "status": "alpha",
+  "import": "@senvenli/react/action",
+  "name": "copy-button",
+  "title": "Copy button",
+  "exports": [
+    "CopyButton"
+  ],
+  "description": "Copies a value to the clipboard; the icon turns into a check and a status says it was copied.",
+  "keywords": [
+    "copy",
+    "clipboard",
+    "copy to clipboard",
+    "duplicate"
+  ],
+  "usage": {
+    "when": [
+      "A value people paste elsewhere: an ID, an API key, a link, a command."
+    ],
+    "instead": [
+      {
+        "use": "description-list",
+        "when": "The value is a field of a record, which DescriptionList can copy on its own."
+      }
+    ]
+  },
+  "guidance": [
+    {
+      "rule": "Icon-only, name what is copied: \"Copy the invoice number\"."
+    }
+  ],
+  "a11y": {
+    "builtIn": [
+      "Says \"Copied\" (or that it could not copy) in a polite status, again on every press.",
+      "The check shows for two seconds."
+    ],
+    "youProvide": [
+      "An aria-label naming the value when it is icon-only."
+    ]
+  },
+  "related": [
+    "button",
+    "description-list"
+  ],
+  "genui": {
+    "expose": false
+  },
+  "source": [
+    "src/action/copy-button.tsx"
+  ],
+  "props": {
+    "CopyButton": [
+      {
+        "name": "value",
+        "type": "string | (() => string | Promise<string>)",
+        "required": true,
+        "origin": "own",
+        "description": "The text to copy, or a function that returns it (or a promise of it) at the moment of the press."
+      },
+      {
+        "name": "children",
+        "type": "React.ReactNode",
+        "required": false,
+        "origin": "own",
+        "description": "Shown as the label; left out, the button is icon-only and named by `aria-label` (default \"Copy\")."
+      },
+      {
+        "name": "aria-label",
+        "type": "string",
+        "required": false,
+        "origin": "own",
+        "description": "The name of an icon-only button: \"Copy the invoice number\". Default \"Copy\".",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "variant",
+        "type": "ButtonVariant",
+        "required": false,
+        "origin": "own",
+        "default": "\"subtle\"",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "default",
+            "link",
+            "primary",
+            "subtle"
+          ]
+        }
+      },
+      {
+        "name": "size",
+        "type": "ButtonSize",
+        "required": false,
+        "origin": "own",
+        "default": "\"small\"",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "small",
+            "medium",
+            "large"
+          ]
+        }
+      },
+      {
+        "name": "radius",
+        "type": "ComponentRadius",
+        "required": false,
+        "origin": "own",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "none",
+            "small",
+            "medium",
+            "large",
+            "full"
+          ]
+        }
+      },
+      {
+        "name": "onCopy",
+        "type": "(text: string) => void",
+        "required": false,
+        "origin": "own",
+        "description": "Runs after a successful copy (to show a toast, log, …)."
+      }
+    ]
+  },
+  "tokens": [
+    "ds-background-brand-bold",
+    "ds-background-brand-bold-hovered",
+    "ds-background-brand-bold-pressed",
+    "ds-background-danger",
+    "ds-background-danger-bold",
+    "ds-background-danger-bold-hovered",
+    "ds-background-disabled",
+    "ds-background-neutral",
+    "ds-background-neutral-hovered",
+    "ds-background-neutral-pressed",
+    "ds-background-neutral-subtle-hovered",
+    "ds-background-selected",
+    "ds-background-selected-hovered",
+    "ds-background-selected-pressed",
+    "ds-border",
+    "ds-border-bold",
+    "ds-border-focused",
+    "ds-border-selected",
+    "ds-easing-standard",
+    "ds-link",
+    "ds-link-pressed",
+    "ds-radius-full",
+    "ds-radius-medium",
+    "ds-size-control",
+    "ds-size-control-compact",
+    "ds-size-control-large",
+    "ds-size-icon",
+    "ds-space-050",
+    "ds-space-075",
+    "ds-space-100",
+    "ds-space-150",
+    "ds-space-200",
+    "ds-text",
+    "ds-text-danger",
+    "ds-text-disabled",
+    "ds-text-on-brand",
+    "ds-text-on-danger",
+    "ds-text-subtle"
+  ],
+  "strings": [
+    "copied",
+    "copy",
+    "copyFailed",
+    "newTab"
+  ],
+  "quality": {
+    "tests": true,
+    "a11y": false,
+    "docs": false,
+    "visual": false,
+    "dark": false,
+    "rtl": false,
+    "mcp": true,
+    "generic": true
+  }
+}

@@ -1,0 +1,52 @@
+{
+  "$schema": "../../manifest/component.schema.json",
+  "kind": "component",
+  "family": "display",
+  "status": "alpha",
+  "import": "@senvenli/react/display",
+  "name": "visually-hidden",
+  "title": "Visually hidden",
+  "exports": [
+    "VisuallyHidden"
+  ],
+  "description": "Text that screen readers read but the page does not show.",
+  "keywords": [
+    "screen reader",
+    "sr-only",
+    "hidden text",
+    "accessible name"
+  ],
+  "usage": {
+    "when": [
+      "A heading that names a region the layout already makes obvious.",
+      "Context an icon or a glyph gives sighted users."
+    ],
+    "instead": [
+      {
+        "use": "skip-link",
+        "when": "A link to jump past the navigation."
+      }
+    ]
+  },
+  "guidance": [
+    {
+      "rule": "Never hide something a sighted user needs to read."
+    }
+  ],
+  "a11y": {
+    "builtIn": [
+      "Hidden with the sr-only technique, so it stays in the accessibility tree.",
+      "`isFocusable`: shown while it has keyboard focus."
+    ],
+    "youProvide": [
+      "The words to read."
+    ]
+  },
+  "related": [
+    "skip-link",
+    "icon"
+  ],
+  "genui": {
+    "expose": false
+  }
+}

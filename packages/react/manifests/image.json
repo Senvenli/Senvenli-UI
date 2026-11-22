@@ -1,0 +1,193 @@
+{
+  "$schema": "https://design.senvenli.com/schema/component.full.json",
+  "kind": "component",
+  "family": "display",
+  "status": "alpha",
+  "import": "@senvenli/react/display",
+  "name": "image",
+  "title": "Image",
+  "exports": [
+    "Image"
+  ],
+  "description": "A picture in a box that keeps its shape while it loads, with a fallback when it cannot load.",
+  "keywords": [
+    "image",
+    "picture",
+    "photo",
+    "aspect ratio",
+    "thumbnail"
+  ],
+  "usage": {
+    "when": [
+      "A product photo, a cover, a thumbnail in a card."
+    ],
+    "instead": [
+      {
+        "use": "avatar",
+        "when": "The picture is of a person or a company."
+      },
+      {
+        "use": "carousel",
+        "when": "Several pictures to page through."
+      },
+      {
+        "use": "image-viewer",
+        "when": "A picture to open full screen."
+      }
+    ]
+  },
+  "guidance": [
+    {
+      "rule": "Give `ratio` so the page does not jump while the picture loads."
+    }
+  ],
+  "a11y": {
+    "builtIn": [
+      "Loads lazily by default.",
+      "The fallback keeps the alt text as its name."
+    ],
+    "youProvide": [
+      "An alt text that says what the picture shows, or \"\" for decoration."
+    ]
+  },
+  "related": [
+    "avatar",
+    "card",
+    "carousel"
+  ],
+  "genui": {
+    "expose": false
+  },
+  "source": [
+    "src/display/image.tsx"
+  ],
+  "props": {
+    "Image": [
+      {
+        "name": "src",
+        "type": "string",
+        "required": true,
+        "origin": "own",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "alt",
+        "type": "string",
+        "required": true,
+        "origin": "own",
+        "description": "What the picture shows (\"A red bicycle against a white wall\"); `\"\"` for a purely decorative one.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "ratio",
+        "type": "string | number",
+        "required": false,
+        "origin": "own",
+        "description": "Width to height (\"16/9\", \"4/3\", \"1/1\", or a number like 1.5): the box keeps it before the picture loads, so the\npage never jumps. Left out, the picture's own shape.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "fit",
+        "type": "\"cover\" | \"contain\"",
+        "required": false,
+        "origin": "own",
+        "default": "\"cover\"",
+        "description": "`cover` (default) fills the box and crops; `contain` shows all of it, with space around.",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "cover",
+            "contain"
+          ]
+        }
+      },
+      {
+        "name": "radius",
+        "type": "ComponentRadius",
+        "required": false,
+        "origin": "own",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "none",
+            "small",
+            "medium",
+            "large",
+            "full"
+          ]
+        }
+      },
+      {
+        "name": "fallback",
+        "type": "React.ReactNode",
+        "required": false,
+        "origin": "own",
+        "description": "Shown when the picture cannot load; a neutral tile with an image icon by default."
+      },
+      {
+        "name": "loading",
+        "type": "\"lazy\" | \"eager\"",
+        "required": false,
+        "origin": "own",
+        "default": "\"lazy\"",
+        "description": "`lazy` (default) loads it when it nears the screen; `eager` for the picture above the fold.",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "lazy",
+            "eager"
+          ]
+        }
+      },
+      {
+        "name": "width",
+        "type": "number",
+        "required": false,
+        "origin": "own",
+        "schema": {
+          "type": "number"
+        }
+      },
+      {
+        "name": "height",
+        "type": "number",
+        "required": false,
+        "origin": "own",
+        "schema": {
+          "type": "number"
+        }
+      }
+    ]
+  },
+  "tokens": [
+    "ds-background-neutral",
+    "ds-icon",
+    "ds-icon-brand",
+    "ds-icon-danger",
+    "ds-icon-information",
+    "ds-icon-subtle",
+    "ds-icon-success",
+    "ds-icon-warning",
+    "ds-radius-medium",
+    "ds-size-icon",
+    "ds-size-icon-large",
+    "ds-size-icon-small"
+  ],
+  "strings": [],
+  "quality": {
+    "tests": true,
+    "a11y": false,
+    "docs": false,
+    "visual": false,
+    "dark": false,
+    "rtl": false,
+    "mcp": true,
+    "generic": true
+  }
+}

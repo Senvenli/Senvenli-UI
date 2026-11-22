@@ -1,0 +1,114 @@
+{
+  "$schema": "https://design.senvenli.com/schema/component.full.json",
+  "kind": "component",
+  "family": "display",
+  "status": "alpha",
+  "import": "@senvenli/react/display",
+  "name": "visually-hidden",
+  "title": "Visually hidden",
+  "exports": [
+    "VisuallyHidden"
+  ],
+  "description": "Text that screen readers read but the page does not show.",
+  "keywords": [
+    "screen reader",
+    "sr-only",
+    "hidden text",
+    "accessible name"
+  ],
+  "usage": {
+    "when": [
+      "A heading that names a region the layout already makes obvious.",
+      "Context an icon or a glyph gives sighted users."
+    ],
+    "instead": [
+      {
+        "use": "skip-link",
+        "when": "A link to jump past the navigation."
+      }
+    ]
+  },
+  "guidance": [
+    {
+      "rule": "Never hide something a sighted user needs to read."
+    }
+  ],
+  "a11y": {
+    "builtIn": [
+      "Hidden with the sr-only technique, so it stays in the accessibility tree.",
+      "`isFocusable`: shown while it has keyboard focus."
+    ],
+    "youProvide": [
+      "The words to read."
+    ]
+  },
+  "related": [
+    "skip-link",
+    "icon"
+  ],
+  "genui": {
+    "expose": false
+  },
+  "source": [
+    "src/display/visually-hidden.tsx"
+  ],
+  "props": {
+    "VisuallyHidden": [
+      {
+        "name": "children",
+        "type": "React.ReactNode",
+        "required": true,
+        "origin": "own"
+      },
+      {
+        "name": "elementType",
+        "type": "\"div\" | \"span\" | \"label\" | \"h2\" | \"h3\"",
+        "required": false,
+        "origin": "own",
+        "default": "\"span\"",
+        "description": "`span` (default) inside a line, `div` for a block (a hidden heading that names a region).",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "div",
+            "span",
+            "label",
+            "h2",
+            "h3"
+          ]
+        }
+      },
+      {
+        "name": "isFocusable",
+        "type": "boolean",
+        "required": false,
+        "origin": "own",
+        "description": "Shown while it, or something in it, has keyboard focus: a skip link, a hidden \"edit\" action.",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "id",
+        "type": "string",
+        "required": false,
+        "origin": "own",
+        "schema": {
+          "type": "string"
+        }
+      }
+    ]
+  },
+  "tokens": [],
+  "strings": [],
+  "quality": {
+    "tests": true,
+    "a11y": false,
+    "docs": false,
+    "visual": false,
+    "dark": false,
+    "rtl": false,
+    "mcp": true,
+    "generic": true
+  }
+}

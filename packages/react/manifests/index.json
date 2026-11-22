@@ -57,6 +57,24 @@
     "genui": false
   },
   {
+    "name": "copy-button",
+    "title": "Copy button",
+    "family": "action",
+    "status": "alpha",
+    "description": "Copies a value to the clipboard; the icon turns into a check and a status says it was copied.",
+    "keywords": [
+      "copy",
+      "clipboard",
+      "copy to clipboard",
+      "duplicate"
+    ],
+    "import": "@senvenli/react/action",
+    "exports": [
+      "CopyButton"
+    ],
+    "genui": false
+  },
+  {
     "name": "fab",
     "title": "Floating action button",
     "family": "action",
@@ -525,6 +543,26 @@
     "genui": true
   },
   {
+    "name": "tree",
+    "title": "Tree",
+    "family": "collection",
+    "status": "alpha",
+    "description": "A hierarchy to browse: folders and files, categories, with nodes that open and close.",
+    "keywords": [
+      "tree",
+      "tree view",
+      "hierarchy",
+      "folders",
+      "nested list",
+      "outline"
+    ],
+    "import": "@senvenli/react/collection",
+    "exports": [
+      "Tree"
+    ],
+    "genui": false
+  },
+  {
     "name": "color-field",
     "title": "Color field",
     "family": "color",
@@ -860,6 +898,25 @@
     "genui": false
   },
   {
+    "name": "image",
+    "title": "Image",
+    "family": "display",
+    "status": "alpha",
+    "description": "A picture in a box that keeps its shape while it loads, with a fallback when it cannot load.",
+    "keywords": [
+      "image",
+      "picture",
+      "photo",
+      "aspect ratio",
+      "thumbnail"
+    ],
+    "import": "@senvenli/react/display",
+    "exports": [
+      "Image"
+    ],
+    "genui": false
+  },
+  {
     "name": "kbd",
     "title": "Kbd",
     "family": "display",
@@ -971,6 +1028,24 @@
     "import": "@senvenli/react/display",
     "exports": [
       "Timeline"
+    ],
+    "genui": false
+  },
+  {
+    "name": "visually-hidden",
+    "title": "Visually hidden",
+    "family": "display",
+    "status": "alpha",
+    "description": "Text that screen readers read but the page does not show.",
+    "keywords": [
+      "screen reader",
+      "sr-only",
+      "hidden text",
+      "accessible name"
+    ],
+    "import": "@senvenli/react/display",
+    "exports": [
+      "VisuallyHidden"
     ],
     "genui": false
   },
@@ -1620,6 +1695,24 @@
     "genui": false
   },
   {
+    "name": "context-menu",
+    "title": "Context menu",
+    "family": "overlay",
+    "status": "alpha",
+    "description": "The actions for what is under the pointer, opened by a right-click, a long press or Shift+F10.",
+    "keywords": [
+      "context menu",
+      "right click",
+      "long press",
+      "actions"
+    ],
+    "import": "@senvenli/react/overlay",
+    "exports": [
+      "ContextMenu"
+    ],
+    "genui": false
+  },
+  {
     "name": "dialog",
     "title": "Dialog",
     "family": "overlay",
@@ -1654,6 +1747,24 @@
     "import": "@senvenli/react/overlay",
     "exports": [
       "Drawer"
+    ],
+    "genui": false
+  },
+  {
+    "name": "hover-card",
+    "title": "Hover card",
+    "family": "overlay",
+    "status": "alpha",
+    "description": "A preview card that opens when the pointer rests on its trigger or the trigger gets keyboard focus.",
+    "keywords": [
+      "hover card",
+      "preview",
+      "popover on hover",
+      "profile card"
+    ],
+    "import": "@senvenli/react/overlay",
+    "exports": [
+      "HoverCard"
     ],
     "genui": false
   },
@@ -1786,6 +1897,25 @@
       "ComboBox"
     ],
     "genui": true
+  },
+  {
+    "name": "list-box",
+    "title": "List box",
+    "family": "selection",
+    "status": "alpha",
+    "description": "A list of options shown in place, not in a dropdown: pick one or several.",
+    "keywords": [
+      "listbox",
+      "options",
+      "choice list",
+      "picker",
+      "selectable list"
+    ],
+    "import": "@senvenli/react/selection",
+    "exports": [
+      "ListBox"
+    ],
+    "genui": false
   },
   {
     "name": "radio",

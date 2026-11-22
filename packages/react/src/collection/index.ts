@@ -8,3 +8,5 @@ export type { ListItemProps, ListProps, ListSectionData } from "./list";
 export { DataTable } from "./data-table";
 export type { DataTableBulkAction, DataTableColumn, DataTableFilter, DataTableProps, DataTableQuery, DataTableResult } from "./data-table";
 export type { DataTableView } from "./data-table-url";
+export { Tree } from "./tree";
+export type { TreeNode, TreeProps } from "./tree";
