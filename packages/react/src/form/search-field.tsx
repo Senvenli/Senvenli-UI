@@ -18,7 +18,7 @@ import { FIELD_ICON, FIELD_STACK, INLINE_ACTION, INPUT, type FieldSize } from ".
 import { splitDataAttributes } from "./data-attributes";
 
 export type SearchFieldProps = Omit<AriaSearchFieldProps, "className" | "style" | "children"> & {
-  /** Names the field when there is no visible label ("Ara"). */
+  /** Names the field when there is no visible label ("Search"). */
   "aria-label"?: string;
   /** Optional visible label. */
   label?: React.ReactNode;

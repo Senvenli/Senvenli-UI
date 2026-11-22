@@ -136,6 +136,13 @@
         }
       },
       {
+        "name": "defaultFocusedValue",
+        "type": "CalendarDate",
+        "required": false,
+        "origin": "own",
+        "description": "The month that opens while nothing is chosen (any day in it). A prerendered page passes a fixed one, so the HTML\ndoes not depend on the build day; left out, the month of \"today\" (in `timeZone` when given)."
+      },
+      {
         "name": "value",
         "type": "CalendarDate",
         "required": false,
@@ -251,6 +258,13 @@
         }
       },
       {
+        "name": "defaultFocusedValue",
+        "type": "CalendarDate",
+        "required": false,
+        "origin": "own",
+        "description": "The month that opens while nothing is chosen (any day in it). A prerendered page passes a fixed one, so the HTML\ndoes not depend on the build day; left out, the month of \"today\" (in `timeZone` when given)."
+      },
+      {
         "name": "value",
         "type": "DateRange",
         "required": false,
@@ -317,7 +331,7 @@
         "type": "React.ReactNode",
         "required": false,
         "origin": "own",
-        "description": "In a popover: the footer shows the chosen range and its length beside this action (\"Tarihleri uygula\")."
+        "description": "In a popover: the footer shows the chosen range and its length beside this action (\"Apply dates\")."
       }
     ]
   },

@@ -41,7 +41,7 @@ export type BannerProps = BannerCommon &
       }
     | {
         /**
-         * Pinned to the bottom of the viewport until the visitor acts on it (the Website cookie
+         * Pinned to the bottom of the viewport until the visitor acts on it (a cookie
          * notice). A named region, not a dialog: focus is never moved or trapped and Esc does nothing.
          */
         placement: "floating";

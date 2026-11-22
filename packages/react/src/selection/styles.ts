@@ -5,7 +5,7 @@
  * `data-pressed` on the control's root; the indicator reads them with
  * `group-data-[…]` variants.
  *
- * Keyboard focus (owner decision, 2026-10-08): a 2px inner border on the
+ * Keyboard focus (a design rule): a 2px inner border on the
  * indicator, never an outer ring; pointer focus shows nothing. The colour
  * contrasts with what is under it: `ds-border-focused` on the light input
  * fill, `ds-text-on-brand` on a filled (selected) gold box or track.

@@ -130,7 +130,7 @@
         "type": "React.ReactNode",
         "required": false,
         "origin": "own",
-        "description": "A heading that also names the panel (\"Filtrele\"); without it, give `aria-label`."
+        "description": "A heading that also names the panel (\"Filters\"); without it, give `aria-label`."
       },
       {
         "name": "aria-label",

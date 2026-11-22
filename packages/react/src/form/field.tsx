@@ -39,8 +39,10 @@ export function Field({
 }: {
   label?: ReactNode;
   /** Control id for the label. Optional: when omitted, Field generates one and
-   * injects it onto a single-element child. A composite only receives it if it
-   * forwards what it is handed down to its focusable element (`Select` does). */
+   * injects it onto a single-element child. Field is for a control the library does not
+   * provide (a native input, a third-party widget) and for `InputGroup` with `InputGroupInput`,
+   * which forwards it to its input. The library's own fields (TextField, Select…) carry their
+   * own label, hint and error, so they do not go inside a Field. */
   htmlFor?: string;
   error?: ReactNode;
   hint?: ReactNode;

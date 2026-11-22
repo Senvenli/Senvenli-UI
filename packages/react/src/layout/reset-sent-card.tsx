@@ -5,6 +5,7 @@ import * as React from "react";
 import { Button } from "../action/button";
 import { IconGlyph } from "../display/icon";
 import { cn } from "../utils";
+import { TitleTag } from "./auth-form-layout";
 
 export interface ResetSentLabels {
   title: React.ReactNode;
@@ -26,6 +27,8 @@ export interface ResetSentCardProps {
   /** "Back to sign in" affordance under the actions. */
   backSlot?: React.ReactNode;
   className?: string;
+  /** The title's heading level: 1 by default, or 2 when the page has its own h1. */
+  headingLevel?: 1 | 2 | 3;
 }
 
 /**
@@ -42,6 +45,7 @@ export function ResetSentCard({
   icon,
   backSlot,
   className,
+  headingLevel = 1,
 }: ResetSentCardProps) {
   const [remaining, setRemaining] = React.useState(cooldownSeconds);
   const cooling = remaining > 0;
@@ -75,7 +79,7 @@ export function ResetSentCard({
       </div>
 
       <div className="mt-ds-300 space-y-1.5">
-        <h1 className="text-heading-large text-ds-text">{labels.title}</h1>
+        <TitleTag level={headingLevel} className="text-heading-large text-ds-text">{labels.title}</TitleTag>
         <p className="text-body text-ds-text-subtle">{labels.description}</p>
       </div>
 

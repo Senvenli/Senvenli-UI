@@ -64,7 +64,7 @@ export type PopoverProps = {
   isOpen?: boolean;
   defaultOpen?: boolean;
   onOpenChange?: (isOpen: boolean) => void;
-  /** A heading that also names the panel ("Filtrele"); without it, give `aria-label`. */
+  /** A heading that also names the panel ("Filters"); without it, give `aria-label`. */
   title?: React.ReactNode;
   "aria-label"?: string;
 };

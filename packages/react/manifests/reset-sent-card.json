@@ -95,14 +95,32 @@
         "schema": {
           "type": "string"
         }
+      },
+      {
+        "name": "headingLevel",
+        "type": "1 | 2 | 3",
+        "required": false,
+        "origin": "own",
+        "default": "1",
+        "description": "The title's heading level: 1 by default, or 2 when the page has its own h1.",
+        "schema": {
+          "enum": [
+            1,
+            2,
+            3
+          ]
+        }
       }
     ]
   },
   "tokens": [
     "ds-background-success",
     "ds-radius-full",
+    "ds-shadow-raised",
     "ds-space-200",
     "ds-space-300",
+    "ds-space-400",
+    "ds-surface-raised",
     "ds-text",
     "ds-text-subtle",
     "ds-text-success"

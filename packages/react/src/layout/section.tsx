@@ -35,7 +35,7 @@ export type SectionProps = {
 };
 
 /**
- * A full-width band of the Website: a background and vertical rhythm around
+ * A full-width band of a marketing or content page: a background and vertical rhythm around
  * a Container. Spacing is padding and gap from ds-space tokens, never
  * margins between sibling sections; logical properties only.
  */

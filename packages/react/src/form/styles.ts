@@ -2,7 +2,7 @@
  * Field recipes. The frame is a React Aria `Group`, so it gets
  * `data-hovered`, `data-focus-within`, `data-invalid` and `data-disabled`.
  *
- * Focus (owner decision 2026-10-08): no ring. The field's own 1px
+ * Focus (a design rule): no ring. The field's own 1px
  * `ds-border-bold` turns `ds-border-focused` and a 1px inner line joins it,
  * 2px in all. The inner line is an outline pulled inside the border
  * (`-outline-offset-2`), never outside: outlines paint above the addons'

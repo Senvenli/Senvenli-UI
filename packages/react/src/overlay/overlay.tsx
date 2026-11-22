@@ -825,7 +825,7 @@ export type AlertDialogProps = OpenProps & {
   /**
    * Where focus goes when the alert closes and React Aria's return would leave it on the page or on the
    * opener, as on Dialog. Needed when the element React Aria returns to is gone by the close: an alert
-   * opened from an item of the legacy Radix MoreButton (pass its button), or a confirmed action that removes the row
+   * opened from a menu whose trigger unmounts when it closes (pass a stable button), or a confirmed action that removes the row
    * with its Menu (pass a stable element). Opened from a DS Menu item it is not needed: React Aria returns focus to
    * the Menu button itself, and a ref naming another element does not override that. Read when the alert closes; if
    * the app has already moved focus elsewhere on close, it stays there; if the ref is empty, focus returns as before.
@@ -924,7 +924,7 @@ function AlertContent({
  * Confirms an action that destroys data, costs money or cannot be undone (role="alertdialog"). Not closed
  * by a scrim click; Esc cancels (not while the action runs); "Cancel" (or the app's `cancelLabel`) has the first focus. With
  * `requireTypedConfirmation` the action enables only once the text is typed. If the action can be undone,
- * skip it and offer "Geri al" in a Toast. Opened from the legacy Radix MoreButton, or when the confirmed action
+ * skip it and offer "Undo" in a Toast. Opened from a menu whose trigger unmounts, or when the confirmed action
  * removes the opener, pass `returnFocusRef` so focus has somewhere to go back to.
  */
 export function AlertDialog({ isOpen, defaultOpen, onOpenChange, "aria-describedby": ariaDescribedBy, ...content }: AlertDialogProps) {

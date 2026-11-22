@@ -6,6 +6,12 @@ import { cn } from "../utils";
 
 export type AuthFormLayoutSurface = "card" | "plain";
 
+/** A heading at the given level; the type style is the caller's, so the level never changes the look. */
+export function TitleTag({ level, className, children }: { level: 1 | 2 | 3; className?: string; children: React.ReactNode }) {
+  const Tag = `h${level}` as const;
+  return <Tag className={className}>{children}</Tag>;
+}
+
 export interface AuthFormLayoutProps {
   /**
    * `card` (default) raises the panel onto its own surface; `plain` lets it sit
@@ -21,6 +27,8 @@ export interface AuthFormLayoutProps {
    * may step down (`text-heading-medium`).
    */
   titleClassName?: string;
+  /** The title's heading level: 1 (the page's own heading, by default), or 2 when the page has its own h1. */
+  headingLevel?: 1 | 2 | 3;
   /** Above everything, at the inline end — a language switcher, a back link. */
   headerSlot?: React.ReactNode;
   /** The compact brand header, mobile only: the brand pane is desktop-only. */
@@ -102,6 +110,7 @@ export function AuthFormLayout({
   title,
   description,
   titleClassName = "text-heading-large",
+  headingLevel = 1,
   headerSlot,
   logoSlot,
   footerSlot,
@@ -127,7 +136,7 @@ export function AuthFormLayout({
       {logoSlot && <div data-slot="auth-card-logo" className="mb-7 flex items-center lg:hidden">{logoSlot}</div>}
 
       <div className="space-y-1.5">
-        <h1 className={cn("text-ds-text", titleClassName)}>{title}</h1>
+        <TitleTag level={headingLevel} className={cn("text-ds-text", titleClassName)}>{title}</TitleTag>
         {description && <p className="text-body text-ds-text-subtle">{description}</p>}
       </div>
 
