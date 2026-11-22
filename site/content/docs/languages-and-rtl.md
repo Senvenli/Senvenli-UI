@@ -23,6 +23,14 @@ registerDsStrings("de", {
 
 Then pass the locale to the provider: `<DesignSystemProvider locale="de">`.
 
+## See it in Spanish
+
+The locale alone names the months and weekdays, orders the date and picks the first day of the week. The label is your own text:
+
+```example
+date-picker/spanish
+```
+
 ## Your own locale tags
 
 If your app uses a tag `Intl` does not know, map it to one it does:
@@ -44,3 +52,9 @@ registerLanguageNames("en", { me: "Montenegrin" });
 ## Right to left
 
 Set `dir="rtl"` on the page for Arabic, Hebrew or Persian. Components use logical properties (start and end, never left and right), mirror their directional icons, and keep numbers, codes and phone numbers left to right inside a right-to-left line.
+
+The same date picker in Arabic: the field and the calendar mirror, the arrows point the reading way, and the digits follow the locale (`ar-EG` writes Arabic-Indic digits, `ar-AE` keeps Latin ones):
+
+```example
+date-picker/arabic
+```

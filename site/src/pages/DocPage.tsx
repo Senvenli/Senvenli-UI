@@ -1,6 +1,7 @@
 import { Link } from "@senvenli/react/action";
 import { Heading, Text } from "@senvenli/react/display";
 import { CodeBlock } from "../components/CodeBlock";
+import { ExampleBlock } from "../components/ExampleBlock";
 import { CopyButton } from "../components/CopyButton";
 import { DocsLayout } from "../components/DocsLayout";
 import { OnThisPage } from "../components/OnThisPage";
@@ -37,6 +38,10 @@ export function DocPage({ meta, parts, headings, docs }: { meta: DocMeta; parts:
           {parts.map((part, index) =>
             part.kind === "html" ? (
               <div key={index} dangerouslySetInnerHTML={{ __html: part.html }} />
+            ) : part.kind === "example" ? (
+              <div key={index} className="doc-example my-ds-300">
+                <ExampleBlock slug={part.slug} family={part.family} example={part.example} />
+              </div>
             ) : (
               <div key={index} className="doc-code">
                 <CodeBlock code={part.code} html={part.html} variants={part.variants} label={part.lang === "bash" ? "Terminal" : part.lang} />

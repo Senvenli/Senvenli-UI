@@ -1,7 +1,6 @@
 import { cn } from "@senvenli/react";
 import { useEffect, useRef } from "react";
 import { Link as AriaLink } from "react-aria-components";
-import { familyTitle, orderComponents } from "../lib/manifest";
 import { useSiteData } from "../lib/site-data";
 
 const ROW =
@@ -31,7 +30,7 @@ function Group({ title, children }: { title: string; children: React.ReactNode }
 
 /**
  * The one sidebar of every page under /docs: "Sections" (the introduction, the component list and every doc, in
- * reading order), then one labelled section per component family, every row visible (no accordion to open). The
+ * reading order), then every component A to Z, every row visible (no accordion to open). The
  * current page is a filled row, scrolled into view on arrival; the list scrolls on its own under the sticky header.
  */
 export function DocsSidebar() {
@@ -48,8 +47,7 @@ export function DocsSidebar() {
   }, [path]);
   if (!data) return null;
   const docs = data.docs.filter((doc) => doc.slug !== "introduction");
-  const components = orderComponents(data.components);
-  const families = [...new Set(components.map((item) => item.family))];
+  const components = [...data.components].sort((a, b) => a.title.localeCompare(b.title, "en"));
   return (
     <nav ref={list} aria-label="Docs" data-slot="docs-sidebar" className="h-full overflow-y-auto overscroll-contain py-ds-600 pe-ds-100">
       <div className="flex flex-col gap-ds-400">
@@ -66,17 +64,13 @@ export function DocsSidebar() {
             </Row>
           ))}
         </Group>
-        {families.map((family) => (
-          <Group key={family} title={familyTitle(family)}>
-            {components
-              .filter((item) => item.family === family)
-              .map((item) => (
-                <Row key={item.name} href={`/docs/components/${item.name}`} current={path === `/docs/components/${item.name}`}>
-                  {item.title}
-                </Row>
-              ))}
-          </Group>
-        ))}
+        <Group title="Components">
+          {components.map((item) => (
+            <Row key={item.name} href={`/docs/components/${item.name}`} current={path === `/docs/components/${item.name}`}>
+              {item.title}
+            </Row>
+          ))}
+        </Group>
       </div>
     </nav>
   );
