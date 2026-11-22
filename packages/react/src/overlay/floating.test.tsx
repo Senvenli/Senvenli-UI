@@ -331,11 +331,11 @@ describe("Menu order, tooltip triggers and popover clipping", () => {
     ]);
   });
 
-  it("a component trigger (the DS Lozenge) gets a focusable wrapper and its tooltip", async () => {
-    const { Lozenge } = await import("../display/index");
+  it("a component trigger (the DS Badge) gets a focusable wrapper and its tooltip", async () => {
+    const { Badge } = await import("../display/index");
     inLocale(
       <Tooltip content="Due 18 Oct 10:00 · 2 h 14 min late">
-        <Lozenge tone="danger">Overdue</Lozenge>
+        <Badge tone="danger">Overdue</Badge>
       </Tooltip>,
     );
     const target = document.querySelector<HTMLElement>("[data-slot='tooltip-target']")!;

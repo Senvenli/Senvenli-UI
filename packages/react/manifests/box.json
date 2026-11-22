@@ -52,7 +52,6 @@
     "children": [
       "heading",
       "text",
-      "lozenge",
       "badge",
       "avatar",
       "separator",

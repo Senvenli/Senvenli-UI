@@ -23,7 +23,7 @@
     ],
     "instead": [
       {
-        "use": "lozenge",
+        "use": "badge",
         "when": "Only an item's status needs showing."
       }
     ]

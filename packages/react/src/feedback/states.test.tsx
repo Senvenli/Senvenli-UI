@@ -8,7 +8,7 @@ import { DesignSystemProvider } from "../provider";
 import { Button } from "../action/index";
 import { DS_STRINGS, registerDsStrings } from "../i18n";
 import { EmptyState } from "./index";
-import { Lozenge } from "../display/lozenge";
+import { Badge } from "../display/badge";
 
 // A helper, not an inline `new URL("…", import.meta.url)`: Vite rewrites that literal form into an asset URL.
 const here = (file: string) => new URL(file, import.meta.url);
@@ -104,18 +104,18 @@ describe("EmptyState tone=danger (a failed load)", () => {
   });
 });
 
-describe("Lozenge appearance=plain (the live state dot)", () => {
+describe("Badge variant=dot (the live state dot)", () => {
   it("is a dot and a word, the dot hidden from screen readers", () => {
     inProvider(
       <>
-        <Lozenge appearance="plain" tone="success" isLive>Online</Lozenge>
-        <Lozenge appearance="plain" tone="danger">No connection</Lozenge>
-        <Lozenge appearance="plain">Inactive</Lozenge>
+        <Badge variant="dot" tone="success" isLive>Online</Badge>
+        <Badge variant="dot" tone="danger">No connection</Badge>
+        <Badge variant="dot">Inactive</Badge>
       </>,
     );
-    const dots = Array.from(document.querySelectorAll('[data-slot="lozenge"]'));
+    const dots = Array.from(document.querySelectorAll('[data-slot="badge"]'));
     expect(dots.map((dot) => dot.textContent)).toEqual(["Online", "No connection", "Inactive"]);
-    for (const mark of Array.from(document.querySelectorAll('[data-slot="lozenge-dot"]'))) {
+    for (const mark of Array.from(document.querySelectorAll('[data-slot="badge-dot"]'))) {
       expect(mark.getAttribute("aria-hidden")).toBe("true");
       expect(classesOf(mark)).toContain("size-ds-100");
       expectTokens(mark);
@@ -126,11 +126,11 @@ describe("Lozenge appearance=plain (the live state dot)", () => {
   it("shows the halo only for a live state, in the tone's status background", () => {
     inProvider(
       <>
-        <Lozenge appearance="plain" tone="success" isLive>Online</Lozenge>
-        <Lozenge appearance="plain" tone="information">Syncing</Lozenge>
+        <Badge variant="dot" tone="success" isLive>Online</Badge>
+        <Badge variant="dot" tone="information">Syncing</Badge>
       </>,
     );
-    const [live, idle] = Array.from(document.querySelectorAll('[data-slot="lozenge-dot"]'));
+    const [live, idle] = Array.from(document.querySelectorAll('[data-slot="badge-dot"]'));
     expect(classesOf(live)).toContain("ring-3");
     expect(classesOf(live)).toContain("ring-ds-background-success");
     expect(classesOf(live)).toContain("bg-ds-icon-success");
@@ -139,26 +139,26 @@ describe("Lozenge appearance=plain (the live state dot)", () => {
   });
 
   it("is a named image when no word fits", () => {
-    inProvider(<Lozenge appearance="plain" tone="warning" aria-label="Signal delayed" />);
+    inProvider(<Badge variant="dot" tone="warning" aria-label="Signal delayed" />);
     expect(screen.getByRole("img", { name: "Signal delayed" })).toBeTruthy();
   });
 
   it("never renders an empty word next to the dot", () => {
-    inProvider(<Lozenge appearance="plain" tone="success">{null}</Lozenge>);
-    expect(slot("lozenge-label")).toBeNull();
+    inProvider(<Badge variant="dot" tone="success">{null}</Badge>);
+    expect(slot("badge-label")).toBeNull();
     // No word and no label: decorative, never an unnamed image.
-    expect(slot("lozenge")?.hasAttribute("role")).toBe(false);
-    expect(slot("lozenge")?.getAttribute("aria-hidden")).toBe("true");
+    expect(slot("badge")?.hasAttribute("role")).toBe(false);
+    expect(slot("badge")?.getAttribute("aria-hidden")).toBe("true");
   });
 
   it("keeps the word clear of the live halo", () => {
     inProvider(
       <>
-        <Lozenge appearance="plain" tone="success" isLive>Online</Lozenge>
-        <Lozenge appearance="plain" tone="success">Online</Lozenge>
+        <Badge variant="dot" tone="success" isLive>Online</Badge>
+        <Badge variant="dot" tone="success">Online</Badge>
       </>,
     );
-    const [live, idle] = Array.from(document.querySelectorAll('[data-slot="lozenge"]'));
+    const [live, idle] = Array.from(document.querySelectorAll('[data-slot="badge"]'));
     expect(classesOf(live)).toContain("gap-ds-100");
     expect(classesOf(idle)).toContain("gap-ds-075");
   });
@@ -170,7 +170,7 @@ describe("strings and direction", () => {
       <div dir="rtl">
         <EmptyState icon="inbox" title="ا" description="ب" primaryAction={<Button>ج</Button>} />
         <EmptyState tone="danger" icon="cloud-off" title="د" description="ه" details={<bdi data-slot="code">X-1</bdi>} primaryAction={<Button iconBefore="rotate-cw">ز</Button>} />
-        <Lozenge appearance="plain" tone="success" isLive>و</Lozenge>
+        <Badge variant="dot" tone="success" isLive>و</Badge>
       </div>,
       "ar",
     );

@@ -1,15 +1,15 @@
-import { Lozenge } from "@senvenli/react/display";
+import { Badge } from "@senvenli/react/display";
 import { Inline } from "@senvenli/react/layout";
 
 export default function Example() {
   return (
     <Inline space="space-100">
-      <Lozenge tone="success" hasDot>
+      <Badge tone="success" hasDot>
         Online
-      </Lozenge>
-      <Lozenge tone="information" hasDot>
+      </Badge>
+      <Badge tone="information" hasDot>
         Syncing
-      </Lozenge>
+      </Badge>
     </Inline>
   );
 }

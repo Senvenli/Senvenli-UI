@@ -21,7 +21,7 @@ export type ListItemProps = {
   title: string;
   /** The context the reader scans for: item, time, place ("Order 1042 · 10:00 · Berlin"). */
   description?: React.ReactNode;
-  /** At the end: a Lozenge for status, then a subtle icon-button menu. */
+  /** At the end: a Badge for status, then a subtle icon-button menu. */
   trailing?: React.ReactNode;
   /** Makes the row a link to the record. */
   href?: string;

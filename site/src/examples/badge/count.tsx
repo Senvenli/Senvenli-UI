@@ -6,11 +6,11 @@ export default function Example() {
     <Inline space="space-300">
       <Inline space="space-075">
         <Text>Open orders</Text>
-        <Badge value={12} />
+        <Badge variant="count" value={12} />
       </Inline>
       <Inline space="space-075">
         <Text>Messages</Text>
-        <Badge value={128} />
+        <Badge variant="count" value={128} />
       </Inline>
     </Inline>
   );

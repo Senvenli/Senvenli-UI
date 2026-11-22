@@ -3,7 +3,7 @@ import { act, cleanup, fireEvent, render, screen, waitFor, within } from "@testi
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import { DesignSystemProvider } from "../provider";
-import { CommandPalette, toast, type CommandGroup, type CommandItem } from "./index";
+import { Command, toast, type CommandGroup, type CommandItem } from "./index";
 import { clearToastsForTests } from "./toast";
 
 const PHYSICAL = /(^|\s|:)(-?m[lr]-|p[lr]-|-?left-|-?right-|border-[lr](-|\s|$)|rounded-[lr]-|text-left|text-right)/;
@@ -136,19 +136,19 @@ const ACTIONS: CommandGroup = {
 };
 const RECENT: CommandItem[] = [{ id: "ord-482", label: "Jordan Lee", detail: "ORD-482", icon: "calendar", kind: "record" }];
 
-function Palette(props: Partial<React.ComponentProps<typeof CommandPalette>>) {
-  return <CommandPalette defaultOpen groups={[ACTIONS]} recent={RECENT} onSelect={vi.fn()} {...props} />;
+function Palette(props: Partial<React.ComponentProps<typeof Command>>) {
+  return <Command defaultOpen groups={[ACTIONS]} recent={RECENT} onSelect={vi.fn()} {...props} />;
 }
 
 function options() {
   return screen.queryAllByRole("option").map((option) => option.getAttribute("data-key") ?? option.textContent);
 }
 
-describe("CommandPalette", () => {
+describe("Command", () => {
   it("an empty query shows recent records and the five most used actions; the field has focus", async () => {
     inLocale(<Palette />);
-    expect(screen.getByRole("dialog", { name: "Command palette" })).toBeTruthy();
-    const titles = Array.from(document.querySelectorAll("[data-slot='command-palette-group-title']")).map((title) => title.textContent);
+    expect(screen.getByRole("dialog", { name: "Command" })).toBeTruthy();
+    const titles = Array.from(document.querySelectorAll("[data-slot='command-group-title']")).map((title) => title.textContent);
     expect(titles).toEqual(["Recent", "Frequent actions"]);
     expect(screen.getAllByRole("option")).toHaveLength(1 + 5);
     await waitFor(() => expect(document.activeElement).toBe(screen.getByRole("searchbox")));
@@ -207,17 +207,17 @@ describe("CommandPalette", () => {
   });
 
   it("Ctrl K (⌘K on Apple) opens and closes it when bound; the physical key counts on other layouts", async () => {
-    inLocale(<CommandPalette shortcut groups={[ACTIONS]} onSelect={vi.fn()} />);
+    inLocale(<Command shortcut groups={[ACTIONS]} onSelect={vi.fn()} />);
     expect(screen.queryByRole("dialog")).toBeNull();
     fireEvent.keyDown(document, { key: "k", ctrlKey: true });
-    expect(screen.getByRole("dialog", { name: "Command palette" })).toBeTruthy();
+    expect(screen.getByRole("dialog", { name: "Command" })).toBeTruthy();
     // A Cyrillic layout reports "л" for the K key.
     fireEvent.keyDown(document, { key: "л", code: "KeyK", ctrlKey: true });
     await waitFor(() => expect(screen.queryByRole("dialog")).toBeNull());
   });
 
   it("leaves Ctrl K alone when an editor already handled it, or during IME composition", () => {
-    inLocale(<CommandPalette shortcut groups={[ACTIONS]} onSelect={vi.fn()} />);
+    inLocale(<Command shortcut groups={[ACTIONS]} onSelect={vi.fn()} />);
     const handled = new KeyboardEvent("keydown", { key: "k", ctrlKey: true, bubbles: true, cancelable: true });
     handled.preventDefault();
     act(() => {
@@ -229,12 +229,12 @@ describe("CommandPalette", () => {
 
   it("the footer shows the key hints; RTL logical classes", () => {
     inLocale(<Palette />, "ar", "rtl");
-    expect(document.querySelector("[data-slot='command-palette-footer']")!.querySelectorAll("[data-slot='kbd']").length).toBeGreaterThanOrEqual(4);
+    expect(document.querySelector("[data-slot='command-footer']")!.querySelectorAll("[data-slot='kbd']").length).toBeGreaterThanOrEqual(4);
     for (const el of Array.from(document.querySelectorAll("[data-slot^='command']"))) expect(el.getAttribute("class") ?? "").not.toMatch(PHYSICAL);
   });
 });
 
-describe("CommandPalette and Toast details", () => {
+describe("Command and Toast details", () => {
   it("ids that repeat across groups stay separate rows, and each selects its own item", async () => {
     const onSelect = vi.fn();
     const search = vi.fn(async () => [
@@ -261,8 +261,8 @@ describe("CommandPalette and Toast details", () => {
     fireEvent.change(input, { target: { value: "lamp 8" } });
     expect(screen.getByRole("option", { name: /Desk lamp 8/ })).toBeTruthy();
     fireEvent.change(input, { target: { value: "sku 4" } });
-    await waitFor(() => expect(document.querySelector("[data-slot='command-palette-empty']")?.textContent).not.toMatch(/No results for/));
-    await waitFor(() => expect(document.querySelector("[data-slot='command-palette-empty']")?.textContent).toBeTruthy());
+    await waitFor(() => expect(document.querySelector("[data-slot='command-empty']")?.textContent).not.toMatch(/No results for/));
+    await waitFor(() => expect(document.querySelector("[data-slot='command-empty']")?.textContent).toBeTruthy());
   });
 
   it("a group ranks by its highest kind: a mixed group holding a record comes first", () => {
@@ -275,7 +275,7 @@ describe("CommandPalette and Toast details", () => {
       />,
     );
     fireEvent.change(screen.getByRole("searchbox"), { target: { value: "lamp" } });
-    expect(Array.from(document.querySelectorAll("[data-slot='command-palette-group-title']")).map((t) => t.textContent)).toEqual(["Mixed", "Actions"]);
+    expect(Array.from(document.querySelectorAll("[data-slot='command-group-title']")).map((t) => t.textContent)).toEqual(["Mixed", "Actions"]);
   });
 
   it("Esc closes at once, even with a query, and focus returns to the opener", async () => {
@@ -284,7 +284,7 @@ describe("CommandPalette and Toast details", () => {
       return (
         <>
           <button onClick={() => setOpen(true)}>Open</button>
-          <CommandPalette isOpen={open} onOpenChange={setOpen} groups={[ACTIONS]} onSelect={vi.fn()} />
+          <Command isOpen={open} onOpenChange={setOpen} groups={[ACTIONS]} onSelect={vi.fn()} />
         </>
       );
     }

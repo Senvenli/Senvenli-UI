@@ -4,7 +4,7 @@ import * as React from "react";
 import { Link as AriaLink, useLocale } from "react-aria-components";
 
 import { cn } from "../utils";
-import { Badge, type BadgeTone } from "../display/badge";
+import { Badge, type BadgeCountTone } from "../display/badge";
 import { IconGlyph, type IconName } from "../display/icon";
 import { mainNavigationLabel } from "../i18n";
 import { LAYER } from "../layers";
@@ -15,7 +15,7 @@ export type BottomNavItem = {
   label: string;
   icon: IconName;
   href: string;
-  badge?: { value: number; tone?: BadgeTone };
+  badge?: { value: number; tone?: BadgeCountTone };
 };
 
 export type BottomNavProps = {
@@ -86,7 +86,7 @@ export function BottomNav({ items, currentKey, "aria-label": label }: BottomNavP
                 {item.badge && item.badge.value > 0 && (
                   // Drawn on the icon; read after the label ("Mesajlar, 2").
                   <span data-slot="bottom-nav-item-badge" aria-hidden className="absolute -top-1 -end-2.5">
-                    <Badge value={item.badge.value} tone={item.badge.tone} isOnIcon />
+                    <Badge variant="count" value={item.badge.value} tone={item.badge.tone} isOnIcon />
                   </span>
                 )}
               </span>

@@ -1,4 +1,4 @@
-import { Lozenge, Text } from "@senvenli/react/display";
+import { Badge, Text } from "@senvenli/react/display";
 import { Disclosure } from "@senvenli/react/navigation";
 import type { ManifestProp } from "../lib/manifest";
 import { DocText } from "./DocText";
@@ -27,7 +27,7 @@ function Rows({ props }: { props: ManifestProp[] }) {
               <th scope="row" className="py-ds-150 pe-ds-300 text-start font-normal">
                 <span className="flex flex-col items-start gap-ds-050">
                   <code className={`${code} text-ds-text`}>{prop.name}</code>
-                  {prop.required && <Lozenge>Required</Lozenge>}
+                  {prop.required && <Badge>Required</Badge>}
                 </span>
               </th>
               <td className="max-w-60 py-ds-150 pe-ds-300">
@@ -46,7 +46,7 @@ function Rows({ props }: { props: ManifestProp[] }) {
           <div key={prop.name} className="flex flex-col gap-ds-075 border-t border-ds-border py-ds-200">
             <dt className="flex items-center gap-ds-100">
               <code className={`${code} text-ds-text`}>{prop.name}</code>
-              {prop.required && <Lozenge>Required</Lozenge>}
+              {prop.required && <Badge>Required</Badge>}
             </dt>
             <dd className="m-0 flex flex-col gap-ds-075 text-body">
               <code className={`${code} break-words text-ds-text-subtle`}>{prop.type}</code>

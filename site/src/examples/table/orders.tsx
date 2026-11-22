@@ -1,5 +1,5 @@
 import { Table } from "@senvenli/react/collection";
-import { Lozenge, Text } from "@senvenli/react/display";
+import { Badge, Text } from "@senvenli/react/display";
 import { Stack } from "@senvenli/react/layout";
 
 const ORDERS = [
@@ -19,7 +19,7 @@ export default function Example() {
         { key: "id", header: "Order", isRowHeader: true },
         { key: "customer", header: "Customer", render: (order) => <Stack space="space-0"><Text truncate>{order.customer}</Text><Text size="body-small" tone="subtle" truncate><bdi>{order.email}</bdi></Text></Stack> },
         { key: "date", header: "Date", hideBelow: "sm" },
-        { key: "isPaid", header: "Payment", render: (order) => (order.isPaid ? <Lozenge tone="success">Paid</Lozenge> : <Lozenge tone="warning">Pending</Lozenge>) },
+        { key: "isPaid", header: "Payment", render: (order) => (order.isPaid ? <Badge tone="success">Paid</Badge> : <Badge tone="warning">Pending</Badge>) },
         { key: "total", header: "Total", align: "end", render: (order) => usd.format(order.total) },
       ]}
     />

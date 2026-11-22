@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { CalendarDate } from "@internationalized/date";
 import { DataTable, type DataTableColumn } from "@senvenli/react/collection";
-import { Lozenge } from "@senvenli/react/display";
+import { Badge } from "@senvenli/react/display";
 
 const STATUS = {
   paid: { label: "Paid", tone: "success" },
@@ -31,7 +31,7 @@ const COLUMNS: DataTableColumn<Order>[] = [
   { key: "customer", header: "Customer", isSortable: true },
   // Sorted and searched by the ISO date under `key`, shown short.
   { key: "date", header: "Date", isSortable: true, isHideable: true, render: (order) => day.format(new Date(order.date)) },
-  { key: "status", header: "Status", isHideable: true, render: (order) => <Lozenge tone={STATUS[order.status].tone}>{STATUS[order.status].label}</Lozenge> },
+  { key: "status", header: "Status", isHideable: true, render: (order) => <Badge tone={STATUS[order.status].tone}>{STATUS[order.status].label}</Badge> },
   { key: "total", header: "Total", align: "end", isSortable: true, render: (order) => usd.format(order.total) },
 ];
 const FILTERS = [{ key: "status", label: "Status", options: Object.entries(STATUS).map(([id, status]) => ({ id, label: status.label })) }];

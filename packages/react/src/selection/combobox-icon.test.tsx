@@ -4,11 +4,11 @@ import { renderToStaticMarkup } from "react-dom/server";
 import { afterEach, describe, expect, it, vi } from "vitest";
 
 import { DesignSystemProvider } from "../provider";
-import { Lozenge } from "../display";
+import { Badge } from "../display";
 import { ComboBox, type ComboBoxItem } from "./index";
 
 // ComboBoxItem.icon: a country picker shows each country's code chip before its name, in the list and with the
-// chosen value, as MultiSelect does. Any node works as the icon; a Lozenge with the code stands in for the chip here.
+// chosen value, as MultiSelect does. Any node works as the icon; a Badge with the code stands in for the chip here.
 
 if (typeof globalThis.CSS === "undefined" || typeof globalThis.CSS.escape !== "function") {
   Object.assign(globalThis, { CSS: { ...(globalThis.CSS ?? {}), escape: (value: string) => value.replace(/[^a-zA-Z0-9_-]/g, (char) => `\\${char}`) } });
@@ -25,8 +25,8 @@ function inLocale(ui: React.ReactElement, locale = "en", dir?: "rtl") {
 }
 
 const COUNTRIES: ComboBoxItem[] = [
-  { id: "ME", label: "Montenegro", icon: <Lozenge>ME</Lozenge> },
-  { id: "TR", label: "Turkey", icon: <Lozenge>TR</Lozenge>, description: "Inactive" },
+  { id: "ME", label: "Montenegro", icon: <Badge>ME</Badge> },
+  { id: "TR", label: "Turkey", icon: <Badge>TR</Badge>, description: "Inactive" },
   { id: "RS", label: "Serbia" },
 ];
 
@@ -49,7 +49,7 @@ describe("ComboBoxItem icon", () => {
     const option = within(list).getByRole("option", { name: "Montenegro" });
     const icon = option.querySelector("[data-slot='combobox-option-icon']")!;
     expect(icon.getAttribute("aria-hidden")).toBe("true");
-    expect(icon.querySelector("[data-slot='lozenge']")!.textContent).toBe("ME");
+    expect(icon.querySelector("[data-slot='badge']")!.textContent).toBe("ME");
     // Before the label in DOM order, so it sits at the inline start in both directions.
     const label = option.querySelector("[data-slot='combobox-option-label']")!;
     expect(icon.compareDocumentPosition(label) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
@@ -135,18 +135,18 @@ describe("ComboBoxItem icon", () => {
       </DesignSystemProvider>,
     );
     expect(html).toContain('data-slot="combobox-value-icon"');
-    expect(html).toContain('data-slot="lozenge"');
+    expect(html).toContain('data-slot="badge"');
   });
 
   it("320px: a list with icons is capped to the viewport, so a long name truncates beside its chip; without icons the popover is as before", async () => {
-    inLocale(<ComboBox label="Country" items={[...COUNTRIES, { id: "BA", label: "Bosnia and Herzegovina: the joint service area of both of its entities", icon: <Lozenge>BA</Lozenge> }]} />);
+    inLocale(<ComboBox label="Country" items={[...COUNTRIES, { id: "BA", label: "Bosnia and Herzegovina: the joint service area of both of its entities", icon: <Badge>BA</Badge> }]} />);
     const list = await openList();
     const popover = list.closest("[data-slot='combobox-popover']")!;
     expect(popover.className).toContain("max-w-[calc(100vw-1.5rem)]");
     const label = within(list).getByRole("option", { name: /Bosnia and Herzegovina/ }).querySelector("[data-slot='combobox-option-label']")!;
     expect(label.className).toContain("truncate");
     expect(label.parentElement!.className).toContain("min-w-0");
-    expect(within(list).getByRole("option", { name: /Bosnia and Herzegovina/ }).querySelector("[data-slot='lozenge']")!.className).toContain("shrink-0");
+    expect(within(list).getByRole("option", { name: /Bosnia and Herzegovina/ }).querySelector("[data-slot='badge']")!.className).toContain("shrink-0");
     cleanup();
     inLocale(<ComboBox label="Country" items={[{ id: "a", label: "A" }]} />);
     const plain = await openList();

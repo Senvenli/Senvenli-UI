@@ -1,5 +1,5 @@
 import { List } from "@senvenli/react/collection";
-import { Icon, Lozenge } from "@senvenli/react/display";
+import { Icon, Badge } from "@senvenli/react/display";
 
 type Delivery = { id: string; customer: string; detail: string; isDelivered?: boolean };
 
@@ -31,7 +31,7 @@ export default function Example() {
         leading: <Icon name="package" color="subtle" />,
         title: delivery.customer,
         description: delivery.detail,
-        trailing: delivery.isDelivered ? <Lozenge tone="success">Delivered</Lozenge> : <Lozenge tone="information">Scheduled</Lozenge>,
+        trailing: delivery.isDelivered ? <Badge tone="success">Delivered</Badge> : <Badge tone="information">Scheduled</Badge>,
       })}
     />
   );

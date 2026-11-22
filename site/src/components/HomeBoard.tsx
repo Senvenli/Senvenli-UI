@@ -2,7 +2,7 @@ import { CalendarDate } from "@internationalized/date";
 import { Button } from "@senvenli/react/action";
 import { AreaChart } from "@senvenli/react/charts";
 import { Calendar } from "@senvenli/react/date";
-import { Lozenge, Stat, StatGroup } from "@senvenli/react/display";
+import { Badge, Stat, StatGroup } from "@senvenli/react/display";
 import { TextField } from "@senvenli/react/form";
 import { Stack } from "@senvenli/react/layout";
 import { Checkbox, Switch } from "@senvenli/react/selection";
@@ -54,10 +54,10 @@ export function HomeBoard() {
       <Cell>
         <Stack space="space-200">
           <div className="flex flex-wrap gap-ds-100">
-            <Lozenge tone="success">Paid</Lozenge>
-            <Lozenge tone="warning">Pending</Lozenge>
-            <Lozenge tone="information">Shipped</Lozenge>
-            <Lozenge tone="danger">Failed</Lozenge>
+            <Badge tone="success">Paid</Badge>
+            <Badge tone="warning">Pending</Badge>
+            <Badge tone="information">Shipped</Badge>
+            <Badge tone="danger">Failed</Badge>
           </div>
           <Switch defaultSelected description="Ask for a code on every sign-in.">
             Two-step sign-in

@@ -58,8 +58,8 @@ describe("generated manifests", () => {
     const value = badge.props.Badge!.find((p) => p.name === "value")!;
     expect(value.type).toBe("number");
     expect(value.required).toBe(false);
-    const lozenge = result.manifests.find((m) => m.name === "lozenge")!;
-    expect(lozenge.props.Lozenge!.find((p) => p.name === "tone")).toMatchObject({ default: '"neutral"', required: false });
+    expect(badge.props.Badge!.find((p) => p.name === "tone")).toMatchObject({ required: false });
+    expect(badge.props.Badge!.find((p) => p.name === "variant")).toBeTruthy();
   });
 
   it("list only tokens and strings that exist", () => {

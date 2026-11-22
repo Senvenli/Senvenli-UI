@@ -1,7 +1,7 @@
 import { Button } from "@senvenli/react/action";
 import { Text } from "@senvenli/react/display";
 import { Inline } from "@senvenli/react/layout";
-import { CommandPalette, type CommandGroup } from "@senvenli/react/overlay";
+import { Command, type CommandGroup } from "@senvenli/react/overlay";
 import { useState } from "react";
 
 const GROUPS: CommandGroup[] = [
@@ -34,7 +34,7 @@ export default function Example() {
         Search
       </Button>
       <Text tone="subtle">Chosen: {chosen}</Text>
-      <CommandPalette isOpen={isOpen} onOpenChange={setIsOpen} groups={GROUPS} onSelect={(item) => setChosen(item.label)} />
+      <Command isOpen={isOpen} onOpenChange={setIsOpen} groups={GROUPS} onSelect={(item) => setChosen(item.label)} />
     </Inline>
   );
 }

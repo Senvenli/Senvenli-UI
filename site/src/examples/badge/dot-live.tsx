@@ -1,12 +1,12 @@
 import { Text } from "@senvenli/react/display";
-import { Lozenge } from "@senvenli/react/display";
+import { Badge } from "@senvenli/react/display";
 import { Inline } from "@senvenli/react/layout";
 
 export default function Example() {
   return (
     <Inline space="space-200" justify="between">
       <Text weight="medium">Payments webhook</Text>
-      <Lozenge appearance="plain" tone="success" isLive>Receiving events</Lozenge>
+      <Badge variant="dot" tone="success" isLive>Receiving events</Badge>
     </Inline>
   );
 }

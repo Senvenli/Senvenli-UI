@@ -1,4 +1,4 @@
-import { Lozenge, Text } from "@senvenli/react/display";
+import { Badge, Text } from "@senvenli/react/display";
 import { Inline, Stack } from "@senvenli/react/layout";
 import { Radio, RadioGroup } from "@senvenli/react/selection";
 
@@ -16,7 +16,7 @@ export default function Example() {
         <Stack as="span" space="space-050">
           <Inline as="span" space="space-075" align="center">
             <span>Team</span>
-            <Lozenge tone="brand">Recommended</Lozenge>
+            <Badge tone="brand">Recommended</Badge>
           </Inline>
           <Text size="body-large" weight="medium" isNumeric>$12 / month</Text>
         </Stack>

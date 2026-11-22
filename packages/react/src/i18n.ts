@@ -632,7 +632,7 @@ const CHART_VALUE: Strings = {
   en: "Value",
 };
 const COMMAND_PALETTE: Strings = {
-  en: "Command palette",
+  en: "Command",
 };
 const COMMAND_SEARCH: Strings = {
   en: "Search records or actions",

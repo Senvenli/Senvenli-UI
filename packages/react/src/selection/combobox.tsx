@@ -36,7 +36,7 @@ export type ComboBoxItem = {
   label: string;
   /** Secondary line (an ID, e-mail); searched like the label. */
   description?: string;
-  /** A trailing mark such as a status Lozenge. */
+  /** A trailing mark such as a status Badge. */
   badge?: React.ReactNode;
   /**
    * A small decorative mark before the label (a country's `IsoChip`, the app's own node): in the option row,
