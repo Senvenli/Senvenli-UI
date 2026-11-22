@@ -76,7 +76,7 @@ export function Pagination({
   const step = (label: string, toward: "previous" | "next", target: number) => (
     <Button
       variant="subtle"
-      size="compact"
+      size="small"
       iconOnly
       iconBefore={toward === "previous" ? "chevron-left" : "chevron-right"}
       aria-label={label}
@@ -128,7 +128,7 @@ export function Pagination({
             onAction={(key) => onPageSizeChange(Number(key))}
             items={sizes.map((size) => ({ id: String(size), label: number.format(size) }))}
             trigger={
-              <Button variant="default" size="compact" iconAfter="chevron-down" aria-label={`${perPageLabel(locale)}: ${number.format(pageSize)}`}>
+              <Button variant="default" size="small" iconAfter="chevron-down" aria-label={`${perPageLabel(locale)}: ${number.format(pageSize)}`}>
                 <span className="tabular-nums">{number.format(pageSize)}</span>
               </Button>
             }

@@ -288,8 +288,8 @@
         "schema": {
           "type": "string",
           "enum": [
-            "default",
-            "compact"
+            "small",
+            "medium"
           ]
         }
       },

@@ -113,7 +113,7 @@ function Controls({ input, theme, setInput }: { input: ThemeInput; theme: Theme;
                 />
               </div>
               {input[role] && (
-                <Button size="compact" variant="subtle" onPress={() => clearRole(role)}>
+                <Button size="small" variant="subtle" onPress={() => clearRole(role)}>
                   Reset
                 </Button>
               )}
@@ -165,7 +165,7 @@ function Controls({ input, theme, setInput }: { input: ThemeInput; theme: Theme;
         <span className="flex flex-col items-start gap-ds-100">
           <span>In light and dark.</span>
           <DialogTrigger>
-            <Button size="compact" variant="subtle">
+            <Button size="small" variant="subtle">
               {failing.length ? "See which" : "See pairs"}
             </Button>
             <Drawer title="Contrast pairs" subtitle="Every text and border pair the engine checks, with its ratio.">

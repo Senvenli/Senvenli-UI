@@ -96,7 +96,7 @@ function Stepper() {
  */
 export const NumberField = React.forwardRef<HTMLInputElement, NumberFieldProps>(function NumberField(
   {
-    label, description, errorMessage, isOptional, placeholder, prefix, suffix, showStepper, locale, size = "default",
+    label, description, errorMessage, isOptional, placeholder, prefix, suffix, showStepper, locale, size = "medium",
     currency, formatOptions, validate, onBlur, onChange, requiredValidation, ...rest
   },
   ref,

@@ -30,9 +30,9 @@ export function CopyButton({ text, getText, label = "Copy", copiedLabel = "Copie
   return (
     <>
       {iconOnly ? (
-        <Button size="compact" variant="subtle" iconOnly iconBefore={state === "copied" ? "check" : "copy"} aria-label={label} onPress={copy} />
+        <Button size="small" variant="subtle" iconOnly iconBefore={state === "copied" ? "check" : "copy"} aria-label={label} onPress={copy} />
       ) : (
-        <Button size="compact" variant="subtle" iconBefore={state === "copied" ? "check" : "copy"} onPress={copy}>
+        <Button size="small" variant="subtle" iconBefore={state === "copied" ? "check" : "copy"} onPress={copy}>
           {said}
         </Button>
       )}

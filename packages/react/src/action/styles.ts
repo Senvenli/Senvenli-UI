@@ -18,7 +18,7 @@ export const FOCUS_INSET = "outline-hidden data-[focus-visible]:inset-ring-2";
 export const FOCUS_COLOR = "data-[focus-visible]:inset-ring-ds-border-focused";
 
 export type ButtonVariant = "primary" | "default" | "subtle" | "danger" | "link";
-export type ButtonSize = "compact" | "default" | "large";
+export type ButtonSize = "small" | "medium" | "large";
 
 export const BUTTON_BASE =
   "relative inline-flex shrink-0 items-center justify-center gap-ds-075 whitespace-nowrap rounded-ds-medium select-none cursor-pointer " +
@@ -68,12 +68,12 @@ export const TOUCH_TARGET =
   "in-data-[slot=button-group]:before:inset-x-0";
 
 /** Whether a Button-shaped control of this size gets the touch hit area: compact, or icon-only at the default size. */
-export const hasTouchTarget = (size: ButtonSize, iconOnly: boolean | undefined) => size === "compact" || (Boolean(iconOnly) && size === "default");
+export const hasTouchTarget = (size: ButtonSize, iconOnly: boolean | undefined) => size === "small" || (Boolean(iconOnly) && size === "medium");
 
 /** Height, padding and type per size; `link` keeps text padding at every size. */
 export const BUTTON_SIZE: Record<ButtonSize, string> = {
-  compact: "h-ds-control-compact px-ds-100 text-body-strong",
-  default: "h-ds-control px-ds-150 text-body-strong",
+  small: "h-ds-control-compact px-ds-100 text-body-strong",
+  medium: "h-ds-control px-ds-150 text-body-strong",
   // 16px at weight 500 is the design's large button; no named type style has that pair.
   large: "h-ds-control-large px-ds-200 text-body-large font-[500]",
 };
@@ -81,14 +81,14 @@ export const BUTTON_SIZE: Record<ButtonSize, string> = {
 export const LINK_BUTTON_PADDING = "px-ds-050";
 
 export const ICON_ONLY_SIZE: Record<ButtonSize, string> = {
-  compact: "w-ds-control-compact px-0",
-  default: "w-ds-control px-0",
+  small: "w-ds-control-compact px-0",
+  medium: "w-ds-control px-0",
   large: "w-ds-control-large px-0",
 };
 
 export const ICON = "size-ds-icon shrink-0";
 
-export type ToggleSize = "compact" | "default";
+export type ToggleSize = "small" | "medium";
 
 export const TOGGLE =
   "inline-flex shrink-0 items-center justify-center gap-ds-075 whitespace-nowrap rounded-ds-medium border border-ds-border-bold text-ds-text-subtle select-none cursor-pointer outline-hidden " +
@@ -100,8 +100,8 @@ export const TOGGLE =
   " data-[disabled]:cursor-not-allowed data-[disabled]:border-ds-border data-[disabled]:text-ds-text-disabled";
 
 export const TOGGLE_SIZE: Record<ToggleSize, string> = {
-  compact: "h-ds-control-compact px-ds-100 text-body-strong",
-  default: "h-ds-control px-ds-150 text-body-strong",
+  small: "h-ds-control-compact px-ds-100 text-body-strong",
+  medium: "h-ds-control px-ds-150 text-body-strong",
 };
 
 export type LinkVariant = "default" | "inline" | "subtle";

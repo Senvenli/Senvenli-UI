@@ -101,7 +101,7 @@ export type SelectProps = SelectLabelProps & {
 export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function Select(
   {
     label, "aria-label": ariaLabel, items, selectedKey, defaultSelectedKey, onSelectionChange, placeholder, description, errorMessage: errorMessageProp,
-    size = "default", "aria-invalid": ariaInvalid, requiredValidation, isInvalid: isInvalidProp, ...rest
+    size = "medium", "aria-invalid": ariaInvalid, requiredValidation, isInvalid: isInvalidProp, ...rest
   },
   ref,
 ) {

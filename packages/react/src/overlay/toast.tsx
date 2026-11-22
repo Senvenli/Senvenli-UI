@@ -164,7 +164,7 @@ export function Toaster() {
           {item.content.action && (
             <Button
               variant="link"
-              size="compact"
+              size="small"
               data-slot="toast-action"
               onPress={() => {
                 item.content.action!.onPress();

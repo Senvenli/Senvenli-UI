@@ -18,8 +18,8 @@ export default function Example() {
         ]}
         endActions={
           <>
-            <LanguageSwitcher locales={["en", "de", "fr"]} current={locale} onSelect={setLocale} size="sm" />
-            <Button variant="primary" size="compact">
+            <LanguageSwitcher locales={["en", "de", "fr"]} current={locale} onSelect={setLocale} size="small" />
+            <Button variant="primary" size="small">
               Start free trial
             </Button>
           </>

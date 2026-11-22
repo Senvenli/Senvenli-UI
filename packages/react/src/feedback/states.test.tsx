@@ -55,9 +55,9 @@ describe("EmptyState", () => {
     expect(slot("empty-state")?.hasAttribute("role")).toBe(false);
   });
 
-  it("has a compact size for tables and cards", () => {
-    inProvider(<EmptyState size="compact" icon="search-x" title="No items match “ZZ-9”" description="Check the code or clear the filters." />);
-    expect(slot("empty-state")?.getAttribute("data-size")).toBe("compact");
+  it("has a small size for tables and cards", () => {
+    inProvider(<EmptyState size="small" icon="search-x" title="No items match “ZZ-9”" description="Check the code or clear the filters." />);
+    expect(slot("empty-state")?.getAttribute("data-size")).toBe("small");
     expect(classesOf(slot("empty-state"))).toContain("py-ds-300");
     expect(classesOf(slot("empty-state-title"))).toContain("text-body-strong");
     expect(classesOf(slot("empty-state-description"))).toContain("text-body-small");

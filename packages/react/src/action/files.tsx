@@ -279,11 +279,11 @@ export function FileRow({ file, name, size, progress, error, onCancel, onRemove,
         ) : null}
       </span>
       {error && onReplace ? (
-        <Button variant="link" size="compact" onPress={onReplace}>{replaceLabel(locale)}</Button>
+        <Button variant="link" size="small" onPress={onReplace}>{replaceLabel(locale)}</Button>
       ) : uploading && onCancel ? (
-        <Button variant="subtle" size="compact" iconOnly iconBefore="x" aria-label={cancelUploadLabel(locale)} onPress={onCancel} />
+        <Button variant="subtle" size="small" iconOnly iconBefore="x" aria-label={cancelUploadLabel(locale)} onPress={onCancel} />
       ) : onRemove ? (
-        <Button variant="subtle" size="compact" iconOnly iconBefore="trash-2" aria-label={removeFileLabel(locale)} onPress={onRemove} />
+        <Button variant="subtle" size="small" iconOnly iconBefore="trash-2" aria-label={removeFileLabel(locale)} onPress={onRemove} />
       ) : null}
     </li>
   );

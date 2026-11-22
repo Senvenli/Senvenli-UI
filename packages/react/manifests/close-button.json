@@ -874,12 +874,12 @@
         "type": "ButtonSize",
         "required": false,
         "origin": "own",
-        "default": "\"compact\"",
+        "default": "\"small\"",
         "schema": {
           "type": "string",
           "enum": [
-            "default",
-            "compact",
+            "small",
+            "medium",
             "large"
           ]
         }

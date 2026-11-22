@@ -33,11 +33,11 @@ function segment(root: ParentNode, type: string) {
 function Bar() {
   return (
     <Toolbar aria-label="List tools">
-      <Button size="compact" iconBefore="filter">Filter</Button>
+      <Button size="small" iconBefore="filter">Filter</Button>
       <SearchField aria-label="Search" defaultValue="alpha beta" />
       <DateField label="Date" />
       <ToolbarSpacer />
-      <Button size="compact" variant="subtle" iconOnly iconBefore="download" aria-label="Export" />
+      <Button size="small" variant="subtle" iconOnly iconBefore="download" aria-label="Export" />
     </Toolbar>
   );
 }
@@ -79,10 +79,10 @@ describe("Toolbar with text-editing controls inside", () => {
   it("arrow navigation between the toolbar's buttons is unchanged", () => {
     inLocale(
       <Toolbar aria-label="List tools">
-        <Button size="compact" iconBefore="filter">Filter</Button>
-        <Button size="compact" iconBefore="calendar">This week</Button>
+        <Button size="small" iconBefore="filter">Filter</Button>
+        <Button size="small" iconBefore="calendar">This week</Button>
         <ToolbarSpacer />
-        <Button size="compact" variant="subtle" iconOnly iconBefore="download" aria-label="Export" />
+        <Button size="small" variant="subtle" iconOnly iconBefore="download" aria-label="Export" />
       </Toolbar>,
     );
     const [filter, week, exportButton] = within(screen.getByRole("toolbar")).getAllByRole("button");
@@ -123,8 +123,8 @@ describe("Toolbar with text-editing controls inside", () => {
   it("in RTL the button arrows are reversed and a SearchField still keeps its arrows", () => {
     inLocale(
       <Toolbar aria-label="أدوات">
-        <Button size="compact">أ</Button>
-        <Button size="compact">ب</Button>
+        <Button size="small">أ</Button>
+        <Button size="small">ب</Button>
         <SearchField aria-label="بحث" defaultValue="abc" />
       </Toolbar>,
       "ar",
@@ -185,11 +185,11 @@ function walk(key: "ArrowLeft" | "ArrowRight") {
 function EdgeBar() {
   return (
     <Toolbar aria-label="List tools">
-      <Button size="compact" iconBefore="filter">Filter</Button>
+      <Button size="small" iconBefore="filter">Filter</Button>
       <SearchField aria-label="Search" defaultValue="sample" />
       <DateField label="Date" />
       <ToolbarSpacer />
-      <Button size="compact" variant="subtle" iconOnly iconBefore="download" aria-label="Export" />
+      <Button size="small" variant="subtle" iconOnly iconBefore="download" aria-label="Export" />
     </Toolbar>
   );
 }
@@ -281,9 +281,9 @@ describe("Toolbar arrows leave a text-editing control at its edge", () => {
   it("in RTL the edges follow the input's direction and the arrows are mirrored", () => {
     inLocale(
       <Toolbar aria-label="أدوات">
-        <Button size="compact">أ</Button>
+        <Button size="small">أ</Button>
         <SearchField aria-label="بحث" defaultValue="abc" />
-        <Button size="compact">ب</Button>
+        <Button size="small">ب</Button>
       </Toolbar>,
       "ar",
       "rtl",
@@ -318,11 +318,11 @@ describe("Toolbar arrows leave a text-editing control at its edge", () => {
   it("an input forced LTR in an RTL toolbar uses its own direction for the caret's edges", () => {
     inLocale(
       <Toolbar aria-label="أدوات">
-        <Button size="compact">أ</Button>
+        <Button size="small">أ</Button>
         <div dir="ltr">
           <SearchField aria-label="بحث" defaultValue="abc" />
         </div>
-        <Button size="compact">ب</Button>
+        <Button size="small">ب</Button>
       </Toolbar>,
       "ar",
       "rtl",
@@ -339,9 +339,9 @@ describe("Toolbar arrows leave a text-editing control at its edge", () => {
   it("in RTL a date segment leaves the field only when no segment lies that way", () => {
     inLocale(
       <Toolbar aria-label="أدوات">
-        <Button size="compact">أ</Button>
+        <Button size="small">أ</Button>
         <DateField label="التاريخ" />
-        <Button size="compact">ب</Button>
+        <Button size="small">ب</Button>
       </Toolbar>,
       "ar",
       "rtl",
@@ -369,13 +369,13 @@ describe("Toolbar arrows leave a text-editing control at its edge", () => {
     const { RadioGroup, Radio, Slider } = await import("../selection/index");
     inLocale(
       <Toolbar aria-label="View">
-        <Button size="compact">Before</Button>
+        <Button size="small">Before</Button>
         <RadioGroup label="Density" defaultValue="a">
           <Radio value="a">A</Radio>
           <Radio value="b">B</Radio>
         </RadioGroup>
         <Slider label="Scale" defaultValue={50} />
-        <Button size="compact">After</Button>
+        <Button size="small">After</Button>
       </Toolbar>,
     );
     const radio = screen.getByRole("radio", { name: "A" });
@@ -394,9 +394,9 @@ describe("Toolbar RTL segment hand-off steps from the segment group", () => {
   function rtlBar(field: React.ReactElement, locale: string, x: Record<string, number>) {
     inLocale(
       <Toolbar aria-label="أدوات">
-        <Button size="compact">أ</Button>
+        <Button size="small">أ</Button>
         {field}
-        <Button size="compact">ب</Button>
+        <Button size="small">ب</Button>
       </Toolbar>,
       locale,
       "rtl",
@@ -466,9 +466,9 @@ describe("Toolbar RTL segment hand-off steps from the segment group", () => {
   it("LTR hand-off from a segment also steps past the whole field", () => {
     inLocale(
       <Toolbar aria-label="Tools">
-        <Button size="compact">Before</Button>
+        <Button size="small">Before</Button>
         <TimeField label="Time" />
-        <Button size="compact">After</Button>
+        <Button size="small">After</Button>
       </Toolbar>,
       "en-US",
     );
@@ -486,9 +486,9 @@ describe("Toolbar and inputs without a caret API", () => {
   function NumberBar({ value }: { value: string }) {
     return (
       <Toolbar aria-label="Tools">
-        <Button size="compact">Before</Button>
+        <Button size="small">Before</Button>
         <input aria-label="Quantity" type="number" defaultValue={value} />
-        <Button size="compact">After</Button>
+        <Button size="small">After</Button>
       </Toolbar>
     );
   }

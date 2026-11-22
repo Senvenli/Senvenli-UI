@@ -15,7 +15,7 @@ export type CloseButtonProps = Omit<ButtonProps, "variant" | "iconOnly" | "iconB
 
 /** The subtle icon button with an `x` that closes a dialog, drawer, banner or toast. */
 export const CloseButton = React.forwardRef<HTMLButtonElement, CloseButtonProps>(function CloseButton(
-  { size = "compact", "aria-label": ariaLabel, ...rest },
+  { size = "small", "aria-label": ariaLabel, ...rest },
   ref,
 ) {
   const { locale } = useLocale();

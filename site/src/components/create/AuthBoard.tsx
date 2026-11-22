@@ -14,7 +14,7 @@ function CheckInbox() {
   const resend = useCooldownAction(() => new Promise((done) => setTimeout(done, 800)), 60, 60);
   return (
     <EmptyState
-      size="compact"
+      size="small"
       icon="mail-check"
       title="Check your inbox"
       description="If an account exists for that email, we sent a link to reset the password."

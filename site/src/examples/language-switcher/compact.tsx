@@ -10,8 +10,8 @@ export default function Example() {
   const mark = (code: string) => <IsoChip code={code.toUpperCase()} />;
   return (
     <Inline space="space-200">
-      <LanguageSwitcher size="sm" locales={LOCALES} current={locale} onSelect={setLocale} />
-      <LanguageSwitcher size="sm" collapsed label="Interface language" locales={LOCALES} current={locale} onSelect={setLocale} renderMark={mark} />
+      <LanguageSwitcher size="small" locales={LOCALES} current={locale} onSelect={setLocale} />
+      <LanguageSwitcher size="small" collapsed label="Interface language" locales={LOCALES} current={locale} onSelect={setLocale} renderMark={mark} />
     </Inline>
   );
 }

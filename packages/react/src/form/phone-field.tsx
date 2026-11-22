@@ -226,7 +226,7 @@ export const PhoneField = React.forwardRef<HTMLInputElement, PhoneFieldProps>(fu
     placeholder,
     autoFocus,
     onBlur,
-    size = "default",
+    size = "medium",
     onUnsupportedInternationalPaste,
     id,
     "aria-describedby": ariaDescribedBy,
@@ -457,7 +457,7 @@ export const PhoneField = React.forwardRef<HTMLInputElement, PhoneFieldProps>(fu
                 <Dialog aria-label={listLabel} className="flex min-h-0 flex-col outline-hidden">
                   <Autocomplete inputValue={query} onInputChange={setQuery} filter={() => true}>
                     <AriaSearchField autoFocus aria-label={countrySearchLabel ?? phoneCountrySearchLabel(locale)} className="mb-ds-050">
-                      <div className={cn(FIELD_FRAME, FIELD_SIZE.compact, "focus-within:border-ds-border-focused")}>
+                      <div className={cn(FIELD_FRAME, FIELD_SIZE.small, "focus-within:border-ds-border-focused")}>
                         <IconGlyph name="search" className={FIELD_ICON} />
                         <Input data-slot="phone-field-search" className={cn(INPUT, "text-body [&::-webkit-search-cancel-button]:hidden")} />
                       </div>

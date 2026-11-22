@@ -68,9 +68,9 @@
         "size": {
           "type": "string",
           "enum": [
-            "large",
             "small",
-            "medium"
+            "medium",
+            "large"
           ]
         },
         "shape": {
@@ -127,9 +127,9 @@
         "schema": {
           "type": "string",
           "enum": [
-            "large",
             "small",
-            "medium"
+            "medium",
+            "large"
           ]
         }
       },
@@ -190,9 +190,9 @@
         "schema": {
           "type": "string",
           "enum": [
-            "large",
             "small",
-            "medium"
+            "medium",
+            "large"
           ]
         }
       },

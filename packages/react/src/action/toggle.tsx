@@ -23,7 +23,7 @@ export type ToggleButtonProps = Omit<AriaToggleButtonProps, "className" | "style
 
 /** A button that stays pressed: `ds-background-selected` with the selected border while on. */
 export const ToggleButton = React.forwardRef<HTMLButtonElement, ToggleButtonProps>(function ToggleButton(
-  { children, icon, size = "default", ...rest },
+  { children, icon, size = "medium", ...rest },
   ref,
 ) {
   return (

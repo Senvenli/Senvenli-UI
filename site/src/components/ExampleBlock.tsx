@@ -46,7 +46,7 @@ export function ExampleBlock({ slug, family, example, isHero = false }: { slug: 
         <div className="flex min-h-9 items-center justify-between gap-ds-200 ps-ds-150">
           <span className="min-w-0 truncate text-body-small text-ds-text-subtle">{isHero ? example.title : ""}</span>
           <span className="flex shrink-0 items-center gap-ds-050">
-            <Button size="compact" variant="subtle" iconAfter={open ? "chevron-up" : "chevron-down"} aria-expanded={open} aria-controls={codeId} onPress={() => setOpen((value) => !value)}>
+            <Button size="small" variant="subtle" iconAfter={open ? "chevron-up" : "chevron-down"} aria-expanded={open} aria-controls={codeId} onPress={() => setOpen((value) => !value)}>
               {open ? "Hide code" : "Show code"}
             </Button>
             <CopyButton text={example.code} label="Copy code" iconOnly />

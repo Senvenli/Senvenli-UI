@@ -121,9 +121,9 @@
         "schema": {
           "type": "string",
           "enum": [
-            "large",
             "small",
-            "medium"
+            "medium",
+            "large"
           ]
         }
       },

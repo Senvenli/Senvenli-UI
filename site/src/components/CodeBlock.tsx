@@ -68,7 +68,7 @@ function Block({ code, html, label, copyLabel = "Copy code", bare = false, heade
       </div>
       {long && (
         <div className="flex justify-center py-ds-075">
-          <Button size="compact" variant="subtle" onPress={() => setExpanded((open) => !open)}>
+          <Button size="small" variant="subtle" onPress={() => setExpanded((open) => !open)}>
             {expanded ? "Show less" : `Show all ${lines} lines`}
           </Button>
         </div>

@@ -290,13 +290,13 @@
         "type": "FieldSize",
         "required": false,
         "origin": "own",
-        "default": "\"default\"",
+        "default": "\"medium\"",
         "description": "`compact` (32px) for table filters and toolbars.",
         "schema": {
           "type": "string",
           "enum": [
-            "default",
-            "compact"
+            "small",
+            "medium"
           ]
         }
       },

@@ -11,7 +11,7 @@ afterEach(cleanup);
 
 const PHYSICAL = /(^|\s|:)(-?m[lr]-|p[lr]-|-?left-|-?right-|border-[lr](-|\s|$)|rounded-[lr]-|text-left|text-right)/;
 const VARIANTS: ButtonVariant[] = ["primary", "default", "subtle", "danger", "link"];
-const SIZES: ButtonSize[] = ["compact", "default", "large"];
+const SIZES: ButtonSize[] = ["small", "medium", "large"];
 const classesOf = (element: Element | null) => element?.getAttribute("class") ?? "";
 const classSet = (element: Element | null) => new Set(classesOf(element).split(/\s+/).filter(Boolean));
 
@@ -173,7 +173,7 @@ describe("LinkButton, keyboard and semantics", () => {
     withProvider(<LinkButton href="/settings" iconOnly iconBefore="settings" aria-label="Settings" />);
     const link = screen.getByRole("link", { name: "Settings" });
     expect(link.querySelector("[data-slot='link-button-icon']")!.getAttribute("aria-hidden")).toBe("true");
-    for (const utility of ICON_ONLY_SIZE.default.split(" ")) expect(classSet(link).has(utility), utility).toBe(true);
+    for (const utility of ICON_ONLY_SIZE.medium.split(" ")) expect(classSet(link).has(utility), utility).toBe(true);
   });
 
   it("Enter activates: React Aria takes Enter as a press on a link and the browser's Enter click runs onPress", () => {
@@ -340,7 +340,7 @@ describe("LinkButton, Button's look", () => {
     withProvider(<LinkButton href="/x">X</LinkButton>);
     const link = screen.getByRole("link");
     expect(link.dataset.variant).toBe("default");
-    expect(link.dataset.size).toBe("default");
+    expect(link.dataset.size).toBe("medium");
   });
 
   it("marks its parts with data-slot", () => {

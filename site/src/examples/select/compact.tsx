@@ -8,7 +8,7 @@ export default function Example() {
     <Inline space="space-100">
       <Select
         aria-label="Period"
-        size="compact"
+        size="small"
         selectedKey={period}
         onSelectionChange={setPeriod}
         items={[
@@ -19,7 +19,7 @@ export default function Example() {
       />
       <Select
         aria-label="Channel"
-        size="compact"
+        size="small"
         placeholder="All channels"
         items={[
           { id: "online", label: "Online" },

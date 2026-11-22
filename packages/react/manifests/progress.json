@@ -121,15 +121,15 @@
       },
       {
         "name": "size",
-        "type": "\"default\" | \"large\"",
+        "type": "\"medium\" | \"large\"",
         "required": false,
         "origin": "own",
-        "default": "\"default\"",
-        "description": "`large` (8px) for onboarding; `default` 4px.",
+        "default": "\"medium\"",
+        "description": "`medium` (4px, default); `large` (8px) for onboarding.",
         "schema": {
           "type": "string",
           "enum": [
-            "default",
+            "medium",
             "large"
           ]
         }
@@ -176,9 +176,9 @@
         "schema": {
           "type": "string",
           "enum": [
-            "large",
             "small",
-            "medium"
+            "medium",
+            "large"
           ]
         }
       },

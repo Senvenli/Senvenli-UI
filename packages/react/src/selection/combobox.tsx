@@ -514,7 +514,7 @@ export function ComboBox(props: ComboBoxProps) {
 
 function SingleComboBox({
   label, "aria-label": ariaLabel, items, loadItems, description, errorMessage: errorMessageProp, placeholder, menuTrigger = "input", emptyMessage, allowsCustomValue,
-  onCreate, createLabel, onInputChange, size = "default", selectedKey, defaultSelectedKey, onSelectionChange, selectedItem,
+  onCreate, createLabel, onInputChange, size = "medium", selectedKey, defaultSelectedKey, onSelectionChange, selectedItem,
   isLoading, loadingText, "aria-invalid": ariaInvalid, onSearchChange, onLoadMore, requiredValidation, isInvalid: isInvalidProp, ...rest
 }: ComboBoxSingleProps) {
   const { locale } = useLocale();
@@ -701,7 +701,7 @@ function sameKeys(a: readonly Key[], b: readonly Key[]) {
 
 function MultipleComboBox({
   label, "aria-label": ariaLabel, items, loadItems, description, errorMessage: errorMessageProp, placeholder, menuTrigger = "input", emptyMessage, onCreate,
-  createLabel, onInputChange, size = "default", selectedKeys, defaultSelectedKeys, onSelectionChange, selectedItems,
+  createLabel, onInputChange, size = "medium", selectedKeys, defaultSelectedKeys, onSelectionChange, selectedItems,
   isLoading, loadingText, "aria-invalid": ariaInvalid, onSearchChange, onLoadMore, requiredValidation, isInvalid: isInvalidProp, ...rest
 }: ComboBoxMultipleProps) {
   const { locale } = useLocale();

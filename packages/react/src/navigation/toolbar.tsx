@@ -372,7 +372,7 @@ export function BulkBar({ selectedCount, actions, onClear, "aria-label": label }
       </span>
       {actions}
       <span aria-hidden className="flex-1" />
-      <Button size="compact" iconOnly iconBefore="x" aria-label={clearSelectionLabel(locale)} onPress={onClear} />
+      <Button size="small" iconOnly iconBefore="x" aria-label={clearSelectionLabel(locale)} onPress={onClear} />
     </AriaToolbar>
   );
 }

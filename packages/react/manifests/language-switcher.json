@@ -138,16 +138,16 @@
       },
       {
         "name": "size",
-        "type": "\"default\" | \"sm\"",
+        "type": "\"small\" | \"medium\"",
         "required": false,
         "origin": "own",
-        "default": "\"default\"",
-        "description": "Control height: `default` matches the DS controls, `sm` is the compact step.",
+        "default": "\"medium\"",
+        "description": "Control height: `medium` (default) matches the DS controls, `small` is the compact step.",
         "schema": {
           "type": "string",
           "enum": [
-            "default",
-            "sm"
+            "small",
+            "medium"
           ]
         }
       },

@@ -118,13 +118,13 @@ function PickerActions({ timeZone, month }: { timeZone?: string; month?: { minVa
         <div data-slot="date-picker-actions" className="flex items-center justify-between gap-ds-100">
           <Button
             variant="link"
-            size="compact"
+            size="small"
             isDisabled={!monthRange(month.minValue, month.maxValue).contains(now.year * 12 + now.month - 1)}
             onPress={() => { state.setValue(now); state.close(); }}
           >
             {thisMonthLabel(locale)}
           </Button>
-          <Button variant="subtle" size="compact" onPress={() => { state.setValue(null); state.close(); }}>
+          <Button variant="subtle" size="small" onPress={() => { state.setValue(null); state.close(); }}>
             {clearLabel(locale)}
           </Button>
         </div>
@@ -134,10 +134,10 @@ function PickerActions({ timeZone, month }: { timeZone?: string; month?: { minVa
   return (
     <ButtonContext.Provider value={null}>
       <div data-slot="date-picker-actions" className="flex items-center justify-between gap-ds-100">
-        <Button variant="link" size="compact" onPress={() => { state.setValue(todayIn(timeZone ?? getLocalTimeZone())); state.close(); }}>
+        <Button variant="link" size="small" onPress={() => { state.setValue(todayIn(timeZone ?? getLocalTimeZone())); state.close(); }}>
           {todayLabel(locale)}
         </Button>
-        <Button variant="subtle" size="compact" onPress={() => { state.setValue(null); state.close(); }}>
+        <Button variant="subtle" size="small" onPress={() => { state.setValue(null); state.close(); }}>
           {clearLabel(locale)}
         </Button>
       </div>
