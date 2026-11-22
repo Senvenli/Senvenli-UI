@@ -116,13 +116,19 @@ export const PasswordField = React.forwardRef<HTMLInputElement, PasswordFieldPro
           {showStrength && (
             <div data-slot="password-strength" className="flex flex-col gap-ds-050">
               {score > 0 && (
-                <div aria-hidden="true" className="grid grid-cols-4 gap-ds-050">
+                // Slides in as the first character is typed; segments fill with a colour transition (still under
+                // reduced motion: no movement).
+                <div
+                  aria-hidden="true"
+                  data-slot="password-strength-meter"
+                  className="grid grid-cols-4 gap-ds-050 transition-[translate,opacity] duration-(--ds-duration-medium) ease-ds-enter starting:-translate-y-1 starting:opacity-0 motion-reduce:transition-none"
+                >
                   {[0, 1, 2, 3].map((index) => (
                     <span
                       key={index}
                       data-filled={index < FILLED[score as 1 | 2 | 3] || undefined}
                       className={cn(
-                        "h-1 rounded-ds-full bg-ds-background-neutral",
+                        "h-1 rounded-ds-full bg-ds-background-neutral transition-colors duration-(--ds-duration-medium) motion-reduce:transition-none",
                         index < FILLED[score as 1 | 2 | 3] && (score === 3 ? "bg-ds-icon-success" : "bg-ds-icon-warning"),
                       )}
                     />

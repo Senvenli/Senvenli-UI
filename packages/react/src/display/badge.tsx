@@ -200,8 +200,15 @@ function CountBadge({ value, max, tone = "neutral", isDot, isOnIcon }: BadgeCoun
         isOnIcon && CORNER,
       )}
     >
-      {/* Isolated so an RTL page keeps "99+" rather than "+99". */}
-      <bdi>{text}</bdi>
+      {/* Isolated so an RTL page keeps "99+" rather than "+99". Keyed by the count, so a new number rolls in from
+          below (@starting-style; no roll under reduced motion). */}
+      <bdi
+        key={text}
+        data-slot="badge-count"
+        className="inline-block transition-[translate,opacity] duration-(--ds-duration-medium) ease-ds-enter starting:translate-y-1 starting:opacity-0 motion-reduce:transition-none"
+      >
+        {text}
+      </bdi>
     </span>
   );
 }

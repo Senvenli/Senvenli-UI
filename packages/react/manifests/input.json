@@ -1543,6 +1543,7 @@
     "ds-border-bold",
     "ds-border-danger",
     "ds-border-focused",
+    "ds-easing-enter",
     "ds-easing-standard",
     "ds-icon-subtle",
     "ds-icon-success",

@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import {
+  SelectionIndicator,
   Tab,
   TabList,
   TabPanel,
@@ -34,12 +35,15 @@ export type TabsProps = {
   "aria-label"?: string;
 };
 
+/** The selected tab's 2px underline (never colour alone); React Aria slides it to the next tab (no slide under reduced motion). */
+const TAB_INDICATOR =
+  "absolute inset-x-0 -bottom-px h-0.5 rounded-t-ds-small bg-ds-border-selected " +
+  "transition-[translate,width] duration-(--ds-duration-medium) ease-ds-standard motion-reduce:transition-none";
+
 const TAB =
   "relative inline-flex h-10 shrink-0 cursor-default items-center gap-ds-075 rounded-ds-small text-body font-[500] whitespace-nowrap text-ds-text-subtle outline-hidden " +
   "transition-colors duration-(--ds-duration-fast) motion-reduce:transition-none " +
   "data-[hovered]:text-ds-text data-[selected]:text-ds-text " +
-  // The selected tab carries a 2px underline, so it never relies on colour alone.
-  "after:absolute after:inset-x-0 after:-bottom-px after:h-0.5 after:rounded-t-ds-small after:bg-transparent data-[selected]:after:bg-ds-border-selected " +
   "data-[focus-visible]:inset-ring-2 data-[focus-visible]:inset-ring-ds-border-focused data-[disabled]:text-ds-text-disabled";
 
 /**
@@ -81,6 +85,7 @@ function TabsBody({ items, selectedKey, defaultSelectedKey, onSelectionChange, "
       >
         {items.map((item) => (
           <Tab key={item.id} id={item.id} data-slot="tab" className={TAB}>
+            <SelectionIndicator data-slot="tab-indicator" className={TAB_INDICATOR} />
             {item.label}
             {item.count !== undefined && item.count > 0 && (
               <span data-slot="tab-count" className="flex">
@@ -118,12 +123,16 @@ export type SegmentedControlProps = {
   isDisabled?: boolean;
 };
 
+/** The selected segment's lifted surface (surface and shadow, not only colour); it slides to the next segment. */
+const SEGMENT_INDICATOR =
+  "absolute inset-0 -z-10 rounded-ds-small bg-ds-background-segment-selected shadow-ds-raised " +
+  "transition-[translate,width] duration-(--ds-duration-medium) ease-ds-standard motion-reduce:transition-none";
+
 const SEGMENT =
   "inline-flex h-7 cursor-default items-center rounded-ds-small px-ds-150 text-body font-[500] whitespace-nowrap text-ds-text-subtle outline-hidden " +
   "transition-[background-color,color,box-shadow] duration-(--ds-duration-fast) motion-reduce:transition-none " +
   "data-[hovered]:text-ds-text " +
-  // The selected segment lifts (surface and shadow), not only recolours.
-  "data-[selected]:bg-ds-background-segment-selected data-[selected]:text-ds-text data-[selected]:shadow-ds-raised " +
+  "relative isolate data-[selected]:text-ds-text " +
   "data-[focus-visible]:inset-ring-2 data-[focus-visible]:inset-ring-ds-border-focused data-[disabled]:text-ds-text-disabled";
 
 /**
@@ -151,6 +160,7 @@ export function SegmentedControl({ label, items, value, defaultValue, onChange, 
     >
       {items.map((item) => (
         <AriaToggleButton key={item.id} id={item.id} data-slot="segment" className={SEGMENT}>
+          <SelectionIndicator data-slot="segment-indicator" className={SEGMENT_INDICATOR} />
           {item.label}
         </AriaToggleButton>
       ))}
