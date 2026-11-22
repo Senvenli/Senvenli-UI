@@ -7,4 +7,4 @@ export type { MenuEntry, MenuItemDef, MenuProps, MenuSectionDef, PopoverProps, T
 export { Command } from "./command";
 export type { CommandGroup, CommandItem, CommandProps } from "./command";
 export { Toaster, toast } from "./toast";
-export type { ToastOptions, ToastTone } from "./toast";
+export type { ToastOptions, ToastPromiseMessages, ToastTone } from "./toast";

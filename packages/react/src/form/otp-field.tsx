@@ -143,13 +143,23 @@ export const OtpField = React.forwardRef<HTMLInputElement, OtpFieldProps>(functi
                   data-active={focused && index === active ? true : undefined}
                   className={cn(
                     "relative inline-flex h-13 w-11 min-w-0 items-center justify-center rounded-ds-medium border bg-ds-background-input",
+                    "transition-[border-color,outline-color] duration-(--ds-duration-fast) motion-reduce:transition-none",
                     "text-metric-medium tabular-nums text-ds-text",
                     isInvalid ? "border-ds-border-danger" : "border-ds-border-bold",
                     focused && index === active && "border-ds-border-focused outline-1 outline-solid -outline-offset-2 outline-ds-border-focused",
                     isDisabled && "border-transparent bg-ds-background-disabled text-ds-text-disabled",
                   )}
                 >
-                  {code[index] ?? ""}
+                  {code[index] !== undefined && (
+                    // A typed digit pops into its box (no pop under reduced motion).
+                    <span
+                      key={code[index]}
+                      data-slot="otp-field-digit"
+                      className="transition-[scale,opacity] duration-(--ds-duration-fast) ease-ds-enter starting:scale-75 starting:opacity-0 motion-reduce:transition-none"
+                    >
+                      {code[index]}
+                    </span>
+                  )}
                   {focused && index === active && code.length < length && (
                     <span className="h-5 w-px animate-pulse bg-ds-text motion-reduce:animate-none" />
                   )}

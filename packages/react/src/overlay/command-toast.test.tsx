@@ -379,3 +379,38 @@ describe("Toaster ownership and IME", () => {
     expect(screen.getByRole("dialog")).toBeTruthy();
   });
 });
+
+describe("toast.promise", () => {
+  it("shows a spinner and the loading words, then turns into the result in place, and says it", async () => {
+    let resolve!: (value: string) => void;
+    inLocale(<p>page</p>);
+    let returned: Promise<string> | undefined;
+    act(() => {
+      returned = toast.promise(new Promise<string>((done) => (resolve = done)), {
+        loading: "Saving the order…",
+        success: (id) => `Order ${id} saved`,
+        error: "The order was not saved",
+      });
+    });
+    const toastElement = await screen.findByText("Saving the order…");
+    const root = toastElement.closest('[data-slot="toast"]')!;
+    expect(root.hasAttribute("data-pending")).toBe(true);
+    expect(root.querySelector('[data-slot="toast-spinner"]')).not.toBeNull();
+    await act(async () => resolve("ORD-1"));
+    await waitFor(() => expect(screen.getAllByText("Order ORD-1 saved").length).toBeGreaterThan(0));
+    const settled = document.querySelector('[data-slot="toast"]')!;
+    expect(settled.getAttribute("data-tone")).toBe("success");
+    expect(settled.querySelector('[data-slot="toast-spinner"]')).toBeNull();
+    expect(settled.querySelector('[role="status"]')!.textContent).toBe("Order ORD-1 saved");
+    await expect(returned).resolves.toBe("ORD-1");
+  });
+
+  it("an error turns the toast red and keeps it", async () => {
+    inLocale(<p>page</p>);
+    act(() => {
+      void toast.promise(() => Promise.reject(new Error("offline")), { loading: "Sending…", success: "Sent", error: (e) => `Not sent: ${(e as Error).message}` }).catch(() => {});
+    });
+    await waitFor(() => expect(screen.getAllByText("Not sent: offline").length).toBeGreaterThan(0));
+    expect(document.querySelector('[data-slot="toast"]')!.getAttribute("data-tone")).toBe("danger");
+  });
+});

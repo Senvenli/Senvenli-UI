@@ -61,7 +61,10 @@ describe("Tabs", () => {
     const list = screen.getByRole("tablist", { name: "Project" });
     const selected = within(list).getByRole("tab", { name: "Overview" });
     expect(selected.getAttribute("aria-selected")).toBe("true");
-    expect(classesOf(selected)).toContain("data-[selected]:after:bg-ds-border-selected");
+    // The underline is its own element, which React Aria slides to the next tab.
+    const indicator = selected.querySelector('[data-slot="tab-indicator"]');
+    expect(classesOf(indicator)).toContain("bg-ds-border-selected");
+    expect(classesOf(indicator)).toContain("motion-reduce:transition-none");
     expect(within(list).getByRole("tab", { name: /Activity/ }).textContent).toContain("4");
   });
 
@@ -149,7 +152,8 @@ describe("SegmentedControl", () => {
     const group = screen.getByRole("radiogroup", { name: "Period" });
     const week = within(group).getByRole("radio", { name: "Week" });
     expect(week.getAttribute("aria-checked")).toBe("true");
-    expect(classesOf(week)).toContain("data-[selected]:shadow-ds-raised");
+    // The lifted surface is its own element, which slides to the next segment.
+    expect(classesOf(week.querySelector('[data-slot="segment-indicator"]'))).toContain("shadow-ds-raised");
     fireEvent.click(week);
     expect(week.getAttribute("aria-checked")).toBe("true");
     fireEvent.click(within(group).getByRole("radio", { name: "Month" }));

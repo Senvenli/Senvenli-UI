@@ -36,7 +36,44 @@ export type ToastOptions = {
   timeout?: number;
 };
 
-type ToastContent = Omit<ToastOptions, "timeout">;
+type ToastContent = Omit<ToastOptions, "timeout"> & {
+  /** Set by toast.promise: the toast reads its live state (pending, then the result) from the store below. */
+  pendingId?: string;
+};
+
+/* ── toast.promise: one toast that turns from "working" into the result, in place ───────────────────────── */
+
+type PromiseState = { status: "pending" | "success" | "danger"; title: string; description?: string };
+const promiseStates = new Map<string, PromiseState>();
+const promiseListeners = new Set<() => void>();
+let promiseCounter = 0;
+
+function setPromiseState(id: string, state: PromiseState) {
+  promiseStates.set(id, state);
+  promiseListeners.forEach((listener) => listener());
+}
+
+function usePromiseState(id: string | undefined): PromiseState | undefined {
+  return React.useSyncExternalStore(
+    (notify) => {
+      promiseListeners.add(notify);
+      return () => promiseListeners.delete(notify);
+    },
+    () => (id ? promiseStates.get(id) : undefined),
+    () => (id ? promiseStates.get(id) : undefined),
+  );
+}
+
+export type ToastPromiseMessages<T> = {
+  /** While it runs: "Saving the order…". */
+  loading: string;
+  /** When it resolves: "Order saved", or from the result. */
+  success: string | ((value: T) => string);
+  /** When it rejects: "The order was not saved", or from the error. */
+  error: string | ((error: unknown) => string);
+  /** One line of detail under the title, kept through the change. */
+  description?: string;
+};
 
 /** One queue for the page: three toasts at most on screen, the rest wait their turn. */
 const queue = new ToastQueue<ToastContent>({ maxVisibleToasts: 3 });
@@ -53,6 +90,30 @@ function show(options: ToastOptions): string {
 type ToastShortcut = (title: string, options?: Omit<ToastOptions, "title" | "tone">) => string;
 
 /**
+ * One toast for a task that takes a moment: a spinner with `loading` while the promise runs, then, in place, the
+ * success or the error. A success closes after the usual time; an error stays until dismissed. Returns the same
+ * promise, so the caller can still await it.
+ */
+function showPromise<T>(work: Promise<T> | (() => Promise<T>), messages: ToastPromiseMessages<T>): Promise<T> {
+  const id = `toast-promise-${++promiseCounter}`;
+  setPromiseState(id, { status: "pending", title: messages.loading, description: messages.description });
+  const key = queue.add({ title: messages.loading, description: messages.description, tone: "information", pendingId: id });
+  const promise = typeof work === "function" ? work() : work;
+  promise.then(
+    (value) => {
+      const title = typeof messages.success === "function" ? messages.success(value) : messages.success;
+      setPromiseState(id, { status: "success", title, description: messages.description });
+      setTimeout(() => queue.close(key), DEFAULT_TIMEOUT);
+    },
+    (error: unknown) => {
+      const title = typeof messages.error === "function" ? messages.error(error) : messages.error;
+      setPromiseState(id, { status: "danger", title, description: messages.description });
+    },
+  );
+  return promise;
+}
+
+/**
  * Shows a toast from anywhere (an event handler, a mutation callback), with no hook or provider to reach:
  * `toast("Saved")`, `toast.success("Order confirmed", { action })`, `toast.danger("Photo
  * upload failed")`. Returns the toast's key for `toast.dismiss(key)`.
@@ -61,11 +122,14 @@ export const toast: ((titleOrOptions: string | ToastOptions) => string) & {
   success: ToastShortcut;
   danger: ToastShortcut;
   information: ToastShortcut;
+  /** A toast that follows a promise: `toast.promise(save(), { loading, success, error })`. */
+  promise: <T>(work: Promise<T> | (() => Promise<T>), messages: ToastPromiseMessages<T>) => Promise<T>;
   dismiss: (key: string) => void;
 } = Object.assign((titleOrOptions: string | ToastOptions) => show(typeof titleOrOptions === "string" ? { title: titleOrOptions } : titleOrOptions), {
   success: ((title, options) => show({ ...options, title, tone: "success" })) as ToastShortcut,
   danger: ((title, options) => show({ ...options, title, tone: "danger" })) as ToastShortcut,
   information: ((title, options) => show({ ...options, title, tone: "information" })) as ToastShortcut,
+  promise: showPromise,
   dismiss: (key: string) => queue.close(key),
 });
 
@@ -143,42 +207,72 @@ export function Toaster() {
         "sm:bottom-[max(calc(var(--ds-space-300)+env(safe-area-inset-bottom,0px)),calc(var(--ds-floating-banner-offset,0px)+var(--ds-space-150)))]",
       )}
     >
-      {({ toast: item }) => (
-        <AriaToast
-          toast={item}
-          data-slot="toast"
-          data-tone={item.content.tone}
-          className={cn(
-            "flex w-full max-w-90 items-start gap-ds-150 rounded-ds-large bg-ds-surface-overlay p-ds-150 text-ds-text shadow-ds-overlay outline-hidden",
-            "data-[focus-visible]:inset-ring-2 data-[focus-visible]:inset-ring-ds-border-focused",
-            // Enters from below in ds-duration-medium with the enter easing (@starting-style: no keyframes needed).
-            "transition-[opacity,translate] duration-(--ds-duration-medium) ease-ds-enter starting:translate-y-2 starting:opacity-0 motion-reduce:transition-none",
-          )}
-        >
-          <IconGlyph name={ICON[item.content.tone ?? "information"].name} data-slot="toast-icon" className={cn("mt-0.5 size-5 shrink-0", ICON[item.content.tone ?? "information"].className)} />
-          <AriaToastContent data-slot="toast-content" className="flex min-w-0 flex-1 flex-col gap-ds-025">
-            <Text slot="title" data-slot="toast-title" className="text-body-strong">{item.content.title}</Text>
-            {item.content.description && (
-              <Text slot="description" data-slot="toast-description" className="text-body-small text-ds-text-subtle">{item.content.description}</Text>
-            )}
-          </AriaToastContent>
-          {item.content.action && (
-            <Button
-              variant="link"
-              size="small"
-              data-slot="toast-action"
-              onPress={() => {
-                item.content.action!.onPress();
-                queue.close(item.key);
-              }}
-            >
-              {item.content.action.label}
-            </Button>
-          )}
-          <CloseButton data-slot="toast-close" onPress={() => queue.close(item.key)} />
-        </AriaToast>
-      )}
+      {({ toast: item }) => <ToastItem item={item} />}
     </AriaToastRegion>
+  );
+}
+
+
+type QueuedToast = Parameters<typeof AriaToast>[0]["toast"] & { content: ToastContent; key: string };
+
+/** One toast; a toast.promise toast reads its live state and turns its spinner into the result in place. */
+function ToastItem({ item }: { item: QueuedToast }) {
+  const live = usePromiseState(item.content.pendingId);
+  const pending = live?.status === "pending";
+  const tone: ToastTone = live ? (live.status === "pending" ? "information" : live.status) : (item.content.tone ?? "information");
+  const title = live?.title ?? item.content.title;
+  const description = live?.description ?? item.content.description;
+  return (
+    <AriaToast
+      toast={item}
+      data-slot="toast"
+      data-tone={tone}
+      data-pending={pending || undefined}
+      className={cn(
+        "flex w-full max-w-90 items-start gap-ds-150 rounded-ds-large bg-ds-surface-overlay p-ds-150 text-ds-text shadow-ds-overlay outline-hidden",
+        "data-[focus-visible]:inset-ring-2 data-[focus-visible]:inset-ring-ds-border-focused",
+        // Enters from below in ds-duration-medium with the enter easing (@starting-style: no keyframes needed).
+        "transition-[opacity,translate] duration-(--ds-duration-medium) ease-ds-enter starting:translate-y-2 starting:opacity-0 motion-reduce:transition-none",
+      )}
+    >
+      {pending ? (
+        <span aria-hidden data-slot="toast-spinner" className="mt-0.5 size-5 shrink-0 animate-spin rounded-ds-full border-2 border-ds-icon-subtle border-e-transparent motion-reduce:animate-none" />
+      ) : (
+        // Keyed by tone, so a toast.promise result pops in where the spinner was (no pop under reduced motion).
+        <IconGlyph
+          key={tone}
+          name={ICON[tone].name}
+          data-slot="toast-icon"
+          className={cn("mt-0.5 size-5 shrink-0 transition-[scale,opacity] duration-(--ds-duration-medium) ease-ds-enter starting:scale-50 starting:opacity-0 motion-reduce:transition-none", ICON[tone].className)}
+        />
+      )}
+      <AriaToastContent data-slot="toast-content" className="flex min-w-0 flex-1 flex-col gap-ds-025">
+        <Text slot="title" data-slot="toast-title" className="text-body-strong">{title}</Text>
+        {description && (
+          <Text slot="description" data-slot="toast-description" className="text-body-small text-ds-text-subtle">{description}</Text>
+        )}
+        {/* The result of a toast.promise is said too: the region only announces a toast when it arrives. */}
+        {live && !pending && (
+          <span role="status" className="sr-only">
+            {title}
+          </span>
+        )}
+      </AriaToastContent>
+      {item.content.action && (
+        <Button
+          variant="link"
+          size="small"
+          data-slot="toast-action"
+          onPress={() => {
+            item.content.action!.onPress();
+            queue.close(item.key);
+          }}
+        >
+          {item.content.action.label}
+        </Button>
+      )}
+      <CloseButton data-slot="toast-close" onPress={() => queue.close(item.key)} />
+    </AriaToast>
   );
 }
 

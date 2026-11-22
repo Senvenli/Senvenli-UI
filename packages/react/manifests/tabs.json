@@ -262,6 +262,7 @@
     "ds-border",
     "ds-border-focused",
     "ds-border-selected",
+    "ds-easing-standard",
     "ds-radius-medium",
     "ds-radius-small",
     "ds-shadow-raised",

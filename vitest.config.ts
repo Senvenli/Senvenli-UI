@@ -15,5 +15,6 @@ export default defineConfig({
     // The first test of a file is slow when the manifest build (TypeScript compiler) runs in parallel.
     testTimeout: 20_000,
     include: ["packages/*/src/**/*.test.{ts,tsx}"],
+    setupFiles: ["./vitest.setup.ts"],
   },
 });
