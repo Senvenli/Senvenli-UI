@@ -1,6 +1,8 @@
 import { Link, ThemeToggle } from "@senvenli/react/action";
 import { Navbar, SkipLink } from "@senvenli/react/navigation";
 import type { ReactNode } from "react";
+import { SiteSearch } from "../components/SiteSearch";
+import type { ManifestIndexEntry } from "../lib/manifest";
 
 const LINKS = [
   { key: "components", label: "Components", href: "/components" },
@@ -13,7 +15,13 @@ const LINKS = [
  * footer. `section` is the first path segment ("components"), which marks the current top link. Router-agnostic:
  * links are the library's, which the provider routes.
  */
-export function SiteShell({ children, section }: { children: ReactNode; section?: string }) {
+export function SiteShell({ children, section, components = [], onNavigate }: {
+  children: ReactNode;
+  section?: string;
+  /** Every component, for search; search is left out without `onNavigate`. */
+  components?: ManifestIndexEntry[];
+  onNavigate?: (href: string) => void;
+}) {
   return (
     <div className="flex min-h-dvh flex-col">
       <SkipLink target="#main" />
@@ -23,7 +31,12 @@ export function SiteShell({ children, section }: { children: ReactNode; section?
         links={LINKS}
         currentKey={section}
         isSticky
-        endActions={<ThemeToggle />}
+        endActions={
+          <span className="flex items-center gap-ds-150">
+            {onNavigate && <SiteSearch components={components} onNavigate={onNavigate} />}
+            <ThemeToggle />
+          </span>
+        }
       />
       <div className="flex-1">{children}</div>
       <footer className="mx-auto flex w-full max-w-[1360px] flex-wrap items-center justify-between gap-ds-200 px-ds-200 py-ds-500 text-body-small text-ds-text-subtle sm:px-ds-300">
