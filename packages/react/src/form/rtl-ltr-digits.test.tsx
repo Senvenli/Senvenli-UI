@@ -83,7 +83,7 @@ describe("OtpField on an RTL page", () => {
 
 describe("TextField valueDir on an RTL page", () => {
   it('keeps the frame, addon and value left to right with valueDir="ltr"', () => {
-    inRtl(<TextField label="Phone" prefix="US +1" variant="numeric" valueDir="ltr" defaultValue="555 010 4477" description="We will call before delivery." />);
+    inRtl(<TextField label="Phone" leading="US +1" variant="numeric" valueDir="ltr" defaultValue="555 010 4477" description="We will call before delivery." />);
     const frame = document.querySelector('[data-slot="input-group"]')!;
     expect(frame.getAttribute("dir")).toBe("ltr");
     const addon = document.querySelector('[data-slot="input-addon"]')!;
@@ -97,13 +97,13 @@ describe("TextField valueDir on an RTL page", () => {
   });
 
   it("follows the page without valueDir", () => {
-    inRtl(<TextField label="Price" prefix="€" defaultValue="62.00" />);
+    inRtl(<TextField label="Price" leading="€" defaultValue="62.00" />);
     expect(document.querySelector('[data-slot="input-group"]')!.hasAttribute("dir")).toBe(false);
     expect(directionOf(screen.getByRole("textbox", { name: "Price" }))).toBe("rtl");
   });
 
   it("keeps the frame's classes logical", () => {
-    inRtl(<TextField label="Phone" prefix="US +1" valueDir="ltr" />);
+    inRtl(<TextField label="Phone" leading="US +1" valueDir="ltr" />);
     for (const slot of ["input-group", "input-addon", "text-field-input"]) {
       expect(classesOf(document.querySelector(`[data-slot="${slot}"]`)), slot).not.toMatch(PHYSICAL);
     }

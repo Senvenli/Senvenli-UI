@@ -29,7 +29,7 @@ function directionOf(element: Element) {
 
 describe("InputGroup URL addons on an RTL page", () => {
   it("keeps https://, the domain and .example.com in visual LTR order; the label and help text follow the page", () => {
-    inRtl(<TextField label="Domain" prefix="https://" suffix=".example.com" valueDir="ltr" defaultValue="shop" description="Your public page." />);
+    inRtl(<TextField label="Domain" leading="https://" trailing=".example.com" valueDir="ltr" defaultValue="shop" description="Your public page." />);
     const frame = document.querySelector("[data-slot='input-group']")!;
     expect(frame.getAttribute("dir")).toBe("ltr");
     // DOM order is visual order in an LTR frame: prefix, value, suffix.

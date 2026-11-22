@@ -296,13 +296,6 @@
         }
       },
       {
-        "name": "prefix",
-        "type": "React.ReactNode",
-        "required": false,
-        "origin": "own",
-        "description": "Text, unit or currency before the value (\"€\", \"https://\"), or `<Icon name=\"search\" />`."
-      },
-      {
         "name": "autoCorrect",
         "type": "string",
         "required": false,
@@ -1209,10 +1202,18 @@
         }
       },
       {
-        "name": "suffix",
+        "name": "leading",
         "type": "React.ReactNode",
         "required": false,
-        "origin": "own"
+        "origin": "own",
+        "description": "Before the value, inside the frame: text, a unit or currency (\"€\", \"https://\"), or `<Icon name=\"search\" />`."
+      },
+      {
+        "name": "trailing",
+        "type": "React.ReactNode",
+        "required": false,
+        "origin": "own",
+        "description": "After the value, inside the frame: a unit (\"kg\"), a domain, an icon."
       },
       {
         "name": "actions",

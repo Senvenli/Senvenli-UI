@@ -92,7 +92,7 @@ describe("Dialog titleRef", () => {
   }
 
   it("ahead of the safe secondary action too (a danger primary)", async () => {
-    inLocale(<Titled primaryAction={{ label: "Delete", variant: "danger" }}>This cannot be undone.</Titled>);
+    inLocale(<Titled primaryAction={{ label: "Delete", tone: "danger" }}>This cannot be undone.</Titled>);
     await waitFor(() => expect(document.activeElement).toBe(screen.getByRole("heading", { name: "Your account is ready" })));
   });
 
@@ -140,7 +140,7 @@ describe("Dialog titleRef", () => {
   it("isTitleHidden (fullscreen): the hidden title holds the ref and names the dialog, but is never a focus target", async () => {
     const title = React.createRef<HTMLHeadingElement>();
     inLocale(
-      <Dialog defaultOpen size="fullscreen" isTitleHidden headerStart={<span>Logo</span>} title="Your account is ready" titleRef={title} initialFocusRef={title}>
+      <Dialog defaultOpen size="fullscreen" isTitleHidden headerLeading={<span>Logo</span>} title="Your account is ready" titleRef={title} initialFocusRef={title}>
         <TextField label="Name" />
       </Dialog>,
     );
@@ -161,14 +161,14 @@ describe("Dialog titleRef", () => {
   });
 
   it("isTitleHidden with a danger primary: the hidden title falls through to the safe secondary action", async () => {
-    inLocale(<Titled size="fullscreen" isTitleHidden primaryAction={{ label: "Delete", variant: "danger" }}>This cannot be undone.</Titled>);
+    inLocale(<Titled size="fullscreen" isTitleHidden primaryAction={{ label: "Delete", tone: "danger" }}>This cannot be undone.</Titled>);
     await waitFor(() => expect(document.activeElement).toBe(slot("dialog-secondary")));
   });
 
   it("isTitleHidden markup with titleRef is the same as without it", () => {
     const html = (withRef: boolean) => {
       const view = inLocale(
-        <Dialog defaultOpen size="fullscreen" isTitleHidden headerStart={<span>Logo</span>} title="Your account is ready" titleRef={withRef ? React.createRef() : undefined}>
+        <Dialog defaultOpen size="fullscreen" isTitleHidden headerLeading={<span>Logo</span>} title="Your account is ready" titleRef={withRef ? React.createRef() : undefined}>
           x
         </Dialog>,
       );
@@ -179,8 +179,8 @@ describe("Dialog titleRef", () => {
     expect(html(true)).toBe(html(false));
   });
 
-  it("headerStart (fullscreen): the truncating title keeps its classes, with the focus ring after them", () => {
-    inLocale(<Titled size="fullscreen" headerStart={<span>Logo</span>} />);
+  it("headerLeading (fullscreen): the truncating title keeps its classes, with the focus ring after them", () => {
+    inLocale(<Titled size="fullscreen" headerLeading={<span>Logo</span>} />);
     expect(screen.getByRole("heading", { name: "Your account is ready" }).className.split(" ")).toEqual(["m-0", "truncate", "text-heading-medium", ...FOCUSABLE_CLASSES]);
   });
 

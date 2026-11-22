@@ -42,7 +42,7 @@ describe("Card", () => {
   it("has header, body and footer parts with the variant's surface", () => {
     inLocale(
       <Card>
-        <CardHeader title="Today's orders" subtitle="Main warehouse" menu={<Button variant="subtle" iconOnly iconBefore="ellipsis" aria-label="Card options" />} />
+        <CardHeader title="Today's orders" subtitle="Main warehouse" actions={<Button variant="subtle" iconOnly iconBefore="ellipsis" aria-label="Card options" />} />
         <CardBody>10:00 · Order 482</CardBody>
         <CardFooter><Button variant="link">View all</Button></CardFooter>
       </Card>,
@@ -80,7 +80,7 @@ describe("Card", () => {
     const onMenu = vi.fn();
     inLocale(
       <Card href="/orders/482">
-        <CardHeader title="Order 482" menu={<Button variant="subtle" iconOnly iconBefore="ellipsis" aria-label="Options" onPress={onMenu} />} />
+        <CardHeader title="Order 482" actions={<Button variant="subtle" iconOnly iconBefore="ellipsis" aria-label="Options" onPress={onMenu} />} />
         <CardBody>Desk lamp · 4 items</CardBody>
       </Card>,
       "en",
@@ -437,7 +437,7 @@ describe("strings and direction", () => {
   it("renders every part with logical classes", () => {
     const { container } = inLocale(
       <div dir="rtl">
-        <Card href="/x"><CardMedia /><CardHeader title="ا" menu={<Button aria-label="ب" iconOnly iconBefore="ellipsis" />} /><CardBody>ج</CardBody><CardFooter>د</CardFooter></Card>
+        <Card href="/x"><CardMedia /><CardHeader title="ا" actions={<Button aria-label="ب" iconOnly iconBefore="ellipsis" />} /><CardBody>ج</CardBody><CardFooter>د</CardFooter></Card>
         <AvatarGroup><Avatar name="ز ح" presence="online" /><Avatar name="ط" /></AvatarGroup>
         <BadgeAnchor><span>ي</span><Badge variant="count" value={4} isOnIcon /></BadgeAnchor>
         <Badge hasDot>ك</Badge>

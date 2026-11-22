@@ -28,8 +28,10 @@ export type NumberFieldProps = Omit<AriaNumberFieldProps, "className" | "style" 
   isOptional?: boolean;
   placeholder?: string;
   /** A unit or currency addon when `formatOptions` does not print it ("km", "days"). */
-  prefix?: React.ReactNode;
-  suffix?: React.ReactNode;
+  /** Before the value, inside the frame: text, a unit or currency ("€", "https://"), or `<Icon name="search" />`. */
+  leading?: React.ReactNode;
+  /** After the value, inside the frame: a unit ("kg"), a domain, an icon. */
+  trailing?: React.ReactNode;
   /** The stepper on the end, for small integers. */
   showStepper?: boolean;
   /**
@@ -97,7 +99,7 @@ function Stepper() {
  */
 export const NumberField = React.forwardRef<HTMLInputElement, NumberFieldProps>(function NumberField(
   {
-    label, description, errorMessage, isOptional, placeholder, prefix, suffix, showStepper, locale, size: fieldSize,
+    label, description, errorMessage, isOptional, placeholder, leading: prefix, trailing: suffix, showStepper, locale, size: fieldSize,
     currency, formatOptions, validate, onBlur, onChange, requiredValidation, ...rest
   },
   ref,

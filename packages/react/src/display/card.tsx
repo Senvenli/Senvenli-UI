@@ -132,12 +132,12 @@ export type CardHeaderProps = {
   subtitle?: React.ReactNode;
   /** Heading level of the title; default 3. */
   headingLevel?: CardHeadingLevel;
-  /** A subtle menu button (`Button variant="subtle" iconOnly`); stays clickable above an interactive card. */
-  menu?: React.ReactNode;
+  /** At the header's end: a subtle menu button (`Button variant="subtle" iconOnly`); stays clickable above an interactive card. */
+  actions?: React.ReactNode;
 };
 
 /** Title in `heading-small`, an optional subtitle, and an optional trailing menu. */
-export function CardHeader({ title, subtitle, headingLevel = 3, menu }: CardHeaderProps) {
+export function CardHeader({ title, subtitle, headingLevel = 3, actions: menu }: CardHeaderProps) {
   const { isCompact, titleId, registerTitle } = React.useContext(CardContext);
   React.useLayoutEffect(registerTitle, [registerTitle]);
   const Heading = `h${headingLevel}` as const;

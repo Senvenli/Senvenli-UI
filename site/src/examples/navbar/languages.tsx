@@ -16,7 +16,7 @@ export default function Example() {
           { key: "features", label: "Features", href: "#" },
           { key: "pricing", label: "Pricing", href: "#" },
         ]}
-        endActions={
+        actions={
           <>
             <LanguageSwitcher locales={["en", "de", "fr"]} current={locale} onSelect={setLocale} size="small" />
             <Button variant="primary" size="small">

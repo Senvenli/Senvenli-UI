@@ -34,7 +34,7 @@ export type NavbarProps = {
    * At the end: a language switcher, sign-in (subtle), then the one primary action, the same on every page. On
    * phones they move into the menu panel, under the links.
    */
-  endActions?: React.ReactNode;
+  actions?: React.ReactNode;
   /** Pinned to the top while the page scrolls. */
   isSticky?: boolean;
   /** `compact`: 48px instead of 56px, the bar after the hero. */
@@ -60,7 +60,7 @@ export function Navbar({
   brandLabel,
   links,
   currentKey,
-  endActions,
+  actions: endActions,
   isSticky,
   density = "comfortable",
   "aria-label": label,

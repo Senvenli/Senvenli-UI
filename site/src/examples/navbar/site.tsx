@@ -15,7 +15,7 @@ export default function Example() {
           { key: "pricing", label: "Pricing", href: "#" },
           { key: "docs", label: "Docs", href: "#" },
         ]}
-        endActions={
+        actions={
           <>
             <Button variant="subtle">Sign in</Button>
             <Button variant="primary">Start free trial</Button>

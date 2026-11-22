@@ -117,7 +117,7 @@
         }
       },
       {
-        "name": "endActions",
+        "name": "actions",
         "type": "React.ReactNode",
         "required": false,
         "origin": "own",

@@ -27,9 +27,10 @@ export type TextFieldProps = Omit<AriaTextFieldProps, "className" | "style" | "c
    */
   requiredValidation?: RequiredValidation;
   placeholder?: string;
-  /** Text, unit or currency before the value ("€", "https://"), or `<Icon name="search" />`. */
-  prefix?: React.ReactNode;
-  suffix?: React.ReactNode;
+  /** Before the value, inside the frame: text, a unit or currency ("€", "https://"), or `<Icon name="search" />`. */
+  leading?: React.ReactNode;
+  /** After the value, inside the frame: a unit ("kg"), a domain, an icon. */
+  trailing?: React.ReactNode;
   /** Extra controls at the end of the frame (`InputAction`). */
   actions?: React.ReactNode;
   size?: FieldSize;
@@ -105,7 +106,7 @@ const DISPLAY_UPPERCASE = "uppercase placeholder:normal-case";
  */
 export const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(function TextField(
   {
-    label, description, errorMessage, isOptional, placeholder, prefix, suffix, actions, size: fieldSize, variant: appearance = "text", displayCase,
+    label, description, errorMessage, isOptional, placeholder, leading: prefix, trailing: suffix, actions, size: fieldSize, variant: appearance = "text", displayCase,
     min, max, step, valueDir, validate, onBlur, onChange, "aria-invalid": ariaInvalid, requiredValidation, ...rest
   },
   ref,

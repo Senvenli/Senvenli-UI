@@ -146,7 +146,8 @@ function useOverlayOpen({ isOpen, defaultOpen, onOpenChange }: OpenProps) {
 export type DialogAction = Pick<ButtonActionProps, "isPending" | "isDisabled" | "iconBefore" | "iconAfter"> & DataAttributes & {
   /** The verb of the title: "Cancel order", never "OK". */
   label: string;
-  variant?: "primary" | "danger";
+  /** `danger` for a destructive action (delete, discard): the button turns red. */
+  tone?: "neutral" | "danger";
   onPress?: () => void;
   /**
    * The `id` of the form this action submits: the button becomes `type="submit"` with that `form`
@@ -292,7 +293,7 @@ export type DialogProps = OpenProps & DataAttributes & {
    * title then keeps to one line and truncates with an ellipsis (its full text is still the dialog's name);
    * the close button keeps its place at the inline end.
    */
-  headerStart?: React.ReactNode;
+  headerLeading?: React.ReactNode;
   /**
    * `fullscreen` only. Hides the title visually, for a frame whose header shows a logo instead;
    * the title stays in the DOM and still names the dialog (`aria-labelledby`), so `title` is still required.
@@ -557,7 +558,7 @@ function hasDescription(description: React.ReactNode) {
   return description != null && typeof description !== "boolean" && description !== "";
 }
 
-/** A node that renders something: the `headerStart` test (`null`, `false`, `true`, `""` count as none). */
+/** A node that renders something: the `headerLeading` test (`null`, `false`, `true`, `""` count as none). */
 const isRenderable = hasDescription;
 
 // The full-screen options, each added to the classes above only when used, so a full-screen
@@ -569,10 +570,10 @@ const FULL_BODY_NO_FOOTER = "min-h-0 flex-1 overflow-y-auto overscroll-contain p
 const FOOTER_SPREAD = "[&>[data-slot=dialog-secondary]]:me-auto";
 /** A hidden title is out of flow, so the close button is held at the inline end on its own. */
 const HEADER_CLOSE_END = "[&>[data-slot=dialog-close-wrap]]:ms-auto";
-/** With `headerStart` the title side takes the room left between the slot and the close button. */
+/** With `headerLeading` the title side takes the room left between the slot and the close button. */
 const TITLE_SIDE = "min-w-0 flex-1";
 
-type FullScreenOptions = Pick<DialogProps, "footerLayout" | "headerStart" | "isTitleHidden">;
+type FullScreenOptions = Pick<DialogProps, "footerLayout" | "headerLeading" | "isTitleHidden">;
 
 /** Small, medium and large without a footer (`secondaryAction={null}` and no primary): the body takes the footer's bottom padding. */
 const BODY = "min-h-0 flex-1 overflow-y-auto px-ds-300 py-ds-200 text-body text-ds-text-subtle";
@@ -593,20 +594,20 @@ const TITLE_FOCUSABLE =
   "-mx-ds-050 px-ds-050 outline-hidden focus-visible:rounded-ds-small focus-visible:inset-ring-2 focus-visible:inset-ring-ds-border-focused";
 
 function DialogContent({
-  title, description, descriptionId, children, primaryAction, secondaryAction, close, fullScreen, footerLayout, headerStart, isTitleHidden,
+  title, description, descriptionId, children, primaryAction, secondaryAction, close, fullScreen, footerLayout, headerLeading, isTitleHidden,
   isCloseButtonHidden, initialFocusRef, returnFocusRef, partData, titleRef,
 }: Pick<DialogProps, "title" | "description" | "children" | "primaryAction" | "secondaryAction"> & FullScreenOptions & ContentOptions & { descriptionId: string; close: () => void; fullScreen?: boolean }) {
   const { locale } = useLocale();
   const body = React.useRef<HTMLDivElement>(null);
   const secondary = React.useRef<HTMLButtonElement>(null);
-  const destructive = primaryAction?.variant === "danger";
+  const destructive = primaryAction?.tone === "danger";
   const closeHidden = isCloseButtonHidden === true;
   useInitialFocus(body, secondary, destructive, initialFocusRef);
   useReturnFocus(returnFocusRef);
   useBlockedSubmit(primaryAction?.form, primaryAction?.isPending === true);
   useStrandedWarning(closeHidden, body);
   // The full-screen options below reach this component only for `fullscreen` (Dialog drops them for the other sizes).
-  const hasStart = isRenderable(headerStart);
+  const hasStart = isRenderable(headerLeading);
   const hasSecondary = secondaryAction !== null;
   const hasFooter = hasSecondary || primaryAction != null;
   // A hidden title keeps only `sr-only` (its own margin and size would fight it); with a start slot it truncates.
@@ -627,7 +628,7 @@ function DialogContent({
     <>
       <div {...partData?.header} data-slot="dialog-header" className={isTitleHidden ? `${headerClass} ${HEADER_CLOSE_END}` : headerClass}>
         {hasStart && (
-          <div data-slot="dialog-header-start" className="flex shrink-0 items-center">{headerStart}</div>
+          <div data-slot="dialog-header-start" className="flex shrink-0 items-center">{headerLeading}</div>
         )}
         {hasDescription(description) ? (
           <div data-slot="dialog-heading" className={hasStart ? `flex flex-col gap-ds-050 ${TITLE_SIDE}` : "flex min-w-0 flex-col gap-ds-050"}>
@@ -674,7 +675,7 @@ function DialogContent({
             <Button
               {...dataAttributes(primaryAction)}
               variant="primary"
-              tone={primaryAction.variant === "danger" ? "danger" : "neutral"}
+              tone={primaryAction.tone === "danger" ? "danger" : "neutral"}
               isPending={primaryAction.isPending}
               isDisabled={primaryAction.isDisabled}
               iconBefore={primaryAction.iconBefore}
@@ -697,7 +698,7 @@ function DialogContent({
 /**
  * Development only: the full-screen options a smaller size was given, which it ignores. Only values that would
  * change a full-screen dialog count: `isTitleHidden={false}`, `footerLayout="end"` or an empty
- * `headerStart` are the defaults there too, so nothing is lost and nothing is said.
+ * `headerLeading` are the defaults there too, so nothing is lost and nothing is said.
  */
 function useFullScreenOnlyWarning(size: DialogWidth | "fullscreen", props: FullScreenOptions) {
   const ignored =
@@ -705,7 +706,7 @@ function useFullScreenOnlyWarning(size: DialogWidth | "fullscreen", props: FullS
       ? []
       : [
           props.footerLayout === "spread" && "footerLayout",
-          isRenderable(props.headerStart) && "headerStart",
+          isRenderable(props.headerLeading) && "headerLeading",
           props.isTitleHidden === true && "isTitleHidden",
         ].filter((name): name is string => typeof name === "string");
   const signature = ignored.join(", ");
@@ -741,7 +742,7 @@ function useHiddenEmptyTitleWarning(isTitleHidden: boolean | undefined, title: R
  * after its button, or control it with `isOpen`. Focus moves to the first field (to "Cancel" when the
  * primary action is destructive and "Cancel" is there), stays inside, and returns to the trigger on close; Esc closes it.
  * `size="fullscreen"` covers the viewport, a sheet on phones, for a long task like a signup; it
- * also takes a logo before the title (`headerStart`), a visually hidden title (`isTitleHidden`) and a spread footer
+ * also takes a logo before the title (`headerLeading`), a visually hidden title (`isTitleHidden`) and a spread footer
  * (`footerLayout`). Every size: a primary action that submits a form
  * (`primaryAction.form`), no secondary action (`secondaryAction={null}`; with no primary either, no footer), no
  * close button (`isCloseButtonHidden`; a locked view adds `isDismissable={false}`), `data-*` attributes on the
@@ -749,7 +750,7 @@ function useHiddenEmptyTitleWarning(isTitleHidden: boolean | undefined, title: R
  * focusable title (`titleRef`), which `initialFocusRef` can name to open on it.
  */
 function DialogBody({
-  size = "small", isDismissable = true, isOpen, defaultOpen, onOpenChange, footerLayout, headerStart, isTitleHidden, ...content
+  size = "small", isDismissable = true, isOpen, defaultOpen, onOpenChange, footerLayout, headerLeading, isTitleHidden, ...content
 }: DialogProps) {
   const state = useOverlayOpen({ isOpen, defaultOpen, onOpenChange });
   const descriptionId = React.useId();
@@ -757,7 +758,7 @@ function DialogBody({
   const describedBy = hasDescription(content.description) ? descriptionId : undefined;
   // The app's data-* props go to the dialog element; none given, nothing is added.
   const rootData = dataAttributes(content);
-  useFullScreenOnlyWarning(size, { footerLayout, headerStart, isTitleHidden });
+  useFullScreenOnlyWarning(size, { footerLayout, headerLeading, isTitleHidden });
   useHiddenEmptyTitleWarning(isTitleHidden, content.title, size === "fullscreen");
   if (size === "fullscreen") {
     return (
@@ -765,7 +766,7 @@ function DialogBody({
         <DialogContent
           {...content}
           footerLayout={footerLayout}
-          headerStart={headerStart}
+          headerLeading={headerLeading}
           isTitleHidden={isTitleHidden}
           descriptionId={descriptionId}
           close={state.close}
@@ -948,11 +949,11 @@ function AlertDialogBody({ isOpen, defaultOpen, onOpenChange, "aria-describedby"
 export type DrawerProps = OpenProps & {
   title: React.ReactNode;
   /**
-   * Under the title: "Ana Petrović · 14–18 Eki". When given, the drawer is described by it
+   * Under the title: "Jordan Lee · 14–18 Oct". When given, the drawer is described by it
    * (`aria-describedby`); without it (or with `""`, `false`, `null`) nothing is rendered.
    */
-  subtitle?: React.ReactNode;
-  /** Beside the close button: a status lozenge, a menu. */
+  description?: React.ReactNode;
+  /** Beside the close button: a status Badge, a menu. */
   headerActions?: React.ReactNode;
   children: React.ReactNode;
   /** Sticky at the bottom: the record's actions. */
@@ -1095,13 +1096,13 @@ function UnsavedPrompt({ isOpen, onKeep, onDiscard }: { isOpen: boolean; onKeep:
  * A panel over the page to show or edit one record without losing the list behind it, from the edge `position`
  * names: an inline side (380 or 560px, full height), the bottom (a sheet that snaps between half and full height)
  * or the top. Header with
- * title, subtitle and status; a scrolling body; a sticky footer; both keep clear of notches and the home
+ * title, description and status; a scrolling body; a sticky footer; both keep clear of notches and the home
  * indicator. With unsaved edits every way of closing asks first. The title names the drawer and the
- * subtitle, when there is one, describes it.
+ * description, when there is one, describes it.
  */
 function DrawerBody({
   size = "small", position = "end", isOpen, defaultOpen, onOpenChange, hasUnsavedChanges,
-  title, subtitle, headerActions, children, footer,
+  title, description: subtitle, headerActions, children, footer,
 }: DrawerProps) {
   const state = useOverlayOpen({ isOpen, defaultOpen, onOpenChange });
   const subtitleId = React.useId();

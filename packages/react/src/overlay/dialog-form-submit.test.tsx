@@ -541,7 +541,7 @@ describe("Dialog focus hooks", () => {
             title="Set your password"
             initialFocusRef={initial ? confirm : undefined}
             returnFocusRef={returnTo ? next : undefined}
-            primaryAction={{ label: "Delete", variant: "danger" }}
+            primaryAction={{ label: "Delete", tone: "danger" }}
           >
             <TextField label="Password" />
             <TextField label="Confirm password" ref={confirm} />

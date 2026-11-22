@@ -205,11 +205,11 @@
         }
       },
       {
-        "name": "menu",
+        "name": "actions",
         "type": "React.ReactNode",
         "required": false,
         "origin": "own",
-        "description": "A subtle menu button (`Button variant=\"subtle\" iconOnly`); stays clickable above an interactive card."
+        "description": "At the header's end: a subtle menu button (`Button variant=\"subtle\" iconOnly`); stays clickable above an interactive card."
       }
     ],
     "CardBody": [

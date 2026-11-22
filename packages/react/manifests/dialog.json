@@ -210,7 +210,7 @@
         }
       },
       {
-        "name": "headerStart",
+        "name": "headerLeading",
         "type": "React.ReactNode",
         "required": false,
         "origin": "own",
