@@ -1,5 +1,5 @@
 // @senvenli/react/collection: Table, DataTable, GridList and List, built on react-aria-components.
-export { Table, TableCellStack } from "./table";
+export { Table } from "./table";
 export type { TableColumn, TableProps } from "./table";
 export { GridList } from "./grid-list";
 export type { GridListProps, GridTileAction, GridTileContent } from "./grid-list";

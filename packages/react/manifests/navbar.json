@@ -38,8 +38,7 @@
     ]
   },
   "related": [
-    "sidebar",
-    "footer"
+    "sidebar"
   ],
   "genui": {
     "expose": false
@@ -122,14 +121,7 @@
         "type": "React.ReactNode",
         "required": false,
         "origin": "own",
-        "description": "At the end: sign-in (subtle), then the one primary action, the same on every page."
-      },
-      {
-        "name": "languages",
-        "type": "{ current: string; items: readonly NavbarLanguage[]; }",
-        "required": false,
-        "origin": "own",
-        "description": "The language switch: shows the current code and keeps the page in the other language."
+        "description": "At the end: a language switcher, sign-in (subtle), then the one primary action, the same on every page. On\nphones they move into the menu panel, under the links."
       },
       {
         "name": "isSticky",
@@ -184,7 +176,6 @@
     "ds-text-subtle"
   ],
   "strings": [
-    "language",
     "mainNavigation",
     "openMenu"
   ],

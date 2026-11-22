@@ -925,7 +925,6 @@
   },
   "tokens": [
     "ds-background-brand-bold",
-    "ds-background-brand-subtle",
     "ds-background-disabled",
     "ds-background-input",
     "ds-background-neutral-pressed",
@@ -940,14 +939,13 @@
     "ds-radius-large",
     "ds-radius-xsmall",
     "ds-shadow-raised",
-    "ds-space-075",
+    "ds-space-050",
     "ds-space-100",
     "ds-space-150",
     "ds-space-200",
     "ds-space-300",
     "ds-surface-raised",
     "ds-text",
-    "ds-text-brand",
     "ds-text-disabled",
     "ds-text-on-brand",
     "ds-text-subtlest"

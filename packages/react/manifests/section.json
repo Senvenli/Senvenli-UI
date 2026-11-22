@@ -8,10 +8,9 @@
   "title": "Section",
   "exports": [
     "Section",
-    "Container",
-    "SectionHead"
+    "Container"
   ],
-  "description": "Full-width page bands with a centered container and a head of overline, title and lead.",
+  "description": "Full-width page bands with a centered container; the heading that names a band is yours.",
   "keywords": [
     "section",
     "band",
@@ -27,7 +26,7 @@
   },
   "a11y": {
     "builtIn": [
-      "A Section is a landmark named by its SectionHead title."
+      "A Section is a landmark; pass aria-labelledby with its heading's id to name it."
     ],
     "youProvide": [
       "Heading levels that follow the page outline."
@@ -95,7 +94,7 @@
         "type": "string",
         "required": false,
         "origin": "own",
-        "description": "Names the section; defaults to its SectionHead title.",
+        "description": "The id of the heading that names the band (a landmark needs a name to be listed).",
         "schema": {
           "type": "string"
         }
@@ -133,90 +132,18 @@
           ]
         }
       }
-    ],
-    "SectionHead": [
-      {
-        "name": "overline",
-        "type": "React.ReactNode",
-        "required": false,
-        "origin": "own",
-        "description": "A short kicker above the title (\"How it works\")."
-      },
-      {
-        "name": "title",
-        "type": "React.ReactNode",
-        "required": true,
-        "origin": "own"
-      },
-      {
-        "name": "titleSize",
-        "type": "\"display-medium\" | \"heading-xxlarge\"",
-        "required": false,
-        "origin": "own",
-        "default": "\"display-medium\"",
-        "description": "`display-medium` for a marketing site's section titles (default), `heading-xxlarge` for a quieter band.",
-        "schema": {
-          "type": "string",
-          "enum": [
-            "display-medium",
-            "heading-xxlarge"
-          ]
-        }
-      },
-      {
-        "name": "titleLevel",
-        "type": "HeadingLevel",
-        "required": false,
-        "origin": "own",
-        "default": "2",
-        "description": "The title's place in the outline; default 2.",
-        "schema": {
-          "enum": [
-            1,
-            4,
-            2,
-            3,
-            5,
-            6
-          ]
-        }
-      },
-      {
-        "name": "lead",
-        "type": "React.ReactNode",
-        "required": false,
-        "origin": "own",
-        "description": "One or two sentences under the title, kept under 60 characters a line."
-      },
-      {
-        "name": "align",
-        "type": "\"start\" | \"center\"",
-        "required": false,
-        "origin": "own",
-        "default": "\"start\"",
-        "schema": {
-          "type": "string",
-          "enum": [
-            "start",
-            "center"
-          ]
-        }
-      }
     ]
   },
   "tokens": [
     "ds-space-100",
     "ds-space-1000",
-    "ds-space-150",
     "ds-space-200",
     "ds-space-300",
     "ds-space-400",
     "ds-space-600",
     "ds-surface",
     "ds-surface-sunken",
-    "ds-text",
-    "ds-text-brand",
-    "ds-text-subtle"
+    "ds-text"
   ],
   "strings": [],
   "quality": {

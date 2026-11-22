@@ -10,7 +10,7 @@ import { DesignSystemProvider } from "../provider";
 import { DS_STRINGS, rangeMaxLabel, rangeMinLabel, registerDsStrings } from "../i18n";
 import { IconGlyph } from "../display/icon";
 import { TextField } from "../form/index";
-import { Checkbox, CheckboxGroup, Radio, RadioCard, RadioGroup, Slider, Switch } from "./index";
+import { Checkbox, CheckboxGroup, Radio, RadioGroup, Slider, Switch } from "./index";
 import * as styles from "./styles";
 
 afterEach(cleanup);
@@ -375,54 +375,47 @@ describe("RadioGroup", () => {
   });
 });
 
-describe("RadioCard", () => {
-  const cards = [
-    { value: "basic", title: "Basic", description: "Up to 3 projects", price: "Free" },
-    { value: "pro", title: "Pro", badge: "Recommended", description: "Unlimited projects", price: "$12 / month" },
-  ];
+describe("RadioGroup variant=card", () => {
+  const plans = (props: Partial<React.ComponentProps<typeof RadioGroup>> = {}) => (
+    <RadioGroup label="Choose a plan" variant="card" {...props}>
+      <Radio value="basic" description="Up to 3 projects · Free">Basic</Radio>
+      <Radio value="pro" description="Unlimited projects · $12 / month">Pro</Radio>
+    </RadioGroup>
+  );
 
-  it("names each card by its title and describes it with badge, detail and price", () => {
-    inLocale(<RadioCard label="Choose a plan" items={cards} defaultValue="pro" />);
+  it("draws every option as a card in an equal-column grid, named by its words and described by its detail", () => {
+    inLocale(plans({ defaultValue: "pro" }));
     expect(screen.getByRole("radiogroup", { name: "Choose a plan" })).toBeTruthy();
-    const full = screen.getByRole("radio", { name: "Pro" }) as HTMLInputElement;
-    expect(full.checked).toBe(true);
-    const description = (full.getAttribute("aria-describedby") ?? "").split(" ").map((id) => document.getElementById(id)?.textContent).join(" ");
-    expect(description).toContain("Recommended");
+    const pro = screen.getByRole("radio", { name: "Pro" }) as HTMLInputElement;
+    expect(pro.checked).toBe(true);
+    const description = (pro.getAttribute("aria-describedby") ?? "").split(" ").map((id) => document.getElementById(id)?.textContent).join(" ");
     expect(description).toContain("Unlimited projects");
-    expect(description).toContain("$12 / month");
-    expect(classesOf(document.querySelector('[data-slot="radio-card-price"]'))).toContain("text-metric-small");
+    expect(classesOf(document.querySelector('[data-slot="radio-group-items"]'))).toContain("grid-cols-[repeat(auto-fit,minmax(min(180px,100%),1fr))]");
+    const cards = document.querySelectorAll('[data-slot="radio"][data-variant="card"]');
+    expect(cards).toHaveLength(2);
+    expect(classesOf(cards[0])).toContain("rounded-ds-large");
   });
 
-  it("keeps badge, detail and price as visible text outside the name", () => {
-    inLocale(<RadioCard label="Plan" items={cards} />);
-    const card = screen.getByRole("radio", { name: "Pro" });
-    expect(card.getAttribute("aria-labelledby")).toBe(document.querySelectorAll('[data-slot="radio-card-title"]')[1].id);
-    expect(document.querySelector('[data-slot="radio-card-price"]')?.closest('[aria-hidden="true"]')).toBeNull();
-  });
-
-  it("drops the selected fill and border on a disabled selected card", () => {
+  it("drops the selected fill and border on a disabled selected card, and dims it", () => {
     expect(styles.RADIO_CARD).toContain("data-[disabled]:data-[selected]:bg-ds-background-disabled");
     expect(styles.RADIO_CARD).toContain("data-[disabled]:data-[selected]:inset-ring-ds-border");
-  });
-
-  it("dims every part of a disabled card", () => {
-    inLocale(<RadioCard label="Plan" items={[{ value: "a", title: "Enterprise", description: "Contract only", price: "$9", badge: "New", isDisabled: true }]} />);
-    const card = document.querySelector('[data-slot="radio-card"]');
-    expect(card?.hasAttribute("data-disabled")).toBe(true);
-    expect(classesOf(card)).toContain("data-[disabled]:text-ds-text-disabled");
-    expect(classesOf(document.querySelector('[data-slot="radio-card-description"]'))).toContain("group-data-[disabled]:text-ds-text-disabled");
-    expect(classesOf(document.querySelector('[data-slot="radio-card-badge"]'))).toContain("group-data-[disabled]:text-ds-text-disabled");
+    expect(styles.RADIO_CARD).toContain("data-[disabled]:text-ds-text-disabled");
   });
 
   it("selects from anywhere on the card and never on focus alone", () => {
     const onChange = vi.fn();
-    inLocale(<RadioCard label="Plan" items={cards} onChange={onChange} />);
+    inLocale(plans({ onChange }));
     keyboardFocus(screen.getByRole("radio", { name: "Basic" }));
     fireEvent.keyDown(screen.getByRole("radio", { name: "Basic" }), { key: "End" });
     expect(onChange).not.toHaveBeenCalled();
-    fireEvent.click(screen.getByText("Unlimited projects"));
+    fireEvent.click(screen.getByText("Unlimited projects · $12 / month"));
     expect(onChange).toHaveBeenLastCalledWith("pro");
-    expect(document.querySelectorAll('[data-slot="radio-card"][data-selected]')).toHaveLength(1);
+    expect(document.querySelectorAll('[data-slot="radio"][data-selected]')).toHaveLength(1);
+  });
+
+  it("keeps the default rows when no variant is given", () => {
+    inLocale(<RadioGroup label="Size" items={[{ value: "s", label: "Small" }]} />);
+    expect(document.querySelector('[data-slot="radio"]')!.getAttribute("data-variant")).toBe("default");
   });
 });
 
@@ -568,7 +561,7 @@ describe("strings and direction", () => {
       <div dir="rtl">
         <Checkbox description="و">ا</Checkbox>
         <RadioGroup label="ب" items={[{ value: "a", label: "ج" }]} />
-        <RadioCard label="د" items={[{ value: "a", title: "ه", price: "1" }]} />
+        <RadioGroup label="د" variant="card" items={[{ value: "a", label: "ه", description: "1" }]} />
         <Switch>ز</Switch>
         <Slider label="ح" defaultValue={[1, 5]} minValue={0} maxValue={10} />
       </div>,

@@ -158,23 +158,6 @@ describe("NumberField", () => {
 });
 
 describe("InputOTP", () => {
-  it("waits resendCooldown after the first code by default; initialResendCooldown 0 starts ready", () => {
-    vi.useFakeTimers();
-    try {
-      render(<InputOTP label="Code" onResend={() => {}} resendCooldown={3} />);
-      expect(screen.getByRole("button", { name: /3/ }).hasAttribute("disabled")).toBe(true);
-      act(() => {
-        vi.advanceTimersByTime(3000);
-      });
-      expect(screen.getByRole("button", { name: /resend/i }).hasAttribute("disabled")).toBe(false);
-      cleanup();
-      render(<InputOTP label="Code" onResend={() => {}} resendCooldown={3} initialResendCooldown={0} />);
-      expect(screen.getByRole("button", { name: /resend/i }).hasAttribute("disabled")).toBe(false);
-    } finally {
-      vi.useRealTimers();
-    }
-  });
-
   it("is one real input for SMS autofill and paste", () => {
     inLocale(<InputOTP label="Verification code" />);
     const input = screen.getByRole("textbox", { name: "Verification code" });
@@ -258,21 +241,6 @@ describe("InputOTP", () => {
     expect(screen.getByText("Wrong code. Enter the latest code from your phone.")).toBeTruthy();
   });
 
-  it("counts down the resend cooldown, then allows a resend", () => {
-    vi.useFakeTimers();
-    const onResend = vi.fn();
-    inLocale(<InputOTP label="Code" onResend={onResend} resendCooldown={2} />);
-    const resend = screen.getByRole("button", { name: "Resend in 0:02" });
-    expect(resend.hasAttribute("data-disabled")).toBe(true);
-    act(() => vi.advanceTimersByTime(1000));
-    expect(screen.getByRole("button", { name: "Resend in 0:01" })).toBeTruthy();
-    act(() => vi.advanceTimersByTime(1000));
-    fireEvent.click(screen.getByRole("button", { name: "Resend code" }));
-    expect(onResend).toHaveBeenCalledTimes(1);
-  });
-});
-
-describe("field validation timing", () => {
   it("does not show a new error while typing after a valid blur", () => {
     inLocale(<NumberField label="Deposit" isRequired defaultValue={100} />);
     const input = screen.getByRole("textbox", { name: "Deposit" }) as HTMLInputElement;

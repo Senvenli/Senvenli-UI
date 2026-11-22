@@ -1,7 +1,7 @@
 // @senvenli/react/navigation: Navbar, Sidebar, Dock, Tabs and SegmentedControl, Breadcrumbs, Pagination,
-// Accordion and Disclosure, Stepper, Toolbar and BulkBar, Footer, SkipLink and PanelHeader.
+// Accordion and Disclosure, Stepper, Toolbar and BulkBar, SkipLink and PanelHeader.
 export { Navbar } from "./navbar";
-export type { NavbarLanguage, NavbarLink, NavbarProps } from "./navbar";
+export type { NavbarLink, NavbarProps } from "./navbar";
 export { Sidebar } from "./sidebar";
 // The head script module has no client directive, so a Server Component layout can render it.
 export { sidebarScript } from "./sidebar-script";
@@ -20,8 +20,6 @@ export { Stepper } from "./stepper";
 export type { StepperProps, StepperStep, StepStatus } from "./stepper";
 export { BulkBar, Toolbar, ToolbarSpacer } from "./toolbar";
 export type { BulkBarProps, ToolbarProps } from "./toolbar";
-export { Footer } from "./footer";
-export type { FooterColumn, FooterLink, FooterProps } from "./footer";
 export { SkipLink } from "./skip-link";
 export type { SkipLinkProps } from "./skip-link";
 // The panel page header: the bar the shell renders, and what a page passes to it.

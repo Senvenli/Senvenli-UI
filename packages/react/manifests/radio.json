@@ -25,10 +25,6 @@
       {
         "use": "select",
         "when": "There are many options."
-      },
-      {
-        "use": "radio-card",
-        "when": "Each option needs a longer description."
       }
     ]
   },
@@ -48,7 +44,6 @@
     ]
   },
   "related": [
-    "radio-card",
     "select",
     "checkbox"
   ],
@@ -107,6 +102,11 @@
       ]
     }
   },
+  "guidance": [
+    {
+      "rule": "Use variant=\"card\" when each option needs a line of detail (a plan, a delivery option, a time slot); its content is yours."
+    }
+  ],
   "source": [
     "src/selection/radio.tsx"
   ],
@@ -846,6 +846,21 @@
             "app"
           ]
         }
+      },
+      {
+        "name": "variant",
+        "type": "RadioGroupVariant",
+        "required": false,
+        "origin": "own",
+        "default": "\"default\"",
+        "description": "`default`: rows with a dot. `card`: each option a card in a grid of equal columns (no narrower than 180px), for\nchoices that need a line of detail each (a plan, a delivery option, a time slot).",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "default",
+            "card"
+          ]
+        }
       }
     ],
     "Radio": [
@@ -883,7 +898,6 @@
   },
   "tokens": [
     "ds-background-brand-bold",
-    "ds-background-brand-subtle",
     "ds-background-disabled",
     "ds-background-input",
     "ds-background-neutral-pressed",
@@ -898,14 +912,13 @@
     "ds-radius-large",
     "ds-radius-xsmall",
     "ds-shadow-raised",
-    "ds-space-075",
+    "ds-space-050",
     "ds-space-100",
     "ds-space-150",
     "ds-space-200",
     "ds-space-300",
     "ds-surface-raised",
     "ds-text",
-    "ds-text-brand",
     "ds-text-disabled",
     "ds-text-on-brand",
     "ds-text-subtlest"

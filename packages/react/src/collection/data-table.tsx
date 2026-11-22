@@ -5,11 +5,12 @@ import { useLocale, type Key, type Selection, type SortDescriptor } from "react-
 
 import { cn } from "../utils";
 import { Button } from "../action/button";
-import { EmptyState, ErrorState } from "../feedback/empty-state";
+import { EmptyState } from "../feedback/empty-state";
 import { Skeleton } from "../feedback/skeleton";
 import { SearchField } from "../form/search-field";
 import {
   intlLocale,
+  retryLabel,
   tableClearFiltersLabel,
   tableColumnsLabel,
   tableEmptyLabel,
@@ -420,7 +421,19 @@ export function DataTable<T extends object>(props: DataTableProps<T>) {
 
       {status === "error" ? (
         <div data-slot="data-table-error" className="rounded-ds-large bg-ds-surface-raised py-ds-400 shadow-ds-raised">
-          <ErrorState size="compact" title={tableLoadFailedLabel(locale)} description={tableLoadFailedHintLabel(locale)} onRetry={() => setReload((n) => n + 1)} />
+          <EmptyState
+            size="compact"
+            tone="danger"
+            icon="cloud-off"
+            announce
+            title={tableLoadFailedLabel(locale)}
+            description={tableLoadFailedHintLabel(locale)}
+            primaryAction={
+              <Button size="compact" iconBefore="rotate-cw" onPress={() => setReload((n) => n + 1)}>
+                {retryLabel(locale)}
+              </Button>
+            }
+          />
         </div>
       ) : showSkeleton ? (
         <div data-slot="data-table-loading" aria-hidden className="flex flex-col overflow-hidden rounded-ds-large bg-ds-surface-raised shadow-ds-raised">

@@ -184,6 +184,16 @@
         }
       },
       {
+        "name": "truncate",
+        "type": "boolean",
+        "required": false,
+        "origin": "own",
+        "description": "One line, cut with an ellipsis where its container ends (a table cell, a card title).",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
         "name": "children",
         "type": "React.ReactNode",
         "required": true,

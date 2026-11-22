@@ -1,12 +1,12 @@
 import { Text } from "@senvenli/react/display";
-import { StatusDot } from "@senvenli/react/feedback";
+import { Lozenge } from "@senvenli/react/display";
 import { Inline } from "@senvenli/react/layout";
 
 export default function Example() {
   return (
     <Inline space="space-200" justify="between">
       <Text weight="medium">Payments webhook</Text>
-      <StatusDot tone="success" isLive>Receiving events</StatusDot>
+      <Lozenge appearance="plain" tone="success" isLive>Receiving events</Lozenge>
     </Inline>
   );
 }

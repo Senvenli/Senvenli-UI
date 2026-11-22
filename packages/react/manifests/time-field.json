@@ -22,8 +22,8 @@
     ],
     "instead": [
       {
-        "use": "time-slots",
-        "when": "Only certain times are available."
+        "use": "radio",
+        "when": "Only certain times are available: a card RadioGroup of them (see its time-slots example)."
       }
     ]
   },
@@ -42,7 +42,7 @@
     ]
   },
   "related": [
-    "time-slots",
+    "radio",
     "date-field"
   ],
   "genui": {
@@ -256,16 +256,7 @@
   },
   "tokens": [
     "ds-background-brand-bold",
-    "ds-background-neutral-subtle-hovered",
-    "ds-border",
-    "ds-border-bold",
-    "ds-border-focused",
-    "ds-radius-medium",
     "ds-radius-small",
-    "ds-space-025",
-    "ds-space-075",
-    "ds-space-100",
-    "ds-text",
     "ds-text-disabled",
     "ds-text-on-brand",
     "ds-text-subtle",

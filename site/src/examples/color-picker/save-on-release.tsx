@@ -8,7 +8,7 @@ export default function Example() {
   const [saved, setSaved] = useState(color);
   return (
     <Stack space="space-150">
-      <ColorPicker label="Accent color" value={color} onChange={setColor} onChangeEnd={setSaved} showPreview={false} />
+      <ColorPicker label="Accent color" value={color} onChange={setColor} onChangeEnd={setSaved} />
       <Text size="body-small" tone="subtle">Last saved: {saved}</Text>
     </Stack>
   );

@@ -66,8 +66,6 @@ function typeHex(input: HTMLInputElement, text: string) {
 const hueSlider = (container: HTMLElement) =>
   within(container.querySelector("[data-slot='color-slider-hue']") as HTMLElement).getByRole("slider") as HTMLInputElement;
 
-const ratioOf = (container: HTMLElement, theme: "light" | "dark") =>
-  container.querySelector(`[data-theme-preview='${theme}'] [data-slot='color-preview-ratio']`) as HTMLElement;
 
 describe("contrast", () => {
   it("WCAG ratio: black on white is 21:1", () => {
@@ -354,118 +352,8 @@ describe("ColorPicker: parts and names", () => {
   });
 });
 
-describe("ColorPicker: preview and contrast check", () => {
-  it("a color that passes: both tiles show the ratio with AA in the success tone, and no warning", () => {
-    const { container } = inLocale(<ColorPicker label="Brand color" defaultValue={OCEAN} />);
-    const check = checkBrandColor(OCEAN)!;
-    expect(screen.getByText("Preview")).toBeTruthy();
-    for (const theme of ["light", "dark"] as const) {
-      const ratio = ratioOf(container, theme);
-      expect(ratio.textContent).toBe(`${formatRatio(check[theme].ratio, "en")} · AA`);
-      expect(ratio.className).toContain("text-ds-text-success");
-      const tile = container.querySelector(`[data-theme-preview='${theme}']`) as HTMLElement;
-      expect(tile.hasAttribute("data-passes")).toBe(true);
-      expect(within(tile).getByText(theme === "light" ? "Light" : "Dark")).toBeTruthy();
-      const button = tile.querySelector("[data-slot='color-preview-button']") as HTMLElement;
-      expect(button.textContent).toBe("Get started");
-      // Each tile draws the tone that theme starts from: the color itself on light, lifted on dark.
-      expect(button.style.background.replace(/\s/g, "")).toBe(hexToRgb(check[theme].hex));
-      expect(button.style.color.replace(/\s/g, "")).toBe(hexToRgb(check[theme].label));
-    }
-    expect(ratioOf(container, "light").textContent).toBe("5.4:1 · AA");
-    expect(container.querySelector("[data-slot='color-contrast-notes']")).toBeNull();
-  });
-
-  it("a color that fails on light: the ratio in the danger tone, the warning, and the button on the engine's tone", () => {
-    const { container } = inLocale(<ColorPicker label="Brand color" defaultValue={INK_FAIL} />);
-    const check = checkBrandColor(INK_FAIL)!;
-    const fix = check.light.fix!;
-    const light = ratioOf(container, "light");
-    const dark = ratioOf(container, "dark");
-    expect(light.textContent).toBe("4.4:1");
-    expect(light.className).toContain("text-ds-text-danger");
-    expect(dark.textContent).toMatch(/^\d+\.\d:1 · AA$/);
-    expect(dark.className).toContain("text-ds-text-success");
-    expect(container.querySelector("[data-theme-preview='light']")!.hasAttribute("data-passes")).toBe(false);
-    expect(screen.getByText("This tone is not enough in the light theme: 4.4:1")).toBeTruthy();
-    expect(screen.getByText(`In the light theme, filled buttons use the tone ${fix.hex} instead.`)).toBeTruthy();
-    expect(screen.queryByText(/in the dark theme/i)).toBeNull();
-    // The light tile shows the button as the system will draw it: on the fixed tone, under its label.
-    const lightButton = container.querySelector("[data-theme-preview='light'] [data-slot='color-preview-button']") as HTMLElement;
-    expect(lightButton.style.background.replace(/\s/g, "")).toBe(hexToRgb(fix.hex));
-    expect(lightButton.style.color.replace(/\s/g, "")).toBe(hexToRgb(fix.label));
-  });
-
-  it("each tile sits on its theme's page ground", () => {
-    const { container } = inLocale(<ColorPicker label="Brand color" defaultValue={OCEAN} />);
-    const check = checkBrandColor(OCEAN)!;
-    for (const theme of ["light", "dark"] as const) {
-      const tile = container.querySelector(`[data-theme-preview='${theme}']`) as HTMLElement;
-      expect(tile.style.background.replace(/\s/g, "")).toBe(hexToRgb(check[theme].ground));
-    }
-  });
-
-  it("the theme prop reaches the engine with the picked color as its primary", () => {
-    vi.mocked(createTheme).mockClear();
-    inLocale(<ColorPicker label="Brand color" defaultValue={OCEAN} theme={{ secondary: "#12853E", radius: 0.5 }} />);
-    expect(createTheme).toHaveBeenCalledWith({ secondary: "#12853E", radius: 0.5, primary: OCEAN });
-  });
-
-  it("showPreview={false} hides the tiles and the warning", () => {
-    const { container } = inLocale(<ColorPicker label="Brand color" defaultValue={INK_FAIL} showPreview={false} />);
-    expect(container.querySelector("[data-slot='color-preview']")).toBeNull();
-    expect(container.querySelector("[data-slot='color-contrast-notes']")).toBeNull();
-  });
-
-  it("the preview text is medium weight, never semibold", () => {
-    const { container } = inLocale(<ColorPicker label="Brand color" defaultValue={INK_FAIL} />);
-    expect(container.querySelector("[data-slot='color-preview-button']")!.className).toContain("font-medium");
-    expect(container.querySelector("[data-slot='color-preview-ratio']")!.className).toContain("font-medium");
-    for (const el of Array.from(container.querySelectorAll("[class]"))) expect(el.getAttribute("class")).not.toContain("font-semibold");
-  });
-});
-
-describe("ContrastNotes", () => {
-  const passing = checkBrandColor(OCEAN)!;
-  // The engine's dark tone always passes; a failing dark check is built by hand to reach the dark wording.
-  const failingDark = (fix: ThemeCheck["fix"]): ThemeCheck => ({
-    theme: "dark", hex: OCEAN, label: PAPER, ratio: 3.42, passes: false, ground: INK, fix,
-  });
-
-  it("renders nothing when both themes pass", () => {
-    const { container } = inLocale(<ContrastNotes checks={passing} />);
-    expect(container.querySelector("[data-slot='color-contrast-notes']")).toBeNull();
-  });
-
-  it("a failing dark tone: the ratio, and the tone filled buttons use instead", () => {
-    inLocale(<ContrastNotes checks={{ light: passing.light, dark: failingDark({ hex: "#5B93F0", label: INK, ratio: 6.6, passes: true }) }} />);
-    expect(screen.getByRole("status")).toBeTruthy();
-    expect(screen.getByText("This tone is not enough in the dark theme: 3.4:1")).toBeTruthy();
-    expect(screen.getByText("In the dark theme, filled buttons use the tone #5B93F0 instead.")).toBeTruthy();
-  });
-
-  it("both themes failing: one note each", () => {
-    const light = checkBrandColor(PAPER_FAIL)!.light;
-    const { container } = inLocale(
-      <ContrastNotes checks={{ light, dark: failingDark({ hex: "#5B93F0", label: INK, ratio: 6.6, passes: true }) }} />,
-    );
-    expect(container.querySelectorAll("[data-slot='color-contrast-note']")).toHaveLength(2);
-    expect(screen.getByText("This tone is not enough in the light theme: 4.4:1")).toBeTruthy();
-    expect(screen.getByText("In the light theme, filled buttons use the tone #0076D0 instead.")).toBeTruthy();
-  });
-
-  it("no tone passes: the warning says actions keep the theme color", () => {
-    for (const fix of [undefined, { hex: "#5B93F0", label: INK, ratio: 4.2, passes: false }]) {
-      const { unmount } = inLocale(<ContrastNotes checks={{ light: passing.light, dark: failingDark(fix) }} />);
-      expect(screen.getByText(/^No tone of this color reaches AA: /)).toBeTruthy();
-      expect(screen.queryByText(/filled buttons use the tone/)).toBeNull();
-      unmount();
-    }
-  });
-});
-
 describe("ColorPicker: changes", () => {
-  it("the check follows every move; onChange while moving, onChangeEnd on release", () => {
+  it("onChange while moving, onChangeEnd on release", () => {
     const onChange = vi.fn();
     const onChangeEnd = vi.fn();
     const { container } = inLocale(<ColorPicker label="Brand color" defaultValue={OCEAN} onChange={onChange} onChangeEnd={onChangeEnd} />);
@@ -477,11 +365,6 @@ describe("ColorPicker: changes", () => {
     const moved = onChange.mock.calls.at(-1)![0] as string;
     expect(moved).not.toBe(OCEAN);
     expect(onChangeEnd).toHaveBeenLastCalledWith(moved);
-    // The preview already measures the new color.
-    const check = checkBrandColor(moved)!;
-    for (const theme of ["light", "dark"] as const) {
-      expect(ratioOf(container, theme).textContent).toContain(formatRatio(check[theme].ratio, "en"));
-    }
   });
 
   it("dragging the area: onChange during the drag, onChangeEnd once on release", () => {
@@ -563,11 +446,10 @@ describe("ColorPicker: controlled", () => {
     expect(Number((area[0] as HTMLInputElement).value)).toBeGreaterThan(50);
   });
 
-  it("a different hex from the parent replaces the color, and the preview measures it", () => {
-    const { container, rerender } = inLocale(<ColorPicker label="Brand color" value={OCEAN} />);
+  it("a different hex from the parent replaces the color", () => {
+    const { rerender } = inLocale(<ColorPicker label="Brand color" value={OCEAN} />);
     rerender(wrap(<ColorPicker label="Brand color" value={INK_FAIL} />));
     expect((screen.getByRole("textbox", { name: /HEX/ }) as HTMLInputElement).value).toBe(INK_FAIL);
-    expect(ratioOf(container, "light").textContent).toBe("4.4:1");
   });
 });
 

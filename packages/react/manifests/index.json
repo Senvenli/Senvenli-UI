@@ -552,8 +552,7 @@
     ],
     "import": "@senvenli/react/collection",
     "exports": [
-      "Table",
-      "TableCellStack"
+      "Table"
     ],
     "genui": true
   },
@@ -719,24 +718,6 @@
     "import": "@senvenli/react/date",
     "exports": [
       "TimeField"
-    ],
-    "genui": false
-  },
-  {
-    "name": "time-slots",
-    "title": "Time slots",
-    "family": "date",
-    "status": "alpha",
-    "description": "Available times as a grid of tiles, each with an optional note, for one choice.",
-    "keywords": [
-      "time slots",
-      "appointment",
-      "availability",
-      "schedule"
-    ],
-    "import": "@senvenli/react/date",
-    "exports": [
-      "TimeSlots"
     ],
     "genui": false
   },
@@ -1102,8 +1083,7 @@
     ],
     "import": "@senvenli/react/feedback",
     "exports": [
-      "EmptyState",
-      "ErrorState"
+      "EmptyState"
     ],
     "genui": false
   },
@@ -1184,25 +1164,6 @@
       "Spinner"
     ],
     "genui": false
-  },
-  {
-    "name": "status-dot",
-    "title": "Status dot",
-    "family": "feedback",
-    "status": "alpha",
-    "description": "A small colored dot with a word for a live system state: online, syncing, offline.",
-    "keywords": [
-      "status",
-      "presence",
-      "online",
-      "indicator",
-      "live"
-    ],
-    "import": "@senvenli/react/feedback",
-    "exports": [
-      "StatusDot"
-    ],
-    "genui": true
   },
   {
     "name": "field",
@@ -1482,7 +1443,7 @@
     "title": "Section",
     "family": "layout",
     "status": "alpha",
-    "description": "Full-width page bands with a centered container and a head of overline, title and lead.",
+    "description": "Full-width page bands with a centered container; the heading that names a band is yours.",
     "keywords": [
       "section",
       "band",
@@ -1494,8 +1455,7 @@
     "import": "@senvenli/react/layout",
     "exports": [
       "Section",
-      "Container",
-      "SectionHead"
+      "Container"
     ],
     "genui": false
   },
@@ -1594,24 +1554,6 @@
     "import": "@senvenli/react/navigation",
     "exports": [
       "Dock"
-    ],
-    "genui": false
-  },
-  {
-    "name": "footer",
-    "title": "Footer",
-    "family": "navigation",
-    "status": "alpha",
-    "description": "Closes a public page: the brand, link columns, contact, legal line and an optional language switch.",
-    "keywords": [
-      "footer",
-      "site footer",
-      "links",
-      "legal"
-    ],
-    "import": "@senvenli/react/navigation",
-    "exports": [
-      "Footer"
     ],
     "genui": false
   },
@@ -2009,25 +1951,6 @@
     "import": "@senvenli/react/selection",
     "exports": [
       "MultiSelect"
-    ],
-    "genui": true
-  },
-  {
-    "name": "radio-card",
-    "title": "Radio card",
-    "family": "selection",
-    "status": "alpha",
-    "description": "Radio options as cards with a title, description and an optional recommended mark: plans, tiers, methods.",
-    "keywords": [
-      "radio",
-      "card",
-      "plan",
-      "pricing",
-      "option"
-    ],
-    "import": "@senvenli/react/selection",
-    "exports": [
-      "RadioCard"
     ],
     "genui": true
   },

@@ -7,8 +7,7 @@
   "name": "empty-state",
   "title": "Empty state",
   "exports": [
-    "EmptyState",
-    "ErrorState"
+    "EmptyState"
   ],
   "description": "Explains why a view has no content or failed to load, and offers the action that changes that.",
   "keywords": [
@@ -20,7 +19,7 @@
   ],
   "usage": {
     "when": [
-      "A list or view has nothing to show yet, no results, or failed to load (ErrorState)."
+      "A list or view has nothing to show yet, no results, or failed to load (tone=\"danger\")."
     ]
   },
   "guidance": [
@@ -30,10 +29,11 @@
   ],
   "a11y": {
     "builtIn": [
-      "ErrorState's retry button is named \"Retry\" and shows a pending state."
+      "With announce, the message (title, description, details) is an alert; the actions stay outside it."
     ],
     "youProvide": [
-      "A heading level when the state is the page's main content."
+      "A heading level when the state is the page's main content.",
+      "For a failed load, a retry Button that shows its pending state (see the example)."
     ]
   },
   "related": [
@@ -114,140 +114,38 @@
             "compact"
           ]
         }
-      }
-    ],
-    "ErrorState": [
+      },
       {
-        "name": "kind",
-        "type": "ErrorStateKind",
+        "name": "tone",
+        "type": "\"danger\" | \"neutral\"",
         "required": false,
         "origin": "own",
-        "default": "\"load-failed\"",
-        "description": "Load failed (cloud-off, retry) · not allowed (lock, who to ask) · not found (file-question, way back).",
+        "default": "\"neutral\"",
+        "description": "`danger` for a load that failed or a page that is not allowed: the icon in the danger tone.",
         "schema": {
           "type": "string",
           "enum": [
-            "load-failed",
-            "not-allowed",
-            "not-found"
+            "danger",
+            "neutral"
           ]
         }
       },
       {
-        "name": "title",
+        "name": "details",
         "type": "React.ReactNode",
-        "required": true,
-        "origin": "own",
-        "description": "What failed: \"Reports could not be loaded\"."
-      },
-      {
-        "name": "headingLevel",
-        "type": "StateHeadingLevel",
         "required": false,
         "origin": "own",
-        "description": "Renders the title as a heading where the state replaces the page's main content.",
-        "schema": {
-          "enum": [
-            1,
-            4,
-            2,
-            3
-          ]
-        }
-      },
-      {
-        "name": "description",
-        "type": "React.ReactNode",
-        "required": true,
-        "origin": "own",
-        "description": "What the user can do. Required: never \"Something went wrong\" alone."
-      },
-      {
-        "name": "errorCode",
-        "type": "string",
-        "required": false,
-        "origin": "own",
-        "description": "Shown as \"Hata kodu: RPT-504\" for support.",
-        "schema": {
-          "type": "string"
-        }
-      },
-      {
-        "name": "occurredAt",
-        "type": "Date",
-        "required": false,
-        "origin": "own",
-        "description": "When it failed, shown next to the code in the user's locale."
-      },
-      {
-        "name": "timeZone",
-        "type": "string",
-        "required": false,
-        "origin": "own",
-        "description": "The time zone `occurredAt` is shown in (\"Europe/Berlin\"). Left out, the device's: then the server and the\nbrowser can print different times, so a prerendered page passes one.",
-        "schema": {
-          "type": "string"
-        }
-      },
-      {
-        "name": "size",
-        "type": "StateSize",
-        "required": false,
-        "origin": "own",
-        "default": "\"default\"",
-        "description": "`compact` for an inline failure inside a card or table cell.",
-        "schema": {
-          "type": "string",
-          "enum": [
-            "default",
-            "compact"
-          ]
-        }
+        "description": "Extra lines inside the message, under the description: an error code and when it happened, for support."
       },
       {
         "name": "announce",
         "type": "boolean",
         "required": false,
         "origin": "own",
-        "description": "Announce the message as an alert. Default: on for `load-failed` (it replaces content the\nuser was waiting for), off for `not-allowed` and `not-found`, which are usually the page itself.",
+        "description": "Announce the message (title, description, details) as an alert; the actions stay outside it. For a state that\nreplaces content the user was waiting for (a failed load); not for a first-use or no-results state.",
         "schema": {
           "type": "boolean"
         }
-      },
-      {
-        "name": "onRetry",
-        "type": "() => unknown",
-        "required": false,
-        "origin": "own",
-        "description": "Runs the failed load again; the region keeps the user's filters and scroll. A promise\nshows the button busy; if it rejects while this state stays on screen, a short\n\"did not work\" line is shown and announced."
-      },
-      {
-        "name": "retryLabel",
-        "type": "string",
-        "required": false,
-        "origin": "own",
-        "description": "Overrides the localized \"Retry\" label; the default stays localized.",
-        "schema": {
-          "type": "string"
-        }
-      },
-      {
-        "name": "isRetryPending",
-        "type": "boolean",
-        "required": false,
-        "origin": "own",
-        "default": "false",
-        "description": "Shows the retry busy and unpressable while a retry the caller runs itself is under way\n, e.g. a query's `isFetching`. A promise from `onRetry` still does this on its own.",
-        "schema": {
-          "type": "boolean"
-        }
-      },
-      {
-        "name": "action",
-        "type": "React.ReactNode",
-        "required": false,
-        "origin": "own",
-        "description": "The one way forward when retrying will not help (\"Back to dashboard\", who to ask).\nA `load-failed` state without `onRetry` should still offer a way out here."
       }
     ]
   },
@@ -261,16 +159,9 @@
     "ds-space-600",
     "ds-surface-sunken",
     "ds-text",
-    "ds-text-danger",
-    "ds-text-subtle",
-    "ds-text-subtlest",
-    "font-ds-mono"
+    "ds-text-subtle"
   ],
-  "strings": [
-    "actionFailed",
-    "errorCode",
-    "retry"
-  ],
+  "strings": [],
   "quality": {
     "tests": true,
     "a11y": false,

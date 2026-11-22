@@ -25,7 +25,7 @@ import {
   type ColorChannel,
 } from "react-aria-components";
 
-import { createTheme, formatHex, type ThemeInput } from "@senvenli/tokens";
+import { createTheme, formatHex } from "@senvenli/tokens";
 
 import { cn } from "../utils";
 import { Button } from "../action/index";
@@ -35,18 +35,12 @@ import { InputAddon, InputGroup } from "../form/input-group";
 import { DESCRIPTION, FIELD_STACK, INPUT, LABEL } from "../form/styles";
 import { useRequiredChoice, type RequiredValidation } from "../form/validation";
 import {
-  contrastFixLabel,
   customColorLabel,
   hexExpectedLabel,
-  lowContrastLabel,
   nameSelectedLabel,
-  noStepPassesLabel,
-  previewActionLabel,
-  previewLabel,
-  themeLabels,
 } from "../i18n";
 import { POPOVER } from "../selection/listbox";
-import { checkBrandColor, contrastRatio, formatRatio, type ThemeCheck, type ThemeName } from "./contrast";
+import { contrastRatio } from "./contrast";
 
 /** The neutral default primary: the picker starts from the color a theme without one uses. */
 const DEFAULT_PRIMARY = formatHex(createTheme().light["ds-background-brand-bold"]!).toUpperCase();
@@ -243,90 +237,14 @@ export type ColorPickerProps = {
   onChangeEnd?: (value: string) => void;
   /** The sliders under the area: hue always, alpha when the color may be translucent. */
   channels?: readonly ("hue" | "alpha")[];
-  /**
-   * The rest of the project's theme input (secondary, radius…): the preview shows the primary button as
-   * `createTheme({ ...theme, primary })` derives it.
-   */
-  theme?: Omit<ThemeInput, "primary">;
-  /** Hide the two-theme preview (the picker inside ColorSwatchPicker shows its own caption). */
-  showPreview?: boolean;
 };
 
-/** One theme's tile: the primary button on that theme's page ground, with the measured ratio. */
-function PreviewTile({ check }: { check: ThemeCheck }) {
-  const { locale } = useLocale();
-  const shown = check.passes ? check : (check.fix ?? check);
-  const fill = shown.hex;
-  const label = shown.label;
-  const ground = check.ground;
-  const themeName = themeLabels(locale)[check.theme];
-  return (
-    <div
-      data-slot="color-preview-tile"
-      data-theme-preview={check.theme}
-      data-passes={check.passes || undefined}
-      className="flex min-w-0 flex-1 flex-col items-start gap-ds-100 rounded-ds-medium p-ds-150 inset-ring-1 inset-ring-ds-border"
-      // The chosen color and the theme's own ground are data, not tokens: they are what is being checked.
-      style={{ background: ground }}
-    >
-      <span className="sr-only">{themeName}</span>
-      <span
-        aria-hidden
-        data-slot="color-preview-button"
-        className="inline-flex min-h-ds-control-compact items-center rounded-ds-medium px-ds-150 text-body font-medium"
-        style={{ background: fill, color: label }}
-      >
-        {previewActionLabel(locale)}
-      </span>
-      <span
-        data-slot="color-preview-ratio"
-        className={cn(
-          "inline-flex items-center gap-ds-050 rounded-ds-small bg-ds-surface-raised px-ds-075 text-body-small font-medium tabular-nums",
-          check.passes ? "text-ds-text-success" : "text-ds-text-danger",
-        )}
-      >
-        <IconGlyph name={check.passes ? "circle-check" : "circle-alert"} size="small" />
-        {formatRatio(check.ratio, locale)}
-        {check.passes && " · AA"}
-      </span>
-    </div>
-  );
-}
-
-/** The warning under the tiles: which theme fails, by how much, and what the system does about it. */
-export function ContrastNotes({ checks }: { checks: Record<ThemeName, ThemeCheck> }) {
-  const { locale } = useLocale();
-  const failing = (["light", "dark"] as const).map((theme) => checks[theme]).filter((check) => !check.passes);
-  if (!failing.length) return null;
-  return (
-    <div data-slot="color-contrast-notes" role="status" className="flex flex-col gap-ds-100">
-      {failing.map((check) => (
-        <div
-          key={check.theme}
-          data-slot="color-contrast-note"
-          className="flex items-start gap-ds-100 rounded-ds-medium bg-ds-background-warning px-ds-150 py-ds-100 text-ds-text"
-        >
-          <IconGlyph name="triangle-alert" className="mt-0.5 text-ds-icon-warning" />
-          <span className="flex flex-col">
-            <span className="text-body font-medium">{lowContrastLabel(locale, check.theme, formatRatio(check.ratio, locale))}</span>
-            <span className="text-body-small">
-              {check.fix?.passes ? contrastFixLabel(locale, check.theme, check.fix.hex) : noStepPassesLabel(locale)}
-            </span>
-          </span>
-        </div>
-      ))}
-    </div>
-  );
-}
-
 /**
- * Sets a brand color: a saturation–brightness area, a hue slider (and alpha), a hex field and a live
- * preview of the primary button on the light and dark page grounds with the measured contrast. The check
- * runs while dragging; a failing color shows the tone the theme engine uses instead, and never blocks
- * saving.
+ * Picks a color: a saturation–brightness area, a hue slider (and alpha) and a hex field. To check a brand color's
+ * contrast as it moves, pair it with `checkBrandColor` (see the example).
  */
 export function ColorPicker({
-  label, value, defaultValue = DEFAULT_PRIMARY, onChange, onChangeEnd, channels = ["hue"], theme, showPreview = true,
+  label, value, defaultValue = DEFAULT_PRIMARY, onChange, onChangeEnd, channels = ["hue"],
 }: ColorPickerProps) {
   const { locale } = useLocale();
   const [own, setOwn] = React.useState<Color>(() => parseColor(defaultValue));
@@ -338,8 +256,6 @@ export function ColorPicker({
   const latest = React.useRef(color);
   latest.current = color;
   const hex = toHex(color.withChannelValue("alpha", 1));
-  const themeKey = JSON.stringify(theme ?? {});
-  const checks = React.useMemo(() => checkBrandColor(hex, theme), [hex, themeKey]);
   const labelId = React.useId();
   const emit = (next: Color) => {
     latest.current = next;
@@ -414,16 +330,6 @@ export function ColorPicker({
             {`${hex}, ${Math.round(hsb.getChannelValue("hue"))}°`}
           </span>
         </div>
-        {showPreview && checks && (
-          <div data-slot="color-preview" className="flex min-w-0 max-w-[300px] flex-1 basis-60 flex-col gap-ds-150">
-            <span className="text-heading-xsmall">{previewLabel(locale)}</span>
-            <div className="flex gap-ds-100">
-              <PreviewTile check={checks.light} />
-              <PreviewTile check={checks.dark} />
-            </div>
-            <ContrastNotes checks={checks} />
-          </div>
-        )}
       </div>
     </AriaColorPicker>
   );

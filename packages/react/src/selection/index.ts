@@ -1,12 +1,10 @@
-// @senvenli/react/selection: Checkbox, CheckboxGroup, Radio, RadioGroup, RadioCard,
+// @senvenli/react/selection: Checkbox, CheckboxGroup, Radio, RadioGroup (rows or cards),
 // Switch and Slider on React Aria Components; Select and MultiSelect; ComboBox,
 // Autocomplete and TagGroup.
 export { Checkbox, CheckboxGroup } from "./checkbox";
 export type { CheckboxProps, CheckboxGroupProps } from "./checkbox";
 export { Radio, RadioGroup } from "./radio";
-export type { RadioProps, RadioGroupProps, RadioItem } from "./radio";
-export { RadioCard } from "./radio-card";
-export type { RadioCardProps, RadioCardItem } from "./radio-card";
+export type { RadioGroupVariant, RadioProps, RadioGroupProps, RadioItem } from "./radio";
 export { Switch } from "./switch";
 export type { SwitchProps } from "./switch";
 export { Slider } from "./slider";

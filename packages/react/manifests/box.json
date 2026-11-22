@@ -64,8 +64,7 @@
       "box",
       "stack",
       "inline",
-      "grid",
-      "status-dot"
+      "grid"
     ],
     "schema": {
       "type": "object",

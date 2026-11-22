@@ -1,5 +1,5 @@
-import { DataTable, GridList, List, ListItem, ListSection, Table, TableCellStack } from "@senvenli/react/collection";
-import { Card, CardBody, CardHeader, Lozenge } from "@senvenli/react/display";
+import { DataTable, GridList, List, ListItem, ListSection, Table } from "@senvenli/react/collection";
+import { Card, CardBody, CardHeader, Lozenge, Text } from "@senvenli/react/display";
 import { Stack } from "@senvenli/react/layout";
 
 type Order = { id: string; customer: string; email: string; status: "paid" | "pending" | "refunded"; total: number; placed: string };
@@ -32,7 +32,7 @@ const COLUMNS = [
     header: "Customer",
     isSortable: true,
     value: (o: Order) => o.customer,
-    render: (o: Order) => <TableCellStack primary={o.customer} secondary={o.email} />,
+    render: (o: Order) => <Stack space="space-0"><Text truncate>{o.customer}</Text><Text size="body-small" tone="subtle" truncate>{o.email}</Text></Stack>,
   },
   {
     key: "status",
