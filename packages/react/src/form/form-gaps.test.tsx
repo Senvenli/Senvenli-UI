@@ -4,7 +4,8 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 
 import { DesignSystemProvider } from "../provider";
 import { hidePasswordLabel, showPasswordLabel } from "../i18n";
-import { PasswordField, TextField } from "./index";
+import { PasswordField } from "./password-field";
+import { TextField } from "./text-field";
 
 afterEach(cleanup);
 

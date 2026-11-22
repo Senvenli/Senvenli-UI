@@ -1,5 +1,5 @@
 import { Button } from "@senvenli/react/action";
-import { TextField } from "@senvenli/react/form";
+import { Input } from "@senvenli/react/form";
 import { Stack } from "@senvenli/react/layout";
 import { Dialog, DialogTrigger } from "@senvenli/react/overlay";
 import { useState } from "react";
@@ -15,8 +15,8 @@ export default function Example() {
         primaryAction={{ label: "Save changes", onPress: () => setIsOpen(false) }}
       >
         <Stack space="space-200">
-          <TextField label="Full name" defaultValue="Ada Lovelace" />
-          <TextField label="Email" type="email" defaultValue="ada@example.com" />
+          <Input label="Full name" defaultValue="Ada Lovelace" />
+          <Input label="Email" type="email" defaultValue="ada@example.com" />
         </Stack>
       </Dialog>
     </DialogTrigger>

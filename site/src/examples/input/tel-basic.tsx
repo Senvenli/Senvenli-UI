@@ -1,8 +1,8 @@
-import { PhoneField } from "@senvenli/react/form";
+import { Input } from "@senvenli/react/form";
 
 export default function Example() {
   return (
-    <PhoneField
+    <Input type="tel"
       label="Phone number"
       name="phone"
       defaultCountry="US"

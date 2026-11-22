@@ -60,6 +60,9 @@ function report(theme: Theme): string {
   return lines.join("\n");
 }
 
+/** The most one component answer should cost an agent's context, in characters (about 5k tokens). */
+const PAGE_BUDGET = 20_000;
+
 /** The sections of a component page, by the `## ` heading that opens each. The title and intro always come first. */
 const SECTIONS = {
   example: /^## Example:/,
@@ -160,7 +163,14 @@ export function createServer(): McpServer {
     async ({ name, sections }) => {
       const component = findComponent(name);
       if (!component) return unknownComponent(name);
-      return text(sections?.length ? pageSections(component.markdown, sections) : component.markdown);
+      if (sections?.length) return text(pageSections(component.markdown, sections));
+      // A page too long for one answer (a component with several shapes, such as Input) comes without its API
+      // reference, and says how to read it; nothing is cut silently.
+      if (component.markdown.length <= PAGE_BUDGET) return text(component.markdown);
+      const rest = (Object.keys(SECTIONS) as Section[]).filter((section) => section !== "api");
+      return text(
+        `${pageSections(component.markdown, rest)}\n\n> The API reference is long: read it with get_component({ name: "${component.name}", sections: ["api"] }) or get_component_manifest.`,
+      );
     },
   );
 
@@ -179,7 +189,12 @@ export function createServer(): McpServer {
     },
     async ({ name, props, minified }) => {
       const component = findComponent(name);
-      return component ? text(manifestFor(component.manifest, props ?? "own+aria", minified ?? true)) : unknownComponent(name);
+      if (!component) return unknownComponent(name);
+      const answer = manifestFor(component.manifest, props ?? "own+aria", minified ?? true);
+      // Over the budget by default (a component with several shapes): its own props only, and the note in the JSON
+      // (propsLeftOut) says how to ask for the rest.
+      if (props === undefined && answer.length > PAGE_BUDGET) return text(manifestFor(component.manifest, "own", minified ?? true));
+      return text(answer);
     },
   );
 

@@ -2,7 +2,7 @@ import { CalendarDate } from "@internationalized/date";
 import { Button } from "@senvenli/react/action";
 import { DatePicker } from "@senvenli/react/date";
 import { Banner } from "@senvenli/react/feedback";
-import { Form, PasswordField, TextArea, TextField } from "@senvenli/react/form";
+import { Form, Input, TextArea } from "@senvenli/react/form";
 import { Checkbox, RadioGroup, Select, Slider, Switch } from "@senvenli/react/selection";
 
 /** Forms, every state a theme touches: fields, a picker, choices, an error and the submit row. */
@@ -11,9 +11,9 @@ export function FormsBoard() {
     <div className="grid items-start gap-ds-200 md:grid-cols-2">
       <div className="rounded-ds-large bg-ds-surface-raised p-ds-300">
         <Form onSubmit={(event) => event.preventDefault()}>
-          <TextField label="Full name" defaultValue="Ada Lovelace" isRequired />
-          <TextField label="Email" type="email" defaultValue="ada@example" errorMessage="Enter an email like name@example.com." isInvalid />
-          <PasswordField label="Password" autoComplete="new-password" showStrength />
+          <Input label="Full name" defaultValue="Ada Lovelace" isRequired />
+          <Input label="Email" type="email" defaultValue="ada@example" errorMessage="Enter an email like name@example.com." isInvalid />
+          <Input type="password" label="Password" autoComplete="new-password" showStrength />
           <Select label="Role" defaultSelectedKey="admin" items={[{ id: "admin", label: "Admin" }, { id: "member", label: "Member" }, { id: "viewer", label: "Viewer" }]} />
           <div className="flex gap-ds-100">
             <Button type="submit" variant="primary">

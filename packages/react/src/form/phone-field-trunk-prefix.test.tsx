@@ -3,7 +3,7 @@ import { act, cleanup, fireEvent, render, screen } from "@testing-library/react"
 import { afterEach, describe, expect, it, vi } from "vitest";
 
 import { DesignSystemProvider } from "../provider";
-import { PhoneField } from "./index";
+import { PhoneField } from "./phone-field";
 
 afterEach(cleanup);
 

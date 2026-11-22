@@ -4,7 +4,8 @@ import { act, cleanup, fireEvent, render } from "@testing-library/react";
 import { afterEach, describe, expect, it, vi } from "vitest";
 
 import { DesignSystemProvider } from "../provider";
-import { Form, TextField } from "./index";
+import { Form } from "./index";
+import { TextField } from "./text-field";
 
 /**
  * TextField displayCase="uppercase": a promo code shows in capitals while the value stays exactly as typed.

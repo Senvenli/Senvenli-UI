@@ -5,7 +5,8 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import { DesignSystemProvider } from "../provider";
 import { FieldError } from "./field-parts";
-import { Field, TextField } from "./index";
+import { Field } from "./index";
+import { TextField } from "./text-field";
 import type { Key } from "react-aria-components";
 import { ComboBox, MultiSelect, Select } from "../selection/index";
 

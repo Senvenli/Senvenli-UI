@@ -34,6 +34,8 @@ export type FabProps = {
   placement?: "fixed" | "inline";
   /** Collapse to icon-only on phones after the first scroll (default true). */
   collapseOnScroll?: boolean;
+  /** Icon-only at every width, as Button's `iconOnly`: a round button; `label` stays its accessible name. */
+  iconOnly?: boolean;
 };
 
 const PHONE = "(max-width: 767px)";
@@ -62,13 +64,14 @@ function useCollapsed(enabled: boolean) {
  * never over a dialog, sheet or a sticky summary bar (the app decides).
  */
 export const Fab = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, FabProps>(function Fab(
-  { label, icon, tone = "brand", onPress, href, target = "_blank", placement = "fixed", collapseOnScroll = true },
+  { label, icon, tone = "brand", onPress, href, target = "_blank", placement = "fixed", collapseOnScroll = true, iconOnly = false },
   ref,
 ) {
   const { locale } = useLocale();
   const opensNewTab = Boolean(href) && target === "_blank";
   const external = opensNewTab ? ` ${newTabLabel(locale)}` : "";
-  const collapsed = useCollapsed(collapseOnScroll && placement === "fixed");
+  const scrolledAway = useCollapsed(!iconOnly && collapseOnScroll && placement === "fixed");
+  const collapsed = iconOnly || scrolledAway;
   const className = cn(
     "inline-flex h-12 shrink-0 items-center justify-center gap-ds-100 rounded-ds-full shadow-ds-overlay text-body-strong",
     "cursor-pointer select-none outline-hidden transition-[background-color,filter,padding] duration-(--ds-duration-fast) ease-ds-standard",

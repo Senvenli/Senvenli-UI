@@ -4,7 +4,7 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 
 import { Button } from "../action/index";
 import { DateField, TimeField } from "../date/index";
-import { SearchField } from "../form/index";
+import { SearchField } from "../form/search-field";
 import { DesignSystemProvider } from "../provider";
 import { Toolbar, ToolbarSpacer } from "./index";
 

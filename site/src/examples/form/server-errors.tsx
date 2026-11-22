@@ -1,5 +1,5 @@
 import { Button } from "@senvenli/react/action";
-import { Form, FormFooter, TextField } from "@senvenli/react/form";
+import { Form, FormFooter, Input } from "@senvenli/react/form";
 import { useState } from "react";
 
 const TAKEN = "ada@example.com";
@@ -16,8 +16,8 @@ export default function Example() {
         setErrors(email === TAKEN ? { email: "That email already has an account. Sign in or use another one." } : {});
       }}
     >
-      <TextField label="Full name" name="name" autoComplete="name" defaultValue="Ada Lovelace" isRequired />
-      <TextField label="Email" name="email" type="email" autoComplete="email" defaultValue={TAKEN} isRequired />
+      <Input label="Full name" name="name" autoComplete="name" defaultValue="Ada Lovelace" isRequired />
+      <Input label="Email" name="email" type="email" autoComplete="email" defaultValue={TAKEN} isRequired />
       <FormFooter>
         <Button type="submit" variant="primary">Send invite</Button>
       </FormFooter>

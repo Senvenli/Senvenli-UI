@@ -1,0 +1,123 @@
+{
+  "$schema": "../../manifest/component.schema.json",
+  "kind": "component",
+  "family": "form",
+  "status": "alpha",
+  "import": "@senvenli/react/form",
+  "name": "input",
+  "title": "Input",
+  "exports": [
+    "Input"
+  ],
+  "description": "One text-entry field with a label, description and error; `type` picks text, email, url, password, search, number or tel.",
+  "keywords": [
+    "input",
+    "text",
+    "email",
+    "url",
+    "field",
+    "password",
+    "secret",
+    "credentials",
+    "sign in",
+    "search",
+    "filter",
+    "query",
+    "find",
+    "number",
+    "quantity",
+    "currency",
+    "amount",
+    "stepper",
+    "phone",
+    "telephone",
+    "mobile",
+    "country code",
+    "e164",
+    "text field",
+    "tel"
+  ],
+  "usage": {
+    "when": [
+      "Short free text: a name, an email, a code.",
+      "Entering or creating a password.",
+      "Searching or filtering a list or the app.",
+      "Entering a number: a quantity, a price, a percentage.",
+      "Any phone number a person types: sign-up, checkout, contact details."
+    ],
+    "instead": [
+      {
+        "use": "text-area",
+        "when": "The text may run to several lines."
+      }
+    ]
+  },
+  "guidance": [
+    {
+      "rule": "Errors say what happened and what to do: \"Enter a valid email: name@example.com\"."
+    }
+  ],
+  "a11y": {
+    "builtIn": [
+      "Label, description and error are announced with the input.",
+      "Required fields show \"Fill in this field.\" after a blur or a submit; your own `errorMessage` replaces it.",
+      "The toggle is named \"Show password\" / \"Hide password\".",
+      "Password managers can fill it.",
+      "The clear button is named \"Clear\".",
+      "Steppers are named \"Increase\" and \"Decrease\".",
+      "Formats and parses in the user's locale.",
+      "The country button is named with the country and its code.",
+      "Too short and too long say so in words.",
+      "Required fields show \"Fill in this field.\""
+    ],
+    "youProvide": [
+      "A visible label.",
+      "A label or placeholder that lists what can be searched.",
+      "The range in the label or description.",
+      "suggestedCountries for the markets the form expects."
+    ],
+    "keyboard": [
+      {
+        "keys": "Escape",
+        "does": "Clears the field."
+      },
+      {
+        "keys": "Enter",
+        "does": "Submits the search."
+      },
+      {
+        "keys": "Arrow up / down",
+        "does": "Increments or decrements by the step."
+      },
+      {
+        "keys": "Arrow down",
+        "does": "Opens the country list from the country button."
+      },
+      {
+        "keys": "Type",
+        "does": "Searches countries by name or calling code."
+      }
+    ]
+  },
+  "related": [
+    "text-area",
+    "field",
+    "iso-chip"
+  ],
+  "genui": {
+    "expose": true,
+    "description": "A single-line text input. Always give a label; use type email, url or tel when it fits. Emits change.",
+    "props": [
+      "label",
+      "description",
+      "placeholder",
+      "type",
+      "isRequired",
+      "appearance"
+    ],
+    "children": "none",
+    "events": [
+      "change"
+    ]
+  }
+}

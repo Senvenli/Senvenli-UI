@@ -6,10 +6,10 @@ import { Input as AriaInput, TextField as AriaTextField } from "react-aria-compo
 import { afterEach, describe, expect, it, vi } from "vitest";
 
 import { DesignSystemProvider } from "../provider";
-import {
-  FieldDescription, FieldError, FieldLabel, Form, FormFooter, FormRow, FormSection, InputAction, InputAddon, InputGroup,
-  PasswordField, SearchField, TextArea, TextField, passwordStrength,
-} from "./index";
+import { FieldDescription, FieldError, FieldLabel, Form, FormFooter, FormRow, FormSection, InputAction, InputAddon, InputGroup, TextArea, passwordStrength } from "./index";
+import { PasswordField } from "./password-field";
+import { SearchField } from "./search-field";
+import { TextField } from "./text-field";
 import * as styles from "./styles";
 import { TEXTAREA_MAX_HEIGHT } from "./text-area";
 import { DS_STRENGTH, DS_STRINGS, optionalLabel, overLimitLabel, registerDsStrings, requiredLabel, strengthLabels } from "../i18n";

@@ -3,7 +3,8 @@ import { act, cleanup, fireEvent, render, screen } from "@testing-library/react"
 import { afterEach, describe, expect, it, vi } from "vitest";
 
 import { DesignSystemProvider } from "../provider";
-import { OtpField, TextField } from "./index";
+import { OtpField } from "./index";
+import { TextField } from "./text-field";
 
 /**
  * Codes, PINs and phone numbers read left to right inside an RTL UI: on a `dir="rtl"`

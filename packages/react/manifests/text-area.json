@@ -32,7 +32,7 @@
     ]
   },
   "related": [
-    "text-field"
+    "input"
   ],
   "genui": {
     "expose": true,

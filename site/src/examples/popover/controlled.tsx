@@ -1,5 +1,5 @@
 import { Button } from "@senvenli/react/action";
-import { NumberField } from "@senvenli/react/form";
+import { Input } from "@senvenli/react/form";
 import { Stack } from "@senvenli/react/layout";
 import { Popover } from "@senvenli/react/overlay";
 import { useState } from "react";
@@ -19,7 +19,7 @@ export default function Example() {
       trigger={<Button>Limit: ${limit}</Button>}
     >
       <Stack space="space-200">
-        <NumberField label="Monthly limit" minValue={0} step={50} value={draft} onChange={setDraft} formatOptions={{ style: "currency", currency: "USD", maximumFractionDigits: 0 }} />
+        <Input type="number" label="Monthly limit" minValue={0} step={50} value={draft} onChange={setDraft} formatOptions={{ style: "currency", currency: "USD", maximumFractionDigits: 0 }} />
         <Button
           variant="primary"
           onPress={() => {

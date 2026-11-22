@@ -63,7 +63,7 @@ describe("@senvenli/mcp", () => {
     ["sidebar navigation", "sidebar"],
     ["loading placeholder", "skeleton"],
     ["table with sorting", "table"],
-    ["phone number", "phone-field"],
+    ["phone number", "input"],
     ["tooltip", "tooltip"],
     ["modal dialog", "dialog"],
     ["keyboard shortcut", "kbd"],
@@ -111,15 +111,30 @@ describe("@senvenli/mcp", () => {
   });
 
   it("returns a manifest: own and React Aria props by default, minified, the rest counted", async () => {
-    const raw = (await call("get_component_manifest", { name: "text-field" })).text;
+    const raw = (await call("get_component_manifest", { name: "button" })).text;
     expect(raw).not.toContain("\n");
     const manifest = JSON.parse(raw);
-    expect(manifest.name).toBe("text-field");
+    expect(manifest.name).toBe("button");
     const props = Object.values(manifest.props).flat() as { origin: string; schema?: unknown }[];
     expect(props.every((prop) => prop.origin !== "dom" && prop.schema === undefined)).toBe(true);
+    expect(props.some((prop) => prop.origin === "aria")).toBe(true);
     expect(manifest.propsLeftOut).toMatch(/props: "all"/);
-    const all = JSON.parse((await call("get_component_manifest", { name: "text-field", props: "all", minified: false })).text);
+    const all = JSON.parse((await call("get_component_manifest", { name: "button", props: "all", minified: false })).text);
     expect((Object.values(all.props).flat() as { origin: string }[]).some((prop) => prop.origin === "dom")).toBe(true);
+  });
+
+  it("a manifest over the budget by default gives the component's own props, and says how to ask for the rest", async () => {
+    const manifest = JSON.parse((await call("get_component_manifest", { name: "input" })).text);
+    const origins = new Set((Object.values(manifest.props).flat() as { origin: string }[]).map((prop) => prop.origin));
+    expect([...origins]).toEqual(["own"]);
+    expect(manifest.propsLeftOut).toMatch(/props: "all"/);
+  });
+
+  it("a page over the budget comes without its API reference, and says how to read it", async () => {
+    const { text } = await call("get_component", { name: "input" });
+    expect(text).not.toContain("## API reference");
+    expect(text).toContain('sections: ["api"]');
+    expect((await call("get_component", { name: "input", sections: ["api"] })).text).toContain("## API reference");
   });
 
   it(`keeps every component answer under ${BUDGET} characters`, async () => {

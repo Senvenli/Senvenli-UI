@@ -3,7 +3,8 @@ import { act, cleanup, fireEvent, render, screen } from "@testing-library/react"
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import { DesignSystemProvider } from "../provider";
-import { Field, Form, TextField } from "./index";
+import { Field, Form } from "./index";
+import { TextField } from "./text-field";
 import { ComboBox, MultiSelect, Select } from "../selection/index";
 
 // (1) A control's own error row is linked through aria-describedby whenever it shows, also when it comes or goes

@@ -3,7 +3,7 @@ import { act, cleanup, fireEvent, render, screen, waitFor, within } from "@testi
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import { Button } from "../action/index";
-import { TextField } from "../form/index";
+import { TextField } from "../form/text-field";
 import { DesignSystemProvider } from "../provider";
 import { Select } from "../selection/index";
 import { DialogTrigger as AriaDialogTrigger } from "react-aria-components";

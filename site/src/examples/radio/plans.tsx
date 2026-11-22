@@ -2,7 +2,7 @@ import { Badge, Text } from "@senvenli/react/display";
 import { Inline, Stack } from "@senvenli/react/layout";
 import { Radio, RadioGroup } from "@senvenli/react/selection";
 
-// A card's content is yours: here a name with a "Recommended" Lozenge, a line of detail and a price.
+// A card's content is yours: here a name with a "Recommended" Badge, a line of detail and a price.
 export default function Example() {
   return (
     <RadioGroup label="Plan" variant="card" defaultValue="team">

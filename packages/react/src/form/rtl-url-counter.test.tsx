@@ -3,7 +3,8 @@ import { cleanup, render, screen } from "@testing-library/react";
 import { afterEach, describe, expect, it, vi } from "vitest";
 
 import { DesignSystemProvider } from "../provider";
-import { TextArea, TextField } from "./index";
+import { TextArea } from "./index";
+import { TextField } from "./text-field";
 
 /**
  * URLs, domains and character counts read left to right inside an RTL UI: on a `dir="rtl"`

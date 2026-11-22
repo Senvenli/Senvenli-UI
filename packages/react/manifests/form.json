@@ -50,7 +50,7 @@
   },
   "related": [
     "field",
-    "text-field",
+    "input",
     "button"
   ],
   "genui": {
@@ -60,11 +60,8 @@
       "width"
     ],
     "children": [
-      "text-field",
+      "input",
       "text-area",
-      "number-field",
-      "password-field",
-      "search-field",
       "button",
       "stack",
       "inline",

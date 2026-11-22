@@ -7,7 +7,8 @@ import { Button } from "../action";
 import { registerDsStrings } from "../i18n";
 import { registerLocaleAliases } from "../intl-locale";
 import { Dialog, DialogTrigger } from "../overlay";
-import { Form, PhoneField } from "./index";
+import { Form } from "./index";
+import { PhoneField } from "./phone-field";
 
 beforeAll(() => {
   // jsdom has no CSS.escape; React Aria's Autocomplete uses it to find the focused option.

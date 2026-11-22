@@ -457,7 +457,8 @@ describe("BottomNav", () => {
     const dock = document.querySelector("[data-slot='bottom-nav']")!;
     expect(classesOf(dock)).toMatch(/\bfixed\b.*\bbottom-0\b/);
     expect(classesOf(dock)).toContain("safe-area-inset-bottom");
-    expect(classesOf(dock)).toContain("md:hidden");
+    // Shown at every width: where it appears is the app's choice.
+    expect(classesOf(dock)).not.toContain("md:hidden");
   });
 
   it("hides while the on-screen keyboard is open", () => {

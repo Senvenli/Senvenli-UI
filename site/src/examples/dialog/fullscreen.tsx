@@ -1,5 +1,5 @@
 import { Button } from "@senvenli/react/action";
-import { TextField } from "@senvenli/react/form";
+import { Input } from "@senvenli/react/form";
 import { Stack } from "@senvenli/react/layout";
 import { Dialog, DialogTrigger } from "@senvenli/react/overlay";
 import { useState } from "react";
@@ -20,8 +20,8 @@ export default function Example() {
       >
         <div className="mx-auto w-full max-w-120">
           <Stack space="space-200">
-            <TextField label="Workspace name" defaultValue="Analytical Engines" />
-            <TextField label="Web address" defaultValue="analytical-engines" description="Lowercase letters, numbers and hyphens." />
+            <Input label="Workspace name" defaultValue="Analytical Engines" />
+            <Input label="Web address" defaultValue="analytical-engines" description="Lowercase letters, numbers and hyphens." />
           </Stack>
         </div>
       </Dialog>

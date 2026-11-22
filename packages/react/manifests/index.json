@@ -1219,21 +1219,41 @@
     "genui": false
   },
   {
-    "name": "number-field",
-    "title": "Number field",
+    "name": "input",
+    "title": "Input",
     "family": "form",
     "status": "alpha",
-    "description": "A locale-aware number input with steppers, ranges, units and currency.",
+    "description": "One text-entry field with a label, description and error; `type` picks text, email, url, password, search, number or tel.",
     "keywords": [
+      "input",
+      "text",
+      "email",
+      "url",
+      "field",
+      "password",
+      "secret",
+      "credentials",
+      "sign in",
+      "search",
+      "filter",
+      "query",
+      "find",
       "number",
       "quantity",
       "currency",
       "amount",
-      "stepper"
+      "stepper",
+      "phone",
+      "telephone",
+      "mobile",
+      "country code",
+      "e164",
+      "text field",
+      "tel"
     ],
     "import": "@senvenli/react/form",
     "exports": [
-      "NumberField"
+      "Input"
     ],
     "genui": true
   },
@@ -1257,61 +1277,6 @@
     "genui": false
   },
   {
-    "name": "password-field",
-    "title": "Password field",
-    "family": "form",
-    "status": "alpha",
-    "description": "A password input with a show/hide toggle and an optional strength meter.",
-    "keywords": [
-      "password",
-      "secret",
-      "credentials",
-      "sign in"
-    ],
-    "import": "@senvenli/react/form",
-    "exports": [
-      "PasswordField"
-    ],
-    "genui": true
-  },
-  {
-    "name": "phone-field",
-    "title": "Phone field",
-    "family": "form",
-    "status": "alpha",
-    "description": "A phone number with a searchable calling-code picker: digits group as typed, a pasted international number picks its country, and the value is stored as E.164.",
-    "keywords": [
-      "phone",
-      "telephone",
-      "mobile",
-      "country code",
-      "e164"
-    ],
-    "import": "@senvenli/react/form",
-    "exports": [
-      "PhoneField"
-    ],
-    "genui": true
-  },
-  {
-    "name": "search-field",
-    "title": "Search field",
-    "family": "form",
-    "status": "alpha",
-    "description": "A search input with a clear button and Escape to clear.",
-    "keywords": [
-      "search",
-      "filter",
-      "query",
-      "find"
-    ],
-    "import": "@senvenli/react/form",
-    "exports": [
-      "SearchField"
-    ],
-    "genui": true
-  },
-  {
     "name": "text-area",
     "title": "Text area",
     "family": "form",
@@ -1327,25 +1292,6 @@
     "import": "@senvenli/react/form",
     "exports": [
       "TextArea"
-    ],
-    "genui": true
-  },
-  {
-    "name": "text-field",
-    "title": "Text field",
-    "family": "form",
-    "status": "alpha",
-    "description": "A single-line text input with label, description, error, addons and actions.",
-    "keywords": [
-      "input",
-      "text",
-      "email",
-      "url",
-      "field"
-    ],
-    "import": "@senvenli/react/form",
-    "exports": [
-      "TextField"
     ],
     "genui": true
   },

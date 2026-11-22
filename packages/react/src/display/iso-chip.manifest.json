@@ -30,7 +30,7 @@
     ]
   },
   "related": [
-    "phone-field"
+    "input"
   ],
   "genui": {
     "expose": false

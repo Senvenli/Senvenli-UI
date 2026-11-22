@@ -1,5 +1,5 @@
 import { Button } from "@senvenli/react/action";
-import { Form, TextField } from "@senvenli/react/form";
+import { Form, Input } from "@senvenli/react/form";
 import { Stack } from "@senvenli/react/layout";
 import { Dialog, DialogTrigger, toast } from "@senvenli/react/overlay";
 import { Select } from "@senvenli/react/selection";
@@ -22,7 +22,7 @@ export default function Example() {
           }}
         >
           <Stack space="space-200">
-            <TextField label="Email" name="email" type="email" isRequired />
+            <Input label="Email" name="email" type="email" isRequired />
             <Select
               label="Role"
               name="role"

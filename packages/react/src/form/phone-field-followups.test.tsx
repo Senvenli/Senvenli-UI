@@ -6,7 +6,8 @@ import { afterEach, beforeAll, describe, expect, it, vi } from "vitest";
 
 import { DesignSystemProvider } from "../provider";
 import { registerDsStrings } from "../i18n";
-import { Field, PhoneField } from "./index";
+import { Field } from "./index";
+import { PhoneField } from "./phone-field";
 
 beforeAll(() => {
   // jsdom has no CSS.escape; React Aria's Autocomplete uses it to find the focused option.
