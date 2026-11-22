@@ -1,0 +1,54 @@
+{
+  "$schema": "../../manifest/component.schema.json",
+  "kind": "component",
+  "family": "overlay",
+  "status": "alpha",
+  "import": "@senvenli/react/overlay",
+  "name": "hover-card",
+  "title": "Hover card",
+  "exports": [
+    "HoverCard"
+  ],
+  "description": "A preview card that opens when the pointer rests on its trigger or the trigger gets keyboard focus.",
+  "keywords": [
+    "hover card",
+    "preview",
+    "popover on hover",
+    "profile card"
+  ],
+  "usage": {
+    "when": [
+      "A preview of a person or a record behind a link."
+    ],
+    "instead": [
+      {
+        "use": "tooltip",
+        "when": "A few words about a control."
+      },
+      {
+        "use": "popover",
+        "when": "Content people open on purpose with a click."
+      }
+    ]
+  },
+  "guidance": [
+    {
+      "rule": "Supplementary only: the trigger must make sense without the card."
+    }
+  ],
+  "a11y": {
+    "builtIn": [
+      "Opens after a delay on hover or focus, stays while the pointer is on it, closes with Esc."
+    ],
+    "youProvide": [
+      "A trigger that is a link (or focusable) to the full page."
+    ]
+  },
+  "related": [
+    "tooltip",
+    "popover"
+  ],
+  "genui": {
+    "expose": false
+  }
+}

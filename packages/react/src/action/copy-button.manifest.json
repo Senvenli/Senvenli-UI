@@ -1,0 +1,51 @@
+{
+  "$schema": "../../manifest/component.schema.json",
+  "kind": "component",
+  "family": "action",
+  "status": "alpha",
+  "import": "@senvenli/react/action",
+  "name": "copy-button",
+  "title": "Copy button",
+  "exports": [
+    "CopyButton"
+  ],
+  "description": "Copies a value to the clipboard; the icon turns into a check and a status says it was copied.",
+  "keywords": [
+    "copy",
+    "clipboard",
+    "copy to clipboard",
+    "duplicate"
+  ],
+  "usage": {
+    "when": [
+      "A value people paste elsewhere: an ID, an API key, a link, a command."
+    ],
+    "instead": [
+      {
+        "use": "description-list",
+        "when": "The value is a field of a record, which DescriptionList can copy on its own."
+      }
+    ]
+  },
+  "guidance": [
+    {
+      "rule": "Icon-only, name what is copied: \"Copy the invoice number\"."
+    }
+  ],
+  "a11y": {
+    "builtIn": [
+      "Says \"Copied\" (or that it could not copy) in a polite status, again on every press.",
+      "The check shows for two seconds."
+    ],
+    "youProvide": [
+      "An aria-label naming the value when it is icon-only."
+    ]
+  },
+  "related": [
+    "button",
+    "description-list"
+  ],
+  "genui": {
+    "expose": false
+  }
+}

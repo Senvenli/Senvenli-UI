@@ -1,0 +1,61 @@
+{
+  "$schema": "../../manifest/component.schema.json",
+  "kind": "component",
+  "family": "display",
+  "status": "alpha",
+  "import": "@senvenli/react/display",
+  "name": "image",
+  "title": "Image",
+  "exports": [
+    "Image"
+  ],
+  "description": "A picture in a box that keeps its shape while it loads, with a fallback when it cannot load.",
+  "keywords": [
+    "image",
+    "picture",
+    "photo",
+    "aspect ratio",
+    "thumbnail"
+  ],
+  "usage": {
+    "when": [
+      "A product photo, a cover, a thumbnail in a card."
+    ],
+    "instead": [
+      {
+        "use": "avatar",
+        "when": "The picture is of a person or a company."
+      },
+      {
+        "use": "carousel",
+        "when": "Several pictures to page through."
+      },
+      {
+        "use": "image-viewer",
+        "when": "A picture to open full screen."
+      }
+    ]
+  },
+  "guidance": [
+    {
+      "rule": "Give `ratio` so the page does not jump while the picture loads."
+    }
+  ],
+  "a11y": {
+    "builtIn": [
+      "Loads lazily by default.",
+      "The fallback keeps the alt text as its name."
+    ],
+    "youProvide": [
+      "An alt text that says what the picture shows, or \"\" for decoration."
+    ]
+  },
+  "related": [
+    "avatar",
+    "card",
+    "carousel"
+  ],
+  "genui": {
+    "expose": false
+  }
+}

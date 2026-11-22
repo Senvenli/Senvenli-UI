@@ -20,3 +20,5 @@ export type { FabProps } from "./fab";
 export { ThemeSwitcher, useThemePreference } from "./theme-switcher";
 export { DEFAULT_THEME_STORAGE_KEY, themeScript, themeScriptSource } from "./theme-script";
 export type { ResolvedTheme, ThemeChoice, ThemeLabels, ThemeSwitcherProps } from "./theme-switcher";
+export { CopyButton } from "./copy-button";
+export type { CopyButtonProps } from "./copy-button";

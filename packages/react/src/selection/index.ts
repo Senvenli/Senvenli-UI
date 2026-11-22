@@ -19,3 +19,5 @@ export { Autocomplete } from "./autocomplete";
 export type { AutocompleteProps, AutocompleteSuggestion } from "./autocomplete";
 export { TagGroup } from "./tag-group";
 export type { TagGroupProps, TagItem } from "./tag-group";
+export { ListBox } from "./list-box";
+export type { ListBoxOption, ListBoxProps } from "./list-box";

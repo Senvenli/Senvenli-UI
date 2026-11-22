@@ -489,3 +489,166 @@ export function Tooltip({ motion, ...props }: TooltipProps & WithMotion) {
     </MotionScope>
   );
 }
+
+/* ── ContextMenu ─────────────────────────────────────────────────────────── */
+
+export type ContextMenuProps = {
+  /** The region a right-click, a long press or Shift+F10 opens the menu on: a row, a card, a canvas. */
+  children: React.ReactNode;
+  items: readonly MenuEntry[];
+  onAction?: (id: Key) => void;
+  disabledKeys?: Iterable<Key>;
+  /** Names the menu ("Actions for ORD-482"). */
+  "aria-label": string;
+};
+
+/** How long a touch must rest to open the menu (ms). */
+const LONG_PRESS = 500;
+
+/**
+ * The actions for what is under the pointer, opened where it was pressed: right-click, a long press on touch, or
+ * Shift+F10 / the Menu key on whatever has keyboard focus inside. The same menu as Menu (sections, a destructive
+ * item last); focus goes back where it was on close. Never the only way to an action: put it in a visible Menu too.
+ */
+export function ContextMenu({ children, items, onAction, disabledKeys, "aria-label": ariaLabel }: ContextMenuProps) {
+  const [point, setPoint] = React.useState<{ x: number; y: number } | null>(null);
+  const anchor = React.useRef<HTMLSpanElement>(null);
+  const returnTo = React.useRef<HTMLElement | null>(null);
+  const timer = React.useRef<number | undefined>(undefined);
+  const motion = useMotionAttribute();
+  const openAt = (x: number, y: number) => {
+    returnTo.current = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+    setPoint({ x, y });
+  };
+  const close = () => {
+    setPoint(null);
+    returnTo.current?.focus();
+  };
+  const cancelPress = () => window.clearTimeout(timer.current);
+  return (
+    <>
+      <span
+        data-slot="context-menu-target"
+        className="contents"
+        onContextMenu={(event) => {
+          event.preventDefault();
+          openAt(event.clientX, event.clientY);
+        }}
+        onKeyDown={(event) => {
+          if (event.key === "ContextMenu" || (event.key === "F10" && event.shiftKey)) {
+            event.preventDefault();
+            const rect = (event.target as HTMLElement).getBoundingClientRect();
+            openAt(rect.left, rect.bottom);
+          }
+        }}
+        onPointerDown={(event) => {
+          if (event.pointerType !== "touch") return;
+          const { clientX, clientY } = event;
+          cancelPress();
+          timer.current = window.setTimeout(() => openAt(clientX, clientY), LONG_PRESS);
+        }}
+        onPointerUp={cancelPress}
+        onPointerCancel={cancelPress}
+        onPointerMove={cancelPress}
+      >
+        {children}
+      </span>
+      {point && <span ref={anchor} aria-hidden data-slot="context-menu-anchor" style={{ position: "fixed", left: point.x, top: point.y, width: 0, height: 0 }} />}
+      <AriaPopover
+        {...motion}
+        triggerRef={anchor}
+        isOpen={point !== null}
+        onOpenChange={(open) => !open && close()}
+        placement="bottom start"
+        offset={2}
+        data-slot="context-menu-popover"
+        className={cn(SURFACE, "min-w-60 max-w-90")}
+      >
+        <AriaMenu
+          aria-label={ariaLabel}
+          autoFocus="first"
+          onAction={(id) => {
+            onAction?.(id);
+            close();
+          }}
+          onClose={close}
+          disabledKeys={disabledKeys}
+          data-slot="context-menu"
+          className={cn(SCROLL, "p-ds-050 outline-hidden")}
+        >
+          <MenuBody entries={items} />
+        </AriaMenu>
+      </AriaPopover>
+    </>
+  );
+}
+
+/* ── HoverCard ───────────────────────────────────────────────────────────── */
+
+export type HoverCardProps = {
+  /** A link (or a focusable element) whose preview the card shows: a person's name, a record reference. */
+  trigger: React.ReactElement;
+  /** The preview: an avatar and a line about the person, a record's key fields. Supplementary, never essential. */
+  children: React.ReactNode;
+  /** Before it opens (ms); default 500, so moving across the page does not flash cards. */
+  openDelay?: number;
+  /** Before it closes after the pointer leaves (ms); default 200, enough to reach the card. */
+  closeDelay?: number;
+  placement?: Placement;
+};
+
+/**
+ * A preview card that opens when the pointer rests on its trigger, or the trigger gets keyboard focus, and stays
+ * while the pointer is over the card. Esc closes it. The trigger must make sense without it (a link to the full
+ * page), since touch screens and screen readers may never see the card.
+ */
+export function HoverCard({ trigger, children, openDelay = 500, closeDelay = 200, placement = "bottom" }: HoverCardProps) {
+  const [isOpen, setOpen] = React.useState(false);
+  const ref = React.useRef<HTMLSpanElement>(null);
+  const timer = React.useRef<number | undefined>(undefined);
+  const motion = useMotionAttribute();
+  const schedule = (open: boolean) => {
+    window.clearTimeout(timer.current);
+    timer.current = window.setTimeout(() => setOpen(open), open ? openDelay : closeDelay);
+  };
+  React.useEffect(() => () => window.clearTimeout(timer.current), []);
+  return (
+    <>
+      <span
+        ref={ref}
+        data-slot="hover-card-trigger"
+        className="inline-flex"
+        onPointerEnter={(event) => event.pointerType !== "touch" && schedule(true)}
+        onPointerLeave={(event) => event.pointerType !== "touch" && schedule(false)}
+        onFocus={() => schedule(true)}
+        onBlur={() => schedule(false)}
+        onKeyDown={(event) => {
+          if (event.key === "Escape") setOpen(false);
+        }}
+      >
+        {trigger}
+      </span>
+      <AriaPopover
+        {...motion}
+        triggerRef={ref}
+        isOpen={isOpen}
+        onOpenChange={setOpen}
+        isNonModal
+        placement={placement}
+        offset={8}
+        data-slot="hover-card"
+        className={cn(SURFACE, "w-80 max-w-[calc(100vw-2rem)] p-ds-200")}
+      >
+        <div
+          onPointerEnter={() => window.clearTimeout(timer.current)}
+          onPointerLeave={() => schedule(false)}
+          onKeyDown={(event) => {
+            if (event.key === "Escape") setOpen(false);
+          }}
+        >
+          {children}
+        </div>
+      </AriaPopover>
+    </>
+  );
+}

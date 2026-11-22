@@ -29,3 +29,7 @@ export type { ImageCropperAspect, ImageCropperPreset, ImageCropperProps, ImageCr
 export type { CropFit, CropOutputType } from "./image-crop";
 export { ImageViewer, wrapPhotoIndex } from "./image-viewer";
 export type { ImageViewerImage, ImageViewerImageProps, ImageViewerProps } from "./image-viewer";
+export { VisuallyHidden } from "./visually-hidden";
+export type { VisuallyHiddenProps } from "./visually-hidden";
+export { Image } from "./image";
+export type { ImageProps } from "./image";

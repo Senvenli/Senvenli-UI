@@ -1,0 +1,60 @@
+{
+  "$schema": "../../manifest/component.schema.json",
+  "kind": "component",
+  "family": "selection",
+  "status": "alpha",
+  "import": "@senvenli/react/selection",
+  "name": "list-box",
+  "title": "List box",
+  "exports": [
+    "ListBox"
+  ],
+  "description": "A list of options shown in place, not in a dropdown: pick one or several.",
+  "keywords": [
+    "listbox",
+    "options",
+    "choice list",
+    "picker",
+    "selectable list"
+  ],
+  "usage": {
+    "when": [
+      "A short set of options that should stay visible: a settings choice, a filter list."
+    ],
+    "instead": [
+      {
+        "use": "select",
+        "when": "The choice can live in a dropdown."
+      },
+      {
+        "use": "list",
+        "when": "Rows of content with their own actions."
+      },
+      {
+        "use": "radio",
+        "when": "Two to five options with a line of detail."
+      }
+    ]
+  },
+  "guidance": [
+    {
+      "rule": "Label it; keep options short."
+    }
+  ],
+  "a11y": {
+    "builtIn": [
+      "Arrows move, typing jumps to an option, Space selects; selected options are marked and say so."
+    ],
+    "youProvide": [
+      "A label (or aria-label)."
+    ]
+  },
+  "related": [
+    "select",
+    "list",
+    "radio"
+  ],
+  "genui": {
+    "expose": false
+  }
+}

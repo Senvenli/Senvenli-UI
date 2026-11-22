@@ -1,0 +1,245 @@
+{
+  "$schema": "https://design.senvenli.com/schema/component.full.json",
+  "kind": "component",
+  "family": "collection",
+  "status": "alpha",
+  "import": "@senvenli/react/collection",
+  "name": "tree",
+  "title": "Tree",
+  "exports": [
+    "Tree"
+  ],
+  "description": "A hierarchy to browse: folders and files, categories, with nodes that open and close.",
+  "keywords": [
+    "tree",
+    "tree view",
+    "hierarchy",
+    "folders",
+    "nested list",
+    "outline"
+  ],
+  "usage": {
+    "when": [
+      "Data with parents and children people browse: files, categories, an org chart."
+    ],
+    "instead": [
+      {
+        "use": "list",
+        "when": "The items have no hierarchy."
+      },
+      {
+        "use": "sidebar",
+        "when": "It is the app's navigation."
+      },
+      {
+        "use": "accordion",
+        "when": "A few sections of content, not data."
+      }
+    ]
+  },
+  "guidance": [
+    {
+      "rule": "Keep labels short; three or four levels at most."
+    }
+  ],
+  "a11y": {
+    "builtIn": [
+      "Arrows move, Right opens and Left closes a node, Home and End jump; the chevron and Enter expand."
+    ],
+    "youProvide": [
+      "An aria-label naming the tree."
+    ]
+  },
+  "related": [
+    "list",
+    "sidebar",
+    "accordion"
+  ],
+  "genui": {
+    "expose": false
+  },
+  "source": [
+    "src/collection/tree.tsx"
+  ],
+  "props": {
+    "Tree": [
+      {
+        "name": "aria-label",
+        "type": "string",
+        "required": true,
+        "origin": "own",
+        "description": "Names the tree for screen readers (\"Files\", \"Categories\").",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "items",
+        "type": "readonly TreeNode[]",
+        "required": true,
+        "origin": "own",
+        "schema": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "label": {
+                "type": "string"
+              },
+              "icon": {
+                "type": "string",
+                "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+              },
+              "children": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "label": {
+                      "type": "string"
+                    },
+                    "icon": {
+                      "type": "string",
+                      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+                    },
+                    "children": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "label": {
+                            "type": "string"
+                          },
+                          "icon": {
+                            "type": "string",
+                            "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+                          },
+                          "isDisabled": {
+                            "type": "boolean"
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "label"
+                        ]
+                      }
+                    },
+                    "isDisabled": {
+                      "type": "boolean"
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "label"
+                  ]
+                }
+              },
+              "isDisabled": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "id",
+              "label"
+            ]
+          }
+        }
+      },
+      {
+        "name": "selectionMode",
+        "type": "\"none\" | \"single\" | \"multiple\"",
+        "required": false,
+        "origin": "own",
+        "default": "\"none\"",
+        "description": "`none` (default) for navigation with `onAction`, `single` or `multiple` to pick nodes.",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "none",
+            "single",
+            "multiple"
+          ]
+        }
+      },
+      {
+        "name": "selectedKeys",
+        "type": "Iterable<Key>",
+        "required": false,
+        "origin": "own"
+      },
+      {
+        "name": "defaultSelectedKeys",
+        "type": "Iterable<Key>",
+        "required": false,
+        "origin": "own"
+      },
+      {
+        "name": "onSelectionChange",
+        "type": "(keys: Selection) => void",
+        "required": false,
+        "origin": "own"
+      },
+      {
+        "name": "expandedKeys",
+        "type": "Iterable<Key>",
+        "required": false,
+        "origin": "own"
+      },
+      {
+        "name": "defaultExpandedKeys",
+        "type": "Iterable<Key>",
+        "required": false,
+        "origin": "own"
+      },
+      {
+        "name": "onExpandedChange",
+        "type": "(keys: Set<Key>) => void",
+        "required": false,
+        "origin": "own"
+      },
+      {
+        "name": "onAction",
+        "type": "(key: Key) => void",
+        "required": false,
+        "origin": "own",
+        "description": "What pressing a node does (open the file, go to the category)."
+      }
+    ]
+  },
+  "tokens": [
+    "ds-background-neutral-hovered",
+    "ds-background-neutral-subtle-hovered",
+    "ds-background-selected",
+    "ds-border-focused",
+    "ds-icon-subtle",
+    "ds-radius-small",
+    "ds-space-025",
+    "ds-space-075",
+    "ds-space-100",
+    "ds-text",
+    "ds-text-disabled"
+  ],
+  "strings": [],
+  "quality": {
+    "tests": true,
+    "a11y": false,
+    "docs": false,
+    "visual": false,
+    "dark": false,
+    "rtl": false,
+    "mcp": true,
+    "generic": true
+  }
+}
