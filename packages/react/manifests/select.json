@@ -300,7 +300,6 @@
         "type": "FieldSize",
         "required": false,
         "origin": "own",
-        "default": "\"medium\"",
         "description": "`compact` (32px) for table filters and toolbars.",
         "schema": {
           "type": "string",

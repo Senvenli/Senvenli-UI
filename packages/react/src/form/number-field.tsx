@@ -12,6 +12,7 @@ import {
 import { IconGlyph } from "../display/icon";
 
 import { cn } from "../utils";
+import { useFieldSize } from "../defaults";
 import { decreaseLabel, increaseLabel } from "../i18n";
 import { FieldDescription, FieldError, FieldLabel } from "./field-parts";
 import { InputAddon, InputGroup } from "./input-group";
@@ -96,11 +97,12 @@ function Stepper() {
  */
 export const NumberField = React.forwardRef<HTMLInputElement, NumberFieldProps>(function NumberField(
   {
-    label, description, errorMessage, isOptional, placeholder, prefix, suffix, showStepper, locale, size = "medium",
+    label, description, errorMessage, isOptional, placeholder, prefix, suffix, showStepper, locale, size: fieldSize,
     currency, formatOptions, validate, onBlur, onChange, requiredValidation, ...rest
   },
   ref,
 ) {
+  const size = useFieldSize(fieldSize);
   const selectedOnFocus = React.useRef(false);
   const timing = useFieldValidation<number>({
     validate,

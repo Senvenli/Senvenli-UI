@@ -12,6 +12,7 @@ import {
 import { IconGlyph } from "../display/icon";
 
 import { cn } from "../utils";
+import { radiusClass, useRadius } from "../defaults";
 import { ControlFieldError, FieldDescription, FieldLabel, forwardedInvalid, useErrorRowLink } from "../form/field-parts";
 import { FIELD_ICON, FIELD_STACK } from "../form/styles";
 import { useRequiredChoice, type RequiredValidation } from "../form/validation";
@@ -120,6 +121,7 @@ export function MultiSelect({
   label, "aria-label": ariaLabel, items, selectedKeys, defaultSelectedKeys, onSelectionChange, maxVisibleTags, allowsSelectAll, placeholder,
   description, errorMessage: errorMessageProp, "aria-invalid": ariaInvalid, requiredValidation, isInvalid: isInvalidProp, ...rest
 }: MultiSelectProps) {
+  const frameRadius = useRadius(undefined);
   const { locale } = useLocale();
   // Named as Select is: a non-empty aria-label replaces the visible label; an empty one counts as none.
   const named = ariaLabel ? ariaLabel : undefined;
@@ -209,7 +211,7 @@ export function MultiSelect({
             ref={fieldRef}
             data-slot="multi-select-field"
             data-disabled={isDisabled || undefined}
-            className={MULTI_FIELD}
+            className={cn(MULTI_FIELD, radiusClass(frameRadius))}
           >
             {visible.map((item, index) => (
               <span key={String(item.id)} data-slot="multi-select-tag" className={TAG}>

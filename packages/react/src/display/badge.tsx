@@ -4,6 +4,7 @@ import * as React from "react";
 import { useLocale } from "react-aria-components";
 
 import { cn } from "../utils";
+import { radiusClass, useRadius, type ComponentRadius } from "../defaults";
 import type { Tone } from "../tone";
 
 export type BadgeTone = Tone;
@@ -58,6 +59,8 @@ type StatusBase = {
   variant?: "subtle" | "bold" | "dot";
   /** A 6px dot inside a pill (subtle or bold), for live states. `dot` always has its dot. */
   hasDot?: boolean;
+  /** Pills only (`subtle`, `bold`): corner radius, `none` to `full`; the design's small step (or the provider's default) otherwise. */
+  radius?: ComponentRadius;
   /** `dot` only: a 3px halo for a state that is active right now (connected, syncing). */
   isLive?: boolean;
 };
@@ -76,7 +79,8 @@ export type BadgeStatusProps = StatusBase &
       }
   );
 
-function StatusBadge({ children, tone = "neutral", variant = "subtle", hasDot, isLive, "aria-label": ariaLabel }: BadgeStatusProps) {
+function StatusBadge({ children, tone = "neutral", variant = "subtle", hasDot, isLive, radius: radiusProp, "aria-label": ariaLabel }: BadgeStatusProps) {
+  const radius = useRadius(radiusProp);
   if (variant === "dot") {
     // null, false and "" are no word either.
     const hasWord = children != null && children !== false && children !== "";
@@ -122,6 +126,7 @@ function StatusBadge({ children, tone = "neutral", variant = "subtle", hasDot, i
       className={cn(
         "inline-flex h-5 shrink-0 items-center gap-ds-050 rounded-ds-xsmall px-ds-075 text-body-small font-medium whitespace-nowrap",
         variant === "bold" ? BOLD[tone] : SUBTLE[tone],
+        radiusClass(radius),
       )}
     >
       {hasDot && <span data-slot="badge-dot" aria-hidden className="size-1.5 rounded-ds-full bg-current" />}

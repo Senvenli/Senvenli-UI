@@ -5,6 +5,7 @@ import { Input, TextField as AriaTextField, type TextFieldProps as AriaTextField
 import { isIconElement } from "../display/icon";
 
 import { cn } from "../utils";
+import { useFieldSize } from "../defaults";
 import { ControlFieldError, FieldDescription, FieldLabel, forwardedInvalid, useErrorRowLink } from "./field-parts";
 import { InputAddon, InputGroup } from "./input-group";
 import { FIELD_ICON, FIELD_STACK, INPUT, type FieldSize } from "./styles";
@@ -104,11 +105,12 @@ const DISPLAY_UPPERCASE = "uppercase placeholder:normal-case";
  */
 export const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(function TextField(
   {
-    label, description, errorMessage, isOptional, placeholder, prefix, suffix, actions, size = "medium", variant: appearance = "text", displayCase,
+    label, description, errorMessage, isOptional, placeholder, prefix, suffix, actions, size: fieldSize, variant: appearance = "text", displayCase,
     min, max, step, valueDir, validate, onBlur, onChange, "aria-invalid": ariaInvalid, requiredValidation, ...rest
   },
   ref,
 ) {
+  const size = useFieldSize(fieldSize);
   const timing = useFieldValidation({
     validate,
     value: rest.value,

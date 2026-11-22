@@ -5,6 +5,7 @@ import { Link as AriaLink, useLocale, type LinkProps as AriaLinkProps } from "re
 
 import { IconGlyph, type IconName } from "../display/icon";
 import { cn } from "../utils";
+import { radiusClass, useComponentDefaults, type ComponentRadius } from "../defaults";
 import { newTabLabel } from "../i18n";
 import {
   BUTTON_BASE, BUTTON_SIZE, buttonVariantClasses, ICON, ICON_ONLY_SIZE, LINK_BUTTON_PADDING, hasTouchTarget,
@@ -24,6 +25,8 @@ type BaseProps = Omit<
   tone?: ButtonTone;
   /** As wide as its container. */
   fullWidth?: boolean;
+  /** Corner radius: `none`, `small`, `medium` (the design), `large` or `full` (a pill). The provider's default otherwise. */
+  radius?: ComponentRadius;
   size?: ButtonSize;
   /** Lucide icon name shown before the label. */
   iconBefore?: IconName;
@@ -72,9 +75,12 @@ function isModifiedClick(event: React.MouseEvent) {
  * ring. Actions that change data in place use Button.
  */
 export const LinkButton = React.forwardRef<HTMLAnchorElement, LinkButtonProps>(function LinkButton(
-  { variant = "default", tone = "neutral", fullWidth = false, size = "medium", iconBefore, iconAfter, iconOnly, isExternal, rel, href, onPress, onClickCapture, children, ...rest },
+  { variant = "default", tone = "neutral", fullWidth = false, size: sizeProp, radius: radiusProp, iconBefore, iconAfter, iconOnly, isExternal, rel, href, onPress, onClickCapture, children, ...rest },
   ref,
 ) {
+  const defaults = useComponentDefaults();
+  const size = sizeProp ?? defaults.size ?? "medium";
+  const radius = radiusProp ?? defaults.radius;
   const { locale } = useLocale();
   const isDisabled = rest.isDisabled;
   // Capture phase: it sees the browser's own activation (a click, or the click Enter fires on a link) before
@@ -113,6 +119,7 @@ export const LinkButton = React.forwardRef<HTMLAnchorElement, LinkButtonProps>(f
         BUTTON_SIZE[size],
         variant === "link" && LINK_BUTTON_PADDING,
         iconOnly && ICON_ONLY_SIZE[size],
+        radiusClass(radius),
       )}
     >
       <span data-slot="link-button-content" className="inline-flex items-center gap-ds-075">

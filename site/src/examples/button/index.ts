@@ -9,4 +9,5 @@ export default [
   { id: "link-external", title: "As a link: External", description: "Opens in a new tab with the arrow after the label." },
   { id: "link-icon-only-and-disabled", title: "As a link: Icon only, and disabled", description: "An icon-only link needs a name; a disabled one has no `href` and cannot be focused." },
   { id: "link-handled-in-place", title: "As a link: Handled in place", description: "`onPress` cancels a plain click so the app can respond; a modified click still follows the `href`." },
+  { id: "radius", title: "Radius", description: "`radius`: none, small, medium (the design), large or full; the provider can set it for every component." },
 ] satisfies ExampleMeta[];

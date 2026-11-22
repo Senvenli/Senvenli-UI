@@ -13,6 +13,7 @@ import { cn } from "../utils";
 import { limitExceededLabel, overLimitLabel } from "../i18n";
 import { FieldDescription, FieldError, FieldLabel } from "./field-parts";
 import { InputGroup } from "./input-group";
+import { ComponentDefaultsProvider, splitRadius, type WithRadius } from "../defaults";
 import { FIELD_STACK, INPUT } from "./styles";
 import { useFieldValidation, type RequiredValidation } from "./validation";
 import { splitDataAttributes } from "./data-attributes";
@@ -23,7 +24,7 @@ export const TEXTAREA_MAX_HEIGHT = 240;
 /** The frame's block padding (`py-ds-100` × 2); the textarea itself gets the rest. */
 const FRAME_PADDING = 16;
 
-export type TextAreaProps = Omit<AriaTextFieldProps, "className" | "style" | "children" | "maxLength"> & {
+type TextAreaFieldProps = Omit<AriaTextFieldProps, "className" | "style" | "children" | "maxLength"> & {
   label: React.ReactNode;
   /**
    * Keeps the label for screen readers only: it still names the field, but takes no
@@ -84,7 +85,7 @@ function useAutoGrow(ref: React.RefObject<HTMLTextAreaElement | null>, value: st
 }
 
 /** Multi-line text: notes, damage reports, messages. */
-export const TextArea = React.forwardRef<HTMLTextAreaElement, TextAreaProps>(function TextArea(
+const TextAreaField = React.forwardRef<HTMLTextAreaElement, TextAreaFieldProps>(function TextAreaField(
   { label, isLabelHidden, description, errorMessage, isOptional, placeholder, maxLength, showCounter = true, value, defaultValue, onChange, validate, onBlur, requiredValidation, ...rest },
   forwardedRef,
 ) {
@@ -185,5 +186,17 @@ export const TextArea = React.forwardRef<HTMLTextAreaElement, TextAreaProps>(fun
         </>
       )}
     </AriaTextField>
+  );
+});
+
+export type TextAreaProps = TextAreaFieldProps & WithRadius;
+
+/** Several lines of text, with a label, description, error and an optional character count. */
+export const TextArea = React.forwardRef<HTMLTextAreaElement, TextAreaProps>(function TextArea(allProps, ref) {
+  const [radius, props] = splitRadius(allProps);
+  return (
+    <ComponentDefaultsProvider value={{ radius }}>
+      <TextAreaField {...props} ref={ref} />
+    </ComponentDefaultsProvider>
   );
 });

@@ -54,3 +54,19 @@ A preset code is a short string for a set of inputs. The builder puts it in the 
 ```bash
 npx @senvenli/cli theme <preset-code> --tailwind
 ```
+
+## Defaults for the whole app
+
+Size and corner radius can be set once, for every component that has them. A component's own prop always wins:
+
+```tsx
+<DesignSystemProvider locale="en" defaults={{ size: "small", radius: "full" }}>
+  <App />
+</DesignSystemProvider>
+```
+
+- `size`: `small`, `medium` (the design) or `large`. Fields come in small and medium; `large` reads as medium for them.
+- `radius`: `none`, `small`, `medium`, `large` or `full`. Buttons, fields (their frames), selects, cards and badges follow it; without it, each keeps its designed corner.
+
+The theme's own radius (the builder's slider) scales every step at once; `radius` picks which step a component uses.
+

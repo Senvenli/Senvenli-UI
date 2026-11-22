@@ -22,6 +22,7 @@ import { IconGlyph } from "../display/icon";
 import { IsoChipMark } from "../display/iso-chip";
 
 import { cn } from "../utils";
+import { useFieldSize } from "../defaults";
 import { COUNTRIES } from "./countries";
 import { internationalPasteDigits, stripTrunkPrefix } from "./phone-paste";
 import {
@@ -226,7 +227,7 @@ export const PhoneField = React.forwardRef<HTMLInputElement, PhoneFieldProps>(fu
     placeholder,
     autoFocus,
     onBlur,
-    size = "medium",
+    size: fieldSize,
     onUnsupportedInternationalPaste,
     id,
     "aria-describedby": ariaDescribedBy,
@@ -243,6 +244,7 @@ export const PhoneField = React.forwardRef<HTMLInputElement, PhoneFieldProps>(fu
   },
   forwardedRef,
 ) {
+  const size = useFieldSize(fieldSize);
   const { wrapperProps: wrapperData, controlData } = splitDataAttributes(data);
   const { locale } = useLocale();
   const defaultCountry = defaultCountryProp ?? localeCountry(locale);

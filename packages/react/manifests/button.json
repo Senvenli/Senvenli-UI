@@ -1008,6 +1008,23 @@
         }
       },
       {
+        "name": "radius",
+        "type": "ComponentRadius",
+        "required": false,
+        "origin": "own",
+        "description": "Corner radius: `none`, `small`, `medium` (the design), `large` or `full` (a pill). The provider's default otherwise.",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "none",
+            "small",
+            "medium",
+            "large",
+            "full"
+          ]
+        }
+      },
+      {
         "name": "size",
         "type": "ButtonSize",
         "required": false,

@@ -5,6 +5,7 @@ import { Button as AriaButton, type ButtonProps as AriaButtonProps } from "react
 
 import { IconGlyph, type IconName } from "../display/icon";
 import { cn } from "../utils";
+import { radiusClass, useComponentDefaults, type ComponentRadius } from "../defaults";
 import {
   BUTTON_BASE, BUTTON_SIZE, buttonVariantClasses, ICON, ICON_ONLY_SIZE, LINK_BUTTON_PADDING, hasTouchTarget,
   type ButtonSize, type ButtonTone, type ButtonVariant,
@@ -19,6 +20,8 @@ type BaseProps = Omit<AriaButtonProps, "className" | "style" | "children"> & {
   tone?: ButtonTone;
   /** As wide as its container (a form's submit on a phone, a stacked set of actions). */
   fullWidth?: boolean;
+  /** Corner radius: `none`, `small`, `medium` (the design), `large` or `full` (a pill). The provider's default otherwise. */
+  radius?: ComponentRadius;
   size?: ButtonSize;
   /** Lucide icon name shown before the label ("plus"). */
   iconBefore?: IconName;
@@ -58,9 +61,12 @@ function Spinner() {
  * are 44px to a coarse pointer, with nothing drawn (`TouchTarget`).
  */
 const PressButton = React.forwardRef<HTMLButtonElement, Omit<ButtonActionProps, "href">>(function PressButton(
-  { variant = "default", tone = "neutral", fullWidth = false, size = "medium", iconBefore, iconAfter, iconOnly, children, type = "button", isPending, ...rest },
+  { variant = "default", tone = "neutral", fullWidth = false, size: sizeProp, radius: radiusProp, iconBefore, iconAfter, iconOnly, children, type = "button", isPending, ...rest },
   forwardedRef,
 ) {
+  const defaults = useComponentDefaults();
+  const size = sizeProp ?? defaults.size ?? "medium";
+  const radius = radiusProp ?? defaults.radius;
   // React Aria announces the pending state but does not forward `aria-busy`;
   // the design asks for it, so it is set on the element directly.
   const local = React.useRef<HTMLButtonElement | null>(null);
@@ -96,6 +102,7 @@ const PressButton = React.forwardRef<HTMLButtonElement, Omit<ButtonActionProps, 
         BUTTON_SIZE[size],
         variant === "link" && LINK_BUTTON_PADDING,
         iconOnly && ICON_ONLY_SIZE[size],
+        radiusClass(radius),
       )}
     >
       <span

@@ -11,6 +11,7 @@ import {
 import { IconGlyph } from "../display/icon";
 
 import { cn } from "../utils";
+import { radiusClass, useRadius, useFieldSize } from "../defaults";
 import { ControlFieldError, FieldDescription, FieldLabel, forwardedInvalid, useErrorRowLink } from "../form/field-parts";
 import { FIELD_ICON, FIELD_SIZE, FIELD_STACK, type FieldSize } from "../form/styles";
 import { useRequiredChoice, type RequiredValidation } from "../form/validation";
@@ -101,10 +102,12 @@ export type SelectProps = SelectLabelProps & {
 export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function Select(
   {
     label, "aria-label": ariaLabel, items, selectedKey, defaultSelectedKey, onSelectionChange, placeholder, description, errorMessage: errorMessageProp,
-    size = "medium", "aria-invalid": ariaInvalid, requiredValidation, isInvalid: isInvalidProp, ...rest
+    size: fieldSize, "aria-invalid": ariaInvalid, requiredValidation, isInvalid: isInvalidProp, ...rest
   },
   ref,
 ) {
+  const size = useFieldSize(fieldSize);
+  const frameRadius = useRadius(undefined);
   const { locale } = useLocale();
   // An empty aria-label names nothing: it is treated as absent (no empty attribute), and a given label shows.
   const named = ariaLabel ? ariaLabel : undefined;
@@ -145,7 +148,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
       className={cn("group", FIELD_STACK)}
     >
       {showLabel && <FieldLabel isRequired={rest.isRequired}>{label}</FieldLabel>}
-      <Button ref={ref} data-slot="select-trigger" className={cn(SELECT_TRIGGER, FIELD_SIZE[size])}>
+      <Button ref={ref} data-slot="select-trigger" className={cn(SELECT_TRIGGER, FIELD_SIZE[size], radiusClass(frameRadius))}>
         <SelectValue
           data-slot="select-value"
           className="min-w-0 flex-1 truncate data-[placeholder]:text-ds-text-subtlest"

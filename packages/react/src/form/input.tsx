@@ -2,6 +2,7 @@
 
 import * as React from "react";
 
+import { ComponentDefaultsProvider, splitRadius, type WithRadius } from "../defaults";
 import { NumberField, type NumberFieldProps } from "./number-field";
 import { PasswordField, type PasswordFieldProps } from "./password-field";
 import { PhoneField, type PhoneFieldProps } from "./phone-field";
@@ -32,14 +33,19 @@ export type InputTelProps = PhoneFieldProps & {
   type: "tel";
 };
 
-export type InputProps = InputTextProps | InputPasswordProps | InputSearchProps | InputNumberProps | InputTelProps;
+export type InputProps = (InputTextProps | InputPasswordProps | InputSearchProps | InputNumberProps | InputTelProps) & WithRadius;
 
 /**
  * The one text-entry field, with a label, description and error: `type` picks what it holds (text, email, url,
  * password, search, number or tel) and the props that go with it, as an `<input type>` does. For several lines
  * use TextArea; for a one-time code, OtpField.
  */
-export const Input = React.forwardRef<HTMLInputElement, InputProps>(function Input(props, ref) {
+export const Input = React.forwardRef<HTMLInputElement, InputProps>(function Input(allProps, ref) {
+  const [radius, props] = splitRadius(allProps) as [InputProps["radius"], Omit<InputProps, "radius">];
+  return <ComponentDefaultsProvider value={{ radius }}>{field(props as InputProps, ref)}</ComponentDefaultsProvider>;
+});
+
+function field(props: InputProps, ref: React.ForwardedRef<HTMLInputElement>) {
   switch (props.type) {
     case "password": {
       const { type: _type, ...rest } = props;
@@ -60,4 +66,4 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(function Inp
     default:
       return <TextField {...props} ref={ref} />;
   }
-});
+}
