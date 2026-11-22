@@ -302,7 +302,7 @@ export function CreatePage() {
               { id: "forms", label: "Forms", panel: <div className="pt-ds-200"><FormsBoard /></div> },
               { id: "data", label: "Data", panel: <div className="grid gap-ds-200 pt-ds-200"><CollectionPreview /></div> },
               { id: "charts", label: "Charts", panel: <div className="grid gap-ds-200 pt-ds-200 md:grid-cols-2"><ChartsPreview /></div> },
-              { id: "auth", label: "Auth", panel: <div className="grid gap-ds-200 pt-ds-200 md:grid-cols-2"><AuthPreview /></div> },
+              { id: "auth", label: "Sign in", panel: <div className="grid gap-ds-200 pt-ds-200 md:grid-cols-2"><AuthPreview /></div> },
             ]}
           />
 

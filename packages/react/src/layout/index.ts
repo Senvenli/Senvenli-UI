@@ -13,10 +13,5 @@ export { Container, Section, SectionHead } from "./section";
 export type { ContainerProps, SectionHeadProps, SectionProps } from "./section";
 export { SPACE_TOKENS } from "./tokens";
 export type { Space, Background, Radius, Shadow, Border, Align, Justify } from "./tokens";
-// The auth pattern: the split screen, the credentials panel and the reset confirmation.
-export { AuthLayout } from "./auth-layout";
-export type { AuthLayoutProps } from "./auth-layout";
-export { AuthFormLayout } from "./auth-form-layout";
-export type { AuthFormLayoutProps, AuthFormLayoutSurface } from "./auth-form-layout";
-export { ResetSentCard } from "./reset-sent-card";
-export type { ResetSentCardProps, ResetSentLabels } from "./reset-sent-card";
+export { Split, SplitPane } from "./split";
+export type { SplitCollapse, SplitPaneProps, SplitProps } from "./split";

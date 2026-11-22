@@ -1,0 +1,65 @@
+{
+  "$schema": "../../manifest/component.schema.json",
+  "kind": "component",
+  "family": "layout",
+  "status": "alpha",
+  "import": "@senvenli/react/layout",
+  "name": "split",
+  "title": "Split",
+  "exports": [
+    "Split",
+    "SplitPane"
+  ],
+  "description": "Panes side by side that stack below a width of the layout itself: split screens, list and detail, media and text.",
+  "keywords": [
+    "split screen",
+    "two column",
+    "columns",
+    "sign in",
+    "login",
+    "auth",
+    "list detail",
+    "sidebar"
+  ],
+  "usage": {
+    "when": [
+      "A screen of two (or more) panes that sit side by side when there is room: a sign-in form beside a brand pane, a list beside its detail.",
+      "The split must follow the space the layout gets (a dialog, a shell with a sidebar), not the window."
+    ],
+    "instead": [
+      {
+        "use": "grid",
+        "when": "Equal columns of cards or tiles that wrap."
+      },
+      {
+        "use": "sidebar",
+        "when": "The app's navigation beside the page."
+      }
+    ]
+  },
+  "guidance": [
+    {
+      "rule": "Hide a decorative pane on narrow layouts with hideOnNarrow; never hide the pane that holds the task."
+    },
+    {
+      "rule": "Put the page's one main landmark on the pane that holds the task (`as=\"main\"`) when the Split is the whole page."
+    }
+  ],
+  "a11y": {
+    "builtIn": [
+      "A pane hidden on narrow layouts is display: none, so it leaves the accessibility tree too.",
+      "Panes follow source order in every layout, so reading and tab order never jump."
+    ],
+    "youProvide": [
+      "The landmark of each pane (`as=\"main\"`, `as=\"aside\"`) and the headings in it."
+    ]
+  },
+  "related": [
+    "grid",
+    "form",
+    "card"
+  ],
+  "genui": {
+    "expose": false
+  }
+}
