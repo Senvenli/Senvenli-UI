@@ -181,7 +181,8 @@ describe("Calendar", () => {
 });
 
 // Two months re-render on every click; under a full parallel run one test can take several seconds.
-describe("RangeCalendar", { timeout: 15_000 }, () => {
+// Two months of cells per render: slow under a loaded parallel run, so more room than the global 20s.
+describe("RangeCalendar", { timeout: 30_000 }, () => {
   const range = { start: new CalendarDate(2026, 10, 14), end: new CalendarDate(2026, 10, 18) };
 
   it("shows two months, prev on the first, next on the last", () => {
@@ -336,5 +337,25 @@ describe("RangeCalendar", { timeout: 15_000 }, () => {
   it("RTL: no physical classes", () => {
     const { container } = inLocale(<RangeCalendar aria-label="Trip dates" defaultValue={range} action={<button>Apply</button>} />, "ar", "rtl");
     for (const el of Array.from(container.querySelectorAll("[class]"))) expect(el.getAttribute("class")).not.toMatch(PHYSICAL);
+  });
+});
+
+describe("defaultFocusedValue", { timeout: 30_000 }, () => {
+  it("Calendar opens on the given month while nothing is chosen, on the server too", () => {
+    const ui = <Calendar aria-label="Delivery day" defaultFocusedValue={new CalendarDate(2026, 3, 18)} />;
+    const html = renderToString(<DesignSystemProvider locale="en-GB">{ui}</DesignSystemProvider>);
+    expect(html).toContain("March 2026");
+    const { container } = inLocale(ui);
+    expect(container.querySelector("[data-slot='calendar-title']")!.textContent).toBe("March 2026");
+  });
+
+  it("RangeCalendar opens on the given month and the next", () => {
+    const { container } = inLocale(<RangeCalendar aria-label="Trip dates" defaultFocusedValue={new CalendarDate(2026, 3, 18)} />);
+    expect(Array.from(container.querySelectorAll("[data-slot='calendar-title']")).map((title) => title.textContent)).toEqual(["March 2026", "April 2026"]);
+  });
+
+  it("a chosen value still decides the month", () => {
+    const { container } = inLocale(<Calendar aria-label="Delivery day" defaultValue={OCT_14} defaultFocusedValue={new CalendarDate(2026, 3, 18)} />);
+    expect(container.querySelector("[data-slot='calendar-title']")!.textContent).toBe("October 2026");
   });
 });

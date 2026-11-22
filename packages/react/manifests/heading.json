@@ -80,7 +80,7 @@
             "heading-xsmall",
             "heading-xxsmall"
           ],
-          "description": "The look, set apart from the level. `display-*` is for the Website hero and section titles only."
+          "description": "The look, set apart from the level. `display-*` is for a marketing hero and section titles only."
         }
       },
       "required": [
@@ -115,7 +115,7 @@
         "type": "HeadingSize",
         "required": false,
         "origin": "own",
-        "description": "The look, set apart from the level. `display-*` is for the Website hero and section titles only.",
+        "description": "The look, set apart from the level. `display-*` is for a marketing hero and section titles only.",
         "schema": {
           "type": "string",
           "enum": [

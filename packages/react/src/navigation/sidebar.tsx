@@ -66,7 +66,7 @@ export type SidebarProps = {
    * collapsible. Left out (or empty), the Sidebar renders exactly as before.
    */
   sections?: readonly SidebarSection[];
-  /** Settings, in their own group at the bottom, under an overline ("Ayarlar"). */
+  /** Settings, in their own group at the bottom, under an overline ("Settings"). */
   settings?: { label: string; items: readonly SidebarItem[] };
   /** The id of the page's item: marked `aria-current="page"`; its group stays open. */
   currentKey?: string;

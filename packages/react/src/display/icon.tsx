@@ -10,8 +10,7 @@ import type { IconColor, IconName, IconSize } from "./icon-names";
 export type { IconColor, IconName, IconSize } from "./icon-names";
 
 /**
- * Every Lucide icon ships with the package (owner decision 2026-10-08,
- *): no loading state, no flicker, also on the server. They live
+ * Every Lucide icon ships with the package: no loading state, no flicker, also on the server. They live
  * in this one module, so an app's bundler keeps a single shared copy however
  * many DS components and screens draw icons. Only Lucide's `icons` set
  * ships, plus a small generated table for its alias names (icon-aliases.ts),

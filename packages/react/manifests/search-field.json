@@ -323,7 +323,7 @@
         "type": "string",
         "required": false,
         "origin": "dom",
-        "description": "Defines a string value that labels the current element.\nNames the field when there is no visible label (\"Ara\").",
+        "description": "Defines a string value that labels the current element.\nNames the field when there is no visible label (\"Search\").",
         "schema": {
           "type": "string"
         }

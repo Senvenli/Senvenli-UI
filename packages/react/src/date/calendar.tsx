@@ -46,6 +46,11 @@ type CommonProps = {
   timeZone?: string;
   /** Names the calendar ("Start date"). */
   "aria-label"?: string;
+  /**
+   * The month that opens while nothing is chosen (any day in it). A prerendered page passes a fixed one, so the HTML
+   * does not depend on the build day; left out, the month of "today" (in `timeZone` when given).
+   */
+  defaultFocusedValue?: CalendarDate;
 };
 
 export type CalendarProps = CommonProps & {
@@ -70,7 +75,7 @@ export type RangeCalendarProps = CommonProps & {
   maxDuration?: number;
   /** Two months side by side (from 720px), one below on narrow screens; default 2. */
   visibleMonths?: 1 | 2;
-  /** In a popover: the footer shows the chosen range and its length beside this action ("Tarihleri uygula"). */
+  /** In a popover: the footer shows the chosen range and its length beside this action ("Apply dates"). */
   action?: React.ReactNode;
 };
 
@@ -244,12 +249,12 @@ export const CalendarInPopoverContext = React.createContext(false);
  */
 export function Calendar({
   value, defaultValue, onChange, minValue, maxValue, isDateUnavailable, unavailableReason, getDateMarkers,
-  locale, firstDayOfWeek, timeZone, visibleMonths = 1, "aria-label": ariaLabel,
+  locale, firstDayOfWeek, timeZone, visibleMonths = 1, defaultFocusedValue, "aria-label": ariaLabel,
 }: CalendarProps) {
   return (
     <WithLocale locale={locale}>
       <CalendarBody
-        {...{ value, defaultValue, onChange, minValue, maxValue, isDateUnavailable, unavailableReason, getDateMarkers, firstDayOfWeek, timeZone, visibleMonths, ariaLabel }}
+        {...{ value, defaultValue, onChange, minValue, maxValue, isDateUnavailable, unavailableReason, getDateMarkers, firstDayOfWeek, timeZone, visibleMonths, defaultFocusedValue, ariaLabel }}
       />
     </WithLocale>
   );
@@ -257,7 +262,7 @@ export function Calendar({
 
 function CalendarBody({
   value, defaultValue, onChange, minValue, maxValue, isDateUnavailable, unavailableReason, getDateMarkers,
-  firstDayOfWeek, timeZone, visibleMonths, ariaLabel,
+  firstDayOfWeek, timeZone, visibleMonths, defaultFocusedValue, ariaLabel,
 }: Omit<CalendarProps, "locale" | "aria-label"> & { ariaLabel?: string; visibleMonths: 1 | 2 }) {
   const today = useToday(timeZone);
   const weekdayStyle = useWeekdayStyle();
@@ -274,7 +279,7 @@ function CalendarBody({
       value={value}
       defaultValue={defaultValue}
       // With a time zone and no date yet, open on that zone's month, the one "today" is underlined in.
-      defaultFocusedValue={timeZone && !value && !defaultValue ? todayIn(timeZone) : undefined}
+      defaultFocusedValue={value || defaultValue ? undefined : (defaultFocusedValue ?? (timeZone ? todayIn(timeZone) : undefined))}
       onChange={onChange}
       minValue={minValue}
       maxValue={maxValue}
@@ -356,12 +361,12 @@ function AnchorWatcher({ onAnchor }: { onAnchor: (date: CalendarDate | null) => 
  */
 export function RangeCalendar({
   value, defaultValue, onChange, minValue, maxValue, isDateUnavailable, unavailableReason, allowsNonContiguousRanges = false,
-  minDuration, maxDuration, locale, firstDayOfWeek, timeZone, visibleMonths = 2, action, "aria-label": ariaLabel,
+  minDuration, maxDuration, locale, firstDayOfWeek, timeZone, visibleMonths = 2, action, defaultFocusedValue, "aria-label": ariaLabel,
 }: RangeCalendarProps) {
   return (
     <WithLocale locale={locale}>
       <RangeCalendarBody
-        {...{ value, defaultValue, onChange, minValue, maxValue, isDateUnavailable, unavailableReason, allowsNonContiguousRanges, minDuration, maxDuration, firstDayOfWeek, timeZone, visibleMonths, action, ariaLabel }}
+        {...{ value, defaultValue, onChange, minValue, maxValue, isDateUnavailable, unavailableReason, allowsNonContiguousRanges, minDuration, maxDuration, firstDayOfWeek, timeZone, visibleMonths, action, defaultFocusedValue, ariaLabel }}
       />
     </WithLocale>
   );
@@ -369,7 +374,7 @@ export function RangeCalendar({
 
 function RangeCalendarBody({
   value, defaultValue, onChange, minValue, maxValue, isDateUnavailable, unavailableReason, allowsNonContiguousRanges,
-  minDuration, maxDuration, firstDayOfWeek, timeZone, visibleMonths, action, ariaLabel,
+  minDuration, maxDuration, firstDayOfWeek, timeZone, visibleMonths, action, defaultFocusedValue, ariaLabel,
 }: Omit<RangeCalendarProps, "locale" | "aria-label"> & { ariaLabel?: string; visibleMonths: 1 | 2 }) {
   const { locale } = useLocale();
   const dir = useLtrDir();
@@ -443,7 +448,7 @@ function RangeCalendarBody({
       aria-label={ariaLabel}
       value={range}
       // With a time zone and no range yet, open on that zone's month, the one "today" is underlined in.
-      defaultFocusedValue={timeZone && !range ? todayIn(timeZone) : undefined}
+      defaultFocusedValue={range ? undefined : (defaultFocusedValue ?? (timeZone ? todayIn(timeZone) : undefined))}
       onChange={(next) => {
         // Picking the start again ends a zero-day range; below minDuration it is not taken.
         if (minDuration !== undefined && toCalendarDate(next.end).compare(toCalendarDate(next.start)) < minDuration) return;

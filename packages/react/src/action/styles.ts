@@ -7,7 +7,7 @@
  */
 
 /**
- * Keyboard focus (owner decision, 2026-10-08): no outer ring and no offset.
+ * Keyboard focus (a design rule): no outer ring and no offset.
  * A 2px inner border (`inset-ring`, so size and elevation never change)
  * appears on keyboard focus only; pointer focus shows nothing. The colour
  * contrasts with the control's own fill by at least 3:1 (WCAG 2.4.13):

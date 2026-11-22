@@ -241,7 +241,7 @@
         "type": "{ label: string; items: readonly SidebarItem[]; }",
         "required": false,
         "origin": "own",
-        "description": "Settings, in their own group at the bottom, under an overline (\"Ayarlar\")."
+        "description": "Settings, in their own group at the bottom, under an overline (\"Settings\")."
       },
       {
         "name": "currentKey",

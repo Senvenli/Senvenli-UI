@@ -26,7 +26,7 @@ const DEFAULT_SIZE: Record<HeadingLevel, HeadingSize> = {
 export type HeadingProps = {
   /** The place in the document outline (h1–h6). */
   level: HeadingLevel;
-  /** The look, set apart from the level. `display-*` is for the Website hero and section titles only. */
+  /** The look, set apart from the level. `display-*` is for a marketing hero and section titles only. */
   size?: HeadingSize;
   children: React.ReactNode;
   id?: string;

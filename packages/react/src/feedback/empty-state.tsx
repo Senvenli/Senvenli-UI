@@ -132,6 +132,11 @@ type ErrorStateBase = {
   errorCode?: string;
   /** When it failed, shown next to the code in the user's locale. */
   occurredAt?: Date;
+  /**
+   * The time zone `occurredAt` is shown in ("Europe/Berlin"). Left out, the device's: then the server and the
+   * browser can print different times, so a prerendered page passes one.
+   */
+  timeZone?: string;
   /** `compact` for an inline failure inside a card or table cell. */
   size?: StateSize;
   /**
@@ -176,11 +181,18 @@ export type ErrorStateProps = ErrorStateBase &
  * page chrome around it, and gives one way forward: a retry or one action.
  */
 export function ErrorState({
-  kind = "load-failed", title, headingLevel, description, errorCode, occurredAt, size = "default", announce, onRetry, action,
+  kind = "load-failed", title, headingLevel, description, errorCode, occurredAt, timeZone, size = "default", announce, onRetry, action,
   retryLabel: retryLabelOverride, isRetryPending = false,
 }: ErrorStateProps) {
   const { locale } = useLocale();
-  const formatter = React.useMemo(() => new Intl.DateTimeFormat(locale, { dateStyle: "medium", timeStyle: "short" }), [locale]);
+  const formatter = React.useMemo(() => {
+    try {
+      return new Intl.DateTimeFormat(locale, { dateStyle: "medium", timeStyle: "short", timeZone });
+    } catch {
+      // An unknown zone is not a reason to lose the message: the device's zone instead.
+      return new Intl.DateTimeFormat(locale, { dateStyle: "medium", timeStyle: "short" });
+    }
+  }, [locale, timeZone]);
   const [isPending, setPending] = React.useState(false);
   const [failed, setFailed] = React.useState(false);
   const pending = React.useRef(false);

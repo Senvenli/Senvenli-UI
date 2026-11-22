@@ -13,7 +13,7 @@ import { NavPanel } from "./nav-panel";
 
 export type NavbarLink = {
   key: string;
-  /** A noun for the place ("Fiyatlar"), never a verb. */
+  /** A noun for the place ("Pricing"), never a verb. */
   label: string;
   /** A page or an in-page anchor ("/#pricing"); it goes through the host router. */
   href: string;
