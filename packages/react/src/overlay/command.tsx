@@ -15,7 +15,6 @@ import {
   useLocale,
 } from "react-aria-components";
 
-import { cn } from "../utils";
 import { IconGlyph, type IconName } from "../display/icon";
 import { Kbd } from "../display/kbd";
 import { Badge, type BadgeTone } from "../display/badge";
