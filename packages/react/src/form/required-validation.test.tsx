@@ -5,7 +5,10 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 
 import { DateField, DatePicker, DateRangePicker, TimeField } from "../date/index";
 import { DesignSystemProvider } from "../provider";
-import { Form, OtpField, NumberField, PasswordField, TextArea, TextField } from "./index";
+import { Form, OtpField, TextArea } from "./index";
+import { NumberField } from "./number-field";
+import { PasswordField } from "./password-field";
+import { TextField } from "./text-field";
 
 // requiredValidation: an app that validates on submit and shows its own error wants the required asterisk and
 // aria-required without the built-in "Fill in this field." message on blur. `requiredValidation="app"` marks the

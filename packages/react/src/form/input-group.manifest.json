@@ -34,7 +34,7 @@
     ]
   },
   "related": [
-    "text-field"
+    "input"
   ],
   "genui": {
     "expose": false

@@ -3,7 +3,7 @@ import { Button } from "@senvenli/react/action";
 import { AreaChart } from "@senvenli/react/charts";
 import { Calendar } from "@senvenli/react/date";
 import { Badge, Stat, StatGroup } from "@senvenli/react/display";
-import { TextField } from "@senvenli/react/form";
+import { Input } from "@senvenli/react/form";
 import { Stack } from "@senvenli/react/layout";
 import { Checkbox, Switch } from "@senvenli/react/selection";
 
@@ -22,8 +22,8 @@ export function HomeBoard() {
     <div data-slot="home-board" className="grid items-start gap-ds-200 md:grid-cols-3">
       <Cell>
         <Stack space="space-200">
-          <TextField label="Workspace name" defaultValue="Acme" />
-          <TextField label="Billing email" type="email" defaultValue="ada@example.com" />
+          <Input label="Workspace name" defaultValue="Acme" />
+          <Input label="Billing email" type="email" defaultValue="ada@example.com" />
           <Checkbox defaultSelected>Send me the monthly report</Checkbox>
           <div className="flex flex-wrap gap-ds-100">
             <Button variant="primary">Save changes</Button>

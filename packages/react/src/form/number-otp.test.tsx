@@ -3,7 +3,8 @@ import { act, cleanup, fireEvent, render, screen } from "@testing-library/react"
 import { afterEach, describe, expect, it, vi } from "vitest";
 
 import { DesignSystemProvider } from "../provider";
-import { OtpField, NumberField, TextArea } from "./index";
+import { OtpField, TextArea } from "./index";
+import { NumberField } from "./number-field";
 
 afterEach(() => {
   cleanup();

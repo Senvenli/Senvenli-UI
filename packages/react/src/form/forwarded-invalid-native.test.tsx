@@ -3,7 +3,8 @@ import { act, cleanup, fireEvent, render, screen } from "@testing-library/react"
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import { DesignSystemProvider } from "../provider";
-import { Field, TextField } from "./index";
+import { Field } from "./index";
+import { TextField } from "./text-field";
 import { ComboBox, MultiSelect, Select } from "../selection/index";
 
 // A form row's forwarded `aria-invalid` (the DS Field hands it to its control) marks the control for

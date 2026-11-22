@@ -22,7 +22,7 @@
     ],
     "instead": [
       {
-        "use": "number-field",
+        "use": "input",
         "when": "The exact number matters."
       }
     ]
@@ -46,7 +46,7 @@
     ]
   },
   "related": [
-    "number-field"
+    "input"
   ],
   "genui": {
     "expose": false

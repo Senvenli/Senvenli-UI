@@ -132,6 +132,17 @@
         "schema": {
           "type": "boolean"
         }
+      },
+      {
+        "name": "iconOnly",
+        "type": "boolean",
+        "required": false,
+        "origin": "own",
+        "default": "false",
+        "description": "Icon-only at every width, as Button's `iconOnly`: a round button; `label` stays its accessible name.",
+        "schema": {
+          "type": "boolean"
+        }
       }
     ]
   },

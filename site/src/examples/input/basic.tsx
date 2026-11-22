@@ -1,8 +1,8 @@
-import { TextField } from "@senvenli/react/form";
+import { Input } from "@senvenli/react/form";
 
 export default function Example() {
   return (
-    <TextField
+    <Input
       label="Work email"
       type="email"
       autoComplete="email"

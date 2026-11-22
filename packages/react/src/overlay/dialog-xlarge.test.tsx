@@ -4,7 +4,7 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 
 import { DesignSystemProvider } from "../provider";
 import { Button } from "../action";
-import { TextField } from "../form";
+import { TextField } from "../form/text-field";
 import { Dialog, DialogTrigger } from "./index";
 
 afterEach(cleanup);

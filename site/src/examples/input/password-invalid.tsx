@@ -1,8 +1,8 @@
-import { PasswordField } from "@senvenli/react/form";
+import { Input } from "@senvenli/react/form";
 
 export default function Example() {
   return (
-    <PasswordField
+    <Input type="password"
       label="Password"
       autoComplete="current-password"
       defaultValue="orchid-ladder"

@@ -4,22 +4,46 @@
   "family": "form",
   "status": "alpha",
   "import": "@senvenli/react/form",
-  "name": "text-field",
-  "title": "Text field",
+  "name": "input",
+  "title": "Input",
   "exports": [
-    "TextField"
+    "Input"
   ],
-  "description": "A single-line text input with label, description, error, addons and actions.",
+  "description": "One text-entry field with a label, description and error; `type` picks text, email, url, password, search, number or tel.",
   "keywords": [
     "input",
     "text",
     "email",
     "url",
-    "field"
+    "field",
+    "password",
+    "secret",
+    "credentials",
+    "sign in",
+    "search",
+    "filter",
+    "query",
+    "find",
+    "number",
+    "quantity",
+    "currency",
+    "amount",
+    "stepper",
+    "phone",
+    "telephone",
+    "mobile",
+    "country code",
+    "e164",
+    "text field",
+    "tel"
   ],
   "usage": {
     "when": [
-      "Short free text: a name, an email, a code."
+      "Short free text: a name, an email, a code.",
+      "Entering or creating a password.",
+      "Searching or filtering a list or the app.",
+      "Entering a number: a quantity, a price, a percentage.",
+      "Any phone number a person types: sign-up, checkout, contact details."
     ],
     "instead": [
       {
@@ -36,16 +60,49 @@
   "a11y": {
     "builtIn": [
       "Label, description and error are announced with the input.",
-      "Required fields show \"Fill in this field.\" after a blur or a submit; your own `errorMessage` replaces it."
+      "Required fields show \"Fill in this field.\" after a blur or a submit; your own `errorMessage` replaces it.",
+      "The toggle is named \"Show password\" / \"Hide password\".",
+      "Password managers can fill it.",
+      "The clear button is named \"Clear\".",
+      "Steppers are named \"Increase\" and \"Decrease\".",
+      "Formats and parses in the user's locale.",
+      "The country button is named with the country and its code.",
+      "Too short and too long say so in words.",
+      "Required fields show \"Fill in this field.\""
     ],
     "youProvide": [
-      "A visible label."
+      "A visible label.",
+      "A label or placeholder that lists what can be searched.",
+      "The range in the label or description.",
+      "suggestedCountries for the markets the form expects."
+    ],
+    "keyboard": [
+      {
+        "keys": "Escape",
+        "does": "Clears the field."
+      },
+      {
+        "keys": "Enter",
+        "does": "Submits the search."
+      },
+      {
+        "keys": "Arrow up / down",
+        "does": "Increments or decrements by the step."
+      },
+      {
+        "keys": "Arrow down",
+        "does": "Opens the country list from the country button."
+      },
+      {
+        "keys": "Type",
+        "does": "Searches countries by name or calling code."
+      }
     ]
   },
   "related": [
     "text-area",
-    "number-field",
-    "field"
+    "field",
+    "iso-chip"
   ],
   "genui": {
     "expose": true,
@@ -78,7 +135,16 @@
         },
         "type": {
           "type": "string",
-          "description": "The type of input to render. See\n[MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#htmlattrdeftype)."
+          "enum": [
+            "text",
+            "url",
+            "email",
+            "password",
+            "search",
+            "number",
+            "tel"
+          ],
+          "description": "`text` (default), `email` or `url`: the matching keyboard and autofill on phones."
         },
         "isRequired": {
           "type": "boolean",
@@ -93,20 +159,17 @@
           ],
           "description": "`code` for codes, references and IDs; `numeric` for money, distance and counts."
         }
-      },
-      "required": [
-        "label"
-      ]
+      }
     }
   },
   "source": [
-    "src/form/text-field.tsx"
+    "src/form/input.tsx"
   ],
   "props": {
-    "TextField": [
+    "Input": [
       {
         "name": "defaultValue",
-        "type": "string",
+        "type": "string | number",
         "required": false,
         "origin": "aria",
         "description": "The default value (uncontrolled).",
@@ -122,6 +185,16 @@
         "description": "A React-only flag that suppresses the warning React normally logs when an element's\nserver-rendered content doesn't match the client render during hydration. See [React\ndocs](https://react.dev/reference/react-dom/client/hydrateRoot#suppressing-unavoidable-hydration-mismatch-errors).",
         "schema": {
           "type": "boolean"
+        }
+      },
+      {
+        "name": "autoCapitalize",
+        "type": "\"off\" | \"none\" | \"on\" | \"sentences\" | \"words\" | \"characters\" | (string & {})",
+        "required": false,
+        "origin": "own",
+        "description": "Mobile keyboards' capitalization: `none` for e-mail and codes, `characters` for codes, `words` for names.\nReact Aria's TextField forwards it to the input (useTextField reads it); its types leave it out, so it is declared here.",
+        "schema": {
+          "type": "string"
         }
       },
       {
@@ -222,6 +295,13 @@
             "no"
           ]
         }
+      },
+      {
+        "name": "prefix",
+        "type": "React.ReactNode",
+        "required": false,
+        "origin": "own",
+        "description": "Text, unit or currency before the value (\"€\", \"https://\"), or `<Icon name=\"search\" />`."
       },
       {
         "name": "autoCorrect",
@@ -349,6 +429,21 @@
         }
       },
       {
+        "name": "aria-invalid",
+        "type": "boolean | \"true\" | \"false\"",
+        "required": false,
+        "origin": "own",
+        "description": "Set by a form row that owns the error text (the shared `Field` hands its control `aria-invalid`): the field\nshows its invalid state as with `isInvalid`, and without an `errorMessage` of its own draws no error row,\nso the row's message is the only one. It marks the input for assistive tech and draws it\ninvalid only: unlike `isInvalid` it never becomes the input's native validity, so it never blocks a form's\nsubmit, and the field's own validation runs as without it.",
+        "schema": {
+          "enum": [
+            false,
+            true,
+            "true",
+            "false"
+          ]
+        }
+      },
+      {
         "name": "aria-label",
         "type": "string",
         "required": false,
@@ -412,21 +507,21 @@
       },
       {
         "name": "onFocus",
-        "type": "(e: FocusEvent<HTMLInputElement, Element>) => void",
+        "type": "(e: FocusEvent<HTMLInputElement, Element>) => void | (e: FocusEvent<Element, Element>) => void",
         "required": false,
         "origin": "aria",
         "description": "Handler that is called when the element receives focus."
       },
       {
         "name": "onBlur",
-        "type": "(e: FocusEvent<HTMLInputElement, Element>) => void",
+        "type": "(e: FocusEvent<HTMLInputElement, Element>) => void | (e: FocusEvent<Element, Element>) => void | (event: FocusEvent<HTMLInputElement, Element>) => void",
         "required": false,
         "origin": "aria",
         "description": "Handler that is called when the element loses focus."
       },
       {
         "name": "onChange",
-        "type": "(value: string) => void",
+        "type": "(value: string) => void | (value: number) => void | (value: string, country: string) => void",
         "required": false,
         "origin": "aria",
         "description": "Handler that is called when the value changes."
@@ -851,6 +946,15 @@
         "origin": "dom"
       },
       {
+        "name": "step",
+        "type": "string | number | number",
+        "required": false,
+        "origin": "own",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
         "name": "isDisabled",
         "type": "boolean",
         "required": false,
@@ -866,16 +970,6 @@
         "required": false,
         "origin": "aria",
         "description": "Handler that is called when the element's focus status changes."
-      },
-      {
-        "name": "type",
-        "type": "(string & {}) | \"search\" | \"text\" | \"tel\" | \"url\" | \"email\" | \"password\"",
-        "required": false,
-        "origin": "aria",
-        "description": "The type of input to render. See\n[MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#htmlattrdeftype).",
-        "schema": {
-          "type": "string"
-        }
       },
       {
         "name": "form",
@@ -899,7 +993,7 @@
       },
       {
         "name": "value",
-        "type": "string",
+        "type": "string | number",
         "required": false,
         "origin": "aria",
         "description": "The current value (controlled).",
@@ -919,10 +1013,43 @@
       },
       {
         "name": "render",
-        "type": "DOMRenderFunction<\"div\", TextFieldRenderProps>",
+        "type": "DOMRenderFunction<\"div\", TextFieldRenderProps> | DOMRenderFunction<\"div\", SearchFieldRenderProps> | DOMRenderFunction<\"div\", NumberFieldRenderProps>",
         "required": false,
         "origin": "dom",
         "description": "Overrides the default DOM element with a custom render function.\nThis allows rendering existing components with built-in styles and behaviors\nsuch as router links, animation libraries, and pre-styled components.\n\nRequirements:\n\n- You must render the expected element type (e.g. if `<button>` is expected, you cannot render an\n  `<a>`).\n- Only a single root DOM element can be rendered (no fragments).\n- You must pass through props and ref to the underlying DOM element, merging with your own prop\n  as appropriate."
+      },
+      {
+        "name": "size",
+        "type": "FieldSize",
+        "required": false,
+        "origin": "own",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "small",
+            "medium"
+          ]
+        }
+      },
+      {
+        "name": "label",
+        "type": "React.ReactNode",
+        "required": false,
+        "origin": "own",
+        "description": "Always given; the label sits above the field, never inside it."
+      },
+      {
+        "name": "description",
+        "type": "React.ReactNode",
+        "required": false,
+        "origin": "own"
+      },
+      {
+        "name": "errorMessage",
+        "type": "React.ReactNode",
+        "required": false,
+        "origin": "own",
+        "description": "What happened and what to do (\"Enter a valid email: name@example.com\")."
       },
       {
         "name": "isRequired",
@@ -930,6 +1057,30 @@
         "required": false,
         "origin": "aria",
         "description": "Whether user input is required on the input before form submission.",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "requiredValidation",
+        "type": "RequiredValidation",
+        "required": false,
+        "origin": "own",
+        "description": "Who says an empty required field is missing: `field` (default) or `app`. With `app` a DS\nForm's `onSubmit` runs with the field empty, and the app's own error must clear on change. See\n{@link RequiredValidation} for the whole contract.",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "field",
+            "app"
+          ]
+        }
+      },
+      {
+        "name": "isOptional",
+        "type": "boolean",
+        "required": false,
+        "origin": "own",
+        "description": "Shows \"(optional)\" when most of the form is required.",
         "schema": {
           "type": "boolean"
         }
@@ -956,7 +1107,7 @@
       },
       {
         "name": "validate",
-        "type": "(value: string) => true | ValidationError | null | undefined",
+        "type": "(value: string) => true | ValidationError | null | undefined | (value: number) => true | ValidationError | null | undefined",
         "required": false,
         "origin": "aria",
         "description": "A function that returns an error message if a given value is invalid.\nValidation errors are displayed to the user when the form is submitted\nif `validationBehavior=\"native\"`. For realtime validation, use the `isInvalid`\nprop instead."
@@ -977,10 +1128,19 @@
       },
       {
         "name": "autoComplete",
-        "type": "string",
+        "type": "string | \"current-password\" | \"new-password\"",
         "required": false,
         "origin": "aria",
         "description": "Describes the type of autocomplete functionality the input should provide if any. See\n[MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#htmlattrdefautocomplete).",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "max",
+        "type": "string | number",
+        "required": false,
+        "origin": "own",
         "schema": {
           "type": "string"
         }
@@ -993,6 +1153,16 @@
         "description": "The maximum number of characters supported by the input. See\n[MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#htmlattrdefmaxlength).",
         "schema": {
           "type": "number"
+        }
+      },
+      {
+        "name": "min",
+        "type": "string | number",
+        "required": false,
+        "origin": "own",
+        "description": "Bounds and step for `type=\"number\"`; prefer NumberField for money and counts that need formatting.",
+        "schema": {
+          "type": "string"
         }
       },
       {
@@ -1016,50 +1186,6 @@
         }
       },
       {
-        "name": "label",
-        "type": "React.ReactNode",
-        "required": true,
-        "origin": "own",
-        "description": "Always given; the label sits above the field, never inside it."
-      },
-      {
-        "name": "description",
-        "type": "React.ReactNode",
-        "required": false,
-        "origin": "own"
-      },
-      {
-        "name": "errorMessage",
-        "type": "React.ReactNode",
-        "required": false,
-        "origin": "own",
-        "description": "What happened and what to do (\"Enter a valid email: name@example.com\")."
-      },
-      {
-        "name": "isOptional",
-        "type": "boolean",
-        "required": false,
-        "origin": "own",
-        "description": "Shows \"(optional)\" when most of the form is required.",
-        "schema": {
-          "type": "boolean"
-        }
-      },
-      {
-        "name": "requiredValidation",
-        "type": "RequiredValidation",
-        "required": false,
-        "origin": "own",
-        "description": "Who says an empty required field is missing: `field` (default) or `app`. With `app` a DS\nForm's `onSubmit` runs with the field empty, and the app's own error must clear on change. See\n{@link RequiredValidation} for the whole contract.",
-        "schema": {
-          "type": "string",
-          "enum": [
-            "field",
-            "app"
-          ]
-        }
-      },
-      {
         "name": "placeholder",
         "type": "string",
         "required": false,
@@ -1067,13 +1193,6 @@
         "schema": {
           "type": "string"
         }
-      },
-      {
-        "name": "prefix",
-        "type": "React.ReactNode",
-        "required": false,
-        "origin": "own",
-        "description": "Text, unit or currency before the value (\"€\", \"https://\"), or `<Icon name=\"search\" />`."
       },
       {
         "name": "suffix",
@@ -1089,25 +1208,10 @@
         "description": "Extra controls at the end of the frame (`InputAction`)."
       },
       {
-        "name": "size",
-        "type": "FieldSize",
-        "required": false,
-        "origin": "own",
-        "default": "\"medium\"",
-        "schema": {
-          "type": "string",
-          "enum": [
-            "small",
-            "medium"
-          ]
-        }
-      },
-      {
         "name": "appearance",
         "type": "\"text\" | \"numeric\" | \"code\"",
         "required": false,
         "origin": "own",
-        "default": "\"text\"",
         "description": "`code` for codes, references and IDs; `numeric` for money, distance and counts.",
         "schema": {
           "type": "string",
@@ -1132,59 +1236,6 @@
         }
       },
       {
-        "name": "autoCapitalize",
-        "type": "\"off\" | \"none\" | \"on\" | \"sentences\" | \"words\" | \"characters\" | (string & {})",
-        "required": false,
-        "origin": "own",
-        "description": "Mobile keyboards' capitalization: `none` for e-mail and codes, `characters` for codes, `words` for names.\nReact Aria's TextField forwards it to the input (useTextField reads it); its types leave it out, so it is declared here.",
-        "schema": {
-          "type": "string"
-        }
-      },
-      {
-        "name": "aria-invalid",
-        "type": "boolean | \"true\" | \"false\"",
-        "required": false,
-        "origin": "own",
-        "description": "Set by a form row that owns the error text (the shared `Field` hands its control `aria-invalid`): the field\nshows its invalid state as with `isInvalid`, and without an `errorMessage` of its own draws no error row,\nso the row's message is the only one. It marks the input for assistive tech and draws it\ninvalid only: unlike `isInvalid` it never becomes the input's native validity, so it never blocks a form's\nsubmit, and the field's own validation runs as without it.",
-        "schema": {
-          "enum": [
-            false,
-            true,
-            "true",
-            "false"
-          ]
-        }
-      },
-      {
-        "name": "min",
-        "type": "string | number",
-        "required": false,
-        "origin": "own",
-        "description": "Bounds and step for `type=\"number\"`; prefer NumberField for money and counts that need formatting.",
-        "schema": {
-          "type": "string"
-        }
-      },
-      {
-        "name": "max",
-        "type": "string | number",
-        "required": false,
-        "origin": "own",
-        "schema": {
-          "type": "string"
-        }
-      },
-      {
-        "name": "step",
-        "type": "string | number",
-        "required": false,
-        "origin": "own",
-        "schema": {
-          "type": "string"
-        }
-      },
-      {
         "name": "valueDir",
         "type": "\"inherit\" | \"ltr\"",
         "required": false,
@@ -1197,6 +1248,271 @@
             "ltr"
           ]
         }
+      },
+      {
+        "name": "type",
+        "type": "\"text\" | \"url\" | \"email\" | \"password\" | \"search\" | \"number\" | \"tel\"",
+        "required": false,
+        "origin": "own",
+        "description": "`text` (default), `email` or `url`: the matching keyboard and autofill on phones.",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "text",
+            "url",
+            "email",
+            "password",
+            "search",
+            "number",
+            "tel"
+          ]
+        }
+      },
+      {
+        "name": "showStrength",
+        "type": "boolean",
+        "required": false,
+        "origin": "own",
+        "description": "Four-segment meter with a word under it (create and reset only).",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "isRevealed",
+        "type": "boolean",
+        "required": false,
+        "origin": "own",
+        "description": "Controlled visibility: `true` shows the value as text. Leave it out for the\ndefault, where the show / hide button alone decides; set it when the app\nwrites a value the person should see (a \"Generate\" button).",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "onRevealChange",
+        "type": "(revealed: boolean) => void",
+        "required": false,
+        "origin": "own",
+        "description": "Called with the next visibility when the show / hide button is pressed."
+      },
+      {
+        "name": "onSubmit",
+        "type": "(value: string) => void",
+        "required": false,
+        "origin": "dom",
+        "description": "Handler that is called when the SearchField is submitted."
+      },
+      {
+        "name": "onClear",
+        "type": "() => void",
+        "required": false,
+        "origin": "dom",
+        "description": "Handler that is called when the clear button is pressed."
+      },
+      {
+        "name": "shortcut",
+        "type": "string",
+        "required": false,
+        "origin": "own",
+        "description": "A key hint shown at rest (\"/\"); the app binds the key.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "minValue",
+        "type": "number",
+        "required": false,
+        "origin": "aria",
+        "description": "The smallest value allowed for the input.",
+        "schema": {
+          "type": "number"
+        }
+      },
+      {
+        "name": "maxValue",
+        "type": "number",
+        "required": false,
+        "origin": "aria",
+        "description": "The largest value allowed for the input.",
+        "schema": {
+          "type": "number"
+        }
+      },
+      {
+        "name": "decrementAriaLabel",
+        "type": "string",
+        "required": false,
+        "origin": "aria",
+        "description": "A custom aria-label for the decrement button. If not provided, the localized string \"Decrement\"\nis used.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "incrementAriaLabel",
+        "type": "string",
+        "required": false,
+        "origin": "aria",
+        "description": "A custom aria-label for the increment button. If not provided, the localized string \"Increment\"\nis used.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "isWheelDisabled",
+        "type": "boolean",
+        "required": false,
+        "origin": "aria",
+        "description": "Enables or disables changing the value with scroll.",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "formatOptions",
+        "type": "NumberFormatOptions",
+        "required": false,
+        "origin": "dom",
+        "description": "Formatting options for the value displayed in the number field.\nThis also affects what characters are allowed to be typed by the user."
+      },
+      {
+        "name": "commitBehavior",
+        "type": "\"validate\" | \"snap\"",
+        "required": false,
+        "origin": "dom",
+        "description": "Controls the behavior of the number field when the user blurs the field after editing. 'snap'\nwill clamp the value to the min/max values, and snap to the nearest step value. 'validate' will\nnot clamp the value, and will validate that the value is within the min/max range and on a\nvalid step.",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "validate",
+            "snap"
+          ]
+        }
+      },
+      {
+        "name": "showStepper",
+        "type": "boolean",
+        "required": false,
+        "origin": "own",
+        "description": "The stepper on the end, for small integers.",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "currency",
+        "type": "string",
+        "required": false,
+        "origin": "own",
+        "description": "Money: an ISO 4217 code (\"EUR\"). The symbol becomes a leading addon and the\namount keeps two decimals, which reads as the design's \"€ 248,00\" (symbol\nfirst, with a space); Intl's own currency style has no space in tr / me.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "locale",
+        "type": "string",
+        "required": false,
+        "origin": "own",
+        "description": "Formats and parses in this locale instead of the provider's (the branch locale).",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "country",
+        "type": "string",
+        "required": false,
+        "origin": "own",
+        "description": "Controlled ISO country. Left out, it is read from the value, then `defaultCountry`. A shared calling\ncode reads back as the table's first country for it (+1 → US): pass `country` to keep Canada.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "defaultCountry",
+        "type": "string",
+        "required": false,
+        "origin": "own",
+        "description": "The country an empty field opens on; by default the locale's region (\"de-AT\" → AT, \"en\" → US).",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "suggestedCountries",
+        "type": "readonly string[]",
+        "required": false,
+        "origin": "own",
+        "description": "ISO codes shown first, above \"All countries\" (the markets this form expects).",
+        "schema": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      {
+        "name": "onUnsupportedInternationalPaste",
+        "type": "(pasted: string) => void",
+        "required": false,
+        "origin": "own",
+        "description": "A pasted international number whose country is not offered; the value stays unchanged."
+      },
+      {
+        "name": "countryLabel",
+        "type": "(country: string, callingCode: string) => string",
+        "required": false,
+        "origin": "own",
+        "description": "The country button's name, from the country's name and its calling code (\"Country: Germany, +49\" by default, in\nthe provider locale). For an app that words it itself; pass it already localized."
+      },
+      {
+        "name": "countryListLabel",
+        "type": "string",
+        "required": false,
+        "origin": "own",
+        "description": "The country list's name (\"Country\" by default), also its popover's. Already localized.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "countrySearchLabel",
+        "type": "string",
+        "required": false,
+        "origin": "own",
+        "description": "The country search box's name (\"Search countries\" by default). Already localized.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "countryEmptyMessage",
+        "type": "(query: string) => ReactNode",
+        "required": false,
+        "origin": "own",
+        "description": "The country list's empty result for the typed search (\"No results for “{query}”.\" by default)."
+      },
+      {
+        "name": "suggestedCountriesLabel",
+        "type": "string",
+        "required": false,
+        "origin": "own",
+        "description": "The name of the country list's first section, the `suggestedCountries` (\"Suggested countries\" by default), which assistive tech\nreads as the section's name. Already localized.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "allCountriesLabel",
+        "type": "string",
+        "required": false,
+        "origin": "own",
+        "description": "The header above the rest of the list, shown when `suggestedCountries` are shown above it (\"All countries\" by\ndefault). Already localized.",
+        "schema": {
+          "type": "string"
+        }
       }
     ]
   },
@@ -1204,6 +1520,7 @@
     "ds-background-disabled",
     "ds-background-input",
     "ds-background-input-hovered",
+    "ds-background-neutral",
     "ds-background-neutral-pressed",
     "ds-background-neutral-subtle-hovered",
     "ds-border",
@@ -1212,6 +1529,9 @@
     "ds-border-focused",
     "ds-easing-standard",
     "ds-icon-subtle",
+    "ds-icon-success",
+    "ds-icon-warning",
+    "ds-radius-full",
     "ds-radius-medium",
     "ds-radius-small",
     "ds-size-control",
@@ -1227,11 +1547,27 @@
     "ds-text-disabled",
     "ds-text-subtle",
     "ds-text-subtlest",
+    "ds-text-success",
+    "ds-text-warning",
     "font-ds-mono"
   ],
   "strings": [
+    "clear",
+    "decrease",
+    "hidePassword",
+    "increase",
+    "noMatch",
     "optional",
-    "required"
+    "phoneAllCountries",
+    "phoneCountry",
+    "phoneCountryList",
+    "phoneCountrySearch",
+    "phoneSuggestedCountries",
+    "phoneTooLong",
+    "phoneTooShort",
+    "required",
+    "showPassword",
+    "strength"
   ],
   "quality": {
     "tests": true,

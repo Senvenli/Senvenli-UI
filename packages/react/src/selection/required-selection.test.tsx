@@ -2,7 +2,8 @@ import * as React from "react";
 import { act, cleanup, fireEvent, render, screen, within } from "@testing-library/react";
 import { afterEach, describe, expect, it, vi } from "vitest";
 
-import { Form, TextField } from "../form/index";
+import { Form } from "../form/index";
+import { TextField } from "../form/text-field";
 import { DesignSystemProvider } from "../provider";
 import { Autocomplete, Checkbox, CheckboxGroup, ComboBox, MultiSelect, RadioGroup, Select } from "./index";
 

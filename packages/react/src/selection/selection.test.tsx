@@ -9,7 +9,7 @@ import { FieldError as AriaFieldError, Input, TextField as AriaTextField } from 
 import { DesignSystemProvider } from "../provider";
 import { DS_STRINGS, rangeMaxLabel, rangeMinLabel, registerDsStrings } from "../i18n";
 import { IconGlyph } from "../display/icon";
-import { TextField } from "../form/index";
+import { TextField } from "../form/text-field";
 import { Checkbox, CheckboxGroup, Radio, RadioGroup, Slider, Switch } from "./index";
 import * as styles from "./styles";
 

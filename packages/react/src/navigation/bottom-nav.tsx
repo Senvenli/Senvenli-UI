@@ -50,8 +50,9 @@ function useKeyboardOpen() {
 }
 
 /**
- * The bottom tab bar on phones: four or five destinations, icon over label, padded for the home
- * indicator. Hidden from 768px up and while the on-screen keyboard is open; leave it out of
+ * The bottom tab bar: four or five destinations, icon over label, padded for the home indicator.
+ * Shown at every width; where it appears is the app's choice (render it on phones only, beside a
+ * Sidebar on wide screens…). Hidden while the on-screen keyboard is open; leave it out of
  * full-screen flows (checkout).
  */
 export function BottomNav({ items, currentKey, "aria-label": label }: BottomNavProps) {
@@ -63,7 +64,7 @@ export function BottomNav({ items, currentKey, "aria-label": label }: BottomNavP
       data-slot="bottom-nav"
       hidden={keyboard || undefined}
       className={cn(
-        "fixed inset-x-0 bottom-0 border-t border-ds-border bg-ds-surface-overlay shadow-ds-overflow md:hidden",
+        "fixed inset-x-0 bottom-0 border-t border-ds-border bg-ds-surface-overlay shadow-ds-overflow",
         // Safe-area insets are physical edges, so they pair with physical padding.
         "[padding-left:max(var(--ds-space-100),env(safe-area-inset-left,0px))] [padding-right:max(var(--ds-space-100),env(safe-area-inset-right,0px))] pt-ds-075 pb-[max(var(--ds-space-150),env(safe-area-inset-bottom,0px))]",
         LAYER.stickyBar,

@@ -221,6 +221,13 @@ describe("FileRow and FileUploadList", () => {
 });
 
 describe("Fab", () => {
+  it("iconOnly: a round icon button at every width, named by its label", () => {
+    inProvider(<Fab label="New order" icon="plus" iconOnly placement="inline" onPress={() => {}} />);
+    const fab = screen.getByRole("button", { name: "New order" });
+    expect(fab.hasAttribute("data-collapsed")).toBe(true);
+    expect(fab.querySelector('[data-slot="fab-label"]')).toBeNull();
+  });
+
   function setPhone(matches: boolean) {
     const listeners = new Set<() => void>();
     const media = { matches, addEventListener: (_: string, fn: () => void) => listeners.add(fn), removeEventListener: (_: string, fn: () => void) => listeners.delete(fn) };

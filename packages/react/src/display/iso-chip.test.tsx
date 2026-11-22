@@ -5,7 +5,7 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 
 import { DesignSystemProvider } from "../provider";
 import { IsoChip, type IsoChipProps } from "./index";
-import { PhoneField } from "../form";
+import { PhoneField } from "../form/phone-field";
 
 // The ISO/region code chip, exported from ./display for country and language pickers.
 

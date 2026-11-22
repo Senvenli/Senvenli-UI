@@ -4,7 +4,11 @@ import { cleanup, render } from "@testing-library/react";
 import { afterEach, describe, expect, it, vi } from "vitest";
 
 import { DesignSystemProvider } from "../provider";
-import { NumberField, PasswordField, SearchField, TextArea, TextField } from "./index";
+import { TextArea } from "./index";
+import { NumberField } from "./number-field";
+import { PasswordField } from "./password-field";
+import { SearchField } from "./search-field";
+import { TextField } from "./text-field";
 import { splitDataAttributes } from "./data-attributes";
 
 /**

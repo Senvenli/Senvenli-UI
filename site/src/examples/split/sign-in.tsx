@@ -1,6 +1,6 @@
 import { Button, Link } from "@senvenli/react/action";
 import { Heading, Text } from "@senvenli/react/display";
-import { Form, PasswordField, TextField } from "@senvenli/react/form";
+import { Form, Input } from "@senvenli/react/form";
 import { Split, SplitPane, Stack } from "@senvenli/react/layout";
 
 export default function Example() {
@@ -24,8 +24,8 @@ export default function Example() {
               <Text tone="subtle">Use your work email.</Text>
             </Stack>
             <Form onSubmit={(event) => event.preventDefault()}>
-              <TextField label="Email" name="email" type="email" autoComplete="email" isRequired />
-              <PasswordField label="Password" name="password" autoComplete="current-password" isRequired />
+              <Input label="Email" name="email" type="email" autoComplete="email" isRequired />
+              <Input type="password" label="Password" name="password" autoComplete="current-password" isRequired />
               <Button type="submit" variant="primary">Sign in</Button>
             </Form>
             <Link href="#reset" variant="subtle">Forgot your password?</Link>

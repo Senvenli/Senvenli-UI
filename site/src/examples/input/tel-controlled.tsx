@@ -1,5 +1,5 @@
 import { Text } from "@senvenli/react/display";
-import { PhoneField } from "@senvenli/react/form";
+import { Input } from "@senvenli/react/form";
 import { Stack } from "@senvenli/react/layout";
 import { useState } from "react";
 
@@ -8,7 +8,7 @@ export default function Example() {
   const [country, setCountry] = useState("GB");
   return (
     <Stack space="space-150">
-      <PhoneField
+      <Input type="tel"
         label="Billing phone"
         value={phone}
         country={country}

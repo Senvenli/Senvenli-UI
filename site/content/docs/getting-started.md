@@ -66,12 +66,12 @@ Components are grouped by family, each with its own import path:
 
 ```tsx
 import { Button } from "@senvenli/react/action";
-import { TextField } from "@senvenli/react/form";
+import { Input } from "@senvenli/react/form";
 
 export function Profile() {
   return (
     <form>
-      <TextField label="Full name" />
+      <Input label="Full name" />
       <Button type="submit" variant="primary">Save changes</Button>
     </form>
   );

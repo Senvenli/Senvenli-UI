@@ -3,7 +3,7 @@ import { act, cleanup, fireEvent, render, screen, waitFor, within } from "@testi
 import { afterEach, describe, expect, it, vi } from "vitest";
 
 import { Button } from "../action/index";
-import { TextField } from "../form/index";
+import { TextField } from "../form/text-field";
 import { DesignSystemProvider } from "../provider";
 import { Dialog, DialogTrigger, type DialogProps } from "./index";
 

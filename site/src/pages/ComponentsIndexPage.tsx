@@ -1,7 +1,7 @@
 import { Button, Link } from "@senvenli/react/action";
 import { Heading, Text } from "@senvenli/react/display";
 import { EmptyState } from "@senvenli/react/feedback";
-import { SearchField } from "@senvenli/react/form";
+import { Input } from "@senvenli/react/form";
 import { Pressable } from "@senvenli/react/layout";
 import { useMemo, useState } from "react";
 import { DocsLayout } from "../components/DocsLayout";
@@ -39,7 +39,7 @@ export function ComponentsIndexPage({ components }: { components: ManifestIndexE
         <div className="flex flex-col gap-ds-200">
           <div className="flex flex-wrap items-center gap-ds-300">
             <div className="w-full max-w-sm">
-              <SearchField aria-label="Filter components" placeholder="Filter by name or purpose" value={query} onChange={setQuery} />
+              <Input type="search" aria-label="Filter components" placeholder="Filter by name or purpose" value={query} onChange={setQuery} />
             </div>
             <Text size="body-small" tone="subtle">
               <span aria-live="polite">{words.length ? `${shown.length} of ${components.length}` : ""}</span>
