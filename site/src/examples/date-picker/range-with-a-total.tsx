@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { CalendarDate } from "@internationalized/date";
-import { DateRangePicker, type DateRangePickerValue } from "@senvenli/react/date";
+import { DatePicker, type DateRangePickerValue } from "@senvenli/react/date";
 
 const DAILY_BUDGET = 120;
 const usd = new Intl.NumberFormat("en", { style: "currency", currency: "USD", maximumFractionDigits: 0 });
@@ -10,7 +10,7 @@ export default function Example() {
   const [range, setRange] = useState<DateRangePickerValue | null>({ start: new CalendarDate(2026, 3, 18), end: new CalendarDate(2026, 3, 25) });
   const days = range ? range.end.compare(range.start) : 0;
   return (
-    <DateRangePicker
+    <DatePicker selectionMode="range"
       label="Campaign dates"
       startLabel="First day"
       endLabel="Last day"

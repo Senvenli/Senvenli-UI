@@ -14,18 +14,19 @@
     "date picker",
     "calendar",
     "date",
-    "popover"
+    "popover",
+    "date range",
+    "start end",
+    "period",
+    "trip dates",
+    "range picker"
   ],
   "usage": {
     "when": [
-      "Picking a date where seeing the month helps."
+      "Picking a date where seeing the month helps.",
+      "Picking a period: a stay, a trip, a report range."
     ],
-    "instead": [
-      {
-        "use": "date-range-picker",
-        "when": "A start and an end are picked together."
-      }
-    ]
+    "instead": []
   },
   "a11y": {
     "keyboard": [
@@ -36,16 +37,18 @@
     ],
     "builtIn": [
       "Unavailable days explain why.",
-      "Required fields show \"Fill in this field.\"; a partly typed date says what is missing."
+      "Required fields show \"Fill in this field.\"; a partly typed date says what is missing.",
+      "Both halves are labelled (\"Start\", \"End\") and typed independently.",
+      "The range may not cross an unavailable day unless allowed."
     ],
     "youProvide": [
-      "A visible label."
+      "A visible label.",
+      "A label for the range."
     ]
   },
   "related": [
     "calendar",
-    "date-field",
-    "date-range-picker"
+    "date-field"
   ],
   "genui": {
     "expose": true,

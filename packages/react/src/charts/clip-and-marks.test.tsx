@@ -4,7 +4,8 @@ import { afterEach, beforeAll, describe, expect, it, vi } from "vitest";
 
 import { DesignSystemProvider } from "../provider";
 import { AXIS_MAX, TICK_INSET, clipDirection, formattedValues, labelText, readsRightToLeft, textWidth, tickText, tickWrapWidth, valueAxisTicks } from "./axis-width";
-import { AreaChart, BarChart, ChartAnimation, LineChart, ScatterChart, WaterfallChart } from "./index";
+import { AreaChart, BarChart, ChartAnimation, LineChart, ScatterChart } from "./index";
+import { WaterfallChart } from "./report-charts";
 import { CategoryTick, NameTick, ValueTick, anchorFor, bandLines, clippedLine, edgeShift, isolatedLabel, lineDirection } from "./value-tick";
 
 /**

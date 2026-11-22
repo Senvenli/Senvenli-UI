@@ -6,7 +6,9 @@ import { afterEach, beforeAll, describe, expect, it, vi } from "vitest";
 import { DesignSystemProvider } from "../provider";
 import { contentLang, hasDsStrings, hasIntlData, intlLocale, nextMonthLabel, previousMonthLabel, registerDsStrings, todayLabel } from "../i18n";
 import { registerLocaleAliases } from "../intl-locale";
-import { Calendar, DateField, DateRangePicker, RangeCalendar, TimeField } from "./index";
+import { Calendar, DateField, TimeField } from "./index";
+import { DateRangePicker } from "./pickers";
+import { RangeCalendar } from "./calendar";
 import { breakAtLastSpace } from "./segments";
 
 /**

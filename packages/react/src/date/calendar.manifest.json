@@ -7,12 +7,10 @@
   "name": "calendar",
   "title": "Calendar",
   "exports": [
-    "Calendar",
-    "RangeCalendar"
+    "Calendar"
   ],
   "description": "A month grid to pick a date or a range, with markers, unavailable days and several visible months.",
   "keywords": [
-    "calendar",
     "month",
     "date",
     "range",
@@ -49,8 +47,7 @@
     ]
   },
   "related": [
-    "date-picker",
-    "date-range-picker"
+    "date-picker"
   ],
   "genui": {
     "expose": false

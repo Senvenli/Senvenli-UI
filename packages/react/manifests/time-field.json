@@ -203,14 +203,14 @@
       },
       {
         "name": "granularity",
-        "type": "\"hour\" | \"minute\"",
+        "type": "\"minute\" | \"hour\"",
         "required": false,
         "origin": "own",
         "schema": {
           "type": "string",
           "enum": [
-            "hour",
-            "minute"
+            "minute",
+            "hour"
           ]
         }
       },

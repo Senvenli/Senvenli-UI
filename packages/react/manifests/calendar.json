@@ -7,12 +7,10 @@
   "name": "calendar",
   "title": "Calendar",
   "exports": [
-    "Calendar",
-    "RangeCalendar"
+    "Calendar"
   ],
   "description": "A month grid to pick a date or a range, with markers, unavailable days and several visible months.",
   "keywords": [
-    "calendar",
     "month",
     "date",
     "range",
@@ -49,8 +47,7 @@
     ]
   },
   "related": [
-    "date-picker",
-    "date-range-picker"
+    "date-picker"
   ],
   "genui": {
     "expose": false
@@ -179,159 +176,6 @@
             2
           ]
         }
-      }
-    ],
-    "RangeCalendar": [
-      {
-        "name": "minValue",
-        "type": "CalendarDate",
-        "required": false,
-        "origin": "own"
-      },
-      {
-        "name": "maxValue",
-        "type": "CalendarDate",
-        "required": false,
-        "origin": "own"
-      },
-      {
-        "name": "isDateUnavailable",
-        "type": "(date: CalendarDate) => boolean",
-        "required": false,
-        "origin": "own",
-        "description": "Days that cannot be picked; they stay focusable and say why (`unavailableReason`)."
-      },
-      {
-        "name": "unavailableReason",
-        "type": "(date: CalendarDate) => string | undefined",
-        "required": false,
-        "origin": "own",
-        "description": "Why a day is unavailable (\"Closed\", \"Sold out\"); read with the day."
-      },
-      {
-        "name": "locale",
-        "type": "string",
-        "required": false,
-        "origin": "own",
-        "description": "Locale override; the DesignSystemProvider locale by default. Month and weekday names come from Intl.",
-        "schema": {
-          "type": "string"
-        }
-      },
-      {
-        "name": "firstDayOfWeek",
-        "type": "FirstDayOfWeek",
-        "required": false,
-        "origin": "own",
-        "description": "Overrides the locale's first day of the week.",
-        "schema": {
-          "type": "string",
-          "enum": [
-            "sun",
-            "mon",
-            "tue",
-            "wed",
-            "thu",
-            "fri",
-            "sat"
-          ]
-        }
-      },
-      {
-        "name": "timeZone",
-        "type": "string",
-        "required": false,
-        "origin": "own",
-        "description": "The time zone \"today\" is computed in (the location's); the device's by default.",
-        "schema": {
-          "type": "string"
-        }
-      },
-      {
-        "name": "aria-label",
-        "type": "string",
-        "required": false,
-        "origin": "own",
-        "description": "Names the calendar (\"Start date\").",
-        "schema": {
-          "type": "string"
-        }
-      },
-      {
-        "name": "defaultFocusedValue",
-        "type": "CalendarDate",
-        "required": false,
-        "origin": "own",
-        "description": "The month that opens while nothing is chosen (any day in it). A prerendered page passes a fixed one, so the HTML\ndoes not depend on the build day; left out, the month of \"today\" (in `timeZone` when given)."
-      },
-      {
-        "name": "value",
-        "type": "DateRange",
-        "required": false,
-        "origin": "own"
-      },
-      {
-        "name": "defaultValue",
-        "type": "DateRange",
-        "required": false,
-        "origin": "own"
-      },
-      {
-        "name": "onChange",
-        "type": "(value: DateRange) => void",
-        "required": false,
-        "origin": "own"
-      },
-      {
-        "name": "allowsNonContiguousRanges",
-        "type": "boolean",
-        "required": false,
-        "origin": "own",
-        "default": "false",
-        "description": "Keep this false when a range may not cross an unavailable day (stays, trips, equipment hire).",
-        "schema": {
-          "type": "boolean"
-        }
-      },
-      {
-        "name": "minDuration",
-        "type": "number",
-        "required": false,
-        "origin": "own",
-        "description": "Shortest and longest range in days (end − start).",
-        "schema": {
-          "type": "number"
-        }
-      },
-      {
-        "name": "maxDuration",
-        "type": "number",
-        "required": false,
-        "origin": "own",
-        "schema": {
-          "type": "number"
-        }
-      },
-      {
-        "name": "visibleMonths",
-        "type": "1 | 2",
-        "required": false,
-        "origin": "own",
-        "default": "2",
-        "description": "Two months side by side (from 720px), one below on narrow screens; default 2.",
-        "schema": {
-          "enum": [
-            1,
-            2
-          ]
-        }
-      },
-      {
-        "name": "action",
-        "type": "React.ReactNode",
-        "required": false,
-        "origin": "own",
-        "description": "In a popover: the footer shows the chosen range and its length beside this action (\"Apply dates\")."
       }
     ]
   },

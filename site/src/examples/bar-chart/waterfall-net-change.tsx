@@ -1,8 +1,8 @@
-import { WaterfallChart } from "@senvenli/react/charts";
+import { BarChart } from "@senvenli/react/charts";
 
 export default function Example() {
   return (
-    <WaterfallChart
+    <BarChart type="waterfall"
       title="Customer movement"
       period="March 2026"
       steps={[

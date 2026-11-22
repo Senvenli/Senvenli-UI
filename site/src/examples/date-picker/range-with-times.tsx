@@ -1,9 +1,9 @@
 import { CalendarDateTime } from "@internationalized/date";
-import { DateRangePicker } from "@senvenli/react/date";
+import { DatePicker } from "@senvenli/react/date";
 
 export default function Example() {
   return (
-    <DateRangePicker
+    <DatePicker selectionMode="range"
       label="Maintenance window"
       description="Times are in the data center's zone."
       granularity="hour"

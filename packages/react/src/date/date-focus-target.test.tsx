@@ -6,7 +6,8 @@ import { CalendarDate, Time } from "@internationalized/date";
 import { afterEach, describe, expect, it, vi } from "vitest";
 
 import { DesignSystemProvider } from "../provider";
-import { DateField, DatePicker, DateRangePicker, TimeField } from "./index";
+import { DateField, DatePicker, TimeField } from "./index";
+import { DateRangePicker } from "./pickers";
 
 afterEach(cleanup);
 

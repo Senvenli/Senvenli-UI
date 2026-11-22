@@ -5,7 +5,8 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 
 import { DesignSystemProvider } from "../provider";
 import { Form } from "../form/index";
-import { DateField, DateRangePicker, TimeField, type DateRangePickerValue } from "./index";
+import { DateField, TimeField, type DateRangePickerValue } from "./index";
+import { DateRangePicker } from "./pickers";
 
 /**
  * A time typed in part is no time: DateField, DatePicker and DateRangePicker report an incomplete

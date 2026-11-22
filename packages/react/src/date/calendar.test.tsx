@@ -7,7 +7,8 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import { Button } from "../action/index";
 import { DS_STRINGS, registerDsStrings } from "../i18n";
 import { DesignSystemProvider } from "../provider";
-import { Calendar, RangeCalendar } from "./index";
+import { Calendar } from "./index";
+import { RangeCalendar } from "./calendar";
 
 afterEach(cleanup);
 

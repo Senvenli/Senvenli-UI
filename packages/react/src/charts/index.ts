@@ -22,10 +22,11 @@ export type {
   ChartTooltipProps,
   ChartValueFormatter,
 } from "./chart-parts";
-export { AreaChart, BarChart, ComposedChart, LineChart } from "./core-charts";
+export { AreaChart, ComposedChart, LineChart } from "./core-charts";
+export { BarChart } from "./bar-public";
+export type { BarChartProps, BarChartWaterfallProps } from "./bar-public";
 export type {
   AreaChartProps,
-  BarChartProps,
   ChartBaseProps,
   ChartReferenceLine,
   ComposedChartProps,
@@ -55,5 +56,5 @@ export type {
   TrackerProps,
   TrackerTone,
 } from "./list-charts";
-export { SeasonalityHeatmap, WaterfallChart } from "./report-charts";
-export type { SeasonalityHeatmapCell, SeasonalityHeatmapProps, WaterfallChartProps, WaterfallChartStep } from "./report-charts";
+export { SeasonalityHeatmap } from "./report-charts";
+export type { SeasonalityHeatmapCell, SeasonalityHeatmapProps, WaterfallChartStep } from "./report-charts";

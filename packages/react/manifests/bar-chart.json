@@ -15,11 +15,15 @@
     "bar",
     "column",
     "compare",
-    "stacked"
+    "stacked",
+    "waterfall",
+    "bridge",
+    "variance"
   ],
   "usage": {
     "when": [
-      "Comparing values across categories or periods."
+      "Comparing values across categories or periods.",
+      "Explaining a change between two totals."
     ],
     "instead": [
       {
@@ -43,8 +47,7 @@
     ]
   },
   "related": [
-    "bar-list",
-    "waterfall-chart"
+    "bar-list"
   ],
   "genui": {
     "expose": true,

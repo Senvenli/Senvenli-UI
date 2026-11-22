@@ -6,7 +6,8 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import type { TimeValue } from "react-aria-components";
 
 import { DesignSystemProvider } from "../provider";
-import { DateField, DatePicker, DateRangePicker, TimeField, type DateRangePickerValue } from "./index";
+import { DateField, DatePicker, TimeField, type DateRangePickerValue } from "./index";
+import { DateRangePicker } from "./pickers";
 
 /**
  * The value a field reports matches its parts on screen, once per change. A part typed to complete a

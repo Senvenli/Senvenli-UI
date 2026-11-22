@@ -180,7 +180,10 @@
       "bar",
       "column",
       "compare",
-      "stacked"
+      "stacked",
+      "waterfall",
+      "bridge",
+      "variance"
     ],
     "import": "@senvenli/react/charts",
     "exports": [
@@ -442,24 +445,6 @@
     "genui": false
   },
   {
-    "name": "waterfall-chart",
-    "title": "Waterfall chart",
-    "family": "charts",
-    "status": "alpha",
-    "description": "How a starting value becomes an end value through increases and decreases.",
-    "keywords": [
-      "chart",
-      "waterfall",
-      "bridge",
-      "variance"
-    ],
-    "import": "@senvenli/react/charts",
-    "exports": [
-      "WaterfallChart"
-    ],
-    "genui": false
-  },
-  {
     "name": "data-table",
     "title": "Data table",
     "family": "collection",
@@ -618,7 +603,6 @@
     "status": "alpha",
     "description": "A month grid to pick a date or a range, with markers, unavailable days and several visible months.",
     "keywords": [
-      "calendar",
       "month",
       "date",
       "range",
@@ -626,8 +610,7 @@
     ],
     "import": "@senvenli/react/date",
     "exports": [
-      "Calendar",
-      "RangeCalendar"
+      "Calendar"
     ],
     "genui": false
   },
@@ -659,21 +642,7 @@
       "date picker",
       "calendar",
       "date",
-      "popover"
-    ],
-    "import": "@senvenli/react/date",
-    "exports": [
-      "DatePicker"
-    ],
-    "genui": true
-  },
-  {
-    "name": "date-range-picker",
-    "title": "Date range picker",
-    "family": "date",
-    "status": "alpha",
-    "description": "A start and an end in one control over one calendar (two months on wide screens), with optional times.",
-    "keywords": [
+      "popover",
       "date range",
       "start end",
       "period",
@@ -682,7 +651,7 @@
     ],
     "import": "@senvenli/react/date",
     "exports": [
-      "DateRangePicker"
+      "DatePicker"
     ],
     "genui": true
   },
