@@ -219,7 +219,6 @@
   },
   "tokens": [
     "ds-background-brand-bold",
-    "ds-background-brand-subtle",
     "ds-background-disabled",
     "ds-background-input",
     "ds-background-input-hovered",
@@ -255,7 +254,6 @@
     "ds-surface-overlay",
     "ds-surface-raised",
     "ds-text",
-    "ds-text-brand",
     "ds-text-disabled",
     "ds-text-on-brand",
     "ds-text-subtle",

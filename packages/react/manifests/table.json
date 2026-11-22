@@ -7,8 +7,7 @@
   "name": "table",
   "title": "Table",
   "exports": [
-    "Table",
-    "TableCellStack"
+    "Table"
   ],
   "description": "Records people scan, compare, sort and act on: sortable columns, row selection by checkbox, a row that opens its record.",
   "keywords": [
@@ -333,33 +332,6 @@
           "type": "string"
         }
       }
-    ],
-    "TableCellStack": [
-      {
-        "name": "primary",
-        "type": "React.ReactNode",
-        "required": true,
-        "origin": "own"
-      },
-      {
-        "name": "secondary",
-        "type": "React.ReactNode",
-        "required": false,
-        "origin": "own"
-      },
-      {
-        "name": "isCode",
-        "type": "\"primary\" | \"secondary\"",
-        "required": false,
-        "origin": "own",
-        "schema": {
-          "type": "string",
-          "enum": [
-            "primary",
-            "secondary"
-          ]
-        }
-      }
     ]
   },
   "tokens": [
@@ -385,8 +357,7 @@
     "ds-surface-sunken",
     "ds-text",
     "ds-text-subtle",
-    "ds-text-subtlest",
-    "font-ds-mono"
+    "ds-text-subtlest"
   ],
   "strings": [
     "selection"

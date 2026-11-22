@@ -297,10 +297,10 @@
     "ds-surface-sunken",
     "ds-text",
     "ds-text-subtle",
-    "ds-text-subtlest",
-    "font-ds-mono"
+    "ds-text-subtlest"
   ],
   "strings": [
+    "retry",
     "selection",
     "tableClearFilters",
     "tableColumns",

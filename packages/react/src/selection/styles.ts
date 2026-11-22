@@ -51,7 +51,6 @@ export const RADIO_DOT =
   "group-data-[selected]:group-data-[invalid]:group-data-[focus-visible]:border-ds-border-focused " +
   "group-data-[disabled]:group-data-[selected]:border-ds-border-bold";
 
-/** The recommended-option mark on a RadioCard: a brand Lozenge (20px, `ds-radius-xsmall`, 12/16 semibold). */
 export const SWITCH_TRACK =
   "relative mt-0.5 h-5 w-8 shrink-0 rounded-ds-full bg-ds-background-neutral-pressed " +
   "transition-colors duration-(--ds-duration-fast) ease-ds-standard motion-reduce:transition-none " +

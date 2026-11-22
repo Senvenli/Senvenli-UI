@@ -77,13 +77,14 @@
           "type": "string",
           "enum": [
             "bold",
-            "subtle"
+            "subtle",
+            "plain"
           ],
-          "description": "`bold` for the one status on the screen that needs attention now."
+          "description": "`bold` for the one status on the screen that needs attention now; `plain` for a live system state."
         },
         "hasDot": {
           "type": "boolean",
-          "description": "A 6px dot for live states (online, live)."
+          "description": "A 6px dot inside a pill (subtle or bold), for live states. `plain` always has its dot."
         }
       }
     }
@@ -93,13 +94,6 @@
   ],
   "props": {
     "Lozenge": [
-      {
-        "name": "children",
-        "type": "React.ReactNode",
-        "required": true,
-        "origin": "own",
-        "description": "The status word, sentence case (\"Payment pending\"); the word carries the meaning, never the colour."
-      },
       {
         "name": "tone",
         "type": "LozengeTone",
@@ -125,12 +119,13 @@
         "required": false,
         "origin": "own",
         "default": "\"subtle\"",
-        "description": "`bold` for the one status on the screen that needs attention now.",
+        "description": "`bold` for the one status on the screen that needs attention now; `plain` for a live system state.",
         "schema": {
           "type": "string",
           "enum": [
             "bold",
-            "subtle"
+            "subtle",
+            "plain"
           ]
         }
       },
@@ -139,9 +134,36 @@
         "type": "boolean",
         "required": false,
         "origin": "own",
-        "description": "A 6px dot for live states (online, live).",
+        "description": "A 6px dot inside a pill (subtle or bold), for live states. `plain` always has its dot.",
         "schema": {
           "type": "boolean"
+        }
+      },
+      {
+        "name": "isLive",
+        "type": "boolean",
+        "required": false,
+        "origin": "own",
+        "description": "`plain` only: a 3px halo for a state that is active right now (connected, syncing).",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "children",
+        "type": "React.ReactNode",
+        "required": false,
+        "origin": "own",
+        "description": "The status word, sentence case (\"Payment pending\"); the word carries the meaning, never the colour."
+      },
+      {
+        "name": "aria-label",
+        "type": "string",
+        "required": false,
+        "origin": "own",
+        "description": "`plain` only, where a visible word is impossible (a dense table cell with its own column header).",
+        "schema": {
+          "type": "string"
         }
       }
     ]
@@ -159,10 +181,18 @@
     "ds-background-success-bold",
     "ds-background-warning",
     "ds-background-warning-bold",
+    "ds-icon-brand",
+    "ds-icon-danger",
+    "ds-icon-information",
+    "ds-icon-subtle",
+    "ds-icon-success",
+    "ds-icon-warning",
     "ds-radius-full",
     "ds-radius-xsmall",
     "ds-space-050",
     "ds-space-075",
+    "ds-space-100",
+    "ds-text",
     "ds-text-brand",
     "ds-text-danger",
     "ds-text-information",
