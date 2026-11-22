@@ -5,9 +5,9 @@ export default function Example() {
   // The arrow keys move the selection with the focus, as in an inbox.
   return (
     <List aria-label="Conversations" selectionMode="single" selectionBehavior="replace" defaultSelectedKeys={["ada"]}>
-      <ListItem id="ada" leading={<Avatar name="Ada Lovelace" size="small" />} title="Ada Lovelace" description="Where is my order?" />
-      <ListItem id="grace" leading={<Avatar name="Grace Hopper" size="small" />} title="Grace Hopper" description="Thanks, that fixed it." />
-      <ListItem id="alan" leading={<Avatar name="Alan Turing" size="small" />} title="Alan Turing" description="Can I change the delivery address?" />
+      <ListItem id="sofia" leading={<Avatar name="Sofia Marin" src="/avatars/05.webp" size="small" />} title="Sofia Marin" description="Where is my order?" />
+      <ListItem id="claire" leading={<Avatar name="Claire Dubois" src="/avatars/07.webp" size="small" />} title="Claire Dubois" description="Thanks, that fixed it." />
+      <ListItem id="jamal" leading={<Avatar name="Jamal Carter" src="/avatars/08.webp" size="small" />} title="Jamal Carter" description="Can I change the delivery address?" />
     </List>
   );
 }
