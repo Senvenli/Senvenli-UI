@@ -1,7 +1,8 @@
 import { Button } from "@senvenli/react/action";
-import { Card, CardBody, CardHeader, IsoChip } from "@senvenli/react/display";
+import { Card, CardBody, CardHeader, Heading, IsoChip, Text } from "@senvenli/react/display";
+import { EmptyState, useCooldownAction } from "@senvenli/react/feedback";
 import { Form, PasswordField, TextField } from "@senvenli/react/form";
-import { AuthFormLayout, ResetSentCard } from "@senvenli/react/layout";
+import { Stack } from "@senvenli/react/layout";
 import { LanguageSwitcher } from "@senvenli/react/navigation";
 import { useState } from "react";
 
@@ -9,7 +10,24 @@ const LOCALES = ["en", "de", "fr", "es", "tr", "ar"] as const;
 type Locale = (typeof LOCALES)[number];
 const REGION: Record<Locale, string> = { en: "GB", de: "DE", fr: "FR", es: "ES", tr: "TR", ar: "SA" };
 
-/** The auth pattern and the language switcher, with and without an app-supplied mark. */
+function CheckInbox() {
+  const resend = useCooldownAction(() => new Promise((done) => setTimeout(done, 800)), 60, 60);
+  return (
+    <EmptyState
+      size="compact"
+      icon="mail-check"
+      title="Check your inbox"
+      description="If an account exists for that email, we sent a link to reset the password."
+      primaryAction={
+        <Button isDisabled={resend.remaining > 0} isPending={resend.isPending} onPress={() => void resend.run()}>
+          {resend.remaining > 0 ? `Resend in ${resend.remaining}s` : "Resend link"}
+        </Button>
+      }
+    />
+  );
+}
+
+/** A sign-in form and its confirmation, and the language switcher with and without an app-supplied mark. */
 export function AuthPreview() {
   const [locale, setLocale] = useState<Locale>("en");
   return (
@@ -25,31 +43,22 @@ export function AuthPreview() {
       </Card>
 
       <Card>
-        <CardHeader title="Auth" subtitle="AuthFormLayout, ResetSentCard" />
+        <CardHeader title="Sign in" subtitle="A Form, and an EmptyState with a resend that waits" />
         <CardBody>
-          <div className="flex flex-col gap-ds-300">
-            <AuthFormLayout
-              title="Sign in"
-              description="Welcome back. Use your work email."
-              headerSlot={<LanguageSwitcher locales={LOCALES} current={locale} onSelect={setLocale} size="sm" />}
-              footerSlot={<span className="text-body-small text-ds-text-subtle">No account yet? Ask your admin for an invite.</span>}
-            >
+          <Stack space="space-400">
+            <Stack space="space-300">
+              <Stack space="space-075">
+                <Heading level={3} size="heading-medium">Sign in</Heading>
+                <Text tone="subtle">Welcome back. Use your work email.</Text>
+              </Stack>
               <Form onSubmit={(event) => event.preventDefault()}>
                 <TextField label="Email" type="email" isRequired />
                 <PasswordField label="Password" autoComplete="current-password" isRequired />
                 <Button type="submit" variant="primary">Sign in</Button>
               </Form>
-            </AuthFormLayout>
-            <ResetSentCard
-              labels={{
-                title: "Check your inbox",
-                description: "If an account exists for that email, we sent a link to reset the password.",
-                resend: "Resend link",
-                resendIn: (seconds) => `Resend in ${seconds}s`,
-              }}
-              onResend={() => new Promise((resolve) => setTimeout(resolve, 800))}
-            />
-          </div>
+            </Stack>
+            <CheckInbox />
+          </Stack>
         </CardBody>
       </Card>
     </>

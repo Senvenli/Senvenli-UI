@@ -1402,42 +1402,6 @@
     "genui": true
   },
   {
-    "name": "auth-form-layout",
-    "title": "Auth form layout",
-    "family": "layout",
-    "status": "alpha",
-    "description": "The credentials panel: a header slot, a compact brand header on mobile, the title and description, the form, and rows beneath it.",
-    "keywords": [
-      "auth",
-      "sign in",
-      "form",
-      "card"
-    ],
-    "import": "@senvenli/react/layout",
-    "exports": [
-      "AuthFormLayout"
-    ],
-    "genui": false
-  },
-  {
-    "name": "auth-layout",
-    "title": "Auth layout",
-    "family": "layout",
-    "status": "alpha",
-    "description": "The sign-in split screen: a brand or narrative pane beside a centered credentials pane; one column on small screens.",
-    "keywords": [
-      "auth",
-      "sign in",
-      "login",
-      "split screen"
-    ],
-    "import": "@senvenli/react/layout",
-    "exports": [
-      "AuthLayout"
-    ],
-    "genui": false
-  },
-  {
     "name": "box",
     "title": "Box",
     "family": "layout",
@@ -1514,24 +1478,6 @@
     "genui": false
   },
   {
-    "name": "reset-sent-card",
-    "title": "Reset sent card",
-    "family": "layout",
-    "status": "alpha",
-    "description": "The \"check your inbox\" confirmation after a reset link is requested: an enumeration-safe message and a rate-limited resend.",
-    "keywords": [
-      "password reset",
-      "email sent",
-      "resend",
-      "auth"
-    ],
-    "import": "@senvenli/react/layout",
-    "exports": [
-      "ResetSentCard"
-    ],
-    "genui": false
-  },
-  {
     "name": "section",
     "title": "Section",
     "family": "layout",
@@ -1550,6 +1496,29 @@
       "Section",
       "Container",
       "SectionHead"
+    ],
+    "genui": false
+  },
+  {
+    "name": "split",
+    "title": "Split",
+    "family": "layout",
+    "status": "alpha",
+    "description": "Panes side by side that stack below a width of the layout itself: split screens, list and detail, media and text.",
+    "keywords": [
+      "split screen",
+      "two column",
+      "columns",
+      "sign in",
+      "login",
+      "auth",
+      "list detail",
+      "sidebar"
+    ],
+    "import": "@senvenli/react/layout",
+    "exports": [
+      "Split",
+      "SplitPane"
     ],
     "genui": false
   },
