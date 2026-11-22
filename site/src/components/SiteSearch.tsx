@@ -3,7 +3,7 @@ import { Icon, Kbd } from "@senvenli/react/display";
 import { Pressable } from "@senvenli/react/layout";
 import { Command, type CommandGroup, type CommandItem } from "@senvenli/react/overlay";
 import { useEffect, useMemo, useState } from "react";
-import { familyTitle, type ManifestIndexEntry } from "../lib/manifest";
+import type { ManifestIndexEntry } from "../lib/manifest";
 
 const RECENT_KEY = "ds-site-recent";
 
@@ -36,7 +36,6 @@ export function SiteSearch({ components, docs = [], onNavigate }: { components: 
         items: components.map((item) => ({
           id: `/docs/components/${item.name}`,
           label: item.title,
-          detail: familyTitle(item.family),
           kind: "page" as const,
           keywords: [item.family, ...item.description.toLowerCase().split(/\W+/).filter((word) => word.length > 3)],
         })),

@@ -5,4 +5,6 @@ export default [
   { id: "unavailable-days", title: "Unavailable days and markers", description: "Closed days stay visible and say why; a dot marks days worth a look." },
   { id: "bounds", title: "With a range", description: "Days outside `minValue` and `maxValue` cannot be picked or typed." },
   { id: "month", title: "A month", description: "For a report period: the popover is a grid of months." },
+  { id: "spanish", title: "In Spanish", description: "The locale names the months and days and orders the date; the label is yours." },
+  { id: "arabic", title: "In Arabic, right to left", description: "`dir=\"rtl\"` mirrors the field and the calendar; digits follow the locale." },
 ] satisfies ExampleMeta[];
