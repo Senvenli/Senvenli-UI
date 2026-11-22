@@ -23,6 +23,16 @@
   "usage": {
     "when": [
       "A custom input needs prefix or suffix text, icons or buttons."
+    ],
+    "instead": [
+      {
+        "use": "input",
+        "when": "No addon or action is needed; `type` already covers search, password and phone."
+      },
+      {
+        "use": "combobox",
+        "when": "The addon is a choice from a list."
+      }
     ]
   },
   "a11y": {

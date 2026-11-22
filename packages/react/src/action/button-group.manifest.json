@@ -20,6 +20,16 @@
     "when": [
       "Two to four related actions belong together.",
       "A main action has a menu of variants (split)."
+    ],
+    "instead": [
+      {
+        "use": "toggle-button",
+        "when": "The buttons hold a pressed state, such as a view or format choice."
+      },
+      {
+        "use": "toolbar",
+        "when": "A longer row of controls above a list or editor."
+      }
     ]
   },
   "a11y": {

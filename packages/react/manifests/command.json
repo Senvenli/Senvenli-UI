@@ -23,6 +23,16 @@
   "usage": {
     "when": [
       "An app with many pages and actions people want to reach by typing."
+    ],
+    "instead": [
+      {
+        "use": "combobox",
+        "when": "People pick a value for a field, not an action or a record."
+      },
+      {
+        "use": "menu",
+        "when": "A short fixed list of actions under a button."
+      }
     ]
   },
   "a11y": {

@@ -19,6 +19,16 @@
   "usage": {
     "when": [
       "Tiles or cards in columns."
+    ],
+    "instead": [
+      {
+        "use": "stack",
+        "when": "Children stack in one column or row."
+      },
+      {
+        "use": "split",
+        "when": "Two or three panes need different widths."
+      }
     ]
   },
   "a11y": {

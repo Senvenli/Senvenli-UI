@@ -19,6 +19,16 @@
   "usage": {
     "when": [
       "Finding busy and quiet times."
+    ],
+    "instead": [
+      {
+        "use": "calendar-heatmap",
+        "when": "The pattern is by date across weeks."
+      },
+      {
+        "use": "bar-chart",
+        "when": "Only one cyclic dimension matters, such as the weekday."
+      }
     ]
   },
   "a11y": {

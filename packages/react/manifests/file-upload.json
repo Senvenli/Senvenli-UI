@@ -23,6 +23,16 @@
   "usage": {
     "when": [
       "People add documents or photos to a form or record."
+    ],
+    "instead": [
+      {
+        "use": "image-cropper",
+        "when": "One picture must be framed to a fixed shape before it is saved."
+      },
+      {
+        "use": "input",
+        "when": "A link or path to the file is typed instead of picked."
+      }
     ]
   },
   "a11y": {

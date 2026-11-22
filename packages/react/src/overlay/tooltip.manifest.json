@@ -27,6 +27,10 @@
       {
         "use": "popover",
         "when": "The content is interactive or long."
+      },
+      {
+        "use": "hover-card",
+        "when": "The hint is rich content, such as a profile, and opens from a link."
       }
     ]
   },

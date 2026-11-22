@@ -23,6 +23,16 @@
   "usage": {
     "when": [
       "Building a chart the library does not have, so it looks and reads like the others."
+    ],
+    "instead": [
+      {
+        "use": "composed-chart",
+        "when": "Bars and lines on one plot cover the need without custom parts."
+      },
+      {
+        "use": "bar-chart",
+        "when": "A standard chart is enough."
+      }
     ]
   },
   "a11y": {

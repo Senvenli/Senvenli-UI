@@ -20,6 +20,16 @@
   "usage": {
     "when": [
       "A long list or pane must stay within a fixed height."
+    ],
+    "instead": [
+      {
+        "use": "data-table",
+        "when": "Rows need a sticky header, paging and their own scrolling."
+      },
+      {
+        "use": "drawer",
+        "when": "Long side content belongs in a panel opened on demand."
+      }
     ]
   },
   "a11y": {

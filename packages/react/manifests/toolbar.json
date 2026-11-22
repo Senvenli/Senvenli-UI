@@ -23,6 +23,16 @@
     "when": [
       "Filters, search and actions above a list.",
       "Actions on selected rows (BulkBar)."
+    ],
+    "instead": [
+      {
+        "use": "button-group",
+        "when": "Two or three related buttons, not a full row of controls."
+      },
+      {
+        "use": "menu",
+        "when": "The actions fit under one button."
+      }
     ]
   },
   "a11y": {

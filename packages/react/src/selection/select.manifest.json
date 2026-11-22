@@ -38,6 +38,10 @@
       {
         "use": "checkbox",
         "when": "A few options should all stay visible."
+      },
+      {
+        "use": "list-box",
+        "when": "The options should stay visible on the page, not in a dropdown."
       }
     ]
   },

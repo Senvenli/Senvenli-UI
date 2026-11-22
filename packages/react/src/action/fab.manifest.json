@@ -19,6 +19,16 @@
   "usage": {
     "when": [
       "One main task must stay reachable while people scroll: contact, new item."
+    ],
+    "instead": [
+      {
+        "use": "button",
+        "when": "The action fits in the page header or a toolbar and need not float."
+      },
+      {
+        "use": "bottom-nav",
+        "when": "People switch between top destinations rather than start a task."
+      }
     ]
   },
   "guidance": [

@@ -25,6 +25,10 @@
       {
         "use": "select",
         "when": "There are many options."
+      },
+      {
+        "use": "list-box",
+        "when": "Options need icons or descriptions, or several may be picked, in a visible list."
       }
     ]
   },

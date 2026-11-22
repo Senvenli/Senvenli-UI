@@ -19,6 +19,20 @@
   "usage": {
     "when": [
       "One figure against a goal: utilization, a quota."
+    ],
+    "instead": [
+      {
+        "use": "meter",
+        "when": "A compact bar with warning and danger thresholds fits better in a row or card."
+      },
+      {
+        "use": "progress",
+        "when": "The value is how far a task has got."
+      },
+      {
+        "use": "stat",
+        "when": "The figure and its change matter more than its range."
+      }
     ]
   },
   "a11y": {

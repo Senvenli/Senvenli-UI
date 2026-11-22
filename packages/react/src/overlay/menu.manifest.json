@@ -23,6 +23,20 @@
   "usage": {
     "when": [
       "Several actions for one object that don't all fit as buttons."
+    ],
+    "instead": [
+      {
+        "use": "context-menu",
+        "when": "The actions belong to what is under the pointer."
+      },
+      {
+        "use": "select",
+        "when": "People pick a value, not run an action."
+      },
+      {
+        "use": "button-group",
+        "when": "Two or three actions that fit as visible buttons."
+      }
     ]
   },
   "guidance": [

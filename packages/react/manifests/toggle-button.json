@@ -27,6 +27,10 @@
       {
         "use": "switch",
         "when": "The choice is a setting that applies immediately."
+      },
+      {
+        "use": "tabs",
+        "when": "The choice switches between views of the same content; use SegmentedControl from Tabs."
       }
     ]
   },

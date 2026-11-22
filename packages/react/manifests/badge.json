@@ -35,7 +35,16 @@
       "Showing how many items need attention.",
       "Marking a country or language next to its name."
     ],
-    "instead": []
+    "instead": [
+      {
+        "use": "tag-group",
+        "when": "The labels can be removed or selected."
+      },
+      {
+        "use": "avatar",
+        "when": "The label is a person or a company."
+      }
+    ]
   },
   "guidance": [
     {

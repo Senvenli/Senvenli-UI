@@ -21,6 +21,16 @@
   "usage": {
     "when": [
       "Long content people scan by heading, like an FAQ."
+    ],
+    "instead": [
+      {
+        "use": "tabs",
+        "when": "Views are parallel and only one shows at a time."
+      },
+      {
+        "use": "tree",
+        "when": "The sections nest more than one level."
+      }
     ]
   },
   "a11y": {

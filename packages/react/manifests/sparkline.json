@@ -19,6 +19,16 @@
   "usage": {
     "when": [
       "A trend beside a stat or in a table cell."
+    ],
+    "instead": [
+      {
+        "use": "line-chart",
+        "when": "Readers need axes, values or several series."
+      },
+      {
+        "use": "stat",
+        "when": "The current figure and its change are enough."
+      }
     ]
   },
   "a11y": {

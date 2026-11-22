@@ -20,6 +20,16 @@
   "usage": {
     "when": [
       "A list or view has nothing to show yet, no results, or failed to load (tone=\"danger\")."
+    ],
+    "instead": [
+      {
+        "use": "banner",
+        "when": "Content is present and a message about it is needed."
+      },
+      {
+        "use": "skeleton",
+        "when": "The content is still loading."
+      }
     ]
   },
   "guidance": [
