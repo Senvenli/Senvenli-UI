@@ -12,12 +12,12 @@ export default function Example() {
         <SkeletonGroup label="Loading customer" loadedLabel="Customer" isLoading={isLoading}>
           <Inline space="space-150" wrap={false}>
             <SkeletonCircle size={32} isLoaded={!isLoading}>
-              <Avatar name="Ada Lovelace" />
+              <Avatar name="Sofia Marin" src="/avatars/05.webp" />
             </SkeletonCircle>
             <div className="min-w-0 flex-1">
               <SkeletonText lines={2} isLoaded={!isLoading}>
                 <Stack>
-                  <Text weight="medium">Ada Lovelace</Text>
+                  <Text weight="medium">Sofia Marin</Text>
                   <Text size="body-small" tone="subtle">ada@example.com</Text>
                 </Stack>
               </SkeletonText>

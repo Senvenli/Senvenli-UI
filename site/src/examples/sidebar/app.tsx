@@ -36,8 +36,8 @@ export default function Example() {
         ]}
         footer={
           <Inline space="space-100" wrap={false}>
-            <Avatar name="Ada Lovelace" size="small" />
-            <Text>Ada Lovelace</Text>
+            <Avatar name="Sofia Marin" src="/avatars/05.webp" size="small" />
+            <Text>Sofia Marin</Text>
           </Inline>
         }
       />
