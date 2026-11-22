@@ -4,6 +4,7 @@ import { renderToStaticMarkup } from "react-dom/server";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import { Button } from "../action/index";
+import { Menu } from "../overlay/index";
 import { DesignSystemProvider } from "../provider";
 import { Dock, Navbar, Sidebar, sidebarScript, type SidebarItem } from "./index";
 
@@ -55,14 +56,36 @@ const LANGUAGES = {
   ],
 };
 
+/** A language menu as an app puts one in the Navbar's end actions: the code on a subtle button, each language a link. */
+function LanguageMenu() {
+  const active = LANGUAGES.items.find((item) => item.code === LANGUAGES.current)!;
+  return (
+    <Menu
+      aria-label="Language"
+      selectionMode="single"
+      selectedKeys={[LANGUAGES.current]}
+      items={LANGUAGES.items.map((item) => ({ id: item.code, label: item.label, href: item.href, lang: item.code }))}
+      trigger={
+        <Button variant="subtle" size="compact" iconBefore="globe" aria-label={`Language: ${active.label} (${LANGUAGES.current.toUpperCase()})`} data-slot="navbar-language">
+          <span aria-hidden>{LANGUAGES.current.toUpperCase()}</span>
+        </Button>
+      }
+    />
+  );
+}
+
 function SiteNavbar(props: Partial<React.ComponentProps<typeof Navbar>>) {
   return (
     <Navbar
       brand={<span>Acme</span>}
       links={LINKS}
       currentKey="pricing"
-      languages={LANGUAGES}
-      endActions={<Button variant="primary">Get started</Button>}
+      endActions={
+        <>
+          <LanguageMenu />
+          <Button variant="primary">Get started</Button>
+        </>
+      }
       {...props}
     />
   );
@@ -124,7 +147,16 @@ describe("Navbar", () => {
 
   it("any link in the panel closes it: an action, a language in its menu", async () => {
     const { Link } = await import("../action/index");
-    const { navigate } = inLocale(<SiteNavbar endActions={<Link href="/sign-in/">Sign in</Link>} />);
+    const { navigate } = inLocale(
+      <SiteNavbar
+        endActions={
+          <>
+            <LanguageMenu />
+            <Link href="/sign-in/">Sign in</Link>
+          </>
+        }
+      />,
+    );
     fireEvent.click(screen.getByRole("button", { name: "Open menu" }));
     let panel = await screen.findByRole("dialog", { name: "Main menu" });
     fireEvent.click(within(panel).getByRole("link", { name: "Sign in" }));

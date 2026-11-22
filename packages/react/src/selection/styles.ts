@@ -52,10 +52,6 @@ export const RADIO_DOT =
   "group-data-[disabled]:group-data-[selected]:border-ds-border-bold";
 
 /** The recommended-option mark on a RadioCard: a brand Lozenge (20px, `ds-radius-xsmall`, 12/16 semibold). */
-export const RADIO_CARD_BADGE =
-  "inline-flex h-5 items-center rounded-ds-xsmall bg-ds-background-brand-subtle px-ds-075 text-body-small font-medium whitespace-nowrap text-ds-text-brand " +
-  "group-data-[disabled]:bg-ds-background-disabled group-data-[disabled]:text-ds-text-disabled";
-
 export const SWITCH_TRACK =
   "relative mt-0.5 h-5 w-8 shrink-0 rounded-ds-full bg-ds-background-neutral-pressed " +
   "transition-colors duration-(--ds-duration-fast) ease-ds-standard motion-reduce:transition-none " +
@@ -74,7 +70,9 @@ export const SWITCH_THUMB =
   "group-data-[disabled]:group-data-[selected]:bg-ds-surface-raised";
 
 export const RADIO_CARD =
-  "group flex min-w-0 items-start gap-ds-150 rounded-ds-large bg-ds-surface-raised p-ds-200 cursor-pointer select-none outline-hidden " +
+  "group flex min-w-0 items-start gap-ds-150 rounded-ds-large bg-ds-surface-raised p-ds-200 text-body text-ds-text cursor-pointer select-none outline-hidden " +
+  // The option's own words lead; its description sits under them.
+  "[&_[data-slot=choice-label]]:font-medium [&_[data-slot=choice-text]]:gap-ds-050 " +
   "inset-ring-1 inset-ring-ds-border-bold " +
   "data-[selected]:bg-ds-background-selected data-[selected]:inset-ring-2 data-[selected]:inset-ring-ds-border-selected " +
   "data-[invalid]:inset-ring-ds-border-danger " +

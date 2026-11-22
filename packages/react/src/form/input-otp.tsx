@@ -2,16 +2,12 @@
 
 import * as React from "react";
 import {
-  Button as AriaButton,
   Input,
   TextField as AriaTextField,
-  useLocale,
   type TextFieldProps as AriaTextFieldProps,
 } from "react-aria-components";
 
 import { cn } from "../utils";
-import { useCooldownAction } from "../feedback/cooldown";
-import { actionFailedLabel, resendInLabel, resendLabel } from "../i18n";
 import { FieldDescription, FieldError, FieldLabel } from "./field-parts";
 import { FIELD_STACK } from "./styles";
 import { useFieldValidation, type RequiredValidation } from "./validation";
@@ -28,18 +24,6 @@ export type InputOTPProps = Omit<
   errorMessage?: React.ReactNode;
   /** Called once the last digit is entered (submit there). */
   onComplete?: (code: string) => void;
-  /**
-   * Shows the resend action. It may return a promise: the wait starts only
-   * when it succeeds, and a rejection says "try again" instead.
-   */
-  onResend?: () => unknown;
-  /** Seconds to wait before resending again after a code was sent. */
-  resendCooldown?: number;
-  /**
-   * The wait already running when the field appears. Default `resendCooldown`: the first code was just sent. Pass 0
-   * when it was sent long ago, or the server's "retry after"; a new value restarts the wait.
-   */
-  initialResendCooldown?: number;
   /**
    * Who says an empty required field is missing: `field` (default) or `app`. With `app` a DS
    * Form's `onSubmit` runs with the field empty, and the app's own error must clear on change. See
@@ -65,15 +49,12 @@ function takeCode(text: string, previous: string, length: number) {
 }
 
 export const InputOTP = React.forwardRef<HTMLInputElement, InputOTPProps>(function InputOTP(
-  { label, length = 6, description, errorMessage, onComplete, onResend, resendCooldown = 0, initialResendCooldown, value, defaultValue, onChange, validate, onBlur, requiredValidation, ...rest },
+  { label, length = 6, description, errorMessage, onComplete, value, defaultValue, onChange, validate, onBlur, requiredValidation, ...rest },
   ref,
 ) {
-  const { locale } = useLocale();
   const [uncontrolled, setUncontrolled] = React.useState(defaultValue ?? "");
   const code = (value ?? uncontrolled).replace(/\D/g, "").slice(0, length);
   const [focused, setFocused] = React.useState(false);
-  const resend = useCooldownAction(onResend, resendCooldown, initialResendCooldown ?? resendCooldown);
-  const wait = resend.remaining;
   const inputRef = React.useRef<HTMLInputElement | null>(null);
 
   const setRefs = (node: HTMLInputElement | null) => {
@@ -178,23 +159,6 @@ export const InputOTP = React.forwardRef<HTMLInputElement, InputOTPProps>(functi
           </div>
           {description && <FieldDescription>{description}</FieldDescription>}
           <FieldError>{errorMessage}</FieldError>
-          {onResend && (
-            <AriaButton
-              data-slot="input-otp-resend"
-              isDisabled={wait > 0 || resend.isPending}
-              onPress={() => void resend.run()}
-              className="w-fit text-body-small text-ds-link underline-offset-3 outline-hidden cursor-pointer data-[hovered]:underline data-[focus-visible]:underline data-[focus-visible]:decoration-2 data-[focus-visible]:decoration-ds-border-focused data-[disabled]:cursor-default data-[disabled]:text-ds-text-subtlest data-[disabled]:no-underline"
-            >
-              {wait > 0 ? resendInLabel(locale, wait) : resendLabel(locale)}
-            </AriaButton>
-          )}
-          {onResend && (
-            // Always mounted, so a failed resend is announced when it happens; while empty it
-            // leaves the flex flow (absolute) so the field stack gets no extra gap.
-            <span role="status" data-slot="input-otp-resend-status" className="text-body-small text-ds-text-danger empty:absolute">
-              {resend.failed ? actionFailedLabel(locale) : null}
-            </span>
-          )}
         </>
       )}
     </AriaTextField>

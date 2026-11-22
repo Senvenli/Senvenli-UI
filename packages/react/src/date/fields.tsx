@@ -6,23 +6,18 @@ import {
   FormContext,
   GroupContext,
   I18nProvider,
-  Label,
-  Radio,
-  RadioGroup,
-  Text,
   TimeField as AriaTimeField,
   useLocale,
   type DateValue,
   type GroupProps,
   type TimeValue,
 } from "react-aria-components";
-import { getLocalTimeZone, toTime, type CalendarDate, type Time } from "@internationalized/date";
+import { getLocalTimeZone, toTime, type CalendarDate } from "@internationalized/date";
 
-import { cn } from "../utils";
 import { IconGlyph } from "../display/icon";
 import { FieldDescription, FieldError, FieldLabel } from "../form/field-parts";
 import { InputGroup } from "../form/input-group";
-import { DESCRIPTION, FIELD_ICON, FIELD_STACK, LABEL } from "../form/styles";
+import { FIELD_ICON, FIELD_STACK } from "../form/styles";
 import { useFieldValidation, type RequiredValidation } from "../form/validation";
 import { GREGORIAN_MONTHS, Segments, type FixedSegments, type SegmentsReport } from "./segments";
 import { requiredLabel } from "../i18n";
@@ -431,83 +426,3 @@ export function TimeField({
   );
 }
 
-export type TimeSlot = {
-  time: Time;
-  /** False for a taken or closed slot: it stays in the grid, struck through, with its `note`. */
-  isAvailable: boolean;
-  /** The fee or the reason ("After hours · € 20", "Full"); shown in the tile and read with the time. */
-  note?: string;
-};
-
-export type TimeSlotsProps = {
-  /** "Uygun saatler · 14 Eki". */
-  label: React.ReactNode;
-  slots: readonly TimeSlot[];
-  value?: Time | null;
-  defaultValue?: Time | null;
-  onChange?: (value: Time) => void;
-  /** Under the grid: opening hours, the out-of-hours fee. */
-  description?: React.ReactNode;
-  hourCycle?: 12 | 24;
-  isDisabled?: boolean;
-};
-
-const SLOT =
-  "relative flex min-h-8 cursor-pointer flex-col items-center justify-center rounded-ds-medium px-ds-100 py-ds-025 text-body tabular-nums text-ds-text " +
-  "inset-ring-1 inset-ring-ds-border-bold outline-hidden " +
-  "data-[hovered]:bg-ds-background-neutral-subtle-hovered " +
-  "data-[selected]:bg-ds-background-brand-bold data-[selected]:font-medium data-[selected]:text-ds-text-on-brand data-[selected]:inset-ring-transparent " +
-  "data-[focus-visible]:inset-ring-2 data-[focus-visible]:inset-ring-ds-border-focused " +
-  "data-[disabled]:cursor-not-allowed data-[disabled]:text-ds-text-disabled data-[disabled]:inset-ring-ds-border";
-
-/**
- * Times of day as a grid of 32px tiles (opening hours, appointment slots): one choice, arrow keys between tiles.
- * Taken and closed times stay visible, struck through, with their reason; out-of-hours times stay
- * pickable with their fee.
- */
-export function TimeSlots({ label, slots, value, defaultValue, onChange, description, hourCycle, isDisabled }: TimeSlotsProps) {
-  const { locale } = useLocale();
-  const cycle = hourCycle ? { hourCycle: hourCycle === 12 ? ("h12" as const) : ("h23" as const) } : {};
-  // "09:00" on a 24-hour clock, "9:00 AM" on a 12-hour one.
-  const twelve = /h1[12]/.test(new Intl.DateTimeFormat(locale, { hour: "numeric", ...cycle }).resolvedOptions().hourCycle ?? "");
-  const format = new Intl.DateTimeFormat(locale, { hour: twelve ? "numeric" : "2-digit", minute: "2-digit", timeZone: "UTC", ...cycle });
-  const show = (time: Time) => format.format(Date.UTC(2000, 0, 1, time.hour, time.minute));
-  const key = (time: Time | null | undefined) => (time ? time.toString() : null);
-  const byKey = new Map(slots.map((slot) => [slot.time.toString(), slot.time]));
-  return (
-    <RadioGroup
-      value={value === undefined ? undefined : key(value)}
-      defaultValue={key(defaultValue)}
-      onChange={(next) => {
-        const time = byKey.get(next);
-        if (time) onChange?.(time);
-      }}
-      isDisabled={isDisabled}
-      data-slot="time-slots"
-      className="flex flex-col gap-ds-100"
-    >
-      <Label data-slot="time-slots-label" className={LABEL}>{label}</Label>
-      <div data-slot="time-slots-grid" className="grid grid-cols-[repeat(auto-fill,minmax(5.5rem,1fr))] gap-ds-075">
-        {slots.map((slot) => (
-          <Radio
-            key={slot.time.toString()}
-            value={slot.time.toString()}
-            isDisabled={!slot.isAvailable}
-            data-slot="time-slot"
-            data-available={slot.isAvailable || undefined}
-            className={SLOT}
-          >
-            <span data-slot="time-slot-label" className="sr-only">{slot.note ? `${show(slot.time)}, ${slot.note}` : show(slot.time)}</span>
-            <span aria-hidden data-slot="time-slot-time" className={cn("whitespace-nowrap", !slot.isAvailable && "line-through")}>{show(slot.time)}</span>
-            {slot.note && (
-              <span aria-hidden data-slot="time-slot-note" className="text-body-small leading-4 text-inherit opacity-80">{slot.note}</span>
-            )}
-          </Radio>
-        ))}
-      </div>
-      {description && (
-        <Text slot="description" data-slot="time-slots-description" className={DESCRIPTION}>{description}</Text>
-      )}
-    </RadioGroup>
-  );
-}

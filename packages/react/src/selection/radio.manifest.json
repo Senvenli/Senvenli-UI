@@ -25,10 +25,6 @@
       {
         "use": "select",
         "when": "There are many options."
-      },
-      {
-        "use": "radio-card",
-        "when": "Each option needs a longer description."
       }
     ]
   },
@@ -48,7 +44,6 @@
     ]
   },
   "related": [
-    "radio-card",
     "select",
     "checkbox"
   ],
@@ -64,5 +59,10 @@
     "events": [
       "change"
     ]
-  }
+  },
+  "guidance": [
+    {
+      "rule": "Use variant=\"card\" when each option needs a line of detail (a plan, a delivery option, a time slot); its content is yours."
+    }
+  ]
 }

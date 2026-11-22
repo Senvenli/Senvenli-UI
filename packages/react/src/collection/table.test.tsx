@@ -4,7 +4,9 @@ import { afterEach, beforeAll, describe, expect, it, vi } from "vitest";
 
 import { DesignSystemProvider } from "../provider";
 import { Link } from "../action/index";
-import { Table, TableCellStack, type TableColumn } from "./index";
+import { Table, type TableColumn } from "./index";
+import { Text } from "../display/typography";
+import { Stack } from "../layout/stack";
 
 beforeAll(() => {
   // jsdom lacks CSS.escape, which React Aria's collections use to find rows.
@@ -31,7 +33,7 @@ const ROWS: Order[] = [
 ];
 const COLUMNS: TableColumn<Order>[] = [
   { key: "code", header: "Order", isSortable: true, isRowHeader: true },
-  { key: "customer", header: "Customer", render: (row) => <TableCellStack primary={row.customer} secondary={row.phone} /> },
+  { key: "customer", header: "Customer", render: (row) => <Stack space="space-0"><Text truncate>{row.customer}</Text><Text size="body-small" tone="subtle" truncate><bdi>{row.phone}</bdi></Text></Stack> },
   { key: "note", header: "Note", wrap: true },
   { key: "total", header: "Amount", align: "end", isSortable: true },
 ];
@@ -187,8 +189,8 @@ describe("Table", () => {
     inLocale(<SortableTable />, "rtl");
     const total = screen.getAllByRole("gridcell").find((cell) => cell.textContent === "$248.00")!;
     expect(total.querySelector("bdi")!.textContent).toBe("$248.00");
-    const stack = document.querySelector("[data-slot='table-cell-stack']")!;
-    expect([...stack.children].map((child) => [child.tagName, child.textContent])).toEqual([["BDI", "Alice Martin"], ["BDI", "+44 20 7946 0958"]]);
+    // A phone in a composed cell keeps its order when the app isolates it, as the example does.
+    expect([...document.querySelectorAll("bdi")].some((element) => element.textContent === "+44 20 7946 0958")).toBe(true);
   });
 
   it("in RTL places its marker and padding logically", () => {

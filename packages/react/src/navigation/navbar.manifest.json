@@ -38,8 +38,7 @@
     ]
   },
   "related": [
-    "sidebar",
-    "footer"
+    "sidebar"
   ],
   "genui": {
     "expose": false

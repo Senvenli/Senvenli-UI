@@ -22,8 +22,8 @@
     ],
     "instead": [
       {
-        "use": "time-slots",
-        "when": "Only certain times are available."
+        "use": "radio",
+        "when": "Only certain times are available: a card RadioGroup of them (see its time-slots example)."
       }
     ]
   },
@@ -42,7 +42,7 @@
     ]
   },
   "related": [
-    "time-slots",
+    "radio",
     "date-field"
   ],
   "genui": {

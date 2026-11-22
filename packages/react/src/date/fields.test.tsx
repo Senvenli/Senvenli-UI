@@ -4,7 +4,7 @@ import { CalendarDate, CalendarDateTime, Time } from "@internationalized/date";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import { DesignSystemProvider } from "../provider";
-import { DateField, DatePicker, DateRangeField, TimeField, TimeSlots } from "./index";
+import { DateField, DatePicker, DateRangeField, TimeField } from "./index";
 import { rangeDuration } from "./pickers";
 
 afterEach(cleanup);
@@ -242,34 +242,6 @@ describe("TimeField", () => {
     const { container } = inLocale(<TimeField label="الوقت" timeZone="Pacific/Kiritimati" />, "ar", "rtl");
     expect(container.querySelector("[data-slot='field-icon']")).toBeTruthy();
     for (const el of Array.from(container.querySelectorAll("[class]"))) expect(el.getAttribute("class")).not.toMatch(PHYSICAL);
-  });
-});
-
-describe("TimeSlots", () => {
-  const slots = [
-    { time: new Time(8, 0), isAvailable: false, note: "Full" },
-    { time: new Time(9, 0), isAvailable: true },
-    { time: new Time(10, 0), isAvailable: true },
-    { time: new Time(20, 30), isAvailable: true, note: "After hours · extra fee" },
-  ];
-
-  it("one choice from the tiles; taken ones stay, struck through, with their reason", () => {
-    const onChange = vi.fn();
-    inLocale(<TimeSlots label="Available times · 14 Oct" slots={slots} onChange={onChange} description="Open 08:00–20:00" />);
-    const group = screen.getByRole("radiogroup", { name: "Available times · 14 Oct" });
-    const radios = within(group).getAllByRole("radio");
-    expect(radios).toHaveLength(4);
-    expect((radios[0] as HTMLInputElement).disabled).toBe(true);
-    expect(screen.getByRole("radio", { name: /08:00, Full/ })).toBeTruthy();
-    expect(screen.getAllByText("08:00").find((el) => el.getAttribute("data-slot") === "time-slot-time")!.className).toContain("line-through");
-    fireEvent.click(screen.getByRole("radio", { name: /20:30, After hours/ }));
-    expect(onChange).toHaveBeenLastCalledWith(new Time(20, 30));
-  });
-
-  it("en-US shows the 12-hour clock", () => {
-    inLocale(<TimeSlots label="Times" slots={slots} />, "en-US");
-    // A 12-hour clock drops the leading zero: "9:00 AM", not "09:00 AM".
-    expect(screen.getByRole("radio", { name: /^9:00\s?AM$/ })).toBeTruthy();
   });
 });
 

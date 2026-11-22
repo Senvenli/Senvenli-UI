@@ -6,9 +6,8 @@ import { Link as AriaLink, useLocale } from "react-aria-components";
 import { cn } from "../utils";
 import { BrandLinkContext } from "./brand-link-context";
 import { Button } from "../action/button";
-import { languageLabel, mainNavigationLabel, openMenuLabel } from "../i18n";
+import { mainNavigationLabel, openMenuLabel } from "../i18n";
 import { LAYER } from "../layers";
-import { Menu } from "../overlay/floating";
 import { NavPanel } from "./nav-panel";
 
 export type NavbarLink = {
@@ -16,15 +15,6 @@ export type NavbarLink = {
   /** A noun for the place ("Pricing"), never a verb. */
   label: string;
   /** A page or an in-page anchor ("/#pricing"); it goes through the host router. */
-  href: string;
-};
-
-export type NavbarLanguage = {
-  /** The locale code shown on the switch ("tr" reads "TR"). */
-  code: string;
-  /** The language in itself ("English"). */
-  label: string;
-  /** The current page in that language. */
   href: string;
 };
 
@@ -39,10 +29,11 @@ export type NavbarProps = {
   links: readonly NavbarLink[];
   /** The link of the page (or section) in view: marked `aria-current="page"`. */
   currentKey?: string;
-  /** At the end: sign-in (subtle), then the one primary action, the same on every page. */
+  /**
+   * At the end: a language switcher, sign-in (subtle), then the one primary action, the same on every page. On
+   * phones they move into the menu panel, under the links.
+   */
   endActions?: React.ReactNode;
-  /** The language switch: shows the current code and keeps the page in the other language. */
-  languages?: { current: string; items: readonly NavbarLanguage[] };
   /** Pinned to the top while the page scrolls. */
   isSticky?: boolean;
   /** 48px instead of 56px: the compact bar after the hero. */
@@ -69,7 +60,6 @@ export function Navbar({
   links,
   currentKey,
   endActions,
-  languages,
   isSticky,
   isCompact,
   "aria-label": label,
@@ -87,7 +77,6 @@ export function Navbar({
       <BrandLinkContext.Provider value>{brand}</BrandLinkContext.Provider>
     </AriaLink>
   );
-  const switcher = languages && <LanguageSwitch {...languages} />;
   return (
     <header
       data-slot="navbar"
@@ -125,7 +114,6 @@ export function Navbar({
         </nav>
         <div data-slot="navbar-end" className="ms-auto flex items-center gap-ds-100">
           <div className="hidden items-center gap-ds-100 md:flex">
-            {switcher}
             {endActions}
           </div>
           <div className="md:hidden">
@@ -159,39 +147,12 @@ export function Navbar({
             ))}
           </ul>
         </nav>
-        {(switcher || endActions) && (
+        {endActions && (
           <div data-slot="navbar-panel-actions" className="flex flex-col items-stretch gap-ds-100 border-t border-ds-border pt-ds-200">
-            {switcher && <div className="flex">{switcher}</div>}
             {endActions}
           </div>
         )}
       </NavPanel>
     </header>
-  );
-}
-
-/** The current language code on a subtle button; the menu lists each language in itself, as links. */
-function LanguageSwitch({ current, items }: { current: string; items: readonly NavbarLanguage[] }) {
-  const { locale } = useLocale();
-  const active = items.find((item) => item.code === current);
-  return (
-    <Menu
-      aria-label={languageLabel(locale)}
-      selectionMode="single"
-      selectedKeys={[current]}
-      items={items.map((item) => ({ id: item.code, label: item.label, href: item.href, lang: item.code }))}
-      trigger={
-        <Button
-          variant="subtle"
-          size="compact"
-          iconBefore="globe"
-          // The visible code is part of the name (label in name, WCAG 2.5.3): "Language: English (EN)".
-          aria-label={`${languageLabel(locale)}: ${active?.label ?? current} (${current.toUpperCase()})`}
-          data-slot="navbar-language"
-        >
-          <span aria-hidden>{current.toUpperCase()}</span>
-        </Button>
-      }
-    />
   );
 }

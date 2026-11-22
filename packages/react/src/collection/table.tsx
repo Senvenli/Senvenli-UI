@@ -444,15 +444,3 @@ function SelectedMarker() {
   );
 }
 
-/**
- * The value and its context line under it ("Ada Lovelace" over "ada@example.com"); the context in
- * `body-small` `ds-text-subtle`. Long lines truncate when the column has a `width`.
- */
-export function TableCellStack({ primary, secondary, isCode }: { primary: React.ReactNode; secondary?: React.ReactNode; isCode?: "primary" | "secondary" }) {
-  return (
-    <span data-slot="table-cell-stack" className="flex min-w-0 flex-col items-start">
-      <bdi className={cn("max-w-full truncate", isCode === "primary" && "font-ds-mono text-code")}>{primary}</bdi>
-      {secondary && <bdi className={cn("max-w-full truncate text-body-small text-ds-text-subtle", isCode === "secondary" && "font-ds-mono")}>{secondary}</bdi>}
-    </span>
-  );
-}

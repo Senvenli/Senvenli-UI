@@ -67,8 +67,7 @@
       "box",
       "stack",
       "inline",
-      "grid",
-      "status-dot"
+      "grid"
     ]
   }
 }

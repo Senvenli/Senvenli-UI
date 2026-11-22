@@ -4,9 +4,9 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 
 import { Form, TextField } from "../form/index";
 import { DesignSystemProvider } from "../provider";
-import { Autocomplete, Checkbox, CheckboxGroup, ComboBox, MultiSelect, RadioCard, RadioGroup, Select } from "./index";
+import { Autocomplete, Checkbox, CheckboxGroup, ComboBox, MultiSelect, RadioGroup, Select } from "./index";
 
-// A required Select, ComboBox or MultiSelect (and Autocomplete, RadioGroup, RadioCard, Checkbox,
+// A required Select, ComboBox or MultiSelect (and Autocomplete, RadioGroup (cards too), Checkbox,
 // CheckboxGroup) left empty must block a DS Form submit under `aria` validation (the
 // default), show the required message and be marked invalid. React Aria's `aria` behaviour has no
 // required check and never validates an empty selection; the DS's own check (useFieldValidation) covers
@@ -293,8 +293,8 @@ const OTHERS: { name: string; render: (props: Record<string, unknown>) => React.
     fill: () => fireEvent.click(screen.getByRole("radio", { name: "Phone" })),
   },
   {
-    name: "RadioCard",
-    render: (p) => <RadioCard label="Plan" isRequired items={[{ value: "basic", title: "Basic" }, { value: "full", title: "Full" }]} {...p} />,
+    name: "RadioGroup variant=card",
+    render: (p) => <RadioGroup label="Plan" variant="card" isRequired items={[{ value: "basic", label: "Basic" }, { value: "full", label: "Full" }]} {...p} />,
     fill: () => fireEvent.click(screen.getByRole("radio", { name: "Full" })),
   },
   {

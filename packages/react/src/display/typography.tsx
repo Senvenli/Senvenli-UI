@@ -70,11 +70,13 @@ export type TextProps = {
   elementType?: "span" | "p" | "div";
   /** Lines up figures in columns and changing values. */
   isNumeric?: boolean;
+  /** One line, cut with an ellipsis where its container ends (a table cell, a card title). */
+  truncate?: boolean;
   children: React.ReactNode;
 };
 
 /** One run of app text on the type scale. Legal text keeps `body`; never smaller. */
-export function Text({ size = "body", tone = "default", weight = "regular", elementType = "span", isNumeric, children }: TextProps) {
+export function Text({ size = "body", tone = "default", weight = "regular", elementType = "span", isNumeric, truncate, children }: TextProps) {
   const Element = elementType;
   return (
     <Element
@@ -85,6 +87,7 @@ export function Text({ size = "body", tone = "default", weight = "regular", elem
         weight === "medium" && "font-medium",
         elementType === "p" && "m-0 max-w-[70ch]",
         isNumeric && "tabular-nums",
+        truncate && "block max-w-full truncate",
       )}
     >
       {children}

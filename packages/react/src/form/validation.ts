@@ -28,7 +28,7 @@ function firstError(result: ValidationResult): string | string[] | null {
 /**
  * Who says an empty required field is missing: the `requiredValidation` prop of TextField,
  * PasswordField, TextArea, NumberField, InputOTP, DateField, TimeField, DatePicker and DateRangeField, and since
- * of Select, MultiSelect, ComboBox, Autocomplete, RadioGroup, RadioCard, Checkbox, CheckboxGroup,
+ * of Select, MultiSelect, ComboBox, Autocomplete, RadioGroup, Checkbox, CheckboxGroup,
  * ColorField and PhoneField (empty there: no chosen item, no tag, nothing checked; see {@link useRequiredChoice}).
  *
  * - `field` (default): the field itself, with "Fill in this field." on blur and on a DS Form submit, which it
@@ -170,7 +170,7 @@ type RequiredChoiceOptions = {
 
 /**
  * "Required" for the fields React Aria never finds empty under `aria` validation: Select,
- * MultiSelect, ComboBox, Autocomplete, RadioGroup, RadioCard, Checkbox, CheckboxGroup, ColorField and
+ * MultiSelect, ComboBox, Autocomplete, RadioGroup, Checkbox, CheckboxGroup, ColorField and
  * PhoneField. React Aria's `aria` behaviour has no required check of its own (the browser's `valueMissing` is
  * read only under `native`), and it never runs `validate` on an empty selection (a null key, no keys), so an
  * empty required field of these was never invalid: a DS Form called `onSubmit` with it empty, showed nothing and

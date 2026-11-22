@@ -1,7 +1,10 @@
 import { Button } from "@senvenli/react/action";
-import { Navbar } from "@senvenli/react/navigation";
+import { LanguageSwitcher, Navbar } from "@senvenli/react/navigation";
+import { useState } from "react";
 
+// The language switcher is one of the end actions, before the primary action; on phones it moves into the panel.
 export default function Example() {
+  const [locale, setLocale] = useState<"en" | "de" | "fr">("en");
   return (
     <div className="overflow-hidden rounded-ds-large border border-ds-border">
       <Navbar
@@ -13,18 +16,13 @@ export default function Example() {
           { key: "features", label: "Features", href: "#" },
           { key: "pricing", label: "Pricing", href: "#" },
         ]}
-        languages={{
-          current: "en",
-          items: [
-            { code: "en", label: "English", href: "#" },
-            { code: "de", label: "Deutsch", href: "#" },
-            { code: "fr", label: "Français", href: "#" },
-          ],
-        }}
         endActions={
-          <Button variant="primary" size="compact">
-            Start free trial
-          </Button>
+          <>
+            <LanguageSwitcher locales={["en", "de", "fr"]} current={locale} onSelect={setLocale} size="sm" />
+            <Button variant="primary" size="compact">
+              Start free trial
+            </Button>
+          </>
         }
       />
     </div>

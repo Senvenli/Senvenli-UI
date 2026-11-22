@@ -8,10 +8,9 @@
   "title": "Section",
   "exports": [
     "Section",
-    "Container",
-    "SectionHead"
+    "Container"
   ],
-  "description": "Full-width page bands with a centered container and a head of overline, title and lead.",
+  "description": "Full-width page bands with a centered container; the heading that names a band is yours.",
   "keywords": [
     "section",
     "band",
@@ -27,7 +26,7 @@
   },
   "a11y": {
     "builtIn": [
-      "A Section is a landmark named by its SectionHead title."
+      "A Section is a landmark; pass aria-labelledby with its heading's id to name it."
     ],
     "youProvide": [
       "Heading levels that follow the page outline."

@@ -7,8 +7,7 @@
   "name": "empty-state",
   "title": "Empty state",
   "exports": [
-    "EmptyState",
-    "ErrorState"
+    "EmptyState"
   ],
   "description": "Explains why a view has no content or failed to load, and offers the action that changes that.",
   "keywords": [
@@ -20,7 +19,7 @@
   ],
   "usage": {
     "when": [
-      "A list or view has nothing to show yet, no results, or failed to load (ErrorState)."
+      "A list or view has nothing to show yet, no results, or failed to load (tone=\"danger\")."
     ]
   },
   "guidance": [
@@ -30,10 +29,11 @@
   ],
   "a11y": {
     "builtIn": [
-      "ErrorState's retry button is named \"Retry\" and shows a pending state."
+      "With announce, the message (title, description, details) is an alert; the actions stay outside it."
     ],
     "youProvide": [
-      "A heading level when the state is the page's main content."
+      "A heading level when the state is the page's main content.",
+      "For a failed load, a retry Button that shows its pending state (see the example)."
     ]
   },
   "related": [
