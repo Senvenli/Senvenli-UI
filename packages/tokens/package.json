@@ -1,18 +1,42 @@
 {
   "name": "@senvenli/tokens",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Platform-neutral theme engine for Senvenli UI: a few optional inputs to a full, WCAG AA token set for web (CSS) and native apps (hex).",
   "license": "MIT",
+  "author": "Senvenli",
+  "homepage": "https://design.senvenli.com",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Senvenli/Senvenli-UI.git",
+    "directory": "packages/tokens"
+  },
+  "bugs": "https://github.com/Senvenli/Senvenli-UI/issues",
+  "keywords": [
+    "design-tokens",
+    "theme",
+    "wcag",
+    "contrast",
+    "oklch",
+    "design-system"
+  ],
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {
-    ".": { "types": "./dist/index.d.ts", "default": "./dist/index.js" }
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "sideEffects": false,
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

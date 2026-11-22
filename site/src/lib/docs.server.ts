@@ -1,5 +1,7 @@
 import { Marked, type Tokens } from "marked";
 import { highlight, type CodeLanguage } from "./highlight.server";
+import { commandVariants } from "./package-managers.server";
+import type { CommandVariant } from "./package-managers";
 
 // Build time only (".server"): the docs are Markdown files in site/content/docs, rendered to HTML once in the
 // prerender. The Markdown twin of a doc is its own source.
@@ -8,7 +10,7 @@ const sources = import.meta.glob<string>("../../content/docs/*.md", { query: "?r
 export type DocMeta = { slug: string; title: string; description: string; group: string; order: number };
 export type DocHeading = { id: string; title: string };
 /** The rendered doc as runs: prose HTML, and code blocks the page draws with its own CodeBlock (copy, show all). */
-export type DocPart = { kind: "html"; html: string } | { kind: "code"; code: string; html: string; lang?: string };
+export type DocPart = { kind: "html"; html: string } | { kind: "code"; code: string; html: string; lang?: string; variants?: CommandVariant[] };
 
 function parse(raw: string): { meta: Omit<DocMeta, "slug">; body: string } {
   const match = raw.match(/^---\n([\s\S]*?)\n---\n?/);
@@ -52,13 +54,16 @@ export async function renderDoc(slug: string): Promise<{ meta: DocMeta; parts: D
     async walkTokens(token) {
       if (token.type === "code") {
         const code = token as Tokens.Code;
-        (code as Tokens.Code & { html?: string }).html = await highlight(code.text, LANGS[code.lang ?? ""] ?? "tsx");
+        const lang = LANGS[code.lang ?? ""] ?? "tsx";
+        const extra = code as Tokens.Code & { html?: string; variants?: CommandVariant[] };
+        extra.html = await highlight(code.text, lang);
+        if (lang === "bash") extra.variants = await commandVariants(code.text);
       }
     },
     renderer: {
       code(token) {
-        const html = (token as Tokens.Code & { html?: string }).html ?? "";
-        codes.push({ kind: "code", code: token.text, html, lang: token.lang || undefined });
+        const { html = "", variants } = token as Tokens.Code & { html?: string; variants?: CommandVariant[] };
+        codes.push({ kind: "code", code: token.text, html, lang: token.lang || undefined, ...(variants ? { variants } : {}) });
         return `<!--doc-code:${codes.length - 1}-->`;
       },
       heading(token) {

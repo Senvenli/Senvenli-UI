@@ -1,0 +1,23 @@
+# systemd unit for the hosted MCP server. Install: /etc/systemd/system/senvenli-mcp.service, then
+# `systemctl daemon-reload && systemctl enable --now senvenli-mcp`.
+# /opt/senvenli-mcp holds `npm i @senvenli/mcp@<version>` (a pinned version, updated on release).
+[Unit]
+Description=Senvenli UI MCP server (Streamable HTTP)
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/senvenli-mcp
+ExecStart=/usr/bin/node node_modules/@senvenli/mcp/dist/http.js
+Environment=HOST=127.0.0.1
+Environment=PORT=8787
+Restart=on-failure
+DynamicUser=yes
+NoNewPrivileges=yes
+ProtectSystem=strict
+ProtectHome=yes
+PrivateTmp=yes
+MemoryMax=256M
+
+[Install]
+WantedBy=multi-user.target
