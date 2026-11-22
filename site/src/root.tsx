@@ -5,6 +5,7 @@ import { Links, Meta, Outlet, Scripts, ScrollRestoration, isRouteErrorResponse, 
 import type { Route } from "./+types/root";
 import { orderComponents } from "./lib/manifest";
 import { loadIndex } from "./lib/manifest.server";
+import { listDocs } from "./lib/docs.server";
 import { useRestoreVisitedUrl } from "./lib/not-found-document";
 import { presetScriptSource } from "./lib/theme-head";
 import { NotFoundPage } from "./pages/NotFoundPage";
@@ -43,7 +44,7 @@ export function Layout({ children }: { children: ReactNode }) {
 
 /** Every component, for the site search: prerendered into each page's data. */
 export async function loader() {
-  return { components: orderComponents(await loadIndex()) };
+  return { components: orderComponents(await loadIndex()), docs: listDocs().map(({ slug, title, description }) => ({ slug, title, description })) };
 }
 
 export default function Root({ loaderData }: Route.ComponentProps) {
@@ -57,7 +58,7 @@ export default function Root({ loaderData }: Route.ComponentProps) {
   const section = useLocation().pathname.split("/").filter(Boolean)[0];
   return (
     <DesignSystemProvider locale="en" navigate={navigate}>
-      <SiteShell section={section} components={loaderData.components} onNavigate={(href) => navigate(href)}>
+      <SiteShell section={section} components={loaderData.components} docs={loaderData.docs} onNavigate={(href) => navigate(href)}>
         <Outlet />
       </SiteShell>
     </DesignSystemProvider>

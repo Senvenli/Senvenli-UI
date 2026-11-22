@@ -3,7 +3,7 @@ import { writeFileSync } from "node:fs";
 import { parseArgs } from "node:util";
 import { createTheme, decodePreset, toCSS, toNative, type ThemeInput } from "@senvenli/tokens";
 
-const USAGE = `Usage: senvenli-ui theme [preset-code] [options]
+const USAGE = `Usage: npx @senvenli/cli theme [preset-code] [options]
 
 Options:
   --primary, --secondary, --tertiary <color>   Brand colors (#hex or oklch()); all optional

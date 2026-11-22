@@ -279,7 +279,7 @@ export function CreatePage() {
                   {
                     id: "preset",
                     label: "Preset code",
-                    panel: <CodeBlock code={`npx senvenli-ui theme ${code}\n\n${shareUrl}\n`} label="CLI and link" copyLabel="Copy" />,
+                    panel: <CodeBlock code={`npx @senvenli/cli theme ${code}\n\n${shareUrl}\n`} label="CLI and link" copyLabel="Copy" />,
                   },
                 ]}
               />

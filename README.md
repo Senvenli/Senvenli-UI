@@ -11,18 +11,26 @@ A generic, themeable design system for React.
 
 | Package | What it is | Status |
 |---|---|---|
-| [`@senvenli/tokens`](packages/tokens) | Platform-neutral theme engine: inputs → tokens → CSS / native hex theme | v0, working |
-| [`@senvenli/react`](packages/react) | Web components (React Aria Components + Tailwind v4) | Scaffold: provider, strings, base CSS; components being extracted |
-| [`@senvenli/cli`](packages/cli) | `senvenli-ui theme <code>` writes your theme files | v0, working |
-| [`@senvenli/mcp`](packages/mcp) | MCP server for AI-agent development | Planned |
-| [`site`](site) | Docs site and theme builder (design.senvenli.com) | Preview |
+| [`@senvenli/react`](packages/react) | 114 web components on React Aria and Tailwind v4, with machine-readable manifests | Alpha |
+| [`@senvenli/tokens`](packages/tokens) | The theme engine: inputs → AA-checked tokens → CSS or native hex. Installed with `@senvenli/react` | Alpha |
+| [`@senvenli/cli`](packages/cli) | `npx @senvenli/cli theme` writes your theme files | Alpha |
+| [`@senvenli/mcp`](packages/mcp) | MCP server for coding agents | Planned |
+| [`site`](site) | Docs, component pages and the theme builder (design.senvenli.com) | Preview, local |
+
+## Install
+
+```sh
+npm i @senvenli/react
+```
+
+Then follow [Getting started](site/content/docs/getting-started.md): add a theme, set up Tailwind, wrap the app in `DesignSystemProvider`.
 
 ## Development
 
 ```sh
 pnpm install
 pnpm test        # unit tests, including the AA contrast sweep
-pnpm dev         # theme builder preview at http://localhost:5173
+pnpm dev         # the site at http://localhost:5173
 ```
 
 ## License

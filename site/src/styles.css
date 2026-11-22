@@ -48,3 +48,46 @@ html[data-preset-pending] .preview {
   font-size: var(--text-code, 13px);
   line-height: var(--text-code--line-height, 20px);
 }
+
+/* Doc prose (pages/DocPage.tsx): Markdown rendered at the docs scale, body 16px, headings on the type scale, the
+   same gaps as component pages. Only elements Markdown produces are styled; components keep their own styles. */
+.doc-prose {
+  color: var(--ds-text);
+  font-size: var(--text-body-large);
+  line-height: var(--text-body-large--line-height);
+}
+.doc-prose h2 {
+  margin: var(--spacing-ds-800, 64px) 0 var(--spacing-ds-200, 16px);
+  font-size: var(--text-heading-large);
+  line-height: var(--text-heading-large--line-height);
+  font-weight: 500;
+  scroll-margin-top: 6rem;
+}
+.doc-prose h3 {
+  margin: var(--spacing-ds-500, 40px) 0 var(--spacing-ds-150, 12px);
+  font-size: var(--text-heading-small);
+  line-height: var(--text-heading-small--line-height);
+  font-weight: 500;
+}
+.doc-prose > div:first-child > h2:first-child { margin-top: 0; }
+.doc-prose p { margin: 0 0 var(--spacing-ds-200, 16px); }
+.doc-prose ul, .doc-prose ol { margin: 0 0 var(--spacing-ds-200, 16px); padding-inline-start: var(--spacing-ds-250, 20px); }
+.doc-prose ul { list-style: disc; }
+.doc-prose ol { list-style: decimal; }
+.doc-prose li { margin-block: var(--spacing-ds-075, 6px); }
+.doc-prose li::marker { color: var(--ds-text-subtlest); }
+.doc-prose strong { font-weight: 500; }
+.doc-prose a { color: var(--ds-link); text-decoration: underline; text-underline-offset: 3px; }
+.doc-prose a:hover { color: var(--ds-link-pressed); }
+.doc-prose a:focus-visible { outline: none; text-decoration-thickness: 2px; color: var(--ds-text); }
+.doc-prose :not(pre) > code {
+  font-family: var(--font-ds-mono, ui-monospace, monospace);
+  font-size: 0.875em;
+  background: var(--ds-surface-sunken);
+  border-radius: var(--radius-ds-small, 4px);
+  padding: 0.1em 0.35em;
+}
+.doc-prose table { width: 100%; border-collapse: collapse; margin: 0 0 var(--spacing-ds-300, 24px); font-size: var(--text-body); line-height: var(--text-body--line-height); }
+.doc-prose th { text-align: start; font-weight: 500; color: var(--ds-text-subtle); padding: var(--spacing-ds-100, 8px) var(--spacing-ds-300, 24px) var(--spacing-ds-100, 8px) 0; }
+.doc-prose td { border-top: 1px solid var(--ds-border); padding: var(--spacing-ds-150, 12px) var(--spacing-ds-300, 24px) var(--spacing-ds-150, 12px) 0; vertical-align: top; }
+.doc-prose .doc-code { margin: 0 0 var(--spacing-ds-300, 24px); }
