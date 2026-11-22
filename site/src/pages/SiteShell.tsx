@@ -15,11 +15,13 @@ const LINKS = [
  * footer. `section` is the first path segment ("components"), which marks the current top link. Router-agnostic:
  * links are the library's, which the provider routes.
  */
-export function SiteShell({ children, section, components = [], onNavigate }: {
+export function SiteShell({ children, section, components = [], docs = [], onNavigate }: {
   children: ReactNode;
   section?: string;
   /** Every component, for search; search is left out without `onNavigate`. */
   components?: ManifestIndexEntry[];
+  /** Every doc, for search. */
+  docs?: { slug: string; title: string; description: string }[];
   onNavigate?: (href: string) => void;
 }) {
   return (
@@ -33,7 +35,7 @@ export function SiteShell({ children, section, components = [], onNavigate }: {
         isSticky
         endActions={
           <span className="flex items-center gap-ds-150">
-            {onNavigate && <SiteSearch components={components} onNavigate={onNavigate} />}
+            {onNavigate && <SiteSearch components={components} docs={docs} onNavigate={onNavigate} />}
             <ThemeToggle />
           </span>
         }

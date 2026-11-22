@@ -18,7 +18,7 @@ function readRecent(): CommandItem[] {
  * ⌘K search over the whole site: every component (found by title, family and description words), the docs and the
  * builder. The library's CommandPalette does the matching; the last five picks show while the query is empty.
  */
-export function SiteSearch({ components, onNavigate }: { components: ManifestIndexEntry[]; onNavigate: (href: string) => void }) {
+export function SiteSearch({ components, docs = [], onNavigate }: { components: ManifestIndexEntry[]; docs?: { slug: string; title: string; description: string }[]; onNavigate: (href: string) => void }) {
   const [open, setOpen] = useState(false);
   const [recent, setRecent] = useState<CommandItem[]>([]);
   const [mac, setMac] = useState(true);
@@ -41,17 +41,27 @@ export function SiteSearch({ components, onNavigate }: { components: ManifestInd
         })),
       },
       {
+        id: "docs",
+        title: "Docs",
+        items: docs.map((doc) => ({
+          id: `/docs/${doc.slug}`,
+          label: doc.title,
+          icon: "book-open" as const,
+          kind: "page" as const,
+          keywords: doc.description.toLowerCase().split(/\W+/).filter((word) => word.length > 3),
+        })),
+      },
+      {
         id: "site",
         title: "Pages",
         items: [
           { id: "/create", label: "Create a theme", icon: "palette", kind: "action" as const, keywords: ["theme", "builder", "colors", "preset"] },
-          { id: "/docs/getting-started", label: "Getting started", icon: "book-open", kind: "page" as const, keywords: ["install", "setup", "docs"] },
           { id: "/components", label: "All components", icon: "layout-grid", kind: "page" as const },
           { id: "/llms.txt", label: "llms.txt for agents", icon: "bot", kind: "page" as const, keywords: ["ai", "agent", "markdown", "mcp"] },
         ],
       },
     ],
-    [components],
+    [components, docs],
   );
 
   const select = (item: CommandItem) => {

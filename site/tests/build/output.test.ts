@@ -1,4 +1,4 @@
-import { existsSync, readFileSync } from "node:fs";
+import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
 
@@ -17,6 +17,14 @@ describe("build output", () => {
     expect(html).toContain("<h1");
     expect(readFileSync(`${client}components/${slug}.md`, "utf8")).toMatch(/^# /);
     expect(JSON.parse(readFileSync(`${client}components/${slug}.json`, "utf8")).name).toBe(slug);
+  });
+
+  it("has every doc as a page and its Markdown", () => {
+    for (const file of readdirSync(here("../../content/docs/")).filter((name) => name.endsWith(".md"))) {
+      const slug = file.replace(/\.md$/, "");
+      expect(readFileSync(`${client}docs/${slug}/index.html`, "utf8")).toContain("<h1");
+      expect(readFileSync(`${client}docs/${slug}.md`, "utf8")).toMatch(/^---\ntitle: /);
+    }
   });
 
   it("has the fixed pages, the 404 and the schema", () => {

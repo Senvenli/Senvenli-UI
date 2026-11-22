@@ -11,6 +11,7 @@ export default [
   route("schema/component.full.json", "routes/schema-component-full.ts"),
   route("llms.txt", "routes/llms.ts"),
   route("components/:slug", "routes/component.tsx"),
+  route("docs/:slug.md", "routes/doc-md.ts"),
   route("docs/:slug", "routes/doc.tsx"),
   // Prerendered as /404 and copied to 404.html for nginx's error_page.
   route("*", "routes/not-found.tsx"),

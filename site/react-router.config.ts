@@ -1,4 +1,4 @@
-import { readFileSync } from "node:fs";
+import { readdirSync, readFileSync } from "node:fs";
 import type { Config } from "@react-router/dev/config";
 
 type IndexEntry = { name: string };
@@ -8,8 +8,8 @@ const slugs = (JSON.parse(readFileSync(new URL("../packages/react/manifests/inde
   (entry) => entry.name,
 );
 
-/** Docs pages are a fixed list until the docs content lands. */
-const docs = ["getting-started"];
+/** Every doc, from the Markdown files in content/docs. */
+const docs = readdirSync(new URL("./content/docs/", import.meta.url)).filter((file) => file.endsWith(".md")).map((file) => file.replace(/\.md$/, ""));
 
 export default {
   appDirectory: "src",
@@ -21,7 +21,7 @@ export default {
     paths: ({ getStaticPaths }) => [
       ...getStaticPaths(), // "/", "/create", "/components", "/schema/component.full.json", "/llms.txt"
       ...slugs.flatMap((slug) => [`/components/${slug}`, `/components/${slug}.json`, `/components/${slug}.md`]),
-      ...docs.map((slug) => `/docs/${slug}`),
+      ...docs.flatMap((slug) => [`/docs/${slug}`, `/docs/${slug}.md`]),
       "/404", // lib/not-found-document.ts: NOT_FOUND_PATH
     ],
     concurrency: 4,

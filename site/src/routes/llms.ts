@@ -1,5 +1,6 @@
 import { orderComponents, familyTitle } from "../lib/manifest";
 import { loadIndex } from "../lib/manifest.server";
+import { listDocs } from "../lib/docs.server";
 
 const ORIGIN = "https://design.senvenli.com";
 
@@ -20,7 +21,7 @@ export async function loader() {
     "",
     "## Docs",
     "",
-    `- [Getting started](${ORIGIN}/docs/getting-started): install, theme and provider.`,
+    ...listDocs().map((doc) => `- [${doc.title}](${ORIGIN}/docs/${doc.slug}.md): ${doc.description}`),
     "",
   ];
   for (const family of families) {

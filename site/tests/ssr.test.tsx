@@ -6,6 +6,8 @@ import { describe, expect, it } from "vitest";
 import type { ComponentType } from "react";
 import type { ExampleMeta } from "../src/examples/types";
 import { loadExamples } from "../src/lib/examples.server";
+import { listDocs, renderDoc } from "../src/lib/docs.server";
+import { DocPage } from "../src/pages/DocPage";
 import type { Manifest, ManifestIndexEntry } from "../src/lib/manifest";
 import { ComponentPage } from "../src/pages/ComponentPage";
 import { ComponentsIndexPage } from "../src/pages/ComponentsIndexPage";
@@ -78,6 +80,32 @@ describe("server render", () => {
     for (const key of Object.keys(examples)) {
       const Example = examples[key]!;
       expect(render(<Example />), key).toBe(render(<Example />));
+    }
+  });
+
+  it.each(listDocs().map((doc) => doc.slug))("/docs/%s renders, with every code block highlighted", async (slug) => {
+    const doc = (await renderDoc(slug))!;
+    expect(doc.meta.title.length).toBeGreaterThan(0);
+    expect(doc.meta.description.length).toBeGreaterThan(0);
+    for (const part of doc.parts) if (part.kind === "code") expect(part.html, `${slug}: ${part.code.slice(0, 30)}`).toContain("shiki");
+    const html = render(<DocPage {...doc} docs={listDocs()} />);
+    expect(html).toContain("<h1");
+    expect(html).toContain(`/docs/${slug}.md`);
+  });
+
+  it("docs link only to pages that exist", async () => {
+    const slugs = new Set(index.map((entry) => entry.name));
+    const docs = new Set(listDocs().map((doc) => doc.slug));
+    const fixed = new Set(["/create", "/components", "/llms.txt", "/schema/component.full.json"]);
+    for (const doc of listDocs()) {
+      const rendered = (await renderDoc(doc.slug))!;
+      const html = rendered.parts.map((part) => (part.kind === "html" ? part.html : "")).join("");
+      for (const [, href] of html.matchAll(/href="([^"]+)"/g)) {
+        if (/^https?:/.test(href!)) continue;
+        const path = href!.split("#")[0]!;
+        const ok = fixed.has(path) || (path.startsWith("/docs/") && docs.has(path.slice(6))) || (path.startsWith("/components/") && slugs.has(path.slice(12)));
+        expect(ok, `${doc.slug} links to ${href}`).toBe(true);
+      }
     }
   });
 });

@@ -1,0 +1,56 @@
+---
+title: Theming
+description: Zero to three colors and a few layout settings in, a full light and dark theme out.
+group: Get started
+order: 2
+---
+
+A theme starts from a handful of inputs. The engine derives everything else and checks every text and border pair against WCAG AA, in light and in dark.
+
+## Inputs
+
+All of them are optional.
+
+| Input | What it sets |
+| --- | --- |
+| `primary` | The brand color: primary buttons, selection, focus, links, the first chart series. |
+| `secondary`, `tertiary` | Two more brand roles, for secondary fills and accents. |
+| `success`, `warning`, `danger`, `info` | Status colors, if yours differ from the defaults. |
+| `radius` | The base corner radius in rem (default `0.625`). Every radius steps from it. |
+| `density` | `compact`, `default` or `comfortable`: control heights and spacing. |
+| `borderWidth` | `0`, `1` or `2` pixels for field and card borders. |
+| `fontSans`, `fontMono` | Font stacks. The default is Geist. |
+
+Leave the colors out and you get the neutral theme: soft black (`#0c0c0b`) and white (`#fcfcfb`), never pure.
+
+## What is derived
+
+From each color the engine derives the bold fill, its hover and pressed steps, the label that sits on it (paper or ink, whichever reads), a subtle tint for selection, the text color for links and brand text, and the mark used for borders, focus and chart lines. In dark mode a given color is lifted so fills stand out on the dark page.
+
+When a color cannot carry its label at AA, the engine moves its lightness until it does and keeps the hue. The theme builder shows when that happened: "Moved to #… so text on it passes AA."
+
+## Contrast
+
+Every theme reports its checks: 126 pairs, each with its ratio. The builder lists them under **See pairs**. A failing pair is a bug in the engine, not something to tune by hand.
+
+## Themes in code
+
+To build a theme at run time (one per customer, say), use the engine directly:
+
+```ts
+import { createTheme, toCSS } from "@senvenli/tokens";
+
+const theme = createTheme({ primary: "#1268ae", radius: 0.5 });
+const css = toCSS(theme, { tailwind: true });
+const failing = theme.checks.filter((check) => !check.pass);
+```
+
+Put the CSS in a `<style>` element. It replaces the default variables, so every component follows at once.
+
+## Preset codes
+
+A preset code is a short string for a set of inputs. The builder puts it in the share link (`/create?p=…`), and the CLI reads it:
+
+```bash
+npx @senvenli/cli theme <preset-code> --tailwind
+```
