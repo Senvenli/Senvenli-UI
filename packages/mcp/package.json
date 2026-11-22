@@ -1,11 +1,23 @@
 {
   "name": "@senvenli/mcp",
   "version": "0.0.0",
-  "private": true,
-  "description": "MCP server for building with Senvenli UI from AI coding agents.",
+  "description": "MCP server for building with Senvenli UI from AI coding agents: components, examples, docs and themes.",
   "license": "MIT",
   "type": "module",
+  "bin": { "senvenli-mcp": "./dist/stdio.js" },
+  "exports": {
+    ".": { "types": "./dist/server.d.ts", "default": "./dist/server.js" },
+    "./http": { "types": "./dist/http.d.ts", "default": "./dist/http.js" }
+  },
+  "files": ["dist", "data"],
   "scripts": {
-    "typecheck": "tsc -p ../../tsconfig.base.json --noEmit src/index.ts"
+    "data": "node scripts/build-data.ts",
+    "build": "node scripts/build-data.ts && tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "1.32.2",
+    "@senvenli/tokens": "workspace:*",
+    "zod": "4.6.7"
   }
 }

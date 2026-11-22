@@ -12,3 +12,6 @@ coverage/
 .react-router/
 
 .claude/worktrees/
+
+# Built by packages/mcp/scripts/build-data.ts (pnpm --filter @senvenli/mcp build); shipped in the package, not committed.
+packages/mcp/data/
