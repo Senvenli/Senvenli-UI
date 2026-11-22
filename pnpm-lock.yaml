@@ -30,7 +30,7 @@ importers:
   packages/cli:
     dependencies:
       '@senvenli/tokens':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../tokens
 
   packages/mcp:
@@ -39,7 +39,7 @@ importers:
         specifier: 1.32.2
         version: 1.32.2(zod@4.6.7)
       '@senvenli/tokens':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../tokens
       zod:
         specifier: 4.6.7
@@ -51,7 +51,7 @@ importers:
         specifier: ^3.12.4
         version: 3.12.4
       '@senvenli/tokens':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../tokens
       clsx:
         specifier: ^2.1.1

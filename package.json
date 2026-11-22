@@ -9,7 +9,8 @@
     "test": "vitest run",
     "typecheck": "pnpm -r typecheck",
     "dev": "pnpm --filter site dev",
-    "manifests": "UPDATE_MANIFESTS=1 vitest run packages/react/src/manifest"
+    "manifests": "UPDATE_MANIFESTS=1 vitest run packages/react/src/manifest",
+    "release:check": "pnpm build && pnpm test && pnpm --filter site test && sh scripts/smoke-pack.sh"
   },
   "devDependencies": {
     "@types/node": "^26.1.1",

@@ -45,7 +45,7 @@ export function DocPage({ meta, parts, headings, docs }: { meta: DocMeta; parts:
               <div key={index} dangerouslySetInnerHTML={{ __html: part.html }} />
             ) : (
               <div key={index} className="doc-code">
-                <CodeBlock code={part.code} html={part.html} label={part.lang === "bash" ? "Terminal" : part.lang} />
+                <CodeBlock code={part.code} html={part.html} variants={part.variants} label={part.lang === "bash" ? "Terminal" : part.lang} />
               </div>
             ),
           )}

@@ -5,6 +5,7 @@ import { SegmentedControl } from "@senvenli/react/navigation";
 import { createTheme, encodePreset, formatHex } from "@senvenli/tokens";
 import { useLayoutEffect, useMemo, useState } from "react";
 import { CodeBlock } from "../components/CodeBlock";
+import type { CommandVariant } from "../lib/package-managers";
 import { HomeBoard } from "../components/HomeBoard";
 import { familyTitle } from "../lib/manifest";
 import { applyTheme, PRESETS, readStoredPreset } from "../lib/preset";
@@ -14,6 +15,7 @@ export type HomeData = {
   families: { family: string; count: number }[];
   /** Build-time highlighted snippets. */
   installHtml?: string;
+  installVariants?: CommandVariant[];
   agentHtml?: string;
   agentCode: string;
 };
@@ -79,7 +81,7 @@ export function HomePage({ data }: { data: HomeData }) {
           <LinkButton href="/components">Browse components</LinkButton>
         </div>
         <div className="max-w-md">
-          <CodeBlock code={INSTALL} html={data.installHtml} copyLabel="Copy install command" />
+          <CodeBlock code={INSTALL} html={data.installHtml} variants={data.installVariants} copyLabel="Copy install command" />
         </div>
       </section>
 
