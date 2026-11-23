@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import { DocsSidebar } from "./DocsSidebar";
+import { SITE_CONTAINER } from "../lib/layout";
 
 /**
  * Every page under /docs: the sidebar from 1024px, the page, and from 1280px a right column ("On this page"). Without
@@ -9,7 +10,7 @@ export function DocsLayout({ children, aside }: { children: ReactNode; aside?: R
   return (
     <div
       className={
-        "mx-auto grid w-full max-w-[1400px] gap-ds-600 px-ds-200 sm:px-ds-300 lg:grid-cols-[15rem_minmax(0,1fr)] " +
+        `${SITE_CONTAINER} grid gap-ds-600 lg:grid-cols-[15rem_minmax(0,1fr)] ` +
         (aside ? "xl:grid-cols-[15rem_minmax(0,47.5rem)_12.5rem] xl:justify-between" : "")
       }
     >

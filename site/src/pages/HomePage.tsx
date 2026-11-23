@@ -10,6 +10,7 @@ import type { CommandVariant } from "../lib/package-managers";
 import { HomeBoard } from "../components/HomeBoard";
 import { familyTitle } from "../lib/manifest";
 import { applyTheme, PRESETS, readStoredPreset } from "../lib/preset";
+import { SITE_CONTAINER } from "../lib/layout";
 
 export type HomeData = {
   componentCount: number;
@@ -67,7 +68,7 @@ export function HomePage({ data }: { data: HomeData }) {
   }, [theme, preset, ready]);
 
   return (
-    <main id="main" className="mx-auto flex w-full max-w-[1360px] flex-col px-ds-200 pb-ds-1000 sm:px-ds-300">
+    <main id="main" className={`${SITE_CONTAINER} flex flex-col pb-ds-1000`}>
       {/* Centered, as shadcn's: a quiet "what's new" pill, the claim, one sentence, two ways in, the install line. */}
       <section aria-labelledby="home-title" className="mx-auto flex max-w-3xl flex-col items-center gap-ds-300 pt-ds-1000 text-center">
         <div className="w-fit">

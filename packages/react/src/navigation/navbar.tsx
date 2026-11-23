@@ -43,6 +43,11 @@ export type NavbarProps = {
   actions?: React.ReactNode;
   /** Pinned to the top while the page scrolls. */
   isSticky?: boolean;
+  /**
+   * The width of the bar's content ("1280px", 1280), centred, so the brand and the actions line up with the page's
+   * own container; the bar's background and border still run the full width. Left out, the content spans it.
+   */
+  maxWidth?: number | string;
   /** `compact`: 48px instead of 56px, the bar after the hero. */
   density?: Density;
   /** Names the navigation landmark; "Main menu" by default. */
@@ -69,6 +74,7 @@ export function Navbar({
   currentKey,
   actions: actionsProp,
   isSticky,
+  maxWidth,
   density = "comfortable",
   "aria-label": label,
 }: NavbarProps) {
@@ -106,8 +112,11 @@ export function Navbar({
       )}
     >
       <div
+        data-slot="navbar-content"
+        style={maxWidth !== undefined ? { maxWidth } : undefined}
         className={cn(
           "flex items-center gap-ds-300 transition-[height] duration-(--ds-duration-medium) motion-reduce:transition-none",
+          maxWidth !== undefined && "mx-auto w-full",
           // Safe-area insets are physical edges, so they pair with physical padding.
           "[padding-left:max(var(--ds-space-200),env(safe-area-inset-left,0px))] [padding-right:max(var(--ds-space-200),env(safe-area-inset-right,0px))]",
           "md:[padding-left:max(var(--ds-space-300),env(safe-area-inset-left,0px))] md:[padding-right:max(var(--ds-space-300),env(safe-area-inset-right,0px))]",

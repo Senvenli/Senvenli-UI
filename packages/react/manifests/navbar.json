@@ -147,6 +147,16 @@
         }
       },
       {
+        "name": "maxWidth",
+        "type": "string | number",
+        "required": false,
+        "origin": "own",
+        "description": "The width of the bar's content (\"1280px\", 1280), centred, so the brand and the actions line up with the page's\nown container; the bar's background and border still run the full width. Left out, the content spans it.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
         "name": "density",
         "type": "Density",
         "required": false,
