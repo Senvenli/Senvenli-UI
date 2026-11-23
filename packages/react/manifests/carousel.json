@@ -7,14 +7,17 @@
   "name": "carousel",
   "title": "Carousel",
   "exports": [
-    "Carousel"
+    "Carousel",
+    "CarouselSlide"
   ],
   "description": "Pages through a set of images with previous/next and optional thumbnails; never auto-advances.",
   "keywords": [
+    "compound",
     "gallery",
     "images",
+    "photos",
     "slider",
-    "photos"
+    "slides"
   ],
   "usage": {
     "when": [
@@ -38,7 +41,8 @@
       "The position is announced as \"Image N of M\"."
     ],
     "youProvide": [
-      "Meaningful alt text for each image."
+      "Meaningful alt text for each image.",
+      "With CarouselSlide children: real alt text on images inside slides, and a label per slide when thumbnails are shown."
     ]
   },
   "related": [
@@ -56,8 +60,9 @@
       {
         "name": "items",
         "type": "CarouselItem[]",
-        "required": true,
+        "required": false,
         "origin": "own",
+        "description": "Images as data. Leave it out to compose `CarouselSlide`s as children instead (any content: a card, a quote).",
         "schema": {
           "type": "array",
           "items": {
@@ -80,6 +85,13 @@
             ]
           }
         }
+      },
+      {
+        "name": "children",
+        "type": "React.ReactNode",
+        "required": false,
+        "origin": "own",
+        "description": "With no `items`: `CarouselSlide`s, one per page."
       },
       {
         "name": "aria-label",
@@ -122,7 +134,7 @@
         "type": "boolean",
         "required": false,
         "origin": "own",
-        "description": "A strip of thumbnails under the frame; the current one outlined. The dots then only indicate.",
+        "description": "A strip of thumbnails under the frame; the current one outlined. The dots then only indicate. With\n`CarouselSlide`s, shown only when every slide has a `thumbnail`.",
         "schema": {
           "type": "boolean"
         }
@@ -164,6 +176,45 @@
             "reduce"
           ]
         }
+      }
+    ],
+    "CarouselSlide": [
+      {
+        "name": "id",
+        "type": "string",
+        "required": false,
+        "origin": "own",
+        "description": "Stable key; the position by default.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "label",
+        "type": "string",
+        "required": false,
+        "origin": "own",
+        "description": "The slide's name for its thumbnail (\"Front view\"); the position by default.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "thumbnail",
+        "type": "string",
+        "required": false,
+        "origin": "own",
+        "description": "An image URL for the thumbnail strip.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "children",
+        "type": "React.ReactNode",
+        "required": true,
+        "origin": "own",
+        "description": "What the page shows: an image, a card, a quote. It fills the frame."
       }
     ]
   },
