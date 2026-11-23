@@ -2,7 +2,7 @@
 // Command, Toaster and toast(). Each is built on React Aria Components.
 export { DialogTrigger } from "./overlay-base";
 export type { OverlaySize } from "./overlay-base";
-export { Dialog } from "./dialog";
+export { Dialog, useDialogClose } from "./dialog";
 export type { DialogAction, DialogProps } from "./dialog";
 export { AlertDialog } from "./alert-dialog";
 export type { AlertDialogProps } from "./alert-dialog";

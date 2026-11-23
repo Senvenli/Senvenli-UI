@@ -16,10 +16,11 @@
   "description": "A modal window for a focused task, with a title, body and footer actions, in small to full-screen sizes.",
   "keywords": [
     "dialog",
+    "footer",
+    "form",
     "modal",
-    "window",
     "popup",
-    "form"
+    "window"
   ],
   "usage": {
     "when": [

@@ -63,6 +63,12 @@ export type DialogProps = OpenProps & DataAttributes & {
    */
   secondaryAction?: DialogSecondaryAction | null;
   /**
+   * The footer's content, in place of `primaryAction` and `secondaryAction`: a checkbox beside the buttons, three
+   * actions, a link. It sits in the same footer (spacing, `footerLayout`, the notch and home-indicator insets);
+   * close from it with `useDialogClose()`. As Drawer's `footer`.
+   */
+  footer?: React.ReactNode;
+  /**
    * Leaves out the close button in the header, and does nothing else: Esc and a press outside
    * still follow `isDismissable`. A locked view the user must not dismiss before the flow ends, such as a
    * completion step, sets both: `isCloseButtonHidden` and `isDismissable={false}`. It then closes only when the
@@ -264,10 +270,18 @@ type ContentOptions = Pick<DialogProps, "isCloseButtonHidden" | "initialFocusRef
 const TITLE_FOCUSABLE =
   "-mx-ds-050 px-ds-050 outline-hidden focus-visible:rounded-ds-small focus-visible:inset-ring-2 focus-visible:inset-ring-ds-border-focused";
 
+/** Closes the dialog it is called in, from a custom `footer` or the body. */
+const DialogCloseContext = React.createContext<() => void>(() => {});
+
+/** The close of the Dialog around it, for a custom `footer` or the body; it does nothing outside a Dialog. */
+export function useDialogClose(): () => void {
+  return React.useContext(DialogCloseContext);
+}
+
 function DialogContent({
-  title, description, descriptionId, children, primaryAction, secondaryAction, close, fullScreen, footerLayout, headerLeading, isTitleHidden,
+  title, description, descriptionId, children, primaryAction, secondaryAction, footer, close, fullScreen, footerLayout, headerLeading, isTitleHidden,
   isCloseButtonHidden, initialFocusRef, returnFocusRef, partData, titleRef,
-}: Pick<DialogProps, "title" | "description" | "children" | "primaryAction" | "secondaryAction"> & FullScreenOptions & ContentOptions & { descriptionId: string; close: () => void; fullScreen?: boolean }) {
+}: Pick<DialogProps, "title" | "description" | "children" | "primaryAction" | "secondaryAction" | "footer"> & FullScreenOptions & ContentOptions & { descriptionId: string; close: () => void; fullScreen?: boolean }) {
   const { locale } = useLocale();
   const body = React.useRef<HTMLDivElement>(null);
   const secondary = React.useRef<HTMLButtonElement>(null);
@@ -279,8 +293,15 @@ function DialogContent({
   useStrandedWarning(closeHidden, body);
   // The full-screen options below reach this component only for `fullscreen` (Dialog drops them for the other sizes).
   const hasStart = isRenderable(headerLeading);
-  const hasSecondary = secondaryAction !== null;
-  const hasFooter = hasSecondary || primaryAction != null;
+  const custom = footer !== undefined && footer !== null && footer !== false;
+  const hasSecondary = !custom && secondaryAction !== null;
+  const hasFooter = custom || hasSecondary || (!custom && primaryAction != null);
+  const overridden = custom && (primaryAction != null || secondaryAction != null);
+  React.useEffect(() => {
+    if (process.env.NODE_ENV !== "production" && overridden) {
+      console.warn("Dialog: `footer` replaces primaryAction and secondaryAction; they are not rendered.");
+    }
+  }, [overridden]);
   // A hidden title keeps only `sr-only` (its own margin and size would fight it); with a start slot it truncates.
   const titleClass = isTitleHidden ? "sr-only" : hasStart ? "m-0 truncate text-heading-medium" : "m-0 text-heading-medium";
   // The app's data-* attributes come first in every part, so the DS's own data-slot wins.
@@ -296,7 +317,7 @@ function DialogContent({
   );
   const headerClass = fullScreen ? FULL_HEADER : "flex items-start justify-between gap-ds-200 px-ds-300 pt-ds-300";
   return (
-    <>
+    <DialogCloseContext.Provider value={close}>
       <div {...partData?.header} data-slot="dialog-header" className={isTitleHidden ? `${headerClass} ${HEADER_CLOSE_END}` : headerClass}>
         {hasStart && (
           <div data-slot="dialog-header-start" className="flex shrink-0 items-center">{headerLeading}</div>
@@ -328,6 +349,7 @@ function DialogContent({
           data-layout={footerLayout === "spread" ? "spread" : undefined}
           className={fullScreen ? (footerLayout === "spread" ? `${FULL_FOOTER} ${FOOTER_SPREAD}` : FULL_FOOTER) : "flex flex-wrap items-center justify-end gap-ds-100 px-ds-300 pb-ds-300 pt-ds-100"}
         >
+          {custom ? footer : null}
           {hasSecondary && (
             <Button
               {...dataAttributes(secondaryAction)}
@@ -342,7 +364,7 @@ function DialogContent({
               {secondaryAction?.label ?? defaultCancelLabel(locale)}
             </Button>
           )}
-          {primaryAction && (
+          {!custom && primaryAction && (
             <Button
               {...dataAttributes(primaryAction)}
               variant="primary"
@@ -362,7 +384,7 @@ function DialogContent({
           )}
         </div>
       )}
-    </>
+    </DialogCloseContext.Provider>
   );
 }
 
