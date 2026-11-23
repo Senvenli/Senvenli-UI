@@ -16,10 +16,11 @@
   "description": "A modal window for a focused task, with a title, body and footer actions, in small to full-screen sizes.",
   "keywords": [
     "dialog",
+    "footer",
+    "form",
     "modal",
-    "window",
     "popup",
-    "form"
+    "window"
   ],
   "usage": {
     "when": [
@@ -130,6 +131,13 @@
         "required": false,
         "origin": "own",
         "description": "\"Cancel\" by default, closing the dialog; pass a label or a handler to change it. `isDisabled`\nblocks it, e.g. while the primary action runs; `iconBefore` / `iconAfter` add a\ndecorative icon. `null` leaves it out: a\nfull-screen dialog whose steps carry their own buttons, or a locked completion view, has no secondary action,\nand with no `primaryAction` either it has no footer at all (the body then takes the bottom padding, and on\n`fullscreen` reaches down to the home indicator). With `null` and a `danger` primary there is no safe button\nto focus first, so focus goes to the body's first field (as for any other dialog), or to the dialog itself\nwhen the body has none. `data-*` keys reach the button."
+      },
+      {
+        "name": "footer",
+        "type": "React.ReactNode",
+        "required": false,
+        "origin": "own",
+        "description": "The footer's content, in place of `primaryAction` and `secondaryAction`: a checkbox beside the buttons, three\nactions, a link. It sits in the same footer (spacing, `footerLayout`, the notch and home-indicator insets);\nclose from it with `useDialogClose()`. As Drawer's `footer`."
       },
       {
         "name": "isCloseButtonHidden",
