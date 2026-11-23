@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { CalendarDate } from "@internationalized/date";
-import { DataTable, type DataTableColumn } from "@senvenli/react/collection";
+import { DataTable, useDataTableUrl, type DataTableColumn } from "@senvenli/react/collection";
 import { Badge } from "@senvenli/react/display";
 
 const STATUS = {
@@ -36,18 +36,21 @@ const COLUMNS: DataTableColumn<Order>[] = [
 ];
 const FILTERS = [{ key: "status", label: "Status", options: Object.entries(STATUS).map(([id, status]) => ({ id, label: status.label })) }];
 
+const SORT = { column: "date", direction: "descending" } as const;
+
 export default function Example() {
   const [orders, setOrders] = useState(ORDERS);
+  // The view lives in the URL (?orders.page=2&orders.status=paid); the prefix keeps two tables on a page apart.
+  const url = useDataTableUrl({ filters: FILTERS, defaultSort: SORT, urlKey: "orders" });
   return (
     <DataTable
+      {...url}
       aria-label="Orders"
       rows={orders}
       columns={COLUMNS}
       filters={FILTERS}
-      defaultSort={{ column: "date", direction: "descending" }}
+      defaultSort={SORT}
       pageSize={10}
-      // The view lives in the URL (?orders.page=2&orders.status=paid); the prefix keeps two tables on a page apart.
-      urlKey="orders"
       bulkActions={[
         {
           id: "ship",

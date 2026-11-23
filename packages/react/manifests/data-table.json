@@ -186,28 +186,25 @@
         "description": "What an empty list shows (with no search or filter active): an `EmptyState size=\"small\"` with the action that\nfills it. \"No records yet\" by default."
       },
       {
-        "name": "urlKey",
-        "type": "string",
+        "name": "view",
+        "type": "DataTableView",
         "required": false,
         "origin": "own",
-        "description": "Prefixes the URL params (`orders.page`) when two tables share a page.",
-        "schema": {
-          "type": "string"
-        }
+        "description": "The view (page, sort, search, filters), controlled. Keep it in the URL with `useDataTableUrl`, or anywhere else;\nleft out, the table keeps it itself."
       },
       {
-        "name": "searchParams",
-        "type": "string | URLSearchParams",
+        "name": "defaultView",
+        "type": "Partial<DataTableView>",
         "required": false,
         "origin": "own",
-        "description": "The URL's search params. Pass them when the page renders on the server (SSR): without them the server\nreads no params while the browser reads `window.location.search`, and a URL with params hydrates with a\nmismatch. A host router can also pass its current params here; the view follows when they change."
+        "description": "The first view when uncontrolled: page 1, the default sort, no search and no filters by default."
       },
       {
-        "name": "routerOptions",
-        "type": "{}",
+        "name": "onViewChange",
+        "type": "(view: DataTableView) => void",
         "required": false,
         "origin": "own",
-        "description": "Passed to the provider's `navigate` with each view change (a host router's replace or scroll option)."
+        "description": "Called with the whole next view on every change (a new sort, search, filter or page)."
       },
       {
         "name": "density",

@@ -22,12 +22,11 @@ import {
   tableSelectedLabel,
   tableToolsLabel,
 } from "../i18n";
-import { useDesignSystemNavigate } from "../navigate-context";
 import { Pagination } from "../navigation/pagination";
 import { BulkBar, Toolbar, ToolbarSpacer } from "../layout/toolbar";
 import { Menu } from "../overlay/floating";
 import { matchesQuery } from "../selection/match";
-import { readView, writeView, type DataTableView } from "./data-table-url";
+import type { DataTableView } from "./data-table-url";
 import { TableView, uniqueRowKeys, type TableColumn } from "./table";
 
 export type DataTableColumn<T> = TableColumn<T> & {
@@ -93,16 +92,15 @@ type DataTableBase<T> = {
    * fills it. "No records yet" by default.
    */
   emptyState?: React.ReactNode;
-  /** Prefixes the URL params (`orders.page`) when two tables share a page. */
-  urlKey?: string;
   /**
-   * The URL's search params. Pass them when the page renders on the server (SSR): without them the server
-   * reads no params while the browser reads `window.location.search`, and a URL with params hydrates with a
-   * mismatch. A host router can also pass its current params here; the view follows when they change.
+   * The view (page, sort, search, filters), controlled. Keep it in the URL with `useDataTableUrl`, or anywhere else;
+   * left out, the table keeps it itself.
    */
-  searchParams?: URLSearchParams | string;
-  /** Passed to the provider's `navigate` with each view change (a host router's replace or scroll option). */
-  routerOptions?: unknown;
+  view?: DataTableView;
+  /** The first view when uncontrolled: page 1, the default sort, no search and no filters by default. */
+  defaultView?: Partial<DataTableView>;
+  /** Called with the whole next view on every change (a new sort, search, filter or page). */
+  onViewChange?: (view: DataTableView) => void;
   /** `compact` (36px rows) by default: DataTable is the dense working list of a back office. */
   density?: Density;
 };
@@ -144,16 +142,11 @@ const NO_FILTERS: readonly DataTableFilter[] = [];
 /** One function for every render, so memos keyed on `rowKey` hold. */
 const defaultRowKey = (row: object): Key => (row as { id: Key }).id;
 
-function initialParams(searchParams?: URLSearchParams | string) {
-  if (searchParams !== undefined) return new URLSearchParams(searchParams);
-  return new URLSearchParams(typeof window === "undefined" ? "" : window.location.search);
-}
-
 /**
  * The record list of a back office or admin screen: Toolbar (search, filters, column picker), a compact Table
  * with sortable headers and selection, the bulk bar while rows are selected, Pagination, and loading,
- * empty and error states in the table's frame. Page, sort, filters and search live in the URL (through
- * the provider's `navigate`), so a reload or a shared link shows the same view. Server lists page;
+ * empty and error states in the table's frame. Page, sort, filters and search are the `view`, kept by the
+ * table or by the app; `useDataTableUrl` keeps it in the URL, so a reload or a shared link shows the same view. Server lists page;
  * client lists over 200 rows render only the rows in view. Selection survives paging and clears after a
  * bulk action settles.
  */
@@ -169,73 +162,40 @@ export function DataTable<T extends object>(props: DataTableProps<T>) {
     pageSize = 20,
     formatRange,
     emptyState,
-    urlKey,
-    searchParams,
-    routerOptions,
     density = "compact",
   } = props;
   const { locale } = useLocale();
-  const navigate = useDesignSystemNavigate();
-  const filterKeys = React.useMemo(() => filters.map((filter) => filter.key), [filters]);
-  const urlOptions = { urlKey, filterKeys, defaultSort };
-  // A view from a URL, keeping only filter values the table offers (a stale or hand-edited `?status=foo` is ignored).
-  const viewFrom = (params: URLSearchParams): DataTableView => {
-    const read = readView(params, urlOptions);
-    const known = Object.fromEntries(
-      filters.map((filter) => [filter.key, (read.filters[filter.key] ?? []).filter((value) => filter.options.some((option) => option.id === value))]).filter(([, values]) => values.length > 0),
-    );
-    return { ...read, filters: known };
-  };
-
-  // The view: read from the URL, written back on every change, and read again when the URL moves under it
-  // (Back and Forward, or a host router handing a new `searchParams`).
-  const [view, setViewState] = React.useState<DataTableView>(() => viewFrom(initialParams(searchParams)));
-  const writeUrl = (next: DataTableView) => {
-    if (!navigate || typeof window === "undefined") return;
-    const params = writeView(new URLSearchParams(window.location.search), next, urlOptions).toString();
-    const href = `${window.location.pathname}${params ? `?${params}` : ""}${window.location.hash}`;
-    if (href !== `${window.location.pathname}${window.location.search}${window.location.hash}`) navigate(href, routerOptions as never);
-  };
+  // The view: the app's (`view`), or the table's own.
+  const [own, setOwn] = React.useState<DataTableView>(() => ({ page: 1, sort: defaultSort, search: "", filters: {}, ...props.defaultView }));
+  const view = props.view ?? own;
   const viewRef = React.useRef(view);
   viewRef.current = view;
   const setView = (patch: Partial<DataTableView>) => {
     // Anything but a page change starts again at page 1.
     const next = { ...viewRef.current, ...patch, page: patch.page ?? 1 };
     viewRef.current = next;
-    setViewState(next);
-    writeUrl(next);
+    if (props.view === undefined) setOwn(next);
+    props.onViewChange?.(next);
   };
-  // The search box answers each keystroke; the view (the fetch and the URL) follows once typing pauses.
+  // The search box answers each keystroke; the view (the fetch, and the URL with useDataTableUrl) follows once typing
+  // pauses. A view changed from outside (Back and Forward, a host router) brings the box along.
   const [searchInput, setSearchInput] = React.useState(view.search);
   const searchTimer = React.useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
   React.useEffect(() => () => clearTimeout(searchTimer.current), []);
-  const adopt = (next: DataTableView) => {
-    if (JSON.stringify(next) === JSON.stringify(viewRef.current)) return;
+  const shownSearch = React.useRef(view.search);
+  React.useEffect(() => {
+    if (view.search === shownSearch.current) return;
+    shownSearch.current = view.search;
     clearTimeout(searchTimer.current);
-    viewRef.current = next;
-    setViewState(next);
-    setSearchInput(next.search);
-  };
-  const adoptRef = React.useRef(adopt);
-  adoptRef.current = adopt;
-  React.useEffect(() => {
-    if (typeof window === "undefined") return;
-    const onPop = () => adoptRef.current(viewFrom(new URLSearchParams(window.location.search)));
-    window.addEventListener("popstate", onPop);
-    return () => window.removeEventListener("popstate", onPop);
-    // viewFrom reads the latest props when the event fires through adoptRef's render.
-  }, []);
-  const paramsKey = searchParams === undefined ? undefined : new URLSearchParams(searchParams).toString();
-  const firstParams = React.useRef(paramsKey);
-  React.useEffect(() => {
-    if (paramsKey === undefined || paramsKey === firstParams.current) return;
-    firstParams.current = paramsKey;
-    adoptRef.current(viewFrom(new URLSearchParams(paramsKey)));
-  }, [paramsKey]);
+    setSearchInput(view.search);
+  }, [view.search]);
   const onSearch = (search: string) => {
     setSearchInput(search);
     clearTimeout(searchTimer.current);
-    searchTimer.current = setTimeout(() => setView({ search }), SEARCH_DEBOUNCE);
+    searchTimer.current = setTimeout(() => {
+      shownSearch.current = search;
+      setView({ search });
+    }, SEARCH_DEBOUNCE);
   };
 
   // Columns the picker hides.

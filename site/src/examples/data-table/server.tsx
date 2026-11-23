@@ -1,4 +1,4 @@
-import { DataTable, type DataTableQuery, type DataTableResult } from "@senvenli/react/collection";
+import { DataTable, useDataTableUrl, type DataTableQuery, type DataTableResult } from "@senvenli/react/collection";
 import { EmptyState } from "@senvenli/react/feedback";
 
 type Customer = { id: string; name: string; city: string; orders: number };
@@ -20,12 +20,13 @@ async function fetchCustomers({ page, pageSize, search }: DataTableQuery): Promi
 }
 
 export default function Example() {
+  const url = useDataTableUrl({ urlKey: "customers" });
   return (
     <DataTable
+      {...url}
       aria-label="Customers"
       query={fetchCustomers}
       pageSize={5}
-      urlKey="customers"
       columns={[
         { key: "name", header: "Customer" },
         { key: "city", header: "City" },

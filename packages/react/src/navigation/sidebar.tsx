@@ -45,7 +45,7 @@ export type SidebarSectionData = {
   label: string;
   /**
    * The section's items: links or groups with `children`, exactly as in `items`. Icons are Lucide names. Item
-   * ids are unique across `items`, every section and `settings`: `currentKey` marks each item with that id, so a
+   * ids are unique across `items` and every section: `currentKey` marks each item with that id, so a
    * repeated id gives two `aria-current="page"` items (a development warning names it).
    */
   items: readonly SidebarItemData[];
@@ -58,7 +58,7 @@ export type SidebarProps = {
   /**
    * The top-level items (links, or groups with `children`); five to eight is the comfortable range. With
    * `sections`, these are the unlabelled items above the labelled sections (a dashboard) and may be empty. Ids
-   * are unique across `items`, `sections` and `settings` (a repeated id marks two items as the current page).
+   * are unique across `items` and `sections` (a repeated id marks two items as the current page).
    * Leave it out to compose the navigation as children instead.
    */
   items?: readonly SidebarItemData[];
@@ -74,15 +74,13 @@ export type SidebarProps = {
    * collapsible. Left out (or empty), the Sidebar renders exactly as before.
    */
   sections?: readonly SidebarSectionData[];
-  /** Settings, in their own group at the bottom, under an overline ("Settings"). */
-  settings?: { label: string; items: readonly SidebarItemData[] };
   /** The id of the page's item: marked `aria-current="page"`; its group stays open. */
   currentKey?: string;
   /** The account at the bottom: Avatar, name and role. Or a `SidebarFooter` child. */
   footer?: React.ReactNode;
   /**
    * Keeps the account (`footer`) and the collapse toggle in view at the bottom: the brand stays at
-   * the top and only the navigation (`items`, `sections`, then `settings`) scrolls between them, expanded and
+   * the top and only the navigation (`items`, then `sections`) scrolls between them, expanded and
    * collapsed. In the phone panel the account stays at the bottom the same way. The DOM order, and so the Tab
    * order, is the same as without it. Off by default: the whole sidebar scrolls as one, as before.
    */
@@ -159,7 +157,7 @@ const SCROLLBAR =
 
 /**
  * The bottom block: a two-column grid, so the account and the collapse toggle share one row (the
- * account takes the room, the toggle sits at its end) while settings, when there, span the row above. A divider sets
+ * account takes the room, the toggle sits at its end) A divider sets
  * the account row off from the links. Collapsed, the rail is one column: the account above the toggle, both centred.
  * The children and their order are unchanged.
  */
@@ -187,7 +185,7 @@ const PINNED = {
   panelScroll: "-mx-ds-200 -my-ds-050 flex min-h-0 flex-1 flex-col gap-ds-200 overflow-y-auto overscroll-contain px-ds-200 py-ds-050 scroll-py-ds-050 " + SCROLLBAR,
 } as const;
 
-/** The overline over a labelled group (settings, sections). */
+/** The overline over a labelled section. */
 const OVERLINE = "px-ds-100 pt-ds-100 pb-ds-050 text-heading-xxsmall text-ds-text-subtlest";
 
 const ROW =
@@ -218,36 +216,35 @@ function itemIds(items: readonly SidebarItemData[], into: string[] = []): string
 }
 
 /**
- * Item ids that repeat across `items`, `sections` and `settings`, said once per set of ids, in development only
+ * Item ids that repeat across `items` and `sections`, said once per set of ids, in development only
  * (the Table's repeated-id warning does the same). A repeated id would mark two items `aria-current="page"`.
  *
  */
-function repeatedIds(items: readonly SidebarItemData[], sections: readonly SidebarSectionData[] | undefined, settings: readonly SidebarItemData[] | undefined) {
+function repeatedIds(items: readonly SidebarItemData[], sections: readonly SidebarSectionData[] | undefined) {
   const ids = itemIds(items);
   for (const section of sections ?? []) itemIds(section.items, ids);
-  if (settings) itemIds(settings, ids);
   const seen = new Set<string>();
   const repeated = new Set<string>();
   for (const id of ids) (seen.has(id) ? repeated : seen).add(id);
   return [...repeated].map((id) => JSON.stringify(id)).join(", ");
 }
 
-function useRepeatedIdWarning(items: readonly SidebarItemData[], sections: readonly SidebarSectionData[] | undefined, settings: readonly SidebarItemData[] | undefined) {
+function useRepeatedIdWarning(items: readonly SidebarItemData[], sections: readonly SidebarSectionData[] | undefined) {
   // Production never warns, so it never walks the trees either; the hooks below still run in order.
-  const signature = process.env.NODE_ENV === "production" ? "" : repeatedIds(items, sections, settings);
+  const signature = process.env.NODE_ENV === "production" ? "" : repeatedIds(items, sections);
   const warned = React.useRef<Set<string> | null>(null);
   React.useEffect(() => {
     if (process.env.NODE_ENV === "production" || !signature) return;
     warned.current ??= new Set();
     if (warned.current.has(signature)) return;
     warned.current.add(signature);
-    console.warn(`Sidebar: the item ids ${signature} repeat across items, sections and settings. Give every item its own id; currentKey marks each item with that id as the current page.`);
+    console.warn(`Sidebar: the item ids ${signature} repeat across items and sections. Give every item its own id; currentKey marks each item with that id as the current page.`);
   }, [signature]);
 }
 
 /**
  * The main navigation of admin apps: brand, sections with nested items, optional
- * labelled `sections`, settings at the bottom and the account. Collapses to 56px icons
+ * labelled `sections` and the account. Collapses to 56px icons
  * (tooltips carry the labels); under 1024px it is a menu panel from the start edge.
  */
 function SidebarBody({
@@ -256,7 +253,6 @@ function SidebarBody({
   items,
   children,
   sections,
-  settings,
   currentKey,
   footer: footerProp,
   isFooterPinned = false,
@@ -292,7 +288,7 @@ function SidebarBody({
   const toggleLabel = collapsed ? expandSidebarLabel(locale) : collapseSidebarLabel(locale);
   const shared: Shared = { currentKey, collapsed, expand: () => setCollapsed(false) };
   const labelled = sections && sections.length > 0 ? sections : undefined;
-  useRepeatedIdWarning(items ?? [], labelled, settings?.items);
+  useRepeatedIdWarning(items ?? [], labelled);
 
   return (
     <>
@@ -314,14 +310,11 @@ function SidebarBody({
         {isFooterPinned ? (
           <div data-slot="sidebar-scroll" className={PINNED.scroll}>
             <Navigation items={items} nodes={nav} sections={labelled} shared={shared} />
-            {/* Settings close the list, held at its bottom (above the account) while the list is short. */}
-            {settings && <Group label={settings.label} items={settings.items} shared={shared} className="mt-auto" />}
           </div>
         ) : (
           <Navigation items={items} nodes={nav} sections={labelled} shared={shared} />
         )}
         <div className={cn(BOTTOM, isFooterPinned ? "shrink-0" : "mt-auto")}>
-          {settings && !isFooterPinned && <Group label={settings.label} items={settings.items} shared={shared} className="col-span-full" />}
           {footer && <div data-slot="sidebar-footer" className={cn(FOOTER, FOOTER_RULE, WHEN_COLLAPSED.clip)}>{footer}</div>}
           <div
             data-slot="sidebar-toggle"
@@ -364,14 +357,12 @@ function SidebarBody({
           <nav className="flex min-h-0 flex-1 flex-col gap-ds-200" data-footer-pinned="">
             <div data-slot="sidebar-scroll" className={PINNED.panelScroll}>
               <Navigation items={items} nodes={nav} sections={labelled} shared={{ ...shared, collapsed: false }} />
-              {settings && <Group label={settings.label} items={settings.items} shared={{ ...shared, collapsed: false }} />}
             </div>
             {footer && <div data-slot="sidebar-footer" className={cn(FOOTER, FOOTER_RULE, "shrink-0")}>{footer}</div>}
           </nav>
         ) : (
           <nav className="flex flex-1 flex-col gap-ds-200">
             <Navigation items={items} nodes={nav} sections={labelled} shared={{ ...shared, collapsed: false }} />
-            {settings && <Group label={settings.label} items={settings.items} shared={{ ...shared, collapsed: false }} />}
             {footer && <div data-slot="sidebar-footer" className={cn(FOOTER, FOOTER_RULE, "mt-auto")}>{footer}</div>}
           </nav>
         )}
@@ -392,18 +383,6 @@ function Brand({ brand, href }: { brand: React.ReactNode; href: string }) {
     >
       {brand}
     </AriaLink>
-  );
-}
-
-function Group({ label, items, shared, className }: { label: string; items: readonly SidebarItemData[]; shared: Shared; className?: string }) {
-  const id = React.useId();
-  return (
-    <div role="group" aria-labelledby={id} data-slot="sidebar-section" className={className ? cn("flex flex-col gap-0.5", className) : "flex flex-col gap-0.5"}>
-      <span id={id} data-slot="sidebar-section-label" className={cn(OVERLINE, WHEN_COLLAPSED.label)}>
-        {label}
-      </span>
-      <Tree items={items} shared={shared} />
-    </div>
   );
 }
 
@@ -433,11 +412,7 @@ function Sections({ sections, shared }: { sections: readonly SidebarSectionData[
   );
 }
 
-/**
- * A labelled section: the settings group's overline and naming, plus a separator that shows only collapsed. Its
- * own slots (`sidebar-nav-section`, `-label`, `-separator`), so a selector for the settings group
- * (`sidebar-section`) never matches a section.
- */
+/** A labelled section: an overline that names the group, plus a separator that shows only collapsed. */
 function Section({ section, shared }: { section: SidebarSectionData; shared: Shared }) {
   return (
     <SectionBlock id={section.id} label={section.label}>

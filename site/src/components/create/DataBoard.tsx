@@ -77,7 +77,6 @@ export function CollectionPreview() {
               },
             ]}
             bulkActions={[{ id: "export", label: "Export", onAction: () => undefined }]}
-            urlKey="orders"
           />
         </CardBody>
       </Card>

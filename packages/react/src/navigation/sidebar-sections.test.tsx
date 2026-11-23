@@ -280,13 +280,6 @@ describe("Sidebar sections", () => {
     expect(sidebar().querySelectorAll(":scope > [data-slot='sidebar-tree']")).toHaveLength(0);
   });
 
-  it("works with settings: the sections sit above, the settings group stays in the bottom block", () => {
-    inLocale(<Panel settings={{ label: "Account", items: [{ id: "profile", label: "Profile", icon: "user", href: "/profile" }] }} />);
-    const bottom = document.querySelector("[data-slot='sidebar-footer']")!.parentElement!;
-    expect(within(bottom).getByRole("group", { name: "Account" })).toBeTruthy();
-    expect(within(bottom).queryByRole("group", { name: "Catalog" })).toBeNull();
-    expect(within(desktop()).getAllByRole("group")).toHaveLength(SECTIONS.length + 1);
-  });
 });
 
 describe("Sidebar without sections: unchanged", () => {
@@ -294,9 +287,8 @@ describe("Sidebar without sections: unchanged", () => {
     { id: "overview", label: "Overview", icon: "layout-dashboard", href: "/" },
     { id: "catalog", label: "Catalog", icon: "package", children: [{ id: "products", label: "Products", href: "/c" }] },
   ];
-  const SETTINGS = { label: "Settings", items: [{ id: "pricing", label: "Pricing", icon: "tags" as const, href: "/p" }] };
   const plain = (props: Partial<React.ComponentProps<typeof Sidebar>> = {}) => (
-    <Sidebar brand={<span>Acme</span>} items={ITEMS} settings={SETTINGS} currentKey="products" {...props} />
+    <Sidebar brand={<span>Acme</span>} items={ITEMS} currentKey="products" {...props} />
   );
 
   it("renders no section wrapper or separator; the nav is brand, tree, bottom block", () => {
@@ -334,33 +326,24 @@ describe("Sidebar without sections: unchanged", () => {
 describe("Sidebar sections: slots and repeated ids", () => {
   const sidebarWarnings = () => warn.mock.calls.map(([message]: unknown[]) => String(message)).filter((message: string) => message.startsWith("Sidebar:"));
 
-  it("sections have their own slot: the settings group's selector never matches a section", () => {
-    inLocale(<Panel settings={{ label: "Account", items: [{ id: "profile", label: "Profile", icon: "user", href: "/profile" }] }} />);
-    const settingsGroups = [...sidebar().querySelectorAll("[data-slot='sidebar-section']")];
-    expect(settingsGroups).toHaveLength(1);
-    expect(settingsGroups[0]!.getAttribute("aria-labelledby")).toBe(within(desktop()).getByRole("group", { name: "Account" }).getAttribute("aria-labelledby"));
-    expect(sidebar().querySelectorAll("[data-slot='sidebar-section-label']")).toHaveLength(1);
-    expect(sidebar().querySelectorAll("[data-slot='sidebar-nav-section']")).toHaveLength(SECTIONS.length);
-    expect(sidebar().querySelectorAll("[data-slot='sidebar-nav-section-label']")).toHaveLength(SECTIONS.length);
-  });
-
   it("unique ids: no warning", () => {
-    inLocale(<Panel settings={{ label: "Account", items: [{ id: "profile", label: "Profile", icon: "user", href: "/profile" }] }} />);
+    inLocale(<Panel />);
     expect(sidebarWarnings()).toEqual([]);
   });
 
-  it("an id repeated across items, sections and settings is named once in development; both items are then current", () => {
+  it("an id repeated across items and sections is named once in development; both items are then current", () => {
     const repeated: SidebarSectionData[] = [
       ...SECTIONS,
       { id: "extra", label: "Extra", items: [{ id: "products", label: "Products 2", icon: "package", href: "/products-2" }] },
+      { id: "account", label: "Account", items: [{ id: "dashboard", label: "Dashboard 2", icon: "user", href: "/d2" }] },
     ];
-    const view = inLocale(<Panel sections={repeated} settings={{ label: "Account", items: [{ id: "dashboard", label: "Dashboard 2", icon: "user", href: "/d2" }] }} />);
+    const view = inLocale(<Panel sections={repeated} />);
     expect(within(desktop()).getAllByRole("link").filter((link) => link.getAttribute("aria-current") === "page")).toHaveLength(2);
     // A re-render with the same ids says nothing new.
     view.rerender(
       <div>
         <DesignSystemProvider locale="en" navigate={vi.fn()}>
-          <Panel sections={repeated} currentKey="products" settings={{ label: "Account", items: [{ id: "dashboard", label: "Dashboard 2", icon: "user", href: "/d2" }] }} />
+          <Panel sections={repeated} currentKey="products" />
         </DesignSystemProvider>
       </div>,
     );
