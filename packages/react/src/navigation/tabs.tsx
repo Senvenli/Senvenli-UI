@@ -14,7 +14,7 @@ import {
 } from "react-aria-components";
 
 import { cn } from "../utils";
-import { MotionScope, type WithMotion } from "../defaults";
+import { MotionScope, useComponentDefaults, type ComponentSize, type WithMotion } from "../defaults";
 import { Badge } from "../display/badge";
 
 export type TabItem = {
@@ -40,7 +40,15 @@ export type TabsProps = {
   onSelectionChange?: (key: Key) => void;
   /** Names the tab list when no heading above it does (with `items`; on `TabList` otherwise). */
   "aria-label"?: string;
+  /** `underline` (default): a line under the selected tab; `pills`: a filled tab; `outline`: a framed tab. */
+  variant?: TabsVariant;
+  /** `horizontal` (default), or `vertical`: the tabs in a column beside the panels (settings pages). */
+  orientation?: "horizontal" | "vertical";
+  /** `small`, `medium` (default) or `large`; the provider default otherwise. */
+  size?: ComponentSize;
 };
+
+export type TabsVariant = "underline" | "pills" | "outline";
 
 export type TabListProps = {
   /** `Tab` elements. */
@@ -67,12 +75,45 @@ export type TabPanelProps = {
 };
 
 /** The selected tab's 2px underline (never colour alone); React Aria slides it to the next tab (no slide under reduced motion). */
-const TAB_INDICATOR =
-  "absolute inset-x-0 -bottom-px h-0.5 rounded-t-ds-small bg-ds-border-selected " +
-  "transition-[translate,width] duration-(--ds-duration-medium) ease-ds-standard motion-reduce:transition-none";
+const SLIDE = "transition-[translate,width,height] duration-(--ds-duration-medium) ease-ds-standard motion-reduce:transition-none";
+const FILL = "absolute inset-0 -z-10 rounded-ds-medium bg-ds-background-neutral";
+const FRAME = "absolute inset-0 -z-10 rounded-ds-medium inset-ring-1 inset-ring-ds-border-bold";
+
+/** The selected mark, which React Aria slides to the next tab: a line, a fill or a frame (never colour alone). */
+const TAB_INDICATOR: Record<TabsVariant, Record<TabsOrientation, string>> = {
+  underline: {
+    horizontal: `absolute inset-x-0 -bottom-px h-0.5 rounded-t-ds-small bg-ds-border-selected ${SLIDE}`,
+    vertical: `absolute inset-y-0 -end-px w-0.5 rounded-s-ds-small bg-ds-border-selected ${SLIDE}`,
+  },
+  pills: { horizontal: `${FILL} ${SLIDE}`, vertical: `${FILL} ${SLIDE}` },
+  outline: { horizontal: `${FRAME} ${SLIDE}`, vertical: `${FRAME} ${SLIDE}` },
+};
+
+/** The row (or column) of tabs per variant: a rule along it for `underline`, nothing for the boxed ones. */
+const TAB_LIST: Record<TabsVariant, Record<TabsOrientation, string>> = {
+  underline: {
+    horizontal: "flex gap-ds-300 overflow-x-auto border-b border-ds-border",
+    vertical: "flex w-48 shrink-0 flex-col gap-ds-050 border-e border-ds-border pe-ds-200",
+  },
+  pills: { horizontal: "flex gap-ds-050 overflow-x-auto", vertical: "flex w-48 shrink-0 flex-col gap-ds-050" },
+  outline: { horizontal: "flex gap-ds-050 overflow-x-auto", vertical: "flex w-48 shrink-0 flex-col gap-ds-050" },
+};
+
+/** Tab height and type per size; the boxed variants (pills, outline) add inline padding. */
+const TAB_SIZE: Record<ComponentSize, string> = { small: "h-8 text-body-small", medium: "h-10", large: "h-12 text-body-large" };
+const TAB_BOXED: Record<ComponentSize, string> = { small: "px-ds-100", medium: "px-ds-150", large: "px-ds-200" };
+
+type TabsOrientation = "horizontal" | "vertical";
+
+/** What a TabList and its Tabs draw, from Tabs, so composed tabs look the same as `items`. */
+const TabsLook = React.createContext<{ variant: TabsVariant; orientation: TabsOrientation; size: ComponentSize }>({
+  variant: "underline",
+  orientation: "horizontal",
+  size: "medium",
+});
 
 const TAB =
-  "relative inline-flex h-10 shrink-0 cursor-default items-center gap-ds-075 rounded-ds-small text-body font-[500] whitespace-nowrap text-ds-text-subtle outline-hidden " +
+  "relative isolate inline-flex h-10 shrink-0 cursor-default items-center gap-ds-075 rounded-ds-small text-body font-[500] whitespace-nowrap text-ds-text-subtle outline-hidden " +
   "transition-colors duration-(--ds-duration-fast) motion-reduce:transition-none " +
   "data-[hovered]:text-ds-text data-[selected]:text-ds-text " +
   "data-[focus-visible]:inset-ring-2 data-[focus-visible]:inset-ring-ds-border-focused data-[disabled]:text-ds-text-disabled";
@@ -84,6 +125,7 @@ const TAB =
 export function TabList({ children, "aria-label": label, "aria-labelledby": labelledBy }: TabListProps) {
   const list = React.useRef<HTMLDivElement>(null);
   const selected = React.useContext(TabListStateContext)?.selectedKey;
+  const look = React.useContext(TabsLook);
   React.useEffect(() => {
     const row = list.current;
     const tab = row?.querySelector<HTMLElement>("[data-selected]");
@@ -100,7 +142,7 @@ export function TabList({ children, "aria-label": label, "aria-labelledby": labe
       aria-label={label}
       aria-labelledby={labelledBy}
       data-slot="tabs-list"
-      className="flex gap-ds-300 overflow-x-auto border-b border-ds-border [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+      className={cn(TAB_LIST[look.variant][look.orientation], "[scrollbar-width:none] [&::-webkit-scrollbar]:hidden")}
     >
       {children}
     </AriaTabList>
@@ -109,9 +151,16 @@ export function TabList({ children, "aria-label": label, "aria-labelledby": labe
 
 /** One tab: its label, an optional count, and the sliding underline when selected. */
 export function Tab({ id, children, count, isDisabled }: TabProps) {
+  const look = React.useContext(TabsLook);
+  const boxed = look.variant !== "underline" && cn("rounded-ds-medium", TAB_BOXED[look.size]);
   return (
-    <AriaTab id={id} isDisabled={isDisabled} data-slot="tab" className={TAB}>
-      <SelectionIndicator data-slot="tab-indicator" className={TAB_INDICATOR} />
+    <AriaTab
+      id={id}
+      isDisabled={isDisabled}
+      data-slot="tab"
+      className={cn(TAB, TAB_SIZE[look.size], boxed, look.orientation === "vertical" && "w-full justify-start")}
+    >
+      <SelectionIndicator data-slot="tab-indicator" className={TAB_INDICATOR[look.variant][look.orientation]} />
       {children}
       {count !== undefined && count > 0 && (
         <span data-slot="tab-count" className="flex">
@@ -141,34 +190,43 @@ export function TabPanel({ id, children }: TabPanelProps) {
  * Home and End move between tabs; the selected tab holds focus. Give `items`, or compose `TabList`,
  * `Tab` and `TabPanel` as children; both render the same parts.
  */
-function TabsBody({ items, children, selectedKey, defaultSelectedKey, onSelectionChange, "aria-label": label }: TabsProps) {
+function TabsBody({
+  items, children, selectedKey, defaultSelectedKey, onSelectionChange, "aria-label": label, variant = "underline", orientation = "horizontal", size: ownSize,
+}: TabsProps) {
+  const defaults = useComponentDefaults();
+  const size = ownSize ?? defaults.size ?? "medium";
+  const look = React.useMemo(() => ({ variant, orientation, size }), [variant, orientation, size]);
   return (
-    <AriaTabs
-      selectedKey={selectedKey}
-      defaultSelectedKey={defaultSelectedKey}
-      onSelectionChange={onSelectionChange}
-      data-slot="tabs"
-      className="flex flex-col gap-ds-200"
-    >
-      {items ? (
-        <>
-          <TabList aria-label={label}>
+    <TabsLook.Provider value={look}>
+      <AriaTabs
+        selectedKey={selectedKey}
+        defaultSelectedKey={defaultSelectedKey}
+        onSelectionChange={onSelectionChange}
+        orientation={orientation}
+        data-slot="tabs"
+        data-variant={variant}
+        className={orientation === "vertical" ? "flex gap-ds-400" : "flex flex-col gap-ds-200"}
+      >
+        {items ? (
+          <>
+            <TabList aria-label={label}>
+              {items.map((item) => (
+                <Tab key={item.id} id={item.id} count={item.count} isDisabled={item.isDisabled}>
+                  {item.label}
+                </Tab>
+              ))}
+            </TabList>
             {items.map((item) => (
-              <Tab key={item.id} id={item.id} count={item.count} isDisabled={item.isDisabled}>
-                {item.label}
-              </Tab>
+              <TabPanel key={item.id} id={item.id}>
+                {item.panel}
+              </TabPanel>
             ))}
-          </TabList>
-          {items.map((item) => (
-            <TabPanel key={item.id} id={item.id}>
-              {item.panel}
-            </TabPanel>
-          ))}
-        </>
-      ) : (
-        children
-      )}
-    </AriaTabs>
+          </>
+        ) : (
+          children
+        )}
+      </AriaTabs>
+    </TabsLook.Provider>
   );
 }
 

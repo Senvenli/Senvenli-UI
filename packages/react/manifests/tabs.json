@@ -186,6 +186,50 @@
         }
       },
       {
+        "name": "variant",
+        "type": "TabsVariant",
+        "required": false,
+        "origin": "own",
+        "description": "`underline` (default): a line under the selected tab; `pills`: a filled tab; `outline`: a framed tab.",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "underline",
+            "outline",
+            "pills"
+          ]
+        }
+      },
+      {
+        "name": "orientation",
+        "type": "\"horizontal\" | \"vertical\"",
+        "required": false,
+        "origin": "own",
+        "description": "`horizontal` (default), or `vertical`: the tabs in a column beside the panels (settings pages).",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "horizontal",
+            "vertical"
+          ]
+        }
+      },
+      {
+        "name": "size",
+        "type": "ComponentSize",
+        "required": false,
+        "origin": "own",
+        "description": "`small`, `medium` (default) or `large`; the provider default otherwise.",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "small",
+            "medium",
+            "large"
+          ]
+        }
+      },
+      {
         "name": "motion",
         "type": "ComponentMotion",
         "required": false,
@@ -361,16 +405,20 @@
     "ds-background-neutral",
     "ds-background-segment-selected",
     "ds-border",
+    "ds-border-bold",
     "ds-border-focused",
     "ds-border-selected",
     "ds-easing-standard",
     "ds-radius-medium",
     "ds-radius-small",
     "ds-shadow-raised",
+    "ds-space-050",
     "ds-space-075",
+    "ds-space-100",
     "ds-space-150",
     "ds-space-200",
     "ds-space-300",
+    "ds-space-400",
     "ds-text",
     "ds-text-disabled",
     "ds-text-subtle"

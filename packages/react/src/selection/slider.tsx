@@ -16,6 +16,7 @@ import { FieldDescription } from "../form/field-parts";
 import { LABEL } from "../form/styles";
 import { rangeMaxLabel, rangeMinLabel } from "../i18n";
 import { SLIDER_FILL, SLIDER_RAIL, SLIDER_THUMB, SLIDER_TRACK } from "./styles";
+import { SLIDER_BAR_SIZE, SLIDER_THUMB_SIZE, SLIDER_TRACK_SIZE, useChoiceSize, type ChoiceSize } from "./choice-size";
 
 export type SliderValue = number | [number, number];
 
@@ -25,6 +26,8 @@ export type SliderProps<T extends SliderValue> = Omit<
 > & {
   label: React.ReactNode;
   description?: React.ReactNode;
+  /** `small`, `medium` (default) or `large`; the provider default otherwise. */
+  size?: ChoiceSize;
 };
 
 /** Page Up / Page Down move by ten steps (design rule); React Aria's default is a tenth of the range. */
@@ -35,7 +38,8 @@ const PAGE_STEPS = 10;
  * price filters, mileage limits. The value is always shown in text, in
  * tabular figures; pair with NumberField when exact entry matters.
  */
-export function Slider<T extends SliderValue>({ label, description, step = 1, ...rest }: SliderProps<T>) {
+export function Slider<T extends SliderValue>({ label, description, step = 1, size: ownSize, ...rest }: SliderProps<T>) {
+  const size = useChoiceSize(ownSize);
   const { locale } = useLocale();
   return (
     <AriaSlider<T> {...rest} step={step} data-slot="slider" className="group flex min-w-0 flex-col gap-ds-100">
@@ -43,7 +47,7 @@ export function Slider<T extends SliderValue>({ label, description, step = 1, ..
         <Label data-slot="slider-label" className={cn(LABEL, "group-data-[disabled]:text-ds-text-disabled")}>{label}</Label>
         <SliderOutput data-slot="slider-output" className="text-body-strong tabular-nums text-ds-text group-data-[disabled]:text-ds-text-disabled" />
       </div>
-      <SliderTrack data-slot="slider-track" className={SLIDER_TRACK}>
+      <SliderTrack data-slot="slider-track" className={cn(SLIDER_TRACK, SLIDER_TRACK_SIZE[size])}>
         {({ state }) => {
           const range = state.values.length > 1;
           const start = range ? state.getThumbPercent(0) * 100 : 0;
@@ -65,11 +69,11 @@ export function Slider<T extends SliderValue>({ label, description, step = 1, ..
                 state.setThumbDragging(index, false);
               }}
             >
-              <span aria-hidden="true" data-slot="slider-rail" className={SLIDER_RAIL} />
+              <span aria-hidden="true" data-slot="slider-rail" className={cn(SLIDER_RAIL, SLIDER_BAR_SIZE[size])} />
               <span
                 aria-hidden="true"
                 data-slot="slider-fill"
-                className={SLIDER_FILL}
+                className={cn(SLIDER_FILL, SLIDER_BAR_SIZE[size])}
                 style={{ insetInlineStart: `${start}%`, insetInlineEnd: `${100 - end}%` }}
               />
               {state.values.map((_, index) => (
@@ -80,7 +84,7 @@ export function Slider<T extends SliderValue>({ label, description, step = 1, ..
                   // A range names each end; one value takes the slider's label alone.
                   aria-label={range ? (index === 0 ? rangeMinLabel(locale) : rangeMaxLabel(locale)) : undefined}
                   data-slot="slider-thumb"
-                  className={SLIDER_THUMB}
+                  className={cn(SLIDER_THUMB, SLIDER_THUMB_SIZE[size])}
                 />
               ))}
             </div>

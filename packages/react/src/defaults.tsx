@@ -67,10 +67,10 @@ export function useRadius(own: ComponentRadius | undefined): ComponentRadius | u
   return own ?? defaults.radius;
 }
 
-/** A field's size (fields come in small and medium): its own, else the default in effect (`large` reads as medium). */
-export function useFieldSize(own: "small" | "medium" | undefined): "small" | "medium" {
+/** A field's size (small, medium or large): its own, else the default in effect. */
+export function useFieldSize(own: "small" | "medium" | "large" | undefined): "small" | "medium" | "large" {
   const defaults = useComponentDefaults();
-  return own ?? (defaults.size === "small" ? "small" : "medium");
+  return own ?? defaults.size ?? "medium";
 }
 
 /** Props that take a corner radius for the whole component (its frame and parts). */

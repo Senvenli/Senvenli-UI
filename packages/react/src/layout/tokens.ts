@@ -61,13 +61,13 @@ export const BACKGROUND: Record<Background, string> = {
   danger: "bg-ds-background-danger",
 };
 
-export type Radius = "xsmall" | "small" | "medium" | "large" | "xlarge" | "full";
+/** The same scale as every component's `radius` (none, small, medium, large, full). */
+export type Radius = "none" | "small" | "medium" | "large" | "full";
 export const RADIUS: Record<Radius, string> = {
-  xsmall: "rounded-ds-xsmall",
+  none: "rounded-none",
   small: "rounded-ds-small",
   medium: "rounded-ds-medium",
   large: "rounded-ds-large",
-  xlarge: "rounded-ds-xlarge",
   full: "rounded-ds-full",
 };
 

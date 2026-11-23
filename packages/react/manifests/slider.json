@@ -643,6 +643,21 @@
         "type": "React.ReactNode",
         "required": false,
         "origin": "own"
+      },
+      {
+        "name": "size",
+        "type": "ComponentSize",
+        "required": false,
+        "origin": "own",
+        "description": "`small`, `medium` (default) or `large`; the provider default otherwise.",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "small",
+            "medium",
+            "large"
+          ]
+        }
       }
     ]
   },
@@ -663,6 +678,7 @@
     "ds-radius-xsmall",
     "ds-shadow-raised",
     "ds-space-050",
+    "ds-space-075",
     "ds-space-100",
     "ds-space-150",
     "ds-space-200",
