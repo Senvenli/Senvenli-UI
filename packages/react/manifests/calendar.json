@@ -53,7 +53,7 @@
     "expose": false
   },
   "source": [
-    "src/date/calendar.tsx"
+    "src/date/public.tsx"
   ],
   "props": {
     "Calendar": [
@@ -141,19 +141,19 @@
       },
       {
         "name": "value",
-        "type": "CalendarDate",
+        "type": "CalendarDate | DateRange",
         "required": false,
         "origin": "own"
       },
       {
         "name": "defaultValue",
-        "type": "CalendarDate",
+        "type": "CalendarDate | DateRange",
         "required": false,
         "origin": "own"
       },
       {
         "name": "onChange",
-        "type": "(value: CalendarDate) => void",
+        "type": "(value: CalendarDate) => void | (value: DateRange) => void",
         "required": false,
         "origin": "own"
       },
@@ -169,13 +169,62 @@
         "type": "1 | 2",
         "required": false,
         "origin": "own",
-        "default": "1",
         "schema": {
           "enum": [
             1,
             2
           ]
         }
+      },
+      {
+        "name": "selectionMode",
+        "type": "\"single\" | \"range\"",
+        "required": false,
+        "origin": "own",
+        "description": "`single` (default): one day.",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "single",
+            "range"
+          ]
+        }
+      },
+      {
+        "name": "allowsNonContiguousRanges",
+        "type": "boolean",
+        "required": false,
+        "origin": "own",
+        "description": "Keep this false when a range may not cross an unavailable day (stays, trips, equipment hire).",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "minDuration",
+        "type": "number",
+        "required": false,
+        "origin": "own",
+        "description": "Shortest and longest range in days (end − start).",
+        "schema": {
+          "type": "number"
+        }
+      },
+      {
+        "name": "maxDuration",
+        "type": "number",
+        "required": false,
+        "origin": "own",
+        "schema": {
+          "type": "number"
+        }
+      },
+      {
+        "name": "action",
+        "type": "React.ReactNode",
+        "required": false,
+        "origin": "own",
+        "description": "In a popover: the footer shows the chosen range and its length beside this action (\"Apply dates\")."
       }
     ]
   },
@@ -187,14 +236,17 @@
     "ds-background-selected-hovered",
     "ds-border",
     "ds-border-focused",
+    "ds-border-selected",
     "ds-icon",
     "ds-icon-brand",
     "ds-radius-full",
     "ds-radius-large",
     "ds-radius-medium",
+    "ds-radius-small",
     "ds-shadow-raised",
     "ds-size-control",
     "ds-size-control-compact",
+    "ds-space-050",
     "ds-space-100",
     "ds-space-150",
     "ds-space-200",
@@ -207,11 +259,32 @@
     "ds-text-subtlest"
   ],
   "strings": [
+    "clear",
+    "dateIncomplete",
+    "dateMax",
+    "dateMin",
+    "dateTimeIncomplete",
+    "dateUnavailable",
+    "monthHasDays",
+    "monthMax",
+    "monthMin",
     "nextMonth",
+    "nextYear",
+    "optional",
     "previousMonth",
+    "previousYear",
     "rangeCrossesClosed",
+    "rangeEnd",
+    "rangeEndTime",
+    "rangeStart",
+    "rangeStartTime",
     "rangeTooLong",
-    "rangeTooShort"
+    "rangeTooShort",
+    "required",
+    "thisMonth",
+    "thisMonthHasDays",
+    "timeIncomplete",
+    "today"
   ],
   "quality": {
     "tests": true,

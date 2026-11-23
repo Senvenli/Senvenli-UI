@@ -87,7 +87,8 @@
           "type": "string",
           "enum": [
             "day",
-            "month"
+            "month",
+            "hour"
           ],
           "description": "`month`: a year and a month, for a report or history range. The field types month and year\n(as DateField `granularity=\"month\"`), the value is that month's first day, and the popover is a grid of the\ntwelve months under a year stepper, with \"This month\" and \"Clear\"; `minValue` and `maxValue` count by month.\nThe day-only props (unavailable days, markers, first day of the week) do not apply. Default `day`."
         },
@@ -101,13 +102,13 @@
     }
   },
   "source": [
-    "src/date/pickers.tsx"
+    "src/date/public.tsx"
   ],
   "props": {
     "DatePicker": [
       {
         "name": "defaultValue",
-        "type": "CalendarDate",
+        "type": "CalendarDate | DateRangePickerValue",
         "required": false,
         "origin": "own"
       },
@@ -138,7 +139,7 @@
       },
       {
         "name": "onChange",
-        "type": "(value: CalendarDate | null) => void",
+        "type": "(value: CalendarDate | null) => void | (value: DateRangePickerValue | null) => void",
         "required": false,
         "origin": "own"
       },
@@ -235,26 +236,26 @@
       },
       {
         "name": "minValue",
-        "type": "CalendarDate",
+        "type": "CalendarDate | DateValue",
         "required": false,
         "origin": "own"
       },
       {
         "name": "maxValue",
-        "type": "CalendarDate",
+        "type": "CalendarDate | DateValue",
         "required": false,
         "origin": "own"
       },
       {
         "name": "validate",
-        "type": "(value: CalendarDate | null) => string | true | string[] | null | undefined",
+        "type": "(value: CalendarDate | null) => string | true | string[] | null | undefined | (value: Span<DateValue> | null) => string | true | string[] | null | undefined",
         "required": false,
         "origin": "own",
         "description": "Your own check; return the message to show, or nothing when the date is fine."
       },
       {
         "name": "value",
-        "type": "CalendarDate",
+        "type": "CalendarDate | DateRangePickerValue",
         "required": false,
         "origin": "own",
         "description": "A calendar date, no time zone; with `granularity=\"month\"` the month's first day.\n\nWhile the user leaves a date typed in part or impossible (\"31.aa.2026\", \"31.11.2026\"), the field reports\n`onChange(null)` and keeps the typed parts on screen, so setting `null` changes nothing: the value already is null.\nTo clear the field (an app's own \"Temizle\" or form reset), give it a new `key` along with the value: React remounts\nit empty, or at the value given."
@@ -310,7 +311,6 @@
         "type": "boolean",
         "required": false,
         "origin": "own",
-        "default": "true",
         "description": "Close the calendar once a day is picked (default).",
         "schema": {
           "type": "boolean"
@@ -318,17 +318,85 @@
       },
       {
         "name": "granularity",
-        "type": "\"day\" | \"month\"",
+        "type": "\"day\" | \"month\" | \"day\" | \"hour\"",
         "required": false,
         "origin": "own",
-        "default": "\"day\"",
         "description": "`month`: a year and a month, for a report or history range. The field types month and year\n(as DateField `granularity=\"month\"`), the value is that month's first day, and the popover is a grid of the\ntwelve months under a year stepper, with \"This month\" and \"Clear\"; `minValue` and `maxValue` count by month.\nThe day-only props (unavailable days, markers, first day of the week) do not apply. Default `day`.",
         "schema": {
           "type": "string",
           "enum": [
             "day",
-            "month"
+            "month",
+            "hour"
           ]
+        }
+      },
+      {
+        "name": "selectionMode",
+        "type": "\"single\" | \"range\"",
+        "required": false,
+        "origin": "own",
+        "description": "`single` (default): one date (and time with `granularity=\"hour\"`).",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "single",
+            "range"
+          ]
+        }
+      },
+      {
+        "name": "allowsNonContiguousRanges",
+        "type": "boolean",
+        "required": false,
+        "origin": "own",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "startLabel",
+        "type": "string",
+        "required": false,
+        "origin": "own",
+        "description": "Overline labels of the two halves; \"Start\" and \"End\" by default.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "endLabel",
+        "type": "string",
+        "required": false,
+        "origin": "own",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "footer",
+        "type": "React.ReactNode",
+        "required": false,
+        "origin": "own",
+        "description": "Right of the duration under the calendar: the price total (`metric-small`)."
+      },
+      {
+        "name": "startName",
+        "type": "string",
+        "required": false,
+        "origin": "own",
+        "description": "Form field names for the two halves (ISO strings).",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "endName",
+        "type": "string",
+        "required": false,
+        "origin": "own",
+        "schema": {
+          "type": "string"
         }
       }
     ]
