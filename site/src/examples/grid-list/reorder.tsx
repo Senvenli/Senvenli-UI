@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { GridList, type GridListProps } from "@senvenli/react/collection";
+import { GridList, type GridListGridProps } from "@senvenli/react/collection";
 
 const picture = (shape: string) =>
   `data:image/svg+xml,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 120"><rect width="160" height="120" fill="gray" fill-opacity=".2"/>${shape}</svg>`)}`;
@@ -12,7 +12,7 @@ const PHOTOS: Photo[] = [
   { id: "detail", title: "Detail", src: picture('<path d="M40 90 80 30l40 60z" fill="gray"/>') },
 ];
 
-type Reorder = NonNullable<GridListProps<Photo>["dragAndDrop"]>["onReorder"];
+type Reorder = NonNullable<GridListGridProps<Photo>["dragAndDrop"]>["onReorder"];
 
 export default function Example() {
   const [photos, setPhotos] = useState(PHOTOS);
@@ -25,7 +25,7 @@ export default function Example() {
       return [...rest.slice(0, at), ...moved, ...rest.slice(at)];
     });
   return (
-    <GridList
+    <GridList layout="grid"
       aria-label="Product photos, in display order"
       items={photos}
       dragAndDrop={{ onReorder: reorder }}

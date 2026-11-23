@@ -503,38 +503,25 @@
     "title": "Grid list",
     "family": "collection",
     "status": "alpha",
-    "description": "Selectable tiles in a responsive grid with arrow-key navigation, tile actions and optional drag to reorder.",
+    "description": "A list to move through with arrow keys and select from: rows with a visual, a title and status (`layout=\"stack\"`), or tiles in a responsive grid with actions and drag to reorder (`layout=\"grid\"`).",
     "keywords": [
-      "grid",
-      "tiles",
       "gallery",
-      "photos",
-      "reorder"
-    ],
-    "import": "@senvenli/react/collection",
-    "exports": [
-      "GridList"
-    ],
-    "genui": false
-  },
-  {
-    "name": "list",
-    "title": "List",
-    "family": "collection",
-    "status": "alpha",
-    "description": "Rows with a leading visual, a title, a description and trailing status or actions; optionally grouped under small headers.",
-    "keywords": [
-      "list",
-      "rows",
+      "grid",
       "inbox",
+      "layout",
+      "list",
+      "mobile",
+      "photos",
+      "reorder",
+      "rows",
       "sections",
-      "mobile"
+      "tiles"
     ],
     "import": "@senvenli/react/collection",
     "exports": [
-      "List",
-      "ListItem",
-      "ListSection"
+      "GridList",
+      "GridListItem",
+      "GridListSection"
     ],
     "genui": false
   },

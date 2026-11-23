@@ -11,7 +11,7 @@ A generic, themeable design system for React.
 
 | Package | What it is |
 |---|---|
-| [`@senvenli/react`](packages/react) | 104 web components on React Aria and Tailwind v4, with machine-readable manifests |
+| [`@senvenli/react`](packages/react) | 103 web components on React Aria and Tailwind v4, with machine-readable manifests |
 | [`@senvenli/tokens`](packages/tokens) | The theme engine: inputs → AA-checked tokens → CSS or native hex. Installed with `@senvenli/react` |
 | [`@senvenli/cli`](packages/cli) | `npx @senvenli/cli theme` writes your theme files |
 | [`@senvenli/mcp`](packages/mcp) | MCP server for coding agents: components, docs and themes |

@@ -51,7 +51,7 @@ function photoActions(onRemove: (id: string) => void, onMove: (id: string, by: -
 
 describe("GridList tile actions", () => {
   it("each tile has its own named buttons, in order, inside its row", () => {
-    inLocale(<GridList aria-label="Product photos" items={PHOTOS} renderItem={photoActions(vi.fn(), vi.fn())} />);
+    inLocale(<GridList layout="grid" aria-label="Product photos" items={PHOTOS} renderItem={photoActions(vi.fn(), vi.fn())} />);
     const tiles = screen.getAllByRole("row");
     expect(tiles).toHaveLength(3);
     const names = within(tiles[1]!).getAllByRole("button").map((button) => button.getAttribute("aria-label"));
@@ -64,7 +64,7 @@ describe("GridList tile actions", () => {
     const onAction = vi.fn();
     const onSelectionChange = vi.fn();
     inLocale(
-      <GridList
+      <GridList layout="grid"
         aria-label="Product photos"
         items={PHOTOS}
         renderItem={photoActions(onRemove, vi.fn())}
@@ -83,7 +83,7 @@ describe("GridList tile actions", () => {
   it("from the keyboard: Enter and Space on a focused action press it, not the tile; arrows on the tile still move between tiles", () => {
     const onMove = vi.fn();
     const onAction = vi.fn();
-    inLocale(<GridList aria-label="Product photos" items={PHOTOS} renderItem={photoActions(vi.fn(), onMove)} onAction={onAction} />);
+    inLocale(<GridList layout="grid" aria-label="Product photos" items={PHOTOS} renderItem={photoActions(vi.fn(), onMove)} onAction={onAction} />);
     const later = screen.getByRole("button", { name: "Move later: Front view" });
     act(() => later.focus());
     fireEvent.keyDown(later, { key: "Enter" });
@@ -99,7 +99,7 @@ describe("GridList tile actions", () => {
   });
 
   it("the actions are Tab stops inside the tile, after its drag handle; Tab from the tile stays with the browser", () => {
-    inLocale(<GridList aria-label="Product photos" items={PHOTOS} renderItem={photoActions(vi.fn(), vi.fn())} dragAndDrop={{ onReorder: vi.fn() }} />);
+    inLocale(<GridList layout="grid" aria-label="Product photos" items={PHOTOS} renderItem={photoActions(vi.fn(), vi.fn())} dragAndDrop={{ onReorder: vi.fn() }} />);
     const tile = screen.getAllByRole("row")[1]!;
     const tabbable = [...tile.querySelectorAll<HTMLElement>("button")].filter((button) => button.tabIndex >= 0 && !button.hasAttribute("disabled"));
     expect(tabbable.map((button) => button.getAttribute("data-slot"))).toEqual(["grid-list-drag", "grid-list-action", "grid-list-action", "grid-list-action"]);
@@ -111,14 +111,14 @@ describe("GridList tile actions", () => {
   });
 
   it("a disabled action is named and skipped: Earlier on the first tile, Later on the last", () => {
-    inLocale(<GridList aria-label="Product photos" items={PHOTOS} renderItem={photoActions(vi.fn(), vi.fn())} />);
+    inLocale(<GridList layout="grid" aria-label="Product photos" items={PHOTOS} renderItem={photoActions(vi.fn(), vi.fn())} />);
     expect(screen.getByRole("button", { name: "Move earlier: Front view" }).hasAttribute("disabled")).toBe(true);
     expect(screen.getByRole("button", { name: "Move later: Detail" }).hasAttribute("disabled")).toBe(true);
     expect(screen.getByRole("button", { name: "Move later: Front view" }).hasAttribute("disabled")).toBe(false);
   });
 
   it("sits at the bottom end of the media, always shown, 40px under a coarse pointer; danger tone on remove", () => {
-    inLocale(<GridList aria-label="Product photos" items={PHOTOS} renderItem={photoActions(vi.fn(), vi.fn())} />, "rtl");
+    inLocale(<GridList layout="grid" aria-label="Product photos" items={PHOTOS} renderItem={photoActions(vi.fn(), vi.fn())} />, "rtl");
     const bar = document.querySelector("[data-slot='grid-list-actions']")!;
     const overlay = bar.parentElement!;
     expect(classesOf(overlay)).toEqual(expect.arrayContaining(["absolute", "inset-x-0", "top-0", "aspect-[4/3]", "items-end", "justify-end", "pointer-events-none"]));
@@ -132,7 +132,7 @@ describe("GridList tile actions", () => {
   });
 
   it("an action's focus is an inset ring, with no outer outline", () => {
-    inLocale(<GridList aria-label="Product photos" items={PHOTOS} renderItem={photoActions(vi.fn(), vi.fn())} dragAndDrop={{ onReorder: vi.fn() }} />);
+    inLocale(<GridList layout="grid" aria-label="Product photos" items={PHOTOS} renderItem={photoActions(vi.fn(), vi.fn())} dragAndDrop={{ onReorder: vi.fn() }} />);
     const focusable = [document.querySelector("[data-slot='grid-list-action']"), document.querySelector("[data-slot='grid-list-drag']")];
     for (const element of focusable) {
       expect(classesOf(element)).toEqual(expect.arrayContaining(["outline-hidden", "data-[focus-visible]:inset-ring-2", "data-[focus-visible]:inset-ring-ds-border-focused"]));
@@ -141,7 +141,7 @@ describe("GridList tile actions", () => {
   });
 
   it("without actions there is no bar, and the media area is unchanged", () => {
-    inLocale(<GridList aria-label="Product photos" items={PHOTOS} renderItem={(photo) => ({ title: photo.title, media: <span>photo</span> })} />);
+    inLocale(<GridList layout="grid" aria-label="Product photos" items={PHOTOS} renderItem={(photo) => ({ title: photo.title, media: <span>photo</span> })} />);
     expect(document.querySelector("[data-slot='grid-list-actions']")).toBeNull();
     expect(document.querySelectorAll("[data-slot='grid-list-tile'] button")).toHaveLength(0);
   });
@@ -153,7 +153,7 @@ describe("GridList tile actions", () => {
       return (
         <>
           <button type="button" onClick={() => setItems((current) => current.filter((photo) => photo.id !== "side"))}>delete</button>
-          <GridList ref={ref} aria-label="Product photos" items={items} renderItem={(photo) => ({ title: photo.title })} />
+          <GridList layout="grid" ref={ref} aria-label="Product photos" items={items} renderItem={(photo) => ({ title: photo.title })} />
         </>
       );
     }

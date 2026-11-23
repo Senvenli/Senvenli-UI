@@ -13,7 +13,7 @@ const PHOTOS = [
 
 export default function Example() {
   return (
-    <GridList
+    <GridList layout="grid"
       aria-label="Product photos"
       items={PHOTOS}
       selectionMode="multiple"

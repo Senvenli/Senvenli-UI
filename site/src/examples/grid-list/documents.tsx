@@ -13,7 +13,7 @@ export default function Example() {
   const [opened, setOpened] = useState<string | null>(null);
   return (
     <Stack space="space-150">
-      <GridList
+      <GridList layout="grid"
         aria-label="Documents"
         items={DOCUMENTS}
         onAction={(key) => setOpened(DOCUMENTS.find((document) => document.id === key)?.title ?? null)}
