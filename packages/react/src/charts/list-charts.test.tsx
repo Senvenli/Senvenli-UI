@@ -19,6 +19,12 @@ function inLocale(ui: React.ReactElement, locale = "en") {
 const focused = () => document.activeElement as HTMLElement;
 
 describe("BarList", () => {
+  it("needs no visible title: aria-label names the chart and its data table, and no header is drawn", () => {
+    inLocale(<BarList aria-label="Orders by region" data={REGIONS} />);
+    expect(screen.getByRole("region", { name: "Orders by region" })).toBeTruthy();
+    expect(document.querySelector('[data-slot="chart-header"]')).toBeNull();
+  });
+
   const REGIONS = [
     { name: "North Central", value: 57 },
     { name: "Capital Region", value: 148, href: "/regions/capital" },

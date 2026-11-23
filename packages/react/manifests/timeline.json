@@ -54,7 +54,45 @@
         "name": "items",
         "type": "TimelineItem[]",
         "required": true,
-        "origin": "own"
+        "origin": "own",
+        "schema": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "icon": {
+                "type": "string",
+                "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+              },
+              "tone": {
+                "type": "string",
+                "enum": [
+                  "neutral",
+                  "danger",
+                  "success",
+                  "brand"
+                ]
+              },
+              "title": {
+                "type": "string"
+              },
+              "meta": {
+                "type": "string"
+              },
+              "children": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "id",
+              "title"
+            ]
+          }
+        }
       },
       {
         "name": "order",
@@ -62,7 +100,7 @@
         "required": false,
         "origin": "own",
         "default": "\"newest\"",
-        "description": "`newest` first (default) or `oldest` first.",
+        "description": "With timestamps: `newest` first (default) or `oldest` first. Without them the list keeps the order given.",
         "schema": {
           "type": "string",
           "enum": [
@@ -74,9 +112,9 @@
       {
         "name": "timeZone",
         "type": "string",
-        "required": true,
+        "required": false,
         "origin": "own",
-        "description": "The time zone the events belong to (\"Europe/Berlin\"). Required: times show in it, and server and\nbrowser then format the same text. An unknown zone falls back to UTC with a warning.",
+        "description": "The time zone the events belong to (\"Europe/Berlin\"): times show in it, and server and browser then format the\nsame text. Left out, the browser's own zone (the server's on the server, settled on the client). An unknown zone\nfalls back to UTC with a warning.",
         "schema": {
           "type": "string"
         }
@@ -89,12 +127,23 @@
         "description": "\"Now\" for relative times. Without it, times render absolute on the server and on the first\nclient render, then read relative (\"3 min. ago\") after mount and stay current while any event\nis under an hour old."
       },
       {
+        "name": "groupByDay",
+        "type": "boolean",
+        "required": false,
+        "origin": "own",
+        "default": "false",
+        "description": "Groups the events under a title per day, for a long activity feed. Off by default.",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
         "name": "dayHeadingLevel",
         "type": "4 | 2 | 3 | 5 | 6",
         "required": false,
         "origin": "own",
         "default": "3",
-        "description": "Heading level of the day titles when the list groups by day (more than ten items).",
+        "description": "Heading level of the day titles with `groupByDay`.",
         "schema": {
           "enum": [
             4,

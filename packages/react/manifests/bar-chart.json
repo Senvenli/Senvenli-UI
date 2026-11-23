@@ -66,7 +66,7 @@
       "properties": {
         "title": {
           "type": "string",
-          "description": "What the chart shows (\"Income and expenses\")."
+          "description": "What the chart shows (\"Income and expenses\"), over it; leave it out when a card or a heading already says so."
         },
         "period": {
           "type": "string",
@@ -97,10 +97,7 @@
           },
           "description": "The series keys, in order; the first is the product's own figure (`ds-chart-1`)."
         }
-      },
-      "required": [
-        "title"
-      ]
+      }
     }
   },
   "source": [
@@ -111,9 +108,19 @@
       {
         "name": "title",
         "type": "string",
-        "required": true,
+        "required": false,
         "origin": "own",
-        "description": "What the chart shows (\"Income and expenses\").",
+        "description": "What the chart shows (\"Income and expenses\"), over it; leave it out when a card or a heading already says so.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "aria-label",
+        "type": "string",
+        "required": false,
+        "origin": "own",
+        "description": "Names the chart when it has no visible `title`.",
         "schema": {
           "type": "string"
         }

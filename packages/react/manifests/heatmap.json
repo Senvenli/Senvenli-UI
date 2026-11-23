@@ -4,17 +4,18 @@
   "family": "charts",
   "status": "alpha",
   "import": "@senvenli/react/charts",
-  "name": "seasonality-heatmap",
-  "title": "Seasonality heatmap",
+  "name": "heatmap",
+  "title": "Heatmap",
   "exports": [
-    "SeasonalityHeatmap"
+    "Heatmap"
   ],
   "description": "A value by two cyclic dimensions, such as weekday by hour, as shaded cells.",
   "keywords": [
     "heatmap",
+    "hour",
+    "matrix",
     "seasonality",
-    "weekday",
-    "hour"
+    "weekday"
   ],
   "usage": {
     "when": [
@@ -49,13 +50,23 @@
     "src/charts/report-charts.tsx"
   ],
   "props": {
-    "SeasonalityHeatmap": [
+    "Heatmap": [
       {
         "name": "title",
         "type": "string",
-        "required": true,
+        "required": false,
         "origin": "own",
-        "description": "What the chart shows (\"Income and expenses\").",
+        "description": "What the chart shows (\"Income and expenses\"), over it; leave it out when a card or a heading already says so.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "aria-label",
+        "type": "string",
+        "required": false,
+        "origin": "own",
+        "description": "Names the chart when it has no visible `title`.",
         "schema": {
           "type": "string"
         }
@@ -114,7 +125,7 @@
       },
       {
         "name": "data",
-        "type": "readonly SeasonalityHeatmapCell[]",
+        "type": "readonly HeatmapCell[]",
         "required": true,
         "origin": "own",
         "description": "One entry per cell; a row and column with no entry draws no cell (a day outside the month).",
@@ -171,7 +182,7 @@
       },
       {
         "name": "onCellPress",
-        "type": "(cell: SeasonalityHeatmapCell) => void",
+        "type": "(cell: HeatmapCell) => void",
         "required": false,
         "origin": "own"
       }

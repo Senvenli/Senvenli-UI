@@ -4,17 +4,18 @@
   "family": "charts",
   "status": "alpha",
   "import": "@senvenli/react/charts",
-  "name": "seasonality-heatmap",
-  "title": "Seasonality heatmap",
+  "name": "heatmap",
+  "title": "Heatmap",
   "exports": [
-    "SeasonalityHeatmap"
+    "Heatmap"
   ],
   "description": "A value by two cyclic dimensions, such as weekday by hour, as shaded cells.",
   "keywords": [
     "heatmap",
+    "hour",
+    "matrix",
     "seasonality",
-    "weekday",
-    "hour"
+    "weekday"
   ],
   "usage": {
     "when": [

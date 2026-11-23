@@ -354,6 +354,25 @@
     "genui": true
   },
   {
+    "name": "heatmap",
+    "title": "Heatmap",
+    "family": "charts",
+    "status": "alpha",
+    "description": "A value by two cyclic dimensions, such as weekday by hour, as shaded cells.",
+    "keywords": [
+      "heatmap",
+      "hour",
+      "matrix",
+      "seasonality",
+      "weekday"
+    ],
+    "import": "@senvenli/react/charts",
+    "exports": [
+      "Heatmap"
+    ],
+    "genui": false
+  },
+  {
     "name": "line-chart",
     "title": "Line chart",
     "family": "charts",
@@ -421,24 +440,6 @@
     "import": "@senvenli/react/charts",
     "exports": [
       "ScatterChart"
-    ],
-    "genui": false
-  },
-  {
-    "name": "seasonality-heatmap",
-    "title": "Seasonality heatmap",
-    "family": "charts",
-    "status": "alpha",
-    "description": "A value by two cyclic dimensions, such as weekday by hour, as shaded cells.",
-    "keywords": [
-      "heatmap",
-      "seasonality",
-      "weekday",
-      "hour"
-    ],
-    "import": "@senvenli/react/charts",
-    "exports": [
-      "SeasonalityHeatmap"
     ],
     "genui": false
   },

@@ -1,7 +1,7 @@
 "use client";
 
 /**
- * The two report charts: WaterfallChart and SeasonalityHeatmap. Both sit on the shared ChartFrame (loading, empty
+ * The two report charts: WaterfallChart and Heatmap. Both sit on the shared ChartFrame (loading, empty
  * and the data-table alternative) through the charts' Shell, unchanged.
  */
 
@@ -39,12 +39,13 @@ const AXIS_TICK = { fill: "var(--ds-text-subtlest)", fontSize: 11, style: { font
 const MINUS = "−";
 
 type FrameProps = {
-  /** What the chart shows ("Income and expenses"). */
-  title: string;
+  /** What the chart shows ("Income and expenses"), over it; leave it out when a card or a heading already says so. */
+  title?: string;
+  /** Names the chart when it has no visible `title`. */
+  "aria-label"?: string;
   /** The period it covers ("September 2026"). */
   period?: string;
   isLoading?: boolean;
-  /** Shown instead of the plot when there is nothing to draw; "No data for this period" by default. */
   /** Shown instead of the plot when there is no data: an `EmptyState size="small"` or text; "No data" by default. */
   emptyState?: React.ReactNode;
 };
@@ -184,7 +185,7 @@ type PlotRow = WaterfallRow & { band: [number, number] };
  * `ds-chart-1`, increases outlined with a 25% tint, decreases outlined and hatched, each labeled with its signed
  * value. The arrow keys move between bars with the tooltip (change and running total); the data table has them all.
  */
-export function WaterfallChart({ title, period, start, steps, endLabel, valueFormatter = plain, isLoading, emptyState, height = 240 }: WaterfallChartProps) {
+export function WaterfallChart({ title, "aria-label": ariaLabel, period, start, steps, endLabel, valueFormatter = plain, isLoading, emptyState, height = 240 }: WaterfallChartProps) {
   const { locale } = useLocale();
   const animate = useChartAnimation();
   const direction = useChartDirection();
@@ -210,7 +211,7 @@ export function WaterfallChart({ title, period, start, steps, endLabel, valueFor
   const label = (row: WaterfallRow) => (isTotal(row) ? signed(row.to, valueFormatter, false) : signed(row.change!, valueFormatter));
   const tableRows = rows.map((row) => ({ ...row, changeText: isTotal(row) ? "" : signed(row.change!, valueFormatter), totalText: signed(row.to, valueFormatter, false) }));
   const columns: TableColumn<(typeof tableRows)[number]>[] = [
-    { key: "name", header: title, isRowHeader: true },
+    { key: "name", header: title ?? ariaLabel ?? "", isRowHeader: true },
     { key: "changeText", header: change, align: "end" },
     { key: "totalText", header: total, align: "end" },
   ];
@@ -226,7 +227,7 @@ export function WaterfallChart({ title, period, start, steps, endLabel, valueFor
     />
   );
   return (
-    <Shell title={title} period={period} isLoading={isLoading} emptyState={emptyState} isEmpty={isEmpty} height={height} legend={legend} columns={columns} rows={tableRows}>
+    <Shell title={title} aria-label={ariaLabel} period={period} isLoading={isLoading} emptyState={emptyState} isEmpty={isEmpty} height={height} legend={legend} columns={columns} rows={tableRows}>
       <div data-slot="waterfall" className="h-full min-w-0">
         <ResponsiveContainer width="100%" height="100%">
           <RechartsBarChart data={rows} barCategoryGap="20%" accessibilityLayer margin={{ top, right: 4, bottom: 0, left: 4 }}>
@@ -357,9 +358,9 @@ function WaterfallBar({ x = 0, y = 0, width = 0, height = 0, payload, patternId,
   );
 }
 
-/* ── SeasonalityHeatmap ───────────────────────────────────────────────────── */
+/* ── Heatmap ───────────────────────────────────────────────────── */
 
-export type SeasonalityHeatmapCell = {
+export type HeatmapCell = {
   /** The cell's row and column, as named in `rows` and `columns`. */
   row: string;
   column: string;
@@ -372,7 +373,7 @@ export type SeasonalityHeatmapCell = {
   label?: string;
 };
 
-export type SeasonalityHeatmapProps = FrameProps & {
+export type HeatmapProps = FrameProps & {
   /** The rows, top to bottom ("Week 1" …, or the months). Names are unique: cells find their row by name. */
   rows: readonly string[];
   /**
@@ -381,7 +382,7 @@ export type SeasonalityHeatmapProps = FrameProps & {
    */
   columns: readonly string[];
   /** One entry per cell; a row and column with no entry draws no cell (a day outside the month). */
-  data: readonly SeasonalityHeatmapCell[];
+  data: readonly HeatmapCell[];
   /** The row headers' name ("Week"), on the data table's first header and the grid's corner; "Period" by default. */
   rowHeader?: string;
   /**
@@ -391,13 +392,13 @@ export type SeasonalityHeatmapProps = FrameProps & {
    */
   thresholds?: readonly [number, number, number, number];
   valueFormatter?: ChartValueFormatter;
-  onCellPress?: (cell: SeasonalityHeatmapCell) => void;
+  onCellPress?: (cell: HeatmapCell) => void;
 };
 
 /** A cell with no data: hatched, so it never passes for zero's flat `ds-background-neutral`. */
 const HEAT_MISSING = "repeating-linear-gradient(135deg, var(--ds-background-neutral-pressed) 0 2px, transparent 2px 5px)";
 
-type Slot = { cell: SeasonalityHeatmapCell; row: number; column: number; index: number };
+type Slot = { cell: HeatmapCell; row: number; column: number; index: number };
 
 /** Whether the bounds rise strictly, each one finite: otherwise the steps no longer follow the values. */
 const ascending = (bounds: readonly number[]) => bounds.every((bound, index) => Number.isFinite(bound) && (index === 0 || bound > bounds[index - 1]!));
@@ -419,18 +420,18 @@ const hasDuplicates = (names: readonly string[]) => new Set(names).size !== name
  * and the focused cell otherwise; a key that moves focus hands the tooltip back to the focused cell until the
  * pointer enters another cell. Escape hides it.
  */
-export function SeasonalityHeatmap({ title, period, rows, columns, data, rowHeader, thresholds, valueFormatter = plain, onCellPress, isLoading, emptyState }: SeasonalityHeatmapProps) {
+export function Heatmap({ title, "aria-label": ariaLabel, period, rows, columns, data, rowHeader, thresholds, valueFormatter = plain, onCellPress, isLoading, emptyState }: HeatmapProps) {
   const { locale } = useLocale();
   const { isRtl } = useChartDirection();
   const animate = useChartAnimation();
   const noValue = chartNoValueLabel(locale);
   const rowHeaderLabel = rowHeader ?? chartPeriodLabel(locale);
   // Cells by position; a pair given twice keeps its last entry.
-  const byPair = new Map<string, SeasonalityHeatmapCell>();
+  const byPair = new Map<string, HeatmapCell>();
   for (const cell of data) if (rows.includes(cell.row) && columns.includes(cell.column)) byPair.set(`${cell.row}\u0000${cell.column}`, cell);
-  useOnce(data.some((cell) => !rows.includes(cell.row) || !columns.includes(cell.column)), "SeasonalityHeatmap: a cell outside rows and columns is left out.");
-  useOnce(hasDuplicates(rows) || hasDuplicates(columns), "SeasonalityHeatmap: rows and columns need unique names; a repeated name's cells are drawn in its first row or column only.");
-  useOnce(thresholds !== undefined && !ascending(thresholds), "SeasonalityHeatmap: thresholds must be four finite, strictly ascending bounds.");
+  useOnce(data.some((cell) => !rows.includes(cell.row) || !columns.includes(cell.column)), "Heatmap: a cell outside rows and columns is left out.");
+  useOnce(hasDuplicates(rows) || hasDuplicates(columns), "Heatmap: rows and columns need unique names; a repeated name's cells are drawn in its first row or column only.");
+  useOnce(thresholds !== undefined && !ascending(thresholds), "Heatmap: thresholds must be four finite, strictly ascending bounds.");
   const slots: Slot[] = [];
   const grid: (Slot | undefined)[][] = rows.map((row, r) =>
     columns.map((column, c) => {
@@ -447,9 +448,9 @@ export function SeasonalityHeatmap({ title, period, rows, columns, data, rowHead
   const bounds = thresholds ?? heatmapThresholds(values);
   const hasMissing = slots.some((slot) => slot.cell.value === null || !Number.isFinite(slot.cell.value));
   const format = (value: number | null) => (value === null || !Number.isFinite(value) ? noValue : valueFormatter(value));
-  const nameOf = (cell: SeasonalityHeatmapCell) => cell.label ?? `${cell.row}, ${cell.column}: ${format(cell.value)}`;
+  const nameOf = (cell: HeatmapCell) => cell.label ?? `${cell.row}, ${cell.column}: ${format(cell.value)}`;
   // levelOf gives a negative value step 0, the same as zero.
-  const fillOf = (cell: SeasonalityHeatmapCell) => (cell.value === null || !Number.isFinite(cell.value) ? HEAT_MISSING : HEAT_LEVELS[levelOf(cell.value, bounds)]!);
+  const fillOf = (cell: HeatmapCell) => (cell.value === null || !Number.isFinite(cell.value) ? HEAT_MISSING : HEAT_LEVELS[levelOf(cell.value, bounds)]!);
 
   // The roving tab stop and the keys follow focus only (the first cell until the reader moves); the pointer only
   // ever sets `hovered`, which the tooltip prefers while `tip.hover` holds.
@@ -494,6 +495,7 @@ export function SeasonalityHeatmap({ title, period, rows, columns, data, rowHead
   return (
     <Shell
       title={title}
+      aria-label={ariaLabel}
       period={period}
       isLoading={isLoading}
       emptyState={emptyState}
@@ -502,12 +504,12 @@ export function SeasonalityHeatmap({ title, period, rows, columns, data, rowHead
       columns={tableColumns}
       rows={tableRows}
     >
-      <div data-slot="seasonality-heatmap" className="relative flex min-w-0 flex-col gap-ds-150">
-        <div className="min-w-0 overflow-x-auto" data-slot="seasonality-heatmap-scroll">
+      <div data-slot="heatmap" className="relative flex min-w-0 flex-col gap-ds-150">
+        <div className="min-w-0 overflow-x-auto" data-slot="heatmap-scroll">
           <div
             role="grid"
-            aria-label={title}
-            data-slot="seasonality-heatmap-grid"
+            aria-label={title ?? ariaLabel}
+            data-slot="heatmap-grid"
             className="grid min-w-max gap-[3px]"
             style={{ gridTemplateColumns: `max-content repeat(${columns.length}, minmax(1.5rem, 1fr))` }}
             onKeyDown={(event) => {
@@ -542,22 +544,22 @@ export function SeasonalityHeatmap({ title, period, rows, columns, data, rowHead
           >
             <div role="row" className="contents">
               {/* The corner heads the row headers' column, so every row has as many cells as this one. */}
-              <span role="columnheader" aria-label={rowHeaderLabel} data-slot="seasonality-heatmap-corner" className="h-4" />
+              <span role="columnheader" aria-label={rowHeaderLabel} data-slot="heatmap-corner" className="h-4" />
               {columns.map((column, c) => (
-                <span key={c} role="columnheader" data-slot="seasonality-heatmap-column" className="h-4 truncate text-center text-[11px] leading-4 text-ds-text-subtlest">
+                <span key={c} role="columnheader" data-slot="heatmap-column" className="h-4 truncate text-center text-[11px] leading-4 text-ds-text-subtlest">
                   {column}
                 </span>
               ))}
             </div>
             {rows.map((row, r) => (
-              <div key={r} role="row" data-slot="seasonality-heatmap-row" className="contents">
+              <div key={r} role="row" data-slot="heatmap-row" className="contents">
                 <span role="rowheader" className="flex h-7 items-center truncate pe-ds-100 text-body-small text-ds-text-subtle">
                   <bdi>{row}</bdi>
                 </span>
                 {columns.map((_, c) => {
                   const slot = grid[r]![c];
                   // An empty, unfocusable cell: it keeps the column count, so the cells after it stay under their headers.
-                  if (!slot) return <span key={c} role="gridcell" data-slot="seasonality-heatmap-gap" className="h-7" />;
+                  if (!slot) return <span key={c} role="gridcell" data-slot="heatmap-gap" className="h-7" />;
                   const missing = slot.cell.value === null || !Number.isFinite(slot.cell.value);
                   return (
                     <span
@@ -567,7 +569,7 @@ export function SeasonalityHeatmap({ title, period, rows, columns, data, rowHead
                       }}
                       role="gridcell"
                       aria-label={nameOf(slot.cell)}
-                      data-slot="seasonality-heatmap-cell"
+                      data-slot="heatmap-cell"
                       data-state={missing ? "missing" : slot.cell.value === 0 ? "zero" : "value"}
                       data-level={missing ? undefined : levelOf(slot.cell.value!, bounds)}
                       tabIndex={slot.index === current ? 0 : -1}
@@ -591,7 +593,7 @@ export function SeasonalityHeatmap({ title, period, rows, columns, data, rowHead
             ))}
           </div>
         </div>
-        <div data-slot="seasonality-heatmap-scale" className="flex flex-wrap items-center gap-x-ds-200 gap-y-ds-050 text-body-small text-ds-text-subtle">
+        <div data-slot="heatmap-scale" className="flex flex-wrap items-center gap-x-ds-200 gap-y-ds-050 text-body-small text-ds-text-subtle">
           <span className="flex items-center gap-ds-075">
             <span>{heatmapLessLabel(locale)}</span>
             <span aria-hidden className="flex gap-[3px]">
@@ -602,7 +604,7 @@ export function SeasonalityHeatmap({ title, period, rows, columns, data, rowHead
             <span>{heatmapMoreLabel(locale)}</span>
           </span>
           {hasMissing && (
-            <span data-slot="seasonality-heatmap-missing-key" className="flex items-center gap-ds-075">
+            <span data-slot="heatmap-missing-key" className="flex items-center gap-ds-075">
               <span aria-hidden className="size-3 rounded-[2px]" style={{ background: HEAT_MISSING }} />
               {noValue}
             </span>
@@ -646,7 +648,7 @@ function HeatTooltip({ anchor, title, children }: { anchor: HTMLElement | null; 
       setPlace((previous) => (previous && previous.left === left && previous.top === top ? previous : { left, top }));
     };
     position();
-    const scroller = anchor.closest("[data-slot='seasonality-heatmap-scroll']");
+    const scroller = anchor.closest("[data-slot='heatmap-scroll']");
     scroller?.addEventListener("scroll", position, { passive: true });
     window.addEventListener("resize", position);
     return () => {
@@ -658,7 +660,7 @@ function HeatTooltip({ anchor, title, children }: { anchor: HTMLElement | null; 
     <div
       ref={ref}
       aria-hidden
-      data-slot="seasonality-heatmap-tooltip"
+      data-slot="heatmap-tooltip"
       // Its own width (max-content, at most the chart's), never squeezed by where it sits, so the placing
       // above measures the width it will have.
       className="pointer-events-none absolute z-10 w-max max-w-full"

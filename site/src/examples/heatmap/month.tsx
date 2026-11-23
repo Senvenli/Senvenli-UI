@@ -1,4 +1,4 @@
-import { SeasonalityHeatmap } from "@senvenli/react/charts";
+import { Heatmap } from "@senvenli/react/charts";
 
 const WEEKS = ["Week 1", "Week 2", "Week 3", "Week 4", "Week 5"];
 const WEEKDAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
@@ -14,7 +14,7 @@ const REVENUE = Array.from({ length: 31 }, (_, index) => {
 
 export default function Example() {
   return (
-    <SeasonalityHeatmap
+    <Heatmap
       title="Daily revenue"
       period="March 2026"
       rows={WEEKS}

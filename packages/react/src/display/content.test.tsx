@@ -337,7 +337,14 @@ describe("Timeline", () => {
     expect(slots("timeline-title").map((title) => title.textContent)).toEqual(["first", "second"]);
   });
 
-  it("lists oldest first when asked, and groups by day past ten items", () => {
+  it("without times or icons: the order given, a dot for each node, no time line", () => {
+    inLocale(<Timeline items={[{ id: "a", title: "Sign up" }, { id: "b", title: "Verify email" }, { id: "c", title: "Invite a teammate" }]} />);
+    expect(slots("timeline-title").map((title) => title.textContent)).toEqual(["Sign up", "Verify email", "Invite a teammate"]);
+    expect(slots("timeline-dot")).toHaveLength(3);
+    expect(slots("timeline-meta")).toHaveLength(0);
+  });
+
+  it("lists oldest first when asked, and groups by day with groupByDay", () => {
     inLocale(<Timeline items={items} now={now} order="oldest" timeZone="Europe/Berlin" />);
     expect(slots("timeline-title").map((title) => title.textContent)[0]).toBe("Order placed");
     cleanup();
@@ -345,6 +352,10 @@ describe("Timeline", () => {
       id: `e${index}`, icon: "pencil" as const, title: `Edit ${index}`, timestamp: new Date(Date.UTC(2026, 9, 10 + (index % 3), 9, index)),
     }));
     inLocale(<Timeline items={many} now={now} timeZone="Europe/Berlin" />);
+    // Off by default: a long list is still one list.
+    expect(screen.queryAllByRole("heading", { level: 3 })).toHaveLength(0);
+    cleanup();
+    inLocale(<Timeline items={many} now={now} timeZone="Europe/Berlin" groupByDay />);
     const days = screen.getAllByRole("heading", { level: 3 });
     expect(days).toHaveLength(3);
     expect(days.map((day) => day.textContent)).toEqual(["October 12, 2026", "October 11, 2026", "October 10, 2026"]);
