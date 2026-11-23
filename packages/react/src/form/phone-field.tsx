@@ -126,26 +126,22 @@ export type PhoneFieldProps = {
    */
   "aria-invalid"?: boolean | "true" | "false";
   /**
-   * The country button's name, from the country's name and its calling code ("Country: Germany, +49" by default, in
-   * the provider locale). For an app that words it itself; pass it already localized.
+   * The field's words, already localized; the DS strings in the provider locale by default:
+   * - `country`: the country button's name, from the country's name and calling code ("Country: Germany, +49");
+   * - `countryList`: the country list's name, also its popover's ("Country");
+   * - `countrySearch`: the country search box's name ("Search countries");
+   * - `countryEmpty`: the list's empty result for the typed search ("No results for “{query}”.");
+   * - `suggestedCountries`: the first section's name, the `suggestedCountries` ("Suggested countries");
+   * - `allCountries`: the header above the rest when suggestions show ("All countries").
    */
-  countryLabel?: (country: string, callingCode: string) => string;
-  /** The country list's name ("Country" by default), also its popover's. Already localized. */
-  countryListLabel?: string;
-  /** The country search box's name ("Search countries" by default). Already localized. */
-  countrySearchLabel?: string;
-  /** The country list's empty result for the typed search ("No results for “{query}”." by default). */
-  countryEmptyMessage?: (query: string) => React.ReactNode;
-  /**
-   * The name of the country list's first section, the `suggestedCountries` ("Suggested countries" by default), which assistive tech
-   * reads as the section's name. Already localized.
-   */
-  suggestedCountriesLabel?: string;
-  /**
-   * The header above the rest of the list, shown when `suggestedCountries` are shown above it ("All countries" by
-   * default). Already localized.
-   */
-  allCountriesLabel?: string;
+  labels?: {
+    country?: (country: string, callingCode: string) => string;
+    countryList?: string;
+    countrySearch?: string;
+    countryEmpty?: (query: string) => React.ReactNode;
+    suggestedCountries?: string;
+    allCountries?: string;
+  };
   /**
    * `data-*` attributes: `data-testid` on the field's wrapper, as on TextField; every other one on the
    * number input, where password managers and autofill read theirs (`data-1p-ignore`, `data-lpignore`).
@@ -232,12 +228,7 @@ export const PhoneField = React.forwardRef<HTMLInputElement, PhoneFieldProps>(fu
     id,
     "aria-describedby": ariaDescribedBy,
     "aria-invalid": ariaInvalid,
-    countryLabel: countryLabelProp,
-    countryListLabel,
-    countrySearchLabel,
-    countryEmptyMessage,
-    suggestedCountriesLabel,
-    allCountriesLabel,
+    labels,
     "aria-label": ariaLabel,
     "aria-labelledby": ariaLabelledBy,
     ...data
@@ -383,6 +374,12 @@ export const PhoneField = React.forwardRef<HTMLInputElement, PhoneFieldProps>(fu
   );
   const sectionHeader = "px-ds-100 pt-ds-100 pb-ds-050 text-body-small font-medium text-ds-text-subtle";
 
+  const countryLabelProp = labels?.country;
+  const countryListLabel = labels?.countryList;
+  const countrySearchLabel = labels?.countrySearch;
+  const countryEmptyMessage = labels?.countryEmpty;
+  const suggestedCountriesLabel = labels?.suggestedCountries;
+  const allCountriesLabel = labels?.allCountries;
   const countryLabel = countryLabelProp ? countryLabelProp(countryName, `+${shape.dial}`) : phoneCountryLabel(locale, countryName, `+${shape.dial}`);
   const listLabel = countryListLabel ?? phoneCountryListLabel(locale);
   const locked = isDisabled || isReadOnly;

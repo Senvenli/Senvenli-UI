@@ -5,6 +5,17 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { DesignSystemProvider } from "../provider";
 import { DS_STRINGS, registerDsStrings } from "../i18n";
 import { Stepper } from "./index";
+import type { StepStatus } from "./stepper";
+
+/** The old per-flow maps written onto the steps (completedSteps, stepStatus, statusText → isDone, status, statusText). */
+function withStatus<S extends { id: string }>(
+  steps: readonly S[],
+  maps: { completed?: Iterable<string>; status?: Partial<Record<string, StepStatus>>; text?: Partial<Record<string, string>> },
+) {
+  const completed = maps.completed ? new Set(maps.completed) : undefined;
+  return steps.map((step) => ({ ...step, isDone: completed ? completed.has(step.id) : undefined, status: maps.status?.[step.id], statusText: maps.text?.[step.id] }));
+}
+
 
 const PHYSICAL = /(^|\s|:)(-?m[lr]-|p[lr]-|-?left-|-?right-|border-[lr](-|\s|$)|rounded-[lr]-|text-left|text-right)/;
 
@@ -72,7 +83,7 @@ describe("Stepper, all steps complete", () => {
     });
 
     it(`${orientation}: currentStep and completedSteps are ignored, and an unknown currentStep does not warn`, () => {
-      inLocale(<Stepper orientation={orientation} steps={FLOW} currentStep="nope" completedSteps={["profile"]} isComplete />);
+      inLocale(<Stepper orientation={orientation} steps={withStatus(FLOW, { completed: ["profile"] })} currentStep="nope" isComplete />);
       expect(states()).toEqual(["done", "done", "done", "done"]);
       expect(warn.mock.calls.some(([message]: unknown[]) => String(message).includes("currentStep"))).toBe(false);
     });
@@ -131,7 +142,7 @@ describe("Stepper, isComplete left out", () => {
   }
 
   it("every id in completedSteps still leaves the current step current", () => {
-    inLocale(<Stepper steps={FLOW} currentStep="confirm" completedSteps={FLOW.map((step) => step.id)} />);
+    inLocale(<Stepper steps={withStatus(FLOW, { completed: FLOW.map((step) => step.id) })} currentStep="confirm" />);
     expect(states()).toEqual(["done", "done", "done", "current"]);
   });
 });
@@ -139,7 +150,7 @@ describe("Stepper, isComplete left out", () => {
 describe("Stepper, isComplete with stepStatus: a journey", () => {
   for (const orientation of ORIENTATIONS) {
     it(`${orientation}: a finished journey says Done with a check on every step, never Now`, () => {
-      inLocale(<Stepper orientation={orientation} steps={JOURNEY} currentStep="live" stepStatus={{}} isComplete />);
+      inLocale(<Stepper orientation={orientation} steps={withStatus(JOURNEY, { status: {} })} showStatus currentStep="live" isComplete />);
       const words = steps().map((step) => step.querySelector("[data-slot='stepper-step-status']")?.textContent);
       expect(words).toEqual(["Done", "Done", "Done", "Done", "Done"]);
       expect(document.body.textContent).not.toContain("Now");
@@ -150,12 +161,10 @@ describe("Stepper, isComplete with stepStatus: a journey", () => {
   it("an explicit status and statusText still speak for their step", () => {
     inLocale(
       <Stepper
-        steps={JOURNEY}
+        steps={withStatus(JOURNEY, { status: { live: "with-provider" }, text: { domain: "Verified" } })} showStatus
         currentStep="live"
-        stepStatus={{ live: "with-provider" }}
-        statusText={{ domain: "Verified" }}
         isComplete
-      />,
+ />,
     );
     const status = (index: number) => steps()[index]!.querySelector("[data-slot='stepper-step-status']")!;
     expect(states()).toEqual(["done", "done", "done", "done", "done"]);

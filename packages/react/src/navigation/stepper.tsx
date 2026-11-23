@@ -19,10 +19,16 @@ import {
 
 export type StepperStep = {
   id: string;
-  /** The step's name ("Ek hizmetler"); a noun, one or two words. */
+  /** The step's name ("Extras"); a noun, one or two words. */
   label: string;
   /** Vertical only: one line under the name ("Name, price and availability"). */
   description?: string;
+  /** Done; by default every step before `currentStep` is. Set it on any step and only the steps marked are done. */
+  isDone?: boolean;
+  /** A journey across pages (signup → payment → setup): where this step stands, in words and an icon. */
+  status?: StepStatus;
+  /** Replaces the step's status words ("With us · 1–2 business days"). */
+  statusText?: string;
 };
 
 /** A step that is waiting on someone or went wrong, shown in words and an icon, never colour alone. */
@@ -33,13 +39,11 @@ export type StepperProps = {
   steps: readonly StepperStep[];
   /** The step the reader is on: `aria-current="step"`. Ignored with `isComplete`. */
   currentStep: string;
-  /** Done steps; by default every step before the current one. Ignored with `isComplete`. */
-  completedSteps?: Iterable<string>;
   /**
    * The flow is finished: every step shows its done state and none is current, so no step
    * carries `aria-current`. The list is named with the overall state ("Progress, All steps done"),
-   * and the narrow one-line form reads "All steps done" over a full bar. A `stepStatus` or
-   * `statusText` entry still speaks for its step, in the list and, under the done line, in the narrow form
+   * and the narrow one-line form reads "All steps done" over a full bar. A step's `status` or
+   * `statusText` still speaks for it, in the list and, under the done line, in the narrow form
    * too ("Domain · With us"). A finished flow cannot also have a `failed` or `needs-you` step: that
    * pairing contradicts itself and warns in development; settle the step first. Left out, nothing changes.
    */
@@ -49,12 +53,10 @@ export type StepperProps = {
   /** `horizontal` for a flow on one page (checkout, signup); `vertical` for checklists (onboarding, setup). */
   orientation?: "horizontal" | "vertical";
   /**
-   * A journey across pages (signup → payment → setup): per-step status words. With it, done and current
-   * steps say so in words too.
+   * Done and current steps say so in words too ("Done", "Now"), as on a journey across pages. On by default when
+   * any step has a `status`.
    */
-  stepStatus?: Partial<Record<string, StepStatus>>;
-  /** Replaces a step's status words ("With us · 1–2 business days"). */
-  statusText?: Partial<Record<string, string>>;
+  showStatus?: boolean;
   /** Names the list; "Progress" by default. */
   "aria-label"?: string;
 };
@@ -71,18 +73,19 @@ const STATUS: Record<StepStatus, { icon: IconName; bar: string; on: string; text
 type Resolved = StepperStep & { index: number; state: State; status?: StepStatus; words?: string; icon?: IconName; hasText: boolean };
 
 function resolve(props: StepperProps, locale: string): Resolved[] {
-  const { steps, currentStep, completedSteps, stepStatus, statusText, isComplete } = props;
+  const { steps, currentStep, isComplete } = props;
   const currentIndex = Math.max(0, steps.findIndex((step) => step.id === currentStep));
-  const done = completedSteps ? new Set(completedSteps) : new Set(steps.slice(0, currentIndex).map((step) => step.id));
-  const journey = stepStatus !== undefined;
+  const marked = steps.some((step) => step.isDone !== undefined);
+  const done = new Set((marked ? steps.filter((step) => step.isDone) : steps.slice(0, currentIndex)).map((step) => step.id));
+  const journey = props.showStatus ?? steps.some((step) => step.status !== undefined);
   return steps.map((step, index) => {
     const state: State = isComplete ? "done" : step.id === steps[currentIndex]?.id ? "current" : done.has(step.id) ? "done" : "upcoming";
-    const status = stepStatus?.[step.id];
+    const status = step.status;
     const words =
-      statusText?.[step.id] ??
+      step.statusText ??
       (status ? STATUS[status].words(locale) : journey && state === "done" ? stepDoneLabel(locale) : journey && state === "current" ? stepNowLabel(locale) : undefined);
     const icon = status ? STATUS[status].icon : journey && state === "done" ? "check" : undefined;
-    return { ...step, index, state, status, words, icon, hasText: statusText?.[step.id] !== undefined };
+    return { ...step, index, state, status, words, icon, hasText: step.statusText !== undefined };
   });
 }
 
@@ -203,7 +206,7 @@ function Horizontal({ steps, name, label, onStepPress, locale, complete }: Share
               <IconGlyph name="check" size="small" strokeWidth={3} />
               {stepsAllDoneLabel(locale)}
             </p>
-            {/* A step with its own status (stepStatus or statusText) says it here too, as it does in the list. */}
+            {/* A step with its own status (`status` or `statusText`) says it here too, as it does in the list. */}
             {steps
               .filter((step) => step.words && (step.status || step.hasText))
               .map((step) => (

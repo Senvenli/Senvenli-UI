@@ -1479,58 +1479,11 @@
         "description": "A pasted international number whose country is not offered; the value stays unchanged."
       },
       {
-        "name": "countryLabel",
-        "type": "(country: string, callingCode: string) => string",
+        "name": "labels",
+        "type": "{ country?: (country: string, callingCode: string) => string; countryList?: string; countrySearch?: string; countryEmpty?: (query: string) => React.ReactNode; suggestedCountries?: string; allCountries?: string; }",
         "required": false,
         "origin": "own",
-        "description": "The country button's name, from the country's name and its calling code (\"Country: Germany, +49\" by default, in\nthe provider locale). For an app that words it itself; pass it already localized."
-      },
-      {
-        "name": "countryListLabel",
-        "type": "string",
-        "required": false,
-        "origin": "own",
-        "description": "The country list's name (\"Country\" by default), also its popover's. Already localized.",
-        "schema": {
-          "type": "string"
-        }
-      },
-      {
-        "name": "countrySearchLabel",
-        "type": "string",
-        "required": false,
-        "origin": "own",
-        "description": "The country search box's name (\"Search countries\" by default). Already localized.",
-        "schema": {
-          "type": "string"
-        }
-      },
-      {
-        "name": "countryEmptyMessage",
-        "type": "(query: string) => ReactNode",
-        "required": false,
-        "origin": "own",
-        "description": "The country list's empty result for the typed search (\"No results for “{query}”.\" by default)."
-      },
-      {
-        "name": "suggestedCountriesLabel",
-        "type": "string",
-        "required": false,
-        "origin": "own",
-        "description": "The name of the country list's first section, the `suggestedCountries` (\"Suggested countries\" by default), which assistive tech\nreads as the section's name. Already localized.",
-        "schema": {
-          "type": "string"
-        }
-      },
-      {
-        "name": "allCountriesLabel",
-        "type": "string",
-        "required": false,
-        "origin": "own",
-        "description": "The header above the rest of the list, shown when `suggestedCountries` are shown above it (\"All countries\" by\ndefault). Already localized.",
-        "schema": {
-          "type": "string"
-        }
+        "description": "The field's words, already localized; the DS strings in the provider locale by default:\n- `country`: the country button's name, from the country's name and calling code (\"Country: Germany, +49\");\n- `countryList`: the country list's name, also its popover's (\"Country\");\n- `countrySearch`: the country search box's name (\"Search countries\");\n- `countryEmpty`: the list's empty result for the typed search (\"No results for “{query}”.\");\n- `suggestedCountries`: the first section's name, the `suggestedCountries` (\"Suggested countries\");\n- `allCountries`: the header above the rest when suggestions show (\"All countries\")."
       }
     ]
   },
