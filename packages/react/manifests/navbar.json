@@ -7,15 +7,20 @@
   "name": "navbar",
   "title": "Navbar",
   "exports": [
-    "Navbar"
+    "Navbar",
+    "NavbarBrand",
+    "NavbarItem",
+    "NavbarActions"
   ],
   "description": "The top bar of a public site: brand, up to five links, actions and a language choice, collapsing into a menu on phones.",
   "keywords": [
-    "navbar",
+    "compound",
     "header",
-    "top bar",
+    "menu",
+    "navbar",
+    "navbar item",
     "navigation",
-    "menu"
+    "top bar"
   ],
   "usage": {
     "when": [
@@ -34,7 +39,8 @@
       "The brand link is named for the home page."
     ],
     "youProvide": [
-      "A `brandLabel` when the brand alone does not say where it goes."
+      "A `brandLabel` when the brand alone does not say where it goes.",
+      "With children: an id on every NavbarItem (currentKey matches it), or isCurrent on the page's link."
     ]
   },
   "related": [
@@ -51,9 +57,9 @@
       {
         "name": "brand",
         "type": "React.ReactNode",
-        "required": true,
+        "required": false,
         "origin": "own",
-        "description": "The logo and wordmark (the site's logo). It links to `brandHref`."
+        "description": "The logo and wordmark (the site's logo). It links to `brandHref`. Or a `NavbarBrand` child."
       },
       {
         "name": "brandHref",
@@ -79,9 +85,9 @@
       {
         "name": "links",
         "type": "readonly NavbarLink[]",
-        "required": true,
+        "required": false,
         "origin": "own",
-        "description": "Up to five destinations.",
+        "description": "Up to five destinations. Leave it out to compose `NavbarItem`s as children instead.",
         "schema": {
           "type": "array",
           "items": {
@@ -107,6 +113,13 @@
         }
       },
       {
+        "name": "children",
+        "type": "React.ReactNode",
+        "required": false,
+        "origin": "own",
+        "description": "With no `links`: `NavbarItem`s (the destinations), plus an optional `NavbarBrand` (instead of `brand`) and\n`NavbarActions` (instead of `actions`)."
+      },
+      {
         "name": "currentKey",
         "type": "string",
         "required": false,
@@ -121,7 +134,7 @@
         "type": "React.ReactNode",
         "required": false,
         "origin": "own",
-        "description": "At the end: a language switcher, sign-in (subtle), then the one primary action, the same on every page. On\nphones they move into the menu panel, under the links."
+        "description": "At the end: a language switcher, sign-in (subtle), then the one primary action, the same on every page. On\nphones they move into the menu panel, under the links. Or a `NavbarActions` child."
       },
       {
         "name": "isSticky",
@@ -158,6 +171,63 @@
           "type": "string"
         }
       }
+    ],
+    "NavbarBrand": [
+      {
+        "name": "children",
+        "type": "React.ReactNode",
+        "required": true,
+        "origin": "own",
+        "description": "The logo and wordmark; it links to the Navbar's `brandHref`."
+      }
+    ],
+    "NavbarItem": [
+      {
+        "name": "id",
+        "type": "string",
+        "required": true,
+        "origin": "own",
+        "description": "Matches the Navbar's `currentKey`.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "href",
+        "type": "string",
+        "required": true,
+        "origin": "own",
+        "description": "A page or an in-page anchor (\"/#pricing\"); it goes through the host router.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "children",
+        "type": "React.ReactNode",
+        "required": true,
+        "origin": "own",
+        "description": "A noun for the place (\"Pricing\"), never a verb."
+      },
+      {
+        "name": "isCurrent",
+        "type": "boolean",
+        "required": false,
+        "origin": "own",
+        "description": "Marks this link as the page in view, instead of the Navbar's `currentKey`.",
+        "schema": {
+          "type": "boolean"
+        }
+      }
+    ],
+    "NavbarActions": [
+      {
+        "name": "children",
+        "type": "React.ReactNode",
+        "required": true,
+        "origin": "own",
+        "description": "A language switcher, sign-in (subtle), then the one primary action."
+      }
     ]
   },
   "tokens": [
@@ -172,6 +242,7 @@
     "ds-radius-medium",
     "ds-shadow-overlay",
     "ds-space-025",
+    "ds-space-075",
     "ds-space-100",
     "ds-space-200",
     "ds-space-300",
