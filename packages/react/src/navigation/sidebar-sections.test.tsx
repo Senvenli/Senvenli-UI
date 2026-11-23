@@ -4,7 +4,7 @@ import { renderToStaticMarkup } from "react-dom/server";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import { DesignSystemProvider } from "../provider";
-import { Sidebar, type SidebarItem, type SidebarSection } from "./index";
+import { Sidebar, type SidebarItemData, type SidebarSectionData } from "./index";
 
 // Sidebar labelled sections: an app's six sections as the Sidebar's `sections`.
 
@@ -44,8 +44,8 @@ function normalizeIds(html: string) {
   });
 }
 
-const TOP: SidebarItem[] = [{ id: "dashboard", label: "Dashboard", icon: "layout-dashboard", href: "/" }];
-const SECTIONS: SidebarSection[] = [
+const TOP: SidebarItemData[] = [{ id: "dashboard", label: "Dashboard", icon: "layout-dashboard", href: "/" }];
+const SECTIONS: SidebarSectionData[] = [
   {
     id: "work",
     label: "Work",
@@ -290,7 +290,7 @@ describe("Sidebar sections", () => {
 });
 
 describe("Sidebar without sections: unchanged", () => {
-  const ITEMS: SidebarItem[] = [
+  const ITEMS: SidebarItemData[] = [
     { id: "overview", label: "Overview", icon: "layout-dashboard", href: "/" },
     { id: "catalog", label: "Catalog", icon: "package", children: [{ id: "products", label: "Products", href: "/c" }] },
   ];
@@ -350,7 +350,7 @@ describe("Sidebar sections: slots and repeated ids", () => {
   });
 
   it("an id repeated across items, sections and settings is named once in development; both items are then current", () => {
-    const repeated: SidebarSection[] = [
+    const repeated: SidebarSectionData[] = [
       ...SECTIONS,
       { id: "extra", label: "Extra", items: [{ id: "products", label: "Products 2", icon: "package", href: "/products-2" }] },
     ];
@@ -375,10 +375,10 @@ describe("Sidebar repeated-id check in production", () => {
   globalThis.CSS ??= {} as typeof CSS;
   CSS.escape ??= (value: string) => value.replace(/[^\w-]/g, (char) => `\\${char}`);
   /** Items whose `id` reads are counted: the check walks every id once, rendering reads them on its own. */
-  function counted(): { sections: SidebarSection[]; reads: () => number; ids: number } {
+  function counted(): { sections: SidebarSectionData[]; reads: () => number; ids: number } {
     let reads = 0;
     let ids = 0;
-    const wrap = (item: SidebarItem): SidebarItem => {
+    const wrap = (item: SidebarItemData): SidebarItemData => {
       ids += 1;
       const copy = { ...item, children: item.children?.map(wrap) };
       const id = item.id;
@@ -408,7 +408,7 @@ describe("Sidebar repeated-id check in production", () => {
   it("production says nothing about repeated ids (and renders both items current, as before)", () => {
     vi.stubEnv("NODE_ENV", "production");
     try {
-      const repeated: SidebarSection[] = [...SECTIONS, { id: "extra", label: "Extra", items: [{ id: "products", label: "Products 2", icon: "package", href: "/p2" }] }];
+      const repeated: SidebarSectionData[] = [...SECTIONS, { id: "extra", label: "Extra", items: [{ id: "products", label: "Products 2", icon: "package", href: "/p2" }] }];
       inLocale(<Panel sections={repeated} />);
       expect(within(desktop()).getAllByRole("link").filter((link) => link.getAttribute("aria-current") === "page")).toHaveLength(2);
     } finally {
