@@ -20,19 +20,24 @@ export type NavbarLink = {
 };
 
 export type NavbarProps = {
-  /** The logo and wordmark (the site's logo). It links to `brandHref`. */
-  brand: React.ReactNode;
+  /** The logo and wordmark (the site's logo). It links to `brandHref`. Or a `NavbarBrand` child. */
+  brand?: React.ReactNode;
   /** Where the brand goes: the home page. */
   brandHref?: string;
   /** The brand link's name when the brand alone does not say where it goes ("Acme home"). */
   brandLabel?: string;
-  /** Up to five destinations. */
-  links: readonly NavbarLink[];
+  /** Up to five destinations. Leave it out to compose `NavbarItem`s as children instead. */
+  links?: readonly NavbarLink[];
+  /**
+   * With no `links`: `NavbarItem`s (the destinations), plus an optional `NavbarBrand` (instead of `brand`) and
+   * `NavbarActions` (instead of `actions`).
+   */
+  children?: React.ReactNode;
   /** The link of the page (or section) in view: marked `aria-current="page"`. */
   currentKey?: string;
   /**
    * At the end: a language switcher, sign-in (subtle), then the one primary action, the same on every page. On
-   * phones they move into the menu panel, under the links.
+   * phones they move into the menu panel, under the links. Or a `NavbarActions` child.
    */
   actions?: React.ReactNode;
   /** Pinned to the top while the page scrolls. */
@@ -44,7 +49,7 @@ export type NavbarProps = {
 };
 
 const LINK =
-  "inline-flex h-8 items-center rounded-ds-medium px-ds-100 text-body font-[500] text-ds-text-subtle outline-hidden transition-colors duration-(--ds-duration-fast) motion-reduce:transition-none " +
+  "inline-flex h-8 items-center gap-ds-075 rounded-ds-medium px-ds-100 text-body font-[500] text-ds-text-subtle outline-hidden transition-colors duration-(--ds-duration-fast) motion-reduce:transition-none " +
   "data-[hovered]:bg-ds-background-neutral-subtle-hovered data-[hovered]:text-ds-text data-[pressed]:bg-ds-background-neutral-pressed " +
   "data-[focus-visible]:inset-ring-2 data-[focus-visible]:inset-ring-ds-border-focused " +
   "aria-[current=page]:bg-ds-background-neutral aria-[current=page]:text-ds-text";
@@ -55,12 +60,13 @@ const LINK =
  * Under 768px the links, language switch and actions move into a menu panel from the end edge.
  */
 export function Navbar({
-  brand,
+  brand: brandProp,
   brandHref = "/",
   brandLabel,
   links,
+  children,
   currentKey,
-  actions: endActions,
+  actions: actionsProp,
   isSticky,
   density = "comfortable",
   "aria-label": label,
@@ -68,6 +74,17 @@ export function Navbar({
   const { locale } = useLocale();
   const [open, setOpen] = React.useState(false);
   const name = label ?? mainNavigationLabel(locale);
+  const { brand, actions: endActions, items } = splitSlots(children, brandProp, actionsProp);
+  const renderLinks = () =>
+    links ? (
+      links.map((link) => (
+        <NavbarItem key={link.key} id={link.key} href={link.href}>
+          {link.label}
+        </NavbarItem>
+      ))
+    ) : (
+      items
+    );
   const brandLink = (
     <AriaLink
       href={brandHref}
@@ -99,18 +116,7 @@ export function Navbar({
         {brandLink}
         <nav aria-label={name} data-slot="navbar-links" className="hidden md:block">
           <ul className="flex items-center gap-ds-100">
-            {links.map((link) => (
-              <li key={link.key}>
-                <AriaLink
-                  href={link.href}
-                  data-slot="navbar-link"
-                  aria-current={link.key === currentKey ? "page" : undefined}
-                  className={LINK}
-                >
-                  {link.label}
-                </AriaLink>
-              </li>
-            ))}
+            <NavbarContext.Provider value={{ currentKey, inPanel: false }}>{renderLinks()}</NavbarContext.Provider>
           </ul>
         </nav>
         <div data-slot="navbar-end" className="ms-auto flex items-center gap-ds-100">
@@ -134,18 +140,7 @@ export function Navbar({
         {/* The dialog already carries the name; a second landmark name would be read twice. */}
         <nav>
           <ul className="flex flex-col gap-ds-025">
-            {links.map((link) => (
-              <li key={link.key}>
-                <AriaLink
-                  href={link.href}
-                  data-slot="navbar-panel-link"
-                  aria-current={link.key === currentKey ? "page" : undefined}
-                  className={cn(LINK, "flex h-11 w-full")}
-                >
-                  {link.label}
-                </AriaLink>
-              </li>
-            ))}
+            <NavbarContext.Provider value={{ currentKey, inPanel: true }}>{renderLinks()}</NavbarContext.Provider>
           </ul>
         </nav>
         {endActions && (
@@ -156,4 +151,71 @@ export function Navbar({
       </NavPanel>
     </header>
   );
+}
+
+// ---- Composed from parts ---------------------------------------------------------------------------------------
+
+/** Where a `NavbarItem` renders: the bar, or the phone menu panel (a full-width 44px row). */
+const NavbarContext = React.createContext<{ currentKey?: string; inPanel: boolean } | null>(null);
+
+export type NavbarItemProps = {
+  /** Matches the Navbar's `currentKey`. */
+  id: string;
+  /** A page or an in-page anchor ("/#pricing"); it goes through the host router. */
+  href: string;
+  /** A noun for the place ("Pricing"), never a verb. */
+  children: React.ReactNode;
+  /** Marks this link as the page in view, instead of the Navbar's `currentKey`. */
+  isCurrent?: boolean;
+};
+
+/** One destination. It shows in the bar from 768px up and in the menu panel below that. */
+export function NavbarItem({ id, href, children, isCurrent }: NavbarItemProps) {
+  const context = React.useContext(NavbarContext);
+  if (!context) throw new Error("NavbarItem must be inside a Navbar.");
+  return (
+    <li>
+      <AriaLink
+        href={href}
+        data-slot={context.inPanel ? "navbar-panel-link" : "navbar-link"}
+        aria-current={isCurrent || id === context.currentKey ? "page" : undefined}
+        className={context.inPanel ? cn(LINK, "flex h-11 w-full") : LINK}
+      >
+        {children}
+      </AriaLink>
+    </li>
+  );
+}
+
+export type NavbarBrandProps = {
+  /** The logo and wordmark; it links to the Navbar's `brandHref`. */
+  children: React.ReactNode;
+};
+
+/** The brand at the start, as a child instead of the `brand` prop. */
+export function NavbarBrand({ children }: NavbarBrandProps) {
+  return <>{children}</>;
+}
+
+export type NavbarActionsProps = {
+  /** A language switcher, sign-in (subtle), then the one primary action. */
+  children: React.ReactNode;
+};
+
+/** The actions at the end, as a child instead of the `actions` prop; on phones they move into the menu panel. */
+export function NavbarActions({ children }: NavbarActionsProps) {
+  return <>{children}</>;
+}
+
+/** Pulls `NavbarBrand` and `NavbarActions` out of the children; the rest are the items. Props win over children. */
+function splitSlots(children: React.ReactNode, brand: React.ReactNode, actions: React.ReactNode) {
+  let brandSlot: React.ReactNode;
+  let actionsSlot: React.ReactNode;
+  const items: React.ReactNode[] = [];
+  for (const child of React.Children.toArray(children)) {
+    if (React.isValidElement<{ children?: React.ReactNode }>(child) && child.type === NavbarBrand) brandSlot = child.props.children;
+    else if (React.isValidElement<{ children?: React.ReactNode }>(child) && child.type === NavbarActions) actionsSlot = child.props.children;
+    else items.push(child);
+  }
+  return { brand: brand ?? brandSlot, actions: actions ?? actionsSlot, items };
 }

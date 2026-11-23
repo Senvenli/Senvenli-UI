@@ -1531,15 +1531,20 @@
     "status": "alpha",
     "description": "The top bar of a public site: brand, up to five links, actions and a language choice, collapsing into a menu on phones.",
     "keywords": [
-      "navbar",
+      "compound",
       "header",
-      "top bar",
+      "menu",
+      "navbar",
+      "navbar item",
       "navigation",
-      "menu"
+      "top bar"
     ],
     "import": "@senvenli/react/navigation",
     "exports": [
-      "Navbar"
+      "Navbar",
+      "NavbarBrand",
+      "NavbarItem",
+      "NavbarActions"
     ],
     "genui": false
   },

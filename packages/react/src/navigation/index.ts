@@ -1,7 +1,7 @@
 // @senvenli/react/navigation: Navbar, Sidebar, BottomNav, Tabs and SegmentedControl, Breadcrumbs, Pagination,
 // Accordion and Disclosure, Stepper, SkipLink and PageHeader.
-export { Navbar } from "./navbar";
-export type { NavbarLink, NavbarProps } from "./navbar";
+export { Navbar, NavbarActions, NavbarBrand, NavbarItem } from "./navbar";
+export type { NavbarActionsProps, NavbarBrandProps, NavbarItemProps, NavbarLink, NavbarProps } from "./navbar";
 export { Sidebar, SidebarFooter, SidebarHeader, SidebarItem, SidebarSection, SidebarSubmenu } from "./sidebar";
 // The head script module has no client directive, so a Server Component layout can render it.
 export { sidebarScript } from "./sidebar-script";

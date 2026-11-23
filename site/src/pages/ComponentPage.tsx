@@ -10,7 +10,7 @@ import { ExampleBlock } from "../components/ExampleBlock";
 import { OnThisPage, type PageSection } from "../components/OnThisPage";
 import { PropsTable } from "../components/PropsTable";
 import type { ExampleData } from "../examples/types";
-import { familyTitle, type Manifest, type ManifestIndexEntry } from "../lib/manifest";
+import { familyTitle, importStatement, type Manifest, type ManifestIndexEntry } from "../lib/manifest";
 
 /**
  * A section: an h2 at heading-large with 24px under it. The space above is 64px between sections and 80px above the
@@ -64,7 +64,7 @@ export function ComponentPage({ manifest, examples = [], components = [], import
   const at = components.findIndex((item) => item.name === manifest.name);
   const previous = at > 0 ? components[at - 1] : undefined;
   const next = at >= 0 && at < components.length - 1 ? components[at + 1] : undefined;
-  const importLine = `import { ${manifest.exports.join(", ")} } from "${manifest.import}";`;
+  const importLine = importStatement(manifest.exports, manifest.import);
   const [hero, ...more] = examples;
   const a11y = manifest.a11y;
   const hasA11y = !!(a11y.keyboard?.length || a11y.builtIn?.length || a11y.youProvide?.length);

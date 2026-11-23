@@ -7,15 +7,20 @@
   "name": "navbar",
   "title": "Navbar",
   "exports": [
-    "Navbar"
+    "Navbar",
+    "NavbarBrand",
+    "NavbarItem",
+    "NavbarActions"
   ],
   "description": "The top bar of a public site: brand, up to five links, actions and a language choice, collapsing into a menu on phones.",
   "keywords": [
-    "navbar",
+    "compound",
     "header",
-    "top bar",
+    "menu",
+    "navbar",
+    "navbar item",
     "navigation",
-    "menu"
+    "top bar"
   ],
   "usage": {
     "when": [
@@ -34,7 +39,8 @@
       "The brand link is named for the home page."
     ],
     "youProvide": [
-      "A `brandLabel` when the brand alone does not say where it goes."
+      "A `brandLabel` when the brand alone does not say where it goes.",
+      "With children: an id on every NavbarItem (currentKey matches it), or isCurrent on the page's link."
     ]
   },
   "related": [

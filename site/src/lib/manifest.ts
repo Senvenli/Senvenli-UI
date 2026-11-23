@@ -48,3 +48,12 @@ export function orderComponents<T extends Pick<ManifestIndexEntry, "family" | "t
   };
   return [...items].sort((a, b) => rank(a.family) - rank(b.family) || a.family.localeCompare(b.family) || a.title.localeCompare(b.title, "en"));
 }
+
+/**
+ * A component's import statement, laid out as Prettier would at 80 columns: one line when it fits, else one name
+ * per line. The docs code block then shows the whole statement without a sideways scrollbar.
+ */
+export function importStatement(names: readonly string[], from: string): string {
+  const line = `import { ${names.join(", ")} } from "${from}";`;
+  return line.length <= 80 ? line : `import {\n${names.map((name) => `  ${name},`).join("\n")}\n} from "${from}";`;
+}
