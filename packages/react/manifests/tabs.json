@@ -409,7 +409,6 @@
     "ds-border-focused",
     "ds-border-selected",
     "ds-easing-standard",
-    "ds-radius-large",
     "ds-radius-medium",
     "ds-radius-small",
     "ds-shadow-raised",
@@ -420,8 +419,6 @@
     "ds-space-200",
     "ds-space-300",
     "ds-space-400",
-    "ds-surface-raised",
-    "ds-surface-sunken",
     "ds-text",
     "ds-text-disabled",
     "ds-text-subtle"
