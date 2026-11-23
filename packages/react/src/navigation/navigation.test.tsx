@@ -277,13 +277,13 @@ const ITEMS: SidebarItemData[] = [
 const SETTINGS = { label: "Settings", items: [{ id: "billing", label: "Billing", icon: "tags" as const, href: "/settings/billing" }] };
 
 function Panel(props: Partial<React.ComponentProps<typeof Sidebar>>) {
-  return <Sidebar brand={<span>Acme</span>} items={ITEMS} settings={SETTINGS} currentKey="orders" footer={<span>Ana Petrov</span>} {...props} />;
+  return <Sidebar brand={<span>Acme</span>} items={ITEMS} sections={[{ id: "settings", label: SETTINGS.label, items: SETTINGS.items }]} currentKey="orders" footer={<span>Ana Petrov</span>} {...props} />;
 }
 
 const sidebar = () => document.querySelector("[data-slot='sidebar']")!;
 
 describe("Sidebar", () => {
-  it("marks the current page, counts as badges, settings in a labelled group at the bottom", () => {
+  it("marks the current page, counts as badges, settings in a labelled section", () => {
     inLocale(<Panel />);
     const nav = screen.getByRole("navigation", { name: "Main menu" });
     const current = within(nav).getByRole("link", { name: /Orders/ });
@@ -344,12 +344,6 @@ describe("Sidebar", () => {
     const group = within(screen.getByRole("navigation", { name: "Main menu" })).getByRole("button", { name: "Projects" });
     expect(group.getAttribute("aria-expanded")).toBe("false");
     expect(group.hasAttribute("data-current")).toBe(true);
-  });
-
-  it("settings sit in the bottom block with the footer", () => {
-    inLocale(<Panel />);
-    const bottom = document.querySelector("[data-slot='sidebar-footer']")!.parentElement!;
-    expect(within(bottom).getByRole("group", { name: "Settings" })).toBeTruthy();
   });
 
   it("collapsed, a group's icon opens the sidebar on that group", () => {

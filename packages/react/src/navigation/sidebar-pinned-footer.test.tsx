@@ -50,7 +50,7 @@ const LABELS = SECTIONS.map((section) => section.label);
 
 function Panel(props: Partial<React.ComponentProps<typeof Sidebar>>) {
   return (
-    <Sidebar brand={<span>Acme</span>} items={TOP} sections={SECTIONS} settings={SETTINGS} currentKey="products" footer={<button type="button">Ana Petrov</button>} {...props} />
+    <Sidebar brand={<span>Acme</span>} items={TOP} sections={[...SECTIONS, { id: "account", label: SETTINGS.label, items: SETTINGS.items }]} currentKey="products" footer={<button type="button">Ana Petrov</button>} {...props} />
   );
 }
 
@@ -72,16 +72,14 @@ describe("Sidebar isFooterPinned", () => {
     expect(classes(sidebar())).not.toContain("overflow-y-auto");
     const scroll = sidebar().querySelector("[data-slot='sidebar-scroll']")!;
     expect(classes(scroll)).toEqual(expect.arrayContaining(["min-h-0", "flex-1", "overflow-y-auto"]));
-    // Every navigation group (the sections and the settings) scrolls; the account and the toggle do not.
+    // Every navigation group (the sections, the last one "Account") scrolls; the account and the toggle do not.
     for (const label of [...LABELS, "Account"]) expect(scroll.contains(within(desktop()).getByRole("group", { name: label }))).toBe(true);
     const bottom = sidebar().lastElementChild!;
     expect([...bottom.children].map(slotOf)).toEqual(["sidebar-footer", "sidebar-toggle"]);
     expect(classes(bottom)).toContain("shrink-0");
-    // Settings close the list: held at its bottom while the list is short.
-    expect(classes(within(desktop()).getByRole("group", { name: "Account" }))).toContain("mt-auto");
   });
 
-  it("keyboard: the Tab order is the same as without it (brand, items, sections, settings, account, toggle)", () => {
+  it("keyboard: the Tab order is the same as without it (brand, items, sections, account, toggle)", () => {
     inLocale(<Panel />);
     const before = stops(sidebar());
     cleanup();
@@ -134,8 +132,8 @@ describe("Sidebar isFooterPinned", () => {
     expect(html).not.toContain("data-collapsed");
   });
 
-  it("without sections or settings: brand, the item tree in the scroll box, then the bottom", () => {
-    inLocale(<Panel sections={undefined} settings={undefined} isFooterPinned />);
+  it("without sections: brand, the item tree in the scroll box, then the bottom", () => {
+    inLocale(<Panel sections={undefined} isFooterPinned />);
     const scroll = sidebar().querySelector("[data-slot='sidebar-scroll']")!;
     expect([...scroll.children].map(slotOf)).toEqual(["sidebar-tree"]);
     expect(within(desktop()).queryAllByRole("group")).toHaveLength(0);
@@ -153,7 +151,7 @@ describe("Sidebar isFooterPinned", () => {
     expect(classes(scroll)).toEqual(expect.arrayContaining(["min-h-0", "flex-1", "overflow-y-auto"]));
     expect(classes(nav.lastElementChild)).toContain("shrink-0");
     for (const label of [...LABELS, "Account"]) expect(scroll.contains(within(panel).getByRole("group", { name: label }))).toBe(true);
-    // Same order as without the option: close button, items, sections, settings, account.
+    // Same order as without the option: close button, items, sections, account.
     expect(stops(nav)).toEqual(["Dashboard", "Orders4", "Inbox", "Products", "Locations", "Team", "Configuration", "Profile", "Ana Petrov"]);
     fireEvent.click(within(panel).getByRole("link", { name: "Team" }));
     expect(onMobileOpenChange).toHaveBeenCalledWith(false);
