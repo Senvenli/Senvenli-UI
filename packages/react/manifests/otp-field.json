@@ -920,7 +920,6 @@
         "type": "4 | 6",
         "required": false,
         "origin": "own",
-        "default": "6",
         "description": "4 or 6 digits; 6 splits 3 + 3 with a dash.",
         "schema": {
           "enum": [
@@ -960,6 +959,21 @@
           "enum": [
             "field",
             "app"
+          ]
+        }
+      },
+      {
+        "name": "motion",
+        "type": "ComponentMotion",
+        "required": false,
+        "origin": "own",
+        "description": "`auto` (follow the device), `reduce` or `none`, for this component; the provider's setting otherwise.",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "none",
+            "auto",
+            "reduce"
           ]
         }
       }

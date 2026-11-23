@@ -8,6 +8,7 @@ import {
 } from "react-aria-components";
 
 import { cn } from "../utils";
+import { MotionScope, type WithMotion } from "../defaults";
 import { FieldDescription, FieldError, FieldLabel } from "./field-parts";
 import { FIELD_STACK } from "./styles";
 import { useFieldValidation, type RequiredValidation } from "./validation";
@@ -48,7 +49,7 @@ function takeCode(text: string, previous: string, length: number) {
   return digits.slice(0, length);
 }
 
-export const OtpField = React.forwardRef<HTMLInputElement, OtpFieldProps>(function OtpField(
+const OtpFieldBody = React.forwardRef<HTMLInputElement, OtpFieldProps>(function OtpFieldBody(
   { label, length = 6, description, errorMessage, onComplete, value, defaultValue, onChange, validate, onBlur, requiredValidation, ...rest },
   ref,
 ) {
@@ -64,6 +65,7 @@ export const OtpField = React.forwardRef<HTMLInputElement, OtpFieldProps>(functi
   };
 
   const active = Math.min(code.length, length - 1);
+  const caret = useCaretOffset(active, length);
   // The last code passed to onComplete: a new full code (pasted over an old one) completes again.
   const completed = React.useRef<string | null>(code.length === length ? code : null);
   const timing = useFieldValidation<string>({
@@ -109,6 +111,7 @@ export const OtpField = React.forwardRef<HTMLInputElement, OtpFieldProps>(functi
             // of pushing the field (and the page) sideways. Codes read left to right in every locale, so the row
             // (cells, separator and the hidden input) stays LTR on an RTL page: "1234" never shows as "4 3 2 1".
             dir="ltr"
+            ref={caret.row}
             className="relative flex w-full max-w-fit items-center gap-ds-100"
             onMouseDown={(event) => {
               event.preventDefault();
@@ -140,6 +143,7 @@ export const OtpField = React.forwardRef<HTMLInputElement, OtpFieldProps>(functi
                 <span
                   aria-hidden="true"
                   data-slot="otp-field-box"
+                  data-index={index}
                   data-active={focused && index === active ? true : undefined}
                   className={cn(
                     "relative inline-flex h-13 w-11 min-w-0 items-center justify-center rounded-ds-medium border bg-ds-background-input",
@@ -160,17 +164,63 @@ export const OtpField = React.forwardRef<HTMLInputElement, OtpFieldProps>(functi
                       {code[index]}
                     </span>
                   )}
-                  {focused && index === active && code.length < length && (
-                    <span className="h-5 w-px animate-pulse bg-ds-text motion-reduce:animate-none" />
-                  )}
                 </span>
               </React.Fragment>
             ))}
+            {/*
+              One caret for the row: it slides to the next box as digits arrive and back as they are deleted, and
+              blinks while it waits. It stays mounted (hidden when the field is not focused or the code is full),
+              so focusing never slides it in from the first box. Under reduced motion it jumps and does not blink.
+            */}
+            <span
+              aria-hidden="true"
+              data-slot="otp-field-caret"
+              data-index={active}
+              data-visible={focused && code.length < length && !isDisabled ? true : undefined}
+              style={{ translate: `${caret.x}px -50%` }}
+              className={cn(
+                "pointer-events-none absolute start-0 top-1/2 h-5 w-px -ms-px bg-ds-text opacity-0",
+                "transition-[translate] duration-(--ds-duration-fast) ease-ds-standard motion-reduce:transition-none",
+                "data-[visible]:opacity-100 data-[visible]:animate-pulse motion-reduce:data-[visible]:animate-none",
+              )}
+            />
           </div>
           {description && <FieldDescription>{description}</FieldDescription>}
           <FieldError>{errorMessage}</FieldError>
         </>
       )}
     </AriaTextField>
+  );
+});
+
+/**
+ * Where the caret goes: the centre of the active box, in px from the row's start (the row is always LTR). Measured
+ * after layout and again when the row resizes, since the boxes shrink on a narrow phone.
+ */
+function useCaretOffset(active: number, length: number) {
+  const row = React.useRef<HTMLDivElement | null>(null);
+  const [x, setX] = React.useState(0);
+  React.useLayoutEffect(() => {
+    const element = row.current;
+    if (!element) return;
+    const measure = () => {
+      const box = element.querySelector<HTMLElement>(`[data-slot="otp-field-box"][data-index="${active}"]`);
+      if (box) setX(box.offsetLeft + box.offsetWidth / 2);
+    };
+    measure();
+    if (typeof ResizeObserver === "undefined") return;
+    const observer = new ResizeObserver(measure);
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, [active, length]);
+  return { row, x };
+}
+
+/** OtpField with its own `motion` (auto, reduce or none) for the sliding, blinking caret and the digit pop. */
+export const OtpField = React.forwardRef<HTMLInputElement, OtpFieldProps & WithMotion>(function OtpField({ motion, ...props }, ref) {
+  return (
+    <MotionScope motion={motion}>
+      <OtpFieldBody ref={ref} {...props} />
+    </MotionScope>
   );
 });
