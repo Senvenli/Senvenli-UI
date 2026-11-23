@@ -33,7 +33,10 @@ import { Shell, useOnce } from "./more-charts";
 const plain: ChartValueFormatter = (value) => String(value);
 
 type FrameProps = {
-  title: string;
+  /** What the chart shows, over it; leave it out when a card or a heading already says so. */
+  title?: string;
+  /** Names the chart when it has no visible `title` (a card's heading already says what it shows). */
+  "aria-label"?: string;
   period?: string;
   isLoading?: boolean;
   /** Shown instead of the plot when there is no data: an `EmptyState size="small"` or text; "No data" by default. */
@@ -123,7 +126,7 @@ const BAR_GAP = 6;
  * top item; the name in `ds-text` (a link when it has `href`), the value at the end in medium tabular
  * figures. Sorted largest first; the rest behind "Show all".
  */
-export function BarList({ title, period, data, valueFormatter = plain, limit = 5, isLoading, emptyState }: BarListProps) {
+export function BarList({ title, "aria-label": ariaLabel, period, data, valueFormatter = plain, limit = 5, isLoading, emptyState }: BarListProps) {
   const { locale } = useLocale();
   const [expanded, setExpanded] = React.useState(false);
   const rows = data.filter((item) => Number.isFinite(item.value)).sort((a, b) => b.value - a.value);
@@ -135,11 +138,11 @@ export function BarList({ title, period, data, valueFormatter = plain, limit = 5
   const lines = shown.length + (canExpand ? 1 : 0);
   const height = Math.max(BAR_ROW, lines * BAR_ROW + Math.max(0, lines - 1) * BAR_GAP);
   const columns: TableColumn<BarListDatum>[] = [
-    { key: "name", header: title, isRowHeader: true },
+    { key: "name", header: title ?? ariaLabel ?? "", isRowHeader: true },
     { key: "value", header: chartValueLabel(locale), align: "end", render: (row) => valueFormatter(row.value) },
   ];
   return (
-    <Shell title={title} period={period} isLoading={isLoading} emptyState={emptyState} isEmpty={rows.length === 0} height={height} columns={columns} rows={rows}>
+    <Shell title={title} aria-label={ariaLabel} period={period} isLoading={isLoading} emptyState={emptyState} isEmpty={rows.length === 0} height={height} columns={columns} rows={rows}>
       <div data-slot="barlist" className="flex flex-col gap-[6px]">
         <ul data-slot="barlist-list" className="m-0 flex list-none flex-col gap-[6px] p-0">
           {shown.map((item, index) => (
@@ -198,7 +201,7 @@ export type CalendarHeatmapProps = FrameProps & {
 /**
  * Five steps that differ in lightness, not hue alone: none, then the selected brand ramp to `ds-chart-1`.
  * Light runs pale to deep, dark runs deep to bright; the third step is a mix, so no new token.
- * @internal Shared with SeasonalityHeatmap; not exported from the package.
+ * @internal Shared with Heatmap; not exported from the package.
  */
 export const HEAT_LEVELS = [
   "var(--ds-background-neutral)",
@@ -216,7 +219,7 @@ export function heatmapThresholds(values: readonly number[]): [number, number, n
   return [positive[0]!, at(0.25), at(0.5), at(0.75)];
 }
 
-/** @internal The step (0–4) of a value: 0 for none, zero or less. Shared with SeasonalityHeatmap. */
+/** @internal The step (0–4) of a value: 0 for none, zero or less. Shared with Heatmap. */
 export const levelOf = (value: number | undefined, thresholds: readonly number[]) =>
   value === undefined || !(value > 0) ? 0 : thresholds.reduce((level, bound) => (value >= bound ? level + 1 : level), 0);
 
@@ -227,7 +230,7 @@ export const levelOf = (value: number | undefined, thresholds: readonly number[]
  * stop: the arrow keys move a day (up, down) or a week (start, end); every cell is named by its date and
  * value, and the active one is spelled out under the grid with its step's range.
  */
-export function CalendarHeatmap({ title, period, data, start, end, thresholds, valueFormatter = plain, onDayPress, isLoading, emptyState }: CalendarHeatmapProps) {
+export function CalendarHeatmap({ title, "aria-label": ariaLabel, period, data, start, end, thresholds, valueFormatter = plain, onDayPress, isLoading, emptyState }: CalendarHeatmapProps) {
   const { locale } = useLocale();
   const { isRtl } = useChartDirection();
   const longDay = useDayFormat({ weekday: "long", day: "numeric", month: "long", year: "numeric" });
@@ -318,7 +321,7 @@ export function CalendarHeatmap({ title, period, data, start, end, thresholds, v
     );
   };
   return (
-    <Shell title={title} period={period} isLoading={isLoading} emptyState={emptyState} isEmpty={count === 0 || values.size === 0} height={height} columns={columns} rows={rows}>
+    <Shell title={title} aria-label={ariaLabel} period={period} isLoading={isLoading} emptyState={emptyState} isEmpty={count === 0 || values.size === 0} height={height} columns={columns} rows={rows}>
       <div data-slot="heatmap" className="flex min-w-0 flex-col gap-ds-100">
         <div className="flex min-w-0 gap-ds-100">
           {/* Weekday labels on alternate rows, from the locale's first day. */}
@@ -339,7 +342,7 @@ export function CalendarHeatmap({ title, period, data, start, end, thresholds, v
           >
             <div
               role="grid"
-              aria-label={title}
+              aria-label={title ?? ariaLabel}
               data-slot="heatmap-grid"
               className="flex w-max flex-col gap-[3px]"
               onKeyDown={(event) => {
@@ -460,7 +463,7 @@ const TRACKER_TONE: Record<TrackerTone, string> = {
  * names every color, so color repeats the words and never carries them alone. One tab stop: the arrow
  * keys move along the strip, each block named by its date and status.
  */
-export function Tracker({ title, period, data, statusMap, summary, isLoading, emptyState }: TrackerProps) {
+export function Tracker({ title, "aria-label": ariaLabel, period, data, statusMap, summary, isLoading, emptyState }: TrackerProps) {
   const { locale } = useLocale();
   const { isRtl } = useChartDirection();
   const longDay = useDayFormat({ weekday: "long", day: "numeric", month: "long", year: "numeric" });
@@ -487,6 +490,7 @@ export function Tracker({ title, period, data, statusMap, summary, isLoading, em
   return (
     <Shell
       title={title}
+      aria-label={ariaLabel}
       period={period}
       isLoading={isLoading}
       emptyState={emptyState}
@@ -504,7 +508,7 @@ export function Tracker({ title, period, data, statusMap, summary, isLoading, em
         </p>
         <div
           role="grid"
-          aria-label={title}
+          aria-label={title ?? ariaLabel}
           aria-describedby={summaryId}
           data-slot="tracker-strip"
           className="h-7"
@@ -564,7 +568,7 @@ export type FunnelChartProps = FrameProps & {
  * name before the bar, the count after it and the conversion from the previous step in
  * `ds-text-subtlest`. The subtitle states the total conversion. Every figure is text.
  */
-export function FunnelChart({ title, period, steps, valueFormatter = plain, showStepConversion = true, showTotalConversion = true, isLoading, emptyState }: FunnelChartProps) {
+export function FunnelChart({ title, "aria-label": ariaLabel, period, steps, valueFormatter = plain, showStepConversion = true, showTotalConversion = true, isLoading, emptyState }: FunnelChartProps) {
   const { locale } = useLocale();
   const valid = steps.filter((step) => Number.isFinite(step.value) && step.value >= 0);
   useOnce(valid.length < steps.length, "Funnel: steps without a finite, non-negative value are left out.");
@@ -577,13 +581,13 @@ export function FunnelChart({ title, period, steps, valueFormatter = plain, show
   const total = valid.length > 1 ? rate(valid[valid.length - 1]!.value, head) : undefined;
   const subtitle = [period, showTotalConversion && total !== undefined ? `${chartConversionLabel(locale)} ${percentFine.format(total)}` : undefined].filter(Boolean).join(" · ") || undefined;
   const columns: TableColumn<(typeof rows)[number]>[] = [
-    { key: "name", header: title, isRowHeader: true },
+    { key: "name", header: title ?? ariaLabel ?? "", isRowHeader: true },
     { key: "value", header: chartValueLabel(locale), align: "end", render: (row) => valueFormatter(row.value) },
     { key: "conversion", header: chartConversionLabel(locale), align: "end", render: (row) => (row.conversion === undefined ? "" : percent.format(row.conversion)) },
   ];
   const height = Math.max(28, valid.length * 28 + Math.max(0, valid.length - 1) * 8);
   return (
-    <Shell title={title} period={subtitle} isLoading={isLoading} emptyState={emptyState} isEmpty={valid.length === 0 || head <= 0} height={height} columns={columns} rows={rows}>
+    <Shell title={title} aria-label={ariaLabel} period={subtitle} isLoading={isLoading} emptyState={emptyState} isEmpty={valid.length === 0 || head <= 0} height={height} columns={columns} rows={rows}>
       <ol data-slot="funnel" className="m-0 grid list-none grid-cols-[minmax(0,max-content)_minmax(0,1fr)] items-center gap-x-ds-150 gap-y-ds-100 p-0">
         {rows.map((step, index) => (
           <li key={index} data-slot="funnel-step" className="col-span-2 grid grid-cols-subgrid items-center">

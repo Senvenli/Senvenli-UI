@@ -56,5 +56,5 @@ export type {
   TrackerProps,
   TrackerTone,
 } from "./list-charts";
-export { SeasonalityHeatmap } from "./report-charts";
-export type { SeasonalityHeatmapCell, SeasonalityHeatmapProps, WaterfallChartStep } from "./report-charts";
+export { Heatmap } from "./report-charts";
+export type { HeatmapCell, HeatmapProps, WaterfallChartStep } from "./report-charts";

@@ -60,7 +60,10 @@ const LABEL_SIZE = { fontSize: 11, style: { fontSize: "11px" } } as const;
 const LTR_PLOT = "[direction:ltr]";
 
 type FrameProps = {
-  title: string;
+  /** What the chart shows, over it; leave it out when a card or a heading already says so. */
+  title?: string;
+  /** Names the chart when it has no visible `title` (a card's heading already says what it shows). */
+  "aria-label"?: string;
   period?: string;
   isLoading?: boolean;
   /** Shown instead of the plot when there is no data: an `EmptyState size="small"` or text; "No data" by default. */
@@ -71,6 +74,7 @@ type FrameProps = {
 /** @internal The header, then ChartFrame with its loading, empty and data-table states. */
 export function Shell<T extends object>({
   title,
+  "aria-label": ariaLabel,
   period,
   total,
   isLoading,
@@ -95,14 +99,14 @@ export function Shell<T extends object>({
   const { locale } = useLocale();
   const positions = React.useMemo(() => new Map(rows.map((row, position) => [row, position])), [rows]);
   return (
-    <section data-slot="chart" aria-label={title} className="flex min-w-0 flex-col gap-ds-200">
-      <ChartHeader title={title} period={period} total={total} />
+    <section data-slot="chart" aria-label={title ?? ariaLabel} className="flex min-w-0 flex-col gap-ds-200">
+      {(title || period || total != null) && <ChartHeader title={title} period={period} total={total} />}
       <ChartFrame
         height={height}
         isLoading={isLoading}
         emptyState={isEmpty ? (emptyState ?? <EmptyState size="small" icon="chart-column" title={chartNoDataLabel(locale)} />) : null}
         legend={legend}
-        dataTable={{ caption: [title, period].filter(Boolean).join(" · "), columns, rows, rowKey: (row) => positions.get(row) ?? 0, onRowAction }}
+        dataTable={{ caption: [title ?? ariaLabel, period].filter(Boolean).join(" · "), columns, rows, rowKey: (row) => positions.get(row) ?? 0, onRowAction }}
       >
         {children}
       </ChartFrame>
@@ -160,7 +164,7 @@ const DONUT_LIST_MIN = 168;
 /** `gap-ds-300` between the ring and the list. */
 const DONUT_GAP = 24;
 
-export function DonutChart({ title, period, data, valueFormatter = plain, centerLabel, showList = true, isLoading, emptyState, height = 200 }: DonutChartProps) {
+export function DonutChart({ title, "aria-label": ariaLabel, period, data, valueFormatter = plain, centerLabel, showList = true, isLoading, emptyState, height = 200 }: DonutChartProps) {
   const { locale } = useLocale();
   const animate = useChartAnimation();
   // Parts of a whole: a missing or negative value has no slice.
@@ -176,7 +180,7 @@ export function DonutChart({ title, period, data, valueFormatter = plain, center
   const shares = sharesOf(parts.map((part) => part.value));
   const rows = parts.map((part, index) => ({ ...part, share: shares[index]! }));
   const columns: TableColumn<(typeof rows)[number]>[] = [
-    { key: "name", header: title, isRowHeader: true },
+    { key: "name", header: title ?? ariaLabel ?? "", isRowHeader: true },
     { key: "value", header: chartValueLabel(locale), align: "end", render: (row) => valueFormatter(row.value) },
     { key: "share", header: chartShareLabel(locale), align: "end", render: (row) => `${row.share}%` },
   ];
@@ -193,7 +197,7 @@ export function DonutChart({ title, period, data, valueFormatter = plain, center
   }, [row, showList]);
   const ring = rowWidth === undefined ? height - 24 : Math.max(112, Math.min(height - 24, rowWidth - DONUT_LIST_MIN - DONUT_GAP));
   return (
-    <Shell title={title} period={period} isLoading={isLoading} emptyState={emptyState} isEmpty={total <= 0} height={height} columns={columns} rows={rows}>
+    <Shell title={title} aria-label={ariaLabel} period={period} isLoading={isLoading} emptyState={emptyState} isEmpty={total <= 0} height={height} columns={columns} rows={rows}>
       <div ref={setRow} data-slot="donut" className="flex h-full min-w-0 items-center gap-ds-300">
         <div className={cn("relative shrink-0", LTR_PLOT)} style={{ width: ring, height: ring }}>
           {/* Recharts' accessibility layer makes the ring a tab stop whose arrow keys move an active sector
@@ -264,7 +268,7 @@ const polar = (cx: number, cy: number, r: number, angle: number) => [cx + r * Ma
  * `ds-text` tick, the value in the center with the target under it. Only for bounded percentages
  * (occupancy, quota), never money or open counts. A meter to screen readers.
  */
-export function GaugeChart({ title, period, value, min = 0, max = 100, target, valueFormatter = plain, isLoading, height = 160 }: GaugeChartProps) {
+export function GaugeChart({ title, "aria-label": ariaLabel, period, value, min = 0, max = 100, target, valueFormatter = plain, isLoading, height = 160 }: GaugeChartProps) {
   const { locale } = useLocale();
   const { isRtl } = useChartDirection();
   // A missing value reads as the minimum, and an empty range draws no fill or tick.
@@ -288,15 +292,15 @@ export function GaugeChart({ title, period, value, min = 0, max = 100, target, v
   const targetText = target === undefined ? undefined : gaugeTargetLabel(locale, valueFormatter(target));
   const rows = [{ name: title, value, target }];
   const columns: TableColumn<(typeof rows)[number]>[] = [
-    { key: "name", header: title, isRowHeader: true },
+    { key: "name", header: title ?? ariaLabel ?? "", isRowHeader: true },
     { key: "value", header: chartValueLabel(locale), align: "end", render: (row) => valueFormatter(row.value) },
     ...(target === undefined ? [] : [{ key: "target", header: gaugeTargetLabel(locale, "").trim(), align: "end" as const, render: () => valueFormatter(target) }]),
   ];
   return (
-    <Shell title={title} period={period} isLoading={isLoading} isEmpty={false} height={height} columns={columns} rows={rows}>
+    <Shell title={title} aria-label={ariaLabel} period={period} isLoading={isLoading} isEmpty={false} height={height} columns={columns} rows={rows}>
       <div
         role="meter"
-        aria-label={title}
+        aria-label={title ?? ariaLabel}
         aria-valuemin={min}
         aria-valuemax={max}
         aria-valuenow={clamp(value)}
@@ -329,18 +333,18 @@ export type RadialChartProps = FrameProps & {
 };
 
 /** Two or three values that share a 0–100 scale: 12px rings in `ds-chart-1`…`3` from 12 o'clock, with a key list. */
-export function RadialChart({ title, period, data, valueFormatter = (value) => `${value}%`, isLoading, emptyState, height = 200 }: RadialChartProps) {
+export function RadialChart({ title, "aria-label": ariaLabel, period, data, valueFormatter = (value) => `${value}%`, isLoading, emptyState, height = 200 }: RadialChartProps) {
   const { locale } = useLocale();
   const animate = useChartAnimation();
   useOnce(data.length > 3, "RadialChart: two or three rings; use a BarChart for more.");
   const rings = data.slice(0, 3).map((ring, index) => ({ ...ring, fill: chartColor(index) }));
   const size = height - 8;
   const columns: TableColumn<DonutDatum>[] = [
-    { key: "name", header: title, isRowHeader: true },
+    { key: "name", header: title ?? ariaLabel ?? "", isRowHeader: true },
     { key: "value", header: chartValueLabel(locale), align: "end", render: (row) => valueFormatter(row.value) },
   ];
   return (
-    <Shell title={title} period={period} isLoading={isLoading} emptyState={emptyState} isEmpty={rings.length === 0} height={height} columns={columns} rows={rings}>
+    <Shell title={title} aria-label={ariaLabel} period={period} isLoading={isLoading} emptyState={emptyState} isEmpty={rings.length === 0} height={height} columns={columns} rows={rings}>
       <div data-slot="radial" className="flex h-full min-w-0 items-center gap-ds-400">
         <div className={cn("shrink-0", LTR_PLOT)}>
           <RadialBarChart width={size} height={size} data={rings} innerRadius={size / 2 - 12 * rings.length - 6 * (rings.length - 1)} outerRadius={size / 2} barSize={12} startAngle={90} endAngle={-270} accessibilityLayer={false}>
@@ -486,7 +490,7 @@ function fitTrend<T>(rows: readonly T[], px: (row: T) => number, py: (row: T) =>
  * the keyboard's way in. Axes carry their units.
  */
 export function ScatterChart<T extends Row>(props: ScatterChartProps<T>) {
-  const { title, period, data, name, x, y, size, category, xLabel, yLabel, valueFormatters, trendLine, onPointPress, isLoading, emptyState, height = 260 } = props;
+  const { title, "aria-label": ariaLabel, period, data, name, x, y, size, category, xLabel, yLabel, valueFormatters, trendLine, onPointPress, isLoading, emptyState, height = 260 } = props;
   const { locale } = useLocale();
   const animate = useChartAnimation();
   const direction = useChartDirection();
@@ -523,7 +527,7 @@ export function ScatterChart<T extends Row>(props: ScatterChartProps<T>) {
   const yOverhang = tickOverhang(yTicks.length > 0 ? fy(yTicks.at(-1)!) : undefined, tickWrapWidth(yAxisWidth, AXIS_NAME_ROOM), locale, yTicks.map(fy), yValues);
   const xTicks = valueAxisTicks(shown.map((row) => numeric(row, x)), SCATTER_TICKS);
   const columns: TableColumn<T>[] = [
-    { key: name, header: title, isRowHeader: true },
+    { key: name, header: title ?? ariaLabel ?? "", isRowHeader: true },
     { key: x, header: xLabel, align: "end", render: (row) => fx(numeric(row, x)) },
     { key: y, header: yLabel, align: "end", render: (row) => fy(numeric(row, y)) },
     ...(category ? [{ key: category.key, header: category.label, render: (row: T) => (row[category.key] === category.value ? category.label : category.otherLabel) }] : []),
@@ -531,6 +535,7 @@ export function ScatterChart<T extends Row>(props: ScatterChartProps<T>) {
   return (
     <Shell
       title={title}
+      aria-label={ariaLabel}
       period={period}
       isLoading={isLoading}
       emptyState={emptyState}
@@ -609,7 +614,7 @@ export type RadarChartProps<T extends Row> = FrameProps & {
  * `ds-border`, labels outside in `ds-text-subtle`, the main profile `ds-chart-1` (2px edge, 18% fill), the
  * comparison `ds-chart-neutral` (12% fill, dashed edge).
  */
-export function RadarChart<T extends Row>({ title, period, data, dimension, categories, labels, max, valueFormatter = plain, isLoading, emptyState, height = 280 }: RadarChartProps<T>) {
+export function RadarChart<T extends Row>({ title, "aria-label": ariaLabel, period, data, dimension, categories, labels, max, valueFormatter = plain, isLoading, emptyState, height = 280 }: RadarChartProps<T>) {
   const animate = useChartAnimation();
   const series = useChartSeries();
   useOnce(categories.length > 2, "RadarChart: one or two profiles.");
@@ -619,13 +624,14 @@ export function RadarChart<T extends Row>({ title, period, data, dimension, cate
   const styles = (key: string, index: number) =>
     index === 0 ? { color: chartColor(0), fillOpacity: 0.18, strokeDasharray: undefined } : { color: CHART_NEUTRAL, fillOpacity: 0.12, strokeDasharray: "6 4" };
   const columns: TableColumn<T>[] = [
-    { key: dimension, header: title, isRowHeader: true },
+    { key: dimension, header: title ?? ariaLabel ?? "", isRowHeader: true },
     // A value as the radar plots it (a numeric string too); "—" for a gap.
     ...profiles.map((key) => ({ key, header: label(key), align: "end" as const, render: (row: T) => { const value = chartNumber(row[key]); return value === undefined ? "—" : valueFormatter(value); } })),
   ];
   return (
     <Shell
       title={title}
+      aria-label={ariaLabel}
       period={period}
       isLoading={isLoading}
       emptyState={emptyState}

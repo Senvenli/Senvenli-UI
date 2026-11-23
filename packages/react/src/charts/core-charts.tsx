@@ -44,8 +44,10 @@ import { EmptyState } from "../feedback/empty-state";
 type Row = Record<string, unknown>;
 
 export type ChartBaseProps<T extends Row> = {
-  /** What the chart shows ("Revenue"). */
-  title: string;
+  /** What the chart shows ("Revenue"), over it; leave it out when a card or a heading already says so. */
+  title?: string;
+  /** Names the chart when it has no visible `title` (a card's heading already says what it shows). */
+  "aria-label"?: string;
   /** The period it covers ("June–September 2026"). */
   period?: string;
   /** The headline figure, in `metric-medium` ("€ 184,2k"). */
@@ -154,7 +156,7 @@ export function ChartHeader({ title, period, total }: Pick<ChartBaseProps<Row>, 
   return (
     <div data-slot="chart-header" className="flex flex-wrap items-end justify-between gap-x-ds-300 gap-y-ds-050">
       <div className="flex min-w-0 flex-col items-start">
-        <bdi className="text-body-strong text-ds-text">{title}</bdi>
+        {title && <bdi className="text-body-strong text-ds-text">{title}</bdi>}
         {period && <bdi className="text-body-small text-ds-text-subtle">{period}</bdi>}
       </div>
       {total != null && (
@@ -186,15 +188,15 @@ function Shell<T extends Row>({
   // Rows keyed by position: two rows may share a category value.
   const positions = React.useMemo(() => new Map(props.data.map((row, position) => [row, position])), [props.data]);
   return (
-    <section data-slot="chart" aria-label={props.title} className="flex min-w-0 flex-col gap-ds-200">
-      <ChartHeader title={props.title} period={props.period} total={props.total} />
+    <section data-slot="chart" aria-label={props.title ?? props["aria-label"]} className="flex min-w-0 flex-col gap-ds-200">
+      {(props.title || props.period || props.total != null) && <ChartHeader title={props.title} period={props.period} total={props.total} />}
       <ChartFrame
         height={height}
         isLoading={props.isLoading}
         emptyState={props.data.length === 0 ? props.emptyState ?? <EmptyState size="small" icon="chart-column" title={chartNoDataLabel(shell.locale)} /> : null}
         legendPlacement={legendPlacement}
         legend={showLegend ? <ChartLegend items={shell.legend} hidden={shell.series.hidden} onToggle={shell.series.toggle} /> : undefined}
-        dataTable={{ caption: [props.title, props.period].filter(Boolean).join(" · "), columns: shell.columns, rows: props.data, rowKey: (row) => positions.get(row) ?? String(row[props.index]) }}
+        dataTable={{ caption: [props.title ?? props["aria-label"], props.period].filter(Boolean).join(" · "), columns: shell.columns, rows: props.data, rowKey: (row) => positions.get(row) ?? String(row[props.index]) }}
       >
         <ResponsiveContainer width="100%" height="100%" onResize={onResize ? (width) => onResize(Math.round(width)) : undefined}>
           {children}

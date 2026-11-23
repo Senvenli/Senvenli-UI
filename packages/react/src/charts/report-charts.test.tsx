@@ -3,7 +3,7 @@ import { act, cleanup, fireEvent, render, screen, within } from "@testing-librar
 import { afterEach, beforeAll, describe, expect, it, vi } from "vitest";
 
 import { DesignSystemProvider } from "../provider";
-import { ChartAnimation, SeasonalityHeatmap } from "./index";
+import { ChartAnimation, Heatmap } from "./index";
 import { WaterfallChart } from "./report-charts";
 import { waterfallAxisWidth, waterfallRows } from "./report-charts";
 import { EmptyState } from "../feedback/empty-state";
@@ -253,9 +253,9 @@ describe("WaterfallChart", () => {
   });
 });
 
-/* ── SeasonalityHeatmap ───────────────────────────────────────────────────── */
+/* ── Heatmap ───────────────────────────────────────────────────── */
 
-describe("SeasonalityHeatmap", () => {
+describe("Heatmap", () => {
   const ROWS = ["Week 1", "Week 2"];
   const COLUMNS = ["Mon", "Tue", "Wed"];
   // Week 1 starts on Tuesday (no Monday cell); Wednesday of week 2 has no data yet.
@@ -266,10 +266,10 @@ describe("SeasonalityHeatmap", () => {
     { row: "Week 2", column: "Tue", value: 2 },
     { row: "Week 2", column: "Wed", value: null },
   ];
-  const heatmap = (props: Partial<React.ComponentProps<typeof SeasonalityHeatmap>> = {}) => (
-    <SeasonalityHeatmap title="Order volume" period="September 2026" rows={ROWS} columns={COLUMNS} data={DATA} rowHeader="Week" valueFormatter={(value) => `${value} orders`} {...props} />
+  const heatmap = (props: Partial<React.ComponentProps<typeof Heatmap>> = {}) => (
+    <Heatmap title="Order volume" period="September 2026" rows={ROWS} columns={COLUMNS} data={DATA} rowHeader="Week" valueFormatter={(value) => `${value} orders`} {...props} />
   );
-  const cells = () => [...document.querySelectorAll<HTMLElement>("[data-slot='seasonality-heatmap-cell']")];
+  const cells = () => [...document.querySelectorAll<HTMLElement>("[data-slot='heatmap-cell']")];
   const cell = (name: string) => screen.getByRole("gridcell", { name });
 
   it("a grid of rows by columns with column and row headers; a pair with no entry draws no cell", () => {
@@ -279,7 +279,7 @@ describe("SeasonalityHeatmap", () => {
     expect(within(grid).getAllByRole("columnheader").map((header) => header.getAttribute("aria-label") ?? header.textContent)).toEqual(["Week", ...COLUMNS]);
     expect(within(grid).getAllByRole("rowheader").map((header) => header.textContent)).toEqual(ROWS);
     expect(cells()).toHaveLength(5);
-    expect(document.querySelectorAll("[data-slot='seasonality-heatmap-gap']")).toHaveLength(1);
+    expect(document.querySelectorAll("[data-slot='heatmap-gap']")).toHaveLength(1);
   });
 
   it("every row has as many cells as the header row, so each cell sits under its own weekday", () => {
@@ -300,13 +300,13 @@ describe("SeasonalityHeatmap", () => {
       expect(rowCells).toHaveLength(headers.length);
       expect(rowCells[0]!.getAttribute("role")).toBe("rowheader");
       rowCells.forEach((element, position) => {
-        if (element.getAttribute("data-slot") !== "seasonality-heatmap-cell") return;
+        if (element.getAttribute("data-slot") !== "heatmap-cell") return;
         // "Week 2, Sun: 1" sits under "Sun".
         expect(element.getAttribute("aria-label")!.split(", ")[1]!.split(":")[0]).toBe(headers[position]);
       });
     }
     // Gaps: empty, unnamed, never focusable.
-    const gaps = [...document.querySelectorAll<HTMLElement>("[data-slot='seasonality-heatmap-gap']")];
+    const gaps = [...document.querySelectorAll<HTMLElement>("[data-slot='heatmap-gap']")];
     expect(gaps).toHaveLength(5);
     for (const gap of gaps) {
       expect(gap.getAttribute("role")).toBe("gridcell");
@@ -329,7 +329,7 @@ describe("SeasonalityHeatmap", () => {
     expect(missing.style.background).toContain("repeating-linear-gradient");
     expect(missing.style.background).not.toBe(zero.style.background);
     // The scale names the hatch too.
-    expect(document.querySelector("[data-slot='seasonality-heatmap-missing-key']")!.textContent).toBe("No data");
+    expect(document.querySelector("[data-slot='heatmap-missing-key']")!.textContent).toBe("No data");
   });
 
   it("colours by a sequential scale of token steps that differ in lightness, with a Less … More legend scale", () => {
@@ -338,7 +338,7 @@ describe("SeasonalityHeatmap", () => {
     expect(cell("Week 2, Mon: 9 orders").getAttribute("data-level")).toBe("4");
     expect(cell("Week 2, Mon: 9 orders").style.background).toBe("var(--ds-chart-1)");
     expect(cell("Week 2, Tue: 2 orders").getAttribute("data-level")).toBe("1");
-    const scale = document.querySelector("[data-slot='seasonality-heatmap-scale']")!;
+    const scale = document.querySelector("[data-slot='heatmap-scale']")!;
     expect(scale.textContent).toContain("Less");
     expect(scale.textContent).toContain("More");
     expect(scale.querySelectorAll("[data-level]")).toHaveLength(5);
@@ -350,7 +350,7 @@ describe("SeasonalityHeatmap", () => {
     const named = cell("Mon 1 September: 3 orders, 1 cancelled");
     act(() => named.focus());
     expect(tooltip()!.textContent).toBe("Mon 1 September: 3 orders, 1 cancelledValue3 orders");
-    expect(document.querySelector("[data-slot='seasonality-heatmap-tooltip']")!.getAttribute("aria-hidden")).toBe("true");
+    expect(document.querySelector("[data-slot='heatmap-tooltip']")!.getAttribute("aria-hidden")).toBe("true");
   });
 
   it("one tab stop; the arrow keys move a cell, skipping gaps, and the tooltip follows focus", () => {
@@ -420,18 +420,18 @@ describe("SeasonalityHeatmap", () => {
   it("the tooltip is placed again when the sideways scroll container scrolls", () => {
     let shift = 0;
     vi.spyOn(Element.prototype, "getBoundingClientRect").mockImplementation(function (this: Element) {
-      const isCell = this.getAttribute("data-slot") === "seasonality-heatmap-cell";
+      const isCell = this.getAttribute("data-slot") === "heatmap-cell";
       const left = isCell ? 300 - shift : 0;
       const width = isCell ? 24 : 640;
       return { left, right: left + width, width, top: isCell ? 100 : 0, bottom: isCell ? 128 : 240, height: isCell ? 28 : 240, x: left, y: 0, toJSON() {} } as DOMRect;
     });
     inLocale(heatmap());
     act(() => cell("Week 2, Mon: 9 orders").focus());
-    const tip = () => document.querySelector<HTMLElement>("[data-slot='seasonality-heatmap-tooltip']")!;
+    const tip = () => document.querySelector<HTMLElement>("[data-slot='heatmap-tooltip']")!;
     expect(tip().style.left).toBe("312px");
     shift = 100;
     act(() => {
-      document.querySelector("[data-slot='seasonality-heatmap-scroll']")!.dispatchEvent(new Event("scroll"));
+      document.querySelector("[data-slot='heatmap-scroll']")!.dispatchEvent(new Event("scroll"));
     });
     expect(tip().style.left).toBe("212px");
   });
@@ -477,7 +477,7 @@ describe("SeasonalityHeatmap", () => {
     expect(warn).toHaveBeenCalledWith(expect.stringContaining("unique names"));
     // A repeated name's cells are drawn once, in its first place; the rest are gaps.
     expect(cells().map((element) => element.getAttribute("aria-label"))).toEqual(["Week 1, Tue: 0 orders"]);
-    expect(document.querySelectorAll("[data-slot='seasonality-heatmap-gap']")).toHaveLength(5);
+    expect(document.querySelectorAll("[data-slot='heatmap-gap']")).toHaveLength(5);
   });
 
   it("the data table is there by default: one row per row, every value formatted, no data said in words", () => {

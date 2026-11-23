@@ -22,7 +22,7 @@
     ],
     "instead": [
       {
-        "use": "seasonality-heatmap",
+        "use": "heatmap",
         "when": "The pattern is by weekday and hour, not by date."
       },
       {
