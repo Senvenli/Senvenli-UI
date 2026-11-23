@@ -1,4 +1,4 @@
-import { Skeleton, SkeletonGroup, SkeletonText } from "@senvenli/react/feedback";
+import { Skeleton, SkeletonGroup } from "@senvenli/react/feedback";
 import { Box, Stack } from "@senvenli/react/layout";
 
 export default function Example() {
@@ -9,7 +9,7 @@ export default function Example() {
           <Stack space="space-200">
             <Skeleton aspectRatio="16/9" radius="large" />
             <Skeleton width="50%" height={16} />
-            <SkeletonText lines={3} />
+            <Skeleton variant="text" lines={3} />
             <Skeleton width={96} height={32} radius="medium" />
           </Stack>
         </Box>

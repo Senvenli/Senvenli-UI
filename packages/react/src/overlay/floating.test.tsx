@@ -391,7 +391,7 @@ describe("one tab stop per tooltip trigger", () => {
     const { Fab } = await import("../action/index");
     inLocale(
       <Tooltip content="New">
-        <Fab label="New" icon="plus" placement="inline" />
+        <Fab iconBefore="plus" placement="inline">New</Fab>
       </Tooltip>,
     );
     expect(document.querySelector("[data-slot='tooltip-target']")).toBeNull();

@@ -7,8 +7,7 @@
   "name": "kbd",
   "title": "Kbd",
   "exports": [
-    "Kbd",
-    "ModifierKbd"
+    "Kbd"
   ],
   "description": "A keyboard key or shortcut shown as a keycap in help text, menus and tooltips.",
   "keywords": [
@@ -34,7 +33,7 @@
   },
   "a11y": {
     "builtIn": [
-      "ModifierKbd shows ⌘ on Apple platforms and Ctrl elsewhere."
+      "Kbd isModifier shows ⌘ on Apple platforms and Ctrl elsewhere."
     ],
     "youProvide": [
       "A `label` for glyph keys a screen reader may skip (\"Command\" for ⌘)."

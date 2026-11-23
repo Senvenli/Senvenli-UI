@@ -10,14 +10,19 @@ const KEYCAP =
   "bg-ds-surface-raised px-[5px] font-ds-mono text-[11px] leading-none text-ds-text-subtle";
 
 export type KbdProps = {
-  /** One key per Kbd; a shortcut is several Kbd separated by a space. */
-  children: React.ReactNode;
+  /** One key per Kbd; a shortcut is several Kbd separated by a space. Left out with `isModifier`. */
+  children?: React.ReactNode;
+  /** The platform's shortcut modifier: ⌘ on Apple platforms, Ctrl elsewhere (Ctrl on the server, settled after mount). */
+  isModifier?: boolean;
   /** What a screen reader says instead of a glyph it may skip ("Command" for ⌘); the glyph is then hidden. */
   label?: string;
 };
 
 /** A key or shortcut as a small keycap in help text, menus and tooltips. */
-export function Kbd({ children, label }: KbdProps) {
+export function Kbd({ children, label, isModifier }: KbdProps) {
+  const apple = useApple(isModifier === true);
+  // Key names as printed on the keys; Apple labels ⌘ "command" in every language.
+  if (isModifier) return apple ? <Kbd label="Command">⌘</Kbd> : <Kbd>Ctrl</Kbd>;
   return (
     <kbd data-slot="kbd" className={KEYCAP}>
       {label ? (
@@ -39,10 +44,11 @@ function isApple() {
   return /mac|iphone|ipad|ipod/i.test(platform);
 }
 
-/** The shortcut modifier: ⌘ on Apple platforms, Ctrl elsewhere (Ctrl on the server, settled after mount). */
-export function ModifierKbd() {
+/** Apple or not, settled after mount so the server and the first client render agree (both say Ctrl). */
+function useApple(enabled: boolean) {
   const [apple, setApple] = React.useState(false);
-  React.useEffect(() => setApple(isApple()), []);
-  // Key names as printed on the keys; Apple labels ⌘ "command" in every language.
-  return apple ? <Kbd label="Command">⌘</Kbd> : <Kbd>Ctrl</Kbd>;
+  React.useEffect(() => {
+    if (enabled) setApple(isApple());
+  }, [enabled]);
+  return apple;
 }

@@ -1,6 +1,6 @@
 import { Button } from "@senvenli/react/action";
 import { Text } from "@senvenli/react/display";
-import { useCooldownAction } from "@senvenli/react/feedback";
+import { useCooldownAction } from "./use-cooldown-action";
 import { OtpField } from "@senvenli/react/form";
 import { Stack } from "@senvenli/react/layout";
 

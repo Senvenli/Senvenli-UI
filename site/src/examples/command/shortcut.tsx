@@ -1,5 +1,5 @@
 import { Button } from "@senvenli/react/action";
-import { Kbd, ModifierKbd, Text } from "@senvenli/react/display";
+import { Kbd, Text } from "@senvenli/react/display";
 import { Stack } from "@senvenli/react/layout";
 import { Command, toast, type CommandGroup, type CommandItem } from "@senvenli/react/overlay";
 import { useState } from "react";
@@ -26,7 +26,7 @@ export default function Example() {
     <Stack direction="horizontal" space="space-150">
       <Button onPress={() => setIsOpen(true)}>Open the palette</Button>
       <Text tone="subtle">
-        or press <ModifierKbd /> <Kbd>K</Kbd>
+        or press <Kbd isModifier /> <Kbd>K</Kbd>
       </Text>
       <Command
         shortcut

@@ -15,10 +15,10 @@ const FILL =
   "data-[pressed]:bg-ds-background-brand-bold-pressed data-[focus-visible]:inset-ring-ds-text-on-brand";
 
 export type FabProps = {
-  /** The task, as a verb ("Contact us", "New order"); also the name when icon-only. */
-  label: string;
-  /** Lucide icon name ("message-circle", "calendar-plus"). */
-  icon: IconName;
+  /** The task, as a verb ("Contact us", "New order"), as Button's label; also the name when icon-only. */
+  children: string;
+  /** Lucide icon name before the label ("message-circle", "calendar-plus"), as Button's `iconBefore`. */
+  iconBefore: IconName;
   onPress?: (event: PressEvent) => void;
   /** A link (a chat or contact URL) instead of an action; it opens in a new tab unless `target` says otherwise. */
   href?: string;
@@ -61,7 +61,7 @@ function useCollapsed(enabled: boolean) {
  * never over a dialog, sheet or a sticky summary bar (the app decides).
  */
 export const Fab = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, FabProps>(function Fab(
-  { label, icon, onPress, href, target = "_blank", placement = "fixed", collapseOnScroll = true, iconOnly = false },
+  { children: label, iconBefore: icon, onPress, href, target = "_blank", placement = "fixed", collapseOnScroll = true, iconOnly = false },
   ref,
 ) {
   const { locale } = useLocale();
