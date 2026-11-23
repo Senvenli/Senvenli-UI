@@ -1518,13 +1518,15 @@
     "description": "Shows where a page sits in a hierarchy, collapsing middle levels into a menu when long.",
     "keywords": [
       "breadcrumbs",
-      "path",
+      "compound",
       "hierarchy",
+      "path",
       "trail"
     ],
     "import": "@senvenli/react/navigation",
     "exports": [
-      "Breadcrumbs"
+      "Breadcrumbs",
+      "Breadcrumb"
     ],
     "genui": true
   },

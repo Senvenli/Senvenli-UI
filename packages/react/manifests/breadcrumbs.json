@@ -7,13 +7,15 @@
   "name": "breadcrumbs",
   "title": "Breadcrumbs",
   "exports": [
-    "Breadcrumbs"
+    "Breadcrumbs",
+    "Breadcrumb"
   ],
   "description": "Shows where a page sits in a hierarchy, collapsing middle levels into a menu when long.",
   "keywords": [
     "breadcrumbs",
-    "path",
+    "compound",
     "hierarchy",
+    "path",
     "trail"
   ],
   "usage": {
@@ -35,7 +37,9 @@
     "builtIn": [
       "A navigation landmark; the current page has aria-current."
     ],
-    "youProvide": []
+    "youProvide": [
+      "With children: a textValue on a Breadcrumb whose label is not plain text, for the folded menu."
+    ]
   },
   "related": [
     "sidebar"
@@ -62,18 +66,19 @@
               },
               "href": {
                 "type": "string"
+              },
+              "icon": {
+                "type": "string",
+                "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
               }
             },
             "required": [
               "label"
             ]
           },
-          "description": "From the section root (\"Filo\"), never \"Ana sayfa\", to the current page."
+          "description": "From the section root (\"Projects\"), never \"Home\", to the current page. Leave it out to compose `Breadcrumb`s\nas children instead."
         }
-      },
-      "required": [
-        "items"
-      ]
+      }
     }
   },
   "source": [
@@ -84,9 +89,9 @@
       {
         "name": "items",
         "type": "readonly BreadcrumbItem[]",
-        "required": true,
+        "required": false,
         "origin": "own",
-        "description": "From the section root (\"Filo\"), never \"Ana sayfa\", to the current page.",
+        "description": "From the section root (\"Projects\"), never \"Home\", to the current page. Leave it out to compose `Breadcrumb`s\nas children instead.",
         "schema": {
           "type": "array",
           "items": {
@@ -98,6 +103,10 @@
               },
               "href": {
                 "type": "string"
+              },
+              "icon": {
+                "type": "string",
+                "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
               }
             },
             "required": [
@@ -107,11 +116,57 @@
         }
       },
       {
+        "name": "children",
+        "type": "React.ReactNode",
+        "required": false,
+        "origin": "own",
+        "description": "With no `items`: `Breadcrumb`s from the root to the current page (the last one)."
+      },
+      {
         "name": "aria-label",
         "type": "string",
         "required": false,
         "origin": "own",
-        "description": "Names the navigation landmark; \"Konum\" by default.",
+        "description": "Names the navigation landmark; \"Location\" by default.",
+        "schema": {
+          "type": "string"
+        }
+      }
+    ],
+    "Breadcrumb": [
+      {
+        "name": "href",
+        "type": "string",
+        "required": false,
+        "origin": "own",
+        "description": "A page; leave it out on the last one, the current page.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "icon",
+        "type": "IconName",
+        "required": false,
+        "origin": "own",
+        "schema": {
+          "type": "string",
+          "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+        }
+      },
+      {
+        "name": "children",
+        "type": "React.ReactNode",
+        "required": true,
+        "origin": "own",
+        "description": "The level's name. It may hold more than text; then give `textValue` for the folded \"…\" menu."
+      },
+      {
+        "name": "textValue",
+        "type": "string",
+        "required": false,
+        "origin": "own",
+        "description": "The words for the \"…\" menu when this level folds; the label itself when it is plain text.",
         "schema": {
           "type": "string"
         }
