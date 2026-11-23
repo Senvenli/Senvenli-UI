@@ -69,42 +69,62 @@
         "description": "The image renderer (e.g. next/image); a plain `<img>` by default."
       },
       {
-        "name": "photos",
-        "type": "string[]",
+        "name": "items",
+        "type": "CarouselItem[]",
         "required": true,
         "origin": "own",
-        "description": "Photo paths in display order.",
+        "description": "The photos in display order, each with its own alt text: the same shape as Carousel's `items`.",
         "schema": {
           "type": "array",
           "items": {
-            "type": "string"
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "src": {
+                "type": "string"
+              },
+              "alt": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "src",
+              "alt"
+            ]
           }
         }
       },
       {
-        "name": "resolveSrc",
-        "type": "(path: string) => string",
-        "required": false,
-        "origin": "own",
-        "default": "(path) => path",
-        "description": "Resolve a stored photo path to a renderable src. Defaults to identity."
-      },
-      {
-        "name": "initialIndex",
+        "name": "defaultIndex",
         "type": "number",
         "required": false,
         "origin": "own",
         "default": "0",
-        "description": "Index to open on; wrapped into range.",
+        "description": "The photo to open on; wrapped into range.",
         "schema": {
           "type": "number"
         }
       },
       {
-        "name": "onClose",
-        "type": "() => void",
-        "required": true,
-        "origin": "own"
+        "name": "isOpen",
+        "type": "boolean",
+        "required": false,
+        "origin": "own",
+        "default": "true",
+        "description": "Open by default, so rendering it opens it; or control it with `onOpenChange`.",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "onOpenChange",
+        "type": "(isOpen: boolean) => void",
+        "required": false,
+        "origin": "own",
+        "description": "Called with `false` on Esc, the close button or a press on the scrim."
       },
       {
         "name": "title",
@@ -117,53 +137,16 @@
         }
       },
       {
-        "name": "alt",
-        "type": "string",
-        "required": true,
-        "origin": "own",
-        "description": "alt text for the photo.",
-        "schema": {
-          "type": "string"
-        }
-      },
-      {
-        "name": "positionLabel",
-        "type": "(index: number, total: number) => string",
+        "name": "labels",
+        "type": "{ close?: string; previous?: string; next?: string; position?: (index: number, total: number) => string; }",
         "required": false,
         "origin": "own",
-        "description": "Builds the \"N of M\" caption/description; the DS string by default."
-      },
-      {
-        "name": "closeLabel",
-        "type": "string",
-        "required": false,
-        "origin": "own",
-        "description": "The DS strings by default (\"Close\", \"Previous image\", \"Next image\").",
-        "schema": {
-          "type": "string"
-        }
-      },
-      {
-        "name": "previousLabel",
-        "type": "string",
-        "required": false,
-        "origin": "own",
-        "schema": {
-          "type": "string"
-        }
-      },
-      {
-        "name": "nextLabel",
-        "type": "string",
-        "required": false,
-        "origin": "own",
-        "schema": {
-          "type": "string"
-        }
+        "description": "The viewer's words; the DS strings by default (\"Close\", \"Previous image\", \"Next image\", \"Image 2 of 5\")."
       }
     ]
   },
   "tokens": [
+    "ds-background-neutral-bold",
     "ds-blanket",
     "ds-border-focused",
     "ds-border-selected",
@@ -193,10 +176,12 @@
     "ds-surface-overlay",
     "ds-surface-sunken",
     "ds-text",
+    "ds-text-inverse",
     "ds-text-subtle"
   ],
   "strings": [
     "close",
+    "goToImage",
     "imagePosition",
     "nextImage",
     "previousImage"

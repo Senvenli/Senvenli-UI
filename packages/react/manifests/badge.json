@@ -89,7 +89,7 @@
       "properties": {
         "value": {
           "type": "number",
-          "description": "The count; nothing renders at 0."
+          "description": "The count; nothing renders at 0. Left out, an 8px unread marker without a number, hidden from screen readers, so\nthe text or label next to it says \"new\"."
         },
         "max": {
           "type": "number",
@@ -206,21 +206,11 @@
         }
       },
       {
-        "name": "isOnIcon",
-        "type": "boolean",
-        "required": false,
-        "origin": "own",
-        "description": "On an icon inside `BadgeAnchor`: corner placement, and hidden from screen readers (the control's label says it).",
-        "schema": {
-          "type": "boolean"
-        }
-      },
-      {
         "name": "value",
         "type": "number",
         "required": false,
         "origin": "own",
-        "description": "The count; nothing renders at 0.",
+        "description": "The count; nothing renders at 0. Left out, an 8px unread marker without a number, hidden from screen readers, so\nthe text or label next to it says \"new\".",
         "schema": {
           "type": "number"
         }
@@ -233,16 +223,6 @@
         "description": "Above it shows \"max+\"; default 99, or 9 on an icon.",
         "schema": {
           "type": "number"
-        }
-      },
-      {
-        "name": "isDot",
-        "type": "true",
-        "required": false,
-        "origin": "own",
-        "description": "An 8px unread marker without a number; hidden from screen readers, so the text or label next to it says \"new\".",
-        "schema": {
-          "type": "boolean"
         }
       }
     ],
