@@ -1,5 +1,6 @@
 import { Button } from "@senvenli/react/action";
-import { Heading, ScrollArea, Text } from "@senvenli/react/display";
+import { Heading, Text } from "@senvenli/react/display";
+import { ScrollArea } from "@senvenli/react/layout";
 import { Stack } from "@senvenli/react/layout";
 
 const NOTES = Array.from({ length: 12 }, (_, index) => `Note ${index + 1}: the customer asked about delivery times.`);

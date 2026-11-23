@@ -1,5 +1,6 @@
 import { Avatar, Icon, Text } from "@senvenli/react/display";
-import { Stack, Pressable } from "@senvenli/react/layout";
+import { Stack } from "@senvenli/react/layout";
+import { Pressable } from "@senvenli/react/action";
 
 export default function Example() {
   return (

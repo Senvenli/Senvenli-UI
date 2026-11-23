@@ -1,9 +1,9 @@
 {
   "$schema": "https://design.senvenli.com/schema/component.full.json",
   "kind": "component",
-  "family": "navigation",
+  "family": "layout",
   "status": "alpha",
-  "import": "@senvenli/react/navigation",
+  "import": "@senvenli/react/layout",
   "name": "toolbar",
   "title": "Toolbar",
   "exports": [
@@ -56,7 +56,7 @@
     "expose": false
   },
   "source": [
-    "src/navigation/toolbar.tsx"
+    "src/layout/toolbar.tsx"
   ],
   "props": {
     "Toolbar": [

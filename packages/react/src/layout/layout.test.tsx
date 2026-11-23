@@ -5,9 +5,10 @@ import { createTheme, toCSS } from "@senvenli/tokens";
 import { afterEach, describe, expect, it, vi } from "vitest";
 
 import { DesignSystemProvider } from "../provider";
-import { Box, Grid, Stack, Pressable, SPACE_TOKENS } from "./index";
+import { Box, Grid, Stack, SPACE_TOKENS } from "./index";
+import { Pressable } from "../action/index";
 import { BACKGROUND, GAP, PADDING, PADDING_BLOCK, PADDING_INLINE, RADIUS, SHADOW } from "./tokens";
-import { pressableClasses } from "./pressable";
+import { pressableClasses } from "../action/pressable";
 
 afterEach(cleanup);
 

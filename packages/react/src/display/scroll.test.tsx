@@ -7,7 +7,8 @@ import { createTheme, toCSS } from "@senvenli/tokens";
 import { Button } from "../action/index";
 import { DS_STRINGS, registerDsStrings } from "../i18n";
 import { DesignSystemProvider } from "../provider";
-import { Carousel, ScrollArea } from "./index";
+import { Carousel } from "./index";
+import { ScrollArea } from "../layout/index";
 
 const here = (file: string) => new URL(file, import.meta.url);
 const theme = toCSS(createTheme(), { tailwind: true }) + fs.readFileSync(here("../../styles/theme.css"), "utf8");

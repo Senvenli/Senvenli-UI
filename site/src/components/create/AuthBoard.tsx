@@ -3,7 +3,7 @@ import { Card, CardBody, CardHeader, Heading, Badge, Text } from "@senvenli/reac
 import { EmptyState, useCooldownAction } from "@senvenli/react/feedback";
 import { Form, Input } from "@senvenli/react/form";
 import { Stack } from "@senvenli/react/layout";
-import { LanguageSwitcher } from "@senvenli/react/navigation";
+import { LanguageSwitcher } from "@senvenli/react/action";
 import { useState } from "react";
 
 const LOCALES = ["en", "de", "fr", "es", "tr", "ar"] as const;

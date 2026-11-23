@@ -1,5 +1,6 @@
 import { Text } from "@senvenli/react/display";
-import { Grid, Pressable, Stack } from "@senvenli/react/layout";
+import { Grid, Stack } from "@senvenli/react/layout";
+import { Pressable } from "@senvenli/react/action";
 import { useState } from "react";
 
 const PLANS = [

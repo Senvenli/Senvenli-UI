@@ -2,7 +2,7 @@ import { Button, Link } from "@senvenli/react/action";
 import { Heading, Text } from "@senvenli/react/display";
 import { EmptyState } from "@senvenli/react/feedback";
 import { Input } from "@senvenli/react/form";
-import { Pressable } from "@senvenli/react/layout";
+import { Pressable } from "@senvenli/react/action";
 import { useMemo, useState } from "react";
 import { DocsLayout } from "../components/DocsLayout";
 import { familyTitle, orderComponents, type ManifestIndexEntry } from "../lib/manifest";

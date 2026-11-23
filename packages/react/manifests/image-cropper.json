@@ -1,9 +1,9 @@
 {
   "$schema": "https://design.senvenli.com/schema/component.full.json",
   "kind": "component",
-  "family": "display",
+  "family": "form",
   "status": "alpha",
-  "import": "@senvenli/react/display",
+  "import": "@senvenli/react/form",
   "name": "image-cropper",
   "title": "Image cropper",
   "exports": [
@@ -57,7 +57,7 @@
     "expose": false
   },
   "source": [
-    "src/display/image-cropper.tsx"
+    "src/form/image-cropper.tsx"
   ],
   "props": {
     "ImageCropper": [
@@ -212,33 +212,38 @@
     ]
   },
   "tokens": [
+    "ds-background-brand-bold",
+    "ds-background-disabled",
+    "ds-background-neutral",
+    "ds-background-selected",
     "ds-blanket",
     "ds-border",
+    "ds-border-bold",
     "ds-border-focused",
-    "ds-icon",
-    "ds-icon-brand",
-    "ds-icon-danger",
-    "ds-icon-information",
-    "ds-icon-subtle",
-    "ds-icon-success",
-    "ds-icon-warning",
+    "ds-border-selected",
+    "ds-link",
+    "ds-radius-full",
     "ds-radius-large",
+    "ds-radius-medium",
     "ds-shadow-raised",
-    "ds-size-icon",
-    "ds-size-icon-large",
-    "ds-size-icon-small",
     "ds-space-050",
     "ds-space-100",
     "ds-space-150",
     "ds-space-300",
+    "ds-space-400",
+    "ds-surface-raised",
     "ds-surface-sunken",
+    "ds-text",
     "ds-text-danger",
+    "ds-text-disabled",
     "ds-text-subtle",
     "ds-text-subtlest",
     "ds-text-warning"
   ],
   "strings": [
     "cancel",
+    "cancelUpload",
+    "chooseFiles",
     "colorBlack",
     "colorLightGrey",
     "colorWhite",
@@ -262,7 +267,14 @@
     "cropTooLarge",
     "cropZoom",
     "cropZoomIn",
-    "cropZoomOut"
+    "cropZoomOut",
+    "onlyOne",
+    "removeFile",
+    "replace",
+    "tooLarge",
+    "upTo",
+    "uploaded",
+    "wrongType"
   ],
   "quality": {
     "tests": true,

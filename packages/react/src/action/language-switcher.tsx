@@ -10,7 +10,7 @@ import {
   type Key,
 } from "react-aria-components";
 
-import { BUTTON_BASE, BUTTON_SIZE, buttonVariantClasses, ICON_ONLY_SIZE } from "../action/styles";
+import { BUTTON_BASE, BUTTON_SIZE, buttonVariantClasses, ICON_ONLY_SIZE } from "./styles";
 import { IconGlyph } from "../display/icon";
 import { TooltipFor } from "../overlay/floating";
 import { LISTBOX, OPTION } from "../selection/listbox";

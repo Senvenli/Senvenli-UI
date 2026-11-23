@@ -16,8 +16,8 @@ import {
   cancelUploadLabel, chooseFilesLabel, onlyOneLabel, orChooseTemplate, removeFileLabel, replaceLabel, tooLargeLabel, upToLabel,
   uploadedLabel, wrongTypeLabel,
 } from "../i18n";
-import { Button } from "./button";
-import { LINK_FOCUS } from "./styles";
+import { Button } from "../action/button";
+import { LINK_FOCUS } from "../action/styles";
 
 /** Bytes as the locale writes them: "2.4 MB", "980 kB". */
 export function formatFileSize(bytes: number, locale: string): string {

@@ -1,4 +1,5 @@
-import { Badge, ScrollArea } from "@senvenli/react/display";
+import { Badge } from "@senvenli/react/display";
+import { ScrollArea } from "@senvenli/react/layout";
 import { Stack } from "@senvenli/react/layout";
 
 const STAGES = ["Draft", "Submitted", "Under review", "Approved", "Scheduled", "In production", "Packed", "Shipped", "Delivered", "Closed"];

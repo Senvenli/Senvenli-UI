@@ -5,9 +5,10 @@ import { createTheme, toCSS } from "@senvenli/tokens";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import { DesignSystemProvider } from "../provider";
-import { Button, DropZone, Fab, FileUploadList, FileRow, FileTrigger, formatFileSize, validateFiles } from "./index";
+import { Button, Fab } from "./index";
+import { DropZone, FileUploadList, FileRow, FileTrigger, formatFileSize, validateFiles } from "../form/index";
 import { DS_STRINGS, registerDsStrings } from "../i18n";
-import { filesFrom } from "./files";
+import { filesFrom } from "../form/files";
 
 const originalMatchMedia = window.matchMedia;
 const originalCreate = URL.createObjectURL;

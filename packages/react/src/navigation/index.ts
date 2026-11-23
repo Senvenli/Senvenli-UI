@@ -1,5 +1,5 @@
 // @senvenli/react/navigation: Navbar, Sidebar, BottomNav, Tabs and SegmentedControl, Breadcrumbs, Pagination,
-// Accordion and Disclosure, Stepper, Toolbar and BulkBar, SkipLink and PageHeader.
+// Accordion and Disclosure, Stepper, SkipLink and PageHeader.
 export { Navbar } from "./navbar";
 export type { NavbarLink, NavbarProps } from "./navbar";
 export { Sidebar } from "./sidebar";
@@ -18,8 +18,6 @@ export { Accordion, Disclosure } from "./accordion";
 export type { AccordionItem, AccordionProps, DisclosureProps } from "./accordion";
 export { Stepper } from "./stepper";
 export type { StepperProps, StepperStep, StepStatus } from "./stepper";
-export { BulkBar, Toolbar, ToolbarSpacer } from "./toolbar";
-export type { BulkBarProps, ToolbarProps } from "./toolbar";
 export { SkipLink } from "./skip-link";
 export type { SkipLinkProps } from "./skip-link";
 // The panel page header: the bar the shell renders, and what a page passes to it.
@@ -27,6 +25,3 @@ export { PageHeader, PageHeaderBar, PageHeaderProvider } from "./page-header";
 export type { PageHeaderBarProps, PageHeaderProps } from "./page-header";
 
 export { BrandLinkContext } from "./brand-link-context";
-export { LanguageLabel, LanguageSwitcher } from "./language-switcher";
-export type { LanguageSwitcherProps } from "./language-switcher";
-export { capitalizeLanguageName, languageName, languageOptions, registerLanguageNames } from "./language-names";

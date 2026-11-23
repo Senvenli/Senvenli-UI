@@ -21,3 +21,8 @@ export { COUNTRIES, DIAL_CODES, countryByCode } from "./countries";
 export type { Country } from "./countries";
 export { findCountry, formatPhone, parsePhone, toE164 } from "./phone";
 export type { PhoneCountry } from "./phone";
+export { FileTrigger, DropZone, FileUploadList, FileRow, validateFiles, formatFileSize } from "./files";
+export type { FileTriggerProps, DropZoneProps, FileRowProps, FileRules, RejectedFile } from "./files";
+export { ImageCropper } from "./image-cropper";
+export type { ImageCropperAspect, ImageCropperPreset, ImageCropperProps, ImageCropperResult } from "./image-cropper";
+export type { CropFit, CropOutputType } from "./image-crop";

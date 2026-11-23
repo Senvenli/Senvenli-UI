@@ -4,7 +4,8 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import { Button } from "../action/index";
 import { DesignSystemProvider } from "../provider";
-import { BulkBar, SkipLink, Stepper, Toolbar, ToolbarSpacer } from "./index";
+import { SkipLink, Stepper } from "./index";
+import { BulkBar, Toolbar, ToolbarSpacer } from "../layout/index";
 
 const PHYSICAL = /(^|\s|:)(-?m[lr]-|p[lr]-|-?left-|-?right-|border-[lr](-|\s|$)|rounded-[lr]-|text-left|text-right)/;
 

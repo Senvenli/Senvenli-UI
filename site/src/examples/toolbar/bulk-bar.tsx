@@ -1,6 +1,6 @@
 import { Button } from "@senvenli/react/action";
 import { Stack } from "@senvenli/react/layout";
-import { BulkBar } from "@senvenli/react/navigation";
+import { BulkBar } from "@senvenli/react/layout";
 import { toast } from "@senvenli/react/overlay";
 import { Checkbox, CheckboxGroup } from "@senvenli/react/selection";
 import { useState } from "react";

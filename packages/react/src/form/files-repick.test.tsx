@@ -3,7 +3,8 @@ import { cleanup, fireEvent, render } from "@testing-library/react";
 import { afterEach, describe, expect, it, vi } from "vitest";
 
 import { DesignSystemProvider } from "../provider";
-import { Button, DropZone, FileTrigger } from "./index";
+import { Button } from "../action/index";
+import { DropZone, FileTrigger } from "./index";
 
 // A DS picker empties its hidden input once the files are handed on, so the same file
 // picked again (after the app cancelled the first pick, e.g. a crop dialog) is a change and reaches

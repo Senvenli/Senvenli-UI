@@ -1,4 +1,4 @@
-import { DropZone, FileUploadList, FileRow, type RejectedFile } from "@senvenli/react/action";
+import { DropZone, FileUploadList, FileRow, type RejectedFile } from "@senvenli/react/form";
 import { Stack } from "@senvenli/react/layout";
 import { useState } from "react";
 

@@ -90,15 +90,15 @@
           "enum": [
             "neutral",
             "danger",
-            "success",
-            "information",
-            "warning",
-            "selected",
             "surface",
             "surface-raised",
             "surface-sunken",
             "surface-overlay",
-            "brand-subtle"
+            "selected",
+            "brand-subtle",
+            "information",
+            "success",
+            "warning"
           ]
         },
         "radius": {
@@ -212,15 +212,15 @@
           "enum": [
             "neutral",
             "danger",
-            "success",
-            "information",
-            "warning",
-            "selected",
             "surface",
             "surface-raised",
             "surface-sunken",
             "surface-overlay",
-            "brand-subtle"
+            "selected",
+            "brand-subtle",
+            "information",
+            "success",
+            "warning"
           ]
         }
       },
@@ -2666,6 +2666,15 @@
         }
       },
       {
+        "name": "selected",
+        "type": "boolean",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
         "name": "multiple",
         "type": "boolean",
         "required": false,
@@ -3295,15 +3304,6 @@
       },
       {
         "name": "seamless",
-        "type": "boolean",
-        "required": false,
-        "origin": "dom",
-        "schema": {
-          "type": "boolean"
-        }
-      },
-      {
-        "name": "selected",
         "type": "boolean",
         "required": false,
         "origin": "dom",

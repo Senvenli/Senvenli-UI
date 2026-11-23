@@ -1,4 +1,5 @@
-import { ImageCropper, Text } from "@senvenli/react/display";
+import { Text } from "@senvenli/react/display";
+import { ImageCropper } from "@senvenli/react/form";
 import { Stack } from "@senvenli/react/layout";
 import { useState } from "react";
 
