@@ -14,12 +14,12 @@ export default function Example() {
         brandHref="#"
         brandLabel="Acme home"
         links={[
-          { key: "features", label: "Features", href: "#" },
-          { key: "pricing", label: "Pricing", href: "#" },
+          { id: "features", label: "Features", href: "#" },
+          { id: "pricing", label: "Pricing", href: "#" },
         ]}
         actions={
           <>
-            <LanguageSwitcher locales={["en", "de", "fr"]} current={locale} onSelect={setLocale} size="small" />
+            <LanguageSwitcher locales={["en", "de", "fr"]} value={locale} onChange={setLocale} size="small" />
             <Button variant="primary" size="small">
               Start free trial
             </Button>

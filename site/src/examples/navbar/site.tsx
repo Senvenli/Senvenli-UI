@@ -11,9 +11,9 @@ export default function Example() {
         brandLabel="Acme home"
         currentKey="pricing"
         links={[
-          { key: "features", label: "Features", href: "#" },
-          { key: "pricing", label: "Pricing", href: "#" },
-          { key: "docs", label: "Docs", href: "#" },
+          { id: "features", label: "Features", href: "#" },
+          { id: "pricing", label: "Pricing", href: "#" },
+          { id: "docs", label: "Docs", href: "#" },
         ]}
         actions={
           <>

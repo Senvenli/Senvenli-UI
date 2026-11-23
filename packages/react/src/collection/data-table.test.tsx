@@ -5,6 +5,7 @@ import { afterEach, beforeAll, describe, expect, it, vi } from "vitest";
 import { DesignSystemProvider } from "../provider";
 import { DataTable, type DataTableColumn, type DataTableQuery } from "./index";
 import { readView, writeView } from "./data-table-url";
+import { EmptyState } from "../feedback/empty-state";
 
 beforeAll(() => {
   globalThis.CSS ??= {} as typeof CSS;
@@ -176,7 +177,7 @@ describe("DataTable", { timeout: 20_000 }, () => {
   });
 
   it("an empty list says so with the consumer's action; the column picker hides columns but never the row header", () => {
-    inLocale(<DataTable aria-label="Orders" columns={COLUMNS} rows={[]} emptyState={{ title: "No orders yet", action: <button type="button">Add order</button> }} />);
+    inLocale(<DataTable aria-label="Orders" columns={COLUMNS} rows={[]} emptyState={<EmptyState size="small" icon="inbox" title="No orders yet" primaryAction={<button type="button">Add order</button>} />} />);
     expect(screen.getByText("No orders yet")).toBeTruthy();
     cleanup();
     inLocale(<DataTable aria-label="Orders" columns={COLUMNS} rows={ORDERS} columnVisibility={{ total: false, code: false }} />);

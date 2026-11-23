@@ -1,4 +1,5 @@
 import { DataTable, type DataTableQuery, type DataTableResult } from "@senvenli/react/collection";
+import { EmptyState } from "@senvenli/react/feedback";
 
 type Customer = { id: string; name: string; city: string; orders: number };
 
@@ -30,7 +31,7 @@ export default function Example() {
         { key: "city", header: "City" },
         { key: "orders", header: "Orders", align: "end" },
       ]}
-      emptyState={{ title: "No customers yet", description: "Customers appear here after their first order." }}
+      emptyState={<EmptyState size="small" icon="inbox" title="No customers yet" description="Customers appear here after their first order." />}
     />
   );
 }

@@ -151,11 +151,11 @@
         "description": "Reordering (photos): drag a tile, or focus its handle and use the keyboard. `onReorder` gets the moved\nkeys and the tile they go before or after."
       },
       {
-        "name": "renderEmptyState",
-        "type": "() => ReactNode",
+        "name": "emptyState",
+        "type": "React.ReactNode",
         "required": false,
         "origin": "own",
-        "description": "Shown when there are no items."
+        "description": "Shown when there are no items: an `EmptyState` or a sentence."
       },
       {
         "name": "ref",

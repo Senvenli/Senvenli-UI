@@ -10,8 +10,8 @@ export default function Example() {
   const mark = (code: string) => <Badge>{code.toUpperCase()}</Badge>;
   return (
     <Stack direction="horizontal" space="space-200">
-      <LanguageSwitcher size="small" locales={LOCALES} current={locale} onSelect={setLocale} />
-      <LanguageSwitcher size="small" isCollapsed label="Interface language" locales={LOCALES} current={locale} onSelect={setLocale} renderMark={mark} />
+      <LanguageSwitcher size="small" locales={LOCALES} value={locale} onChange={setLocale} />
+      <LanguageSwitcher size="small" isCollapsed label="Interface language" locales={LOCALES} value={locale} onChange={setLocale} renderMark={mark} />
     </Stack>
   );
 }

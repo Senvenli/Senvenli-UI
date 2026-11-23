@@ -21,15 +21,15 @@ export type ListBoxProps = {
   onSelectionChange?: (keys: Selection) => void;
   /** With `selectionMode="none"`: what pressing an option does. */
   onAction?: (key: Key) => void;
-  /** Said inside the list when it has no options. */
-  emptyMessage?: string;
+  /** Shown inside the list when it has no options: a sentence or an `EmptyState`. */
+  emptyState?: React.ReactNode;
 };
 
 /**
  * A list of options shown in place, not in a dropdown: pick one or several, with the keyboard (arrows, typing to
  * jump, Space) or the pointer. For a choice in a dropdown use Select; for rows with actions, List.
  */
-export function ListBox({ label, "aria-label": ariaLabel, items, selectionMode = "single", selectedKeys, defaultSelectedKeys, onSelectionChange, onAction, emptyMessage }: ListBoxProps) {
+export function ListBox({ label, "aria-label": ariaLabel, items, selectionMode = "single", selectedKeys, defaultSelectedKeys, onSelectionChange, onAction, emptyState }: ListBoxProps) {
   const labelId = React.useId();
   return (
     <div data-slot="list-box" className="flex flex-col gap-ds-075">
@@ -48,7 +48,7 @@ export function ListBox({ label, "aria-label": ariaLabel, items, selectionMode =
         onSelectionChange={onSelectionChange}
         onAction={onAction}
         disabledKeys={items.filter((item) => item.isDisabled).map((item) => item.id)}
-        renderEmptyState={() => <span className="block px-ds-100 py-ds-150 text-body text-ds-text-subtle">{emptyMessage}</span>}
+        renderEmptyState={() => <span className="block px-ds-100 py-ds-150 text-body text-ds-text-subtle">{emptyState}</span>}
         data-slot="list-box-list"
         className="flex flex-col gap-ds-025 rounded-ds-large border border-ds-border p-ds-050 outline-hidden data-[focus-visible]:inset-ring-2 data-[focus-visible]:inset-ring-ds-border-focused"
       >

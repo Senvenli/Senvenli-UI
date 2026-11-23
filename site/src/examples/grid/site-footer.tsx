@@ -35,7 +35,7 @@ export default function Example() {
         <Separator />
         <Stack direction="horizontal" space="space-200" justify="between" align="center">
           <Text size="body-small" tone="subtle">© 2026 Acme, Inc.</Text>
-          <LanguageSwitcher locales={["en", "de", "tr"]} current={locale} onSelect={setLocale} />
+          <LanguageSwitcher locales={["en", "de", "tr"]} value={locale} onChange={setLocale} />
         </Stack>
       </Stack>
     </Box>

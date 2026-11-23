@@ -106,8 +106,8 @@ export type ListProps<T = never> = {
   onSelectionChange?: (keys: Selection) => void;
   /** Opens the row's record. */
   onAction?: (key: Key) => void;
-  /** Shown when there are no rows. */
-  renderEmptyState?: () => React.ReactNode;
+  /** Shown when there are no rows: an `EmptyState` or a sentence. */
+  emptyState?: React.ReactNode;
 };
 
 /**
@@ -128,7 +128,7 @@ export function List<T = never>({
   defaultSelectedKeys,
   onSelectionChange,
   onAction,
-  renderEmptyState,
+  emptyState,
 }: ListProps<T>) {
   const row = (item: T) => {
     const props = renderItem!(item);
@@ -153,7 +153,7 @@ export function List<T = never>({
       defaultSelectedKeys={defaultSelectedKeys}
       onSelectionChange={onSelectionChange}
       onAction={onAction}
-      renderEmptyState={renderEmptyState ? () => <div className="px-ds-300 py-ds-500 text-center text-body text-ds-text-subtle">{renderEmptyState()}</div> : undefined}
+      renderEmptyState={emptyState != null && emptyState !== false ? () => <div className="px-ds-300 py-ds-500 text-center text-body text-ds-text-subtle">{emptyState}</div> : undefined}
       data-slot="list"
       className="flex flex-col overflow-hidden rounded-ds-large bg-ds-surface-raised shadow-ds-raised outline-hidden"
     >

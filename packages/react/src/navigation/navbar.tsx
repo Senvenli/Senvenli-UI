@@ -12,7 +12,8 @@ import { LAYER } from "../layers";
 import { NavPanel } from "./nav-panel";
 
 export type NavbarLink = {
-  key: string;
+  /** Unique; `currentKey` matches it. */
+  id: string;
   /** A noun for the place ("Pricing"), never a verb. */
   label: string;
   /** A page or an in-page anchor ("/#pricing"); it goes through the host router. */
@@ -78,7 +79,7 @@ export function Navbar({
   const renderLinks = () =>
     links ? (
       links.map((link) => (
-        <NavbarItem key={link.key} id={link.key} href={link.href}>
+        <NavbarItem key={link.id} id={link.id} href={link.href}>
           {link.label}
         </NavbarItem>
       ))

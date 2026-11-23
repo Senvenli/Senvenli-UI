@@ -16,6 +16,7 @@ import {
   useChartDirection,
   useChartSeries,
 } from "./index";
+import { EmptyState } from "../feedback/empty-state";
 
 beforeAll(() => {
   globalThis.CSS ??= {} as typeof CSS;
@@ -241,7 +242,7 @@ describe("ChartFrame", () => {
 
   it("with nothing to draw: a compact EmptyState in the same space", () => {
     inLocale(
-      <ChartFrame height={180} emptyMessage={{ title: "No data for this period", description: "The chart fills in after the first order." }} dataTable={{ ...TABLE, rows: [] }}>
+      <ChartFrame height={180} emptyState={<EmptyState size="small" icon="chart-column" title="No data for this period" description="The chart fills in after the first order." />} dataTable={{ ...TABLE, rows: [] }}>
         <div>plot</div>
       </ChartFrame>,
     );

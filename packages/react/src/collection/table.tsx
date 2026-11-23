@@ -69,8 +69,8 @@ export type TableProps<T> = {
   onSortChange?: (descriptor: SortDescriptor) => void;
   /** `compact` (36px rows) for dense working screens; `default` (48px) for public and content pages. */
   density?: Density;
-  /** One sentence on why it is empty and the action that fills it. */
-  renderEmptyState?: () => React.ReactNode;
+  /** Shown when there are no rows: an `EmptyState`, or one sentence on why it is empty and the action that fills it. */
+  emptyState?: React.ReactNode;
   /** Opens the record: the whole row is the target. */
   onRowAction?: (key: Key) => void;
   /** A height for the scroll area: the header stays put and gets a shadow once rows scroll under it. */
@@ -221,7 +221,7 @@ export function TableView<T extends object>({
   sortDescriptor,
   onSortChange,
   density = "comfortable",
-  renderEmptyState,
+  emptyState,
   onRowAction,
   maxHeight,
   virtual,
@@ -337,10 +337,10 @@ export function TableView<T extends object>({
           data-slot="table-body"
           items={rows.map((row, index) => ({ key: keys[index], row }))}
           renderEmptyState={
-            renderEmptyState
+            emptyState != null && emptyState !== false
               ? () => (
                   <div data-slot="table-empty" className="px-ds-300 py-ds-500 text-center text-body text-ds-text-subtle">
-                    {renderEmptyState()}
+                    {emptyState}
                   </div>
                 )
               : undefined

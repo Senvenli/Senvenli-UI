@@ -155,14 +155,11 @@
         "description": "With `selectionMode=\"none\"`: what pressing an option does."
       },
       {
-        "name": "emptyMessage",
-        "type": "string",
+        "name": "emptyState",
+        "type": "React.ReactNode",
         "required": false,
         "origin": "own",
-        "description": "Said inside the list when it has no options.",
-        "schema": {
-          "type": "string"
-        }
+        "description": "Shown inside the list when it has no options: a sentence or an `EmptyState`."
       }
     ]
   },

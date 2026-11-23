@@ -522,7 +522,7 @@ describe("TagGroup", () => {
   });
 
   it("shows its empty message", () => {
-    inLocale(<TagGroup label="Filters" items={[]} onRemove={vi.fn()} emptyMessage="No filters" />);
+    inLocale(<TagGroup label="Filters" items={[]} onRemove={vi.fn()} emptyState="No filters" />);
     expect(screen.getByText("No filters")).toBeTruthy();
   });
 });

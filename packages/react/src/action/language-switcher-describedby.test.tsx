@@ -33,7 +33,7 @@ function renderSwitcher(extra: Extra = {}, { locale = "en", dir, current = "en" 
     <div dir={dir}>
       <DesignSystemProvider locale={locale} navigate={vi.fn()}>
         <p id="language-hint">{HINT}</p>
-        <LanguageSwitcher locales={LOCALES} current={current} onSelect={onSelect} {...extra} />
+        <LanguageSwitcher locales={LOCALES} value={current} onChange={onSelect} {...extra} />
       </DesignSystemProvider>
     </div>,
   );

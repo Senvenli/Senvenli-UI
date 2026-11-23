@@ -309,11 +309,11 @@
         }
       },
       {
-        "name": "renderEmptyState",
-        "type": "() => ReactNode",
+        "name": "emptyState",
+        "type": "React.ReactNode",
         "required": false,
         "origin": "own",
-        "description": "One sentence on why it is empty and the action that fills it."
+        "description": "Shown when there are no rows: an `EmptyState`, or one sentence on why it is empty and the action that fills it."
       },
       {
         "name": "onRowAction",

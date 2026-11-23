@@ -40,8 +40,8 @@ const data = (
     brandLabel="Acme home"
     currentKey="pricing"
     links={[
-      { key: "features", label: "Features", href: "/features" },
-      { key: "pricing", label: "Pricing", href: "/pricing" },
+      { id: "features", label: "Features", href: "/features" },
+      { id: "pricing", label: "Pricing", href: "/pricing" },
     ]}
     actions={<a href="/sign-in">Sign in</a>}
   />

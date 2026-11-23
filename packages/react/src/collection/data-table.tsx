@@ -88,8 +88,11 @@ type DataTableBase<T> = {
   pageSize?: number;
   /** The range sentence: (41, 60, 1204) → "41–60 of 1,204". */
   formatRange?: (from: number, to: number, total: number) => string;
-  /** What an empty list says and the action that fills it (with no search or filter active). */
-  emptyState?: { title: string; description?: string; action?: React.ReactNode };
+  /**
+   * What an empty list shows (with no search or filter active): an `EmptyState size="small"` with the action that
+   * fills it. "No records yet" by default.
+   */
+  emptyState?: React.ReactNode;
   /** Prefixes the URL params (`orders.page`) when two tables share a page. */
   urlKey?: string;
   /**
@@ -353,7 +356,7 @@ export function DataTable<T extends object>(props: DataTableProps<T>) {
         primaryAction={<Button size="small" onPress={clearFilters}>{tableClearFiltersLabel(locale)}</Button>}
       />
     ) : (
-      <EmptyState size="small" icon="inbox" title={emptyState?.title ?? tableEmptyLabel(locale)} description={emptyState?.description} primaryAction={emptyState?.action} />
+      emptyState ?? <EmptyState size="small" icon="inbox" title={tableEmptyLabel(locale)} />
     );
 
   return (
@@ -461,7 +464,7 @@ export function DataTable<T extends object>(props: DataTableProps<T>) {
           onSortChange={(sort) => setView({ sort })}
           density={density}
           onRowAction={onRowAction}
-          renderEmptyState={empty}
+          emptyState={empty()}
           virtual={virtual ? { height: (props as { height?: number }).height ?? 480 } : undefined}
         />
       )}

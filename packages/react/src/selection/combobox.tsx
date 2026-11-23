@@ -81,8 +81,11 @@ type BaseProps = {
   name?: string;
   /** `input` (default) opens on typing; `focus` also on focus. The chevron always opens the full list. */
   menuTrigger?: "input" | "focus";
-  /** The empty result; defaults to "No results for “{query}”." in the provider locale. */
-  emptyMessage?: (query: string) => React.ReactNode;
+  /**
+   * The empty result: a node, or a function of the typed text for a message that quotes it. Defaults to
+   * "No results for “{query}”." in the provider locale.
+   */
+  emptyState?: React.ReactNode | ((query: string) => React.ReactNode);
   /** Adds a create row for the typed text when nothing matches it exactly. */
   onCreate?: (text: string) => void;
   /** The create row's text; defaults to "Add “{query}”". */
@@ -519,7 +522,7 @@ export function ComboBox(allProps: ComboBoxProps) {
 }
 
 function SingleComboBox({
-  label, "aria-label": ariaLabel, items, loadItems, description, errorMessage: errorMessageProp, placeholder, menuTrigger = "input", emptyMessage, allowsCustomValue,
+  label, "aria-label": ariaLabel, items, loadItems, description, errorMessage: errorMessageProp, placeholder, menuTrigger = "input", emptyState, allowsCustomValue,
   onCreate, createLabel, onInputChange, size: fieldSize, selectedKey, defaultSelectedKey, onSelectionChange, selectedItem,
   isLoading, loadingText, "aria-invalid": ariaInvalid, onSearchChange, onLoadMore, requiredValidation, isInvalid: isInvalidProp, ...rest
 }: ComboBoxSingleProps) {
@@ -695,7 +698,7 @@ function SingleComboBox({
             loading={source.loading || awaiting}
             isLoading={awaiting || isLoading}
             loadingText={loadingText}
-            empty={typed ? (emptyMessage ?? ((text: string) => noMatchLabel(locale, text)))(typed) : null}
+            empty={typed ? (typeof emptyState === "function" ? emptyState(typed) : (emptyState ?? noMatchLabel(locale, typed))) : null}
           />
         </>
       )}
@@ -708,7 +711,7 @@ function sameKeys(a: readonly Key[], b: readonly Key[]) {
 }
 
 function MultipleComboBox({
-  label, "aria-label": ariaLabel, items, loadItems, description, errorMessage: errorMessageProp, placeholder, menuTrigger = "input", emptyMessage, onCreate,
+  label, "aria-label": ariaLabel, items, loadItems, description, errorMessage: errorMessageProp, placeholder, menuTrigger = "input", emptyState, onCreate,
   createLabel, onInputChange, size: fieldSize, selectedKeys, defaultSelectedKeys, onSelectionChange, selectedItems,
   isLoading, loadingText, "aria-invalid": ariaInvalid, onSearchChange, onLoadMore, requiredValidation, isInvalid: isInvalidProp, ...rest
 }: ComboBoxMultipleProps) {
@@ -858,7 +861,7 @@ function MultipleComboBox({
             loading={source.loading || awaiting}
             isLoading={awaiting || isLoading}
             loadingText={loadingText}
-            empty={typed ? (emptyMessage ?? ((text: string) => noMatchLabel(locale, text)))(typed) : null}
+            empty={typed ? (typeof emptyState === "function" ? emptyState(typed) : (emptyState ?? noMatchLabel(locale, typed))) : null}
           />
         </>
       )}

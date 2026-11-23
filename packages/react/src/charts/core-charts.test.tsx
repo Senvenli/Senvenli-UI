@@ -5,6 +5,7 @@ import { afterEach, beforeAll, describe, expect, it, vi } from "vitest";
 import { DesignSystemProvider } from "../provider";
 import { barLabelRoom } from "./core-charts";
 import { AreaChart, BarChart, ChartAnimation, ComposedChart, LineChart } from "./index";
+import { EmptyState } from "../feedback/empty-state";
 
 beforeAll(() => {
   globalThis.CSS ??= {} as typeof CSS;
@@ -109,7 +110,7 @@ describe("AreaChart", () => {
     inLocale(area({ isLoading: true }));
     expect(document.querySelector("[data-slot='chart-loading']")).toBeTruthy();
     cleanup();
-    inLocale(area({ data: [], emptyMessage: { title: "No data for this period" } }));
+    inLocale(area({ data: [], emptyState: <EmptyState size="small" icon="chart-column" title="No data for this period" /> }));
     expect(document.querySelector("[data-slot='chart-empty']")!.textContent).toContain("No data for this period");
   });
 

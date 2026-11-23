@@ -167,11 +167,11 @@
         "description": "Opens the row's record."
       },
       {
-        "name": "renderEmptyState",
-        "type": "() => ReactNode",
+        "name": "emptyState",
+        "type": "React.ReactNode",
         "required": false,
         "origin": "own",
-        "description": "Shown when there are no rows."
+        "description": "Shown when there are no rows: an `EmptyState` or a sentence."
       }
     ],
     "ListItem": [

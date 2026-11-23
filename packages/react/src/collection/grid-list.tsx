@@ -67,8 +67,8 @@ export type GridListProps<T> = {
    * keys and the tile they go before or after.
    */
   dragAndDrop?: { onReorder: (keys: Set<Key>, target: { key: Key; position: "before" | "after" }) => void };
-  /** Shown when there are no items. */
-  renderEmptyState?: () => React.ReactNode;
+  /** Shown when there are no items: an `EmptyState` or a sentence. */
+  emptyState?: React.ReactNode;
   /**
    * The grid element. Focusing it focuses the tile React Aria keeps as focused (the next one after a removed tile),
    * so it is the `returnFocusRef` for a confirm whose action removes the tile it was opened from.
@@ -106,7 +106,7 @@ export function GridList<T extends object>({
   onSelectionChange,
   onAction,
   dragAndDrop,
-  renderEmptyState,
+  emptyState,
   ref,
 }: GridListProps<T>) {
   const onReorder = dragAndDrop?.onReorder;
@@ -128,7 +128,7 @@ export function GridList<T extends object>({
       onSelectionChange={onSelectionChange}
       onAction={onAction}
       dragAndDropHooks={onReorder ? dragAndDropHooks : undefined}
-      renderEmptyState={renderEmptyState ? () => <div className="col-span-full py-ds-500 text-center text-body text-ds-text-subtle">{renderEmptyState()}</div> : undefined}
+      renderEmptyState={emptyState != null && emptyState !== false ? () => <div className="col-span-full py-ds-500 text-center text-body text-ds-text-subtle">{emptyState}</div> : undefined}
       data-slot="grid-list"
       className="grid grid-cols-[repeat(auto-fill,minmax(150px,1fr))] gap-ds-200 outline-hidden"
     >
