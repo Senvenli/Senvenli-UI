@@ -79,7 +79,7 @@ const PREVIEW: Record<string, React.ReactNode> = {
   ),
   color: (
     <Stack direction="horizontal" space="space-075">
-      {["#996a00", "#1268ae", "#6e56cf", "#2f6f4f", "#c2410c"].map((color) => (
+      {["#996a00", "#1268ae", "#6e56cf", "#2f6f4f"].map((color) => (
         <ColorSwatch key={color} color={color} name={color} />
       ))}
     </Stack>
@@ -88,7 +88,6 @@ const PREVIEW: Record<string, React.ReactNode> = {
     <div className="w-full max-w-52">
       <GridList aria-label="People">
         <GridListItem id="ada" title="Ada Lovelace" description="Owner" />
-        <GridListItem id="alan" title="Alan Turing" description="Editor" />
       </GridList>
     </div>
   ),
@@ -101,7 +100,8 @@ const PREVIEW: Record<string, React.ReactNode> = {
 
 /**
  * Every family as a card that is a link: a small live component (inert and hidden from assistive tech, since the card
- * itself is the link), the family's name and its count. Four columns from 1024px, three from 768px, two on phones.
+ * itself is the link), the family's name and its count. Four columns from 1024px, three from 768px, two below; under
+ * 640px a card is too narrow for a whole component, so it is the name and the count alone, never a cut-off preview.
  */
 export function Families({ families }: { families: { family: string; count: number }[] }) {
   return (
@@ -109,11 +109,13 @@ export function Families({ families }: { families: { family: string; count: numb
       {families.map(({ family, count }) => (
         <li key={family} className="flex [&>*]:w-full">
           <Card href={`/docs/components#family-${family}`} variant="raised">
-            <CardBody>
-              <div aria-hidden inert className="pointer-events-none flex h-24 items-center justify-center overflow-hidden">
-                <div className="flex w-full justify-center">{PREVIEW[family] ?? null}</div>
-              </div>
-            </CardBody>
+            <div aria-hidden inert className="pointer-events-none max-sm:hidden">
+              <CardBody>
+                <div className="flex h-24 items-center justify-center overflow-hidden">
+                  <div className="flex w-full justify-center">{PREVIEW[family] ?? null}</div>
+                </div>
+              </CardBody>
+            </div>
             <CardHeader title={familyTitle(family)} subtitle={`${count} ${count === 1 ? "component" : "components"}`} />
           </Card>
         </li>

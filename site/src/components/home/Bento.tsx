@@ -18,12 +18,13 @@ const CHANNELS = [
 
 /** A cell of the bento: flat on the raised surface, filling its row so no cell leaves a hole under it. */
 function Cell({ children, className = "" }: { children: React.ReactNode; className?: string }) {
-  return <div className={`flex flex-col rounded-ds-xlarge bg-ds-surface-raised p-ds-300 ${className}`}>{children}</div>;
+  return <div className={`flex min-w-0 flex-col rounded-ds-xlarge bg-ds-surface-raised p-ds-200 sm:p-ds-300 ${className}`}>{children}</div>;
 }
 
 /**
  * Real components with fixed data: what a theme changes, at a glance. Twelve columns from 1024px (8 + 4, then three
- * cells of 4), two from 768px, one on phones; cells stretch to their row, so the grid has no gaps.
+ * cells of 4), two from 768px (the chart across, then two rows of two), one on phones; cells stretch to their row, so
+ * the grid has no gaps.
  */
 export function Bento() {
   return (
@@ -59,9 +60,12 @@ export function Bento() {
         </div>
       </Cell>
       <Cell className="items-center justify-center lg:col-span-4">
-        <Calendar aria-label="Delivery day" defaultValue={new CalendarDate(2026, 3, 18)} />
+        {/* A calendar has a fixed width; on the narrowest phones it is scaled to fit rather than cut. */}
+        <div className="home-fit">
+          <Calendar aria-label="Delivery day" defaultValue={new CalendarDate(2026, 3, 18)} />
+        </div>
       </Cell>
-      <div className="flex flex-col gap-ds-200 lg:col-span-4">
+      <div className="flex min-w-0 flex-col gap-ds-200 lg:col-span-4">
         <StatGroup aria-label="This month">
           <Stat label="Orders" value="1,204" delta={{ value: "12%", direction: "up", isPositive: true }} comparison="vs. February" />
           <Stat label="Refunds" value="18" delta={{ value: "3%", direction: "down", isPositive: true }} comparison="vs. February" />
@@ -70,7 +74,7 @@ export function Bento() {
           <BarList aria-label="Orders by channel" data={CHANNELS} />
         </Cell>
       </div>
-      <Cell className="gap-ds-300 md:col-span-2 lg:col-span-4">
+      <Cell className="gap-ds-300 lg:col-span-4">
         <div className="flex flex-wrap gap-ds-100">
           <Badge tone="success">Paid</Badge>
           <Badge tone="warning">Pending</Badge>
