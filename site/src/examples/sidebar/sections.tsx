@@ -34,14 +34,15 @@ export default function Example() {
               { id: "discounts", label: "Discounts", icon: "tag", href: "#" },
             ],
           },
+          {
+            id: "settings",
+            label: "Settings",
+            items: [
+              { id: "team", label: "Team", icon: "user-cog", href: "#" },
+              { id: "integrations", label: "Integrations", icon: "plug", href: "#" },
+            ],
+          },
         ]}
-        settings={{
-          label: "Settings",
-          items: [
-            { id: "team", label: "Team", icon: "user-cog", href: "#" },
-            { id: "integrations", label: "Integrations", icon: "plug", href: "#" },
-          ],
-        }}
         footer={
           <Stack direction="horizontal" space="space-100" wrap={false}>
             <Avatar name="Sofia Marin" src="/avatars/05.webp" size="small" />

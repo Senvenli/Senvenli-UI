@@ -3,9 +3,17 @@ import { act, cleanup, fireEvent, render, screen, waitFor, within } from "@testi
 import { afterEach, beforeAll, describe, expect, it, vi } from "vitest";
 
 import { DesignSystemProvider } from "../provider";
-import { DataTable, type DataTableColumn, type DataTableQuery } from "./index";
+import { DataTable, useDataTableUrl, type DataTableColumn, type DataTableProps, type DataTableQuery, type UseDataTableUrlOptions } from "./index";
 import { readView, writeView } from "./data-table-url";
 import { EmptyState } from "../feedback/empty-state";
+
+/** DataTable with its view in the URL, as an app wires it with useDataTableUrl. */
+function UrlTable<T extends object>(props: DataTableProps<T> & Pick<UseDataTableUrlOptions, "urlKey" | "searchParams" | "routerOptions">) {
+  const { urlKey, searchParams, routerOptions, ...table } = props;
+  const url = useDataTableUrl({ filters: table.filters, defaultSort: table.defaultSort, urlKey, searchParams, routerOptions });
+  return <DataTable {...(table as DataTableProps<T>)} {...url} />;
+}
+
 
 beforeAll(() => {
   globalThis.CSS ??= {} as typeof CSS;
@@ -86,14 +94,14 @@ describe("DataTable URL format", () => {
 describe("DataTable", { timeout: 20_000 }, () => {
   it("a shared link opens the same view: page, sort, filters and search come from the URL", async () => {
     const query = server();
-    inLocale(<DataTable aria-label="Orders" columns={COLUMNS} query={query} filters={FILTERS} searchParams="status=paused&sort=total&dir=desc&page=2&pageSize=5" pageSize={5} />);
+    inLocale(<UrlTable aria-label="Orders" columns={COLUMNS} query={query} filters={FILTERS} searchParams="status=paused&sort=total&dir=desc&page=2&pageSize=5" pageSize={5} />);
     await waitFor(() => expect(codes()).toHaveLength(5));
     expect(query).toHaveBeenLastCalledWith({ page: 2, pageSize: 5, search: "", sort: { column: "total", direction: "descending" }, filters: { status: ["paused"] } }, expect.any(AbortSignal));
     expect(screen.getByRole("columnheader", { name: /Total/ }).getAttribute("aria-sort")).toBe("descending");
   });
 
   it("sorting and paging write the URL through the provider's navigate; a new sort starts at page 1", async () => {
-    const navigate = inLocale(<DataTable aria-label="Orders" columns={COLUMNS} query={server()} pageSize={10} />);
+    const navigate = inLocale(<UrlTable aria-label="Orders" columns={COLUMNS} query={server()} pageSize={10} />);
     await waitFor(() => expect(codes()).toHaveLength(10));
     fireEvent.click(screen.getByRole("button", { name: /Next page/ }));
     expect(navigate).toHaveBeenLastCalledWith("/?page=2");
@@ -101,10 +109,25 @@ describe("DataTable", { timeout: 20_000 }, () => {
     expect(navigate).toHaveBeenLastCalledWith("/?sort=total&dir=asc");
   });
 
+  it("without useDataTableUrl the table keeps its view and never navigates; onViewChange reports it", async () => {
+    const onViewChange = vi.fn();
+    const navigate = inLocale(<DataTable aria-label="Orders" columns={COLUMNS} query={server()} pageSize={10} onViewChange={onViewChange} />);
+    await waitFor(() => expect(codes()).toHaveLength(10));
+    fireEvent.click(screen.getByRole("button", { name: /Next page/ }));
+    expect(onViewChange).toHaveBeenLastCalledWith(expect.objectContaining({ page: 2 }));
+    expect(navigate).not.toHaveBeenCalled();
+  });
+
+  it("a controlled view drives the table", async () => {
+    const query = server();
+    inLocale(<DataTable aria-label="Orders" columns={COLUMNS} query={query} pageSize={5} view={{ page: 3, search: "", filters: {} }} onViewChange={vi.fn()} />);
+    await waitFor(() => expect(query).toHaveBeenLastCalledWith(expect.objectContaining({ page: 3 }), expect.any(AbortSignal)));
+  });
+
   it("search updates the list and the URL once typing pauses", async () => {
     vi.useFakeTimers({ shouldAdvanceTime: true });
     const query = server();
-    const navigate = inLocale(<DataTable aria-label="Orders" columns={COLUMNS} query={query} />);
+    const navigate = inLocale(<UrlTable aria-label="Orders" columns={COLUMNS} query={query} />);
     await waitFor(() => expect(codes().length).toBeGreaterThan(0));
     const calls = query.mock.calls.length;
     const search = screen.getByRole("searchbox", { name: "Search" });
@@ -120,7 +143,7 @@ describe("DataTable", { timeout: 20_000 }, () => {
   it("selection survives paging and clears after a bulk action; the list reloads", async () => {
     const query = server();
     const remind = vi.fn(async () => {});
-    inLocale(<DataTable aria-label="Orders" columns={COLUMNS} query={query} pageSize={10} bulkActions={[{ id: "remind", label: "Send reminder", onAction: remind }]} />);
+    inLocale(<UrlTable aria-label="Orders" columns={COLUMNS} query={query} pageSize={10} bulkActions={[{ id: "remind", label: "Send reminder", onAction: remind }]} />);
     await waitFor(() => expect(codes()).toHaveLength(10));
     fireEvent.click(within(screen.getAllByRole("row")[1]!).getByRole("checkbox"));
     fireEvent.click(screen.getByRole("button", { name: /Next page/ }));
@@ -135,7 +158,7 @@ describe("DataTable", { timeout: 20_000 }, () => {
   });
 
   it("filters from the toolbar menu; no results offer to clear them", async () => {
-    const navigate = inLocale(<DataTable aria-label="Orders" columns={COLUMNS} rows={ORDERS} filters={FILTERS} searchParams="q=zzz" />);
+    const navigate = inLocale(<UrlTable aria-label="Orders" columns={COLUMNS} rows={ORDERS} filters={FILTERS} searchParams="q=zzz" />);
     expect(screen.getByText("No records match your search and filters")).toBeTruthy();
     fireEvent.click(screen.getByRole("button", { name: "Clear filters" }));
     expect(codes()).toHaveLength(20);
@@ -151,12 +174,12 @@ describe("DataTable", { timeout: 20_000 }, () => {
   });
 
   it("client lists sort and page here; over the threshold they virtualize instead of paging", () => {
-    inLocale(<DataTable aria-label="Orders" columns={COLUMNS} rows={ORDERS} searchParams="sort=total&dir=desc" />);
+    inLocale(<UrlTable aria-label="Orders" columns={COLUMNS} rows={ORDERS} searchParams="sort=total&dir=desc" />);
     expect(codes()[0]).toBe("ORD-144");
     expect(document.querySelector("[data-slot='pagination']")).not.toBeNull();
     expect(document.querySelector("[data-slot='table'][data-virtual]")).toBeNull();
     cleanup();
-    inLocale(<DataTable aria-label="Orders" columns={COLUMNS} rows={ORDERS} virtualizeAbove={40} height={300} />);
+    inLocale(<UrlTable aria-label="Orders" columns={COLUMNS} rows={ORDERS} virtualizeAbove={40} height={300} />);
     expect(document.querySelector("[data-slot='table'][data-virtual]")).not.toBeNull();
     expect(document.querySelector("[data-slot='pagination']")).toBeNull();
   });
@@ -167,7 +190,7 @@ describe("DataTable", { timeout: 20_000 }, () => {
       if (fail) throw new Error("down");
       return { rows: ORDERS.slice(0, view.pageSize), total: ORDERS.length };
     });
-    inLocale(<DataTable aria-label="Orders" columns={COLUMNS} query={query} searchParams="q=ORD" />);
+    inLocale(<UrlTable aria-label="Orders" columns={COLUMNS} query={query} searchParams="q=ORD" />);
     expect(document.querySelector("[data-slot='data-table-loading']")).not.toBeNull();
     await screen.findByText("The list could not be loaded");
     fail = false;
@@ -177,17 +200,17 @@ describe("DataTable", { timeout: 20_000 }, () => {
   });
 
   it("an empty list says so with the consumer's action; the column picker hides columns but never the row header", () => {
-    inLocale(<DataTable aria-label="Orders" columns={COLUMNS} rows={[]} emptyState={<EmptyState size="small" icon="inbox" title="No orders yet" primaryAction={<button type="button">Add order</button>} />} />);
+    inLocale(<UrlTable aria-label="Orders" columns={COLUMNS} rows={[]} emptyState={<EmptyState size="small" icon="inbox" title="No orders yet" primaryAction={<button type="button">Add order</button>} />} />);
     expect(screen.getByText("No orders yet")).toBeTruthy();
     cleanup();
-    inLocale(<DataTable aria-label="Orders" columns={COLUMNS} rows={ORDERS} columnVisibility={{ total: false, code: false }} />);
+    inLocale(<UrlTable aria-label="Orders" columns={COLUMNS} rows={ORDERS} columnVisibility={{ total: false, code: false }} />);
     const headers = screen.getAllByRole("columnheader").map((header) => header.textContent);
     expect(headers).toEqual(["Order", "Customer", "Status"]);
   });
 
   it("keyboard: arrows move between rows, Space selects; works the same in RTL", async () => {
     for (const locale of ["en", "ar-AE"]) {
-      inLocale(<DataTable aria-label="Orders" columns={COLUMNS} rows={ORDERS} bulkActions={[{ id: "x", label: "Export", onAction: () => {} }]} />, vi.fn(), locale);
+      inLocale(<UrlTable aria-label="Orders" columns={COLUMNS} rows={ORDERS} bulkActions={[{ id: "x", label: "Export", onAction: () => {} }]} />, vi.fn(), locale);
       const rows = screen.getAllByRole("row").slice(1);
       act(() => rows[0]!.focus());
       fireEvent.keyDown(document.activeElement!, { key: "ArrowDown" });
@@ -201,7 +224,7 @@ describe("DataTable", { timeout: 20_000 }, () => {
   });
 
   it("virtualized rows stay reachable by keyboard: Ctrl+End reaches the last record", async () => {
-    inLocale(<DataTable aria-label="Orders" columns={COLUMNS} rows={ORDERS} virtualizeAbove={40} height={300} />);
+    inLocale(<UrlTable aria-label="Orders" columns={COLUMNS} rows={ORDERS} virtualizeAbove={40} height={300} />);
     const first = screen.getAllByRole("row")[1]!;
     act(() => first.focus());
     fireEvent.keyDown(document.activeElement!, { key: "End", ctrlKey: true });
@@ -212,7 +235,7 @@ describe("DataTable", { timeout: 20_000 }, () => {
 
 describe("DataTable history, routing and failures", { timeout: 20_000 }, () => {
   it("Back and Forward bring the table along with the URL", async () => {
-    inLocale(<DataTable aria-label="Orders" columns={COLUMNS} rows={ORDERS} />);
+    inLocale(<UrlTable aria-label="Orders" columns={COLUMNS} rows={ORDERS} />);
     fireEvent.click(screen.getByRole("button", { name: /Next page/ }));
     expect(codes()[0]).toBe("ORD-120");
     act(() => {
@@ -228,7 +251,7 @@ describe("DataTable history, routing and failures", { timeout: 20_000 }, () => {
       return (
         <>
           <button type="button" onClick={() => setParams("status=closed&page=2")}>Link</button>
-          <DataTable aria-label="Orders" columns={COLUMNS} rows={ORDERS} filters={FILTERS} searchParams={params} pageSize={10} />
+          <UrlTable aria-label="Orders" columns={COLUMNS} rows={ORDERS} filters={FILTERS} searchParams={params} pageSize={10} />
         </>
       );
     }
@@ -241,7 +264,7 @@ describe("DataTable history, routing and failures", { timeout: 20_000 }, () => {
   });
 
   it("a page past the end moves to the last page", async () => {
-    inLocale(<DataTable aria-label="Orders" columns={COLUMNS} rows={ORDERS} searchParams="page=99" pageSize={20} />);
+    inLocale(<UrlTable aria-label="Orders" columns={COLUMNS} rows={ORDERS} searchParams="page=99" pageSize={20} />);
     await waitFor(() => expect(codes()[0]).toBe("ORD-140"));
     expect(screen.getByRole("button", { name: /3/, current: "page" })).toBeTruthy();
   });
@@ -250,7 +273,7 @@ describe("DataTable history, routing and failures", { timeout: 20_000 }, () => {
     const fail = vi.fn(async () => {
       throw new Error("boom");
     });
-    inLocale(<DataTable aria-label="Orders" columns={COLUMNS} rows={ORDERS} bulkActions={[{ id: "x", label: "Delete", onAction: fail }]} />);
+    inLocale(<UrlTable aria-label="Orders" columns={COLUMNS} rows={ORDERS} bulkActions={[{ id: "x", label: "Delete", onAction: fail }]} />);
     fireEvent.click(within(screen.getAllByRole("row")[1]!).getByRole("checkbox"));
     await act(async () => fireEvent.click(screen.getByRole("button", { name: "Delete" })));
     expect(fail).toHaveBeenCalledWith(["o1"]);
@@ -259,7 +282,7 @@ describe("DataTable history, routing and failures", { timeout: 20_000 }, () => {
   });
 
   it("virtualized, the header cells carry the sunken fill and every row keeps its divider", () => {
-    inLocale(<DataTable aria-label="Orders" columns={COLUMNS} rows={ORDERS} virtualizeAbove={40} height={300} />);
+    inLocale(<UrlTable aria-label="Orders" columns={COLUMNS} rows={ORDERS} virtualizeAbove={40} height={300} />);
     const header = screen.getAllByRole("columnheader")[0]!;
     expect(header.className).toContain("bg-ds-surface-sunken");
     const cells = document.querySelectorAll("[data-slot='table'][data-virtual] [data-slot='table-cell']");
@@ -269,7 +292,7 @@ describe("DataTable history, routing and failures", { timeout: 20_000 }, () => {
 
   it("Back to a page of an unfiltered server list stays there: the clamp waits for that view's own total", async () => {
     const query = server();
-    const navigate = inLocale(<DataTable aria-label="Orders" columns={COLUMNS} query={query} filters={FILTERS} pageSize={10} searchParams="page=3" />);
+    const navigate = inLocale(<UrlTable aria-label="Orders" columns={COLUMNS} query={query} filters={FILTERS} pageSize={10} searchParams="page=3" />);
     await waitFor(() => expect(codes()[0]).toBe("ORD-120"));
     act(() => {
       window.history.replaceState(null, "", "/?status=closed");
@@ -292,13 +315,13 @@ describe("DataTable derived filters and row focus", { timeout: 20_000 }, () => {
   it("a client filter can read a derived value", () => {
     const tagged = ORDERS.slice(0, 6).map((order, index) => ({ ...order, tags: index % 2 ? ["wholesale"] : ["retail", "wholesale"] }));
     const filters = [{ key: "channel", label: "Channel", options: [{ id: "retail", label: "Retail" }, { id: "wholesale", label: "Wholesale" }], value: (row: (typeof tagged)[number]) => row.tags }];
-    inLocale(<DataTable aria-label="Orders" columns={COLUMNS} rows={tagged} filters={filters as never} searchParams="channel=retail" />);
+    inLocale(<UrlTable aria-label="Orders" columns={COLUMNS} rows={tagged} filters={filters as never} searchParams="channel=retail" />);
     expect(codes()).toEqual(["ORD-100", "ORD-102", "ORD-104"]);
   });
 
   it("keyboard focus shows the ring on the row; Left and Right follow the reading direction", () => {
     for (const [locale, intoCells] of [["en", "ArrowRight"], ["ar-AE", "ArrowLeft"]] as const) {
-      inLocale(<DataTable aria-label="Orders" columns={COLUMNS} rows={ORDERS} />, vi.fn(), locale);
+      inLocale(<UrlTable aria-label="Orders" columns={COLUMNS} rows={ORDERS} />, vi.fn(), locale);
       const row = screen.getAllByRole("row")[1]!;
       fireEvent.keyDown(document.body, { key: "Tab" });
       act(() => row.focus());

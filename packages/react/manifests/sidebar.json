@@ -85,7 +85,7 @@
         "type": "readonly SidebarItemData[]",
         "required": false,
         "origin": "own",
-        "description": "The top-level items (links, or groups with `children`); five to eight is the comfortable range. With\n`sections`, these are the unlabelled items above the labelled sections (a dashboard) and may be empty. Ids\nare unique across `items`, `sections` and `settings` (a repeated id marks two items as the current page).\nLeave it out to compose the navigation as children instead.",
+        "description": "The top-level items (links, or groups with `children`); five to eight is the comfortable range. With\n`sections`, these are the unlabelled items above the labelled sections (a dashboard) and may be empty. Ids\nare unique across `items` and `sections` (a repeated id marks two items as the current page).\nLeave it out to compose the navigation as children instead.",
         "schema": {
           "type": "array",
           "items": {
@@ -252,13 +252,6 @@
         }
       },
       {
-        "name": "settings",
-        "type": "{ label: string; items: readonly SidebarItemData[]; }",
-        "required": false,
-        "origin": "own",
-        "description": "Settings, in their own group at the bottom, under an overline (\"Settings\")."
-      },
-      {
         "name": "currentKey",
         "type": "string",
         "required": false,
@@ -280,7 +273,7 @@
         "type": "boolean",
         "required": false,
         "origin": "own",
-        "description": "Keeps the account (`footer`) and the collapse toggle in view at the bottom: the brand stays at\nthe top and only the navigation (`items`, `sections`, then `settings`) scrolls between them, expanded and\ncollapsed. In the phone panel the account stays at the bottom the same way. The DOM order, and so the Tab\norder, is the same as without it. Off by default: the whole sidebar scrolls as one, as before.",
+        "description": "Keeps the account (`footer`) and the collapse toggle in view at the bottom: the brand stays at\nthe top and only the navigation (`items`, then `sections`) scrolls between them, expanded and\ncollapsed. In the phone panel the account stays at the bottom the same way. The DOM order, and so the Tab\norder, is the same as without it. Off by default: the whole sidebar scrolls as one, as before.",
         "schema": {
           "type": "boolean"
         }
