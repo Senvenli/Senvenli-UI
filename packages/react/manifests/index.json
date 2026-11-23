@@ -1721,14 +1721,16 @@
     "status": "alpha",
     "description": "The actions for what is under the pointer, opened by a right-click, a long press or Shift+F10.",
     "keywords": [
+      "actions",
+      "compound",
       "context menu",
-      "right click",
       "long press",
-      "actions"
+      "right click"
     ],
     "import": "@senvenli/react/overlay",
     "exports": [
-      "ContextMenu"
+      "ContextMenu",
+      "ContextMenuTrigger"
     ],
     "genui": false
   },
@@ -1795,15 +1797,20 @@
     "status": "alpha",
     "description": "A list of actions under a button, with sections, icons, shortcuts and disabled items that say why.",
     "keywords": [
-      "menu",
       "actions",
+      "compound",
       "dropdown",
-      "more",
-      "kebab"
+      "kebab",
+      "menu",
+      "more"
     ],
     "import": "@senvenli/react/overlay",
     "exports": [
-      "Menu"
+      "Menu",
+      "MenuItem",
+      "MenuSection",
+      "MenuSubmenu",
+      "MenuSeparator"
     ],
     "genui": false
   },

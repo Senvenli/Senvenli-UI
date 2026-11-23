@@ -7,14 +7,16 @@
   "name": "context-menu",
   "title": "Context menu",
   "exports": [
-    "ContextMenu"
+    "ContextMenu",
+    "ContextMenuTrigger"
   ],
   "description": "The actions for what is under the pointer, opened by a right-click, a long press or Shift+F10.",
   "keywords": [
+    "actions",
+    "compound",
     "context menu",
-    "right click",
     "long press",
-    "actions"
+    "right click"
   ],
   "usage": {
     "when": [
@@ -40,7 +42,8 @@
       "Opens at the pointer, or under the focused element with Shift+F10 or the Menu key; focus goes back on close."
     ],
     "youProvide": [
-      "An aria-label for the menu."
+      "An aria-label for the menu.",
+      "With children: a textValue on a MenuItem whose label is not plain text, so typing can jump to it; the destructive item last, after a MenuSeparator."
     ]
   },
   "related": [

@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Dialog as AriaDialog, DialogTrigger as AriaDialogTrigger, Focusable, Heading, Header, Keyboard, Menu as AriaMenu, MenuItem, MenuSection, MenuTrigger, OverlayArrow, Popover as AriaPopover, Separator, SubmenuTrigger, Tooltip as AriaTooltip, TooltipTrigger, type Key, type Placement, type Selection } from "react-aria-components";
+import { Dialog as AriaDialog, DialogTrigger as AriaDialogTrigger, Focusable, Heading, Header, Keyboard, Menu as AriaMenu, MenuItem as AriaMenuItem, MenuSection as AriaMenuSection, MenuTrigger, OverlayArrow, Popover as AriaPopover, Separator, SubmenuTrigger, Tooltip as AriaTooltip, TooltipTrigger, type Key, type Placement, type Selection } from "react-aria-components";
 import { cn } from "../utils";
 import { MotionScope, type WithMotion, useMotionAttribute } from "../defaults";
 import { Button, CloseButton, Fab, Link, ToggleButton } from "../action/index";
@@ -253,8 +253,13 @@ export type MenuEntry = MenuItemDef | MenuSectionDef;
 export type MenuProps = {
   /** The pressable that opens it: the row "…" button, the account button. */
   trigger: React.ReactElement;
-  /** Items, or sections of items with a title. */
-  items: readonly MenuEntry[];
+  /** Items, or sections of items with a title. Leave it out to compose the menu as children instead. */
+  items?: readonly MenuEntry[];
+  /**
+   * With no `items`: `MenuItem`, `MenuSection`, `MenuSubmenu` and `MenuSeparator`, in the order given (put the
+   * destructive item last yourself; with `items` the menu moves it there).
+   */
+  children?: React.ReactNode;
   onAction?: (id: Key) => void;
   disabledKeys?: Iterable<Key>;
   /** "bottom end" by default: under the trigger, aligned to its inline end, as row menus sit. */
@@ -304,7 +309,8 @@ function layout(entries: readonly MenuEntry[]) {
   return { groups, danger };
 }
 
-function MenuSeparator() {
+/** A line between groups of items. */
+export function MenuSeparator() {
   return <Separator data-slot="menu-separator" className="my-ds-050 border-t border-ds-border" />;
 }
 
@@ -322,7 +328,7 @@ function useNarrow() {
   );
 }
 
-function Submenu({ items }: { items: readonly MenuItemDef[] }) {
+function Submenu({ children }: { children: React.ReactNode }) {
   const narrow = useNarrow();
   return (
     <AriaPopover
@@ -334,7 +340,7 @@ function Submenu({ items }: { items: readonly MenuItemDef[] }) {
       className={cn(SURFACE, "min-w-48 max-w-[min(22.5rem,calc(100vw-1.5rem))]")}
     >
       <AriaMenu data-slot="menu-list" className={cn(SCROLL, "p-ds-050 outline-hidden")}>
-        <MenuBody entries={items} />
+        {children}
       </AriaMenu>
     </AriaPopover>
   );
@@ -349,10 +355,7 @@ export function MenuBody({ entries }: { entries: readonly MenuEntry[] }) {
         <React.Fragment key={group.kind === "section" ? String(group.section.id) : group.key}>
           {index > 0 && <MenuSeparator />}
           {group.kind === "section" ? (
-            <MenuSection data-slot="menu-section" id={group.section.id}>
-              <Header data-slot="menu-section-title" className="px-ds-100 pt-ds-100 pb-ds-050 text-heading-xxsmall text-ds-text-subtle">
-                {group.section.title}
-              </Header>
+            <MenuSection id={group.section.id} title={group.section.title}>
               {group.items.map((item) => <Item key={String(item.id)} item={item} />)}
             </MenuSection>
           ) : (
@@ -367,15 +370,33 @@ export function MenuBody({ entries }: { entries: readonly MenuEntry[] }) {
 }
 
 function Item({ item }: { item: MenuItemDef }) {
-  const content = (
-    <MenuItem
-      id={item.id}
-      textValue={item.label}
-      isDisabled={item.isDisabled}
-      href={item.href}
+  const row = { id: item.id, textValue: item.label, icon: item.icon, shortcut: item.shortcut, isDisabled: item.isDisabled, tone: item.tone, href: item.href, lang: item.lang };
+  if (!item.children) return <ItemRow {...row}>{item.label}</ItemRow>;
+  return (
+    <SubmenuTrigger>
+      <ItemRow {...row} hasSubmenu>
+        {item.label}
+      </ItemRow>
+      <Submenu>
+        <MenuBody entries={item.children} />
+      </Submenu>
+    </SubmenuTrigger>
+  );
+}
+
+type ItemRowProps = Omit<MenuItemProps, "textValue"> & { textValue: string; hasSubmenu?: boolean };
+
+/** One 32px row: a check when the menu selects, an icon, the label, then a shortcut or a submenu chevron. */
+function ItemRow({ id, children, textValue, icon, shortcut, isDisabled, tone, href, lang, hasSubmenu }: ItemRowProps) {
+  return (
+    <AriaMenuItem
+      id={id}
+      textValue={textValue}
+      isDisabled={isDisabled}
+      href={href}
       data-slot="menu-item"
-      data-tone={item.tone}
-      className={cn(ITEM, item.tone === "danger" && "text-ds-text-danger")}
+      data-tone={tone}
+      className={cn(ITEM, tone === "danger" && "text-ds-text-danger")}
     >
       {({ isSelected, selectionMode }) => (
         <>
@@ -384,28 +405,96 @@ function Item({ item }: { item: MenuItemDef }) {
               {isSelected && <IconGlyph name="check" size="small" />}
             </span>
           )}
-          {item.icon && (
+          {icon && (
             <IconGlyph
-              name={item.icon}
+              name={icon}
               size="small"
               data-slot="menu-item-icon"
-              className={cn(item.tone === "danger" ? "text-ds-icon-danger" : "text-ds-icon-subtle", "group-data-[disabled]:text-ds-text-disabled")}
+              className={cn(tone === "danger" ? "text-ds-icon-danger" : "text-ds-icon-subtle", "group-data-[disabled]:text-ds-text-disabled")}
             />
           )}
-          <span data-slot="menu-item-label" lang={item.lang} className="min-w-0 flex-1 truncate">{item.label}</span>
-          {item.shortcut && (
-            <Keyboard data-slot="menu-item-shortcut" className="font-ds-mono text-code text-ds-text-subtlest">{item.shortcut}</Keyboard>
+          <span data-slot="menu-item-label" lang={lang} className="min-w-0 flex-1 truncate">{children}</span>
+          {shortcut && (
+            <Keyboard data-slot="menu-item-shortcut" className="font-ds-mono text-code text-ds-text-subtlest">{shortcut}</Keyboard>
           )}
-          {item.children && <IconGlyph name="chevron-right" size="small" data-slot="menu-item-submenu" className="text-ds-icon-subtle" />}
+          {hasSubmenu && <IconGlyph name="chevron-right" size="small" data-slot="menu-item-submenu" className="text-ds-icon-subtle" />}
         </>
       )}
-    </MenuItem>
+    </AriaMenuItem>
   );
-  if (!item.children) return content;
+}
+
+// ---- Composed from parts ---------------------------------------------------------------------------------------
+
+export type MenuItemProps = {
+  id: Key;
+  /** The label: a verb ("Edit"). It may hold more than text (an avatar, two lines); then give `textValue`. */
+  children: React.ReactNode;
+  /** The words typing jumps to; the label itself when it is plain text. */
+  textValue?: string;
+  icon?: IconName;
+  /** Shown in mono at the end ("E"). */
+  shortcut?: string;
+  isDisabled?: boolean;
+  /** `danger` for the destructive action; put it last, after a `MenuSeparator`. */
+  tone?: "danger";
+  /** Makes the item a link; it goes through the host router. */
+  href?: string;
+  /** The language of the label, when it differs from the page. */
+  lang?: string;
+};
+
+function textOf(children: React.ReactNode, textValue: string | undefined, part: string): string {
+  if (textValue !== undefined) return textValue;
+  if (typeof children === "string" || typeof children === "number") return String(children);
+  if (process.env.NODE_ENV !== "production") console.warn(`${part}: give textValue when the label is not plain text, so typing can jump to it.`);
+  return "";
+}
+
+/** One action in a Menu or ContextMenu composed from parts. */
+export function MenuItem({ children, textValue, ...rest }: MenuItemProps) {
+  return (
+    <ItemRow {...rest} textValue={textOf(children, textValue, "MenuItem")}>
+      {children}
+    </ItemRow>
+  );
+}
+
+export type MenuSectionProps = {
+  id?: Key;
+  /** The section's title ("Share"); it names the group. */
+  title: string;
+  /** `MenuItem`s and `MenuSubmenu`s. */
+  children: React.ReactNode;
+};
+
+/** A titled group of items. */
+export function MenuSection({ id, title, children }: MenuSectionProps) {
+  return (
+    <AriaMenuSection data-slot="menu-section" id={id}>
+      <Header data-slot="menu-section-title" className="px-ds-100 pt-ds-100 pb-ds-050 text-heading-xxsmall text-ds-text-subtle">
+        {title}
+      </Header>
+      {children}
+    </AriaMenuSection>
+  );
+}
+
+export type MenuSubmenuProps = Omit<MenuItemProps, "href" | "children" | "textValue" | "tone"> & {
+  /** The item that opens the submenu ("Move to"). */
+  label: string;
+  /** The submenu's `MenuItem`s. */
+  children: React.ReactNode;
+};
+
+/** An item that opens a submenu: on hover and on → (← in RTL); under the item on phones. */
+export function MenuSubmenu({ label, children, ...rest }: MenuSubmenuProps) {
   return (
     <SubmenuTrigger>
-      {content}
-      <Submenu items={item.children} />
+      <ItemRow {...rest} textValue={label} hasSubmenu>
+        {label}
+      </ItemRow>
+      <Submenu>{children}</Submenu>
     </SubmenuTrigger>
   );
 }
@@ -417,7 +506,7 @@ function Item({ item }: { item: MenuItemDef }) {
  * Enter acts, Esc closes and returns focus to the trigger. Choosing a value is a Select, not a Menu.
  */
 function MenuRoot({
-  trigger, items, onAction, disabledKeys, placement = "bottom end", selectionMode = "none", selectedKeys, defaultSelectedKeys,
+  trigger, items, children, onAction, disabledKeys, placement = "bottom end", selectionMode = "none", selectedKeys, defaultSelectedKeys,
   onSelectionChange, isOpen, onOpenChange, "aria-label": ariaLabel,
 }: MenuProps) {
   return (
@@ -435,7 +524,7 @@ function MenuRoot({
           data-slot="menu"
           className={cn(SCROLL, "p-ds-050 outline-hidden")}
         >
-          <MenuBody entries={items} />
+          {items ? <MenuBody entries={items} /> : children}
         </AriaMenu>
       </AriaPopover>
     </MenuTrigger>

@@ -7,9 +7,14 @@ import { useMotionAttribute } from "../defaults";
 import { MenuBody, SCROLL, SURFACE, type MenuEntry } from "./floating";
 
 export type ContextMenuProps = {
-  /** The region a right-click, a long press or Shift+F10 opens the menu on: a row, a card, a canvas. */
+  /**
+   * The region a right-click, a long press or Shift+F10 opens the menu on: a row, a card, a canvas. Or, to compose
+   * the menu from parts: a `ContextMenuTrigger` holding that region, followed by `MenuItem`, `MenuSection`,
+   * `MenuSubmenu` and `MenuSeparator`.
+   */
   children: React.ReactNode;
-  items: readonly MenuEntry[];
+  /** The menu as data; leave it out when composing with a `ContextMenuTrigger`. */
+  items?: readonly MenuEntry[];
   onAction?: (id: Key) => void;
   disabledKeys?: Iterable<Key>;
   /** Names the menu ("Actions for ORD-482"). */
@@ -24,7 +29,26 @@ const LONG_PRESS = 500;
  * Shift+F10 / the Menu key on whatever has keyboard focus inside. The same menu as Menu (sections, a destructive
  * item last); focus goes back where it was on close. Never the only way to an action: put it in a visible Menu too.
  */
+export type ContextMenuTriggerProps = {
+  /** The region that opens the menu. */
+  children: React.ReactNode;
+};
+
+/** The region of a ContextMenu composed from parts; the ContextMenu's other children are the menu. */
+export function ContextMenuTrigger({ children }: ContextMenuTriggerProps) {
+  return <>{children}</>;
+}
+
+/** The target and the menu: from a `ContextMenuTrigger` and the parts after it, or the children and `items`. */
+function splitTarget(children: React.ReactNode, items: readonly MenuEntry[] | undefined) {
+  const nodes = React.Children.toArray(children);
+  const trigger = nodes.find((node) => React.isValidElement(node) && node.type === ContextMenuTrigger) as React.ReactElement<ContextMenuTriggerProps> | undefined;
+  if (!trigger) return { target: children, menu: <MenuBody entries={items ?? []} /> };
+  return { target: trigger.props.children, menu: nodes.filter((node) => node !== trigger) };
+}
+
 export function ContextMenu({ children, items, onAction, disabledKeys, "aria-label": ariaLabel }: ContextMenuProps) {
+  const { target, menu } = splitTarget(children, items);
   const [point, setPoint] = React.useState<{ x: number; y: number } | null>(null);
   const anchor = React.useRef<HTMLSpanElement>(null);
   const returnTo = React.useRef<HTMLElement | null>(null);
@@ -65,7 +89,7 @@ export function ContextMenu({ children, items, onAction, disabledKeys, "aria-lab
         onPointerCancel={cancelPress}
         onPointerMove={cancelPress}
       >
-        {children}
+        {target}
       </span>
       {point && <span ref={anchor} aria-hidden data-slot="context-menu-anchor" style={{ position: "fixed", left: point.x, top: point.y, width: 0, height: 0 }} />}
       <AriaPopover
@@ -90,7 +114,7 @@ export function ContextMenu({ children, items, onAction, disabledKeys, "aria-lab
           data-slot="context-menu"
           className={cn(SCROLL, "p-ds-050 outline-hidden")}
         >
-          <MenuBody entries={items} />
+          {menu}
         </AriaMenu>
       </AriaPopover>
     </>
