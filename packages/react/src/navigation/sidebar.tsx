@@ -19,7 +19,7 @@ import { Tooltip, TooltipFor } from "../overlay/floating";
 import { NavPanel } from "./nav-panel";
 import { ROOT_ATTRIBUTE } from "./sidebar-script";
 
-export type SidebarItem = {
+export type SidebarItemData = {
   id: string;
   /** A noun for the section ("Orders"). */
   label: string;
@@ -30,7 +30,7 @@ export type SidebarItem = {
   /** A count ("4 new"): a Badge after the label, on the icon when collapsed. */
   badge?: { value: number; tone?: BadgeCountTone };
   /** Nested items, shown indented on a rail under the group. */
-  children?: readonly SidebarItem[];
+  children?: readonly SidebarItemData[];
 };
 
 /**
@@ -38,7 +38,7 @@ export type SidebarItem = {
  * named by its label (role="group" + aria-labelledby), also when the sidebar is collapsed: the label is then
  * visually hidden and a thin separator marks where the section starts.
  */
-export type SidebarSection = {
+export type SidebarSectionData = {
   /** Stable key for the section; also on the DOM as `data-section`. Unique among the sections. */
   id: string;
   /** The heading over the items, already translated by the app; it is the group's accessible name. */
@@ -48,30 +48,37 @@ export type SidebarSection = {
    * ids are unique across `items`, every section and `settings`: `currentKey` marks each item with that id, so a
    * repeated id gives two `aria-current="page"` items (a development warning names it).
    */
-  items: readonly SidebarItem[];
+  items: readonly SidebarItemData[];
 };
 
 export type SidebarProps = {
-  /** The logo and product name (the app's logo). It links to `brandHref`. */
-  brand: React.ReactNode;
+  /** The logo and product name (the app's logo). It links to `brandHref`. Or a `SidebarHeader` child. */
+  brand?: React.ReactNode;
   brandHref?: string;
   /**
    * The top-level items (links, or groups with `children`); five to eight is the comfortable range. With
    * `sections`, these are the unlabelled items above the labelled sections (a dashboard) and may be empty. Ids
    * are unique across `items`, `sections` and `settings` (a repeated id marks two items as the current page).
+   * Leave it out to compose the navigation as children instead.
    */
-  items: readonly SidebarItem[];
+  items?: readonly SidebarItemData[];
+  /**
+   * With no `items`: the navigation composed from `SidebarItem`, `SidebarSubmenu` and `SidebarSection`
+   * (loose items first, then the sections), plus an optional `SidebarHeader` (instead of `brand`) and
+   * `SidebarFooter` (instead of `footer`).
+   */
+  children?: React.ReactNode;
   /**
    * Labelled sections under `items`, in order. Each is a named group with an overline; collapsed,
    * the overline is visually hidden (the group keeps its name) and a separator stands in for it. Not
    * collapsible. Left out (or empty), the Sidebar renders exactly as before.
    */
-  sections?: readonly SidebarSection[];
+  sections?: readonly SidebarSectionData[];
   /** Settings, in their own group at the bottom, under an overline ("Settings"). */
-  settings?: { label: string; items: readonly SidebarItem[] };
+  settings?: { label: string; items: readonly SidebarItemData[] };
   /** The id of the page's item: marked `aria-current="page"`; its group stays open. */
   currentKey?: string;
-  /** The account at the bottom: Avatar, name and role. */
+  /** The account at the bottom: Avatar, name and role. Or a `SidebarFooter` child. */
   footer?: React.ReactNode;
   /**
    * Keeps the account (`footer`) and the collapse toggle in view at the bottom: the brand stays at
@@ -196,13 +203,13 @@ const ROW =
 
 const ICON = "text-ds-icon-subtle group-aria-[current=page]/row:text-ds-icon-brand";
 
-const contains = (item: SidebarItem, key: string | undefined): boolean =>
+const contains = (item: SidebarItemData, key: string | undefined): boolean =>
   !!key && (item.id === key || !!item.children?.some((child) => contains(child, key)));
 
 type Shared = { currentKey?: string; collapsed: boolean; expand: () => void };
 
 /** Every item id in the trees, depth first, repeats included. */
-function itemIds(items: readonly SidebarItem[], into: string[] = []): string[] {
+function itemIds(items: readonly SidebarItemData[], into: string[] = []): string[] {
   for (const item of items) {
     into.push(item.id);
     if (item.children) itemIds(item.children, into);
@@ -215,7 +222,7 @@ function itemIds(items: readonly SidebarItem[], into: string[] = []): string[] {
  * (the Table's repeated-id warning does the same). A repeated id would mark two items `aria-current="page"`.
  *
  */
-function repeatedIds(items: readonly SidebarItem[], sections: readonly SidebarSection[] | undefined, settings: readonly SidebarItem[] | undefined) {
+function repeatedIds(items: readonly SidebarItemData[], sections: readonly SidebarSectionData[] | undefined, settings: readonly SidebarItemData[] | undefined) {
   const ids = itemIds(items);
   for (const section of sections ?? []) itemIds(section.items, ids);
   if (settings) itemIds(settings, ids);
@@ -225,7 +232,7 @@ function repeatedIds(items: readonly SidebarItem[], sections: readonly SidebarSe
   return [...repeated].map((id) => JSON.stringify(id)).join(", ");
 }
 
-function useRepeatedIdWarning(items: readonly SidebarItem[], sections: readonly SidebarSection[] | undefined, settings: readonly SidebarItem[] | undefined) {
+function useRepeatedIdWarning(items: readonly SidebarItemData[], sections: readonly SidebarSectionData[] | undefined, settings: readonly SidebarItemData[] | undefined) {
   // Production never warns, so it never walks the trees either; the hooks below still run in order.
   const signature = process.env.NODE_ENV === "production" ? "" : repeatedIds(items, sections, settings);
   const warned = React.useRef<Set<string> | null>(null);
@@ -244,13 +251,14 @@ function useRepeatedIdWarning(items: readonly SidebarItem[], sections: readonly 
  * (tooltips carry the labels); under 1024px it is a menu panel from the start edge.
  */
 function SidebarBody({
-  brand,
+  brand: brandProp,
   brandHref = "/",
   items,
+  children,
   sections,
   settings,
   currentKey,
-  footer,
+  footer: footerProp,
   isFooterPinned = false,
   isCollapsed,
   defaultCollapsed = false,
@@ -261,6 +269,9 @@ function SidebarBody({
   "aria-label": label,
 }: SidebarProps) {
   const { locale, direction } = useLocale();
+  const { header, footerSlot, nav } = splitSlots(children);
+  const brand = brandProp ?? header;
+  const footer = footerProp ?? footerSlot;
   const name = label ?? mainNavigationLabel(locale);
   const [own, setOwn] = React.useState(defaultCollapsed);
   // The remembered choice is read after hydration (the head script already painted it).
@@ -281,7 +292,7 @@ function SidebarBody({
   const toggleLabel = collapsed ? expandSidebarLabel(locale) : collapseSidebarLabel(locale);
   const shared: Shared = { currentKey, collapsed, expand: () => setCollapsed(false) };
   const labelled = sections && sections.length > 0 ? sections : undefined;
-  useRepeatedIdWarning(items, labelled, settings?.items);
+  useRepeatedIdWarning(items ?? [], labelled, settings?.items);
 
   return (
     <>
@@ -299,15 +310,15 @@ function SidebarBody({
         )}
         data-footer-pinned={isFooterPinned ? "" : undefined}
       >
-        <Brand brand={brand} href={brandHref} />
+        {brand != null && <Brand brand={brand} href={brandHref} />}
         {isFooterPinned ? (
           <div data-slot="sidebar-scroll" className={PINNED.scroll}>
-            <Navigation items={items} sections={labelled} shared={shared} />
+            <Navigation items={items} nodes={nav} sections={labelled} shared={shared} />
             {/* Settings close the list, held at its bottom (above the account) while the list is short. */}
             {settings && <Group label={settings.label} items={settings.items} shared={shared} className="mt-auto" />}
           </div>
         ) : (
-          <Navigation items={items} sections={labelled} shared={shared} />
+          <Navigation items={items} nodes={nav} sections={labelled} shared={shared} />
         )}
         <div className={cn(BOTTOM, isFooterPinned ? "shrink-0" : "mt-auto")}>
           {settings && !isFooterPinned && <Group label={settings.label} items={settings.items} shared={shared} className="col-span-full" />}
@@ -345,21 +356,21 @@ function SidebarBody({
         label={name}
         side="start"
         slot="sidebar"
-        header={<Brand brand={brand} href={brandHref} />}
+        header={brand != null ? <Brand brand={brand} href={brandHref} /> : undefined}
       >
         {/* The dialog already carries the name; a second landmark name would be read twice. */}
         {isFooterPinned ? (
           // Pinned: the list scrolls inside the panel and the account stays at its bottom edge.
           <nav className="flex min-h-0 flex-1 flex-col gap-ds-200" data-footer-pinned="">
             <div data-slot="sidebar-scroll" className={PINNED.panelScroll}>
-              <Navigation items={items} sections={labelled} shared={{ ...shared, collapsed: false }} />
+              <Navigation items={items} nodes={nav} sections={labelled} shared={{ ...shared, collapsed: false }} />
               {settings && <Group label={settings.label} items={settings.items} shared={{ ...shared, collapsed: false }} />}
             </div>
             {footer && <div data-slot="sidebar-footer" className={cn(FOOTER, FOOTER_RULE, "shrink-0")}>{footer}</div>}
           </nav>
         ) : (
           <nav className="flex flex-1 flex-col gap-ds-200">
-            <Navigation items={items} sections={labelled} shared={{ ...shared, collapsed: false }} />
+            <Navigation items={items} nodes={nav} sections={labelled} shared={{ ...shared, collapsed: false }} />
             {settings && <Group label={settings.label} items={settings.items} shared={{ ...shared, collapsed: false }} />}
             {footer && <div data-slot="sidebar-footer" className={cn(FOOTER, FOOTER_RULE, "mt-auto")}>{footer}</div>}
           </nav>
@@ -384,7 +395,7 @@ function Brand({ brand, href }: { brand: React.ReactNode; href: string }) {
   );
 }
 
-function Group({ label, items, shared, className }: { label: string; items: readonly SidebarItem[]; shared: Shared; className?: string }) {
+function Group({ label, items, shared, className }: { label: string; items: readonly SidebarItemData[]; shared: Shared; className?: string }) {
   const id = React.useId();
   return (
     <div role="group" aria-labelledby={id} data-slot="sidebar-section" className={className ? cn("flex flex-col gap-0.5", className) : "flex flex-col gap-0.5"}>
@@ -400,7 +411,8 @@ function Group({ label, items, shared, className }: { label: string; items: read
  * The top list, then the labelled sections. One child in its parent either way, so without sections the tree
  * (and the server's useId ids) is exactly what it was before sections existed.
  */
-function Navigation({ items, sections, shared }: { items: readonly SidebarItem[]; sections?: readonly SidebarSection[]; shared: Shared }) {
+function Navigation({ items, nodes, sections, shared }: { items?: readonly SidebarItemData[]; nodes: React.ReactNode[]; sections?: readonly SidebarSectionData[]; shared: Shared }) {
+  if (!items) return <ComposedNavigation nodes={nodes} shared={shared} />;
   if (!sections) return <Tree items={items} shared={shared} />;
   return (
     <>
@@ -411,7 +423,7 @@ function Navigation({ items, sections, shared }: { items: readonly SidebarItem[]
   );
 }
 
-function Sections({ sections, shared }: { sections: readonly SidebarSection[]; shared: Shared }) {
+function Sections({ sections, shared }: { sections: readonly SidebarSectionData[]; shared: Shared }) {
   return (
     <div data-slot="sidebar-sections" className="flex flex-col gap-ds-100">
       {sections.map((section) => (
@@ -426,30 +438,49 @@ function Sections({ sections, shared }: { sections: readonly SidebarSection[]; s
  * own slots (`sidebar-nav-section`, `-label`, `-separator`), so a selector for the settings group
  * (`sidebar-section`) never matches a section.
  */
-function Section({ section, shared }: { section: SidebarSection; shared: Shared }) {
+function Section({ section, shared }: { section: SidebarSectionData; shared: Shared }) {
+  return (
+    <SectionBlock id={section.id} label={section.label}>
+      <Tree items={section.items} shared={shared} />
+    </SectionBlock>
+  );
+}
+
+function SectionBlock({ id: sectionId, label, children }: { id?: string; label: string; children: React.ReactNode }) {
   const id = React.useId();
   return (
-    <div role="group" aria-labelledby={id} data-slot="sidebar-nav-section" data-section={section.id} className="flex flex-col gap-0.5">
+    <div role="group" aria-labelledby={id} data-slot="sidebar-nav-section" data-section={sectionId} className="flex flex-col gap-0.5">
       <span aria-hidden="true" data-slot="sidebar-nav-section-separator" className={cn("mx-ds-050 mb-ds-100 border-t border-ds-border", WHEN_COLLAPSED.shown)} />
       <span id={id} data-slot="sidebar-nav-section-label" className={cn(OVERLINE, WHEN_COLLAPSED.label)}>
-        {section.label}
+        {label}
       </span>
-      <Tree items={section.items} shared={shared} />
+      {children}
     </div>
   );
 }
 
-function Tree({ items, shared, nested }: { items: readonly SidebarItem[]; shared: Shared; nested?: boolean }) {
+function Tree({ items, shared, nested }: { items: readonly SidebarItemData[]; shared: Shared; nested?: boolean }) {
   return (
     <ul data-slot={nested ? "sidebar-subtree" : "sidebar-tree"} className="flex flex-col gap-0.5">
       {items.map((item) => (
-        <li key={item.id}>{item.children ? <GroupItem item={item} shared={shared} /> : <LinkItem item={item} shared={shared} nested={nested} />}</li>
+        <li key={item.id}>
+          {item.children ? (
+            <GroupItem item={item} shared={shared} holdsCurrent={contains(item, shared.currentKey)}>
+              <Tree items={item.children} shared={shared} nested />
+            </GroupItem>
+          ) : (
+            <LinkItem item={item} shared={shared} nested={nested} />
+          )}
+        </li>
       ))}
     </ul>
   );
 }
 
-function Label({ item }: { item: SidebarItem }) {
+/** What a row shows, from data or from a `SidebarItem`/`SidebarSubmenu`. */
+type Entry = Pick<SidebarItemData, "id" | "label" | "icon" | "href" | "badge"> & { isCurrent?: boolean };
+
+function Label({ item }: { item: Entry }) {
   return (
     <>
       {item.icon && <IconGlyph name={item.icon} data-slot="sidebar-item-icon" className={ICON} />}
@@ -465,12 +496,12 @@ function Label({ item }: { item: SidebarItem }) {
   );
 }
 
-function LinkItem({ item, shared, nested }: { item: SidebarItem; shared: Shared; nested?: boolean }) {
+function LinkItem({ item, shared, nested }: { item: Entry; shared: Shared; nested?: boolean }) {
   const link = (
     <AriaLink
       href={item.href}
       data-slot="sidebar-item"
-      aria-current={item.id === shared.currentKey ? "page" : undefined}
+      aria-current={item.isCurrent || item.id === shared.currentKey ? "page" : undefined}
       className={cn("group/row", ROW)}
     >
       <Label item={item} />
@@ -485,8 +516,7 @@ function LinkItem({ item, shared, nested }: { item: SidebarItem; shared: Shared;
   );
 }
 
-function GroupItem({ item, shared }: { item: SidebarItem; shared: Shared }) {
-  const holdsCurrent = contains(item, shared.currentKey);
+function GroupItem({ item, shared, holdsCurrent, children }: { item: Entry; shared: Shared; holdsCurrent: boolean; children: React.ReactNode }) {
   const [expanded, setExpanded] = React.useState(holdsCurrent);
   // The group of the page's item stays open as the page changes.
   const [wasHolding, setWasHolding] = React.useState(holdsCurrent);
@@ -532,11 +562,152 @@ function GroupItem({ item, shared }: { item: SidebarItem; shared: Shared }) {
         trigger
       )}
       <DisclosurePanel data-slot="sidebar-group-panel" className={WHEN_COLLAPSED.hidden}>
-        <div className="mt-0.5 ps-ds-400">
-          <Tree items={item.children ?? []} shared={shared} nested />
-        </div>
+        <div className="mt-0.5 ps-ds-400">{children}</div>
       </DisclosurePanel>
     </Disclosure>
+  );
+}
+
+
+// ---- Composed from parts ---------------------------------------------------------------------------------------
+
+/** The sidebar's state for its parts: the page's item, collapsed or not (never collapsed in the phone panel). */
+const SharedContext = React.createContext<Shared | null>(null);
+/** True inside a `SidebarSubmenu`: its items are indented rows with no tooltip of their own. */
+const NestedContext = React.createContext(false);
+
+function useShared(part: string): Shared {
+  const shared = React.useContext(SharedContext);
+  if (!shared) throw new Error(`${part} must be inside a Sidebar.`);
+  return shared;
+}
+
+export type SidebarHeaderProps = {
+  /** The logo and product name; it links to the Sidebar's `brandHref`. */
+  children: React.ReactNode;
+};
+
+/** The brand at the top, as a child instead of the `brand` prop. */
+export function SidebarHeader({ children }: SidebarHeaderProps) {
+  return <>{children}</>;
+}
+
+export type SidebarFooterProps = {
+  /** The account: Avatar, name and role. */
+  children: React.ReactNode;
+};
+
+/** The account at the bottom, as a child instead of the `footer` prop; it shares a row with the collapse toggle. */
+export function SidebarFooter({ children }: SidebarFooterProps) {
+  return <>{children}</>;
+}
+
+export type SidebarItemProps = {
+  /** Unique in the sidebar; `currentKey` matches it. */
+  id: string;
+  /** A noun for the page ("Orders"); also the tooltip when the sidebar is collapsed. */
+  label: string;
+  /** Lucide name; top-level items carry one (it is all a collapsed sidebar shows). */
+  icon?: IconName;
+  href?: string;
+  /** A count ("4 new"): a Badge after the label, on the icon when collapsed. */
+  badge?: { value: number; tone?: BadgeCountTone };
+  /** Marks this item as the page in view, instead of the Sidebar's `currentKey`. */
+  isCurrent?: boolean;
+};
+
+/** One link in the navigation: at the top, in a `SidebarSection`, or nested in a `SidebarSubmenu`. */
+export function SidebarItem(props: SidebarItemProps) {
+  const shared = useShared("SidebarItem");
+  const nested = React.useContext(NestedContext);
+  return (
+    <li>
+      <LinkItem item={props} shared={shared} nested={nested} />
+    </li>
+  );
+}
+
+export type SidebarSubmenuProps = Omit<SidebarItemProps, "href" | "isCurrent"> & {
+  /** The nested `SidebarItem`s, shown indented when it is open. */
+  children: React.ReactNode;
+};
+
+/** An item that opens to nested items. It starts open, and stays open, while it holds the page in view. */
+export function SidebarSubmenu({ children, ...item }: SidebarSubmenuProps) {
+  const shared = useShared("SidebarSubmenu");
+  return (
+    <li>
+      <GroupItem item={item} shared={shared} holdsCurrent={holdsKey(children, shared.currentKey)}>
+        <NestedContext.Provider value={true}>
+          <ul data-slot="sidebar-subtree" className="flex flex-col gap-0.5">
+            {children}
+          </ul>
+        </NestedContext.Provider>
+      </GroupItem>
+    </li>
+  );
+}
+
+export type SidebarSectionProps = {
+  /** Also on the DOM as `data-section`. */
+  id?: string;
+  /** The overline over the items, already translated; it names the group, also when collapsed. */
+  label: string;
+  /** `SidebarItem`s and `SidebarSubmenu`s. */
+  children: React.ReactNode;
+};
+
+/** A labelled block of items with an overline; collapsed, a thin separator stands in for the overline. */
+export function SidebarSection({ id, label, children }: SidebarSectionProps) {
+  useShared("SidebarSection");
+  return (
+    <SectionBlock id={id} label={label}>
+      <ul data-slot="sidebar-tree" className="flex flex-col gap-0.5">
+        {children}
+      </ul>
+    </SectionBlock>
+  );
+}
+
+/** Whether an item among these elements (at any depth) is the page in view. */
+function holdsKey(children: React.ReactNode, key: string | undefined): boolean {
+  return React.Children.toArray(children).some((child) => {
+    if (!React.isValidElement<{ id?: string; isCurrent?: boolean; children?: React.ReactNode }>(child)) return false;
+    return (!!key && child.props.id === key) || !!child.props.isCurrent || holdsKey(child.props.children, key);
+  });
+}
+
+/** Pulls the `SidebarHeader` and `SidebarFooter` out of the children; the rest is the navigation. */
+function splitSlots(children: React.ReactNode) {
+  let header: React.ReactNode;
+  let footerSlot: React.ReactNode;
+  const nav: React.ReactNode[] = [];
+  for (const child of React.Children.toArray(children)) {
+    if (React.isValidElement<{ children?: React.ReactNode }>(child) && child.type === SidebarHeader) header = child.props.children;
+    else if (React.isValidElement<{ children?: React.ReactNode }>(child) && child.type === SidebarFooter) footerSlot = child.props.children;
+    else nav.push(child);
+  }
+  return { header, footerSlot, nav };
+}
+
+/** The composed navigation: loose items in one list, then the sections, as with `items` and `sections`. */
+function ComposedNavigation({ nodes, shared }: { nodes: React.ReactNode[]; shared: Shared }) {
+  const isSection = (node: React.ReactNode) => React.isValidElement(node) && node.type === SidebarSection;
+  const loose = nodes.filter((node) => !isSection(node));
+  const sections = nodes.filter(isSection);
+  return (
+    <SharedContext.Provider value={shared}>
+      {loose.length > 0 && (
+        <ul data-slot="sidebar-tree" className="flex flex-col gap-0.5">
+          {loose}
+        </ul>
+      )}
+      {sections.length > 0 && (
+        <div data-slot="sidebar-sections" className="flex flex-col gap-ds-100">
+          {sections}
+        </div>
+      )}
+    </SharedContext.Provider>
   );
 }
 

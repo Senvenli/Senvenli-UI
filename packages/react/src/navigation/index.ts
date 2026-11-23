@@ -2,10 +2,10 @@
 // Accordion and Disclosure, Stepper, SkipLink and PageHeader.
 export { Navbar } from "./navbar";
 export type { NavbarLink, NavbarProps } from "./navbar";
-export { Sidebar } from "./sidebar";
+export { Sidebar, SidebarFooter, SidebarHeader, SidebarItem, SidebarSection, SidebarSubmenu } from "./sidebar";
 // The head script module has no client directive, so a Server Component layout can render it.
 export { sidebarScript } from "./sidebar-script";
-export type { SidebarItem, SidebarProps, SidebarSection } from "./sidebar";
+export type { SidebarFooterProps, SidebarHeaderProps, SidebarItemData, SidebarItemProps, SidebarProps, SidebarSectionData, SidebarSectionProps, SidebarSubmenuProps } from "./sidebar";
 export { BottomNav } from "./bottom-nav";
 export type { BottomNavItem, BottomNavProps } from "./bottom-nav";
 export { SegmentedControl, Tab, TabList, TabPanel, Tabs } from "./tabs";

@@ -7,15 +7,23 @@
   "name": "sidebar",
   "title": "Sidebar",
   "exports": [
-    "Sidebar"
+    "Sidebar",
+    "SidebarHeader",
+    "SidebarItem",
+    "SidebarSubmenu",
+    "SidebarSection",
+    "SidebarFooter"
   ],
   "description": "The main navigation of an app: brand, sections with nested items and badges, a pinned footer, collapsible to icons.",
   "keywords": [
-    "sidebar",
-    "side nav",
     "app shell",
+    "compound",
     "menu",
-    "navigation"
+    "navigation",
+    "side nav",
+    "sidebar",
+    "sidebar item",
+    "sidebar section"
   ],
   "usage": {
     "when": [
@@ -40,7 +48,8 @@
       "Under 1024px it becomes a panel opened from the header."
     ],
     "youProvide": [
-      "Section names."
+      "Section names.",
+      "With children: a unique id on every SidebarItem and SidebarSubmenu (currentKey matches it), or isCurrent on the page's item."
     ]
   },
   "related": [
@@ -58,9 +67,9 @@
       {
         "name": "brand",
         "type": "React.ReactNode",
-        "required": true,
+        "required": false,
         "origin": "own",
-        "description": "The logo and product name (the app's logo). It links to `brandHref`."
+        "description": "The logo and product name (the app's logo). It links to `brandHref`. Or a `SidebarHeader` child."
       },
       {
         "name": "brandHref",
@@ -73,10 +82,10 @@
       },
       {
         "name": "items",
-        "type": "readonly SidebarItem[]",
-        "required": true,
+        "type": "readonly SidebarItemData[]",
+        "required": false,
         "origin": "own",
-        "description": "The top-level items (links, or groups with `children`); five to eight is the comfortable range. With\n`sections`, these are the unlabelled items above the labelled sections (a dashboard) and may be empty. Ids\nare unique across `items`, `sections` and `settings` (a repeated id marks two items as the current page).",
+        "description": "The top-level items (links, or groups with `children`); five to eight is the comfortable range. With\n`sections`, these are the unlabelled items above the labelled sections (a dashboard) and may be empty. Ids\nare unique across `items`, `sections` and `settings` (a repeated id marks two items as the current page).\nLeave it out to compose the navigation as children instead.",
         "schema": {
           "type": "array",
           "items": {
@@ -157,8 +166,15 @@
         }
       },
       {
+        "name": "children",
+        "type": "React.ReactNode",
+        "required": false,
+        "origin": "own",
+        "description": "With no `items`: the navigation composed from `SidebarItem`, `SidebarSubmenu` and `SidebarSection`\n(loose items first, then the sections), plus an optional `SidebarHeader` (instead of `brand`) and\n`SidebarFooter` (instead of `footer`)."
+      },
+      {
         "name": "sections",
-        "type": "readonly SidebarSection[]",
+        "type": "readonly SidebarSectionData[]",
         "required": false,
         "origin": "own",
         "description": "Labelled sections under `items`, in order. Each is a named group with an overline; collapsed,\nthe overline is visually hidden (the group keeps its name) and a separator stands in for it. Not\ncollapsible. Left out (or empty), the Sidebar renders exactly as before.",
@@ -237,7 +253,7 @@
       },
       {
         "name": "settings",
-        "type": "{ label: string; items: readonly SidebarItem[]; }",
+        "type": "{ label: string; items: readonly SidebarItemData[]; }",
         "required": false,
         "origin": "own",
         "description": "Settings, in their own group at the bottom, under an overline (\"Settings\")."
@@ -257,7 +273,7 @@
         "type": "React.ReactNode",
         "required": false,
         "origin": "own",
-        "description": "The account at the bottom: Avatar, name and role."
+        "description": "The account at the bottom: Avatar, name and role. Or a `SidebarFooter` child."
       },
       {
         "name": "isFooterPinned",
@@ -344,6 +360,159 @@
             "reduce"
           ]
         }
+      }
+    ],
+    "SidebarHeader": [
+      {
+        "name": "children",
+        "type": "React.ReactNode",
+        "required": true,
+        "origin": "own",
+        "description": "The logo and product name; it links to the Sidebar's `brandHref`."
+      }
+    ],
+    "SidebarItem": [
+      {
+        "name": "id",
+        "type": "string",
+        "required": true,
+        "origin": "own",
+        "description": "Unique in the sidebar; `currentKey` matches it.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "label",
+        "type": "string",
+        "required": true,
+        "origin": "own",
+        "description": "A noun for the page (\"Orders\"); also the tooltip when the sidebar is collapsed.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "icon",
+        "type": "IconName",
+        "required": false,
+        "origin": "own",
+        "description": "Lucide name; top-level items carry one (it is all a collapsed sidebar shows).",
+        "schema": {
+          "type": "string",
+          "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+        }
+      },
+      {
+        "name": "href",
+        "type": "string",
+        "required": false,
+        "origin": "own",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "badge",
+        "type": "{ value: number; tone?: BadgeCountTone | undefined; }",
+        "required": false,
+        "origin": "own",
+        "description": "A count (\"4 new\"): a Badge after the label, on the icon when collapsed."
+      },
+      {
+        "name": "isCurrent",
+        "type": "boolean",
+        "required": false,
+        "origin": "own",
+        "description": "Marks this item as the page in view, instead of the Sidebar's `currentKey`.",
+        "schema": {
+          "type": "boolean"
+        }
+      }
+    ],
+    "SidebarSubmenu": [
+      {
+        "name": "id",
+        "type": "string",
+        "required": true,
+        "origin": "own",
+        "description": "Unique in the sidebar; `currentKey` matches it.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "badge",
+        "type": "{ value: number; tone?: BadgeCountTone | undefined; }",
+        "required": false,
+        "origin": "own",
+        "description": "A count (\"4 new\"): a Badge after the label, on the icon when collapsed."
+      },
+      {
+        "name": "label",
+        "type": "string",
+        "required": true,
+        "origin": "own",
+        "description": "A noun for the page (\"Orders\"); also the tooltip when the sidebar is collapsed.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "icon",
+        "type": "IconName",
+        "required": false,
+        "origin": "own",
+        "description": "Lucide name; top-level items carry one (it is all a collapsed sidebar shows).",
+        "schema": {
+          "type": "string",
+          "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+        }
+      },
+      {
+        "name": "children",
+        "type": "React.ReactNode",
+        "required": true,
+        "origin": "own",
+        "description": "The nested `SidebarItem`s, shown indented when it is open."
+      }
+    ],
+    "SidebarSection": [
+      {
+        "name": "id",
+        "type": "string",
+        "required": false,
+        "origin": "own",
+        "description": "Also on the DOM as `data-section`.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "label",
+        "type": "string",
+        "required": true,
+        "origin": "own",
+        "description": "The overline over the items, already translated; it names the group, also when collapsed.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "children",
+        "type": "React.ReactNode",
+        "required": true,
+        "origin": "own",
+        "description": "`SidebarItem`s and `SidebarSubmenu`s."
+      }
+    ],
+    "SidebarFooter": [
+      {
+        "name": "children",
+        "type": "React.ReactNode",
+        "required": true,
+        "origin": "own",
+        "description": "The account: Avatar, name and role."
       }
     ]
   },

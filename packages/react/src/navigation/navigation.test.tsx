@@ -6,7 +6,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { Button } from "../action/index";
 import { Menu } from "../overlay/index";
 import { DesignSystemProvider } from "../provider";
-import { BottomNav, Navbar, Sidebar, sidebarScript, type SidebarItem } from "./index";
+import { BottomNav, Navbar, Sidebar, sidebarScript, type SidebarItemData } from "./index";
 
 const PHYSICAL = /(^|\s|:)(-?m[lr]-|p[lr]-|-?left-|-?right-|border-[lr](-|\s|$)|rounded-[lr]-|text-left|text-right)/;
 
@@ -260,7 +260,7 @@ describe("Navbar", () => {
   });
 });
 
-const ITEMS: SidebarItem[] = [
+const ITEMS: SidebarItemData[] = [
   { id: "overview", label: "Overview", icon: "layout-dashboard", href: "/" },
   { id: "orders", label: "Orders", icon: "calendar-range", href: "/orders", badge: { value: 4, tone: "brand" } },
   {

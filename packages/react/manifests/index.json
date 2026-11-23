@@ -1588,15 +1588,23 @@
     "status": "alpha",
     "description": "The main navigation of an app: brand, sections with nested items and badges, a pinned footer, collapsible to icons.",
     "keywords": [
-      "sidebar",
-      "side nav",
       "app shell",
+      "compound",
       "menu",
-      "navigation"
+      "navigation",
+      "side nav",
+      "sidebar",
+      "sidebar item",
+      "sidebar section"
     ],
     "import": "@senvenli/react/navigation",
     "exports": [
-      "Sidebar"
+      "Sidebar",
+      "SidebarHeader",
+      "SidebarItem",
+      "SidebarSubmenu",
+      "SidebarSection",
+      "SidebarFooter"
     ],
     "genui": false
   },

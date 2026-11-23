@@ -7,15 +7,23 @@
   "name": "sidebar",
   "title": "Sidebar",
   "exports": [
-    "Sidebar"
+    "Sidebar",
+    "SidebarHeader",
+    "SidebarItem",
+    "SidebarSubmenu",
+    "SidebarSection",
+    "SidebarFooter"
   ],
   "description": "The main navigation of an app: brand, sections with nested items and badges, a pinned footer, collapsible to icons.",
   "keywords": [
-    "sidebar",
-    "side nav",
     "app shell",
+    "compound",
     "menu",
-    "navigation"
+    "navigation",
+    "side nav",
+    "sidebar",
+    "sidebar item",
+    "sidebar section"
   ],
   "usage": {
     "when": [
@@ -40,7 +48,8 @@
       "Under 1024px it becomes a panel opened from the header."
     ],
     "youProvide": [
-      "Section names."
+      "Section names.",
+      "With children: a unique id on every SidebarItem and SidebarSubmenu (currentKey matches it), or isCurrent on the page's item."
     ]
   },
   "related": [

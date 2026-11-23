@@ -4,7 +4,7 @@ import { renderToStaticMarkup } from "react-dom/server";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import { DesignSystemProvider } from "../provider";
-import { Sidebar, type SidebarItem, type SidebarSection } from "./index";
+import { Sidebar, type SidebarItemData, type SidebarSectionData } from "./index";
 
 // Sidebar isFooterPinned: a sectioned sidebar keeps the account and the collapse toggle in view; only the
 // navigation scrolls between the brand and them.
@@ -30,8 +30,8 @@ function inLocale(ui: React.ReactElement, locale = "en", dir?: "rtl") {
   );
 }
 
-const TOP: SidebarItem[] = [{ id: "dashboard", label: "Dashboard", icon: "layout-dashboard", href: "/" }];
-const SECTIONS: SidebarSection[] = [
+const TOP: SidebarItemData[] = [{ id: "dashboard", label: "Dashboard", icon: "layout-dashboard", href: "/" }];
+const SECTIONS: SidebarSectionData[] = [
   { id: "work", label: "Work", items: [
     { id: "orders", label: "Orders", icon: "calendar-check", href: "/orders", badge: { value: 4 } },
     { id: "inbox", label: "Inbox", icon: "messages-square", href: "/inbox" },
