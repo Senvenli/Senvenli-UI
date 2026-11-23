@@ -28,6 +28,7 @@ import { CopyButton } from "../components/CopyButton";
 import { FormsBoard } from "../components/create/FormsBoard";
 import { HomeBoard } from "../components/HomeBoard";
 import { applyTheme, PRESETS, readStoredPreset } from "../lib/preset";
+import { SITE_CONTAINER } from "../lib/layout";
 
 const ROLE_LABEL: Record<BrandRole, string> = { primary: "Primary", secondary: "Secondary", tertiary: "Tertiary" };
 
@@ -254,7 +255,7 @@ export function CreatePage() {
   const controls = <Controls input={input} theme={theme} setInput={setInput} />;
 
   return (
-    <main id="main" className="mx-auto flex w-full max-w-[1360px] flex-col gap-ds-500 px-ds-200 py-ds-600 sm:px-ds-300">
+    <main id="main" className={`${SITE_CONTAINER} flex flex-col gap-ds-500 py-ds-600`}>
       <header className="flex flex-wrap items-end justify-between gap-ds-300">
         <div className="flex max-w-2xl flex-col gap-ds-150">
           <Heading level={1} size="heading-xxlarge">

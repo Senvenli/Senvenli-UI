@@ -79,6 +79,16 @@ describe("Navbar composed from parts", () => {
     expect(within(screen.getByRole("navigation")).getByRole("link", { name: "Docs" }).getAttribute("aria-current")).toBe("page");
   });
 
+  it("maxWidth centres the bar's content while the bar itself stays full width", () => {
+    render(wrap(<Navbar brand="Acme" maxWidth="1280px" />));
+    const content = document.querySelector<HTMLElement>('[data-slot="navbar-content"]')!;
+    expect(content.style.maxWidth).toBe("1280px");
+    expect(content.className).toContain("mx-auto");
+    cleanup();
+    render(wrap(<Navbar brand="Acme" />));
+    expect(document.querySelector<HTMLElement>('[data-slot="navbar-content"]')!.style.maxWidth).toBe("");
+  });
+
   it("says where an item belongs when it is used outside a Navbar", () => {
     vi.spyOn(console, "error").mockImplementation(() => {});
     expect(() => render(wrap(<NavbarItem id="x" href="/x">X</NavbarItem>))).toThrow("NavbarItem must be inside a Navbar.");
