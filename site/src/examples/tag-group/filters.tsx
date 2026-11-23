@@ -12,7 +12,7 @@ export default function Example() {
       label="Active filters"
       items={filters}
       onRemove={(keys) => setFilters((current) => current.filter((filter) => !keys.includes(filter.id)))}
-      emptyMessage="No filters. Showing every invoice."
+      emptyState="No filters. Showing every invoice."
     />
   );
 }

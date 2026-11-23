@@ -180,10 +180,10 @@
       },
       {
         "name": "emptyState",
-        "type": "{ title: string; description?: string | undefined; action?: ReactNode; }",
+        "type": "React.ReactNode",
         "required": false,
         "origin": "own",
-        "description": "What an empty list says and the action that fills it (with no search or filter active)."
+        "description": "What an empty list shows (with no search or filter active): an `EmptyState size=\"small\"` with the action that\nfills it. \"No records yet\" by default."
       },
       {
         "name": "urlKey",

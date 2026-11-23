@@ -257,11 +257,11 @@
         }
       },
       {
-        "name": "emptyMessage",
-        "type": "(query: string) => ReactNode",
+        "name": "emptyState",
+        "type": "React.ReactNode | ((query: string) => React.ReactNode)",
         "required": false,
         "origin": "own",
-        "description": "The empty result; defaults to \"No results for “{query}”.\" in the provider locale."
+        "description": "The empty result: a node, or a function of the typed text for a message that quotes it. Defaults to\n\"No results for “{query}”.\" in the provider locale."
       },
       {
         "name": "onCreate",

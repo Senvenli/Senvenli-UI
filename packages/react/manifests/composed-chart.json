@@ -151,11 +151,11 @@
         }
       },
       {
-        "name": "emptyMessage",
-        "type": "{ title: string; description?: string | undefined; }",
+        "name": "emptyState",
+        "type": "React.ReactNode",
         "required": false,
         "origin": "own",
-        "description": "Shown instead of the plot when `data` is empty; \"No data for this period\" by default."
+        "description": "Shown instead of the plot when there is no data: an `EmptyState size=\"small\"` or text; \"No data\" by default."
       },
       {
         "name": "bars",

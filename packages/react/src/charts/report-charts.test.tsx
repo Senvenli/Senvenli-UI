@@ -6,6 +6,7 @@ import { DesignSystemProvider } from "../provider";
 import { ChartAnimation, SeasonalityHeatmap } from "./index";
 import { WaterfallChart } from "./report-charts";
 import { waterfallAxisWidth, waterfallRows } from "./report-charts";
+import { EmptyState } from "../feedback/empty-state";
 
 // The waterfall and the seasonality heatmap, as charts on ChartParts.
 
@@ -152,7 +153,7 @@ describe("WaterfallChart", () => {
     inLocale(chart({ steps: [] }));
     expect(document.querySelector("[data-slot='chart-empty']")!.textContent).toContain("No data for this period");
     cleanup();
-    inLocale(chart({ steps: [{ name: "Sales", value: 0 }], emptyMessage: { title: "No revenue or costs this month" } }));
+    inLocale(chart({ steps: [{ name: "Sales", value: 0 }], emptyState: <EmptyState size="small" icon="chart-column" title="No revenue or costs this month" /> }));
     expect(document.querySelector("[data-slot='chart-empty']")!.textContent).toContain("No revenue or costs this month");
   });
 

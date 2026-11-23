@@ -170,7 +170,7 @@ describe("Table", () => {
   });
 
   it("says why it is empty", () => {
-    inLocale(<Table aria-label="Orders" columns={COLUMNS} rows={[]} renderEmptyState={() => "No orders yet. Add the first order."} />);
+    inLocale(<Table aria-label="Orders" columns={COLUMNS} rows={[]} emptyState="No orders yet. Add the first order." />);
     expect(document.querySelector("[data-slot='table-empty']")!.textContent).toBe("No orders yet. Add the first order.");
   });
 

@@ -44,6 +44,7 @@ import {
 import { ChartHeader, PlottedTooltip } from "./core-charts";
 import { chartNumber, formattedValues, tickAxisWidth, tickOverhang, tickWrapWidth, valueAxisTicks } from "./axis-width";
 import { NameTick, ValueTick, isolatedLabel } from "./value-tick";
+import { EmptyState } from "../feedback/empty-state";
 
 type Row = Record<string, unknown>;
 const plain: ChartValueFormatter = (value) => String(value);
@@ -62,7 +63,8 @@ type FrameProps = {
   title: string;
   period?: string;
   isLoading?: boolean;
-  emptyMessage?: { title: string; description?: string };
+  /** Shown instead of the plot when there is no data: an `EmptyState size="small"` or text; "No data" by default. */
+  emptyState?: React.ReactNode;
   height?: number;
 };
 
@@ -72,7 +74,7 @@ export function Shell<T extends object>({
   period,
   total,
   isLoading,
-  emptyMessage,
+  emptyState,
   isEmpty,
   height,
   legend,
@@ -98,7 +100,7 @@ export function Shell<T extends object>({
       <ChartFrame
         height={height}
         isLoading={isLoading}
-        emptyMessage={isEmpty ? (emptyMessage ?? { title: chartNoDataLabel(locale) }) : null}
+        emptyState={isEmpty ? (emptyState ?? <EmptyState size="small" icon="chart-column" title={chartNoDataLabel(locale)} />) : null}
         legend={legend}
         dataTable={{ caption: [title, period].filter(Boolean).join(" · "), columns, rows, rowKey: (row) => positions.get(row) ?? 0, onRowAction }}
       >
@@ -158,7 +160,7 @@ const DONUT_LIST_MIN = 168;
 /** `gap-ds-300` between the ring and the list. */
 const DONUT_GAP = 24;
 
-export function DonutChart({ title, period, data, valueFormatter = plain, centerLabel, showList = true, isLoading, emptyMessage, height = 200 }: DonutChartProps) {
+export function DonutChart({ title, period, data, valueFormatter = plain, centerLabel, showList = true, isLoading, emptyState, height = 200 }: DonutChartProps) {
   const { locale } = useLocale();
   const animate = useChartAnimation();
   // Parts of a whole: a missing or negative value has no slice.
@@ -191,7 +193,7 @@ export function DonutChart({ title, period, data, valueFormatter = plain, center
   }, [row, showList]);
   const ring = rowWidth === undefined ? height - 24 : Math.max(112, Math.min(height - 24, rowWidth - DONUT_LIST_MIN - DONUT_GAP));
   return (
-    <Shell title={title} period={period} isLoading={isLoading} emptyMessage={emptyMessage} isEmpty={total <= 0} height={height} columns={columns} rows={rows}>
+    <Shell title={title} period={period} isLoading={isLoading} emptyState={emptyState} isEmpty={total <= 0} height={height} columns={columns} rows={rows}>
       <div ref={setRow} data-slot="donut" className="flex h-full min-w-0 items-center gap-ds-300">
         <div className={cn("relative shrink-0", LTR_PLOT)} style={{ width: ring, height: ring }}>
           {/* Recharts' accessibility layer makes the ring a tab stop whose arrow keys move an active sector
@@ -243,7 +245,7 @@ export function DonutChart({ title, period, data, valueFormatter = plain, center
 
 /* ── Gauge ────────────────────────────────────────────────────────────────── */
 
-export type GaugeChartProps = Omit<FrameProps, "emptyMessage"> & {
+export type GaugeChartProps = Omit<FrameProps, "emptyState"> & {
   value: number;
   /** 0 by default. */
   min?: number;
@@ -327,7 +329,7 @@ export type RadialChartProps = FrameProps & {
 };
 
 /** Two or three values that share a 0–100 scale: 12px rings in `ds-chart-1`…`3` from 12 o'clock, with a key list. */
-export function RadialChart({ title, period, data, valueFormatter = (value) => `${value}%`, isLoading, emptyMessage, height = 200 }: RadialChartProps) {
+export function RadialChart({ title, period, data, valueFormatter = (value) => `${value}%`, isLoading, emptyState, height = 200 }: RadialChartProps) {
   const { locale } = useLocale();
   const animate = useChartAnimation();
   useOnce(data.length > 3, "RadialChart: two or three rings; use a BarChart for more.");
@@ -338,7 +340,7 @@ export function RadialChart({ title, period, data, valueFormatter = (value) => `
     { key: "value", header: chartValueLabel(locale), align: "end", render: (row) => valueFormatter(row.value) },
   ];
   return (
-    <Shell title={title} period={period} isLoading={isLoading} emptyMessage={emptyMessage} isEmpty={rings.length === 0} height={height} columns={columns} rows={rings}>
+    <Shell title={title} period={period} isLoading={isLoading} emptyState={emptyState} isEmpty={rings.length === 0} height={height} columns={columns} rows={rings}>
       <div data-slot="radial" className="flex h-full min-w-0 items-center gap-ds-400">
         <div className={cn("shrink-0", LTR_PLOT)}>
           <RadialBarChart width={size} height={size} data={rings} innerRadius={size / 2 - 12 * rings.length - 6 * (rings.length - 1)} outerRadius={size / 2} barSize={12} startAngle={90} endAngle={-270} accessibilityLayer={false}>
@@ -484,7 +486,7 @@ function fitTrend<T>(rows: readonly T[], px: (row: T) => number, py: (row: T) =>
  * the keyboard's way in. Axes carry their units.
  */
 export function ScatterChart<T extends Row>(props: ScatterChartProps<T>) {
-  const { title, period, data, name, x, y, size, category, xLabel, yLabel, valueFormatters, trendLine, onPointPress, isLoading, emptyMessage, height = 260 } = props;
+  const { title, period, data, name, x, y, size, category, xLabel, yLabel, valueFormatters, trendLine, onPointPress, isLoading, emptyState, height = 260 } = props;
   const { locale } = useLocale();
   const animate = useChartAnimation();
   const direction = useChartDirection();
@@ -531,7 +533,7 @@ export function ScatterChart<T extends Row>(props: ScatterChartProps<T>) {
       title={title}
       period={period}
       isLoading={isLoading}
-      emptyMessage={emptyMessage}
+      emptyState={emptyState}
       isEmpty={valid.length === 0}
       height={height}
       legend={legendItems.length > 0 ? <ChartLegend items={legendItems} hidden={series.hidden} onToggle={series.toggle} /> : undefined}
@@ -607,7 +609,7 @@ export type RadarChartProps<T extends Row> = FrameProps & {
  * `ds-border`, labels outside in `ds-text-subtle`, the main profile `ds-chart-1` (2px edge, 18% fill), the
  * comparison `ds-chart-neutral` (12% fill, dashed edge).
  */
-export function RadarChart<T extends Row>({ title, period, data, dimension, categories, labels, max, valueFormatter = plain, isLoading, emptyMessage, height = 280 }: RadarChartProps<T>) {
+export function RadarChart<T extends Row>({ title, period, data, dimension, categories, labels, max, valueFormatter = plain, isLoading, emptyState, height = 280 }: RadarChartProps<T>) {
   const animate = useChartAnimation();
   const series = useChartSeries();
   useOnce(categories.length > 2, "RadarChart: one or two profiles.");
@@ -626,7 +628,7 @@ export function RadarChart<T extends Row>({ title, period, data, dimension, cate
       title={title}
       period={period}
       isLoading={isLoading}
-      emptyMessage={emptyMessage}
+      emptyState={emptyState}
       isEmpty={data.length === 0}
       height={height}
       legend={

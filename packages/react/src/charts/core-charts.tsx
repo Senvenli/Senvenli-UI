@@ -37,6 +37,7 @@ import {
 import type { TableColumn } from "../collection/table";
 import { type FormattedValues, chartNumber, formattedValues, labelText, textLines, textWidth, tickAxisWidth, tickOverhang, tickWrapWidth, valueAxisTicks, valueAxisWidth } from "./axis-width";
 import { CategoryTick, LineSpan, NameTick, type PlacedLine, ValueTick, clippedLine, firstLineDy, isolatedLabel, placedLine } from "./value-tick";
+import { EmptyState } from "../feedback/empty-state";
 
 /* ── Shared ───────────────────────────────────────────────────────────────── */
 
@@ -66,7 +67,8 @@ export type ChartBaseProps<T extends Row> = {
   height?: number;
   isLoading?: boolean;
   /** Shown instead of the plot when `data` is empty; "No data for this period" by default. */
-  emptyMessage?: { title: string; description?: string };
+  /** Shown instead of the plot when there is no data: an `EmptyState size="small"` or text; "No data" by default. */
+  emptyState?: React.ReactNode;
   /**
    * `false` for whole counts (orders, new customers): the value axis steps by whole numbers, so a small count
    * reads 0 / 1 / 2 / 3, never 0.7 / 1.4 / 2.1. Fractional steps by default. Percent bars keep their
@@ -189,7 +191,7 @@ function Shell<T extends Row>({
       <ChartFrame
         height={height}
         isLoading={props.isLoading}
-        emptyMessage={props.data.length === 0 ? props.emptyMessage ?? { title: chartNoDataLabel(shell.locale) } : null}
+        emptyState={props.data.length === 0 ? props.emptyState ?? <EmptyState size="small" icon="chart-column" title={chartNoDataLabel(shell.locale)} /> : null}
         legendPlacement={legendPlacement}
         legend={showLegend ? <ChartLegend items={shell.legend} hidden={shell.series.hidden} onToggle={shell.series.toggle} /> : undefined}
         dataTable={{ caption: [props.title, props.period].filter(Boolean).join(" · "), columns: shell.columns, rows: props.data, rowKey: (row) => positions.get(row) ?? String(row[props.index]) }}

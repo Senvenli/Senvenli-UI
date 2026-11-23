@@ -45,7 +45,8 @@ type FrameProps = {
   period?: string;
   isLoading?: boolean;
   /** Shown instead of the plot when there is nothing to draw; "No data for this period" by default. */
-  emptyMessage?: { title: string; description?: string };
+  /** Shown instead of the plot when there is no data: an `EmptyState size="small"` or text; "No data" by default. */
+  emptyState?: React.ReactNode;
 };
 
 /* ── WaterfallChart ───────────────────────────────────────────────────────── */
@@ -183,7 +184,7 @@ type PlotRow = WaterfallRow & { band: [number, number] };
  * `ds-chart-1`, increases outlined with a 25% tint, decreases outlined and hatched, each labeled with its signed
  * value. The arrow keys move between bars with the tooltip (change and running total); the data table has them all.
  */
-export function WaterfallChart({ title, period, start, steps, endLabel, valueFormatter = plain, isLoading, emptyMessage, height = 240 }: WaterfallChartProps) {
+export function WaterfallChart({ title, period, start, steps, endLabel, valueFormatter = plain, isLoading, emptyState, height = 240 }: WaterfallChartProps) {
   const { locale } = useLocale();
   const animate = useChartAnimation();
   const direction = useChartDirection();
@@ -225,7 +226,7 @@ export function WaterfallChart({ title, period, start, steps, endLabel, valueFor
     />
   );
   return (
-    <Shell title={title} period={period} isLoading={isLoading} emptyMessage={emptyMessage} isEmpty={isEmpty} height={height} legend={legend} columns={columns} rows={tableRows}>
+    <Shell title={title} period={period} isLoading={isLoading} emptyState={emptyState} isEmpty={isEmpty} height={height} legend={legend} columns={columns} rows={tableRows}>
       <div data-slot="waterfall" className="h-full min-w-0">
         <ResponsiveContainer width="100%" height="100%">
           <RechartsBarChart data={rows} barCategoryGap="20%" accessibilityLayer margin={{ top, right: 4, bottom: 0, left: 4 }}>
@@ -418,7 +419,7 @@ const hasDuplicates = (names: readonly string[]) => new Set(names).size !== name
  * and the focused cell otherwise; a key that moves focus hands the tooltip back to the focused cell until the
  * pointer enters another cell. Escape hides it.
  */
-export function SeasonalityHeatmap({ title, period, rows, columns, data, rowHeader, thresholds, valueFormatter = plain, onCellPress, isLoading, emptyMessage }: SeasonalityHeatmapProps) {
+export function SeasonalityHeatmap({ title, period, rows, columns, data, rowHeader, thresholds, valueFormatter = plain, onCellPress, isLoading, emptyState }: SeasonalityHeatmapProps) {
   const { locale } = useLocale();
   const { isRtl } = useChartDirection();
   const animate = useChartAnimation();
@@ -495,7 +496,7 @@ export function SeasonalityHeatmap({ title, period, rows, columns, data, rowHead
       title={title}
       period={period}
       isLoading={isLoading}
-      emptyMessage={emptyMessage}
+      emptyState={emptyState}
       isEmpty={values.length === 0}
       height={height}
       columns={tableColumns}

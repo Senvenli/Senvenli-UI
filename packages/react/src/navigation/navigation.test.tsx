@@ -44,9 +44,9 @@ const classesOf = (element: Element | null) => element?.getAttribute("class") ??
 const allClasses = () => Array.from(document.querySelectorAll("[class]")).map(classesOf).join(" ");
 
 const LINKS = [
-  { key: "product", label: "Product", href: "/#product" },
-  { key: "pricing", label: "Pricing", href: "/#pricing" },
-  { key: "faq", label: "FAQ", href: "/#faq" },
+  { id: "product", label: "Product", href: "/#product" },
+  { id: "pricing", label: "Pricing", href: "/#pricing" },
+  { id: "faq", label: "FAQ", href: "/#faq" },
 ];
 const LANGUAGES = {
   current: "en",
@@ -435,11 +435,11 @@ describe("Sidebar", () => {
 });
 
 const DOCK = [
-  { key: "today", label: "Today", icon: "layout-dashboard" as const, href: "/" },
-  { key: "orders", label: "Orders", icon: "calendar-range" as const, href: "/orders" },
-  { key: "projects", label: "Projects", icon: "folder" as const, href: "/projects" },
-  { key: "inbox", label: "Messages", icon: "message-circle" as const, href: "/inbox", badge: { value: 2, tone: "danger" as const } },
-  { key: "more", label: "More", icon: "menu" as const, href: "/more" },
+  { id: "today", label: "Today", icon: "layout-dashboard" as const, href: "/" },
+  { id: "orders", label: "Orders", icon: "calendar-range" as const, href: "/orders" },
+  { id: "projects", label: "Projects", icon: "folder" as const, href: "/projects" },
+  { id: "inbox", label: "Messages", icon: "message-circle" as const, href: "/inbox", badge: { value: 2, tone: "danger" as const } },
+  { id: "more", label: "More", icon: "menu" as const, href: "/more" },
 ];
 
 describe("BottomNav", () => {

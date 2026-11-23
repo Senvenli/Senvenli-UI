@@ -260,7 +260,7 @@ describe("Table with repeated row ids", () => {
     inLocale(<Table aria-label="Revenue" columns={COLUMNS} rows={UNIQUE} />);
     expect(bodyRows()).toEqual(["Web", "Phone", "Office"]);
     cleanup();
-    inLocale(<Table aria-label="Revenue" columns={COLUMNS} rows={[]} renderEmptyState={() => "No records"} />);
+    inLocale(<Table aria-label="Revenue" columns={COLUMNS} rows={[]} emptyState="No records" />);
     expect(warn).not.toHaveBeenCalled();
     expect(error).not.toHaveBeenCalled();
   });

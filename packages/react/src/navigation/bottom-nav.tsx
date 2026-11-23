@@ -10,7 +10,8 @@ import { mainNavigationLabel } from "../i18n";
 import { LAYER } from "../layers";
 
 export type BottomNavItem = {
-  key: string;
+  /** Unique; `currentKey` matches it. */
+  id: string;
   /** Always shown under the icon ("Orders"); the last item is "More" when the app has more. */
   label: string;
   icon: IconName;
@@ -72,11 +73,11 @@ export function BottomNav({ items, currentKey, "aria-label": label }: BottomNavP
     >
       <ul className="mx-auto grid max-w-[24.375rem] auto-cols-fr grid-flow-col">
         {items.map((item) => (
-          <li key={item.key} className="flex">
+          <li key={item.id} className="flex">
             <AriaLink
               href={item.href}
               data-slot="bottom-nav-item"
-              aria-current={item.key === currentKey ? "page" : undefined}
+              aria-current={item.id === currentKey ? "page" : undefined}
               className={cn(
                 "group/bottom-nav flex min-h-11 flex-1 flex-col items-center justify-center gap-0.5 rounded-ds-medium py-ds-050 text-[11px] leading-[14px] font-[500] text-ds-text-subtle outline-hidden",
                 "data-[pressed]:bg-ds-background-neutral-pressed data-[focus-visible]:inset-ring-2 data-[focus-visible]:inset-ring-ds-border-focused aria-[current=page]:text-ds-text",

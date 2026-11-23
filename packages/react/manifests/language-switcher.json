@@ -85,16 +85,18 @@
         }
       },
       {
-        "name": "current",
+        "name": "value",
         "type": "Locale",
         "required": true,
-        "origin": "own"
+        "origin": "own",
+        "description": "The active UI locale."
       },
       {
-        "name": "onSelect",
+        "name": "onChange",
         "type": "(locale: Locale) => void",
         "required": true,
-        "origin": "own"
+        "origin": "own",
+        "description": "Called with the picked locale (routing, persistence)."
       },
       {
         "name": "label",

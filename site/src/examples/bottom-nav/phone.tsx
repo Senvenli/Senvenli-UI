@@ -9,11 +9,11 @@ export default function Example() {
       <BottomNav
         currentKey="orders"
         items={[
-          { key: "home", label: "Home", icon: "house", href: "#" },
-          { key: "orders", label: "Orders", icon: "shopping-cart", href: "#", badge: { value: 4 } },
-          { key: "invoices", label: "Invoices", icon: "receipt", href: "#" },
-          { key: "inbox", label: "Inbox", icon: "inbox", href: "#", badge: { value: 2, tone: "danger" } },
-          { key: "more", label: "More", icon: "ellipsis", href: "#" },
+          { id: "home", label: "Home", icon: "house", href: "#" },
+          { id: "orders", label: "Orders", icon: "shopping-cart", href: "#", badge: { value: 4 } },
+          { id: "invoices", label: "Invoices", icon: "receipt", href: "#" },
+          { id: "inbox", label: "Inbox", icon: "inbox", href: "#", badge: { value: 2, tone: "danger" } },
+          { id: "more", label: "More", icon: "ellipsis", href: "#" },
         ]}
       />
     </div>

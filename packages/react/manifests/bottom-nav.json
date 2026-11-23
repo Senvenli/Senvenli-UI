@@ -63,7 +63,7 @@
             "type": "object",
             "additionalProperties": false,
             "properties": {
-              "key": {
+              "id": {
                 "type": "string"
               },
               "label": {
@@ -78,7 +78,7 @@
               }
             },
             "required": [
-              "key",
+              "id",
               "label",
               "icon",
               "href"

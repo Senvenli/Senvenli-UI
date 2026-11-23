@@ -87,8 +87,8 @@ export type TagGroupProps = {
   onSelectionChange?: (keys: Key[]) => void;
   description?: React.ReactNode;
   errorMessage?: React.ReactNode;
-  /** What to show when there are no tags ("Filtre yok"). */
-  emptyMessage?: React.ReactNode;
+  /** What to show when there are no tags ("No filters"). */
+  emptyState?: React.ReactNode;
 };
 
 /**
@@ -97,7 +97,7 @@ export type TagGroupProps = {
  * of three or more offer "Clear all".
  */
 export function TagGroup({
-  label, items, onRemove, selectionMode, selectedKeys, defaultSelectedKeys, onSelectionChange, description, errorMessage, emptyMessage,
+  label, items, onRemove, selectionMode, selectedKeys, defaultSelectedKeys, onSelectionChange, description, errorMessage, emptyState,
 }: TagGroupProps) {
   const { locale } = useLocale();
   // Only tags that can go count towards "Clear all" (three or more).
@@ -120,7 +120,7 @@ export function TagGroup({
           data-slot="tag-list"
           items={items}
           className="flex flex-wrap items-center gap-ds-075 outline-hidden"
-          renderEmptyState={emptyMessage ? () => <span className="text-body-small text-ds-text-subtlest">{emptyMessage}</span> : undefined}
+          renderEmptyState={emptyState != null && emptyState !== false ? () => <span className="text-body-small text-ds-text-subtlest">{emptyState}</span> : undefined}
         >
           {(item) => <TagRow item={item} />}
         </TagList>

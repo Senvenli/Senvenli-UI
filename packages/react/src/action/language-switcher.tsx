@@ -42,8 +42,10 @@ export function LanguageLabel({
 export interface LanguageSwitcherProps<Locale extends string> {
   /** Locales to offer, already narrowed to what this product enables. */
   locales: readonly Locale[];
-  current: Locale;
-  onSelect: (locale: Locale) => void;
+  /** The active UI locale. */
+  value: Locale;
+  /** Called with the picked locale (routing, persistence). */
+  onChange: (locale: Locale) => void;
   /** The trigger's accessible name and tooltip; "Language" (the DS string) by default. */
   label?: string;
   /** Hold the disabled trigger while the product's locale list resolves. */
@@ -74,8 +76,8 @@ const subscribeToClient = () => () => {};
  * The language choice every surface offers, on the DS.
  *
  * Presentation only: the app resolves the product's locale list and handles
- * `onSelect` (routing, persistence). Names come from `Intl.DisplayNames` in
- * the active UI locale (`current`), ordered by that visible name.
+ * `onChange` (routing, persistence). Names come from `Intl.DisplayNames` in
+ * the active UI locale (`value`), ordered by that visible name.
  * Choosing a value is a Select, not a Menu, so the list is a listbox whose
  * current option is selected for assistive technology and carries a check.
  *
@@ -85,8 +87,8 @@ const subscribeToClient = () => () => {};
  */
 export function LanguageSwitcher<Locale extends string>({
   locales,
-  current,
-  onSelect,
+  value: current,
+  onChange: onSelect,
   label: labelProp,
   isLoading: loading = false,
   variant = "button",

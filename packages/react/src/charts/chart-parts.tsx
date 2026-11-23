@@ -231,8 +231,8 @@ export type ChartFrameProps<T> = {
   /** The chart's height in px: loading, empty and the plot all keep it. */
   height: number;
   isLoading?: boolean;
-  /** Shown instead of the plot when there is nothing to draw: one sentence on why, one on what fills it. */
-  emptyMessage?: { title: string; description?: string } | null;
+  /** Shown instead of the plot when there is nothing to draw (a compact EmptyState); `null` while there is data. */
+  emptyState?: React.ReactNode;
   /**
    * The same data as a compact Table: always there for screen readers, shown on request. Cells are
    * values: a `render` that returns text (a formatted figure) is used; anything else falls back to the
@@ -254,11 +254,12 @@ export type ChartFrameProps<T> = {
  * draw, a compact EmptyState in the same space; otherwise the plot. Under every chart a "Show the data
  * as a table" button shows the same data as a compact Table, which screen readers get by default.
  */
-export function ChartFrame<T extends object>({ height, isLoading, emptyMessage, dataTable, legend, legendPlacement = "top", children }: ChartFrameProps<T>) {
+export function ChartFrame<T extends object>({ height, isLoading, emptyState, dataTable, legend, legendPlacement = "top", children }: ChartFrameProps<T>) {
   const { locale } = useLocale();
   const [showTable, setShowTable] = React.useState(false);
   const tableId = React.useId();
-  const hasData = !isLoading && !emptyMessage;
+  const isEmpty = emptyState !== undefined && emptyState !== null && emptyState !== false;
+  const hasData = !isLoading && !isEmpty;
   const { rows, rowKey = (row: T) => (row as { id: string | number }).id, onRowAction } = dataTable;
   const rowAction = onRowAction && ((key: React.Key) => {
     const row = rows.find((candidate) => String(rowKey(candidate)) === String(key));
@@ -269,10 +270,10 @@ export function ChartFrame<T extends object>({ height, isLoading, emptyMessage, 
       <Skeleton width="40%" height={16} />
       <Skeleton height={Math.max(0, height - 16 - 12)} radius="medium" />
     </div>
-  ) : emptyMessage ? (
+  ) : isEmpty ? (
     // At least the chart's height; a very short chart grows rather than clipping the message.
     <div data-slot="chart-empty" style={{ minHeight: height }} className="grid place-items-center">
-      <EmptyState size="small" icon="chart-column" title={emptyMessage.title} description={emptyMessage.description} />
+      {emptyState}
     </div>
   ) : (
     <div

@@ -5,9 +5,9 @@ import { SiteSearch } from "../components/SiteSearch";
 import type { ManifestIndexEntry } from "../lib/manifest";
 
 const LINKS = [
-  { key: "docs", label: "Docs", href: "/docs" },
-  { key: "components", label: "Components", href: "/docs/components" },
-  { key: "create", label: "Create", href: "/create" },
+  { id: "docs", label: "Docs", href: "/docs" },
+  { id: "components", label: "Components", href: "/docs/components" },
+  { id: "create", label: "Create", href: "/create" },
 ];
 
 /**

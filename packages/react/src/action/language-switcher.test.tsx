@@ -35,7 +35,7 @@ type Options = {
 
 function renderSwitcher({ locales = LOCALES, current = "en", ...props }: Options = {}) {
   const onSelect = vi.fn();
-  render(<LanguageSwitcher locales={locales} current={current} onSelect={onSelect} {...props} />);
+  render(<LanguageSwitcher locales={locales} value={current} onChange={onSelect} {...props} />);
   return { onSelect };
 }
 

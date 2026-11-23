@@ -36,8 +36,8 @@ export function AuthPreview() {
         <CardHeader title="Language switcher" subtitle="Names only by default; a mark is the app's choice" />
         <CardBody>
           <div className="flex flex-wrap items-center gap-ds-200">
-            <LanguageSwitcher locales={LOCALES} current={locale} onSelect={setLocale} />
-            <LanguageSwitcher locales={LOCALES} current={locale} onSelect={setLocale} renderMark={(l) => <Badge>{REGION[l]}</Badge>} />
+            <LanguageSwitcher locales={LOCALES} value={locale} onChange={setLocale} />
+            <LanguageSwitcher locales={LOCALES} value={locale} onChange={setLocale} renderMark={(l) => <Badge>{REGION[l]}</Badge>} />
           </div>
         </CardBody>
       </Card>

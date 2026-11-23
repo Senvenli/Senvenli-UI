@@ -217,11 +217,11 @@
         "origin": "own"
       },
       {
-        "name": "emptyMessage",
+        "name": "emptyState",
         "type": "React.ReactNode",
         "required": false,
         "origin": "own",
-        "description": "What to show when there are no tags (\"Filtre yok\")."
+        "description": "What to show when there are no tags (\"No filters\")."
       }
     ]
   },
