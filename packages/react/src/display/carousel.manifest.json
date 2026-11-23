@@ -7,14 +7,17 @@
   "name": "carousel",
   "title": "Carousel",
   "exports": [
-    "Carousel"
+    "Carousel",
+    "CarouselSlide"
   ],
   "description": "Pages through a set of images with previous/next and optional thumbnails; never auto-advances.",
   "keywords": [
+    "compound",
     "gallery",
     "images",
+    "photos",
     "slider",
-    "photos"
+    "slides"
   ],
   "usage": {
     "when": [
@@ -38,7 +41,8 @@
       "The position is announced as \"Image N of M\"."
     ],
     "youProvide": [
-      "Meaningful alt text for each image."
+      "Meaningful alt text for each image.",
+      "With CarouselSlide children: real alt text on images inside slides, and a label per slide when thumbnails are shown."
     ]
   },
   "related": [

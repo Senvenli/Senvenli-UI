@@ -809,14 +809,17 @@
     "status": "alpha",
     "description": "Pages through a set of images with previous/next and optional thumbnails; never auto-advances.",
     "keywords": [
+      "compound",
       "gallery",
       "images",
+      "photos",
       "slider",
-      "photos"
+      "slides"
     ],
     "import": "@senvenli/react/display",
     "exports": [
-      "Carousel"
+      "Carousel",
+      "CarouselSlide"
     ],
     "genui": false
   },

@@ -18,7 +18,10 @@ export type CarouselItem = {
 };
 
 export type CarouselProps = {
-  items: CarouselItem[];
+  /** Images as data. Leave it out to compose `CarouselSlide`s as children instead (any content: a card, a quote). */
+  items?: CarouselItem[];
+  /** With no `items`: `CarouselSlide`s, one per page. */
+  children?: React.ReactNode;
   /** Names the carousel ("Product photos"). */
   "aria-label": string;
   /** The shown image, controlled. The carousel calls `onIndexChange` and expects the new value back. */
@@ -26,7 +29,10 @@ export type CarouselProps = {
   /** The first image shown when uncontrolled. */
   defaultIndex?: number;
   onIndexChange?: (index: number) => void;
-  /** A strip of thumbnails under the frame; the current one outlined. The dots then only indicate. */
+  /**
+   * A strip of thumbnails under the frame; the current one outlined. The dots then only indicate. With
+   * `CarouselSlide`s, shown only when every slide has a `thumbnail`.
+   */
   showThumbnails?: boolean;
   aspectRatio?: "16/9" | "4/3";
   /**
@@ -46,6 +52,44 @@ const SETTLE_MS = 150;
 
 const clamp = (value: number, count: number) => Math.min(Math.max(value, 0), Math.max(count - 1, 0));
 
+export type CarouselSlideProps = {
+  /** Stable key; the position by default. */
+  id?: string;
+  /** The slide's name for its thumbnail ("Front view"); the position by default. */
+  label?: string;
+  /** An image URL for the thumbnail strip. */
+  thumbnail?: string;
+  /** What the page shows: an image, a card, a quote. It fills the frame. */
+  children: React.ReactNode;
+};
+
+/** One page of a Carousel composed from parts. */
+export function CarouselSlide({ children }: CarouselSlideProps) {
+  return <>{children}</>;
+}
+
+type Slide = { key: string; content: React.ReactNode; thumbnail?: string; label?: string };
+
+/** The pages to show, from `items` (images) or from `CarouselSlide` children. */
+function slidesOf(items: CarouselItem[] | undefined, children: React.ReactNode): Slide[] {
+  if (items) {
+    return items.map((item) => ({
+      key: item.id ?? item.src,
+      content: <img src={item.src} alt={item.alt} draggable={false} className="size-full object-cover" />,
+      thumbnail: item.src,
+      label: item.alt,
+    }));
+  }
+  return React.Children.toArray(children)
+    .filter((child): child is React.ReactElement<CarouselSlideProps> => React.isValidElement(child) && child.type === CarouselSlide)
+    .map((child, position) => ({
+      key: child.props.id ?? String(position),
+      content: child.props.children,
+      thumbnail: child.props.thumbnail,
+      label: child.props.label,
+    }));
+}
+
 /**
  * Pages through a set of images (product photos, a gallery); never auto-advances.
  * Native scroll-snap underneath, so touch swipes, trackpads and RTL behave as
@@ -54,10 +98,11 @@ const clamp = (value: number, count: number) => Math.min(Math.max(value, 0), Mat
  * shown image resets to the first when the set of images changes.
  */
 function CarouselBody({
-  items, "aria-label": ariaLabel, index: controlled, defaultIndex = 0, onIndexChange, showThumbnails, aspectRatio = "16/9",
+  items: itemsProp, children, "aria-label": ariaLabel, index: controlled, defaultIndex = 0, onIndexChange, showThumbnails, aspectRatio = "16/9",
   isLandmark = true,
 }: CarouselProps) {
   const { locale, direction } = useLocale();
+  const items = slidesOf(itemsProp, children);
   const reduced = usePrefersReducedMotion();
   const viewport = React.useRef<HTMLDivElement>(null);
   const strip = React.useRef<HTMLDivElement>(null);
@@ -127,7 +172,7 @@ function CarouselBody({
   }, [controlled, items.length, scrollTo]);
 
   // A new set of images (another item) starts again at the first one, with no animation.
-  const signature = items.map((item) => item.id ?? item.src).join("\n");
+  const signature = items.map((item) => item.key).join("\n");
   const firstSignature = React.useRef(signature);
   React.useEffect(() => {
     if (firstSignature.current === signature) return;
@@ -198,6 +243,7 @@ function CarouselBody({
     go(next);
   };
 
+  const thumbnails = !!showThumbnails && items.every((item) => item.thumbnail);
   const ratio = aspectRatio === "4/3" ? "aspect-[4/3]" : "aspect-video";
   const many = items.length > 1;
   const position = imagePositionLabel(locale, index + 1, items.length);
@@ -231,7 +277,7 @@ function CarouselBody({
           >
             {items.map((item, slide) => (
               <div
-                key={item.id ?? item.src}
+                key={item.key}
                 role="group"
                 aria-roledescription="slide"
                 aria-label={imagePositionLabel(locale, slide + 1, items.length)}
@@ -240,7 +286,7 @@ function CarouselBody({
                 data-current={slide === index || undefined}
                 className="size-full shrink-0 snap-start snap-always"
               >
-                <img src={item.src} alt={item.alt} draggable={false} className="size-full object-cover" />
+                {item.content}
               </div>
             ))}
           </div>
@@ -274,7 +320,7 @@ function CarouselBody({
             >
               <bdi>{`${index + 1} / ${items.length}`}</bdi>
             </span>
-            <div data-slot="carousel-dots" aria-hidden={showThumbnails || undefined} className="absolute inset-x-0 bottom-ds-100 flex justify-center">
+            <div data-slot="carousel-dots" aria-hidden={thumbnails || undefined} className="absolute inset-x-0 bottom-ds-100 flex justify-center">
               {items.map((item, dot) => {
                 const mark = (
                   <span
@@ -285,12 +331,12 @@ function CarouselBody({
                   />
                 );
                 // With thumbnails the thumbnails are the controls; the dots only show the position.
-                return showThumbnails ? (
-                  <span key={item.id ?? item.src} data-slot="carousel-dot" className="grid h-6 min-w-6 place-items-center">{mark}</span>
+                return thumbnails ? (
+                  <span key={item.key} data-slot="carousel-dot" className="grid h-6 min-w-6 place-items-center">{mark}</span>
                 ) : (
                   // A 24px target around a 6px dot (18px wide when current).
                   <AriaButton
-                    key={item.id ?? item.src}
+                    key={item.key}
                     data-slot="carousel-dot"
                     aria-label={goToImageLabel(locale, dot + 1)}
                     aria-current={dot === index || undefined}
@@ -308,13 +354,13 @@ function CarouselBody({
           {announced && many ? position : ""}
         </span>
       </div>
-      {showThumbnails && many && (
+      {thumbnails && many && (
         <div ref={strip} data-slot="carousel-thumbnails" className="flex gap-ds-100 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {items.map((item, thumb) => (
             <AriaButton
-              key={item.id ?? item.src}
+              key={item.key}
               data-slot="carousel-thumbnail"
-              aria-label={item.alt}
+              aria-label={item.label ?? goToImageLabel(locale, thumb + 1)}
               aria-current={thumb === index || undefined}
               onPress={() => go(thumb)}
               className={cn(
@@ -327,7 +373,7 @@ function CarouselBody({
                 "data-[focus-visible]:before:inset-ring-2 data-[focus-visible]:before:inset-ring-ds-border-focused",
               )}
             >
-              <img src={item.src} alt="" draggable={false} className="size-full object-cover" />
+              <img src={item.thumbnail} alt="" draggable={false} className="size-full object-cover" />
             </AriaButton>
           ))}
         </div>
