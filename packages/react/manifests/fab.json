@@ -57,21 +57,21 @@
   "props": {
     "Fab": [
       {
-        "name": "label",
+        "name": "children",
         "type": "string",
         "required": true,
         "origin": "own",
-        "description": "The task, as a verb (\"Contact us\", \"New order\"); also the name when icon-only.",
+        "description": "The task, as a verb (\"Contact us\", \"New order\"), as Button's label; also the name when icon-only.",
         "schema": {
           "type": "string"
         }
       },
       {
-        "name": "icon",
+        "name": "iconBefore",
         "type": "IconName",
         "required": true,
         "origin": "own",
-        "description": "Lucide icon name (\"message-circle\", \"calendar-plus\").",
+        "description": "Lucide icon name before the label (\"message-circle\", \"calendar-plus\"), as Button's `iconBefore`.",
         "schema": {
           "type": "string",
           "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"

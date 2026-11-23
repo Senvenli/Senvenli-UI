@@ -6,7 +6,8 @@ import { Input as AriaInput, TextField as AriaTextField } from "react-aria-compo
 import { afterEach, describe, expect, it, vi } from "vitest";
 
 import { DesignSystemProvider } from "../provider";
-import { FieldDescription, FieldError, FieldLabel, Form, FormFooter, FormRow, FormSection, InputAction, InputAddon, InputGroup, TextArea, passwordStrength } from "./index";
+import { FieldDescription, FieldError, FieldLabel, Form, FormFooter, FormRow, FormSection, InputAction, InputAddon, InputGroup, TextArea } from "./index";
+import { passwordStrength } from "./password-field";
 import { PasswordField } from "./password-field";
 import { SearchField } from "./search-field";
 import { TextField } from "./text-field";

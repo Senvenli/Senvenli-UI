@@ -37,6 +37,15 @@ type Common = {
 };
 
 export type SkeletonProps = Common & {
+  /**
+   * `rectangle` (default): a block of `width` × `height`; `text`: `lines` of text, the last one shorter;
+   * `circle`: an avatar of `size` px.
+   */
+  variant?: "rectangle" | "text" | "circle";
+  /** `text`: the number of 12px lines (default 2). */
+  lines?: number;
+  /** `circle`: the diameter in px (default 32, a list avatar). */
+  size?: number;
   /** CSS width ("60%", 240); default full width. */
   width?: number | string;
   /** CSS height; default 12px (a text line). */
@@ -69,18 +78,15 @@ function Shape({ className, style, delay = 300 }: { className: string; style?: R
  * when data arrives. Mirror the real layout; mark the loading region with
  * `aria-busy` and a label (SkeletonGroup does both).
  */
-function SkeletonBody({ isLoaded, children, delay, width, height = 12, radius = "small", aspectRatio }: SkeletonProps) {
+function SkeletonBody({ isLoaded, children, delay, variant = "rectangle", lines = 2, size = 32, width, height = 12, radius = "small", aspectRatio }: SkeletonProps) {
   if (isLoaded) return <>{children}</>;
+  if (variant === "text") return <TextLines delay={delay} lines={lines} />;
+  if (variant === "circle") return <Shape delay={delay} className="shrink-0 rounded-ds-full" style={{ width: size, height: size }} />;
   return <Shape delay={delay} className={RADIUS[radius]} style={{ width: width ?? "100%", height: aspectRatio ? undefined : height, aspectRatio }} />;
 }
 
-export type SkeletonTextProps = Common & {
-  /** Number of 12px lines; the last one is shorter, as text is. */
-  lines?: number;
-};
-
-export function SkeletonText({ isLoaded, children, delay, lines = 2 }: SkeletonTextProps) {
-  if (isLoaded) return <>{children}</>;
+/** Lines of text: 12px each, the last one shorter, as text is. */
+function TextLines({ delay, lines }: { delay?: number; lines: number }) {
   return (
     <span data-slot="skeleton-text" className="flex flex-col gap-ds-075">
       {Array.from({ length: lines }, (_, index) => (
@@ -88,16 +94,6 @@ export function SkeletonText({ isLoaded, children, delay, lines = 2 }: SkeletonT
       ))}
     </span>
   );
-}
-
-export type SkeletonCircleProps = Common & {
-  /** Diameter in px (32 for a list avatar). */
-  size?: number;
-};
-
-export function SkeletonCircle({ isLoaded, children, delay, size = 32 }: SkeletonCircleProps) {
-  if (isLoaded) return <>{children}</>;
-  return <Shape delay={delay} className="shrink-0 rounded-ds-full" style={{ width: size, height: size }} />;
 }
 
 export type SkeletonGroupProps = {

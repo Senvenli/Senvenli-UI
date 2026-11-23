@@ -1,12 +1,12 @@
 import fs from "node:fs";
 import * as React from "react";
-import { act, cleanup, fireEvent, render, renderHook, screen } from "@testing-library/react";
+import { act, cleanup, fireEvent, render, screen } from "@testing-library/react";
 import { createTheme, toCSS } from "@senvenli/tokens";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import { DesignSystemProvider } from "../provider";
 import { DS_STRINGS, resendInLabel } from "../i18n";
-import { Banner, Meter, ProgressBar, ProgressCircle, Skeleton, SkeletonCircle, SkeletonGroup, SkeletonText, Spinner, useCooldownAction } from "./index";
+import { Banner, Meter, ProgressBar, ProgressCircle, Skeleton, SkeletonGroup, Spinner } from "./index";
 
 // A helper, not an inline `new URL("…", import.meta.url)`: Vite rewrites that literal form into an asset URL.
 const here = (file: string) => new URL(file, import.meta.url);
@@ -241,14 +241,14 @@ describe("Skeleton", () => {
 
   it("does not shimmer under reduced motion", () => {
     reducedMotion = true;
-    inProvider(<SkeletonCircle size={32} delay={0} />);
+    inProvider(<Skeleton variant="circle" size={32} delay={0} />);
     expect(started).toHaveLength(0);
   });
 
   it("swaps in the real content when loaded, and marks the region busy while loading", () => {
     const { rerender } = inProvider(
       <SkeletonGroup label="Loading orders" isLoading>
-        <SkeletonText lines={3} delay={0} />
+        <Skeleton variant="text" lines={3} delay={0} />
       </SkeletonGroup>,
     );
     const group = screen.getByRole("group", { name: "Loading orders" });
@@ -257,9 +257,9 @@ describe("Skeleton", () => {
     rerender(
       <DesignSystemProvider locale="en" navigate={vi.fn()}>
         <SkeletonGroup label="Loading orders" isLoading={false}>
-          <SkeletonText lines={3} isLoaded>
+          <Skeleton variant="text" lines={3} isLoaded>
             <p>Order 482</p>
-          </SkeletonText>
+          </Skeleton>
         </SkeletonGroup>
       </DesignSystemProvider>,
     );
@@ -286,119 +286,6 @@ describe("Skeleton", () => {
     rerender(<DesignSystemProvider locale="en" navigate={vi.fn()}><Skeleton delay={0} /></DesignSystemProvider>);
     expect(classesOf(shape())).toContain("opacity-100");
     vi.useRealTimers();
-  });
-});
-
-describe("the resend cooldown", () => {
-  it("does not start the wait when the resend is rejected, handles the rejection and reports it as failed", async () => {
-    const unhandled = vi.fn();
-    process.on("unhandledRejection", unhandled);
-    const onResend = vi.fn().mockRejectedValue(new Error("The provider did not respond"));
-    const { result } = renderHook(() => useCooldownAction(onResend, 60));
-    let ran = true;
-    await act(async () => {
-      ran = await result.current.run();
-    });
-    expect(onResend).toHaveBeenCalledTimes(1);
-    expect(ran).toBe(false);
-    expect(result.current.failed).toBe(true);
-    expect(result.current.isPending).toBe(false);
-    expect(result.current.remaining).toBe(0);
-    await new Promise((resolve) => setTimeout(resolve, 0));
-    process.off("unhandledRejection", unhandled);
-    expect(unhandled).not.toHaveBeenCalled();
-  });
-
-  it("starts the wait only after the resend succeeds", async () => {
-    vi.useFakeTimers();
-    let finish: () => void = () => {};
-    const onResend = vi.fn(() => new Promise<void>((resolve) => {
-      finish = resolve;
-    }));
-    // A code was just sent: the first wait is already running.
-    const { result } = renderHook(() => useCooldownAction(onResend, 30, 30));
-    for (let second = 0; second < 30; second++) act(() => vi.advanceTimersByTime(1000));
-    expect(result.current.remaining).toBe(0);
-    act(() => {
-      void result.current.run();
-    });
-    // Pending: not available again, but no countdown yet.
-    expect(result.current.isPending).toBe(true);
-    expect(result.current.remaining).toBe(0);
-    await act(async () => finish());
-    expect(result.current.isPending).toBe(false);
-    expect(result.current.failed).toBe(false);
-    expect(result.current.remaining).toBe(30);
-    expect(resendInLabel("en", result.current.remaining)).toBe(DS_STRINGS.resendIn.en.replace("{time}", "0:30"));
-    vi.useRealTimers();
-  });
-
-  it("restarts the wait when the parent passes a new cooldown (server retry-after)", () => {
-    vi.useFakeTimers();
-    const { result, rerender } = renderHook(({ cooldown }) => useCooldownAction(vi.fn(), cooldown, cooldown), { initialProps: { cooldown: 30 } });
-    for (let second = 0; second < 30; second++) act(() => vi.advanceTimersByTime(1000));
-    expect(result.current.remaining).toBe(0);
-    rerender({ cooldown: 90 });
-    expect(result.current.remaining).toBe(90);
-    expect(resendInLabel("en", result.current.remaining)).toBe(DS_STRINGS.resendIn.en.replace("{time}", "1:30"));
-    vi.useRealTimers();
-  });
-});
-
-describe("useCooldownAction", () => {
-  it("runs once while a run is pending and not at all during the wait", async () => {
-    vi.useFakeTimers();
-    let finish: () => void = () => {};
-    const action = vi.fn(() => new Promise<void>((resolve) => {
-      finish = resolve;
-    }));
-    const { result } = renderHook(() => useCooldownAction(action, 10));
-    let first: Promise<boolean> = Promise.resolve(false);
-    let second: Promise<boolean> = Promise.resolve(false);
-    act(() => {
-      first = result.current.run();
-      second = result.current.run();
-    });
-    expect(await second).toBe(false);
-    await act(async () => finish());
-    expect(await first).toBe(true);
-    expect(action).toHaveBeenCalledTimes(1);
-    expect(result.current.remaining).toBe(10);
-    let during = true;
-    await act(async () => {
-      during = await result.current.run();
-    });
-    expect(during).toBe(false);
-    expect(action).toHaveBeenCalledTimes(1);
-    for (let second = 0; second < 10; second++) act(() => vi.advanceTimersByTime(1000));
-    expect(result.current.remaining).toBe(0);
-    vi.useRealTimers();
-  });
-
-  it("reports a throw as failed without starting the wait, and clears it on the next run", async () => {
-    const action = vi.fn().mockImplementationOnce(() => {
-      throw new Error("x");
-    }).mockResolvedValueOnce(undefined);
-    const { result } = renderHook(() => useCooldownAction(action, 5));
-    await act(async () => {
-      await result.current.run();
-    });
-    expect(result.current.failed).toBe(true);
-    expect(result.current.remaining).toBe(0);
-    await act(async () => {
-      await result.current.run();
-    });
-    expect(result.current.failed).toBe(false);
-    expect(result.current.remaining).toBe(5);
-  });
-
-  it("does nothing without an action", async () => {
-    const { result } = renderHook(() => useCooldownAction(undefined, 5));
-    let ran = true;
-    await act(async () => {
-      ran = await result.current.run();
-    });
-    expect(ran).toBe(false);
   });
 });
 

@@ -8,8 +8,6 @@
   "title": "Skeleton",
   "exports": [
     "Skeleton",
-    "SkeletonText",
-    "SkeletonCircle",
     "SkeletonGroup"
   ],
   "description": "Placeholder shapes in the layout of content that is still loading.",

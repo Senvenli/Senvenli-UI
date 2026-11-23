@@ -1,6 +1,7 @@
 import { Button } from "@senvenli/react/action";
 import { Card, CardBody, CardHeader, Heading, Badge, Text } from "@senvenli/react/display";
-import { EmptyState, useCooldownAction } from "@senvenli/react/feedback";
+import { EmptyState } from "@senvenli/react/feedback";
+import { useCooldownAction } from "../../examples/otp-field/use-cooldown-action";
 import { Form, Input } from "@senvenli/react/form";
 import { Stack } from "@senvenli/react/layout";
 import { LanguageSwitcher } from "@senvenli/react/action";

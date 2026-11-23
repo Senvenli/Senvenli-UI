@@ -1,5 +1,5 @@
-"use client";
-
+// The resend pattern for a one-time code or a sign-in link, kept as example code: it is app logic, not a
+// design-system part. Copy it into your app and adapt it.
 import * as React from "react";
 
 export type CooldownAction = {

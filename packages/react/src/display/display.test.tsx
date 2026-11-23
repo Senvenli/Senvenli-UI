@@ -8,7 +8,7 @@ import { Button } from "../action/index";
 import { DS_STRINGS, intlLocale, registerDsStrings } from "../i18n";
 import { registerLocaleAliases } from "../intl-locale";
 import { DesignSystemProvider } from "../provider";
-import { Avatar, AvatarGroup, Badge, BadgeAnchor, Card, CardBody, CardFooter, CardHeader, CardMedia, Kbd, ModifierKbd, Separator } from "./index";
+import { Avatar, AvatarGroup, Badge, BadgeAnchor, Card, CardBody, CardFooter, CardHeader, CardMedia, Kbd, Separator } from "./index";
 
 const here = (file: string) => new URL(file, import.meta.url);
 const theme = toCSS(createTheme(), { tailwind: true }) + fs.readFileSync(here("../../styles/theme.css"), "utf8");
@@ -378,7 +378,7 @@ describe("Separator", () => {
 
 describe("Kbd", () => {
   it("renders each key as a keycap and the modifier for the platform", async () => {
-    inLocale(<span><ModifierKbd /> <Kbd>K</Kbd></span>);
+    inLocale(<span><Kbd isModifier /> <Kbd>K</Kbd></span>);
     const keys = Array.from(document.querySelectorAll("kbd"));
     expect(keys.map((key) => key.textContent)).toEqual(["Ctrl", "K"]);
     expect(classesOf(keys[1])).toContain("font-ds-mono");
@@ -386,7 +386,7 @@ describe("Kbd", () => {
     expectTokens(keys[1]);
     cleanup();
     const platform = vi.spyOn(navigator, "platform", "get").mockReturnValue("MacIntel");
-    inLocale(<ModifierKbd />);
+    inLocale(<Kbd isModifier />);
     await act(async () => {});
     // The glyph is hidden and the key's name is text, since aria-label is not allowed on <kbd>.
     const key = document.querySelector("kbd");

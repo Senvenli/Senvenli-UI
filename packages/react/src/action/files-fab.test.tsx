@@ -223,7 +223,7 @@ describe("FileRow and FileUploadList", () => {
 
 describe("Fab", () => {
   it("iconOnly: a round icon button at every width, named by its label", () => {
-    inProvider(<Fab label="New order" icon="plus" iconOnly placement="inline" onPress={() => {}} />);
+    inProvider(<Fab iconBefore="plus" iconOnly placement="inline" onPress={() => {}}>New order</Fab>);
     const fab = screen.getByRole("button", { name: "New order" });
     expect(fab.hasAttribute("data-collapsed")).toBe(true);
     expect(fab.querySelector('[data-slot="fab-label"]')).toBeNull();
@@ -240,7 +240,7 @@ describe("Fab", () => {
 
   it("is a labelled button in the brand tone by default, fixed at the logical end above the safe area", () => {
     const onPress = vi.fn();
-    inProvider(<Fab icon="calendar-plus" label="Create invoice" onPress={onPress} />);
+    inProvider(<Fab iconBefore="calendar-plus" onPress={onPress}>Create invoice</Fab>);
     const fab = screen.getByRole("button", { name: "Create invoice" });
     expect(fab.getAttribute("data-slot")).toBe("fab");
     const classes = classesOf(fab);
@@ -252,7 +252,7 @@ describe("Fab", () => {
   });
 
   it("is a link when it has an href, in the brand tone, and sits in the page flow when inline", () => {
-    inProvider(<Fab placement="inline" icon="message-circle" label="Chat with us" href="https://example.com/help" />);
+    inProvider(<Fab placement="inline" iconBefore="message-circle" href="https://example.com/help">Chat with us</Fab>);
     const link = screen.getByRole("link", { name: "Chat with us (opens in a new tab)" });
     expect(link.getAttribute("href")).toBe("https://example.com/help");
     expect(classesOf(link)).toContain("bg-ds-background-brand-bold");
@@ -262,7 +262,7 @@ describe("Fab", () => {
 
   it("collapses to icon-only on phones after the first scroll and keeps its name", () => {
     setPhone(true);
-    inProvider(<Fab icon="message-circle" label="Chat with us" onPress={() => {}} />);
+    inProvider(<Fab iconBefore="message-circle" onPress={() => {}}>Chat with us</Fab>);
     const fab = screen.getByRole("button", { name: "Chat with us" });
     expect(fab.hasAttribute("data-collapsed")).toBe(false);
     act(() => {
@@ -276,7 +276,7 @@ describe("Fab", () => {
 
   it("stays extended on wider screens and when collapsing is off", () => {
     setPhone(false);
-    inProvider(<Fab icon="calendar-plus" label="Create invoice" onPress={() => {}} />);
+    inProvider(<Fab iconBefore="calendar-plus" onPress={() => {}}>Create invoice</Fab>);
     act(() => {
       Object.defineProperty(window, "scrollY", { value: 400, configurable: true });
       window.dispatchEvent(new Event("scroll"));
@@ -284,7 +284,7 @@ describe("Fab", () => {
     expect(screen.getByRole("button", { name: "Create invoice" }).hasAttribute("data-collapsed")).toBe(false);
     cleanup();
     setPhone(true);
-    inProvider(<Fab icon="calendar-plus" label="Create invoice" collapseOnScroll={false} onPress={() => {}} />);
+    inProvider(<Fab iconBefore="calendar-plus" collapseOnScroll={false} onPress={() => {}}>Create invoice</Fab>);
     expect(screen.getByRole("button", { name: "Create invoice" }).hasAttribute("data-collapsed")).toBe(false);
   });
 });
@@ -297,8 +297,8 @@ describe("tokens, strings and direction", () => {
       <>
         <DropZone label="Document" typesLabel="PDF" maxSize={1000} />
         <FileUploadList><FileRow name="a.jpg" size={10} progress={0.3} onCancel={() => {}} /><FileRow name="b" error="x" /></FileUploadList>
-        <Fab icon="calendar-plus" label="New" />
-        <Fab icon="message-circle" label="Chat" placement="inline" />
+        <Fab iconBefore="calendar-plus">New</Fab>
+        <Fab iconBefore="message-circle" placement="inline">Chat</Fab>
       </>,
     );
     const utilities = Array.from(container.querySelectorAll("[class]")).flatMap((element) => classesOf(element).split(/\s+/));

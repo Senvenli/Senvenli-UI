@@ -930,8 +930,7 @@
     ],
     "import": "@senvenli/react/display",
     "exports": [
-      "Kbd",
-      "ModifierKbd"
+      "Kbd"
     ],
     "genui": false
   },
@@ -1122,8 +1121,6 @@
     "import": "@senvenli/react/feedback",
     "exports": [
       "Skeleton",
-      "SkeletonText",
-      "SkeletonCircle",
       "SkeletonGroup"
     ],
     "genui": false

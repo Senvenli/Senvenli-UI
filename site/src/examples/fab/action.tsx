@@ -8,7 +8,7 @@ export default function Example() {
   return (
     <Stack direction="horizontal" space="space-200">
       {/* In an app, leave `placement` out: the button floats above the page's bottom corner. */}
-      <Fab label="New order" icon="plus" placement="inline" onPress={() => setOrders(orders + 1)} />
+      <Fab iconBefore="plus" placement="inline" onPress={() => setOrders(orders + 1)}>New order</Fab>
       <Text tone="subtle">Orders started: {orders}</Text>
     </Stack>
   );

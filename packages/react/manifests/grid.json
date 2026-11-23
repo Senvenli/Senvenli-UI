@@ -2636,21 +2636,21 @@
         }
       },
       {
-        "name": "label",
-        "type": "string",
-        "required": false,
-        "origin": "dom",
-        "schema": {
-          "type": "string"
-        }
-      },
-      {
         "name": "selected",
         "type": "boolean",
         "required": false,
         "origin": "dom",
         "schema": {
           "type": "boolean"
+        }
+      },
+      {
+        "name": "label",
+        "type": "string",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
         }
       },
       {
