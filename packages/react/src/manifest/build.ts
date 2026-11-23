@@ -57,9 +57,27 @@ function createProgram(): { program: ts.Program; checker: ts.TypeChecker } {
 
 type ComponentDecl = { file: string; params: ts.NodeArray<ts.ParameterDeclaration>; node: ts.Node };
 
+/**
+ * The module the family's index exports `name` from. An internal module may export the same name (the single-mode
+ * `Select` behind the public `Select` with `selectionMode`), so the index decides which one is the component.
+ */
+function publicModule(familyDir: string, name: string): string | undefined {
+  const index = path.join(familyDir, "index.ts");
+  if (!fs.existsSync(index)) return undefined;
+  for (const m of fs.readFileSync(index, "utf8").matchAll(/export\s*\{([^}]*)\}\s*from\s*["']\.\/([\w-]+)["']/g)) {
+    const names = m[1]!.split(",").map((part) => part.trim().split(/\s+as\s+/).pop()!.replace(/^type\s+/, ""));
+    if (!names.includes(name)) continue;
+    return [".tsx", ".ts"].map((ext) => path.join(familyDir, m[2]! + ext)).find((f) => fs.existsSync(f));
+  }
+  return undefined;
+}
+
 function findDeclaration(program: ts.Program, familyDir: string, name: string): ComponentDecl {
-  for (const sf of program.getSourceFiles()) {
-    if (!sf.fileName.startsWith(familyDir + path.sep)) continue;
+  const preferred = publicModule(familyDir, name);
+  const files = program.getSourceFiles().filter((sf) => sf.fileName.startsWith(familyDir + path.sep));
+  // The index's module first, then the rest of the family as before.
+  files.sort((a, b) => Number(path.resolve(b.fileName) === preferred) - Number(path.resolve(a.fileName) === preferred));
+  for (const sf of files) {
     let found: ComponentDecl | null = null;
     const isExported = (n: ts.Node) =>
       ts.canHaveModifiers(n) && (ts.getModifiers(n) ?? []).some((m) => m.kind === ts.SyntaxKind.ExportKeyword);
