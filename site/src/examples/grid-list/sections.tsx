@@ -1,4 +1,4 @@
-import { List } from "@senvenli/react/collection";
+import { GridList } from "@senvenli/react/collection";
 import { Icon, Badge } from "@senvenli/react/display";
 
 type Delivery = { id: string; customer: string; detail: string; isDelivered?: boolean };
@@ -23,7 +23,7 @@ const DELIVERIES: { title: string; items: Delivery[] }[] = [
 
 export default function Example() {
   return (
-    <List
+    <GridList
       aria-label="Deliveries"
       sections={DELIVERIES}
       renderItem={(delivery) => ({

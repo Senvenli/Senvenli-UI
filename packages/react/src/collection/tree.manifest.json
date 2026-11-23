@@ -24,7 +24,7 @@
     ],
     "instead": [
       {
-        "use": "list",
+        "use": "grid-list",
         "when": "The items have no hierarchy."
       },
       {
@@ -51,7 +51,7 @@
     ]
   },
   "related": [
-    "list",
+    "grid-list",
     "sidebar",
     "accordion"
   ],

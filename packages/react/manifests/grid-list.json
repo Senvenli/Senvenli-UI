@@ -7,24 +7,37 @@
   "name": "grid-list",
   "title": "Grid list",
   "exports": [
-    "GridList"
+    "GridList",
+    "GridListItem",
+    "GridListSection"
   ],
-  "description": "Selectable tiles in a responsive grid with arrow-key navigation, tile actions and optional drag to reorder.",
+  "description": "A list to move through with arrow keys and select from: rows with a visual, a title and status (`layout=\"stack\"`), or tiles in a responsive grid with actions and drag to reorder (`layout=\"grid\"`).",
   "keywords": [
-    "grid",
-    "tiles",
     "gallery",
+    "grid",
+    "inbox",
+    "layout",
+    "list",
+    "mobile",
     "photos",
-    "reorder"
+    "reorder",
+    "rows",
+    "sections",
+    "tiles"
   ],
   "usage": {
     "when": [
-      "Items people recognize by an image: photos, documents, cards."
+      "Records read as one line each, and tables on narrow screens (`layout=\"stack\"`).",
+      "Items people recognize by an image: photos, documents, cards (`layout=\"grid\"`)."
     ],
     "instead": [
       {
-        "use": "list",
-        "when": "Items are recognized by text."
+        "use": "table",
+        "when": "People compare several fields across records."
+      },
+      {
+        "use": "list-box",
+        "when": "A plain choice of options in a form, not records to open."
       }
     ]
   },
@@ -32,30 +45,37 @@
     "keyboard": [
       {
         "keys": "Arrow keys",
-        "does": "Move between tiles in two dimensions."
+        "does": "Move between rows, or between tiles in two dimensions."
+      },
+      {
+        "keys": "Enter",
+        "does": "Opens the focused row or tile."
       },
       {
         "keys": "Space",
-        "does": "Selects the focused tile."
+        "does": "Selects the focused item."
       }
     ],
     "builtIn": [
+      "Sections are named for screen readers.",
       "Tile actions are always visible, so they need no hover and work on touch.",
-      "A drag handle gives the keyboard a way to reorder."
+      "A drag handle gives the keyboard a way to reorder tiles."
     ],
     "youProvide": [
-      "An aria-label, and a name for each tile action that names the tile."
+      "An aria-label.",
+      "A name for each tile action that names the tile."
     ]
   },
   "related": [
-    "list",
-    "table"
+    "table",
+    "list-box"
   ],
   "genui": {
     "expose": false
   },
   "source": [
-    "src/collection/grid-list.tsx"
+    "src/collection/grid-list-public.tsx",
+    "src/collection/list.tsx"
   ],
   "props": {
     "GridList": [
@@ -64,15 +84,22 @@
         "type": "string",
         "required": true,
         "origin": "own",
-        "description": "Names the grid (\"Product photos\").",
+        "description": "Names the list (\"Today's deliveries\").",
         "schema": {
           "type": "string"
         }
       },
       {
+        "name": "children",
+        "type": "React.ReactNode",
+        "required": false,
+        "origin": "own",
+        "description": "GridListItem rows, or ListSections of them; or give `items` (or `sections`) and `renderItem`."
+      },
+      {
         "name": "items",
         "type": "readonly T[]",
-        "required": true,
+        "required": false,
         "origin": "own",
         "schema": {
           "type": "array",
@@ -90,31 +117,44 @@
         }
       },
       {
-        "name": "itemKey",
-        "type": "(item: T) => Key",
+        "name": "sections",
+        "type": "readonly GridListSectionData<T>[]",
         "required": false,
         "origin": "own",
-        "default": "(item) => (item as { id: Key }).id",
-        "description": "The item's stable id; `item.id` by default."
+        "description": "Grouped rows under small headers (\"Today\", \"Tomorrow\")."
       },
       {
         "name": "renderItem",
-        "type": "(item: T) => GridTileContent",
-        "required": true,
-        "origin": "own"
+        "type": "(item: T) => GridListItemProps | (item: T) => GridTileContent",
+        "required": false,
+        "origin": "own",
+        "description": "One row's content for `items` / `sections`."
       },
       {
         "name": "selectionMode",
         "type": "\"none\" | \"single\" | \"multiple\"",
         "required": false,
         "origin": "own",
-        "default": "\"none\"",
         "schema": {
           "type": "string",
           "enum": [
             "none",
             "single",
             "multiple"
+          ]
+        }
+      },
+      {
+        "name": "selectionBehavior",
+        "type": "\"toggle\" | \"replace\"",
+        "required": false,
+        "origin": "own",
+        "description": "How a press selects. `toggle` (default): each row has a checkbox and a press adds or\nremoves it, for picking a set to act on. `replace`: no checkboxes; a press selects that row in place of\nthe last, and with `single` the arrow keys move the selection, for a list that shows one open record\nbeside it (an inbox's conversation). The selected row keeps its marker either way. With `onAction` as\nwell, a press runs the action and selection needs the keyboard (React Aria's replace rule), so a\nreplace list usually leaves `onAction` out.",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "toggle",
+            "replace"
           ]
         }
       },
@@ -141,7 +181,34 @@
         "type": "(key: Key) => void",
         "required": false,
         "origin": "own",
-        "description": "Enter, or a press, opens the tile."
+        "description": "Opens the row's record."
+      },
+      {
+        "name": "emptyState",
+        "type": "React.ReactNode",
+        "required": false,
+        "origin": "own",
+        "description": "Shown when there are no rows: an `EmptyState` or a sentence."
+      },
+      {
+        "name": "layout",
+        "type": "\"stack\" | \"grid\"",
+        "required": false,
+        "origin": "own",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "stack",
+            "grid"
+          ]
+        }
+      },
+      {
+        "name": "itemKey",
+        "type": "(item: T) => Key",
+        "required": false,
+        "origin": "own",
+        "description": "The item's stable id; `item.id` by default."
       },
       {
         "name": "dragAndDrop",
@@ -151,23 +218,87 @@
         "description": "Reordering (photos): drag a tile, or focus its handle and use the keyboard. `onReorder` gets the moved\nkeys and the tile they go before or after."
       },
       {
-        "name": "emptyState",
-        "type": "React.ReactNode",
-        "required": false,
-        "origin": "own",
-        "description": "Shown when there are no items: an `EmptyState` or a sentence."
-      },
-      {
         "name": "ref",
         "type": "React.Ref<HTMLDivElement>",
         "required": false,
         "origin": "own",
         "description": "The grid element. Focusing it focuses the tile React Aria keeps as focused (the next one after a removed tile),\nso it is the `returnFocusRef` for a confirm whose action removes the tile it was opened from."
       }
+    ],
+    "GridListItem": [
+      {
+        "name": "id",
+        "type": "Key",
+        "required": true,
+        "origin": "own",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "leading",
+        "type": "React.ReactNode",
+        "required": false,
+        "origin": "own",
+        "description": "A visual at the start: an Avatar, an icon or a thumbnail."
+      },
+      {
+        "name": "title",
+        "type": "string",
+        "required": true,
+        "origin": "own",
+        "description": "The one primary line (\"Ada Lovelace\"); also the row's text for typeahead.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "description",
+        "type": "React.ReactNode",
+        "required": false,
+        "origin": "own",
+        "description": "The context the reader scans for: item, time, place (\"Order 1042 · 10:00 · Berlin\")."
+      },
+      {
+        "name": "trailing",
+        "type": "React.ReactNode",
+        "required": false,
+        "origin": "own",
+        "description": "At the end: a Badge for status, then a subtle icon-button menu."
+      },
+      {
+        "name": "href",
+        "type": "string",
+        "required": false,
+        "origin": "own",
+        "description": "Makes the row a link to the record.",
+        "schema": {
+          "type": "string"
+        }
+      }
+    ],
+    "GridListSection": [
+      {
+        "name": "title",
+        "type": "string",
+        "required": true,
+        "origin": "own",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "children",
+        "type": "React.ReactNode",
+        "required": true,
+        "origin": "own"
+      }
     ]
   },
   "tokens": [
     "ds-background-danger",
+    "ds-background-selected",
+    "ds-border",
     "ds-border-focused",
     "ds-border-selected",
     "ds-icon-danger",
@@ -176,9 +307,11 @@
     "ds-shadow-raised",
     "ds-space-025",
     "ds-space-050",
+    "ds-space-075",
     "ds-space-100",
     "ds-space-150",
     "ds-space-200",
+    "ds-space-300",
     "ds-space-500",
     "ds-surface-hovered",
     "ds-surface-raised",

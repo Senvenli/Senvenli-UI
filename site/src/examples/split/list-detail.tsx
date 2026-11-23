@@ -1,4 +1,4 @@
-import { List, type ListProps } from "@senvenli/react/collection";
+import { GridList, type GridListStackProps } from "@senvenli/react/collection";
 import { Heading, Text } from "@senvenli/react/display";
 import { Split, SplitPane, Stack } from "@senvenli/react/layout";
 import { useState } from "react";
@@ -9,7 +9,7 @@ const INVOICES = [
   { id: "inv-316", customer: "Initech", total: "€2,015.00", due: "Due April 2" },
 ];
 
-type Keys = NonNullable<ListProps["selectedKeys"]>;
+type Keys = NonNullable<GridListStackProps["selectedKeys"]>;
 
 export default function Example() {
   const [selected, setSelected] = useState<Keys>(new Set(["inv-318"]));
@@ -18,7 +18,7 @@ export default function Example() {
   return (
     <Split ratio="16rem 1fr" space="space-300">
       <SplitPane>
-        <List
+        <GridList
           aria-label="Invoices"
           items={INVOICES}
           selectionMode="single"

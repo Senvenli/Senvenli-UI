@@ -28,7 +28,7 @@
         "when": "The table also needs search, filters, paging or a column picker."
       },
       {
-        "use": "list",
+        "use": "grid-list",
         "when": "The screen is narrow or each record is one line of text."
       }
     ]
@@ -58,7 +58,7 @@
   },
   "related": [
     "data-table",
-    "list"
+    "grid-list"
   ],
   "genui": {
     "expose": true,

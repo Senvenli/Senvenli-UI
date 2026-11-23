@@ -127,7 +127,7 @@ describe("44px touch target under a coarse pointer", () => {
     globalThis.CSS ??= {} as typeof CSS;
     CSS.escape ??= (value: string) => value.replace(/[^\w-]/g, (char) => `\\${char}`);
     withProvider(
-      <GridList
+      <GridList layout="grid"
         aria-label="Product photos"
         items={[{ id: "front", title: "Front view" }]}
         dragAndDrop={{ onReorder: vi.fn() }}

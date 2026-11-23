@@ -1,10 +1,11 @@
-// @senvenli/react/collection: Table, DataTable, GridList and List, built on react-aria-components.
+// @senvenli/react/collection: Table, DataTable, GridList (rows or tiles) and Tree, built on react-aria-components.
 export { Table } from "./table";
 export type { TableColumn, TableProps } from "./table";
-export { GridList } from "./grid-list";
-export type { GridListProps, GridTileAction, GridTileContent } from "./grid-list";
-export { List, ListItem, ListSection } from "./list";
-export type { ListItemProps, ListProps, ListSectionData } from "./list";
+export { GridList } from "./grid-list-public";
+export type { GridListGridProps, GridListProps, GridListStackProps } from "./grid-list-public";
+export type { GridTileAction, GridTileContent } from "./grid-list";
+export { GridListItem, GridListSection } from "./list";
+export type { GridListItemProps, GridListSectionData } from "./list";
 export { DataTable } from "./data-table";
 export type { DataTableBulkAction, DataTableColumn, DataTableFilter, DataTableProps, DataTableQuery, DataTableResult } from "./data-table";
 export type { DataTableView } from "./data-table-url";

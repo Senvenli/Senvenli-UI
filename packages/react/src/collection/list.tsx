@@ -13,7 +13,7 @@ import {
 import { cn } from "../utils";
 import { SelectionCheckbox } from "./selection-checkbox";
 
-export type ListItemProps = {
+export type GridListItemProps = {
   id: Key;
   /** A visual at the start: an Avatar, an icon or a thumbnail. */
   leading?: React.ReactNode;
@@ -33,7 +33,7 @@ const ROW =
   "data-[focus-visible]:inset-ring-2 data-[focus-visible]:inset-ring-ds-border-focused";
 
 /** One row: leading visual, two lines of text, trailing status and actions. */
-export function ListItem({ id, leading, title, description, trailing, href }: ListItemProps) {
+export function GridListItem({ id, leading, title, description, trailing, href }: GridListItemProps) {
   return (
     <AriaGridListItem
       id={id}
@@ -65,7 +65,7 @@ export function ListItem({ id, leading, title, description, trailing, href }: Li
 }
 
 /** A titled group of rows ("Today"): a small header on `ds-surface-sunken`. */
-export function ListSection({ title, children }: { title: string; children: React.ReactNode }) {
+export function GridListSection({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <AriaGridListSection data-slot="list-section" aria-label={title}>
       <AriaGridListHeader
@@ -79,18 +79,18 @@ export function ListSection({ title, children }: { title: string; children: Reac
   );
 }
 
-export type ListSectionData<T> = { title: string; items: readonly T[] };
+export type GridListSectionData<T> = { title: string; items: readonly T[] };
 
-export type ListProps<T = never> = {
+export type StackListProps<T = never> = {
   /** Names the list ("Today's deliveries"). */
   "aria-label": string;
-  /** ListItem rows, or ListSections of them; or give `items` (or `sections`) and `renderItem`. */
+  /** GridListItem rows, or ListSections of them; or give `items` (or `sections`) and `renderItem`. */
   children?: React.ReactNode;
   items?: readonly T[];
   /** Grouped rows under small headers ("Today", "Tomorrow"). */
-  sections?: readonly ListSectionData<T>[];
+  sections?: readonly GridListSectionData<T>[];
   /** One row's content for `items` / `sections`. */
-  renderItem?: (item: T) => ListItemProps;
+  renderItem?: (item: T) => GridListItemProps;
   selectionMode?: "none" | "single" | "multiple";
   /**
    * How a press selects. `toggle` (default): each row has a checkbox and a press adds or
@@ -116,7 +116,7 @@ export type ListProps<T = never> = {
  * sections under small headers. The phone counterpart of Table (use it under 640px) and the default for
  * short feeds.
  */
-export function List<T = never>({
+export function StackList<T = never>({
   "aria-label": label,
   children,
   items,
@@ -129,17 +129,17 @@ export function List<T = never>({
   onSelectionChange,
   onAction,
   emptyState,
-}: ListProps<T>) {
+}: StackListProps<T>) {
   const row = (item: T) => {
     const props = renderItem!(item);
-    return <ListItem key={props.id} {...props} />;
+    return <GridListItem key={props.id} {...props} />;
   };
   const content =
     renderItem && sections
       ? sections.map((section, index) => (
-          <ListSection key={`${index}-${section.title}`} title={section.title}>
+          <GridListSection key={`${index}-${section.title}`} title={section.title}>
             {section.items.map(row)}
-          </ListSection>
+          </GridListSection>
         ))
       : renderItem && items
         ? items.map(row)

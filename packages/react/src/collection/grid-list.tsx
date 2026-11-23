@@ -49,7 +49,7 @@ export type GridTileAction = {
   isDisabled?: boolean;
 };
 
-export type GridListProps<T> = {
+export type TileGridProps<T> = {
   /** Names the grid ("Product photos"). */
   "aria-label": string;
   items: readonly T[];
@@ -95,7 +95,7 @@ const TILE_ACTION_DANGER = "text-ds-icon-danger data-[hovered]:bg-ds-background-
  * wide, a 4:3 media area on `ds-surface-sunken`; a checkbox at the top start when selection is on and a
  * 2px `ds-border-selected` ring on selected tiles.
  */
-export function GridList<T extends object>({
+export function TileGrid<T extends object>({
   "aria-label": label,
   items,
   itemKey = (item) => (item as { id: Key }).id,
@@ -108,7 +108,7 @@ export function GridList<T extends object>({
   dragAndDrop,
   emptyState,
   ref,
-}: GridListProps<T>) {
+}: TileGridProps<T>) {
   const onReorder = dragAndDrop?.onReorder;
   const entries = items.map((item) => ({ key: itemKey(item), item }));
   const { dragAndDropHooks } = useDragAndDrop({
