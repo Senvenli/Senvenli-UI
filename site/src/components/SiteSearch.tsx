@@ -1,6 +1,6 @@
 import { Button } from "@senvenli/react/action";
 import { Icon, Kbd } from "@senvenli/react/display";
-import { Pressable } from "@senvenli/react/layout";
+import { Pressable } from "@senvenli/react/action";
 import { Command, type CommandGroup, type CommandItem } from "@senvenli/react/overlay";
 import { useEffect, useMemo, useState } from "react";
 import type { ManifestIndexEntry } from "../lib/manifest";

@@ -24,7 +24,7 @@ import {
 } from "../i18n";
 import { useDesignSystemNavigate } from "../navigate-context";
 import { Pagination } from "../navigation/pagination";
-import { BulkBar, Toolbar, ToolbarSpacer } from "../navigation/toolbar";
+import { BulkBar, Toolbar, ToolbarSpacer } from "../layout/toolbar";
 import { Menu } from "../overlay/floating";
 import { matchesQuery } from "../selection/match";
 import { readView, writeView, type DataTableView } from "./data-table-url";

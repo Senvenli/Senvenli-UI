@@ -1,5 +1,6 @@
 import { Text } from "@senvenli/react/display";
-import { Pressable, Stack } from "@senvenli/react/layout";
+import { Stack } from "@senvenli/react/layout";
+import { Pressable } from "@senvenli/react/action";
 
 export default function Example() {
   return (

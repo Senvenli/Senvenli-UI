@@ -1,9 +1,9 @@
 {
   "$schema": "../../manifest/component.schema.json",
   "kind": "component",
-  "family": "display",
+  "family": "layout",
   "status": "alpha",
-  "import": "@senvenli/react/display",
+  "import": "@senvenli/react/layout",
   "name": "scroll-area",
   "title": "Scroll area",
   "exports": [

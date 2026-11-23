@@ -4,8 +4,8 @@ import * as React from "react";
 import { Button, Link, type ButtonProps, type LinkProps, type PressEvent } from "react-aria-components";
 
 import { cn } from "../utils";
-import { boxClasses, type BoxStyleProps } from "./box";
-import type { Background } from "./tokens";
+import { boxClasses, type BoxStyleProps } from "../layout/box";
+import type { Background } from "../layout/tokens";
 
 /**
  * Hover and pressed fills follow the ground the Pressable starts from, so a

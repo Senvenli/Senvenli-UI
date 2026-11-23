@@ -1,4 +1,5 @@
-import { ScrollArea, Text } from "@senvenli/react/display";
+import { Text } from "@senvenli/react/display";
+import { ScrollArea } from "@senvenli/react/layout";
 import { Stack } from "@senvenli/react/layout";
 
 const ORDERS = Array.from({ length: 16 }, (_, index) => ({ id: 1042 - index, total: 120 + index * 35 }));

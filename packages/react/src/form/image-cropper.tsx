@@ -5,7 +5,7 @@ import { Slider as AriaSlider, SliderThumb, SliderTrack, useLocale } from "react
 
 import { cn } from "../utils";
 import { Button } from "../action/button";
-import { formatFileSize } from "../action/files";
+import { formatFileSize } from "./files";
 import { ColorSwatchPicker } from "../color/color";
 import {
   cancelLabel,
@@ -37,7 +37,7 @@ import {
 } from "../i18n";
 import { SegmentedControl } from "../navigation/tabs";
 import { SLIDER_FILL, SLIDER_RAIL, SLIDER_THUMB, SLIDER_TRACK } from "../selection/styles";
-import { IconGlyph } from "./icon";
+import { IconGlyph } from "../display/icon";
 import {
   MAX_ZOOM,
   MIN_ZOOM,

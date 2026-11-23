@@ -1,9 +1,9 @@
 {
   "$schema": "https://design.senvenli.com/schema/component.full.json",
   "kind": "component",
-  "family": "layout",
+  "family": "action",
   "status": "alpha",
-  "import": "@senvenli/react/layout",
+  "import": "@senvenli/react/action",
   "name": "pressable",
   "title": "Pressable",
   "exports": [
@@ -50,7 +50,7 @@
     "expose": false
   },
   "source": [
-    "src/layout/pressable.tsx"
+    "src/action/pressable.tsx"
   ],
   "props": {
     "Pressable": [
@@ -139,15 +139,15 @@
           "enum": [
             "neutral",
             "danger",
-            "success",
-            "information",
-            "warning",
-            "selected",
             "surface",
             "surface-raised",
             "surface-sunken",
             "surface-overlay",
-            "brand-subtle"
+            "selected",
+            "brand-subtle",
+            "information",
+            "success",
+            "warning"
           ]
         }
       },
@@ -344,49 +344,15 @@
     ]
   },
   "tokens": [
-    "ds-background-brand-subtle",
-    "ds-background-danger",
-    "ds-background-information",
-    "ds-background-neutral",
     "ds-background-neutral-hovered",
     "ds-background-neutral-pressed",
-    "ds-background-selected",
     "ds-background-selected-hovered",
     "ds-background-selected-pressed",
-    "ds-background-success",
-    "ds-background-warning",
-    "ds-border",
-    "ds-border-bold",
     "ds-border-focused",
     "ds-easing-standard",
-    "ds-radius-full",
-    "ds-radius-large",
-    "ds-radius-medium",
-    "ds-radius-small",
-    "ds-radius-xlarge",
-    "ds-radius-xsmall",
-    "ds-shadow-overflow",
     "ds-shadow-overlay",
     "ds-shadow-raised",
-    "ds-space-0",
-    "ds-space-025",
-    "ds-space-050",
-    "ds-space-075",
-    "ds-space-100",
-    "ds-space-1000",
-    "ds-space-150",
-    "ds-space-200",
-    "ds-space-250",
-    "ds-space-300",
-    "ds-space-400",
-    "ds-space-500",
-    "ds-space-600",
-    "ds-space-800",
-    "ds-surface",
-    "ds-surface-hovered",
-    "ds-surface-overlay",
-    "ds-surface-raised",
-    "ds-surface-sunken"
+    "ds-surface-hovered"
   ],
   "strings": [],
   "quality": {

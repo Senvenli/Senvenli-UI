@@ -1,6 +1,6 @@
 import { Button } from "@senvenli/react/action";
 import { Input } from "@senvenli/react/form";
-import { Toolbar, ToolbarSpacer } from "@senvenli/react/navigation";
+import { Toolbar, ToolbarSpacer } from "@senvenli/react/layout";
 import { Select } from "@senvenli/react/selection";
 
 export default function Example() {

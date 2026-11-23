@@ -1,9 +1,9 @@
 {
   "$schema": "../../manifest/component.schema.json",
   "kind": "component",
-  "family": "display",
+  "family": "form",
   "status": "alpha",
-  "import": "@senvenli/react/display",
+  "import": "@senvenli/react/form",
   "name": "image-cropper",
   "title": "Image cropper",
   "exports": [

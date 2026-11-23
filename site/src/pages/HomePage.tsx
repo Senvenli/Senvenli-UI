@@ -1,7 +1,7 @@
 import { Link, Button } from "@senvenli/react/action";
 import { ColorSwatch } from "@senvenli/react/color";
 import { Heading, Icon, Badge, Text } from "@senvenli/react/display";
-import { Pressable } from "@senvenli/react/layout";
+import { Pressable } from "@senvenli/react/action";
 import { SegmentedControl } from "@senvenli/react/navigation";
 import { createTheme, encodePreset, formatHex } from "@senvenli/tokens";
 import { useLayoutEffect, useMemo, useState } from "react";

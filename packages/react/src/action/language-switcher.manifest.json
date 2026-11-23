@@ -1,9 +1,9 @@
 {
   "$schema": "../../manifest/component.schema.json",
   "kind": "component",
-  "family": "navigation",
+  "family": "action",
   "status": "alpha",
-  "import": "@senvenli/react/navigation",
+  "import": "@senvenli/react/action",
   "name": "language-switcher",
   "title": "Language switcher",
   "exports": [

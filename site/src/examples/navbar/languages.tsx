@@ -1,5 +1,6 @@
 import { Button } from "@senvenli/react/action";
-import { LanguageSwitcher, Navbar } from "@senvenli/react/navigation";
+import { Navbar } from "@senvenli/react/navigation";
+import { LanguageSwitcher } from "@senvenli/react/action";
 import { useState } from "react";
 
 // The language switcher is one of the end actions, before the primary action; on phones it moves into the panel.

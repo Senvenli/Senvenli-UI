@@ -93,24 +93,21 @@
     "genui": false
   },
   {
-    "name": "file-upload",
-    "title": "File upload",
+    "name": "language-switcher",
+    "title": "Language switcher",
     "family": "action",
     "status": "alpha",
-    "description": "Pick files with a button or by dropping them, validate size and type, and show each file with its progress or error.",
+    "description": "Picks the interface language: each option named in the current language and sorted by that name, with an optional mark (a flag, a code chip) supplied by the app.",
     "keywords": [
-      "upload",
-      "file",
-      "drop",
-      "attachment",
-      "dropzone"
+      "language",
+      "locale",
+      "i18n",
+      "translation"
     ],
     "import": "@senvenli/react/action",
     "exports": [
-      "FileTrigger",
-      "DropZone",
-      "FileUploadList",
-      "FileRow"
+      "LanguageSwitcher",
+      "LanguageLabel"
     ],
     "genui": false
   },
@@ -130,6 +127,25 @@
       "Link"
     ],
     "genui": true
+  },
+  {
+    "name": "pressable",
+    "title": "Pressable",
+    "family": "action",
+    "status": "alpha",
+    "description": "A Box that is a button or a link as a whole, for custom tiles and rows.",
+    "keywords": [
+      "clickable",
+      "tile",
+      "row",
+      "button",
+      "link"
+    ],
+    "import": "@senvenli/react/action",
+    "exports": [
+      "Pressable"
+    ],
+    "genui": false
   },
   {
     "name": "theme-switcher",
@@ -861,25 +877,6 @@
     "genui": true
   },
   {
-    "name": "image-cropper",
-    "title": "Image cropper",
-    "family": "display",
-    "status": "alpha",
-    "description": "Frames one picked image to the shape a surface needs: pan, zoom, rotate, an aspect preset, and the output as a file.",
-    "keywords": [
-      "crop",
-      "image",
-      "upload",
-      "avatar",
-      "logo"
-    ],
-    "import": "@senvenli/react/display",
-    "exports": [
-      "ImageCropper"
-    ],
-    "genui": false
-  },
-  {
     "name": "image-viewer",
     "title": "Image viewer",
     "family": "display",
@@ -932,25 +929,6 @@
     "exports": [
       "Kbd",
       "ModifierKbd"
-    ],
-    "genui": false
-  },
-  {
-    "name": "scroll-area",
-    "title": "Scroll area",
-    "family": "display",
-    "status": "alpha",
-    "description": "A region that scrolls inside a height limit with thin themed scrollbars, keyboard reachable.",
-    "keywords": [
-      "scroll",
-      "overflow",
-      "scrollbar",
-      "pane",
-      "list"
-    ],
-    "import": "@senvenli/react/display",
-    "exports": [
-      "ScrollArea"
     ],
     "genui": false
   },
@@ -1188,6 +1166,28 @@
     "genui": false
   },
   {
+    "name": "file-upload",
+    "title": "File upload",
+    "family": "form",
+    "status": "alpha",
+    "description": "Pick files with a button or by dropping them, validate size and type, and show each file with its progress or error.",
+    "keywords": [
+      "upload",
+      "file",
+      "drop",
+      "attachment",
+      "dropzone"
+    ],
+    "import": "@senvenli/react/form",
+    "exports": [
+      "FileTrigger",
+      "DropZone",
+      "FileUploadList",
+      "FileRow"
+    ],
+    "genui": false
+  },
+  {
     "name": "form",
     "title": "Form",
     "family": "form",
@@ -1207,6 +1207,25 @@
       "FormFooter"
     ],
     "genui": true
+  },
+  {
+    "name": "image-cropper",
+    "title": "Image cropper",
+    "family": "form",
+    "status": "alpha",
+    "description": "Frames one picked image to the shape a surface needs: pan, zoom, rotate, an aspect preset, and the output as a file.",
+    "keywords": [
+      "crop",
+      "image",
+      "upload",
+      "avatar",
+      "logo"
+    ],
+    "import": "@senvenli/react/form",
+    "exports": [
+      "ImageCropper"
+    ],
+    "genui": false
   },
   {
     "name": "input-group",
@@ -1344,21 +1363,21 @@
     "genui": true
   },
   {
-    "name": "pressable",
-    "title": "Pressable",
+    "name": "scroll-area",
+    "title": "Scroll area",
     "family": "layout",
     "status": "alpha",
-    "description": "A Box that is a button or a link as a whole, for custom tiles and rows.",
+    "description": "A region that scrolls inside a height limit with thin themed scrollbars, keyboard reachable.",
     "keywords": [
-      "clickable",
-      "tile",
-      "row",
-      "button",
-      "link"
+      "scroll",
+      "overflow",
+      "scrollbar",
+      "pane",
+      "list"
     ],
     "import": "@senvenli/react/layout",
     "exports": [
-      "Pressable"
+      "ScrollArea"
     ],
     "genui": false
   },
@@ -1429,6 +1448,27 @@
     "genui": true
   },
   {
+    "name": "toolbar",
+    "title": "Toolbar",
+    "family": "layout",
+    "status": "alpha",
+    "description": "A row of controls above a list or table; BulkBar shows actions for the selected rows.",
+    "keywords": [
+      "toolbar",
+      "actions",
+      "bulk",
+      "filters",
+      "selection"
+    ],
+    "import": "@senvenli/react/layout",
+    "exports": [
+      "Toolbar",
+      "ToolbarSpacer",
+      "BulkBar"
+    ],
+    "genui": false
+  },
+  {
     "name": "accordion",
     "title": "Accordion",
     "family": "navigation",
@@ -1483,25 +1523,6 @@
       "Breadcrumbs"
     ],
     "genui": true
-  },
-  {
-    "name": "language-switcher",
-    "title": "Language switcher",
-    "family": "navigation",
-    "status": "alpha",
-    "description": "Picks the interface language: each option named in the current language and sorted by that name, with an optional mark (a flag, a code chip) supplied by the app.",
-    "keywords": [
-      "language",
-      "locale",
-      "i18n",
-      "translation"
-    ],
-    "import": "@senvenli/react/navigation",
-    "exports": [
-      "LanguageSwitcher",
-      "LanguageLabel"
-    ],
-    "genui": false
   },
   {
     "name": "navbar",
@@ -1634,27 +1655,6 @@
       "SegmentedControl"
     ],
     "genui": true
-  },
-  {
-    "name": "toolbar",
-    "title": "Toolbar",
-    "family": "navigation",
-    "status": "alpha",
-    "description": "A row of controls above a list or table; BulkBar shows actions for the selected rows.",
-    "keywords": [
-      "toolbar",
-      "actions",
-      "bulk",
-      "filters",
-      "selection"
-    ],
-    "import": "@senvenli/react/navigation",
-    "exports": [
-      "Toolbar",
-      "ToolbarSpacer",
-      "BulkBar"
-    ],
-    "genui": false
   },
   {
     "name": "alert-dialog",

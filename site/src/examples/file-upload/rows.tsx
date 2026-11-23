@@ -1,4 +1,4 @@
-import { FileUploadList, FileRow } from "@senvenli/react/action";
+import { FileUploadList, FileRow } from "@senvenli/react/form";
 import { useState } from "react";
 
 // Stored documents have no File object: the row takes a name and a size in bytes.

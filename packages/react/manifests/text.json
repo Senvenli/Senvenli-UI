@@ -76,10 +76,10 @@
             "default",
             "subtle",
             "danger",
-            "success",
-            "brand",
             "information",
+            "success",
             "warning",
+            "brand",
             "subtlest"
           ]
         },
@@ -135,10 +135,10 @@
             "default",
             "subtle",
             "danger",
-            "success",
-            "brand",
             "information",
+            "success",
             "warning",
+            "brand",
             "subtlest"
           ]
         }

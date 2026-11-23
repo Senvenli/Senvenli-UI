@@ -1,9 +1,9 @@
 {
   "$schema": "https://design.senvenli.com/schema/component.full.json",
   "kind": "component",
-  "family": "display",
+  "family": "layout",
   "status": "alpha",
-  "import": "@senvenli/react/display",
+  "import": "@senvenli/react/layout",
   "name": "scroll-area",
   "title": "Scroll area",
   "exports": [
@@ -50,7 +50,7 @@
     "expose": false
   },
   "source": [
-    "src/display/scroll-area.tsx"
+    "src/layout/scroll-area.tsx"
   ],
   "props": {
     "ScrollArea": [

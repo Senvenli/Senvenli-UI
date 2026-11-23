@@ -1,7 +1,7 @@
 import { Link } from "@senvenli/react/action";
 import { Separator, Text } from "@senvenli/react/display";
 import { Box, Grid, Stack } from "@senvenli/react/layout";
-import { LanguageSwitcher } from "@senvenli/react/navigation";
+import { LanguageSwitcher } from "@senvenli/react/action";
 import { useState } from "react";
 
 const COLUMNS = [

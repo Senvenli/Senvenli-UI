@@ -1,4 +1,4 @@
-import { LanguageSwitcher } from "@senvenli/react/navigation";
+import { LanguageSwitcher } from "@senvenli/react/action";
 import { useState } from "react";
 
 const LOCALES = ["en", "de", "fr", "es", "ja"] as const;

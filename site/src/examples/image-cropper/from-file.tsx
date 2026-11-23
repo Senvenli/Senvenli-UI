@@ -1,5 +1,7 @@
-import { Button, FileTrigger } from "@senvenli/react/action";
-import { ImageCropper, Text } from "@senvenli/react/display";
+import { Button } from "@senvenli/react/action";
+import { FileTrigger } from "@senvenli/react/form";
+import { Text } from "@senvenli/react/display";
+import { ImageCropper } from "@senvenli/react/form";
 import { Stack } from "@senvenli/react/layout";
 import { useState } from "react";
 

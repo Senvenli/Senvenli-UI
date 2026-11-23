@@ -1,9 +1,9 @@
 {
   "$schema": "../../manifest/component.schema.json",
   "kind": "component",
-  "family": "action",
+  "family": "form",
   "status": "alpha",
-  "import": "@senvenli/react/action",
+  "import": "@senvenli/react/form",
   "name": "file-upload",
   "title": "File upload",
   "exports": [

@@ -1,9 +1,9 @@
 {
   "$schema": "../../manifest/component.schema.json",
   "kind": "component",
-  "family": "layout",
+  "family": "action",
   "status": "alpha",
-  "import": "@senvenli/react/layout",
+  "import": "@senvenli/react/action",
   "name": "pressable",
   "title": "Pressable",
   "exports": [

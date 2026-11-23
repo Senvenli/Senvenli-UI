@@ -1,4 +1,5 @@
-import { Button, FileUploadList, FileRow, FileTrigger } from "@senvenli/react/action";
+import { Button } from "@senvenli/react/action";
+import { FileUploadList, FileRow, FileTrigger } from "@senvenli/react/form";
 import { Stack } from "@senvenli/react/layout";
 import { useState } from "react";
 

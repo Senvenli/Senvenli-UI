@@ -44,7 +44,7 @@ registerLocaleAliases({ me: "sr-Latn-ME" });
 `LanguageSwitcher` names languages with `Intl`. For a language it names wrongly, or a UI language browsers ship no names for, register your own:
 
 ```ts
-import { registerLanguageNames } from "@senvenli/react/navigation";
+import { registerLanguageNames } from "@senvenli/react/action";
 
 registerLanguageNames("en", { me: "Montenegrin" });
 ```
