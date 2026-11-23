@@ -22,7 +22,7 @@ const NEW_TAB = DS_STRINGS.newTab.en;
 
 describe("Fab href opens in a new tab", () => {
   it("opens its href in a new tab by default, safely, and says so", () => {
-    inProvider(<Fab placement="inline" icon="message-circle" label="Chat with us" href={HELP_URL} />);
+    inProvider(<Fab placement="inline" iconBefore="message-circle" href={HELP_URL}>Chat with us</Fab>);
     const link = screen.getByRole("link", { name: `Chat with us ${NEW_TAB}` });
     expect(link.getAttribute("href")).toBe(HELP_URL);
     expect(link.getAttribute("target")).toBe("_blank");
@@ -32,7 +32,7 @@ describe("Fab href opens in a new tab", () => {
 
   it("stays in the page with target _self: no new tab, no forced rel, no new-tab words, the host router", () => {
     const navigate = vi.fn();
-    inProvider(<Fab placement="inline" icon="calendar-plus" label="Create invoice" href="/invoices/new" target="_self" />, navigate);
+    inProvider(<Fab placement="inline" iconBefore="calendar-plus" href="/invoices/new" target="_self">Create invoice</Fab>, navigate);
     const link = screen.getByRole("link", { name: "Create invoice" });
     expect(link.getAttribute("target")).not.toBe("_blank");
     expect(link.hasAttribute("rel")).toBe(false);
@@ -44,7 +44,7 @@ describe("Fab href opens in a new tab", () => {
   it("keeps the new-tab words in the name once collapsed to icon-only", () => {
     const media = { matches: true, addEventListener: () => {}, removeEventListener: () => {} };
     window.matchMedia = vi.fn(() => media) as unknown as typeof window.matchMedia;
-    inProvider(<Fab icon="message-circle" label="Chat with us" href={HELP_URL} />);
+    inProvider(<Fab iconBefore="message-circle" href={HELP_URL}>Chat with us</Fab>);
     act(() => {
       Object.defineProperty(window, "scrollY", { value: 120, configurable: true });
       window.dispatchEvent(new Event("scroll"));
@@ -55,7 +55,7 @@ describe("Fab href opens in a new tab", () => {
   });
 
   it("an action Fab without href gets no target or rel", () => {
-    inProvider(<Fab placement="inline" icon="calendar-plus" label="Create invoice" onPress={() => {}} />);
+    inProvider(<Fab placement="inline" iconBefore="calendar-plus" onPress={() => {}}>Create invoice</Fab>);
     const button = screen.getByRole("button", { name: "Create invoice" });
     expect(button.hasAttribute("target")).toBe(false);
     expect(button.hasAttribute("rel")).toBe(false);

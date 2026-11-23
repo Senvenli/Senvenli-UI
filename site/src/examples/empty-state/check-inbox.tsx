@@ -1,5 +1,6 @@
 import { Button } from "@senvenli/react/action";
-import { EmptyState, useCooldownAction } from "@senvenli/react/feedback";
+import { EmptyState } from "@senvenli/react/feedback";
+import { useCooldownAction } from "../otp-field/use-cooldown-action";
 
 // After "Forgot your password?": the same message whether or not the account exists, and a resend that waits.
 export default function Example() {

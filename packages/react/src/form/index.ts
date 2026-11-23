@@ -12,7 +12,6 @@ export { TextArea } from "./text-area";
 export type { TextAreaProps } from "./text-area";
 export { InputGroup, InputGroupInput, InputAddon, InputAction } from "./input-group";
 export type { InputGroupProps, InputGroupInputProps, InputAddonProps, InputActionProps } from "./input-group";
-export { passwordStrength } from "./password-field";
 export type { PasswordStrength } from "./password-field";
 export type { FieldSize } from "./styles";
 export { OtpField } from "./otp-field";

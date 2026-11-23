@@ -8,8 +8,6 @@
   "title": "Skeleton",
   "exports": [
     "Skeleton",
-    "SkeletonText",
-    "SkeletonCircle",
     "SkeletonGroup"
   ],
   "description": "Placeholder shapes in the layout of content that is still loading.",
@@ -80,6 +78,41 @@
         }
       },
       {
+        "name": "variant",
+        "type": "\"text\" | \"circle\" | \"rectangle\"",
+        "required": false,
+        "origin": "own",
+        "description": "`rectangle` (default): a block of `width` × `height`; `text`: `lines` of text, the last one shorter;\n`circle`: an avatar of `size` px.",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "text",
+            "circle",
+            "rectangle"
+          ]
+        }
+      },
+      {
+        "name": "lines",
+        "type": "number",
+        "required": false,
+        "origin": "own",
+        "description": "`text`: the number of 12px lines (default 2).",
+        "schema": {
+          "type": "number"
+        }
+      },
+      {
+        "name": "size",
+        "type": "number",
+        "required": false,
+        "origin": "own",
+        "description": "`circle`: the diameter in px (default 32, a list avatar).",
+        "schema": {
+          "type": "number"
+        }
+      },
+      {
         "name": "width",
         "type": "string | number",
         "required": false,
@@ -139,84 +172,6 @@
             "auto",
             "reduce"
           ]
-        }
-      }
-    ],
-    "SkeletonText": [
-      {
-        "name": "isLoaded",
-        "type": "boolean",
-        "required": false,
-        "origin": "own",
-        "description": "Shows the children instead of the shape once the data is there.",
-        "schema": {
-          "type": "boolean"
-        }
-      },
-      {
-        "name": "children",
-        "type": "React.ReactNode",
-        "required": false,
-        "origin": "own"
-      },
-      {
-        "name": "delay",
-        "type": "number",
-        "required": false,
-        "origin": "own",
-        "description": "Milliseconds before the shape appears (default 300); the space is held meanwhile.",
-        "schema": {
-          "type": "number"
-        }
-      },
-      {
-        "name": "lines",
-        "type": "number",
-        "required": false,
-        "origin": "own",
-        "default": "2",
-        "description": "Number of 12px lines; the last one is shorter, as text is.",
-        "schema": {
-          "type": "number"
-        }
-      }
-    ],
-    "SkeletonCircle": [
-      {
-        "name": "isLoaded",
-        "type": "boolean",
-        "required": false,
-        "origin": "own",
-        "description": "Shows the children instead of the shape once the data is there.",
-        "schema": {
-          "type": "boolean"
-        }
-      },
-      {
-        "name": "children",
-        "type": "React.ReactNode",
-        "required": false,
-        "origin": "own"
-      },
-      {
-        "name": "delay",
-        "type": "number",
-        "required": false,
-        "origin": "own",
-        "description": "Milliseconds before the shape appears (default 300); the space is held meanwhile.",
-        "schema": {
-          "type": "number"
-        }
-      },
-      {
-        "name": "size",
-        "type": "number",
-        "required": false,
-        "origin": "own",
-        "default": "32",
-        "description": "Diameter in px (32 for a list avatar).",
-        "schema": {
-          "type": "number"
         }
       }
     ],

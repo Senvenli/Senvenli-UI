@@ -302,7 +302,7 @@ describe("Banner placement=floating", () => {
     });
     const ui = (shown: boolean) => (
       <DesignSystemProvider locale="en" navigate={vi.fn()}>
-        <Fab label="Chat" icon="message-circle" onPress={() => {}} />
+        <Fab iconBefore="message-circle" onPress={() => {}}>Chat</Fab>
         {shown && <Consent />}
       </DesignSystemProvider>
     );
@@ -345,7 +345,7 @@ describe("Banner placement=floating", () => {
     const order = [LAYER.stickyBar, LAYER.floatingBanner, LAYER.fab].map((layer) => Number(layer.slice(2)));
     expect([...order].sort((a, b) => a - b)).toEqual(order);
     // The banner and the Fab take their layer from the shared scale.
-    inProvider(<><Consent /><Fab label="Chat" icon="message-circle" onPress={() => {}} /></>);
+    inProvider(<><Consent /><Fab iconBefore="message-circle" onPress={() => {}}>Chat</Fab></>);
     expect(classesOf(screen.getByRole("region"))).toContain(LAYER.floatingBanner);
     expect(classesOf(slot("fab"))).toContain(LAYER.fab);
     // React Aria overlays (100000) and toasts (LAYER.toast) sit far above.

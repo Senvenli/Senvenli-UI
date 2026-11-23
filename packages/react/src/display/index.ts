@@ -10,7 +10,7 @@ export { Badge, BadgeAnchor } from "./badge";
 export type { BadgeCountProps, BadgeCountTone, BadgeProps, BadgeStatusProps, BadgeTone, BadgeVariant } from "./badge";
 export { Separator } from "./separator";
 export type { SeparatorProps } from "./separator";
-export { Kbd, ModifierKbd } from "./kbd";
+export { Kbd } from "./kbd";
 export type { KbdProps } from "./kbd";
 export { Heading, Prose, Text } from "./typography";
 export type { HeadingLevel, HeadingProps, HeadingSize, TextProps, TextSize, TextTone } from "./typography";

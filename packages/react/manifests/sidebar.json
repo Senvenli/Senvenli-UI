@@ -449,16 +449,6 @@
         "description": "A count (\"4 new\"): a Badge after the label, on the icon when collapsed."
       },
       {
-        "name": "label",
-        "type": "string",
-        "required": true,
-        "origin": "own",
-        "description": "A noun for the page (\"Orders\"); also the tooltip when the sidebar is collapsed.",
-        "schema": {
-          "type": "string"
-        }
-      },
-      {
         "name": "icon",
         "type": "IconName",
         "required": false,
@@ -467,6 +457,16 @@
         "schema": {
           "type": "string",
           "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+        }
+      },
+      {
+        "name": "label",
+        "type": "string",
+        "required": true,
+        "origin": "own",
+        "description": "A noun for the page (\"Orders\"); also the tooltip when the sidebar is collapsed.",
+        "schema": {
+          "type": "string"
         }
       },
       {

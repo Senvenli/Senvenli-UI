@@ -11,7 +11,6 @@ export { ToggleButton, ToggleGroup } from "./toggle";
 export type { ToggleButtonProps, ToggleGroupProps } from "./toggle";
 export { Link } from "./link";
 export type { LinkProps } from "./link";
-export type { LinkButtonProps } from "./link-button";
 export type { ButtonSize, ButtonTone, ButtonVariant, LinkVariant, ToggleSize } from "./styles";
 export { Fab } from "./fab";
 export type { FabProps } from "./fab";

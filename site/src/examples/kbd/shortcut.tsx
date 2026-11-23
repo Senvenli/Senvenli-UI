@@ -1,4 +1,4 @@
-import { Kbd, ModifierKbd, Text } from "@senvenli/react/display";
+import { Kbd, Text } from "@senvenli/react/display";
 import { Stack } from "@senvenli/react/layout";
 
 export default function Example() {
@@ -6,7 +6,7 @@ export default function Example() {
     <Stack direction="horizontal" space="space-100">
       <Text>Search orders</Text>
       <Stack direction="horizontal" space="space-050">
-        <ModifierKbd />
+        <Kbd isModifier />
         <Kbd>K</Kbd>
       </Stack>
     </Stack>
