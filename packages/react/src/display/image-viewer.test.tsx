@@ -15,22 +15,24 @@ function TestImage({ fill: _fill, priority: _priority, ...props }: ImageViewerIm
 }
 
 const labels = {
-  positionLabel: (index: number, total: number) => `Photo ${index} of ${total}`,
-  closeLabel: "Close photos",
-  previousLabel: "Previous photo",
-  nextLabel: "Next photo",
+  labels: {
+    position: (index: number, total: number) => `Photo ${index} of ${total}`,
+    close: "Close photos",
+    previous: "Previous photo",
+    next: "Next photo",
+  },
 };
 
 const photos = ["/a.jpg", "/b.jpg", "/c.jpg"];
+const items = (alt: string) => photos.map((src) => ({ src, alt }));
 
 function renderViewer(overrides: Partial<React.ComponentProps<typeof ImageViewer>> = {}) {
   return render(
     <ImageViewer
       image={TestImage}
-      photos={photos}
-      alt="Walnut desk lamp"
+      items={items("Walnut desk lamp")}
       title="Walnut desk lamp"
-      onClose={vi.fn()}
+      onOpenChange={vi.fn()}
       {...labels}
       {...overrides}
     />,
@@ -56,7 +58,7 @@ describe("ImageViewer filmstrip", () => {
   });
 
   it("marks the open photo and moves the mark when a thumbnail is picked", () => {
-    renderViewer({ initialIndex: 0 });
+    renderViewer({ defaultIndex: 0 });
     // Exact names: the chevrons are "Previous/Next photo", so a loose
     // pattern would pick those up too.
     const first = screen.getByRole("button", { name: "Photo 1 of 3" });
@@ -74,7 +76,7 @@ describe("ImageViewer filmstrip", () => {
   });
 
   it("follows the arrows, so the strip keeps saying where you are", () => {
-    renderViewer({ initialIndex: 0 });
+    renderViewer({ defaultIndex: 0 });
     fireEvent.click(screen.getByRole("button", { name: "Next photo" }));
     expect(
       screen.getByRole("button", { name: "Photo 2 of 3" }).getAttribute("aria-current"),
@@ -82,7 +84,7 @@ describe("ImageViewer filmstrip", () => {
   });
 
   it("follows physical arrow keys and wraps at both ends", () => {
-    renderViewer({ initialIndex: 0 });
+    renderViewer({ defaultIndex: 0 });
 
     fireEvent.keyDown(document, { key: "ArrowRight" });
     expect(
@@ -97,7 +99,7 @@ describe("ImageViewer filmstrip", () => {
   });
 
   it("does not take arrow keys away from editable controls", () => {
-    renderViewer({ initialIndex: 0 });
+    renderViewer({ defaultIndex: 0 });
     const input = document.createElement("input");
     document.body.append(input);
 
@@ -140,7 +142,7 @@ describe("ImageViewer filmstrip", () => {
 describe("ImageViewer dialog", () => {
   it("closes on Esc and on the close button", () => {
     const onClose = vi.fn();
-    renderViewer({ onClose });
+    renderViewer({ onOpenChange: onClose });
     fireEvent.keyDown(screen.getByRole("dialog"), { key: "Escape" });
     expect(onClose).toHaveBeenCalledTimes(1);
 
@@ -149,7 +151,7 @@ describe("ImageViewer dialog", () => {
   });
 
   it("names the dialog by the title and describes it by the position", () => {
-    renderViewer({ initialIndex: 1 });
+    renderViewer({ defaultIndex: 1 });
     const dialog = screen.getByRole("dialog", { name: "Walnut desk lamp" });
     const description = document.getElementById(dialog.getAttribute("aria-describedby")!);
     expect(description?.textContent).toBe("Photo 2 of 3");
@@ -161,7 +163,7 @@ describe("ImageViewer dialog", () => {
       return (
         <>
           <button type="button" onClick={() => setOpen(true)}>Open photos</button>
-          {open && <ImageViewer image={TestImage} photos={photos} alt="x" title="x" onClose={() => setOpen(false)} {...labels} />}
+          {open && <ImageViewer image={TestImage} items={items("x")} title="x" onOpenChange={() => setOpen(false)} {...labels} />}
         </>
       );
     }
@@ -179,7 +181,7 @@ describe("ImageViewer dialog", () => {
   it("follows the reading direction for the arrow keys in right-to-left", () => {
     render(
       <I18nProvider locale="ar">
-        <ImageViewer image={TestImage} photos={photos} alt="x" title="x" onClose={vi.fn()} {...labels} />
+        <ImageViewer image={TestImage} items={items("x")} title="x" onOpenChange={vi.fn()} {...labels} />
       </I18nProvider>,
     );
     fireEvent.keyDown(document, { key: "ArrowLeft" });
@@ -206,7 +208,7 @@ describe("ImageViewer defaults", () => {
   const thumbnails = () => Array.from(document.querySelectorAll<HTMLImageElement>('[data-slot="image-viewer-thumbnail"] img'));
 
   it("renders plain img elements without an image prop: the stage photo with its alt, thumbnails with none", () => {
-    render(<ImageViewer photos={photos} initialIndex={1} alt="Lamp on a desk" title="Walnut desk lamp" onClose={vi.fn()} />);
+    render(<ImageViewer items={items("Lamp on a desk")} defaultIndex={1} title="Walnut desk lamp" onOpenChange={vi.fn()} />);
     expect(stageImage().tagName).toBe("IMG");
     expect(stageImage().getAttribute("src")).toBe("/b.jpg");
     expect(stageImage().getAttribute("alt")).toBe("Lamp on a desk");
@@ -227,7 +229,7 @@ describe("ImageViewer defaults", () => {
   });
 
   it("uses the DS English strings without label props", () => {
-    render(<ImageViewer photos={photos} initialIndex={1} alt="Lamp on a desk" title="Walnut desk lamp" onClose={vi.fn()} />);
+    render(<ImageViewer items={items("Lamp on a desk")} defaultIndex={1} title="Walnut desk lamp" onOpenChange={vi.fn()} />);
     expect(screen.getByRole("button", { name: "Close" })).toBeTruthy();
     expect(screen.getByRole("button", { name: "Previous image" })).toBeTruthy();
     expect(screen.getByRole("button", { name: "Next image" })).toBeTruthy();
@@ -238,7 +240,7 @@ describe("ImageViewer defaults", () => {
   });
 
   it("a label prop still wins over the DS string, one by one", () => {
-    render(<ImageViewer photos={photos} alt="Lamp on a desk" title="Walnut desk lamp" onClose={vi.fn()} closeLabel="Close photos" />);
+    render(<ImageViewer items={items("Lamp on a desk")} title="Walnut desk lamp" onOpenChange={vi.fn()} labels={{ close: "Close photos" }} />);
     expect(screen.getByRole("button", { name: "Close photos" })).toBeTruthy();
     expect(screen.queryByRole("button", { name: "Close" })).toBeNull();
     expect(screen.getByRole("button", { name: "Next image" })).toBeTruthy();
@@ -249,7 +251,7 @@ describe("ImageViewer defaults", () => {
     registerDsStrings("de", { close: "Fenster schließen", previousImage: "Vorheriges Bild", imagePosition: "Bild {index} von {total}" });
     render(
       <I18nProvider locale="de">
-        <ImageViewer photos={photos} alt="Lamp on a desk" title="Walnut desk lamp" onClose={vi.fn()} />
+        <ImageViewer items={items("Lamp on a desk")} title="Walnut desk lamp" onOpenChange={vi.fn()} />
       </I18nProvider>,
     );
     expect(screen.getByRole("button", { name: "Fenster schließen" })).toBeTruthy();
@@ -262,7 +264,7 @@ describe("ImageViewer defaults", () => {
   it("a locale with no words of its own falls back to English", () => {
     render(
       <I18nProvider locale="fr">
-        <ImageViewer photos={photos} alt="Lamp on a desk" title="Walnut desk lamp" onClose={vi.fn()} />
+        <ImageViewer items={items("Lamp on a desk")} title="Walnut desk lamp" onOpenChange={vi.fn()} />
       </I18nProvider>,
     );
     expect(screen.getByRole("button", { name: "Close" })).toBeTruthy();

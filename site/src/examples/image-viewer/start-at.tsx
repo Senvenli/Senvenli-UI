@@ -28,11 +28,10 @@ export default function Example() {
       </Stack>
       {openAt !== null && (
         <ImageViewer
-          photos={PHOTOS.map((item) => item.src)}
-          initialIndex={openAt}
+          items={PHOTOS.map((item) => ({ src: item.src, alt: item.label }))}
+          defaultIndex={openAt}
           title="Standing desk"
-          alt="Standing desk"
-          onClose={() => setOpenAt(null)}
+          onOpenChange={(open) => !open && setOpenAt(null)}
         />
       )}
     </>

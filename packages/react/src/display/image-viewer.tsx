@@ -13,6 +13,7 @@ import {
 import { closeLabel as dsCloseLabel, imagePositionLabel, nextImageLabel, previousImageLabel } from "../i18n";
 import { cn } from "../utils";
 import { IconGlyph } from "./icon";
+import type { CarouselItem } from "./carousel";
 
 /**
  * The image renderer an app may inject (next/image's props are a superset), so the package carries no
@@ -64,23 +65,23 @@ function isEditableTarget(target: EventTarget | null) {
 export interface ImageViewerProps {
   /** The image renderer (e.g. next/image); a plain `<img>` by default. */
   image?: ImageViewerImage;
-  /** Photo paths in display order. */
-  photos: string[];
-  /** Resolve a stored photo path to a renderable src. Defaults to identity. */
-  resolveSrc?: (path: string) => string;
-  /** Index to open on; wrapped into range. */
-  initialIndex?: number;
-  onClose: () => void;
+  /** The photos in display order, each with its own alt text: the same shape as Carousel's `items`. */
+  items: CarouselItem[];
+  /** The photo to open on; wrapped into range. */
+  defaultIndex?: number;
+  /** Open by default, so rendering it opens it; or control it with `onOpenChange`. */
+  isOpen?: boolean;
+  /** Called with `false` on Esc, the close button or a press on the scrim. */
+  onOpenChange?: (isOpen: boolean) => void;
   /** Caption shown at the bottom and used as the accessible dialog title. */
   title: string;
-  /** alt text for the photo. */
-  alt: string;
-  /** Builds the "N of M" caption/description; the DS string by default. */
-  positionLabel?: (index: number, total: number) => string;
-  /** The DS strings by default ("Close", "Previous image", "Next image"). */
-  closeLabel?: string;
-  previousLabel?: string;
-  nextLabel?: string;
+  /** The viewer's words; the DS strings by default ("Close", "Previous image", "Next image", "Image 2 of 5"). */
+  labels?: {
+    close?: string;
+    previous?: string;
+    next?: string;
+    position?: (index: number, total: number) => string;
+  };
 }
 
 /** Round controls over the photo, as the Carousel's: the overlay surface of the (always dark) viewer. */
@@ -101,23 +102,19 @@ const ROUND_BUTTON =
  */
 export function ImageViewer({
   image: Image = PlainImage,
-  photos,
-  resolveSrc = (path) => path,
-  initialIndex = 0,
-  onClose,
+  items: photos,
+  defaultIndex = 0,
+  isOpen = true,
+  onOpenChange,
   title,
-  alt,
-  positionLabel: positionLabelProp,
-  closeLabel: closeLabelProp,
-  previousLabel: previousLabelProp,
-  nextLabel: nextLabelProp,
+  labels,
 }: ImageViewerProps) {
   const { direction, locale } = useLocale();
-  const positionLabel = positionLabelProp ?? ((n: number, total: number) => imagePositionLabel(locale, n, total));
-  const closeLabel = closeLabelProp ?? dsCloseLabel(locale);
-  const previousLabel = previousLabelProp ?? previousImageLabel(locale);
-  const nextLabel = nextLabelProp ?? nextImageLabel(locale);
-  const [index, setIndex] = React.useState(() => wrapPhotoIndex(initialIndex, photos.length));
+  const positionLabel = labels?.position ?? ((n: number, total: number) => imagePositionLabel(locale, n, total));
+  const closeLabel = labels?.close ?? dsCloseLabel(locale);
+  const previousLabel = labels?.previous ?? previousImageLabel(locale);
+  const nextLabel = labels?.next ?? nextImageLabel(locale);
+  const [index, setIndex] = React.useState(() => wrapPhotoIndex(defaultIndex, photos.length));
   const currentPhoto = photos[index];
   const stripRef = React.useRef<HTMLDivElement>(null);
   const descriptionId = React.useId();
@@ -129,7 +126,7 @@ export function ImageViewer({
   // Listen at document capture level while the viewer is open, so physical arrow keys never depend on where
   // focus sits in the overlay. Editable controls keep their native cursor behavior.
   React.useEffect(() => {
-    if (photos.length <= 1) return;
+    if (!isOpen || photos.length <= 1) return;
     const handleKeyDown = (event: KeyboardEvent) => {
       if (isEditableTarget(event.target)) return;
       const back = direction === "rtl" ? "ArrowRight" : "ArrowLeft";
@@ -144,7 +141,7 @@ export function ImageViewer({
     };
     document.addEventListener("keydown", handleKeyDown, true);
     return () => document.removeEventListener("keydown", handleKeyDown, true);
-  }, [move, photos.length, direction]);
+  }, [move, photos.length, direction, isOpen]);
 
   // The strip follows the open photo, so on a long gallery it keeps saying where you are.
   React.useEffect(() => {
@@ -158,11 +155,9 @@ export function ImageViewer({
 
   return (
     <ModalOverlay
-      isOpen
+      isOpen={isOpen}
       isDismissable
-      onOpenChange={(open) => {
-        if (!open) onClose();
-      }}
+      onOpenChange={(open) => onOpenChange?.(open)}
       data-slot="image-viewer-overlay"
       className="fixed inset-0 z-50 grid place-items-center bg-ds-blanket p-ds-100"
     >
@@ -179,7 +174,7 @@ export function ImageViewer({
 
               <div data-slot="image-viewer-stage" className="relative flex min-h-[min(72dvh,48rem)] items-center justify-center bg-ds-surface-sunken">
                 {/* Next 16 renamed next/image `priority` to `preload` (same effect: eager load plus a preload hint). Thumbnails take neither. */}
-                <Image key={currentPhoto} src={resolveSrc(currentPhoto)} alt={alt} fill preload sizes="100vw" className="object-contain" />
+                <Image key={currentPhoto.id ?? currentPhoto.src} src={currentPhoto.src} alt={currentPhoto.alt} fill preload sizes="100vw" className="object-contain" />
 
                 <AriaButton
                   data-slot="image-viewer-close"
@@ -230,7 +225,7 @@ export function ImageViewer({
                     const active = thumb === index;
                     return (
                       <AriaButton
-                        key={`${photo}-${thumb}`}
+                        key={`${photo.id ?? photo.src}-${thumb}`}
                         data-slot="image-viewer-thumbnail"
                         // Named by the position caption the viewer already requires, so the strip costs no new prop.
                         aria-label={positionLabel(thumb + 1, photos.length)}
@@ -245,7 +240,7 @@ export function ImageViewer({
                           "data-[focus-visible]:opacity-100 data-[focus-visible]:before:inset-ring-2 data-[focus-visible]:before:inset-ring-ds-border-focused",
                         )}
                       >
-                        <Image src={resolveSrc(photo)} alt="" fill sizes="96px" className="object-cover" />
+                        <Image src={photo.src} alt="" fill sizes="96px" className="object-cover" />
                       </AriaButton>
                     );
                   })}
