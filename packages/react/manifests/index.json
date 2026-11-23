@@ -1644,14 +1644,20 @@
     "status": "alpha",
     "description": "Switches between views of the same content; SegmentedControl switches a small set of options inline.",
     "keywords": [
-      "tabs",
+      "compound",
       "segmented control",
-      "views",
-      "switch"
+      "switch",
+      "tab panel",
+      "tablist",
+      "tabs",
+      "views"
     ],
     "import": "@senvenli/react/navigation",
     "exports": [
       "Tabs",
+      "TabList",
+      "Tab",
+      "TabPanel",
       "SegmentedControl"
     ],
     "genui": true

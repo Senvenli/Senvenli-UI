@@ -3,7 +3,7 @@ import { act, cleanup, fireEvent, render, screen, waitFor, within } from "@testi
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import { DesignSystemProvider } from "../provider";
-import { Accordion, Breadcrumbs, Disclosure, Pagination, SegmentedControl, Tabs } from "./index";
+import { Accordion, Breadcrumbs, Disclosure, Pagination, SegmentedControl, Tab, TabList, TabPanel, Tabs } from "./index";
 import { pageWindow } from "./pagination";
 
 const PHYSICAL = /(^|\s|:)(-?m[lr]-|p[lr]-|-?left-|-?right-|border-[lr](-|\s|$)|rounded-[lr]-|text-left|text-right)/;
@@ -345,5 +345,35 @@ describe("Accordion and Disclosure", () => {
     await waitFor(() => expect(trigger.getAttribute("aria-expanded")).toBe("true"));
     const panel = document.getElementById(trigger.getAttribute("aria-controls")!)!;
     expect(panel.textContent).toContain("Yes, at any time.");
+  });
+});
+
+describe("Tabs composed from parts", () => {
+  it("links each Tab to the TabPanel with its id, and switches", () => {
+    render(
+      <DesignSystemProvider>
+        <Tabs>
+          <TabList aria-label="Settings">
+            <Tab id="profile">Profile</Tab>
+            <Tab id="billing" count={2}>
+              Billing
+            </Tab>
+          </TabList>
+          <TabPanel id="profile">Profile panel</TabPanel>
+          <TabPanel id="billing">Billing panel</TabPanel>
+        </Tabs>
+      </DesignSystemProvider>,
+    );
+    expect(screen.getByRole("tablist", { name: "Settings" })).toBeTruthy();
+    const billing = screen.getByRole("tab", { name: /Billing/ });
+    expect(screen.getByRole("tab", { name: "Profile" }).getAttribute("aria-selected")).toBe("true");
+    fireEvent.mouseDown(billing);
+    fireEvent.mouseUp(billing);
+    fireEvent.click(billing);
+    expect(billing.getAttribute("aria-selected")).toBe("true");
+    const panel = screen.getByRole("tabpanel");
+    expect(panel.textContent).toBe("Billing panel");
+    expect(panel.getAttribute("aria-labelledby")).toBe(billing.id);
+    expect(billing.textContent).toContain("2");
   });
 });

@@ -8,14 +8,20 @@
   "title": "Tabs",
   "exports": [
     "Tabs",
+    "TabList",
+    "Tab",
+    "TabPanel",
     "SegmentedControl"
   ],
   "description": "Switches between views of the same content; SegmentedControl switches a small set of options inline.",
   "keywords": [
-    "tabs",
+    "compound",
     "segmented control",
-    "views",
-    "switch"
+    "switch",
+    "tab panel",
+    "tablist",
+    "tabs",
+    "views"
   ],
   "usage": {
     "when": [
@@ -39,7 +45,8 @@
       "Tabs and panels are linked; counts are announced."
     ],
     "youProvide": [
-      "Short nouns for tab labels."
+      "Short nouns for tab labels.",
+      "With children: one TabPanel per Tab, matched by the same id, and an aria-label on TabList when no heading names it."
     ]
   },
   "related": [
@@ -75,6 +82,9 @@
               "count": {
                 "type": "number"
               },
+              "isDisabled": {
+                "type": "boolean"
+              },
               "panel": {
                 "type": "string"
               }
@@ -85,15 +95,12 @@
               "panel"
             ]
           },
-          "description": "Two to six tabs."
+          "description": "Two to six tabs as data. Leave it out and compose `TabList`, `Tab` and `TabPanel` as children instead,\nfor a tab with an icon, a panel built elsewhere, or tabs rendered from your own components."
         },
         "defaultSelectedKey": {
           "type": "string"
         }
-      },
-      "required": [
-        "items"
-      ]
+      }
     }
   },
   "source": [
@@ -104,9 +111,9 @@
       {
         "name": "items",
         "type": "readonly TabItem[]",
-        "required": true,
+        "required": false,
         "origin": "own",
-        "description": "Two to six tabs.",
+        "description": "Two to six tabs as data. Leave it out and compose `TabList`, `Tab` and `TabPanel` as children instead,\nfor a tab with an icon, a panel built elsewhere, or tabs rendered from your own components.",
         "schema": {
           "type": "array",
           "items": {
@@ -122,6 +129,9 @@
               "count": {
                 "type": "number"
               },
+              "isDisabled": {
+                "type": "boolean"
+              },
               "panel": {
                 "type": "string"
               }
@@ -133,6 +143,13 @@
             ]
           }
         }
+      },
+      {
+        "name": "children",
+        "type": "React.ReactNode",
+        "required": false,
+        "origin": "own",
+        "description": "With no `items`: a `TabList` of `Tab`s followed by one `TabPanel` per tab, matched by `id`."
       },
       {
         "name": "selectedKey",
@@ -163,7 +180,7 @@
         "type": "string",
         "required": false,
         "origin": "own",
-        "description": "Names the tab list when no heading above it does.",
+        "description": "Names the tab list when no heading above it does (with `items`; on `TabList` otherwise).",
         "schema": {
           "type": "string"
         }
@@ -182,6 +199,90 @@
             "reduce"
           ]
         }
+      }
+    ],
+    "TabList": [
+      {
+        "name": "children",
+        "type": "React.ReactNode",
+        "required": true,
+        "origin": "own",
+        "description": "`Tab` elements."
+      },
+      {
+        "name": "aria-label",
+        "type": "string",
+        "required": false,
+        "origin": "own",
+        "description": "Names the tab list when no heading above it does.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "aria-labelledby",
+        "type": "string",
+        "required": false,
+        "origin": "own",
+        "schema": {
+          "type": "string"
+        }
+      }
+    ],
+    "Tab": [
+      {
+        "name": "id",
+        "type": "Key",
+        "required": true,
+        "origin": "own",
+        "description": "Matches the `TabPanel` with the same `id`.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "children",
+        "type": "React.ReactNode",
+        "required": true,
+        "origin": "own",
+        "description": "The label: a noun, one or two words, optionally with an Icon before it."
+      },
+      {
+        "name": "count",
+        "type": "number",
+        "required": false,
+        "origin": "own",
+        "description": "A count after the label (a Badge); hidden at 0.",
+        "schema": {
+          "type": "number"
+        }
+      },
+      {
+        "name": "isDisabled",
+        "type": "boolean",
+        "required": false,
+        "origin": "own",
+        "schema": {
+          "type": "boolean"
+        }
+      }
+    ],
+    "TabPanel": [
+      {
+        "name": "id",
+        "type": "Key",
+        "required": true,
+        "origin": "own",
+        "description": "Matches the `Tab` with the same `id`.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "children",
+        "type": "React.ReactNode",
+        "required": true,
+        "origin": "own"
       }
     ],
     "SegmentedControl": [

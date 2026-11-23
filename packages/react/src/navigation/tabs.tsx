@@ -3,9 +3,10 @@
 import * as React from "react";
 import {
   SelectionIndicator,
-  Tab,
-  TabList,
-  TabPanel,
+  Tab as AriaTab,
+  TabList as AriaTabList,
+  TabListStateContext,
+  TabPanel as AriaTabPanel,
   Tabs as AriaTabs,
   ToggleButton as AriaToggleButton,
   ToggleButtonGroup as AriaToggleButtonGroup,
@@ -22,17 +23,47 @@ export type TabItem = {
   label: string;
   /** A count after the label (a Badge), e.g. open damage records. */
   count?: number;
+  isDisabled?: boolean;
   panel: React.ReactNode;
 };
 
 export type TabsProps = {
-  /** Two to six tabs. */
-  items: readonly TabItem[];
+  /**
+   * Two to six tabs as data. Leave it out and compose `TabList`, `Tab` and `TabPanel` as children instead,
+   * for a tab with an icon, a panel built elsewhere, or tabs rendered from your own components.
+   */
+  items?: readonly TabItem[];
+  /** With no `items`: a `TabList` of `Tab`s followed by one `TabPanel` per tab, matched by `id`. */
+  children?: React.ReactNode;
   selectedKey?: Key;
   defaultSelectedKey?: Key;
   onSelectionChange?: (key: Key) => void;
+  /** Names the tab list when no heading above it does (with `items`; on `TabList` otherwise). */
+  "aria-label"?: string;
+};
+
+export type TabListProps = {
+  /** `Tab` elements. */
+  children: React.ReactNode;
   /** Names the tab list when no heading above it does. */
   "aria-label"?: string;
+  "aria-labelledby"?: string;
+};
+
+export type TabProps = {
+  /** Matches the `TabPanel` with the same `id`. */
+  id: Key;
+  /** The label: a noun, one or two words, optionally with an Icon before it. */
+  children: React.ReactNode;
+  /** A count after the label (a Badge); hidden at 0. */
+  count?: number;
+  isDisabled?: boolean;
+};
+
+export type TabPanelProps = {
+  /** Matches the `Tab` with the same `id`. */
+  id: Key;
+  children: React.ReactNode;
 };
 
 /** The selected tab's 2px underline (never colour alone); React Aria slides it to the next tab (no slide under reduced motion). */
@@ -47,65 +78,96 @@ const TAB =
   "data-[focus-visible]:inset-ring-2 data-[focus-visible]:inset-ring-ds-border-focused data-[disabled]:text-ds-text-disabled";
 
 /**
- * Switches between views of the same object without leaving the page. Arrow keys (mirrored in RTL),
- * Home and End move between tabs; the selected tab holds focus. Every panel stays mounted, so its state
- * (a scroll position, a half-filled filter) survives switching. On a narrow screen the row scrolls
- * sideways and the selected tab scrolls into view.
+ * The row of tabs. On a narrow screen it scrolls sideways and keeps the selected tab in view, by scrolling
+ * the row alone, never the page (scrollIntoView would scroll every ancestor, the window included).
  */
-function TabsBody({ items, selectedKey, defaultSelectedKey, onSelectionChange, "aria-label": label }: TabsProps) {
+export function TabList({ children, "aria-label": label, "aria-labelledby": labelledBy }: TabListProps) {
   const list = React.useRef<HTMLDivElement>(null);
-  const [own, setOwn] = React.useState<Key | undefined>(defaultSelectedKey ?? items[0]?.id);
-  const current = selectedKey ?? own;
+  const selected = React.useContext(TabListStateContext)?.selectedKey;
   React.useEffect(() => {
-    // Bring the selected tab into the row's view by scrolling the row alone, never the page (scrollIntoView
-    // would scroll every ancestor, the window included). Rect deltas work the same in RTL.
     const row = list.current;
     const tab = row?.querySelector<HTMLElement>("[data-selected]");
     if (!row || !tab) return;
+    // Rect deltas work the same in RTL.
     const outer = row.getBoundingClientRect();
     const inner = tab.getBoundingClientRect();
     if (inner.left < outer.left) row.scrollLeft -= outer.left - inner.left;
     else if (inner.right > outer.right) row.scrollLeft += inner.right - outer.right;
-  }, [current]);
+  }, [selected]);
+  return (
+    <AriaTabList
+      ref={list}
+      aria-label={label}
+      aria-labelledby={labelledBy}
+      data-slot="tabs-list"
+      className="flex gap-ds-300 overflow-x-auto border-b border-ds-border [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+    >
+      {children}
+    </AriaTabList>
+  );
+}
+
+/** One tab: its label, an optional count, and the sliding underline when selected. */
+export function Tab({ id, children, count, isDisabled }: TabProps) {
+  return (
+    <AriaTab id={id} isDisabled={isDisabled} data-slot="tab" className={TAB}>
+      <SelectionIndicator data-slot="tab-indicator" className={TAB_INDICATOR} />
+      {children}
+      {count !== undefined && count > 0 && (
+        <span data-slot="tab-count" className="flex">
+          <Badge variant="count" value={count} />
+        </span>
+      )}
+    </AriaTab>
+  );
+}
+
+/** A tab's view. It stays mounted while hidden, so its state (a scroll position, a half-filled filter) survives switching. */
+export function TabPanel({ id, children }: TabPanelProps) {
+  return (
+    <AriaTabPanel
+      id={id}
+      shouldForceMount
+      data-slot="tab-panel"
+      className="outline-hidden data-[focus-visible]:inset-ring-2 data-[focus-visible]:inset-ring-ds-border-focused data-[inert]:hidden [&[inert]]:hidden"
+    >
+      {children}
+    </AriaTabPanel>
+  );
+}
+
+/**
+ * Switches between views of the same object without leaving the page. Arrow keys (mirrored in RTL),
+ * Home and End move between tabs; the selected tab holds focus. Give `items`, or compose `TabList`,
+ * `Tab` and `TabPanel` as children; both render the same parts.
+ */
+function TabsBody({ items, children, selectedKey, defaultSelectedKey, onSelectionChange, "aria-label": label }: TabsProps) {
   return (
     <AriaTabs
-      selectedKey={current}
-      onSelectionChange={(key) => {
-        if (selectedKey === undefined) setOwn(key);
-        onSelectionChange?.(key);
-      }}
+      selectedKey={selectedKey}
+      defaultSelectedKey={defaultSelectedKey}
+      onSelectionChange={onSelectionChange}
       data-slot="tabs"
       className="flex flex-col gap-ds-200"
     >
-      <TabList
-        ref={list}
-        aria-label={label}
-        data-slot="tabs-list"
-        className="flex gap-ds-300 overflow-x-auto border-b border-ds-border [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
-      >
-        {items.map((item) => (
-          <Tab key={item.id} id={item.id} data-slot="tab" className={TAB}>
-            <SelectionIndicator data-slot="tab-indicator" className={TAB_INDICATOR} />
-            {item.label}
-            {item.count !== undefined && item.count > 0 && (
-              <span data-slot="tab-count" className="flex">
-                <Badge variant="count" value={item.count} />
-              </span>
-            )}
-          </Tab>
-        ))}
-      </TabList>
-      {items.map((item) => (
-        <TabPanel
-          key={item.id}
-          id={item.id}
-          shouldForceMount
-          data-slot="tab-panel"
-          className="outline-hidden data-[focus-visible]:inset-ring-2 data-[focus-visible]:inset-ring-ds-border-focused data-[inert]:hidden [&[inert]]:hidden"
-        >
-          {item.panel}
-        </TabPanel>
-      ))}
+      {items ? (
+        <>
+          <TabList aria-label={label}>
+            {items.map((item) => (
+              <Tab key={item.id} id={item.id} count={item.count} isDisabled={item.isDisabled}>
+                {item.label}
+              </Tab>
+            ))}
+          </TabList>
+          {items.map((item) => (
+            <TabPanel key={item.id} id={item.id}>
+              {item.panel}
+            </TabPanel>
+          ))}
+        </>
+      ) : (
+        children
+      )}
     </AriaTabs>
   );
 }
