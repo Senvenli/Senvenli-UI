@@ -1,0 +1,265 @@
+{
+  "$schema": "https://design.senvenli.com/schema/component.full.json",
+  "kind": "component",
+  "family": "charts",
+  "status": "alpha",
+  "import": "@senvenli/react/charts",
+  "name": "heatmap",
+  "title": "Heatmap",
+  "exports": [
+    "Heatmap"
+  ],
+  "description": "A value by two cyclic dimensions, such as weekday by hour, as shaded cells.",
+  "keywords": [
+    "heatmap",
+    "hour",
+    "matrix",
+    "seasonality",
+    "weekday"
+  ],
+  "usage": {
+    "when": [
+      "Finding busy and quiet times."
+    ],
+    "instead": [
+      {
+        "use": "calendar-heatmap",
+        "when": "The pattern is by date across weeks."
+      },
+      {
+        "use": "bar-chart",
+        "when": "Only one cyclic dimension matters, such as the weekday."
+      }
+    ]
+  },
+  "a11y": {
+    "builtIn": [
+      "A \"Show as table\" button shows the same data as a table, which screen readers get by default."
+    ],
+    "youProvide": [
+      "A title that says what the figure is."
+    ]
+  },
+  "related": [
+    "calendar-heatmap"
+  ],
+  "genui": {
+    "expose": false
+  },
+  "source": [
+    "src/charts/report-charts.tsx"
+  ],
+  "props": {
+    "Heatmap": [
+      {
+        "name": "title",
+        "type": "string",
+        "required": false,
+        "origin": "own",
+        "description": "What the chart shows (\"Income and expenses\"), over it; leave it out when a card or a heading already says so.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "aria-label",
+        "type": "string",
+        "required": false,
+        "origin": "own",
+        "description": "Names the chart when it has no visible `title`.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "period",
+        "type": "string",
+        "required": false,
+        "origin": "own",
+        "description": "The period it covers (\"September 2026\").",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "isLoading",
+        "type": "boolean",
+        "required": false,
+        "origin": "own",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "emptyState",
+        "type": "React.ReactNode",
+        "required": false,
+        "origin": "own",
+        "description": "Shown instead of the plot when there is no data: an `EmptyState size=\"small\"` or text; \"No data\" by default."
+      },
+      {
+        "name": "rows",
+        "type": "readonly string[]",
+        "required": true,
+        "origin": "own",
+        "description": "The rows, top to bottom (\"Week 1\" …, or the months). Names are unique: cells find their row by name.",
+        "schema": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      {
+        "name": "columns",
+        "type": "readonly string[]",
+        "required": true,
+        "origin": "own",
+        "description": "The columns, from the inline start (the weekdays, or the weeks). Names are unique, as for `rows`: a name given\ntwice draws both, but every cell of that name lands in the first (the chart warns).",
+        "schema": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      {
+        "name": "data",
+        "type": "readonly HeatmapCell[]",
+        "required": true,
+        "origin": "own",
+        "description": "One entry per cell; a row and column with no entry draws no cell (a day outside the month).",
+        "schema": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "row": {
+                "type": "string"
+              },
+              "column": {
+                "type": "string"
+              },
+              "value": {
+                "type": "number"
+              },
+              "label": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "row",
+              "column",
+              "value"
+            ]
+          }
+        }
+      },
+      {
+        "name": "rowHeader",
+        "type": "string",
+        "required": false,
+        "origin": "own",
+        "description": "The row headers' name (\"Week\"), on the data table's first header and the grid's corner; \"Period\" by default.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "thresholds",
+        "type": "readonly [number, number, number, number]",
+        "required": false,
+        "origin": "own",
+        "description": "Four strictly ascending lower bounds of the four intensity steps; from the positive values' quartiles by\ndefault. Bounds out of order still count each bound a value reaches, so the steps no longer follow the values\n(the chart warns)."
+      },
+      {
+        "name": "valueFormatter",
+        "type": "ChartValueFormatter",
+        "required": false,
+        "origin": "own",
+        "default": "plain"
+      },
+      {
+        "name": "onCellPress",
+        "type": "(cell: HeatmapCell) => void",
+        "required": false,
+        "origin": "own"
+      }
+    ]
+  },
+  "tokens": [
+    "ds-background-brand-subtle",
+    "ds-background-neutral",
+    "ds-background-neutral-pressed",
+    "ds-background-selected-hovered",
+    "ds-background-selected-pressed",
+    "ds-border",
+    "ds-border-bold",
+    "ds-border-focused",
+    "ds-chart-1",
+    "ds-chart-2",
+    "ds-chart-3",
+    "ds-chart-4",
+    "ds-chart-5",
+    "ds-chart-neutral",
+    "ds-icon-danger",
+    "ds-icon-success",
+    "ds-icon-warning",
+    "ds-link",
+    "ds-radius-medium",
+    "ds-radius-small",
+    "ds-radius-xsmall",
+    "ds-shadow-overlay",
+    "ds-space-050",
+    "ds-space-075",
+    "ds-space-100",
+    "ds-space-150",
+    "ds-space-200",
+    "ds-space-300",
+    "ds-space-400",
+    "ds-surface-overlay",
+    "ds-surface-raised",
+    "ds-text",
+    "ds-text-danger",
+    "ds-text-subtle",
+    "ds-text-subtlest",
+    "ds-text-success"
+  ],
+  "strings": [
+    "chartBand",
+    "chartCategory",
+    "chartChange",
+    "chartConversion",
+    "chartDecrease",
+    "chartIncrease",
+    "chartNoData",
+    "chartNoValue",
+    "chartOther",
+    "chartPeriod",
+    "chartShare",
+    "chartStatus",
+    "chartTotal",
+    "chartTrend",
+    "chartValue",
+    "gaugeTarget",
+    "heatmapLess",
+    "heatmapMore",
+    "hideDataTable",
+    "selection",
+    "showAll",
+    "showDataTable",
+    "showFewer",
+    "sparklineSummary"
+  ],
+  "quality": {
+    "tests": true,
+    "a11y": false,
+    "docs": false,
+    "visual": false,
+    "dark": false,
+    "rtl": false,
+    "mcp": true,
+    "generic": true
+  }
+}

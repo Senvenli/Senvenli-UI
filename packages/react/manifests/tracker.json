@@ -53,8 +53,19 @@
       {
         "name": "title",
         "type": "string",
-        "required": true,
+        "required": false,
         "origin": "own",
+        "description": "What the chart shows, over it; leave it out when a card or a heading already says so.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "aria-label",
+        "type": "string",
+        "required": false,
+        "origin": "own",
+        "description": "Names the chart when it has no visible `title` (a card's heading already says what it shows).",
         "schema": {
           "type": "string"
         }
