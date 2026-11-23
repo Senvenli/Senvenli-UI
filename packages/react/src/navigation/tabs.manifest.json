@@ -8,14 +8,20 @@
   "title": "Tabs",
   "exports": [
     "Tabs",
+    "TabList",
+    "Tab",
+    "TabPanel",
     "SegmentedControl"
   ],
   "description": "Switches between views of the same content; SegmentedControl switches a small set of options inline.",
   "keywords": [
-    "tabs",
+    "compound",
     "segmented control",
-    "views",
-    "switch"
+    "switch",
+    "tab panel",
+    "tablist",
+    "tabs",
+    "views"
   ],
   "usage": {
     "when": [
@@ -39,7 +45,8 @@
       "Tabs and panels are linked; counts are announced."
     ],
     "youProvide": [
-      "Short nouns for tab labels."
+      "Short nouns for tab labels.",
+      "With children: one TabPanel per Tab, matched by the same id, and an aria-label on TabList when no heading names it."
     ]
   },
   "related": [
