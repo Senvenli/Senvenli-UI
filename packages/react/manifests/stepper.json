@@ -74,6 +74,20 @@
               },
               "description": {
                 "type": "string"
+              },
+              "isDone": {
+                "type": "boolean"
+              },
+              "status": {
+                "type": "string",
+                "enum": [
+                  "needs-you",
+                  "with-provider",
+                  "failed"
+                ]
+              },
+              "statusText": {
+                "type": "string"
               }
             },
             "required": [
@@ -127,6 +141,20 @@
               },
               "description": {
                 "type": "string"
+              },
+              "isDone": {
+                "type": "boolean"
+              },
+              "status": {
+                "type": "string",
+                "enum": [
+                  "needs-you",
+                  "with-provider",
+                  "failed"
+                ]
+              },
+              "statusText": {
+                "type": "string"
               }
             },
             "required": [
@@ -147,18 +175,11 @@
         }
       },
       {
-        "name": "completedSteps",
-        "type": "Iterable<string>",
-        "required": false,
-        "origin": "own",
-        "description": "Done steps; by default every step before the current one. Ignored with `isComplete`."
-      },
-      {
         "name": "isComplete",
         "type": "boolean",
         "required": false,
         "origin": "own",
-        "description": "The flow is finished: every step shows its done state and none is current, so no step\ncarries `aria-current`. The list is named with the overall state (\"Progress, All steps done\"),\nand the narrow one-line form reads \"All steps done\" over a full bar. A `stepStatus` or\n`statusText` entry still speaks for its step, in the list and, under the done line, in the narrow form\ntoo (\"Domain · With us\"). A finished flow cannot also have a `failed` or `needs-you` step: that\npairing contradicts itself and warns in development; settle the step first. Left out, nothing changes.",
+        "description": "The flow is finished: every step shows its done state and none is current, so no step\ncarries `aria-current`. The list is named with the overall state (\"Progress, All steps done\"),\nand the narrow one-line form reads \"All steps done\" over a full bar. A step's `status` or\n`statusText` still speaks for it, in the list and, under the done line, in the narrow form\ntoo (\"Domain · With us\"). A finished flow cannot also have a `failed` or `needs-you` step: that\npairing contradicts itself and warns in development; settle the step first. Left out, nothing changes.",
         "schema": {
           "type": "boolean"
         }
@@ -185,18 +206,14 @@
         }
       },
       {
-        "name": "stepStatus",
-        "type": "Partial<Record<string, StepStatus>>",
+        "name": "showStatus",
+        "type": "boolean",
         "required": false,
         "origin": "own",
-        "description": "A journey across pages (signup → payment → setup): per-step status words. With it, done and current\nsteps say so in words too."
-      },
-      {
-        "name": "statusText",
-        "type": "Partial<Record<string, string>>",
-        "required": false,
-        "origin": "own",
-        "description": "Replaces a step's status words (\"With us · 1–2 business days\")."
+        "description": "Done and current steps say so in words too (\"Done\", \"Now\"), as on a journey across pages. On by default when\nany step has a `status`.",
+        "schema": {
+          "type": "boolean"
+        }
       },
       {
         "name": "aria-label",

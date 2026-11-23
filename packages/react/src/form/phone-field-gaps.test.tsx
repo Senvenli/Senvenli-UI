@@ -217,10 +217,12 @@ describe("PhoneField country-picker strings from the app", () => {
     inLocale(
       <Controlled
         start="+38267123456"
-        countryLabel={(country, code) => `Dial code: ${country}: ${code}`}
-        countryListLabel="Dial codes"
-        countrySearchLabel="Search a country or a code"
-        countryEmptyMessage={(query) => `No country for “${query}”`}
+        labels={{
+          country: (country, code) => `Dial code: ${country}: ${code}`,
+          countryList: "Dial codes",
+          countrySearch: "Search a country or a code",
+          countryEmpty: (query) => `No country for “${query}”`,
+        }}
       />,
     );
     fireEvent.click(screen.getByRole("button", { name: "Dial code: Montenegro: +382" }));
@@ -240,7 +242,7 @@ describe("PhoneField country-picker strings from the app", () => {
   }, LIST_TIMEOUT);
 
   it("a locked field's country mark takes the app's name too", () => {
-    inLocale(<PhoneField label="Phone" defaultValue="+38267123456" isDisabled countryLabel={(country, code) => `${country} ${code}`} />);
+    inLocale(<PhoneField label="Phone" defaultValue="+38267123456" isDisabled labels={{ country: (country, code) => `${country} ${code}` }} />);
     expect(screen.getByRole("img", { name: "Montenegro +382" })).toBeTruthy();
   });
 });

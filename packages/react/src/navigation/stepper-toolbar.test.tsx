@@ -6,6 +6,17 @@ import { Button } from "../action/index";
 import { DesignSystemProvider } from "../provider";
 import { SkipLink, Stepper } from "./index";
 import { BulkBar, Toolbar, ToolbarSpacer } from "../layout/index";
+import type { StepStatus } from "./stepper";
+
+/** The old per-flow maps written onto the steps (completedSteps, stepStatus, statusText → isDone, status, statusText). */
+function withStatus<S extends { id: string }>(
+  steps: readonly S[],
+  maps: { completed?: Iterable<string>; status?: Partial<Record<string, StepStatus>>; text?: Partial<Record<string, string>> },
+) {
+  const completed = maps.completed ? new Set(maps.completed) : undefined;
+  return steps.map((step) => ({ ...step, isDone: completed ? completed.has(step.id) : undefined, status: maps.status?.[step.id], statusText: maps.text?.[step.id] }));
+}
+
 
 const PHYSICAL = /(^|\s|:)(-?m[lr]-|p[lr]-|-?left-|-?right-|border-[lr](-|\s|$)|rounded-[lr]-|text-left|text-right)/;
 
@@ -78,7 +89,7 @@ describe("Stepper, horizontal", () => {
   });
 
   it("explicit completed steps win over position", () => {
-    inLocale(<Stepper steps={FLOW} currentStep="addons" completedSteps={["profile"]} />);
+    inLocale(<Stepper steps={withStatus(FLOW, { completed: ["profile"] })} currentStep="addons" />);
     expect(steps().map((step) => step.getAttribute("data-state"))).toEqual(["done", "upcoming", "current", "upcoming"]);
   });
 
@@ -98,11 +109,9 @@ describe("Stepper, horizontal", () => {
   it("a journey says each status in words and an icon, not colour alone", () => {
     inLocale(
       <Stepper
-        steps={JOURNEY}
+        steps={withStatus(JOURNEY, { status: { domain: "needs-you" }, text: { workspace: "With us · 1–2 business days" } })} showStatus
         currentStep="domain"
-        stepStatus={{ domain: "needs-you" }}
-        statusText={{ workspace: "With us · 1–2 business days" }}
-      />,
+ />,
     );
     const status = (index: number) => steps()[index]!.querySelector("[data-slot='stepper-step-status']");
     expect(status(0)!.textContent).toBe("Done");
@@ -115,7 +124,7 @@ describe("Stepper, horizontal", () => {
   });
 
   it("with-provider and failed read in their own words", () => {
-    inLocale(<Stepper steps={JOURNEY} currentStep="workspace" stepStatus={{ workspace: "with-provider", domain: "failed" }} />);
+    inLocale(<Stepper steps={withStatus(JOURNEY, { status: { workspace: "with-provider", domain: "failed" } })} showStatus currentStep="workspace" />);
     expect(steps()[3]!.textContent).toContain("With us");
     expect(steps()[2]!.textContent).toContain("Something went wrong");
   });
@@ -150,14 +159,14 @@ describe("Stepper, vertical", () => {
 
 describe("Stepper, status contrast, the compact line and warnings", () => {
   it("a status node uses its own on-colour (contrast on warning, danger)", () => {
-    inLocale(<Stepper orientation="vertical" steps={JOURNEY} currentStep="domain" stepStatus={{ domain: "needs-you", plan: "failed" }} />);
+    inLocale(<Stepper orientation="vertical" steps={withStatus(JOURNEY, { status: { domain: "needs-you", plan: "failed" } })} showStatus currentStep="domain" />);
     const nodes = Array.from(document.querySelectorAll("[data-slot='stepper-step-node']"));
     expect(classesOf(nodes[2]!)).toContain("text-ds-text-on-warning");
     expect(classesOf(nodes[1]!)).toContain("text-ds-text-on-danger");
   });
 
   it("the compact line carries statusText on the current step too, and is named", () => {
-    inLocale(<Stepper steps={JOURNEY} currentStep="workspace" statusText={{ workspace: "With us · 1–2 business days" }} />);
+    inLocale(<Stepper steps={withStatus(JOURNEY, { text: { workspace: "With us · 1–2 business days" } })} currentStep="workspace" />);
     const compact = screen.getByRole("group", { name: "Progress" });
     expect(compact.textContent).toContain("With us · 1–2 business days");
   });

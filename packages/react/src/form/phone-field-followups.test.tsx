@@ -41,7 +41,7 @@ describe("PhoneField: the country list's section names from the app", () => {
   it(
     "suggestedCountriesLabel names the first section and allCountriesLabel heads the rest",
     async () => {
-      inLocale(<PhoneField label="Phone" suggestedCountries={["ME", "TR"]} suggestedCountriesLabel="Frequently used" allCountriesLabel="Other countries" />);
+      inLocale(<PhoneField label="Phone" suggestedCountries={["ME", "TR"]} labels={{ suggestedCountries: "Frequently used", allCountries: "Other countries" }} />);
       fireEvent.click(screen.getByRole("button", { name: /Country/ }));
       const listbox = await screen.findByRole("listbox");
       const suggested = listbox.querySelector("[data-slot='phone-field-suggested']")!;
@@ -104,7 +104,7 @@ describe("PhoneField: the country list's section names from the app", () => {
   it(
     "searching hides the header with the suggested section, and the keyboard still walks the options",
     async () => {
-      inLocale(<PhoneField label="Phone" suggestedCountries={["ME"]} suggestedCountriesLabel="Frequently used" allCountriesLabel="Other countries" />);
+      inLocale(<PhoneField label="Phone" suggestedCountries={["ME"]} labels={{ suggestedCountries: "Frequently used", allCountries: "Other countries" }} />);
       fireEvent.click(screen.getByRole("button", { name: /Country/ }));
       const search = await screen.findByRole("searchbox");
       fireEvent.change(search, { target: { value: "germany" } });
