@@ -166,6 +166,7 @@
     "chartValue",
     "gaugeTarget",
     "hideDataTable",
+    "selection",
     "showDataTable",
     "sparklineSummary"
   ],

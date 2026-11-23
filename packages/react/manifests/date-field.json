@@ -284,6 +284,7 @@
     "dateIncomplete",
     "dateTimeIncomplete",
     "monthHasDays",
+    "optional",
     "required",
     "thisMonthHasDays",
     "timeIncomplete"

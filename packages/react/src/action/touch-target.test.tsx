@@ -98,7 +98,7 @@ describe("44px touch target under a coarse pointer", () => {
       </>,
     );
     expect(touchTarget(screen.getByRole("button", { name: "Close" }))).not.toBeNull();
-    expect(touchTarget(document.querySelector('[data-slot="description-list-copy"]')!)).not.toBeNull();
+    expect(touchTarget(document.querySelector('[data-slot="copy-button"]')!)).not.toBeNull();
   });
 
   it("LinkButton renders the same hit area as Button", () => {

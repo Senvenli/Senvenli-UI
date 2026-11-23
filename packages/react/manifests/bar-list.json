@@ -231,6 +231,7 @@
     "heatmapLess",
     "heatmapMore",
     "hideDataTable",
+    "selection",
     "showAll",
     "showDataTable",
     "showFewer",

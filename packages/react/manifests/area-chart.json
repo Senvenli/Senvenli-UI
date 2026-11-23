@@ -313,6 +313,7 @@
     "chartNoData",
     "chartPeriod",
     "hideDataTable",
+    "selection",
     "showDataTable"
   ],
   "quality": {

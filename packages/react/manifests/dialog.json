@@ -297,7 +297,9 @@
     "ds-text-subtle"
   ],
   "strings": [
-    "cancel"
+    "cancel",
+    "close",
+    "newTab"
   ],
   "quality": {
     "tests": true,

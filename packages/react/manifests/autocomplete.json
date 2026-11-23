@@ -277,7 +277,9 @@
     "loading",
     "moreCount",
     "noMatch",
+    "optional",
     "removeItem",
+    "required",
     "selectAll",
     "selectedCount",
     "showSuggestions"

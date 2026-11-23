@@ -243,6 +243,9 @@
   ],
   "strings": [
     "cancel",
+    "newTab",
+    "optional",
+    "required",
     "typeToConfirm"
   ],
   "quality": {

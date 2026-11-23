@@ -168,7 +168,10 @@
     "ds-surface-overlay",
     "ds-text"
   ],
-  "strings": [],
+  "strings": [
+    "close",
+    "newTab"
+  ],
   "quality": {
     "tests": true,
     "a11y": false,

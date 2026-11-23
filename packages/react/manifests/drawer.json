@@ -189,10 +189,12 @@
     "ds-text-subtle"
   ],
   "strings": [
+    "close",
     "collapseSheet",
     "discardClose",
     "expandSheet",
     "keepEditing",
+    "newTab",
     "unsavedBody",
     "unsavedTitle"
   ],

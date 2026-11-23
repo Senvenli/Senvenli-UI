@@ -370,7 +370,10 @@
     "ds-text-subtle",
     "ds-text-subtlest"
   ],
-  "strings": [],
+  "strings": [
+    "optional",
+    "required"
+  ],
   "quality": {
     "tests": true,
     "a11y": false,

@@ -221,18 +221,18 @@ describe("DescriptionList", () => {
       fireEvent.keyUp(copy, { key: "Enter" });
     });
     expect(writeText).toHaveBeenCalledWith("ORD-2026-10-0914");
-    expect(slot("description-list-copied")?.textContent).toBe("Copied");
-    expect(slot("description-list-copied")?.getAttribute("role")).toBe("status");
+    expect(slot("copy-button-status")?.textContent).toBe("Copied");
+    expect(slot("copy-button-status")?.getAttribute("role")).toBe("status");
     // Shown on hover, on keyboard focus and always on touch screens.
     expect(classesOf(slot("description-list-copy-control")).split(/\s+/)).toEqual(expect.arrayContaining(["group-hover/field:opacity-100", "focus-within:opacity-100", "pointer-coarse:opacity-100"]));
     // Pressing again announces again.
-    const before = slot("description-list-copied")?.textContent;
+    const before = slot("copy-button-status")?.textContent;
     await act(async () => {
       fireEvent.keyDown(copy, { key: "Enter" });
       fireEvent.keyUp(copy, { key: "Enter" });
     });
-    expect(slot("description-list-copied")?.textContent).not.toBe(before);
-    expect(slot("description-list-copied")?.textContent?.replace("​", "")).toBe(DS_STRINGS.copied.en);
+    expect(slot("copy-button-status")?.textContent).not.toBe(before);
+    expect(slot("copy-button-status")?.textContent?.replace("​", "")).toBe(DS_STRINGS.copied.en);
     if (original) Object.defineProperty(navigator, "clipboard", original);
     else Reflect.deleteProperty(navigator, "clipboard");
   });
@@ -245,7 +245,7 @@ describe("DescriptionList", () => {
     await act(async () => {
       fireEvent.click(copy);
     });
-    expect(slot("description-list-copied")?.textContent).toBe("Could not copy");
+    expect(slot("copy-button-status")?.textContent).toBe("Could not copy");
     expect(DS_STRINGS.copyFailed.en).toBe("Could not copy");
     expect(copy.querySelector("svg")?.getAttribute("data-icon")).toBe("x");
     if (original) Object.defineProperty(navigator, "clipboard", original);
