@@ -18,12 +18,26 @@ export async function loader() {
   const button = await loadManifest("button");
   // The first lines of a real Markdown twin: what an agent reads.
   const agentCode = button ? manifestToMarkdown(button, await loadExamples("button")).split("\n").slice(0, 9).join("\n") : "";
-  const [installHtml, installVariants, agentHtml] = await Promise.all([
+  // The same page as JSON: what a tool reads.
+  const agentJson = button
+    ? JSON.stringify(
+        {
+          name: button.name,
+          import: button.import,
+          description: button.description,
+          props: (button.props.Button ?? []).slice(0, 3).map((prop) => ({ name: prop.name, type: prop.type })),
+        },
+        null,
+        2,
+      )
+    : "";
+  const [installHtml, installVariants, agentHtml, agentJsonHtml] = await Promise.all([
     highlight("npm i @senvenli/react", "bash"),
     commandVariants("npm i @senvenli/react"),
     highlight(agentCode, "md"),
+    highlight(agentJson, "json"),
   ]);
-  return { data: { componentCount: index.length, families, installHtml, installVariants, agentHtml, agentCode } };
+  return { data: { componentCount: index.length, families, installHtml, installVariants, agentHtml, agentCode, agentJson, agentJsonHtml } };
 }
 
 export default function HomeRoute({ loaderData }: Route.ComponentProps) {

@@ -91,3 +91,49 @@ html[data-preset-pending] .preview {
 .doc-prose th { text-align: start; font-weight: 500; color: var(--ds-text-subtle); padding: var(--spacing-ds-100, 8px) var(--spacing-ds-300, 24px) var(--spacing-ds-100, 8px) 0; }
 .doc-prose td { border-top: 1px solid var(--ds-border); padding: var(--spacing-ds-150, 12px) var(--spacing-ds-300, 24px) var(--spacing-ds-150, 12px) 0; vertical-align: top; }
 .doc-prose .doc-code { margin: 0 0 var(--spacing-ds-300, 24px); }
+
+/* Home page motion (pages/HomePage.tsx): the hero and the studio rise in once on load, sections rise in as they enter
+   the view where the browser can tie an animation to scrolling. Content is visible without either (no JS, the
+   prerender, an older browser). Off under reduced motion, from the device or the site's motion setting. */
+@keyframes home-rise {
+  from {
+    opacity: 0;
+    translate: 0 8px;
+  }
+}
+.home-hero {
+  animation: home-rise var(--ds-duration-slow, 320ms) cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.home-hero + .home-hero {
+  animation-delay: 80ms;
+}
+@supports (animation-timeline: view()) {
+  .home-reveal {
+    animation: home-rise linear both;
+    animation-timeline: view();
+    animation-range: entry 0% entry 40%;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .home-hero,
+  .home-reveal {
+    animation: none;
+  }
+}
+:root[data-ds-motion="reduce"] :is(.home-hero, .home-reveal),
+:root[data-ds-motion="none"] :is(.home-hero, .home-reveal) {
+  animation: none;
+}
+
+/* A theme change cross-fades the page (document.startViewTransition), at the theme's own pace. */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: var(--ds-duration-medium, 220ms);
+}
+
+/* Short code on the home page wraps instead of scrolling sideways. */
+.home-wrap .code-html pre.shiki,
+.home-wrap pre {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}

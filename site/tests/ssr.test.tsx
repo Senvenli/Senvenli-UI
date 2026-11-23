@@ -65,7 +65,7 @@ describe("server render", () => {
   });
 
   it("the other pages render", () => {
-    expect(render(<HomePage data={{ componentCount: index.length, families: [{ family: "action", count: 9 }], agentCode: "# Button" }} />)).toContain("themes itself");
+    expect(render(<HomePage data={{ componentCount: index.length, families: [{ family: "action", count: 9 }], agentCode: "# Button", agentJson: "{}" }} />)).toContain("themes itself");
     expect(render(<ComponentsIndexPage components={index} />)).toContain("/docs/components/button");
     expect(render(<NotFoundPage />)).toContain("Page not found");
   });

@@ -1,16 +1,17 @@
-import { Link, Button } from "@senvenli/react/action";
-import { ColorSwatch } from "@senvenli/react/color";
-import { Heading, Icon, Badge, Text } from "@senvenli/react/display";
-import { Pressable } from "@senvenli/react/action";
+import { Button, CopyButton, Link, Pressable } from "@senvenli/react/action";
+import { ColorSwatchPicker } from "@senvenli/react/color";
+import { Badge, Heading, Icon, Text } from "@senvenli/react/display";
 import { SegmentedControl } from "@senvenli/react/navigation";
-import { createTheme, encodePreset, formatHex } from "@senvenli/tokens";
-import { useLayoutEffect, useMemo, useState } from "react";
+import { Select } from "@senvenli/react/selection";
+import { createTheme, decodePreset, encodePreset, type ThemeInput } from "@senvenli/tokens";
+import { useLayoutEffect, useMemo, useRef, useState } from "react";
 import { CodeBlock } from "../components/CodeBlock";
+import { Bento } from "../components/home/Bento";
+import { Families } from "../components/home/Families";
+import { Proofs } from "../components/home/Proofs";
 import type { CommandVariant } from "../lib/package-managers";
-import { HomeBoard } from "../components/HomeBoard";
-import { familyTitle } from "../lib/manifest";
-import { applyTheme, PRESETS, readStoredPreset } from "../lib/preset";
 import { SITE_CONTAINER } from "../lib/layout";
+import { applyTheme, PRESETS, readStoredPreset } from "../lib/preset";
 
 export type HomeData = {
   componentCount: number;
@@ -20,142 +21,199 @@ export type HomeData = {
   installVariants?: CommandVariant[];
   agentHtml?: string;
   agentCode: string;
+  agentJson: string;
+  agentJsonHtml?: string;
 };
 
 const INSTALL = "npm i @senvenli/react";
-const SWATCH_TOKENS = ["ds-background-brand-bold", "ds-text-brand", "ds-background-selected", "ds-border-focused", "ds-background-success-bold", "ds-background-warning-bold", "ds-background-danger-bold", "ds-background-information-bold"];
+/** The presets as choices; with your own color picked, none of them is selected (the swatch picker shows it). */
+const PRESET_ITEMS = PRESETS.map((item) => ({ id: item.id, label: item.name }));
 
-/** A differentiator: a small heading, two lines, one proof, one way in. */
-function Feature({ title, children, proof, link, planned = false }: { title: string; children: React.ReactNode; proof: React.ReactNode; link?: React.ReactNode; planned?: boolean }) {
+/** A few brand colors to try; any of them is checked like the presets. */
+const COLORS = [
+  { value: "#996a00", name: "Gold" },
+  { value: "#c2410c", name: "Orange" },
+  { value: "#be123c", name: "Rose" },
+  { value: "#6e56cf", name: "Violet" },
+  { value: "#1268ae", name: "Ocean" },
+  { value: "#0f766e", name: "Teal" },
+  { value: "#2f6f4f", name: "Forest" },
+];
+
+/** Reduced motion from the device or the site's own motion setting. */
+function prefersReducedMotion() {
+  if (typeof window === "undefined") return true;
+  const setting = document.documentElement.getAttribute("data-ds-motion");
+  if (setting === "reduce" || setting === "none") return true;
+  return window.matchMedia?.("(prefers-reduced-motion: reduce)").matches ?? false;
+}
+
+/** Runs a page-wide change as a cross-fade where the browser can, and at once where it cannot or motion is reduced. */
+function withTransition(change: () => void) {
+  const start = (document as Document & { startViewTransition?: (update: () => void) => unknown }).startViewTransition;
+  if (!start || prefersReducedMotion()) change();
+  else start.call(document, change);
+}
+
+/** One section: a heading, one line under it, then the content. */
+function Section({ id, title, lead, action, children }: { id: string; title: string; lead: string; action?: React.ReactNode; children: React.ReactNode }) {
   return (
-    <div className="flex flex-col gap-ds-200">
-      <div className="flex flex-col gap-ds-075">
-        <div className="flex items-center gap-ds-100">
-          <Heading level={3} size="heading-small">
+    <section aria-labelledby={id} className="home-reveal mt-ds-800 flex flex-col gap-ds-400 lg:mt-ds-1000">
+      <div className="flex flex-wrap items-end justify-between gap-ds-200">
+        <div className="flex max-w-2xl flex-col gap-ds-100">
+          <Heading id={id} level={2} size="heading-xxlarge">
             {title}
           </Heading>
-          {planned && <Badge>Planned</Badge>}
+          <Text size="body-large" tone="subtle">
+            {lead}
+          </Text>
         </div>
-        <Text tone="subtle">{children}</Text>
+        {action}
       </div>
-      {proof}
-      {link}
-    </div>
+      {children}
+    </section>
   );
 }
 
 /**
- * The home page: a left-aligned claim with the install line, then the hook (pick a preset and the whole page
- * re-themes, with the AA count), a board of real components, the three differentiators, the families and install.
+ * The home page, built from the library's own components. A short hero; right under it, on the first screen, the
+ * theme studio (presets, your own color, the AA count) over a board of real components that the whole page re-themes
+ * with; then four proofs (the engine, agents, accessibility, languages), the families, and one command to start.
  */
 export function HomePage({ data }: { data: HomeData }) {
-  // The prerender is the neutral theme; the visitor's stored preset is read after mount, before paint.
-  const [presetId, setPresetId] = useState("neutral");
+  // The prerender is the neutral theme; the visitor's stored theme is read after mount, before paint.
+  const [input, setInput] = useState<ThemeInput>({});
   const [ready, setReady] = useState(false);
-  const preset = PRESETS.find((item) => item.id === presetId) ?? PRESETS[0]!;
-  const theme = useMemo(() => createTheme(preset.input), [preset]);
+  const code = encodePreset(input);
+  const presetId = PRESETS.find((item) => encodePreset(item.input) === code)?.id;
+  const custom = presetId ? undefined : input.primary;
+  const theme = useMemo(() => createTheme(input), [input]);
   const passing = theme.checks.filter((check) => check.pass).length;
+  const applied = useRef(false);
 
   useLayoutEffect(() => {
     const stored = readStoredPreset();
-    const match = stored && PRESETS.find((item) => encodePreset(item.input) === stored.code);
-    if (match) setPresetId(match.id);
+    const restored = stored ? decodePreset(stored.code) : null;
+    if (restored) setInput(restored);
     setReady(true);
   }, []);
 
   useLayoutEffect(() => {
-    if (ready) applyTheme(theme, encodePreset(preset.input));
-  }, [theme, preset, ready]);
+    if (!ready) return;
+    // The first application restores what the visitor had: no fade for that.
+    if (applied.current) withTransition(() => applyTheme(theme, code));
+    else applyTheme(theme, code);
+    applied.current = true;
+  }, [theme, code, ready]);
 
   return (
     <main id="main" className={`${SITE_CONTAINER} flex flex-col pb-ds-1000`}>
-      {/* Centered, as shadcn's: a quiet "what's new" pill, the claim, one sentence, two ways in, the install line. */}
-      <section aria-labelledby="home-title" className="mx-auto flex max-w-3xl flex-col items-center gap-ds-300 pt-ds-1000 text-center">
+      {/* Short and centred, as shadcn's: a pill, the claim, one sentence, two ways in, the install line. */}
+      <section aria-labelledby="home-title" className="home-hero mx-auto flex max-w-3xl flex-col items-center gap-ds-300 pt-ds-500 text-center md:pt-ds-800">
         <div className="w-fit">
           <Pressable href="/docs/agents" background="neutral" radius="full" paddingInline="space-150" fullWidth={false}>
             <span className="flex h-7 items-center gap-ds-075 text-body-small font-medium text-ds-text">
-              An MCP server for coding agents
+              New: an MCP server for your coding agent
               <Icon name="arrow-right" size="small" color="subtle" />
             </span>
           </Pressable>
         </div>
-        <Heading id="home-title" level={1} size="display-large">
-          A design system that themes itself.
-        </Heading>
+        <div className="max-md:[&_h1]:text-display-medium">
+          <Heading id="home-title" level={1} size="display-large">
+            A design system that themes itself.
+          </Heading>
+        </div>
         <Text size="body-large" tone="subtle">
-          {`Pick up to three colors, or none. Senvenli UI derives the whole theme and checks every color pair against WCAG AA in light and dark. ${data.componentCount} accessible React components, built on React Aria.`}
+          {`Give it up to three colors, or none. Senvenli UI derives a full light and dark theme, checks every color pair against WCAG AA, and ships ${data.componentCount} accessible React components your coding agent can read.`}
         </Text>
-        <div className="flex flex-wrap items-center justify-center gap-ds-150">
-          <Button variant="primary" href="/docs">
+        <div className="flex w-full flex-col items-stretch justify-center gap-ds-150 sm:w-auto sm:flex-row sm:items-center">
+          <Button variant="primary" size="large" href="/docs/getting-started">
             Get started
           </Button>
-          <Button href="/docs/components">View components</Button>
+          <Button size="large" href="/create">
+            Open the theme builder
+          </Button>
         </div>
+        <div className="flex items-center gap-ds-100 rounded-ds-full bg-ds-surface-sunken ps-ds-200 pe-ds-050 py-ds-050">
+          <code className="font-ds-mono text-code text-ds-text">{INSTALL}</code>
+          <CopyButton value={INSTALL} aria-label="Copy the install command" />
+        </div>
+      </section>
+
+      {/* The studio: what the page is about, on the first screen. */}
+      <section aria-labelledby="studio-title" className="home-hero mt-ds-600 flex flex-col gap-ds-200 md:mt-ds-800">
+        <h2 id="studio-title" className="sr-only">
+          Try a theme
+        </h2>
+        <div data-slot="home-theme-bar" className="flex flex-col gap-ds-200 rounded-ds-xlarge bg-ds-surface-sunken p-ds-200 lg:flex-row lg:items-center lg:justify-between">
+          <div className="flex flex-col gap-ds-200 md:flex-row md:items-center md:gap-ds-300">
+            {/* Five presets fit a segmented row from 640px; on a phone they are a select, so none is cut off. */}
+            <div className="sm:hidden">
+              <Select
+                label="Theme preset"
+                items={PRESET_ITEMS}
+                selectedKey={presetId ?? null}
+                onSelectionChange={(id) => {
+                  const preset = PRESETS.find((item) => item.id === id);
+                  if (preset) setInput(preset.input);
+                }}
+              />
+            </div>
+            <div className="hidden sm:block">
+              <SegmentedControl
+                label="Theme preset"
+                items={PRESET_ITEMS}
+                value={presetId ?? ""}
+                onChange={(id) => {
+                  const preset = PRESETS.find((item) => item.id === id);
+                  if (preset) setInput(preset.input);
+                }}
+              />
+            </div>
+            <ColorSwatchPicker label="Or your color" items={COLORS} value={custom ?? ""} onChange={(value) => setInput({ primary: value })} />
+          </div>
+          <div className="flex flex-wrap items-center gap-ds-200">
+            <Badge tone="success" hasDot>
+              <span aria-live="polite">{`${passing} / ${theme.checks.length} pairs pass AA`}</span>
+            </Badge>
+            <Link href={code ? `/create?p=${code}` : "/create"}>Customize in the builder</Link>
+          </div>
+        </div>
+        <Text size="body-small" tone="subtle">
+          The whole page re-themes as you choose: color, corner radius and density change together.
+        </Text>
+        <Bento />
+      </section>
+
+      <Section id="proofs-title" title="Built to be trusted, by people and agents." lead="Four claims, each proved live on this page.">
+        <Proofs theme={theme} data={{ markdown: data.agentCode, markdownHtml: data.agentHtml, json: data.agentJson, jsonHtml: data.agentJsonHtml }} />
+      </Section>
+
+      <Section
+        id="families-title"
+        title={`${data.componentCount} components in ${data.families.length} families`}
+        lead="From a keycap to a data table, all on React Aria, all themed by the same few inputs."
+        action={<Link href="/docs/components">See all components</Link>}
+      >
+        <Families families={data.families} />
+      </Section>
+
+      <section aria-labelledby="start-title" className="home-reveal mt-ds-800 flex flex-col items-center gap-ds-300 rounded-ds-xlarge bg-ds-surface-sunken px-ds-300 py-ds-800 text-center lg:mt-ds-1000">
+        <Heading id="start-title" level={2} size="heading-xxlarge">
+          Start with one command.
+        </Heading>
+        <Text size="body-large" tone="subtle">
+          Install the package, add the stylesheet, wrap your app. Your agent can take it from there.
+        </Text>
         <div className="w-full max-w-sm text-start">
           <CodeBlock code={INSTALL} html={data.installHtml} variants={data.installVariants} copyLabel="Copy install command" />
         </div>
-      </section>
-
-      <section aria-labelledby="try-title" className="mt-ds-800 flex flex-col gap-ds-300">
-        <div className="flex flex-wrap items-end justify-between gap-ds-200">
-          <div className="flex flex-col gap-ds-075">
-            <Heading id="try-title" level={2} size="heading-large">
-              Try a theme
-            </Heading>
-            <Text tone="subtle">Choose one: this page re-themes itself. So will your app.</Text>
-          </div>
-          <div className="flex flex-wrap items-center gap-ds-200">
-            <SegmentedControl label="Theme preset" items={PRESETS.map((item) => ({ id: item.id, label: item.name }))} value={presetId} onChange={(id) => setPresetId(String(id))} />
-            <Text size="body-small" tone="subtle">
-              <span aria-live="polite">{`${passing} of ${theme.checks.length} color pairs pass AA`}</span>
-            </Text>
-          </div>
+        <div className="flex flex-wrap justify-center gap-ds-150">
+          <Button variant="primary" href="/docs/getting-started">
+            Get started
+          </Button>
+          <Button href="/docs/agents">Connect the MCP server</Button>
         </div>
-        <HomeBoard />
-      </section>
-
-      <section aria-labelledby="why-title" className="mt-ds-1000 flex flex-col gap-ds-400">
-        <Heading id="why-title" level={2} size="heading-large">
-          What sets it apart
-        </Heading>
-        <div className="grid gap-ds-500 md:grid-cols-3">
-          <Feature
-            title="A theme engine"
-            proof={
-              <div className="flex flex-wrap gap-ds-075">
-                {SWATCH_TOKENS.map((token) => (
-                  <ColorSwatch key={token} color={formatHex(theme.light[token]!)} name={token.replace(/^ds-/, "")} />
-                ))}
-              </div>
-            }
-            link={<Link href="/create">Open the theme builder</Link>}
-          >
-            Zero to three colors in, a full light and dark theme out, every text and border pair checked for contrast.
-          </Feature>
-          <Feature title="Built for agents" proof={<CodeBlock code={data.agentCode} html={data.agentHtml} label="button.md" copyLabel="Copy excerpt" />} link={<Link href="/llms.txt">Read llms.txt</Link>}>
-            Every page is also Markdown and JSON, with examples and the full API, and an MCP server answers your agent.
-          </Feature>
-          <Feature title="Generative UI" planned proof={<Text size="body-small" tone="subtlest">A curated catalog of these components, rendered from a JSON spec a model writes.</Text>}>
-            Models describe an interface; the same components render it, themed and accessible.
-          </Feature>
-        </div>
-      </section>
-
-      <section aria-labelledby="families-title" className="mt-ds-1000 flex flex-col gap-ds-300">
-        <div className="flex flex-wrap items-baseline justify-between gap-ds-200">
-          <Heading id="families-title" level={2} size="heading-large">
-            {`${data.componentCount} components in ${data.families.length} families`}
-          </Heading>
-          <Link href="/docs/components">See all components</Link>
-        </div>
-        <ul className="m-0 grid list-none gap-x-ds-400 gap-y-ds-150 p-0 text-body-large sm:grid-cols-2 lg:grid-cols-4">
-          {data.families.map((item) => (
-            <li key={item.family} className="flex items-baseline justify-between gap-ds-200">
-              <Link href={`/docs/components#family-${item.family}`}>{familyTitle(item.family)}</Link>
-              <span className="text-body text-ds-text-subtlest">{item.count}</span>
-            </li>
-          ))}
-        </ul>
       </section>
     </main>
   );
