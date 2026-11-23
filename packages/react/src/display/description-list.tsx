@@ -4,8 +4,8 @@ import * as React from "react";
 import { useLocale } from "react-aria-components";
 
 import { cn } from "../utils";
-import { Button } from "../action/button";
-import { copiedLabel, copyFailedLabel, copyValueLabel, notSetLabel } from "../i18n";
+import { copyValueLabel, notSetLabel } from "../i18n";
+import { CopyButton } from "../action/copy-button";
 
 export type DescriptionListItem = {
   /** Stable key; defaults to the label when it is a string. */
@@ -34,49 +34,18 @@ const STACKED_COLUMNS = {
   4: "@min-[480px]:grid-cols-4",
 } as const;
 
-function CopyButton({ text, label }: { text: string; label: string }) {
+/** The copy control of a field: the shared CopyButton, shown on hover or focus of the field and while it reports. */
+function FieldCopy({ text, label }: { text: string; label: string }) {
   const { locale } = useLocale();
-  // Each press gets its own result, so pressing again re-announces even when the words are the same.
-  const [result, setResult] = React.useState<{ ok: boolean; press: number } | null>(null);
-  React.useEffect(() => {
-    if (!result) return;
-    const timer = window.setTimeout(() => setResult(null), 2000);
-    return () => window.clearTimeout(timer);
-  }, [result]);
-  const message = result ? (result.ok ? copiedLabel(locale) : copyFailedLabel(locale)) : "";
   return (
-    <>
-      <span
-        data-slot="description-list-copy-control"
-        // Shown on hover or keyboard focus of the field; always on touch screens, which have no hover.
-        className="opacity-0 transition-opacity group-hover/field:opacity-100 focus-within:opacity-100 pointer-coarse:opacity-100 data-[result]:opacity-100"
-        data-result={result ? (result.ok ? "copied" : "failed") : undefined}
-      >
-        <Button
-          variant="subtle"
-          size="small"
-          iconOnly
-          iconBefore={result ? (result.ok ? "check" : "x") : "copy"}
-          aria-label={copyValueLabel(locale, label)}
-          data-slot="description-list-copy"
-          onPress={async () => {
-            const press = (result?.press ?? 0) + 1;
-            try {
-              await navigator.clipboard.writeText(text);
-              setResult({ ok: true, press });
-            } catch {
-              // No permission, an insecure context or no clipboard API at all: say so.
-              setResult({ ok: false, press });
-            }
-          }}
-        />
-      </span>
-      <span role="status" data-slot="description-list-copied" className="sr-only">
-        {message}
-        {/* An invisible change per press makes screen readers read the same words again. */}
-        {result && result.press % 2 === 0 ? "\u200b" : ""}
-      </span>
-    </>
+    <span
+      data-slot="description-list-copy-control"
+      // Shown on hover or keyboard focus of the field; always on touch screens, which have no hover; and while the
+      // button shows its check or cross.
+      className="opacity-0 transition-opacity group-hover/field:opacity-100 focus-within:opacity-100 pointer-coarse:opacity-100 has-[[data-result]]:opacity-100"
+    >
+      <CopyButton value={text} aria-label={copyValueLabel(locale, label)} />
+    </span>
   );
 }
 
@@ -122,7 +91,7 @@ export function DescriptionList({ items, layout = "rows", columns }: Description
               ) : (
                 <span data-slot="description-list-value-text" className="min-w-0">{item.value}</span>
               )}
-              {item.copyValue && <CopyButton text={item.copyValue} label={item.label} />}
+              {item.copyValue && <FieldCopy text={item.copyValue} label={item.label} />}
               {item.action != null && <span data-slot="description-list-action" className="ms-auto shrink-0">{item.action}</span>}
             </dd>
           </div>
