@@ -40,7 +40,11 @@ describe("layout token maps", () => {
     for (const utility of Object.values(BACKGROUND)) {
       expect(theme).toContain(`--color-${utility.replace(/^bg-/, "")}:`);
     }
-    for (const utility of Object.values(RADIUS)) expect(theme).toContain(`--radius-${utility.replace(/^rounded-/, "")}:`);
+    // `none` is Tailwind's own rounded-none (no radius has no token); every other step is a DS token.
+    for (const utility of Object.values(RADIUS)) {
+      if (utility === "rounded-none") continue;
+      expect(theme).toContain(`--radius-${utility.replace(/^rounded-/, "")}:`);
+    }
     for (const utility of Object.values(SHADOW)) expect(theme).toContain(`--shadow-${utility.replace(/^shadow-/, "")}:`);
   });
 });

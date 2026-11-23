@@ -5,8 +5,12 @@ import { Switch as AriaSwitch } from "react-aria-components";
 
 import { useChoiceText } from "./choice-text";
 import { CHOICE_ROW, SWITCH_THUMB, SWITCH_TRACK } from "./styles";
+import { cn } from "../utils";
+import { CHOICE_ROW_SIZE, SWITCH_THUMB_SIZE, SWITCH_TRACK_SIZE, useChoiceSize, type ChoiceSize } from "./choice-size";
 
 export type SwitchProps = {
+  /** `small`, `medium` (default) or `large`; the provider default otherwise. */
+  size?: ChoiceSize;
   /** The setting, named as its on-state ("Online orders"), never "On/Off". */
   children: React.ReactNode;
   isSelected?: boolean;
@@ -26,7 +30,8 @@ export type SwitchProps = {
 };
 
 /** A setting that applies at once, with no save step (inside a submit form, use Checkbox). */
-export const Switch = React.forwardRef<HTMLLabelElement, SwitchProps>(function Switch({ children, description, "aria-busy": busy, ...rest }, ref) {
+export const Switch = React.forwardRef<HTMLLabelElement, SwitchProps>(function Switch({ children, description, "aria-busy": busy, size: ownSize, ...rest }, ref) {
+  const size = useChoiceSize(ownSize);
   const text = useChoiceText(description, undefined);
   const inputRef = React.useRef<HTMLInputElement>(null);
   // React Aria's Switch passes no aria-busy to its input (useToggle forwards only labelling props), so it is set
@@ -38,9 +43,9 @@ export const Switch = React.forwardRef<HTMLLabelElement, SwitchProps>(function S
     else input.setAttribute("aria-busy", String(busy));
   }, [busy]);
   return (
-    <AriaSwitch {...rest} ref={ref} inputRef={inputRef} aria-labelledby={text.labelId} aria-describedby={text.describedBy} data-slot="switch" className={CHOICE_ROW}>
-      <span aria-hidden="true" data-slot="switch-track" className={SWITCH_TRACK}>
-        <span data-slot="switch-thumb" className={SWITCH_THUMB} />
+    <AriaSwitch {...rest} ref={ref} inputRef={inputRef} aria-labelledby={text.labelId} aria-describedby={text.describedBy} data-slot="switch" className={cn(CHOICE_ROW, CHOICE_ROW_SIZE[size])}>
+      <span aria-hidden="true" data-slot="switch-track" className={cn(SWITCH_TRACK, SWITCH_TRACK_SIZE[size])}>
+        <span data-slot="switch-thumb" className={cn(SWITCH_THUMB, SWITCH_THUMB_SIZE[size])} />
       </span>
       {text.render(children)}
     </AriaSwitch>

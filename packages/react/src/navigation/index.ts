@@ -9,7 +9,7 @@ export type { SidebarFooterProps, SidebarHeaderProps, SidebarItemData, SidebarIt
 export { BottomNav } from "./bottom-nav";
 export type { BottomNavItem, BottomNavProps } from "./bottom-nav";
 export { SegmentedControl, Tab, TabList, TabPanel, Tabs } from "./tabs";
-export type { SegmentedControlItem, SegmentedControlProps, TabItem, TabListProps, TabPanelProps, TabProps, TabsProps } from "./tabs";
+export type { SegmentedControlItem, SegmentedControlProps, TabItem, TabListProps, TabPanelProps, TabProps, TabsProps, TabsVariant } from "./tabs";
 export { Breadcrumb, Breadcrumbs } from "./breadcrumbs";
 export type { BreadcrumbItem, BreadcrumbProps, BreadcrumbsProps } from "./breadcrumbs";
 export { Pagination } from "./pagination";

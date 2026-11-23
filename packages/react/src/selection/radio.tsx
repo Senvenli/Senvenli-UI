@@ -9,6 +9,7 @@ import { FIELD_STACK } from "../form/styles";
 import { useRequiredChoice, type RequiredValidation } from "../form/validation";
 import { useChoiceText } from "./choice-text";
 import { CHOICE_ROW, RADIO_CARD, RADIO_DOT } from "./styles";
+import { CHOICE_ROW_SIZE, ChoiceSizeContext, INDICATOR_SIZE, RADIO_RING_SIZE, useChoiceSize, type ChoiceSize } from "./choice-size";
 
 /** How a RadioGroup draws its options: rows with a dot, or cards (the whole card is the hit target). */
 export type RadioGroupVariant = "default" | "card";
@@ -16,6 +17,8 @@ const RadioVariant = React.createContext<RadioGroupVariant>("default");
 
 export type RadioProps = {
   value: string;
+  /** `small`, `medium` (default) or `large`; a group's size, then the provider default, otherwise. */
+  size?: ChoiceSize;
   children: React.ReactNode;
   description?: React.ReactNode;
   isDisabled?: boolean;
@@ -25,7 +28,8 @@ export type RadioProps = {
  * One option of a RadioGroup; the whole row (or card) is the hit target. Named by its children, described by
  * `description`; in a card group the children can hold any content (a title with a Badge, a price).
  */
-export const Radio = React.forwardRef<HTMLLabelElement, RadioProps>(function Radio({ children, description, ...rest }, ref) {
+export const Radio = React.forwardRef<HTMLLabelElement, RadioProps>(function Radio({ children, description, size: ownSize, ...rest }, ref) {
+  const size = useChoiceSize(ownSize);
   const text = useChoiceText(description, undefined);
   const variant = React.useContext(RadioVariant);
   return (
@@ -36,9 +40,9 @@ export const Radio = React.forwardRef<HTMLLabelElement, RadioProps>(function Rad
       aria-describedby={text.describedBy}
       data-slot="radio"
       data-variant={variant}
-      className={variant === "card" ? RADIO_CARD : CHOICE_ROW}
+      className={variant === "card" ? RADIO_CARD : cn(CHOICE_ROW, CHOICE_ROW_SIZE[size])}
     >
-      <span aria-hidden="true" data-slot="radio-dot" className={RADIO_DOT} />
+      <span aria-hidden="true" data-slot="radio-dot" className={cn(RADIO_DOT, INDICATOR_SIZE[size], RADIO_RING_SIZE[size])} />
       {text.render(children)}
     </AriaRadio>
   );
@@ -47,6 +51,8 @@ export const Radio = React.forwardRef<HTMLLabelElement, RadioProps>(function Rad
 export type RadioItem = { value: string; label: React.ReactNode; description?: React.ReactNode; isDisabled?: boolean };
 
 export type RadioGroupProps = Omit<AriaRadioGroupProps, "children" | "className" | "style"> & {
+  /** The size of every Radio in the group. */
+  size?: ChoiceSize;
   /** The group legend, required. */
   label: React.ReactNode;
   /** The options as data, or `Radio` children. */
@@ -130,6 +136,7 @@ export function RadioGroup({
   orientation = "vertical",
   requiredValidation,
   variant = "default",
+  size,
   ...rest
 }: RadioGroupProps) {
   const { errorMessage, groupProps } = useRadioGroupRequired({ ...rest, errorMessage: errorMessageProp, requiredValidation });
@@ -144,6 +151,7 @@ export function RadioGroup({
     >
       <FieldLabel isRequired={rest.isRequired}>{label}</FieldLabel>
       <RadioVariant.Provider value={variant}>
+        <ChoiceSizeContext.Provider value={size}>
         <div
           data-slot="radio-group-items"
           className={cn(
@@ -160,6 +168,7 @@ export function RadioGroup({
               ))
             : children}
         </div>
+        </ChoiceSizeContext.Provider>
       </RadioVariant.Provider>
       {description && <FieldDescription>{description}</FieldDescription>}
       <FieldError>{errorMessage}</FieldError>

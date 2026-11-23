@@ -212,12 +212,11 @@
         "schema": {
           "type": "string",
           "enum": [
+            "none",
             "small",
             "medium",
             "large",
-            "full",
-            "xsmall",
-            "xlarge"
+            "full"
           ]
         }
       },
@@ -3447,8 +3446,6 @@
     "ds-radius-large",
     "ds-radius-medium",
     "ds-radius-small",
-    "ds-radius-xlarge",
-    "ds-radius-xsmall",
     "ds-shadow-overflow",
     "ds-shadow-overlay",
     "ds-shadow-raised",

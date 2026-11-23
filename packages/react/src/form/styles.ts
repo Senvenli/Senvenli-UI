@@ -18,12 +18,13 @@ export const FIELD_FRAME =
   "data-[invalid]:data-[focus-within]:border-ds-border-danger data-[invalid]:data-[focus-within]:outline-ds-border-danger " +
   "data-[disabled]:border-transparent data-[disabled]:bg-ds-background-disabled data-[disabled]:text-ds-text-disabled";
 
-export type FieldSize = "small" | "medium";
+export type FieldSize = "small" | "medium" | "large";
 
 /** `--field-pad` carries the inline padding so addons can sit flush with the edge. */
 export const FIELD_SIZE: Record<FieldSize, string> = {
   medium: "min-h-ds-control [--field-pad:var(--ds-space-150)] px-(--field-pad)",
   small: "min-h-ds-control-compact [--field-pad:var(--ds-space-100)] px-(--field-pad)",
+  large: "min-h-ds-control-large [--field-pad:var(--ds-space-200)] px-(--field-pad) text-body-large",
 };
 
 export const INPUT =

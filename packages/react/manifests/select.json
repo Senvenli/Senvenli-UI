@@ -309,7 +309,8 @@
           "type": "string",
           "enum": [
             "small",
-            "medium"
+            "medium",
+            "large"
           ]
         }
       },

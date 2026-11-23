@@ -83,6 +83,21 @@
   "props": {
     "Checkbox": [
       {
+        "name": "size",
+        "type": "ComponentSize",
+        "required": false,
+        "origin": "own",
+        "description": "`small`, `medium` (default) or `large`; a group's size, then the provider default, otherwise.",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "small",
+            "medium",
+            "large"
+          ]
+        }
+      },
+      {
         "name": "children",
         "type": "React.ReactNode",
         "required": true,
@@ -869,6 +884,21 @@
         }
       },
       {
+        "name": "size",
+        "type": "ComponentSize",
+        "required": false,
+        "origin": "own",
+        "description": "The size of every Checkbox in the group.",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "small",
+            "medium",
+            "large"
+          ]
+        }
+      },
+      {
         "name": "label",
         "type": "React.ReactNode",
         "required": true,
@@ -940,6 +970,7 @@
     "ds-radius-xsmall",
     "ds-shadow-raised",
     "ds-space-050",
+    "ds-space-075",
     "ds-space-100",
     "ds-space-150",
     "ds-space-200",

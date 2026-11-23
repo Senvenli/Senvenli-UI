@@ -15,8 +15,11 @@ import { FIELD_STACK } from "../form/styles";
 import { useRequiredChoice, type RequiredValidation } from "../form/validation";
 import { useChoiceText } from "./choice-text";
 import { CHECKBOX_BOX, CHOICE_ROW } from "./styles";
+import { CHECK_ICON_SIZE, CHOICE_ROW_SIZE, ChoiceSizeContext, INDICATOR_SIZE, useChoiceSize, type ChoiceSize } from "./choice-size";
 
 export type CheckboxProps = {
+  /** `small`, `medium` (default) or `large`; a group's size, then the provider default, otherwise. */
+  size?: ChoiceSize;
   /** The option, written positively ("Send notifications"). */
   children: React.ReactNode;
   isSelected?: boolean;
@@ -47,9 +50,10 @@ export type CheckboxProps = {
 
 /** One independent option, applied on submit (use Switch for settings that apply at once). */
 export const Checkbox = React.forwardRef<HTMLLabelElement, CheckboxProps>(function Checkbox(
-  { children, description, errorMessage: errorMessageProp, isInvalid: isInvalidProp, requiredValidation, ...rest },
+  { children, description, errorMessage: errorMessageProp, isInvalid: isInvalidProp, requiredValidation, size: ownSize, ...rest },
   ref,
 ) {
+  const size = useChoiceSize(ownSize);
   // React Aria never finds an unchecked required box missing under `aria` validation; the DS does.
   // In a CheckboxGroup the group holds the value and its own `isRequired`, so a box there is left to it.
   const inGroup = React.useContext(CheckboxGroupStateContext) != null;
@@ -75,15 +79,15 @@ export const Checkbox = React.forwardRef<HTMLLabelElement, CheckboxProps>(functi
       aria-labelledby={text.labelId}
       aria-describedby={text.describedBy}
       data-slot="checkbox"
-      className={CHOICE_ROW}
+      className={cn(CHOICE_ROW, CHOICE_ROW_SIZE[size])}
     >
       {({ isIndeterminate, isSelected, isInvalid: invalid }) => (
         <>
-          <span aria-hidden="true" data-slot="checkbox-box" className={CHECKBOX_BOX}>
+          <span aria-hidden="true" data-slot="checkbox-box" className={cn(CHECKBOX_BOX, INDICATOR_SIZE[size])}>
             {isIndeterminate ? (
-              <IconGlyph name="minus" size="small" strokeWidth={3} data-slot="checkbox-minus" />
+              <IconGlyph name="minus" size="small" strokeWidth={3} data-slot="checkbox-minus" className={CHECK_ICON_SIZE[size] || undefined} />
             ) : isSelected ? (
-              <IconGlyph name="check" size="small" strokeWidth={3} data-slot="checkbox-check" />
+              <IconGlyph name="check" size="small" strokeWidth={3} data-slot="checkbox-check" className={CHECK_ICON_SIZE[size] || undefined} />
             ) : null}
           </span>
           {/* Shown for `isInvalid` and for native validation (isRequired + submit) alike. */}
@@ -95,6 +99,8 @@ export const Checkbox = React.forwardRef<HTMLLabelElement, CheckboxProps>(functi
 });
 
 export type CheckboxGroupProps = Omit<AriaCheckboxGroupProps, "children" | "className" | "style"> & {
+  /** The size of every Checkbox in the group. */
+  size?: ChoiceSize;
   /** The visible legend, required. */
   label: React.ReactNode;
   description?: React.ReactNode;
@@ -112,7 +118,7 @@ export type CheckboxGroupProps = Omit<AriaCheckboxGroupProps, "children" | "clas
 };
 
 /** Several checkboxes under one visible legend. */
-export function CheckboxGroup({ label, description, errorMessage: errorMessageProp, orientation = "vertical", children, requiredValidation, ...rest }: CheckboxGroupProps) {
+export function CheckboxGroup({ label, description, errorMessage: errorMessageProp, orientation = "vertical", children, requiredValidation, size, ...rest }: CheckboxGroupProps) {
   // React Aria never finds a required group with nothing checked missing under `aria` validation; the DS does
   //. The checked values are followed (the app's, or those React Aria reports) without taking control.
   const [own, setOwn] = React.useState<readonly string[]>(rest.value ?? rest.defaultValue ?? []);
@@ -140,7 +146,7 @@ export function CheckboxGroup({ label, description, errorMessage: errorMessagePr
         data-orientation={orientation}
         className={cn("flex gap-ds-100", orientation === "vertical" ? "flex-col items-start" : "flex-wrap gap-x-ds-300")}
       >
-        {children}
+        <ChoiceSizeContext.Provider value={size}>{children}</ChoiceSizeContext.Provider>
       </div>
       {description && <FieldDescription>{description}</FieldDescription>}
       <FieldError>{errorMessage}</FieldError>

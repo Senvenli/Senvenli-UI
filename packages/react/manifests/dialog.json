@@ -179,7 +179,7 @@
       },
       {
         "name": "size",
-        "type": "\"fullscreen\" | \"xlarge\" | OverlaySize",
+        "type": "\"fullscreen\" | OverlaySize | \"xlarge\"",
         "required": false,
         "origin": "own",
         "description": "`small` (default, 440px), `medium` (600px) or `large` (800px); `xlarge` (1152px) for a form in two\nor three columns over the page it edits, such as an order edit; or `fullscreen` for a long\ntask that needs the whole screen, such as a signup: it fills the viewport at every width, slides up as a sheet\non phones (below 640px) and fades in above. The header (title, close) and the footer (actions) stay put, clear\nof the notch and the home indicator, while the body scrolls between them. Below its width every size but\n`fullscreen` takes the viewport less 24px a side, and its body scrolls inside 100dvh less 48px. Focus, Esc and\nnaming are the same at every size.",

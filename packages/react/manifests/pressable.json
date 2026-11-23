@@ -159,12 +159,11 @@
         "schema": {
           "type": "string",
           "enum": [
+            "none",
             "small",
             "medium",
             "large",
-            "full",
-            "xsmall",
-            "xlarge"
+            "full"
           ]
         }
       },
