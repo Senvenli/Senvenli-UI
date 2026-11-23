@@ -3,7 +3,7 @@ import { cleanup, fireEvent, render, screen, within } from "@testing-library/rea
 import { afterEach, beforeAll, describe, expect, it, vi } from "vitest";
 
 import { DesignSystemProvider } from "../provider";
-import { List, ListItem } from "./index";
+import { GridList, GridListItem } from "./index";
 
 /**
  * A List that shows one open record beside it (an inbox's conversations) selects by replacing: no
@@ -21,7 +21,7 @@ function Inbox({ behavior, onChange }: { behavior?: "toggle" | "replace"; onChan
   const [selected, setSelected] = React.useState<string>("ap");
   return (
     <DesignSystemProvider locale="en" navigate={vi.fn()}>
-      <List
+      <GridList
         aria-label="Conversations"
         selectionMode="single"
         selectionBehavior={behavior}
@@ -35,10 +35,10 @@ function Inbox({ behavior, onChange }: { behavior?: "toggle" | "replace"; onChan
           }
         }}
       >
-        <ListItem id="ap" title="Ana Petrović" description="+49 30 000 001" />
-        <ListItem id="ms" title="maria.shop" />
-        <ListItem id="jw" title="Jonas Weber" />
-      </List>
+        <GridListItem id="ap" title="Ana Petrović" description="+49 30 000 001" />
+        <GridListItem id="ms" title="maria.shop" />
+        <GridListItem id="jw" title="Jonas Weber" />
+      </GridList>
     </DesignSystemProvider>
   );
 }

@@ -3,7 +3,7 @@ import { act, cleanup, fireEvent, render, screen, within } from "@testing-librar
 import { afterEach, beforeAll, describe, expect, it, vi } from "vitest";
 
 import { DesignSystemProvider } from "../provider";
-import { GridList, List, ListItem, ListSection } from "./index";
+import { GridList, GridListItem, GridListSection } from "./index";
 
 beforeAll(() => {
   // jsdom lacks CSS.escape, which React Aria's collections use to find rows.
@@ -33,7 +33,7 @@ describe("GridList", () => {
   const tile = (photo: Photo) => ({ title: photo.title, meta: photo.meta, media: <span>photo</span> });
 
   it("tiles in a grid: arrows move in both directions, Space selects, a checkbox and ring show it", () => {
-    inLocale(<GridList aria-label="Product photos" items={PHOTOS} renderItem={tile} selectionMode="multiple" />);
+    inLocale(<GridList layout="grid" aria-label="Product photos" items={PHOTOS} renderItem={tile} selectionMode="multiple" />);
     const grid = screen.getByRole("grid", { name: "Product photos" });
     const tiles = within(grid).getAllByRole("row");
     expect(tiles.map((element) => element.querySelector("[data-slot='grid-list-title']")?.textContent)).toEqual(["Front view", "Side view", "Detail"]);
@@ -50,7 +50,7 @@ describe("GridList", () => {
   });
 
   it("a tile's focus is an inset ring, with no outer outline", () => {
-    inLocale(<GridList aria-label="Product photos" items={PHOTOS} renderItem={tile} selectionMode="multiple" />);
+    inLocale(<GridList layout="grid" aria-label="Product photos" items={PHOTOS} renderItem={tile} selectionMode="multiple" />);
     for (const element of screen.getAllByRole("row")) {
       const classes = classesOf(element);
       expect(classes).toEqual(expect.arrayContaining(["outline-hidden", "data-[focus-visible]:inset-ring-2", "data-[focus-visible]:inset-ring-ds-border-focused"]));
@@ -60,7 +60,7 @@ describe("GridList", () => {
 
   it("Enter opens a tile; with onReorder each tile gets a named drag handle", () => {
     const onAction = vi.fn();
-    inLocale(<GridList aria-label="Product photos" items={PHOTOS} renderItem={tile} onAction={onAction} dragAndDrop={{ onReorder: vi.fn() }} />);
+    inLocale(<GridList layout="grid" aria-label="Product photos" items={PHOTOS} renderItem={tile} onAction={onAction} dragAndDrop={{ onReorder: vi.fn() }} />);
     const tiles = screen.getAllByRole("row");
     act(() => tiles[2]!.focus());
     fireEvent.keyDown(tiles[2]!, { key: "Enter" });
@@ -72,7 +72,7 @@ describe("GridList", () => {
   });
 
   it("no handles without dragAndDrop; tiles are at least 150px wide in a 4:3 media frame", () => {
-    inLocale(<GridList aria-label="Product photos" items={PHOTOS} renderItem={tile} />);
+    inLocale(<GridList layout="grid" aria-label="Product photos" items={PHOTOS} renderItem={tile} />);
     expect(document.querySelector("[data-slot='grid-list-drag']")).toBeNull();
     expect(classesOf(document.querySelector("[data-slot='grid-list']"))).toContain("grid-cols-[repeat(auto-fill,minmax(150px,1fr))]");
     expect(classesOf(document.querySelector("[data-slot='grid-list-media']"))).toEqual(expect.arrayContaining(["aspect-[4/3]", "bg-ds-surface-sunken"]));
@@ -83,7 +83,7 @@ describe("List with items, sections and renderItem", () => {
   it("builds rows and section headers from data", () => {
     type Delivery = { id: string; name: string; when: string };
     inLocale(
-      <List<Delivery>
+      <GridList<Delivery>
         aria-label="Deliveries"
         sections={[
           { title: "Today", items: [{ id: "a", name: "Ana Petrović", when: "10:00" }] },
@@ -97,21 +97,21 @@ describe("List with items, sections and renderItem", () => {
   });
 });
 
-describe("List and ListItem", () => {
+describe("List and GridListItem", () => {
   const rows = (
     <>
-      <ListSection title="Today">
-        <ListItem id="ap" leading={<span>AP</span>} title="Ana Petrović" description="Order 1042 · 10:00 · Berlin" trailing={<span>Confirmed</span>} />
-        <ListItem id="mk" title="Maria Keller" description="Order 1043 · 13:30 · Hamburg" />
-      </ListSection>
-      <ListSection title="Tomorrow">
-        <ListItem id="jw" title="Jonas Weber" description="Order 1044 · 09:00 · Munich" />
-      </ListSection>
+      <GridListSection title="Today">
+        <GridListItem id="ap" leading={<span>AP</span>} title="Ana Petrović" description="Order 1042 · 10:00 · Berlin" trailing={<span>Confirmed</span>} />
+        <GridListItem id="mk" title="Maria Keller" description="Order 1043 · 13:30 · Hamburg" />
+      </GridListSection>
+      <GridListSection title="Tomorrow">
+        <GridListItem id="jw" title="Jonas Weber" description="Order 1044 · 09:00 · Munich" />
+      </GridListSection>
     </>
   );
 
   it("rows under section headers, with leading, two lines and trailing", () => {
-    inLocale(<List aria-label="Deliveries">{rows}</List>);
+    inLocale(<GridList aria-label="Deliveries">{rows}</GridList>);
     const list = screen.getByRole("grid", { name: "Deliveries" });
     expect([...list.querySelectorAll("[data-slot='list-section-header']")].map((header) => header.textContent)).toEqual(["Today", "Tomorrow"]);
     const first = list.querySelector("[data-slot='list-item']")!;
@@ -124,7 +124,7 @@ describe("List and ListItem", () => {
   });
 
   it("section headers are small medium-weight text in sentence case, not an uppercase overline", () => {
-    inLocale(<List aria-label="Deliveries">{rows}</List>);
+    inLocale(<GridList aria-label="Deliveries">{rows}</GridList>);
     const headers = [...document.querySelectorAll("[data-slot='list-section-header']")];
     expect(headers).toHaveLength(2);
     for (const header of headers) {
@@ -137,7 +137,7 @@ describe("List and ListItem", () => {
   });
 
   it("a row's focus is an inset ring, with no outer outline", () => {
-    inLocale(<List aria-label="Deliveries">{rows}</List>);
+    inLocale(<GridList aria-label="Deliveries">{rows}</GridList>);
     const classes = classesOf(document.querySelector("[data-slot='list-item']"));
     expect(classes).toEqual(expect.arrayContaining(["outline-hidden", "data-[focus-visible]:inset-ring-2", "data-[focus-visible]:inset-ring-ds-border-focused"]));
     expect(classes.some((name) => name.includes("outline-2") || name.includes("outline-ds-"))).toBe(false);
@@ -145,7 +145,7 @@ describe("List and ListItem", () => {
 
   it("arrows move between rows across sections; Enter opens the record", () => {
     const onAction = vi.fn();
-    inLocale(<List aria-label="Deliveries" onAction={onAction}>{rows}</List>);
+    inLocale(<GridList aria-label="Deliveries" onAction={onAction}>{rows}</GridList>);
     const items = [...document.querySelectorAll<HTMLElement>("[data-slot='list-item']")];
     act(() => items[1]!.focus());
     fireEvent.keyDown(items[1]!, { key: "ArrowDown" });
@@ -156,7 +156,7 @@ describe("List and ListItem", () => {
   });
 
   it("selection shows the leading marker; multiple adds checkboxes", () => {
-    inLocale(<List aria-label="Deliveries" selectionMode="multiple" defaultSelectedKeys={["mk"]}>{rows}</List>);
+    inLocale(<GridList aria-label="Deliveries" selectionMode="multiple" defaultSelectedKeys={["mk"]}>{rows}</GridList>);
     const items = [...document.querySelectorAll("[data-slot='list-item']")];
     expect(items[1]!.getAttribute("aria-selected")).toBe("true");
     expect(classesOf(items[1]!.querySelector("[data-slot='list-item-marker']"))).toEqual(expect.arrayContaining(["start-0", "group-data-[selected]/row:block"]));
@@ -164,7 +164,7 @@ describe("List and ListItem", () => {
   });
 
   it("single selection shows a checkbox per row too", () => {
-    inLocale(<List aria-label="Deliveries" selectionMode="single">{rows}</List>);
+    inLocale(<GridList aria-label="Deliveries" selectionMode="single">{rows}</GridList>);
     expect(screen.getAllByRole("checkbox")).toHaveLength(3);
   });
 });

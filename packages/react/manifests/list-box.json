@@ -27,7 +27,7 @@
         "when": "The choice can live in a dropdown."
       },
       {
-        "use": "list",
+        "use": "grid-list",
         "when": "Rows of content with their own actions."
       },
       {
@@ -51,7 +51,7 @@
   },
   "related": [
     "select",
-    "list",
+    "grid-list",
     "radio"
   ],
   "genui": {

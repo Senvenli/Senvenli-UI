@@ -1,4 +1,4 @@
-import { DataTable, GridList, List, ListItem, ListSection, Table } from "@senvenli/react/collection";
+import { DataTable, GridList, GridListItem, GridListSection, Table } from "@senvenli/react/collection";
 import { Card, CardBody, CardHeader, Badge, Text } from "@senvenli/react/display";
 import { Stack } from "@senvenli/react/layout";
 
@@ -93,7 +93,7 @@ export function CollectionPreview() {
         <CardHeader title="Grid list and list" subtitle="GridList, List with sections" />
         <CardBody>
           <Stack space="space-300">
-            <GridList
+            <GridList layout="grid"
               aria-label="Product photos"
               items={PHOTOS}
               selectionMode="multiple"
@@ -104,15 +104,15 @@ export function CollectionPreview() {
                 actions: [{ id: "remove", icon: "trash-2", tone: "danger", label: `Remove photo: ${photo.title}`, onPress: () => undefined }],
               })}
             />
-            <List aria-label="Deliveries">
-              <ListSection title="Today">
-                <ListItem id="1042" title="Order #1042" description="10:00 · Berlin" trailing={<Badge tone="success">Paid</Badge>} />
-                <ListItem id="1043" title="Order #1043" description="14:30 · Lisbon" trailing={<Badge tone="warning">Pending</Badge>} />
-              </ListSection>
-              <ListSection title="Tomorrow">
-                <ListItem id="1044" title="Order #1044" description="09:15 · Oslo" />
-              </ListSection>
-            </List>
+            <GridList aria-label="Deliveries">
+              <GridListSection title="Today">
+                <GridListItem id="1042" title="Order #1042" description="10:00 · Berlin" trailing={<Badge tone="success">Paid</Badge>} />
+                <GridListItem id="1043" title="Order #1043" description="14:30 · Lisbon" trailing={<Badge tone="warning">Pending</Badge>} />
+              </GridListSection>
+              <GridListSection title="Tomorrow">
+                <GridListItem id="1044" title="Order #1044" description="09:15 · Oslo" />
+              </GridListSection>
+            </GridList>
           </Stack>
         </CardBody>
       </Card>
