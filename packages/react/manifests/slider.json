@@ -673,6 +673,7 @@
     "ds-text-subtlest"
   ],
   "strings": [
+    "optional",
     "rangeMax",
     "rangeMin"
   ],

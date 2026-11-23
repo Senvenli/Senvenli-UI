@@ -159,6 +159,7 @@
     "ds-text-subtle"
   ],
   "strings": [
+    "newTab",
     "nextPage",
     "pageN",
     "pageOf",

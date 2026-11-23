@@ -201,7 +201,9 @@
     "ds-text-subtle",
     "ds-text-subtlest"
   ],
-  "strings": [],
+  "strings": [
+    "optional"
+  ],
   "quality": {
     "tests": true,
     "a11y": false,

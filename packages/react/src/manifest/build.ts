@@ -325,6 +325,29 @@ function localClosure(files: string[], familyDir: string): string[] {
   return [...seen].sort();
 }
 
+/**
+ * `files` plus every named module they import, in any family, transitively (family barrels aside): the strings a component shows
+ * include those of the parts it borrows (a CopyButton's "Copied", a Tooltip's words), so an app that translates
+ * the component finds them all in its manifest.
+ */
+function fullClosure(files: string[]): string[] {
+  const seen = new Set<string>();
+  const queue = [...files];
+  while (queue.length) {
+    const file = queue.pop()!;
+    if (seen.has(file)) continue;
+    seen.add(file);
+    for (const m of fs.readFileSync(file, "utf8").matchAll(/from\s+["'](\.\.?\/[a-z0-9/-]+)["']/g)) {
+      const base = path.resolve(path.dirname(file), m[1]!);
+      // A family barrel (`../action/index`) re-exports a whole family; only a named module is a part the component shows.
+      if (base.endsWith(`${path.sep}index`)) continue;
+      const next = [".tsx", ".ts"].map((ext) => base + ext).find((f) => fs.existsSync(f));
+      if (next && !next.endsWith(".manifest.json")) queue.push(next);
+    }
+  }
+  return [...seen].sort();
+}
+
 export interface BuildContext {
   /** Token variable names that exist (engine CSS + static theme). */
   knownTokens: Set<string>;
@@ -357,7 +380,7 @@ export function buildManifests(ctx: BuildContext): BuildResult {
     const unknownTokens = tokens.filter((t) => !ctx.knownTokens.has(t));
     if (unknownTokens.length) throw new Error(`${hand.name}: tokens not defined by the theme: ${unknownTokens.join(", ")}`);
 
-    const strings = [...new Set(sources.flatMap(stringsIn))].sort();
+    const strings = [...new Set(fullClosure(sourceFiles).map((f) => fs.readFileSync(f, "utf8")).flatMap(stringsIn))].sort();
     const unknownStrings = strings.filter((s) => !ctx.knownStrings.has(s));
     if (unknownStrings.length) throw new Error(`${hand.name}: strings not in DS_STRINGS: ${unknownStrings.join(", ")}`);
 

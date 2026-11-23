@@ -543,9 +543,11 @@
     "ds-text-subtlest"
   ],
   "strings": [
+    "close",
     "collapseSidebar",
     "expandSidebar",
-    "mainNavigation"
+    "mainNavigation",
+    "newTab"
   ],
   "quality": {
     "tests": true,

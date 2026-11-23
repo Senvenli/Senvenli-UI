@@ -123,7 +123,9 @@
   "strings": [
     "customColor",
     "hexExpected",
-    "nameSelected"
+    "nameSelected",
+    "optional",
+    "required"
   ],
   "quality": {
     "tests": true,

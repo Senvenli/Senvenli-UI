@@ -256,7 +256,8 @@
     "ds-text-subtle"
   ],
   "strings": [
-    "language"
+    "language",
+    "optional"
   ],
   "quality": {
     "tests": true,

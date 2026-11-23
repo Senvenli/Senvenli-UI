@@ -70,7 +70,10 @@
     "ds-text",
     "ds-text-subtle"
   ],
-  "strings": [],
+  "strings": [
+    "close",
+    "newTab"
+  ],
   "quality": {
     "tests": false,
     "a11y": false,

@@ -247,6 +247,7 @@
   ],
   "strings": [
     "clearAll",
+    "optional",
     "removeItem"
   ],
   "quality": {

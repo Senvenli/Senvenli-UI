@@ -769,6 +769,7 @@
   "strings": [
     "cancelUpload",
     "chooseFiles",
+    "newTab",
     "onlyOne",
     "removeFile",
     "replace",

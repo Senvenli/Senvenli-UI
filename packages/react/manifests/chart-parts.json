@@ -293,6 +293,7 @@
   ],
   "strings": [
     "hideDataTable",
+    "selection",
     "showDataTable"
   ],
   "quality": {

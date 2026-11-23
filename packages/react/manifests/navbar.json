@@ -252,7 +252,9 @@
     "ds-text-subtle"
   ],
   "strings": [
+    "close",
     "mainNavigation",
+    "newTab",
     "openMenu"
   ],
   "quality": {

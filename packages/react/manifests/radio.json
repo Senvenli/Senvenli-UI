@@ -927,7 +927,10 @@
     "ds-text-on-brand",
     "ds-text-subtlest"
   ],
-  "strings": [],
+  "strings": [
+    "optional",
+    "required"
+  ],
   "quality": {
     "tests": true,
     "a11y": false,
