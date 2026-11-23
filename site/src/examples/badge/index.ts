@@ -11,7 +11,7 @@ export default [
   { id: "count", title: "A count beside a label", description: "`variant=\"count\"`: nothing renders at zero; above `max` it reads \"99+\"." },
   { id: "count-tones", title: "Count tones", description: "Neutral by default; danger only for counts that need action now." },
   { id: "on-icon", title: "A count on an icon", description: "The badge is hidden from screen readers, so the button's name carries the count." },
-  { id: "unread", title: "Unread dot", description: "`isDot`: a marker without a number; the text beside it says what is new." },
+  { id: "unread", title: "Unread dot", description: "`variant=\"count\"` with no `value`: a marker without a number; the text beside it says what is new." },
   { id: "code-with-name", title: "A code: Beside a country's name", description: "The code marks the country without a flag; the name beside it is what gets read." },
   { id: "code-alone", title: "A code: Standing alone", description: "Without the name beside it, a wrapper gives the chip its accessible name." },
 ] satisfies ExampleMeta[];

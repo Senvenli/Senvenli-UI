@@ -147,35 +147,30 @@ const COUNT_TONE: Record<BadgeCountTone, string> = {
 // Sits on the anchor's top end corner with a 2px surface ring.
 const CORNER = "absolute -top-1 -end-1.5 ring-2 ring-ds-surface";
 
-type CountBase = {
+export type BadgeCountProps = {
   variant: "count";
   /** `danger` only for counts that need action now (overdue, unpaid). */
   tone?: BadgeCountTone;
-  /** On an icon inside `BadgeAnchor`: corner placement, and hidden from screen readers (the control's label says it). */
-  isOnIcon?: boolean;
+  /**
+   * The count; nothing renders at 0. Left out, an 8px unread marker without a number, hidden from screen readers, so
+   * the text or label next to it says "new".
+   */
+  value?: number;
+  /** Above it shows "max+"; default 99, or 9 on an icon. */
+  max?: number;
 };
 
-export type BadgeCountProps = CountBase &
-  (
-    | {
-        /** The count; nothing renders at 0. */
-        value: number;
-        /** Above it shows "max+"; default 99, or 9 on an icon. */
-        max?: number;
-        isDot?: never;
-      }
-    | {
-        /** An 8px unread marker without a number; hidden from screen readers, so the text or label next to it says "new". */
-        isDot: true;
-        value?: never;
-        max?: never;
-      }
-  );
+/**
+ * True inside a `BadgeAnchor`: the count sits on the icon's corner and is hidden from screen readers (the control's
+ * label says it). Internal; BottomNav provides it for the badge it places itself.
+ */
+export const BadgeOnIconContext = React.createContext(false);
 
 /** `variant="count"`: a count or an unread marker next to a label or on an icon. */
-function CountBadge({ value, max, tone = "neutral", isDot, isOnIcon }: BadgeCountProps) {
+function CountBadge({ value, max, tone = "neutral" }: BadgeCountProps) {
   const { locale } = useLocale();
-  if (isDot) {
+  const isOnIcon = React.useContext(BadgeOnIconContext);
+  if (value === undefined) {
     return (
       <span
         data-slot="badge"
@@ -185,7 +180,7 @@ function CountBadge({ value, max, tone = "neutral", isDot, isOnIcon }: BadgeCoun
       />
     );
   }
-  if (!value || value <= 0) return null;
+  if (value <= 0) return null;
   const cap = max ?? (isOnIcon ? 9 : 99);
   const format = new Intl.NumberFormat(locale);
   const text = value > cap ? `${format.format(cap)}+` : format.format(value);
@@ -215,7 +210,11 @@ function CountBadge({ value, max, tone = "neutral", isDot, isOnIcon }: BadgeCoun
 
 /** Positions an on-icon Badge on the control it counts for. */
 export function BadgeAnchor({ children }: { children: React.ReactNode }) {
-  return <span data-slot="badge-anchor" className="relative inline-flex">{children}</span>;
+  return (
+    <span data-slot="badge-anchor" className="relative inline-flex">
+      <BadgeOnIconContext.Provider value={true}>{children}</BadgeOnIconContext.Provider>
+    </span>
+  );
 }
 
 export type BadgeVariant = "subtle" | "bold" | "dot" | "count";
@@ -223,8 +222,9 @@ export type BadgeProps = BadgeStatusProps | BadgeCountProps;
 
 /**
  * A short label beside content. `variant` picks the shape: `subtle` (default) and `bold` are a record's status in a
- * pill ("Paid", "Overdue"); `dot` is a dot and a word for a live state ("Online"); `count` is a number or an unread
- * marker next to a label or on an icon (inside `BadgeAnchor`, where the control's `aria-label` carries the count).
+ * pill ("Paid", "Overdue"); `dot` is a dot and a word for a live state ("Online"); `count` is a number (or, with no
+ * `value`, an unread marker) next to a label or on an icon (inside `BadgeAnchor`, where the control's `aria-label`
+ * carries the count).
  * Not interactive; never inside a button.
  */
 export function Badge(props: BadgeProps) {

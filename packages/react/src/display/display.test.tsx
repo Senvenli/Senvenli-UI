@@ -300,7 +300,7 @@ describe("Badge", () => {
         <Badge variant="count" value={120} />
         <BadgeAnchor>
           <Button variant="subtle" iconOnly iconBefore="bell" aria-label="Notifications, 9+ unread" />
-          <Badge variant="count" value={12} tone="danger" isOnIcon />
+          <Badge variant="count" value={12} tone="danger" />
         </BadgeAnchor>
       </>,
     );
@@ -318,7 +318,7 @@ describe("Badge", () => {
     inLocale(
       <BadgeAnchor>
         <Button variant="subtle" iconOnly iconBefore="message-square" aria-label="Messages, new message" />
-        <Badge variant="count" isDot isOnIcon />
+        <Badge variant="count" />
       </BadgeAnchor>,
     );
     const dot = slot("badge");
@@ -439,7 +439,7 @@ describe("strings and direction", () => {
       <div dir="rtl">
         <Card href="/x"><CardMedia /><CardHeader title="ا" actions={<Button aria-label="ب" iconOnly iconBefore="ellipsis" />} /><CardBody>ج</CardBody><CardFooter>د</CardFooter></Card>
         <AvatarGroup><Avatar name="ز ح" presence="online" /><Avatar name="ط" /></AvatarGroup>
-        <BadgeAnchor><span>ي</span><Badge variant="count" value={4} isOnIcon /></BadgeAnchor>
+        <BadgeAnchor><span>ي</span><Badge variant="count" value={4} /></BadgeAnchor>
         <Badge hasDot>ك</Badge>
         <Separator>ل</Separator>
         <Kbd>م</Kbd>
