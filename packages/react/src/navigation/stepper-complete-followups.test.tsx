@@ -4,6 +4,17 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import { DesignSystemProvider } from "../provider";
 import { Stepper } from "./index";
+import type { StepStatus } from "./stepper";
+
+/** The old per-flow maps written onto the steps (completedSteps, stepStatus, statusText → isDone, status, statusText). */
+function withStatus<S extends { id: string }>(
+  steps: readonly S[],
+  maps: { completed?: Iterable<string>; status?: Partial<Record<string, StepStatus>>; text?: Partial<Record<string, string>> },
+) {
+  const completed = maps.completed ? new Set(maps.completed) : undefined;
+  return steps.map((step) => ({ ...step, isDone: completed ? completed.has(step.id) : undefined, status: maps.status?.[step.id], statusText: maps.text?.[step.id] }));
+}
+
 
 // The narrow form of a finished flow keeps a step's own
 // status, and a finished flow with a failed or needs-you step warns in development.
@@ -50,7 +61,7 @@ const contradictionWarnings = () => warn.mock.calls.filter(([message]: unknown[]
 describe("Stepper, isComplete: the narrow form keeps a step's own status", () => {
   it("an explicit stepStatus and a statusText show under the done line, with their step's name", () => {
     inLocale(
-      <Stepper steps={JOURNEY} currentStep="live" stepStatus={{ live: "with-provider" }} statusText={{ domain: "Verified" }} isComplete />,
+      <Stepper steps={withStatus(JOURNEY, { status: { live: "with-provider" }, text: { domain: "Verified" } })} showStatus currentStep="live"  isComplete />,
     );
     expect(compact().querySelector("[data-slot='stepper-compact-done']")!.textContent).toBe("All steps done");
     expect(compactStatuses().map((line) => line.textContent)).toEqual(["Domain·Verified", "Live·With us"]);
@@ -62,7 +73,7 @@ describe("Stepper, isComplete: the narrow form keeps a step's own status", () =>
   });
 
   it("the derived journey words (Done on every step) are not repeated in the narrow form", () => {
-    inLocale(<Stepper steps={JOURNEY} currentStep="live" stepStatus={{}} isComplete />);
+    inLocale(<Stepper steps={withStatus(JOURNEY, { status: {} })} showStatus currentStep="live" isComplete />);
     expect(compactStatuses()).toHaveLength(0);
     expect(compact().textContent).toBe("All steps done");
   });
@@ -74,19 +85,19 @@ describe("Stepper, isComplete: the narrow form keeps a step's own status", () =>
   });
 
   it("in RTL (ar) the status lines use logical sides only", () => {
-    inLocale(<Stepper steps={JOURNEY} currentStep="live" stepStatus={{ plan: "with-provider" }} isComplete />, "ar", "rtl");
+    inLocale(<Stepper steps={withStatus(JOURNEY, { status: { plan: "with-provider" } })} showStatus currentStep="live" isComplete />, "ar", "rtl");
     expect(compactStatuses()).toHaveLength(1);
     for (const element of compact().querySelectorAll("[class]")) expect(element.getAttribute("class")).not.toMatch(PHYSICAL);
   });
 
   it("isComplete left out: the narrow form is byte for byte the baseline (before the status lines), and isComplete={false} renders the same", () => {
-    const omitted = inLocale(<Stepper steps={JOURNEY} currentStep="domain" stepStatus={{ domain: "needs-you" }} statusText={{ plan: "Paid" }} />);
+    const omitted = inLocale(<Stepper steps={withStatus(JOURNEY, { status: { domain: "needs-you" }, text: { plan: "Paid" } })} showStatus currentStep="domain" />);
     expect(markup(compact().outerHTML)).toBe(NARROW_BASELINE);
     const before = markup(omitted.container.innerHTML);
     expect(document.querySelector("[data-slot='stepper-compact-step-status']")).toBeNull();
     expect(compact().textContent).toContain("Step 3 of 5");
     cleanup();
-    const off = inLocale(<Stepper steps={JOURNEY} currentStep="domain" stepStatus={{ domain: "needs-you" }} statusText={{ plan: "Paid" }} isComplete={false} />);
+    const off = inLocale(<Stepper steps={withStatus(JOURNEY, { status: { domain: "needs-you" }, text: { plan: "Paid" } })} showStatus currentStep="domain"  isComplete={false} />);
     expect(markup(off.container.innerHTML)).toBe(before);
   });
 });
@@ -94,14 +105,14 @@ describe("Stepper, isComplete: the narrow form keeps a step's own status", () =>
 describe("Stepper, isComplete with a failed or needs-you step warns in development", () => {
   for (const status of ["failed", "needs-you"] as const) {
     it(`${status}: one warning naming the step`, () => {
-      const { rerender } = inLocale(<Stepper steps={JOURNEY} currentStep="live" stepStatus={{ domain: status }} isComplete />);
+      const { rerender } = inLocale(<Stepper steps={withStatus(JOURNEY, { status: { domain: status } })} showStatus currentStep="live" isComplete />);
       expect(contradictionWarnings()).toHaveLength(1);
       expect(String(contradictionWarnings()[0]![0])).toContain("(domain)");
       // Not again on a re-render with the same steps.
       rerender(
         <div>
           <DesignSystemProvider locale="en" navigate={vi.fn()}>
-            <Stepper steps={JOURNEY} currentStep="live" stepStatus={{ domain: status }} isComplete />
+            <Stepper steps={withStatus(JOURNEY, { status: { domain: status } })} showStatus currentStep="live" isComplete />
           </DesignSystemProvider>
         </div>,
       );
@@ -110,18 +121,18 @@ describe("Stepper, isComplete with a failed or needs-you step warns in developme
   }
 
   it("with-provider and statusText alone do not warn", () => {
-    inLocale(<Stepper steps={JOURNEY} currentStep="live" stepStatus={{ live: "with-provider" }} statusText={{ domain: "Verified" }} isComplete />);
+    inLocale(<Stepper steps={withStatus(JOURNEY, { status: { live: "with-provider" }, text: { domain: "Verified" } })} showStatus currentStep="live"  isComplete />);
     expect(contradictionWarnings()).toHaveLength(0);
   });
 
   it("without isComplete a failed or needs-you step does not warn", () => {
-    inLocale(<Stepper steps={JOURNEY} currentStep="domain" stepStatus={{ domain: "failed", plan: "needs-you" }} />);
+    inLocale(<Stepper steps={withStatus(JOURNEY, { status: { domain: "failed", plan: "needs-you" } })} showStatus currentStep="domain" />);
     expect(contradictionWarnings()).toHaveLength(0);
   });
 
   it("is silent in production", () => {
     vi.stubEnv("NODE_ENV", "production");
-    inLocale(<Stepper steps={JOURNEY} currentStep="live" stepStatus={{ domain: "failed" }} isComplete />);
+    inLocale(<Stepper steps={withStatus(JOURNEY, { status: { domain: "failed" } })} showStatus currentStep="live" isComplete />);
     expect(contradictionWarnings()).toHaveLength(0);
   });
 });
