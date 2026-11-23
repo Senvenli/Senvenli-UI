@@ -1477,9 +1477,10 @@
     "keywords": [
       "accordion",
       "collapse",
+      "compound",
+      "disclosure",
       "expand",
-      "faq",
-      "disclosure"
+      "faq"
     ],
     "import": "@senvenli/react/navigation",
     "exports": [

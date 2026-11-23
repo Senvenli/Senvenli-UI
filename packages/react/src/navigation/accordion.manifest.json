@@ -14,9 +14,10 @@
   "keywords": [
     "accordion",
     "collapse",
+    "compound",
+    "disclosure",
     "expand",
-    "faq",
-    "disclosure"
+    "faq"
   ],
   "usage": {
     "when": [
@@ -44,7 +45,8 @@
       "Each header is a button with aria-expanded inside a heading."
     ],
     "youProvide": [
-      "A heading level that fits the page."
+      "A heading level that fits the page.",
+      "With children: an id on every Disclosure inside an Accordion (expandedKeys uses it)."
     ]
   },
   "genui": {
