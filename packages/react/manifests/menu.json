@@ -10,15 +10,20 @@
   "name": "menu",
   "title": "Menu",
   "exports": [
-    "Menu"
+    "Menu",
+    "MenuItem",
+    "MenuSection",
+    "MenuSubmenu",
+    "MenuSeparator"
   ],
   "description": "A list of actions under a button, with sections, icons, shortcuts and disabled items that say why.",
   "keywords": [
-    "menu",
     "actions",
+    "compound",
     "dropdown",
-    "more",
-    "kebab"
+    "kebab",
+    "menu",
+    "more"
   ],
   "usage": {
     "when": [
@@ -63,7 +68,8 @@
       "Announced as a menu button and menu."
     ],
     "youProvide": [
-      "A name for an icon-only menu button."
+      "A name for an icon-only menu button.",
+      "With children: a textValue on a MenuItem whose label is not plain text, so typing can jump to it; the destructive item last, after a MenuSeparator."
     ]
   },
   "related": [
@@ -85,9 +91,16 @@
       {
         "name": "items",
         "type": "readonly MenuEntry[]",
-        "required": true,
+        "required": false,
         "origin": "own",
-        "description": "Items, or sections of items with a title."
+        "description": "Items, or sections of items with a title. Leave it out to compose the menu as children instead."
+      },
+      {
+        "name": "children",
+        "type": "React.ReactNode",
+        "required": false,
+        "origin": "own",
+        "description": "With no `items`: `MenuItem`, `MenuSection`, `MenuSubmenu` and `MenuSeparator`, in the order given (put the\ndestructive item last yourself; with `items` the menu moves it there)."
       },
       {
         "name": "onAction",
@@ -208,7 +221,193 @@
           ]
         }
       }
-    ]
+    ],
+    "MenuItem": [
+      {
+        "name": "id",
+        "type": "Key",
+        "required": true,
+        "origin": "own",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "children",
+        "type": "React.ReactNode",
+        "required": true,
+        "origin": "own",
+        "description": "The label: a verb (\"Edit\"). It may hold more than text (an avatar, two lines); then give `textValue`."
+      },
+      {
+        "name": "textValue",
+        "type": "string",
+        "required": false,
+        "origin": "own",
+        "description": "The words typing jumps to; the label itself when it is plain text.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "icon",
+        "type": "IconName",
+        "required": false,
+        "origin": "own",
+        "schema": {
+          "type": "string",
+          "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+        }
+      },
+      {
+        "name": "shortcut",
+        "type": "string",
+        "required": false,
+        "origin": "own",
+        "description": "Shown in mono at the end (\"E\").",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "isDisabled",
+        "type": "boolean",
+        "required": false,
+        "origin": "own",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "tone",
+        "type": "\"danger\"",
+        "required": false,
+        "origin": "own",
+        "description": "`danger` for the destructive action; put it last, after a `MenuSeparator`.",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "danger"
+          ]
+        }
+      },
+      {
+        "name": "href",
+        "type": "string",
+        "required": false,
+        "origin": "own",
+        "description": "Makes the item a link; it goes through the host router.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "lang",
+        "type": "string",
+        "required": false,
+        "origin": "own",
+        "description": "The language of the label, when it differs from the page.",
+        "schema": {
+          "type": "string"
+        }
+      }
+    ],
+    "MenuSection": [
+      {
+        "name": "id",
+        "type": "Key",
+        "required": false,
+        "origin": "own",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "title",
+        "type": "string",
+        "required": true,
+        "origin": "own",
+        "description": "The section's title (\"Share\"); it names the group.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "children",
+        "type": "React.ReactNode",
+        "required": true,
+        "origin": "own",
+        "description": "`MenuItem`s and `MenuSubmenu`s."
+      }
+    ],
+    "MenuSubmenu": [
+      {
+        "name": "id",
+        "type": "Key",
+        "required": true,
+        "origin": "own",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "lang",
+        "type": "string",
+        "required": false,
+        "origin": "own",
+        "description": "The language of the label, when it differs from the page.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "isDisabled",
+        "type": "boolean",
+        "required": false,
+        "origin": "own",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "icon",
+        "type": "IconName",
+        "required": false,
+        "origin": "own",
+        "schema": {
+          "type": "string",
+          "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+        }
+      },
+      {
+        "name": "shortcut",
+        "type": "string",
+        "required": false,
+        "origin": "own",
+        "description": "Shown in mono at the end (\"E\").",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "label",
+        "type": "string",
+        "required": true,
+        "origin": "own",
+        "description": "The item that opens the submenu (\"Move to\").",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "children",
+        "type": "React.ReactNode",
+        "required": true,
+        "origin": "own",
+        "description": "The submenu's `MenuItem`s."
+      }
+    ],
+    "MenuSeparator": []
   },
   "tokens": [
     "ds-background-neutral-bold",

@@ -10,15 +10,20 @@
   "name": "menu",
   "title": "Menu",
   "exports": [
-    "Menu"
+    "Menu",
+    "MenuItem",
+    "MenuSection",
+    "MenuSubmenu",
+    "MenuSeparator"
   ],
   "description": "A list of actions under a button, with sections, icons, shortcuts and disabled items that say why.",
   "keywords": [
-    "menu",
     "actions",
+    "compound",
     "dropdown",
-    "more",
-    "kebab"
+    "kebab",
+    "menu",
+    "more"
   ],
   "usage": {
     "when": [
@@ -63,7 +68,8 @@
       "Announced as a menu button and menu."
     ],
     "youProvide": [
-      "A name for an icon-only menu button."
+      "A name for an icon-only menu button.",
+      "With children: a textValue on a MenuItem whose label is not plain text, so typing can jump to it; the destructive item last, after a MenuSeparator."
     ]
   },
   "related": [
