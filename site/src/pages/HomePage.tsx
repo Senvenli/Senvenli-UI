@@ -23,8 +23,9 @@ export type HomeData = {
 };
 
 /**
- * The swatch that stands for "no brand color": a mid gray, since the neutral theme's own ink is near black in light and
- * near white in dark, and a swatch has one color for both. Picking it clears the brand color.
+ * The value that stands for "no brand color"; picking it clears the brand color. The swatch itself is painted in the
+ * neutral theme's ink (near black in light, near white in dark) by `.home-neutral-swatch` in styles.css, since a
+ * swatch's color is one value for both modes.
  */
 const NEUTRAL = "#85827c";
 
@@ -48,15 +49,16 @@ const MEDIUM = 0.625;
 /**
  * The library's radius scale as theme inputs: each step is a base radius in rem (the theme derives every other radius
  * from it). None is square; Large is clearly rounder than Medium while a 36px control still has straight sides; Full
- * is the smallest base at which controls read as pills (20px on a 36px control), so cards stay cards. A stored theme
- * with any other radius (the builder's slider, an older preset) shows as the nearest step.
+ * is the engine's `controlShape: "pill"`: every single-line control (buttons, fields, badges, segments) is fully round
+ * while cards keep a large radius. A stored theme with any other radius (the builder's slider, an older preset) shows
+ * as the nearest of the first four steps.
  */
 const CORNERS = [
   { id: "none", label: "None", radius: 0 },
   { id: "small", label: "Small", radius: 0.3125 },
   { id: "medium", label: "Medium", radius: MEDIUM },
   { id: "large", label: "Large", radius: 0.8125 },
-  { id: "full", label: "Full", radius: 1.25 },
+  { id: "full", label: "Full", radius: 0.8125, controlShape: "pill" as const },
 ];
 
 const DENSITIES: { id: Density; label: string }[] = [
@@ -71,6 +73,7 @@ function tidy(input: ThemeInput): ThemeInput {
   for (const [key, value] of Object.entries(input)) if (value !== undefined) Object.assign(out, { [key]: value });
   if (out.radius === MEDIUM) delete out.radius;
   if (out.density === "default") delete out.density;
+  if (out.controlShape === "rounded") delete out.controlShape;
   return out;
 }
 
@@ -156,9 +159,16 @@ export function HomePage({ data }: { data: HomeData }) {
   const [ready, setReady] = useState(false);
   const code = encodePreset(input);
   const radius = input.radius ?? MEDIUM;
-  const corner = CORNERS.reduce((near, item) => (Math.abs(item.radius - radius) < Math.abs(near.radius - radius) ? item : near)).id;
+  const corner =
+    input.controlShape === "pill"
+      ? "full"
+      : CORNERS.filter((item) => !item.controlShape).reduce((near, item) => (Math.abs(item.radius - radius) < Math.abs(near.radius - radius) ? item : near)).id;
   const density = input.density ?? "default";
-  const setCorner = (id: string) => setInput((prev) => tidy({ ...prev, radius: CORNERS.find((item) => item.id === id)?.radius ?? prev.radius }));
+  const setCorner = (id: string) =>
+    setInput((prev) => {
+      const step = CORNERS.find((item) => item.id === id);
+      return step ? tidy({ ...prev, radius: step.radius, controlShape: step.controlShape }) : prev;
+    });
   const setDensity = (id: string) => setInput((prev) => tidy({ ...prev, density: DENSITIES.find((item) => item.id === id)?.id ?? prev.density }));
   const theme = useMemo(() => createTheme(input), [input]);
   const passing = theme.checks.filter((check) => check.pass).length;
@@ -191,7 +201,7 @@ export function HomePage({ data }: { data: HomeData }) {
       <div className={`${SITE_CONTAINER} flex flex-col`}>
         <section aria-labelledby="home-title" className="home-hero mx-auto flex max-w-3xl flex-col items-center gap-ds-300 pt-ds-600 text-center md:pt-ds-800">
           <div className="w-fit">
-            <Pressable href="/docs/agents" background="surface-raised" shadow="raised" radius="full" paddingInline="space-150" fullWidth={false}>
+            <Pressable href="/docs/agents" background="surface-raised" shadow="raised" radius={corner === "none" ? "none" : "full"} paddingInline="space-150" fullWidth={false}>
               <span className="flex min-h-8 items-center gap-ds-100 text-body-small font-medium text-ds-text">
                 <span aria-hidden className="size-1.5 rounded-ds-full bg-ds-background-brand-bold" />
                 New: an MCP server for your coding agent
@@ -251,7 +261,7 @@ export function HomePage({ data }: { data: HomeData }) {
                 value={input.primary ?? NEUTRAL}
                 onChange={(value) => {
                   const primary = value.toLowerCase();
-                  setInput((prev) => tidy({ primary: primary === NEUTRAL ? undefined : primary, radius: prev.radius, density: prev.density }));
+                  setInput((prev) => tidy({ primary: primary === NEUTRAL ? undefined : primary, radius: prev.radius, controlShape: prev.controlShape, density: prev.density }));
                 }}
               />
               {/* Five steps do not fit a phone as one segmented row: under 640px corners and density are two selects. */}

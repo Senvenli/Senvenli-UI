@@ -276,3 +276,15 @@ html[data-preset-pending] .preview {
 :root:is([data-ds-motion="reduce"], [data-ds-motion="none"]) .home-wire-pulse {
   display: none;
 }
+
+/*
+ * The dock's Neutral swatch shows the neutral theme's own ink: near black in light, near white in dark, with a hairline
+ * so it reads on either page. The picker's first item is Neutral (HomePage COLORS); the check mark takes the page color.
+ */
+[data-slot="home-theme-bar"] [data-slot="color-swatch-picker-item"]:first-child [data-slot="color-swatch"] {
+  background: var(--ds-text) !important;
+  box-shadow: inset 0 0 0 1px var(--ds-border-bold);
+}
+[data-slot="home-theme-bar"] [data-slot="color-swatch-picker-item"]:first-child [data-slot="color-swatch-picker-check"] {
+  color: var(--ds-surface) !important;
+}
