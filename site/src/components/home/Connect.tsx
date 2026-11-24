@@ -1,12 +1,29 @@
 import { Icon, type IconName } from "@senvenli/react/display";
 
-/** Where an agent runs. Generic icons, plain names. */
-const CLIENTS: { name: string; icon: IconName }[] = [
-  { name: "Claude Code", icon: "terminal" },
-  { name: "Cursor", icon: "mouse-pointer-2" },
-  { name: "VS Code", icon: "code-xml" },
-  { name: "Any MCP client", icon: "bot" },
+/**
+ * Where an agent runs: each client's own mark from its official brand kit, unmodified (public/logos, CREDITS.md), and
+ * a generic icon for the rest. A mark with a light and a dark version shows the one for the mode on screen.
+ */
+type Mark = { src: string; dark?: string } | { icon: IconName };
+const CLIENTS: { name: string; mark: Mark }[] = [
+  { name: "Claude", mark: { src: "/logos/claude.svg" } },
+  { name: "ChatGPT", mark: { src: "/logos/openai-on-light.svg", dark: "/logos/openai-on-dark.svg" } },
+  { name: "Cursor", mark: { src: "/logos/cursor-on-light.svg", dark: "/logos/cursor-on-dark.svg" } },
+  { name: "Any MCP client", mark: { icon: "bot" } },
 ];
+
+function ClientMark({ mark }: { mark: Mark }) {
+  if ("icon" in mark) return <Icon name={mark.icon} color="subtle" />;
+  const image = "size-4 shrink-0 object-contain";
+  return mark.dark ? (
+    <>
+      <img src={mark.src} alt="" width={16} height={16} className={`${image} home-light-only`} />
+      <img src={mark.dark} alt="" width={16} height={16} className={`${image} home-dark-only`} />
+    </>
+  ) : (
+    <img src={mark.src} alt="" width={16} height={16} className={image} />
+  );
+}
 
 // The drawing space of a wire: as tall as the four client tiles (44px each, 12px apart), so a line ends at the
 // middle of each tile; its width stretches to the room there is.
@@ -69,7 +86,7 @@ export function Connect() {
               className="flex items-center justify-center gap-ds-100 rounded-ds-medium bg-ds-surface-raised text-body-small font-medium text-ds-text shadow-ds-raised max-sm:w-11 sm:justify-start sm:px-ds-150"
               style={{ height: ROW }}
             >
-              <Icon name={client.icon} color="subtle" />
+              <ClientMark mark={client.mark} />
               <span className="whitespace-nowrap max-sm:hidden">{client.name}</span>
             </span>
           ))}
