@@ -1,4 +1,5 @@
 import { Link, ThemeSwitcher } from "@senvenli/react/action";
+import { Link as AriaLink } from "react-aria-components";
 import { Text } from "@senvenli/react/display";
 import { Navbar, SkipLink } from "@senvenli/react/navigation";
 import type { ReactNode } from "react";
@@ -88,6 +89,19 @@ export function SiteShell({ children, section, components = [], docs = [], onNav
       <div className="flex-1">{children}</div>
       <footer className="border-t border-ds-border">
         <div className={`${SITE_CONTAINER} flex flex-col gap-ds-600 py-ds-800`}>
+          <div className="grid gap-ds-600 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,3fr)]">
+            {/* The brand, as in the navbar, with one line on what the site is. */}
+            <div className="flex flex-col gap-ds-150">
+              <AriaLink href="/" aria-label="Senvenli UI home" className="flex w-fit items-center gap-ds-150 rounded-ds-small text-ds-text outline-hidden data-[focus-visible]:inset-ring-2 data-[focus-visible]:inset-ring-ds-border-focused">
+                <span aria-hidden className="site-brand-mark" />
+                <span aria-hidden className="site-brand-name">SENVENLI UI</span>
+              </AriaLink>
+              <div className="max-w-72">
+                <Text size="body-small" tone="subtle">
+                  Accessible React components that theme themselves, checked against WCAG AA.
+                </Text>
+              </div>
+            </div>
           <nav aria-label="Footer" className="grid grid-cols-2 gap-x-ds-300 gap-y-ds-500 md:grid-cols-4">
             {FOOTER.map((column) => (
               <div key={column.title} className="flex flex-col gap-ds-150">
@@ -106,11 +120,23 @@ export function SiteShell({ children, section, components = [], docs = [], onNav
               </div>
             ))}
           </nav>
+          </div>
           <div className="flex flex-wrap items-center justify-between gap-ds-200 border-t border-ds-border pt-ds-300">
             <Text size="body-small" tone="subtle">
-              MIT license. Made by Senvenli.
+              MIT license. Made by{" "}
+              <a
+                href="https://senvenli.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="rounded-ds-xsmall text-ds-text-subtle no-underline decoration-1 underline-offset-3 outline-hidden hover:text-ds-text hover:underline focus-visible:inset-ring-2 focus-visible:inset-ring-ds-border-focused"
+              >
+                Senvenli
+                <span className="sr-only"> (opens in a new tab)</span>
+              </a>
+              .
             </Text>
-            <ThemeSwitcher variant="segmented" />
+            {/* The same theme menu as the navbar's. */}
+            <ThemeSwitcher variant="menu" />
           </div>
         </div>
       </footer>
