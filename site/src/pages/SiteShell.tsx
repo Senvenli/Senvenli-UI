@@ -66,7 +66,13 @@ export function SiteShell({ children, section, components = [], docs = [], onNav
     <div className="flex min-h-dvh flex-col">
       <SkipLink target="#main" />
       <Navbar
-        brand={<span className="text-body-large font-medium text-ds-text">Senvenli UI</span>}
+        brand={
+          // The Senvenli wordmark (as on senvenli.com): the mark, then the name in wide-tracked Sora.
+          <span className="flex items-center gap-ds-150 text-ds-text">
+            <span aria-hidden className="site-brand-mark" />
+            <span className="site-brand-name">SENVENLI UI</span>
+          </span>
+        }
         brandLabel="Senvenli UI home"
         links={LINKS}
         currentKey={section}

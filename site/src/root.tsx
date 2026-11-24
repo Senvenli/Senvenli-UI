@@ -17,7 +17,10 @@ import "./styles.css";
 export const links: LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
   { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
-  { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Geist:wght@400;500&family=Geist+Mono:wght@400;500&display=swap" },
+  { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Geist:wght@400;500&family=Geist+Mono:wght@400;500&family=Sora:wght@600&display=swap" },
+  // The Senvenli mark, as on senvenli.com.
+  { rel: "icon", type: "image/png", sizes: "192x192", href: "/icon.png" },
+  { rel: "apple-touch-icon", sizes: "180x180", href: "/apple-icon.png" },
 ];
 
 /** The document. The two head scripts run before the first paint: light or dark first, the preset after the stylesheets. */
