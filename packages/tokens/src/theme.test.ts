@@ -98,6 +98,30 @@ describe("layout", () => {
     expect(pill["ds-radius-medium"]).toBe(rounded["ds-radius-medium"]);
   });
 
+  it("uses a hand-picked dark color as given, and derives dark from light without one", () => {
+    const derived = createTheme({ primary: "#996a00" });
+    const pinned = createTheme({ primary: "#996a00", darkColors: { primary: "#c99a2e" } });
+    expect(formatHex(pinned.dark["ds-background-brand-bold"]!)).toBe("#c99a2e");
+    expect(formatHex(pinned.dark["ds-text-on-brand"]!)).toBe(formatHex(INK));
+    expect(formatHex(derived.dark["ds-background-brand-bold"]!)).not.toBe("#c99a2e");
+    // Light mode is untouched by a dark color.
+    expect(pinned.light).toEqual(derived.light);
+    expect(pinned.checks.every((check) => check.pass)).toBe(true);
+    expect(pinned.adjusted).toEqual([]);
+  });
+
+  it("keeps every pair at AA whatever dark color is pinned", () => {
+    for (const primary of ["#6f5300", "#777777", "#ffd84d", "#1a1a6e"]) {
+      const theme = createTheme({ primary: "#996a00", darkColors: { primary } });
+      expect(theme.checks.every((check) => check.pass)).toBe(true);
+    }
+  });
+
+  it("drops unreadable dark colors and keeps the readable ones", () => {
+    const theme = createTheme({ darkColors: { primary: "nope", success: "#59b972", bogus: "#fff" } as never });
+    expect(theme.input.darkColors).toEqual({ success: "#59b972" });
+  });
+
   it("drops an unknown controlShape", () => {
     expect(createTheme({ controlShape: "round" as never }).input.controlShape).toBeUndefined();
     expect(createTheme({ controlShape: "round" as never }).layout.controlShape).toBe("rounded");
@@ -113,7 +137,7 @@ describe("layout", () => {
 
 describe("outputs", () => {
   it("round-trips a preset code", () => {
-    const input = { primary: "#996a00", radius: 0.5, controlShape: "pill" as const, density: "compact" as const, borderWidth: 2 as const };
+    const input = { primary: "#996a00", darkColors: { primary: "#c99a2e" }, radius: 0.5, controlShape: "pill" as const, density: "compact" as const, borderWidth: 2 as const };
     expect(decodePreset(encodePreset(input))).toEqual(input);
     expect(decodePreset("garbage")).toBeNull();
   });
