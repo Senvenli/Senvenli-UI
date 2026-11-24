@@ -288,3 +288,26 @@ html[data-preset-pending] .preview {
 [data-slot="home-theme-bar"] [data-slot="color-swatch-picker-item"]:first-child [data-slot="color-swatch-picker-check"] {
   color: var(--ds-surface) !important;
 }
+
+/*
+ * The Senvenli wordmark in the navbar. The mark is the brand PNG used as a mask, so it takes the text color in light and
+ * dark; the name is Sora 600 with the brand's wide tracking (senvenli.com header). The trailing tracking is trimmed so
+ * the name ends where its last letter does.
+ */
+.site-brand-mark {
+  display: block;
+  height: 28px;
+  aspect-ratio: 173 / 256;
+  flex-shrink: 0;
+  background-color: currentColor;
+  mask: url("/brand/senvenli-mark.png") center / contain no-repeat;
+}
+.site-brand-name {
+  font-family: "Sora", var(--font-sans);
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.3em;
+  margin-inline-end: -0.3em;
+  line-height: 1;
+  white-space: nowrap;
+}
