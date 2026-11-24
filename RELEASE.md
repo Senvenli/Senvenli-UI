@@ -32,18 +32,20 @@ server, and typechecks an app file.
 
 ## design.senvenli.com
 
-The server is the shared box behind `ssh senvenli`. Add only this site's files; run `nginx -t` before every reload.
+`<host>` below is the docs server, as named in the maintainer's SSH config. It serves other sites too: add only this site's
+files, and run `nginx -t` before every reload.
 
 **Site** (static, no server process):
 
 ```sh
 pnpm --filter site build
-rsync -a --delete site/build/client/ senvenli:/var/www/senvenli-design/
+rsync -a --delete site/build/client/ <host>:/var/www/senvenli-design/
 ```
 
 **nginx**: `deploy/design.senvenli.com.conf` → `/etc/nginx/sites-available/`, symlink into `sites-enabled`,
 `nginx -t`, reload, then `certbot --nginx -d design.senvenli.com`. After a reload, retry the checks for a few seconds:
-old workers answer briefly.
+old workers answer briefly. Check the content types too (`curl -sI`), not only the status: the site's `types` block
+adds to `mime.types`, and without that include every file goes out as `application/octet-stream`.
 
 **Hosted MCP** (after the npm release):
 
@@ -58,10 +60,9 @@ It listens on 127.0.0.1:8787 only; nginx exposes `POST /mcp` with a 64 KB body c
 
 ```sh
 curl -sI https://design.senvenli.com/docs/getting-started | head -1          # 200
-curl -s https://design.senvenli.com/components/button.md | head -1            # # Button
+curl -s https://design.senvenli.com/docs/components/button.md | head -1       # # Button
 curl -s https://design.senvenli.com/mcp -H 'Content-Type: application/json' \
   -H 'Accept: application/json, text/event-stream' \
   -d '{"jsonrpc":"2.0","id":1,"method":"tools/list"}' | head -c 200            # the 7 tools
 ```
 
-Then turn the home page's "MCP server is planned" line into the live endpoint, and add it to the agents doc.
