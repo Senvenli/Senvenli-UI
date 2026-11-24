@@ -52,8 +52,13 @@ export type SidebarSectionData = {
 };
 
 export type SidebarProps = {
-  /** The logo and product name (the app's logo). It links to `brandHref`. Or a `SidebarHeader` child. */
+  /** The product name, after `logo` (or the logo and name together). It links to `brandHref`. Or a `SidebarHeader` child. */
   brand?: React.ReactNode;
+  /**
+   * The app's mark (an Icon or an image) before `brand`. Collapsed, the rail shows it alone, centred; the
+   * name stays the link's accessible name. Without it, collapsed shows the start of `brand`.
+   */
+  logo?: React.ReactNode;
   brandHref?: string;
   /**
    * The top-level items (links, or groups with `children`); five to eight is the comfortable range. With
@@ -76,8 +81,13 @@ export type SidebarProps = {
   sections?: readonly SidebarSectionData[];
   /** The id of the page's item: marked `aria-current="page"`; its group stays open. */
   currentKey?: string;
-  /** The account at the bottom: Avatar, name and role. Or a `SidebarFooter` child. */
+  /** The account at the bottom: name and role after `avatar` (or Avatar, name and role together). Or a `SidebarFooter` child. */
   footer?: React.ReactNode;
+  /**
+   * The account's Avatar before `footer`. Collapsed, the rail shows it alone, centred, and `footer` is hidden.
+   * Without it, collapsed shows the start of `footer`.
+   */
+  avatar?: React.ReactNode;
   /**
    * Keeps the account (`footer`) and the collapse toggle in view at the bottom: the brand stays at
    * the top and only the navigation (`items`, then `sections`) scrolls between them, expanded and
@@ -141,8 +151,11 @@ const WHEN_COLLAPSED = {
    * padding it kept before cut the avatar in half.
    */
   clip:
-    "group-data-[collapsed]/sidebar:w-8 group-data-[collapsed]/sidebar:flex-none group-data-[collapsed]/sidebar:justify-center group-data-[collapsed]/sidebar:overflow-hidden group-data-[collapsed]/sidebar:p-0 " +
-    "[:root[data-ds-sidebar=collapsed]_[data-slot=sidebar]_&]:w-8 [:root[data-ds-sidebar=collapsed]_[data-slot=sidebar]_&]:flex-none [:root[data-ds-sidebar=collapsed]_[data-slot=sidebar]_&]:justify-center [:root[data-ds-sidebar=collapsed]_[data-slot=sidebar]_&]:overflow-hidden [:root[data-ds-sidebar=collapsed]_[data-slot=sidebar]_&]:p-0",
+    "group-data-[collapsed]/sidebar:w-8 group-data-[collapsed]/sidebar:flex-none group-data-[collapsed]/sidebar:justify-start group-data-[collapsed]/sidebar:overflow-hidden group-data-[collapsed]/sidebar:p-0 " +
+    "[:root[data-ds-sidebar=collapsed]_[data-slot=sidebar]_&]:w-8 [:root[data-ds-sidebar=collapsed]_[data-slot=sidebar]_&]:flex-none [:root[data-ds-sidebar=collapsed]_[data-slot=sidebar]_&]:justify-start [:root[data-ds-sidebar=collapsed]_[data-slot=sidebar]_&]:overflow-hidden [:root[data-ds-sidebar=collapsed]_[data-slot=sidebar]_&]:p-0",
+  /** With a `logo` or `avatar`: only that mark is left, so the 32px box centres it. */
+  centre:
+    "group-data-[collapsed]/sidebar:justify-center [:root[data-ds-sidebar=collapsed]_[data-slot=sidebar]_&]:justify-center",
 } as const;
 
 /**
@@ -249,12 +262,14 @@ function useRepeatedIdWarning(items: readonly SidebarItemData[], sections: reado
  */
 function SidebarBody({
   brand: brandProp,
+  logo: logoProp,
   brandHref = "/",
   items,
   children,
   sections,
   currentKey,
   footer: footerProp,
+  avatar: avatarProp,
   isFooterPinned = false,
   isCollapsed,
   defaultCollapsed = false,
@@ -265,9 +280,14 @@ function SidebarBody({
   "aria-label": label,
 }: SidebarProps) {
   const { locale, direction } = useLocale();
-  const { header, footerSlot, nav } = splitSlots(children);
-  const brand = brandProp ?? header;
-  const footer = footerProp ?? footerSlot;
+  const slots = splitSlots(children);
+  const { nav } = slots;
+  const brand = brandProp ?? slots.header;
+  const logo = logoProp ?? slots.logo;
+  const footer = footerProp ?? slots.footer;
+  const avatar = avatarProp ?? slots.avatar;
+  const hasBrand = brand != null || logo != null;
+  const hasFooter = footer != null || avatar != null;
   const name = label ?? mainNavigationLabel(locale);
   const [own, setOwn] = React.useState(defaultCollapsed);
   // The remembered choice is read after hydration (the head script already painted it).
@@ -306,7 +326,7 @@ function SidebarBody({
         )}
         data-footer-pinned={isFooterPinned ? "" : undefined}
       >
-        {brand != null && <Brand brand={brand} href={brandHref} />}
+        {hasBrand && <Brand brand={brand} logo={logo} href={brandHref} />}
         {isFooterPinned ? (
           <div data-slot="sidebar-scroll" className={PINNED.scroll}>
             <Navigation items={items} nodes={nav} sections={labelled} shared={shared} />
@@ -315,13 +335,13 @@ function SidebarBody({
           <Navigation items={items} nodes={nav} sections={labelled} shared={shared} />
         )}
         <div className={cn(BOTTOM, isFooterPinned ? "shrink-0" : "mt-auto")}>
-          {footer && <div data-slot="sidebar-footer" className={cn(FOOTER, FOOTER_RULE, WHEN_COLLAPSED.clip)}>{footer}</div>}
+          {hasFooter && <Account footer={footer} avatar={avatar} className={cn(FOOTER_RULE, WHEN_COLLAPSED.clip, avatar != null && WHEN_COLLAPSED.centre)} />}
           <div
             data-slot="sidebar-toggle"
             className={cn(
               "flex justify-end group-data-[collapsed]/sidebar:justify-center [:root[data-ds-sidebar=collapsed]_[data-slot=sidebar]_&]:justify-center",
               // Beside the account, under the same divider; alone, it keeps the row's end.
-              footer ? cn(FOOTER_RULE, "self-stretch items-center ps-ds-050 group-data-[collapsed]/sidebar:border-t-0 group-data-[collapsed]/sidebar:pt-0 [:root[data-ds-sidebar=collapsed]_[data-slot=sidebar]_&]:border-t-0 [:root[data-ds-sidebar=collapsed]_[data-slot=sidebar]_&]:pt-0") : "col-span-full",
+              hasFooter ? cn(FOOTER_RULE, "self-stretch items-center ps-ds-050 group-data-[collapsed]/sidebar:border-t-0 group-data-[collapsed]/sidebar:pt-0 [:root[data-ds-sidebar=collapsed]_[data-slot=sidebar]_&]:border-t-0 [:root[data-ds-sidebar=collapsed]_[data-slot=sidebar]_&]:pt-0") : "col-span-full",
             )}
           >
             <Tooltip content={toggleLabel} placement="end">
@@ -349,7 +369,7 @@ function SidebarBody({
         label={name}
         side="start"
         slot="sidebar"
-        header={brand != null ? <Brand brand={brand} href={brandHref} /> : undefined}
+        header={hasBrand ? <Brand brand={brand} logo={logo} href={brandHref} /> : undefined}
       >
         {/* The dialog already carries the name; a second landmark name would be read twice. */}
         {isFooterPinned ? (
@@ -358,12 +378,12 @@ function SidebarBody({
             <div data-slot="sidebar-scroll" className={PINNED.panelScroll}>
               <Navigation items={items} nodes={nav} sections={labelled} shared={{ ...shared, collapsed: false }} />
             </div>
-            {footer && <div data-slot="sidebar-footer" className={cn(FOOTER, FOOTER_RULE, "shrink-0")}>{footer}</div>}
+            {hasFooter && <Account footer={footer} avatar={avatar} className={cn(FOOTER_RULE, "shrink-0")} />}
           </nav>
         ) : (
           <nav className="flex flex-1 flex-col gap-ds-200">
             <Navigation items={items} nodes={nav} sections={labelled} shared={{ ...shared, collapsed: false }} />
-            {footer && <div data-slot="sidebar-footer" className={cn(FOOTER, FOOTER_RULE, "mt-auto")}>{footer}</div>}
+            {hasFooter && <Account footer={footer} avatar={avatar} className={cn(FOOTER_RULE, "mt-auto")} />}
           </nav>
         )}
       </NavPanel>
@@ -371,7 +391,12 @@ function SidebarBody({
   );
 }
 
-function Brand({ brand, href }: { brand: React.ReactNode; href: string }) {
+/**
+ * The brand link. With a `logo`, the name is a separate span that collapses to visually hidden, so the rail
+ * shows the logo alone and the link keeps the name. Without one, the content is kept as given and the 32px box
+ * shows its start.
+ */
+function Brand({ brand, logo, href }: { brand: React.ReactNode; logo: React.ReactNode; href: string }) {
   return (
     <AriaLink
       href={href}
@@ -379,10 +404,37 @@ function Brand({ brand, href }: { brand: React.ReactNode; href: string }) {
       className={cn(
         "flex min-w-0 shrink-0 items-center gap-ds-100 rounded-ds-medium px-ds-100 text-body-strong text-ds-text outline-hidden data-[focus-visible]:inset-ring-2 data-[focus-visible]:inset-ring-ds-border-focused",
         WHEN_COLLAPSED.clip,
+        logo != null && WHEN_COLLAPSED.centre,
       )}
     >
-      {brand}
+      {logo == null ? (
+        brand
+      ) : (
+        <>
+          <span data-slot="sidebar-brand-logo" className="flex shrink-0 items-center">{logo}</span>
+          {brand != null && <span data-slot="sidebar-brand-name" className={cn("min-w-0 truncate", WHEN_COLLAPSED.label)}>{brand}</span>}
+        </>
+      )}
     </AriaLink>
+  );
+}
+
+/**
+ * The account block. With an `avatar`, the rest of the account is hidden collapsed (it may hold controls, so
+ * not merely visually hidden) and the rail shows the Avatar alone.
+ */
+function Account({ footer, avatar, className }: { footer: React.ReactNode; avatar: React.ReactNode; className?: string }) {
+  return (
+    <div data-slot="sidebar-footer" className={cn(FOOTER, className)}>
+      {avatar == null ? (
+        footer
+      ) : (
+        <>
+          <span data-slot="sidebar-footer-avatar" className="flex shrink-0">{avatar}</span>
+          {footer != null && <div data-slot="sidebar-footer-content" className={cn("flex min-w-0 flex-1 items-center gap-ds-100", WHEN_COLLAPSED.hidden)}>{footer}</div>}
+        </>
+      )}
+    </div>
   );
 }
 
@@ -558,8 +610,10 @@ function useShared(part: string): Shared {
 }
 
 export type SidebarHeaderProps = {
-  /** The logo and product name; it links to the Sidebar's `brandHref`. */
-  children: React.ReactNode;
+  /** The product name (or the logo and name together); it links to the Sidebar's `brandHref`. */
+  children?: React.ReactNode;
+  /** The app's mark before the name; collapsed, the rail shows it alone. As the Sidebar's `logo`. */
+  logo?: React.ReactNode;
 };
 
 /** The brand at the top, as a child instead of the `brand` prop. */
@@ -568,8 +622,10 @@ export function SidebarHeader({ children }: SidebarHeaderProps) {
 }
 
 export type SidebarFooterProps = {
-  /** The account: Avatar, name and role. */
-  children: React.ReactNode;
+  /** The account's name and role (or Avatar, name and role together). */
+  children?: React.ReactNode;
+  /** The account's Avatar before the rest; collapsed, the rail shows it alone. As the Sidebar's `avatar`. */
+  avatar?: React.ReactNode;
 };
 
 /** The account at the bottom, as a child instead of the `footer` prop; it shares a row with the collapse toggle. */
@@ -655,14 +711,20 @@ function holdsKey(children: React.ReactNode, key: string | undefined): boolean {
 /** Pulls the `SidebarHeader` and `SidebarFooter` out of the children; the rest is the navigation. */
 function splitSlots(children: React.ReactNode) {
   let header: React.ReactNode;
-  let footerSlot: React.ReactNode;
+  let logo: React.ReactNode;
+  let footer: React.ReactNode;
+  let avatar: React.ReactNode;
   const nav: React.ReactNode[] = [];
   for (const child of React.Children.toArray(children)) {
-    if (React.isValidElement<{ children?: React.ReactNode }>(child) && child.type === SidebarHeader) header = child.props.children;
-    else if (React.isValidElement<{ children?: React.ReactNode }>(child) && child.type === SidebarFooter) footerSlot = child.props.children;
-    else nav.push(child);
+    if (React.isValidElement<SidebarHeaderProps>(child) && child.type === SidebarHeader) {
+      header = child.props.children;
+      logo = child.props.logo;
+    } else if (React.isValidElement<SidebarFooterProps>(child) && child.type === SidebarFooter) {
+      footer = child.props.children;
+      avatar = child.props.avatar;
+    } else nav.push(child);
   }
-  return { header, footerSlot, nav };
+  return { header, logo, footer, avatar, nav };
 }
 
 /** The composed navigation: loose items in one list, then the sections, as with `items` and `sections`. */

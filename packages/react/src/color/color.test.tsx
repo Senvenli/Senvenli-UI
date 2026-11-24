@@ -471,6 +471,17 @@ describe("ColorSwatchPicker", () => {
   const selectedOptions = (hidden = false) => screen.getAllByRole("option", { hidden }).filter((option) => option.getAttribute("aria-selected") === "true");
   const captionOf = (container: HTMLElement) => container.querySelector("[data-slot='color-swatch-picker-caption']")?.textContent;
 
+  it("controlled, null or an empty value clears the selection: no swatch stays checked", () => {
+    const view = inLocale(<ColorSwatchPicker label="Brand color" items={items} value="#1E63D0" />);
+    expect(selectedOptions()).toHaveLength(1);
+    expect(document.querySelector("[data-slot='color-swatch-picker-check']")).not.toBeNull();
+    for (const value of [null, ""]) {
+      view.rerender(wrap(<ColorSwatchPicker label="Brand color" items={items} value={value} />, "en"));
+      expect(selectedOptions()).toHaveLength(0);
+      expect(document.querySelector("[data-slot='color-swatch-picker-check']")).toBeNull();
+    }
+  });
+
   it("each swatch is named; picking one says so in the caption", () => {
     const onChange = vi.fn();
     const { container } = inLocale(<ColorSwatchPicker label="Theme presets" items={items} defaultValue="#334155" onChange={onChange} />);
