@@ -5,6 +5,7 @@ import { SegmentedControl } from "@senvenli/react/navigation";
 import { Select } from "@senvenli/react/selection";
 import { createTheme, decodePreset, encodePreset, type Density, type ThemeInput } from "@senvenli/tokens";
 import { useLayoutEffect, useMemo, useRef, useState } from "react";
+import { Ambient } from "../components/home/Ambient";
 import { Bento } from "../components/home/Bento";
 import { Connect } from "../components/home/Connect";
 import { Families, type Family } from "../components/home/Families";
@@ -192,7 +193,7 @@ export function HomePage({ data }: { data: HomeData }) {
   return (
     <main id="main" className="relative isolate overflow-x-clip pb-ds-1000">
       {/* The one decorative layer of the page: a dot grid that fades out, with a faint wash of the brand color. */}
-      <div aria-hidden className="home-ambient" />
+      <Ambient />
       <div className={`${SITE_CONTAINER} flex flex-col`}>
         <section aria-labelledby="home-title" className="home-hero mx-auto flex max-w-3xl flex-col items-center gap-ds-300 pt-ds-600 text-center md:pt-ds-800">
           <div className="w-fit">
@@ -303,7 +304,7 @@ export function HomePage({ data }: { data: HomeData }) {
         </Section>
 
         <section aria-labelledby="start-title" className="home-reveal home-cta relative isolate mt-ds-1000 flex flex-col items-center gap-ds-300 overflow-hidden rounded-ds-xlarge bg-ds-surface-sunken px-ds-200 py-ds-800 text-center max-[359px]:px-ds-100 md:px-ds-300 lg:mt-[9rem] lg:py-ds-1000">
-          <div aria-hidden className="home-ambient home-ambient-cta" />
+          <Ambient className="home-ambient-cta" />
           <div className="lg:[&_h2]:text-display-medium">
             <Heading id="start-title" level={2} size="heading-xxlarge">
               Plug it into your agent.
