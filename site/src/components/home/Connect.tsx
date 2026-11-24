@@ -70,7 +70,8 @@ export function Connect() {
         style={{ height: `calc(${HEIGHT}px + var(--spacing-ds-400, 2rem))` }}
       >
         <span className="relative grid size-14 shrink-0 place-items-center rounded-ds-large bg-ds-background-brand-bold text-ds-text-on-brand shadow-ds-overlay sm:size-20">
-          <Icon name="component" size="large" />
+          {/* The Senvenli mark, as in the navbar, in the label color on the brand fill. */}
+          <span aria-hidden className="site-brand-mark h-7! sm:h-9!" />
           <Caption>Senvenli UI</Caption>
         </span>
         <Wire part="trunk" paths={[`M0 ${MIDDLE} H${WIDTH}`]} />
