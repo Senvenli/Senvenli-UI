@@ -144,6 +144,7 @@
         "type": "string",
         "required": false,
         "origin": "own",
+        "description": "The chosen color, controlled. `null` or `\"\"`: none chosen, so no swatch shows a check (a theme with no brand color).",
         "schema": {
           "type": "string"
         }
