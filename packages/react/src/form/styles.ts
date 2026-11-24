@@ -10,7 +10,7 @@
  * while the field is focused, so the error never disappears under the caret.
  */
 export const FIELD_FRAME =
-  "relative flex w-full items-center gap-ds-075 rounded-ds-control-medium border border-ds-border-bold bg-ds-background-input text-ds-text outline-hidden " +
+  "relative flex w-full items-center gap-ds-075 rounded-ds-control-medium [--ds-field-radius:var(--ds-radius-control-medium,var(--ds-radius-medium))] border border-ds-border-bold bg-ds-background-input text-ds-text outline-hidden " +
   "transition-colors duration-(--ds-duration-instant) ease-ds-standard " +
   "data-[hovered]:bg-ds-background-input-hovered " +
   "data-[focus-within]:border-ds-border-focused data-[focus-within]:outline-1 data-[focus-within]:outline-solid data-[focus-within]:-outline-offset-2 data-[focus-within]:outline-ds-border-focused " +
@@ -40,13 +40,14 @@ export const FIELD_STACK = "flex min-w-0 flex-col gap-ds-050";
 export const ADDON =
   "flex shrink-0 items-center self-stretch bg-ds-surface-sunken px-ds-100 text-body text-ds-text-subtle tabular-nums select-none";
 /** Flush with the frame's start edge, divided from the value by `ds-border`. */
-export const ADDON_START = "-ms-(--field-pad) rounded-s-ds-medium border-e border-ds-border";
+/** Parts inside the frame take its radius minus the 1px border (`--ds-field-radius`), so their fill never crosses the curve. */
+export const ADDON_START = "-ms-(--field-pad) rounded-s-[max(0px,calc(var(--ds-field-radius,var(--ds-radius-medium))-1px))] border-e border-ds-border";
 /** At the end; flush with the edge unless something (a stepper) follows it. */
 export const ADDON_END = "border-s border-ds-border";
-export const ADDON_END_FLUSH = "-me-(--field-pad) rounded-e-ds-medium";
+export const ADDON_END_FLUSH = "-me-(--field-pad) rounded-e-[max(0px,calc(var(--ds-field-radius,var(--ds-radius-medium))-1px))]";
 
 export const INLINE_ACTION =
-  "inline-flex size-6 shrink-0 items-center justify-center rounded-ds-small text-ds-icon-subtle cursor-pointer outline-hidden " +
+  "inline-flex size-6 shrink-0 items-center justify-center rounded-[max(var(--ds-radius-small),calc(var(--ds-field-radius,var(--ds-radius-medium))-6px))] text-ds-icon-subtle cursor-pointer outline-hidden " +
   "data-[hovered]:bg-ds-background-neutral-subtle-hovered data-[pressed]:bg-ds-background-neutral-pressed " +
   "data-[focus-visible]:inset-ring-2 data-[focus-visible]:inset-ring-ds-border-focused";
 

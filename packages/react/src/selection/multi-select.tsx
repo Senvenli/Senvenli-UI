@@ -12,7 +12,7 @@ import {
 import { IconGlyph } from "../display/icon";
 
 import { cn } from "../utils";
-import { radiusClass, useRadius } from "../defaults";
+import { fieldRadiusClass, useRadius } from "../defaults";
 import { ControlFieldError, FieldDescription, FieldLabel, forwardedInvalid, useErrorRowLink } from "../form/field-parts";
 import { FIELD_ICON, FIELD_STACK } from "../form/styles";
 import { useRequiredChoice, type RequiredValidation } from "../form/validation";
@@ -71,7 +71,7 @@ export type MultiSelectProps = SelectLabelProps & {
 export const TAG =
   "inline-flex h-6 max-w-full items-center gap-ds-050 rounded-ds-control-small bg-ds-background-neutral ps-ds-100 pe-ds-075 text-body-small text-ds-text";
 export const TAG_REMOVE =
-  "grid size-4 shrink-0 cursor-pointer place-items-center rounded-ds-xsmall text-ds-icon-subtle outline-hidden " +
+  "grid size-4 shrink-0 cursor-pointer place-items-center rounded-[max(var(--ds-radius-xsmall),calc(var(--ds-radius-control-small,var(--ds-radius-small))-4px))] text-ds-icon-subtle outline-hidden " +
   "data-[hovered]:bg-ds-background-neutral-pressed data-[focus-visible]:inset-ring-2 data-[focus-visible]:inset-ring-ds-border-focused";
 
 /**
@@ -211,7 +211,7 @@ export function MultiSelect({
             ref={fieldRef}
             data-slot="multi-select-field"
             data-disabled={isDisabled || undefined}
-            className={cn(MULTI_FIELD, radiusClass(frameRadius))}
+            className={cn(MULTI_FIELD, fieldRadiusClass(frameRadius))}
           >
             {visible.map((item, index) => (
               <span key={String(item.id)} data-slot="multi-select-tag" className={TAG}>

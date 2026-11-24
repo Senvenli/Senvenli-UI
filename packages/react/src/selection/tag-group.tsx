@@ -33,7 +33,7 @@ export type TagItem = {
  * Keyboard focus: the 2px inner border.
  */
 export const TAG_ITEM =
-  "inline-flex h-6 max-w-full cursor-default items-center gap-ds-050 rounded-ds-small bg-ds-background-neutral px-ds-100 text-body-small font-medium text-ds-text outline-hidden select-none " +
+  "inline-flex h-6 max-w-full cursor-default items-center gap-ds-050 rounded-ds-control-small bg-ds-background-neutral px-ds-100 text-body-small font-medium text-ds-text outline-hidden select-none " +
   "data-[allows-removing]:pe-ds-050 " +
   "data-[selection-mode]:cursor-pointer data-[hovered]:data-[selection-mode]:not-data-[selected]:bg-ds-background-neutral-hovered " +
   "data-[selected]:bg-ds-background-selected data-[selected]:inset-ring-1 data-[selected]:inset-ring-ds-border-selected " +
@@ -44,7 +44,7 @@ export const TAG_ITEM =
   "data-[disabled]:cursor-not-allowed data-[disabled]:text-ds-text-disabled";
 
 export const TAG_REMOVE_BUTTON =
-  "grid size-4 shrink-0 cursor-pointer place-items-center rounded-ds-xsmall text-ds-icon-subtle outline-hidden " +
+  "grid size-4 shrink-0 cursor-pointer place-items-center rounded-[max(var(--ds-radius-xsmall),calc(var(--ds-radius-control-small,var(--ds-radius-small))-4px))] text-ds-icon-subtle outline-hidden " +
   "data-[hovered]:bg-ds-background-neutral-pressed data-[focus-visible]:inset-ring-2 data-[focus-visible]:inset-ring-ds-border-focused";
 
 function TagRow({ item }: { item: TagItem }) {

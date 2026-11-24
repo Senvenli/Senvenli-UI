@@ -17,7 +17,7 @@ import {
 } from "react-aria-components";
 
 import { cn } from "../utils";
-import { ComponentDefaultsProvider, radiusClass, splitRadius, useFieldSize, useRadius, type WithRadius } from "../defaults";
+import { ComponentDefaultsProvider, fieldRadiusClass, splitRadius, useFieldSize, useRadius, type WithRadius } from "../defaults";
 import { IconGlyph, type IconName } from "../display/icon";
 import { FieldDescription, FieldError, FieldLabel } from "../form/field-parts";
 import { FIELD_FRAME, FIELD_ICON, FIELD_SIZE, FIELD_STACK, INPUT, type FieldSize } from "../form/styles";
@@ -210,7 +210,7 @@ function AutocompleteField({
       {({ isInvalid, isDisabled }) => (
         <>
           <FieldLabel isRequired={rest.isRequired}>{label}</FieldLabel>
-          <Group data-slot="autocomplete-field" isInvalid={isInvalid} isDisabled={isDisabled} className={cn(FIELD_FRAME, FIELD_SIZE[size], radiusClass(frameRadius))}>
+          <Group data-slot="autocomplete-field" isInvalid={isInvalid} isDisabled={isDisabled} className={cn(FIELD_FRAME, FIELD_SIZE[size], fieldRadiusClass(frameRadius))}>
             <IconGlyph name={icon} className={FIELD_ICON} data-slot="field-icon" />
             <Input placeholder={placeholder} data-slot="autocomplete-input" className={cn(INPUT, "text-body")} />
             {loading && <FieldSpinner />}

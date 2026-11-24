@@ -369,7 +369,7 @@ function CarouselBody({
                 // them: the current thumb's 2px selected outline, and a separate inner focus border.
                 "after:pointer-events-none after:absolute after:inset-0 after:rounded-[inherit]",
                 thumb === index && "after:inset-ring-2 after:inset-ring-ds-border-selected",
-                "before:pointer-events-none before:absolute before:inset-[3px] before:z-[1] before:rounded-ds-small",
+                "before:pointer-events-none before:absolute before:inset-[3px] before:z-[1] before:rounded-[max(0px,calc(var(--ds-radius-medium)-3px))]",
                 "data-[focus-visible]:before:inset-ring-2 data-[focus-visible]:before:inset-ring-ds-border-focused",
               )}
             >

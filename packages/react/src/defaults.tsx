@@ -61,6 +61,22 @@ export function radiusClass(radius: ComponentRadius | undefined): string | undef
   return radius ? RADIUS_CLASS[radius] : undefined;
 }
 
+const FIELD_RADIUS_VAR: Record<ComponentRadius, string> = {
+  none: "[--ds-field-radius:0px]",
+  small: "[--ds-field-radius:var(--ds-radius-small)]",
+  medium: "[--ds-field-radius:var(--ds-radius-medium)]",
+  large: "[--ds-field-radius:var(--ds-radius-large)]",
+  full: "[--ds-field-radius:9999px]",
+};
+
+/**
+ * A field frame's radius: the frame's class plus `--ds-field-radius`, which the parts inside the frame (addons,
+ * steppers, the country button, inline actions) derive their corners from, so they stay inside the frame's curve.
+ */
+export function fieldRadiusClass(radius: ComponentRadius | undefined): string | undefined {
+  return radius ? `${RADIUS_CLASS[radius]} ${FIELD_RADIUS_VAR[radius]}` : undefined;
+}
+
 /** The component's radius: its own prop, else the default in effect. */
 export function useRadius(own: ComponentRadius | undefined): ComponentRadius | undefined {
   const defaults = useComponentDefaults();

@@ -80,7 +80,7 @@ export type RangeCalendarProps = CommonProps & {
 };
 
 const CELL_BASE =
-  "relative grid size-ds-control cursor-pointer place-items-center rounded-ds-medium text-body tabular-nums text-ds-text outline-hidden select-none " +
+  "relative grid size-ds-control cursor-pointer place-items-center rounded-ds-control-medium text-body tabular-nums text-ds-text outline-hidden select-none " +
   "data-[hovered]:bg-ds-background-neutral-subtle-hovered " +
   "data-[focus-visible]:inset-ring-2 data-[focus-visible]:inset-ring-ds-border-focused " +
   "data-[outside-month]:text-ds-text-disabled " +
@@ -116,7 +116,7 @@ function MonthHeader({ offset, months, range }: { offset: number; months: number
   const title = start
     ? formatDateTime(locale, { month: "long", year: "numeric", timeZone: state?.timeZone }, start.toDate(state!.timeZone))
     : "";
-  const nav = "grid size-ds-control-compact cursor-pointer place-items-center rounded-ds-medium text-ds-icon outline-hidden data-[hovered]:bg-ds-background-neutral-subtle-hovered data-[focus-visible]:inset-ring-2 data-[focus-visible]:inset-ring-ds-border-focused data-[disabled]:cursor-default data-[disabled]:opacity-40";
+  const nav = "grid size-ds-control-compact cursor-pointer place-items-center rounded-ds-control-medium text-ds-icon outline-hidden data-[hovered]:bg-ds-background-neutral-subtle-hovered data-[focus-visible]:inset-ring-2 data-[focus-visible]:inset-ring-ds-border-focused data-[disabled]:cursor-default data-[disabled]:opacity-40";
   return (
     <div data-slot="calendar-header" className="flex items-center justify-between gap-ds-100">
       {offset === 0 ? (

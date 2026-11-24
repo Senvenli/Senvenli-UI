@@ -236,7 +236,7 @@ export function ImageViewer({
                           "motion-safe:transition-opacity motion-safe:duration-(--ds-duration-fast)",
                           "after:pointer-events-none after:absolute after:inset-0 after:rounded-[inherit]",
                           active ? "after:inset-ring-2 after:inset-ring-ds-border-selected" : "opacity-55 data-[hovered]:opacity-100",
-                          "before:pointer-events-none before:absolute before:inset-[3px] before:z-[1] before:rounded-ds-small",
+                          "before:pointer-events-none before:absolute before:inset-[3px] before:z-[1] before:rounded-[max(0px,calc(var(--ds-radius-medium)-3px))]",
                           "data-[focus-visible]:opacity-100 data-[focus-visible]:before:inset-ring-2 data-[focus-visible]:before:inset-ring-ds-border-focused",
                         )}
                       >

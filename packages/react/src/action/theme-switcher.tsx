@@ -210,13 +210,14 @@ export type ThemeSwitcherProps = {
   variant?: "segmented" | "menu" | "list";
 };
 
+/** An option inside the 2px-padded track: its corner is the track's minus that padding, so the two stay concentric. */
 const SEGMENT =
-  "grid size-7 cursor-pointer place-items-center rounded-ds-small text-ds-icon-subtle outline-hidden " +
+  "grid size-7 cursor-pointer place-items-center rounded-[max(0px,calc(var(--ds-radius-control-medium,var(--ds-radius-medium))-2px))] text-ds-icon-subtle outline-hidden " +
   "data-[hovered]:text-ds-icon data-[selected]:bg-ds-background-segment-selected data-[selected]:text-ds-icon data-[selected]:shadow-ds-raised " +
   "data-[focus-visible]:inset-ring-2 data-[focus-visible]:inset-ring-ds-border-focused";
 
 const ROW =
-  "flex h-ds-control w-full cursor-pointer items-center gap-ds-150 rounded-ds-small px-ds-150 text-start text-body text-ds-text outline-hidden " +
+  "flex h-ds-control w-full cursor-pointer items-center gap-ds-150 rounded-[max(var(--ds-radius-small),calc(var(--ds-surface-radius,var(--ds-radius-large))-var(--ds-space-050)))] px-ds-150 text-start text-body text-ds-text outline-hidden " +
   "data-[hovered]:bg-ds-background-neutral-subtle-hovered data-[focus-visible]:inset-ring-2 data-[focus-visible]:inset-ring-ds-border-focused";
 
 /**
@@ -289,7 +290,7 @@ export function ThemeSwitcher({ value, onChange, labels: given, storageKey, vari
           data-slot="theme-switcher"
           data-variant="menu"
           className={
-            "grid size-8 cursor-pointer place-items-center rounded-ds-medium text-ds-icon-subtle outline-hidden " +
+            "grid size-8 cursor-pointer place-items-center rounded-ds-control-medium text-ds-icon-subtle outline-hidden " +
             "data-[hovered]:bg-ds-background-neutral-subtle-hovered data-[hovered]:text-ds-icon data-[pressed]:bg-ds-background-neutral-pressed " +
             "data-[focus-visible]:inset-ring-2 data-[focus-visible]:inset-ring-ds-border-focused"
           }
@@ -301,7 +302,7 @@ export function ThemeSwitcher({ value, onChange, labels: given, storageKey, vari
           offset={4}
           data-slot="theme-switcher-popover"
           className={
-            "min-w-40 rounded-ds-xlarge bg-ds-surface-overlay p-ds-050 text-ds-text shadow-ds-overlay outline-hidden " +
+            "min-w-40 rounded-ds-large [--ds-surface-radius:var(--ds-radius-large)] bg-ds-surface-overlay p-ds-050 text-ds-text shadow-ds-overlay outline-hidden " +
             "transition-opacity duration-(--ds-duration-medium) data-[entering]:opacity-0 data-[exiting]:opacity-0 motion-reduce:transition-none"
           }
         >
@@ -320,7 +321,7 @@ export function ThemeSwitcher({ value, onChange, labels: given, storageKey, vari
                 textValue={name(id)}
                 data-slot="theme-switcher-option"
                 className={
-                  "flex min-h-8 cursor-default items-center gap-ds-100 rounded-ds-small px-ds-100 text-body outline-hidden select-none " +
+                  "flex min-h-8 cursor-default items-center gap-ds-100 rounded-[max(var(--ds-radius-small),calc(var(--ds-surface-radius,var(--ds-radius-large))-var(--ds-space-050)))] px-ds-100 text-body outline-hidden select-none " +
                   "data-[focused]:bg-ds-background-neutral-subtle-hovered data-[pressed]:bg-ds-background-neutral-pressed"
                 }
               >
@@ -378,7 +379,7 @@ export function ThemeSwitcher({ value, onChange, labels: given, storageKey, vari
       onSelectionChange={onSelectionChange}
       data-slot="theme-switcher"
       data-variant="segmented"
-      className="inline-flex gap-0.5 rounded-ds-medium bg-ds-background-neutral p-0.5"
+      className="inline-flex gap-0.5 rounded-ds-control-medium bg-ds-background-neutral p-0.5"
     >
       {CHOICES.map(({ id, icon }) => {
         // System says what is in effect right now ("Theme: System · now dark").
