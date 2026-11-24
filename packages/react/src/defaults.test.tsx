@@ -32,11 +32,13 @@ describe("radius and the provider's defaults", () => {
     const square = classesOf(screen.getByRole("button", { name: "Square" }));
     expect(square).toContain("rounded-none");
     expect(square).not.toContain("rounded-ds-medium");
+    expect(square).not.toContain("rounded-ds-control-medium");
     expect(classesOf(document.querySelector('[data-slot="card"]'))).toContain("rounded-ds-full");
     expect(classesOf(document.querySelector('[data-slot="badge"]'))).toContain("rounded-ds-full");
     cleanup();
     render(<Button>Designed</Button>);
-    expect(classesOf(screen.getByRole("button", { name: "Designed" }))).toContain("rounded-ds-medium");
+    // The design's corner is the control step: the theme's medium radius, or fully round with controlShape "pill".
+    expect(classesOf(screen.getByRole("button", { name: "Designed" }))).toContain("rounded-ds-control-medium");
   });
 
   it("fields take the radius on their frame, and the size from the provider", () => {

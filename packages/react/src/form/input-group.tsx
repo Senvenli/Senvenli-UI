@@ -62,7 +62,7 @@ export function InputGroup({
       dir={dir}
       data-slot="input-group"
       data-size={size}
-      className={cn(FIELD_FRAME, FIELD_SIZE[size], multiline ? "items-start py-ds-100" : "", radiusClass(frameRadius))}
+      className={cn(FIELD_FRAME, FIELD_SIZE[size], multiline ? "items-start rounded-ds-medium py-ds-100" : "", radiusClass(frameRadius))}
       onMouseDown={(event) => {
         const target = event.target as HTMLElement;
         if (target.closest("input, textarea, select, button, a, label, [role='button'], [role='spinbutton'], [contenteditable], [data-slot='input-action']")) return;

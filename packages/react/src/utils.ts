@@ -33,8 +33,8 @@ const twMerge = extendTailwindMerge({
       h: [{ h: [...CONTROL_HEIGHT_CLASS_GROUPS.h] }],
       "min-h": [{ "min-h": [...CONTROL_HEIGHT_CLASS_GROUPS["min-h"]] }],
       size: [{ size: [...CONTROL_HEIGHT_CLASS_GROUPS.size] }],
-      // The theme's radius steps, so a component's `radius` replaces its designed corner instead of sitting beside it.
-      rounded: [{ rounded: ["ds-xsmall", "ds-small", "ds-medium", "ds-large", "ds-xlarge", "ds-full"] }],
+      // The theme's radius steps (and the control steps a pill theme rounds fully), so a component's `radius` replaces its designed corner instead of sitting beside it.
+      rounded: [{ rounded: ["ds-xsmall", "ds-small", "ds-medium", "ds-large", "ds-xlarge", "ds-full", "ds-control-xsmall", "ds-control-small", "ds-control-medium"] }],
     },
   },
 });

@@ -23,10 +23,11 @@ const themeInputShape = {
   secondary: z.string().optional().describe("A second brand color, same formats."),
   tertiary: z.string().optional().describe("A third brand color, same formats."),
   radius: z.number().min(0).max(2).optional().describe("Base corner radius in rem (default 0.625)."),
+  controlShape: z.enum(["rounded", "pill"]).optional().describe('Single-line controls (buttons, fields, badges, segmented controls) follow the radius ("rounded", default) or are fully round ("pill"); cards keep the radius.'),
   density: z.enum(["compact", "default", "comfortable"]).optional(),
   borderWidth: z.union([z.literal(0), z.literal(1), z.literal(2)]).optional(),
 };
-type ThemeArgs = { preset?: string; primary?: string; secondary?: string; tertiary?: string; radius?: number; density?: ThemeInput["density"]; borderWidth?: ThemeInput["borderWidth"] };
+type ThemeArgs = { preset?: string; primary?: string; secondary?: string; tertiary?: string; radius?: number; controlShape?: ThemeInput["controlShape"]; density?: ThemeInput["density"]; borderWidth?: ThemeInput["borderWidth"] };
 
 /** The engine's input from the tool's arguments, or why it cannot be made (a bad preset code, a color it cannot read). */
 function themeInput(args: ThemeArgs): ThemeInput | string {
@@ -42,7 +43,7 @@ function themeInput(args: ThemeArgs): ThemeInput | string {
     if (!parseColor(value)) return `${key} "${value}" is not a color the engine reads. Use ${COLOR_FORMATS}; names, rgb() and hsl() are not read.`;
     input[key] = value;
   }
-  for (const key of ["radius", "density", "borderWidth"] as const) {
+  for (const key of ["radius", "controlShape", "density", "borderWidth"] as const) {
     if (args[key] !== undefined) (input as Record<string, unknown>)[key] = args[key];
   }
   return input;

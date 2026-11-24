@@ -23,7 +23,7 @@ export type ButtonTone = "neutral" | "danger";
 export type ButtonSize = "small" | "medium" | "large";
 
 export const BUTTON_BASE =
-  "relative inline-flex shrink-0 items-center justify-center gap-ds-075 whitespace-nowrap rounded-ds-medium select-none cursor-pointer " +
+  "relative inline-flex shrink-0 items-center justify-center gap-ds-075 whitespace-nowrap rounded-ds-control-medium select-none cursor-pointer " +
   "transition-colors duration-(--ds-duration-instant) ease-ds-standard " +
   FOCUS_INSET +
   " data-[disabled]:cursor-not-allowed data-[pending]:cursor-wait";
@@ -110,7 +110,7 @@ export const ICON = "size-ds-icon shrink-0";
 export type ToggleSize = "small" | "medium";
 
 export const TOGGLE =
-  "inline-flex shrink-0 items-center justify-center gap-ds-075 whitespace-nowrap rounded-ds-medium border border-ds-border-bold text-ds-text-subtle select-none cursor-pointer outline-hidden " +
+  "inline-flex shrink-0 items-center justify-center gap-ds-075 whitespace-nowrap rounded-ds-control-medium border border-ds-border-bold text-ds-text-subtle select-none cursor-pointer outline-hidden " +
   "transition-colors duration-(--ds-duration-instant) ease-ds-standard" +
   " data-[hovered]:bg-ds-background-neutral-subtle-hovered data-[pressed]:bg-ds-background-neutral-pressed" +
   " data-[selected]:bg-ds-background-selected data-[selected]:border-ds-border-selected data-[selected]:text-ds-text" +

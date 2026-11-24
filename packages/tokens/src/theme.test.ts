@@ -87,6 +87,22 @@ describe("layout", () => {
     expect(l["ds-border-width"]).toBe("1px");
   });
 
+  it("gives single-line controls the plain steps by default and full corners with controlShape pill", () => {
+    const rounded = Object.fromEntries(layoutTokens(createTheme({ radius: 0.8 }).layout));
+    for (const step of ["xsmall", "small", "medium"]) expect(rounded[`ds-radius-control-${step}`]).toBe(rounded[`ds-radius-${step}`]);
+    expect(rounded["ds-radius-control-large"]).toBeUndefined();
+    const pill = Object.fromEntries(layoutTokens(createTheme({ radius: 0.8, controlShape: "pill" }).layout));
+    for (const step of ["xsmall", "small", "medium"]) expect(pill[`ds-radius-control-${step}`]).toBe("9999px");
+    // Cards and panels keep the base radius.
+    expect(pill["ds-radius-large"]).toBe(rounded["ds-radius-large"]);
+    expect(pill["ds-radius-medium"]).toBe(rounded["ds-radius-medium"]);
+  });
+
+  it("drops an unknown controlShape", () => {
+    expect(createTheme({ controlShape: "round" as never }).input.controlShape).toBeUndefined();
+    expect(createTheme({ controlShape: "round" as never }).layout.controlShape).toBe("rounded");
+  });
+
   it("scales spacing and control heights with density, not icons", () => {
     const l = Object.fromEntries(layoutTokens(createTheme({ density: "compact" }).layout));
     expect(l["ds-space-200"]).toBe("14px");
@@ -97,7 +113,7 @@ describe("layout", () => {
 
 describe("outputs", () => {
   it("round-trips a preset code", () => {
-    const input = { primary: "#996a00", radius: 0.5, density: "compact" as const, borderWidth: 2 as const };
+    const input = { primary: "#996a00", radius: 0.5, controlShape: "pill" as const, density: "compact" as const, borderWidth: 2 as const };
     expect(decodePreset(encodePreset(input))).toEqual(input);
     expect(decodePreset("garbage")).toBeNull();
   });
@@ -110,6 +126,8 @@ describe("outputs", () => {
     expect(css).toContain("--color-ds-surface: var(--ds-surface);");
     expect(css).toContain("--spacing-ds-200: var(--ds-space-200);");
     expect(css).toContain("--radius-ds-medium: var(--ds-radius-medium);");
+    // A control radius falls back to its plain step when an older theme.css does not define it.
+    expect(css).toContain("--radius-ds-control-medium: var(--ds-radius-control-medium, var(--ds-radius-medium));");
     expect(css).toMatch(/--ds-border: oklch\([^)]* \/ 0\.08\);/);
   });
 

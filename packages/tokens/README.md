@@ -1,6 +1,6 @@
 # @senvenli/tokens
 
-The Senvenli UI theme engine. A few optional inputs (up to three brand colors, radius, density, border width) become
+The Senvenli UI theme engine. A few optional inputs (up to three brand colors, radius, control shape, density, border width) become
 a full token set for light and dark, with every text and border pair checked against WCAG AA.
 
 ```ts

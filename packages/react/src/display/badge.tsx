@@ -124,7 +124,7 @@ function StatusBadge({ children, tone = "neutral", variant = "subtle", hasDot, i
       data-tone={tone}
       data-variant={variant}
       className={cn(
-        "inline-flex h-5 shrink-0 items-center gap-ds-050 rounded-ds-xsmall px-ds-075 text-body-small font-medium whitespace-nowrap",
+        "inline-flex h-5 shrink-0 items-center gap-ds-050 rounded-ds-control-xsmall px-ds-075 text-body-small font-medium whitespace-nowrap",
         variant === "bold" ? BOLD[tone] : SUBTLE[tone],
         radiusClass(radius),
       )}

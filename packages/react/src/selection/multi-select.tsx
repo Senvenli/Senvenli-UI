@@ -69,7 +69,7 @@ export type MultiSelectProps = SelectLabelProps & {
 
 /** 24px tag on `ds-radius-small`. */
 export const TAG =
-  "inline-flex h-6 max-w-full items-center gap-ds-050 rounded-ds-small bg-ds-background-neutral ps-ds-100 pe-ds-075 text-body-small text-ds-text";
+  "inline-flex h-6 max-w-full items-center gap-ds-050 rounded-ds-control-small bg-ds-background-neutral ps-ds-100 pe-ds-075 text-body-small text-ds-text";
 export const TAG_REMOVE =
   "grid size-4 shrink-0 cursor-pointer place-items-center rounded-ds-xsmall text-ds-icon-subtle outline-hidden " +
   "data-[hovered]:bg-ds-background-neutral-pressed data-[focus-visible]:inset-ring-2 data-[focus-visible]:inset-ring-ds-border-focused";
