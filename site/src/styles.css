@@ -95,6 +95,8 @@ html[data-preset-pending] .preview {
   background: var(--ds-surface-sunken);
   border-radius: var(--radius-ds-small, 4px);
   padding: 0.1em 0.35em;
+  /* A long path or call breaks rather than pushing a phone's page sideways. */
+  overflow-wrap: anywhere;
 }
 .doc-prose table { width: 100%; border-collapse: collapse; margin: 0 0 var(--spacing-ds-300, 24px); font-size: var(--text-body); line-height: var(--text-body--line-height); }
 .doc-prose th { text-align: start; font-weight: 500; color: var(--ds-text-subtle); padding: var(--spacing-ds-100, 8px) var(--spacing-ds-300, 24px) var(--spacing-ds-100, 8px) 0; }
@@ -157,6 +159,32 @@ html[data-preset-pending] .preview {
 }
 :root:is([data-ds-motion="reduce"], [data-ds-motion="none"]) .home-ambient::after {
   display: none;
+}
+
+/*
+ * The bento's calendar has a fixed width (about 284px). Its cell is a size container, so the calendar is scaled to the
+ * cell's own width, wherever the bento sits (a phone, the landing's third column, the builder's narrower preview).
+ */
+.home-fit-cell {
+  container-type: inline-size;
+}
+.home-fit-calendar {
+  zoom: 1;
+}
+@container (max-width: 290px) {
+  .home-fit-calendar {
+    zoom: 0.9;
+  }
+}
+@container (max-width: 262px) {
+  .home-fit-calendar {
+    zoom: 0.82;
+  }
+}
+@container (max-width: 236px) {
+  .home-fit-calendar {
+    zoom: 0.74;
+  }
 }
 
 /* A fixed-width component (the calendar) on the narrowest phones: scaled to fit its cell instead of being cut off. */
@@ -392,5 +420,16 @@ html[data-preset-pending] .preview {
   letter-spacing: 0.3em;
   margin-inline-end: -0.3em;
   line-height: 1;
+  white-space: nowrap;
+}
+
+/*
+ * The navbar between 768 and ~820px: the wordmark keeps its width (the brand link would shrink under it and overlap
+ * "Docs") and a link label never breaks onto two lines; the search box narrows instead (SiteSearch).
+ */
+[data-slot="navbar"] [data-slot="navbar-brand"] {
+  flex-shrink: 0;
+}
+[data-slot="navbar"] [data-slot="navbar-links"] a {
   white-space: nowrap;
 }

@@ -28,8 +28,11 @@ function Cell({ children, className = "" }: { children: React.ReactNode; classNa
  */
 export function Bento() {
   return (
-    <div data-slot="home-bento" className="grid items-stretch gap-ds-200 md:grid-cols-2 lg:grid-cols-12">
-      <Cell className="md:col-span-2 lg:col-span-8">
+    // Laid out by its own width, not the viewport's: on the landing it spans the page, in the builder it shares the
+    // row with the controls, so the twelve-column layout waits until there is room for it (56rem).
+    <div className="@container">
+    <div data-slot="home-bento" className="grid items-stretch gap-ds-200 @2xl:grid-cols-2 @4xl:grid-cols-12">
+      <Cell className="@2xl:col-span-2 @4xl:col-span-8">
         <AreaChart
           title="Revenue"
           period="Jan–Dec 2026"
@@ -41,7 +44,7 @@ export function Bento() {
           height={220}
         />
       </Cell>
-      <Cell className="gap-ds-200 lg:col-span-4">
+      <Cell className="gap-ds-200 @4xl:col-span-4">
         <Input label="Workspace name" defaultValue="Acme" />
         <Input label="Billing email" type="email" defaultValue="ada@example.com" />
         <Select
@@ -59,13 +62,13 @@ export function Bento() {
           <Button>Cancel</Button>
         </div>
       </Cell>
-      <Cell className="items-center justify-center lg:col-span-4">
-        {/* A calendar has a fixed width; on the narrowest phones it is scaled to fit rather than cut. */}
-        <div className="home-fit">
+      <Cell className="home-fit-cell items-center justify-center @4xl:col-span-4">
+        {/* A calendar has a fixed width; in a narrow cell it is scaled to fit rather than cut (styles.css). */}
+        <div className="home-fit-calendar">
           <Calendar aria-label="Delivery day" defaultValue={new CalendarDate(2026, 3, 18)} />
         </div>
       </Cell>
-      <div className="flex min-w-0 flex-col gap-ds-200 lg:col-span-4">
+      <div className="flex min-w-0 flex-col gap-ds-200 @4xl:col-span-4">
         <StatGroup aria-label="This month">
           <Stat label="Orders" value="1,204" delta={{ value: "12%", direction: "up", isPositive: true }} comparison="vs. February" />
           <Stat label="Refunds" value="18" delta={{ value: "3%", direction: "down", isPositive: true }} comparison="vs. February" />
@@ -74,7 +77,7 @@ export function Bento() {
           <BarList aria-label="Orders by channel" data={CHANNELS} />
         </Cell>
       </div>
-      <Cell className="gap-ds-300 lg:col-span-4">
+      <Cell className="gap-ds-300 @4xl:col-span-4">
         <div className="flex flex-wrap gap-ds-100">
           <Badge tone="success">Paid</Badge>
           <Badge tone="warning">Pending</Badge>
@@ -88,6 +91,7 @@ export function Bento() {
         <Slider label="Monthly budget" defaultValue={60} />
         <ProgressBar label="Storage used" value={72} />
       </Cell>
+    </div>
     </div>
   );
 }

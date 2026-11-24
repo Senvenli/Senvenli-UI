@@ -81,7 +81,7 @@ function Block({ code, html, label, copyLabel = "Copy code", bare = false, heade
             <CopyButton text={code} label={copyLabel} iconOnly />
           </div>
         )}
-        <div className={cn(!label && !header && !bare && "pe-ds-500", long && !expanded && "max-h-90 overflow-hidden")}>{body}</div>
+        <div className={cn(!label && !header && !bare && "pe-ds-600", long && !expanded && "max-h-90 overflow-hidden")}>{body}</div>
       </div>
       {long && (
         <div className="flex justify-center py-ds-075">

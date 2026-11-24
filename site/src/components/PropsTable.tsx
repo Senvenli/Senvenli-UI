@@ -7,12 +7,14 @@ const code = "font-ds-mono text-code";
 
 /**
  * Props as a table from 640px (Prop, Type, Default, Description at 14px), and as one stacked block per prop below it,
- * so a phone never scrolls sideways through a type.
+ * so a phone never scrolls sideways through a type. Code in the type and description cells may break anywhere, and a
+ * prop name longer than its column scrolls inside the table, never the page.
  */
 function Rows({ props }: { props: ManifestProp[] }) {
   return (
     <>
-      <table className="hidden w-full border-collapse text-start text-body sm:table">
+      <div className="hidden overflow-x-auto sm:block">
+      <table className="w-full border-collapse text-start text-body">
         <thead>
           <tr className="text-ds-text-subtle">
             <th scope="col" className="py-ds-100 pe-ds-300 text-start font-medium">Prop</th>
@@ -31,16 +33,17 @@ function Rows({ props }: { props: ManifestProp[] }) {
                 </span>
               </th>
               <td className="max-w-60 py-ds-150 pe-ds-300">
-                <code className={`${code} break-words text-ds-text-subtle`}>{prop.type}</code>
+                <code className={`${code} [overflow-wrap:anywhere] text-ds-text-subtle`}>{prop.type}</code>
               </td>
               <td className="py-ds-150 pe-ds-300">
                 {prop.default !== undefined ? <code className={`${code} text-ds-text-subtle`}>{prop.default}</code> : <span className="text-ds-text-subtlest">–</span>}
               </td>
-              <td className="py-ds-150 text-ds-text">{prop.description && <DocText text={prop.description} />}</td>
+              <td className="py-ds-150 text-ds-text [&_code]:[overflow-wrap:anywhere]">{prop.description && <DocText text={prop.description} />}</td>
             </tr>
           ))}
         </tbody>
       </table>
+      </div>
       <dl className="m-0 flex flex-col sm:hidden">
         {props.map((prop) => (
           <div key={prop.name} className="flex flex-col gap-ds-075 border-t border-ds-border py-ds-200">
@@ -49,7 +52,7 @@ function Rows({ props }: { props: ManifestProp[] }) {
               {prop.required && <Badge>Required</Badge>}
             </dt>
             <dd className="m-0 flex flex-col gap-ds-075 text-body">
-              <code className={`${code} break-words text-ds-text-subtle`}>{prop.type}</code>
+              <code className={`${code} [overflow-wrap:anywhere] text-ds-text-subtle`}>{prop.type}</code>
               {prop.default !== undefined && (
                 <span className="text-ds-text-subtle">
                   Default <code className={code}>{prop.default}</code>

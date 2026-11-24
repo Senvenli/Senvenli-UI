@@ -2,7 +2,7 @@ import { Button } from "@senvenli/react/action";
 import { Icon, Kbd } from "@senvenli/react/display";
 import { Pressable } from "@senvenli/react/action";
 import { Command, type CommandGroup, type CommandItem } from "@senvenli/react/overlay";
-import { useEffect, useMemo, useState } from "react";
+import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
 import type { ManifestIndexEntry } from "../lib/manifest";
 
 const RECENT_KEY = "ds-site-recent";
@@ -15,11 +15,18 @@ function readRecent(): CommandItem[] {
   }
 }
 
+/** Opens the one search dialog, from any trigger; null outside SiteSearch (no search on the page). */
+const SearchContext = createContext<{ open: () => void; mac: boolean } | null>(null);
+
 /**
  * ⌘K search over the whole site: every component (found by title, family and description words), the docs and the
  * builder. The library's Command does the matching; the last five picks show while the query is empty.
+ *
+ * It wraps the whole shell and renders the one Command (and its one ⌘K handler) outside the navbar: the navbar's
+ * actions also render inside the phone menu panel, which unmounts as it closes, and the dialog would close with it.
+ * Triggers (SearchTrigger) only open it.
  */
-export function SiteSearch({ components, docs = [], onNavigate }: { components: ManifestIndexEntry[]; docs?: { slug: string; title: string; description: string }[]; onNavigate: (href: string) => void }) {
+export function SiteSearch({ components, docs = [], onNavigate, children }: { components: ManifestIndexEntry[]; docs?: { slug: string; title: string; description: string }[]; onNavigate: (href: string) => void; children: ReactNode }) {
   const [open, setOpen] = useState(false);
   const [recent, setRecent] = useState<CommandItem[]>([]);
   const [mac, setMac] = useState(true);
@@ -78,24 +85,40 @@ export function SiteSearch({ components, docs = [], onNavigate }: { components: 
     else onNavigate(item.id);
   };
 
+  const context = useMemo(() => ({ open: () => setOpen(true), mac }), [mac]);
+  return (
+    <SearchContext.Provider value={context}>
+      {children}
+      <Command isOpen={open} onOpenChange={setOpen} groups={groups} recent={recent} onSelect={select} shortcut />
+    </SearchContext.Provider>
+  );
+}
+
+/**
+ * The search box in the navbar: a field-like trigger from 768px (narrower until 1024px, so the links keep one line),
+ * a labelled row in the phone menu. Renders nothing without SiteSearch around it.
+ */
+export function SearchTrigger() {
+  const search = useContext(SearchContext);
+  if (!search) return null;
   return (
     <>
-      {/* A field-like trigger, as wide as a search box and filled so it reads as one; an icon button on phones. */}
-      <div className="hidden w-64 md:block">
-        <Pressable background="neutral" radius="medium" paddingInline="space-150" onPress={() => setOpen(true)} aria-keyshortcuts={mac ? "Meta+K" : "Control+K"}>
+      <div className="hidden md:block md:w-44 lg:w-64">
+        <Pressable background="neutral" radius="medium" paddingInline="space-150" onPress={search.open} aria-keyshortcuts={search.mac ? "Meta+K" : "Control+K"}>
           <span className="flex h-8 items-center gap-ds-100 text-body text-ds-text-subtle">
             <Icon name="search" size="small" color="subtle" />
             <span className="flex-1 truncate">Search documentation…</span>
-            <span aria-hidden>
-              <Kbd>{mac ? "⌘K" : "Ctrl K"}</Kbd>
+            <span aria-hidden className="hidden lg:inline">
+              <Kbd>{search.mac ? "⌘K" : "Ctrl K"}</Kbd>
             </span>
           </span>
         </Pressable>
       </div>
       <span className="md:hidden">
-        <Button variant="subtle" iconOnly iconBefore="search" aria-label="Search" onPress={() => setOpen(true)} />
+        <Button variant="subtle" iconBefore="search" fullWidth onPress={search.open}>
+          Search
+        </Button>
       </span>
-      <Command isOpen={open} onOpenChange={setOpen} groups={groups} recent={recent} onSelect={select} shortcut />
     </>
   );
 }
