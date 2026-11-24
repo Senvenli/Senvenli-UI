@@ -362,7 +362,8 @@ export type ColorSwatchPickerProps = {
   label: React.ReactNode;
   /** The preset colors; check them with checkBrandColor so that only a custom color can fail. */
   items: readonly ColorSwatchItem[];
-  value?: string;
+  /** The chosen color, controlled. `null` or `""`: none chosen, so no swatch shows a check (a theme with no brand color). */
+  value?: string | null;
   defaultValue?: string;
   onChange?: (value: string) => void;
   /** Ends with a button that opens ColorPicker for a custom color. */
@@ -391,7 +392,8 @@ export function ColorSwatchPicker({ label, items, value, defaultValue, onChange,
   const { locale } = useLocale();
   const labelId = React.useId();
   const [own, setOwn] = React.useState<string | undefined>(defaultValue);
-  const current = (value !== undefined ? value : own)?.toUpperCase();
+  // "" and null are "nothing chosen", in both modes: never passed on as a color React Aria cannot read.
+  const current = (value !== undefined ? value : own)?.toUpperCase() || undefined;
   const same = (a: string, b: string | undefined) => !!b && tryParse(a)?.toString("hex") === tryParse(b)?.toString("hex");
   const selected = items.find((item) => same(item.value, current));
   const choose = (hex: string) => {

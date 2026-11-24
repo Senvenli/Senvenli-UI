@@ -142,9 +142,6 @@ export function HomePage({ data }: { data: HomeData }) {
   const allPass = passing === theme.checks.length;
   const applied = useRef(false);
   const count = useRef<HTMLSpanElement>(null);
-  // The swatch picker keeps the last color it was given when its value goes back to none, so going back to a theme
-  // with no brand color starts it afresh: nothing stays checked that is not the page's color.
-  const [cleared, setCleared] = useState(0);
 
   useLayoutEffect(() => {
     const stored = readStoredPreset();
@@ -234,7 +231,6 @@ export function HomePage({ data }: { data: HomeData }) {
                   onSelectionChange={(keys) => {
                     const preset = PRESETS.find((item) => keys.has(item.id));
                     if (!preset) return;
-                    if (!preset.input.primary) setCleared((times) => times + 1);
                     setInput(preset.input);
                   }}
                 >
@@ -248,12 +244,12 @@ export function HomePage({ data }: { data: HomeData }) {
                 </ToggleGroup>
               </Group>
               <ColorSwatchPicker
-                key={cleared}
                 label="Brand color"
                 items={COLORS}
                 allowsCustom
                 description="Any color works: use the plus"
-                value={input.primary}
+                // null, not undefined: no brand color means no swatch checked, and the picker stays controlled.
+                value={input.primary ?? null}
                 onChange={(value) => setInput((prev) => tidy({ primary: value.toLowerCase(), radius: prev.radius, density: prev.density }))}
               />
               <Group label="Corners">
