@@ -19,6 +19,11 @@ export type Role = (typeof ROLES)[number];
 
 export type Density = "compact" | "default" | "comfortable";
 export type BorderWidth = 0 | 1 | 2;
+/**
+ * The corners of single-line controls (buttons, fields, badges, segmented controls, pill tabs, toggles):
+ * `rounded` follows the base `radius`, `pill` makes them fully round while cards and panels keep the base.
+ */
+export type ControlShape = "rounded" | "pill";
 export type Mode = "light" | "dark";
 
 /**
@@ -35,6 +40,8 @@ export interface ThemeInput {
   info?: string;
   /** Base corner radius in rem (the "medium" radius). Default 0.625. */
   radius?: number;
+  /** Single-line controls follow `radius` (`rounded`, the default) or are fully round (`pill`). */
+  controlShape?: ControlShape;
   density?: Density;
   borderWidth?: BorderWidth;
   fontSans?: string;
@@ -54,6 +61,7 @@ export interface ContrastCheck {
 
 export interface Layout {
   radius: number;
+  controlShape: ControlShape;
   density: Density;
   spacingScale: number;
   borderWidth: BorderWidth;
@@ -130,6 +138,7 @@ const CHARTS: Record<Mode, OKLCH[]> = {
 
 export const DEFAULT_LAYOUT: Layout = {
   radius: 0.625,
+  controlShape: "rounded",
   density: "default",
   spacingScale: 1,
   borderWidth: 1,
@@ -392,6 +401,7 @@ export function normalizeInput(input: ThemeInput = {}): { input: ThemeInput; col
     }
   }
   if (typeof input.radius === "number" && Number.isFinite(input.radius)) clean.radius = clamp(input.radius, 0, 2);
+  if (input.controlShape === "rounded" || input.controlShape === "pill") clean.controlShape = input.controlShape;
   if (input.density && input.density in DENSITY_SCALE) clean.density = input.density;
   if (input.borderWidth === 0 || input.borderWidth === 1 || input.borderWidth === 2) clean.borderWidth = input.borderWidth;
   if (input.fontSans?.trim()) clean.fontSans = input.fontSans.trim();
@@ -408,6 +418,7 @@ export function createTheme(raw: ThemeInput = {}): Theme {
   const density = input.density ?? DEFAULT_LAYOUT.density;
   const layout: Layout = {
     radius: input.radius ?? DEFAULT_LAYOUT.radius,
+    controlShape: input.controlShape ?? DEFAULT_LAYOUT.controlShape,
     density,
     spacingScale: DENSITY_SCALE[density],
     borderWidth: input.borderWidth ?? DEFAULT_LAYOUT.borderWidth,

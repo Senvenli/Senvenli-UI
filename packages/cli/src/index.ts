@@ -8,6 +8,7 @@ const USAGE = `Usage: npx @senvenli/cli theme [preset-code] [options]
 Options:
   --primary, --secondary, --tertiary <color>   Brand colors (#hex or oklch()); all optional
   --radius <rem>                               Base radius, e.g. 0.5
+  --control-shape <rounded|pill>               Single-line controls follow the radius, or are fully round
   --density <compact|default|comfortable>
   --border-width <0|1|2>
   --out <file>                                 Default: theme.css (or theme.ts with --native)
@@ -23,6 +24,7 @@ function main(argv: string[]): number {
       secondary: { type: "string" },
       tertiary: { type: "string" },
       radius: { type: "string" },
+      "control-shape": { type: "string" },
       density: { type: "string" },
       "border-width": { type: "string" },
       out: { type: "string" },
@@ -49,6 +51,7 @@ function main(argv: string[]): number {
     if (values[role]) input[role] = values[role];
   }
   if (values.radius) input.radius = Number(values.radius);
+  if (values["control-shape"]) input.controlShape = values["control-shape"] as ThemeInput["controlShape"];
   if (values.density) input.density = values.density as ThemeInput["density"];
   if (values["border-width"]) input.borderWidth = Number(values["border-width"]) as ThemeInput["borderWidth"];
 

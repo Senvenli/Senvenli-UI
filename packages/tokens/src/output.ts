@@ -40,6 +40,9 @@ const RADIUS: Array<[string, number]> = [
   ["xlarge", 2],
 ];
 
+/** The radius steps single-line controls use; each has a `ds-radius-control-*` twin. */
+const CONTROL_STEPS = ["xsmall", "small", "medium"];
+
 const px = (n: number) => `${Math.round(n * 2) / 2}px`;
 const rem = (n: number) => `${Number(n.toFixed(4))}rem`;
 
@@ -50,6 +53,10 @@ export function layoutTokens(layout: Layout): Array<[string, string]> {
   for (const [name, value, scales] of SIZE) out.push([`ds-size-${name}`, px(scales ? value * layout.spacingScale : value)]);
   for (const [name, factor] of RADIUS) out.push([`ds-radius-${name}`, rem(layout.radius * factor)]);
   out.push(["ds-radius-full", "9999px"]);
+  // Single-line controls: the same step as above, or fully round with `controlShape: "pill"`.
+  for (const [name, factor] of RADIUS.filter(([step]) => CONTROL_STEPS.includes(step))) {
+    out.push([`ds-radius-control-${name}`, layout.controlShape === "pill" ? "9999px" : rem(layout.radius * factor)]);
+  }
   out.push(["ds-border-width", `${layout.borderWidth}px`]);
   return out;
 }
@@ -81,6 +88,8 @@ export function toCSS(theme: Theme, options: CssOptions = {}): string {
     for (const [name] of layoutTokens(theme.layout)) {
       if (name.startsWith("ds-space-")) lines.push(`  --spacing-ds-${name.slice(9)}: var(--${name});`);
       else if (name.startsWith("ds-size-")) lines.push(`  --spacing-ds-${name.slice(8)}: var(--${name});`);
+      // A control radius falls back to its plain step, so a theme.css generated before control radii keeps its corners.
+      else if (name.startsWith("ds-radius-control-")) lines.push(`  --radius-ds-${name.slice(10)}: var(--${name}, var(--ds-radius-${name.slice(18)}));`);
       else if (name.startsWith("ds-radius-")) lines.push(`  --radius-ds-${name.slice(10)}: var(--${name});`);
     }
     lines.push("  --font-ds-sans: var(--font-sans);", "  --font-ds-mono: var(--font-mono);");

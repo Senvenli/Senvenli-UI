@@ -76,8 +76,8 @@ export type TabPanelProps = {
 
 /** The selected tab's 2px underline (never colour alone); React Aria slides it to the next tab (no slide under reduced motion). */
 const SLIDE = "transition-[translate,width,height] duration-(--ds-duration-medium) ease-ds-standard motion-reduce:transition-none";
-const FILL = "absolute inset-0 -z-10 rounded-ds-medium bg-ds-background-neutral";
-const FRAME = "absolute inset-0 -z-10 rounded-ds-medium inset-ring-1 inset-ring-ds-border-bold";
+const FILL = "absolute inset-0 -z-10 rounded-ds-control-medium bg-ds-background-neutral";
+const FRAME = "absolute inset-0 -z-10 rounded-ds-control-medium inset-ring-1 inset-ring-ds-border-bold";
 
 /** The selected mark, which React Aria slides to the next tab: a line, a fill or a frame (never colour alone). */
 const TAB_INDICATOR: Record<TabsVariant, Record<TabsOrientation, string>> = {
@@ -152,7 +152,7 @@ export function TabList({ children, "aria-label": label, "aria-labelledby": labe
 /** One tab: its label, an optional count, and the sliding underline when selected. */
 export function Tab({ id, children, count, isDisabled }: TabProps) {
   const look = React.useContext(TabsLook);
-  const boxed = look.variant !== "underline" && cn("rounded-ds-medium", TAB_BOXED[look.size]);
+  const boxed = look.variant !== "underline" && cn("rounded-ds-control-medium", TAB_BOXED[look.size]);
   return (
     <AriaTab
       id={id}
@@ -245,11 +245,11 @@ export type SegmentedControlProps = {
 
 /** The selected segment's lifted surface (surface and shadow, not only colour); it slides to the next segment. */
 const SEGMENT_INDICATOR =
-  "absolute inset-0 -z-10 rounded-ds-small bg-ds-background-segment-selected shadow-ds-raised " +
+  "absolute inset-0 -z-10 rounded-ds-control-small bg-ds-background-segment-selected shadow-ds-raised " +
   "transition-[translate,width] duration-(--ds-duration-medium) ease-ds-standard motion-reduce:transition-none";
 
 const SEGMENT =
-  "inline-flex h-7 cursor-default items-center rounded-ds-small px-ds-150 text-body font-[500] whitespace-nowrap text-ds-text-subtle outline-hidden " +
+  "inline-flex h-7 cursor-default items-center rounded-ds-control-small px-ds-150 text-body font-[500] whitespace-nowrap text-ds-text-subtle outline-hidden " +
   "transition-[background-color,color,box-shadow] duration-(--ds-duration-fast) motion-reduce:transition-none " +
   "data-[hovered]:text-ds-text " +
   "relative isolate data-[selected]:text-ds-text " +
@@ -276,7 +276,7 @@ export function SegmentedControl({ label, items, value, defaultValue, onChange, 
       }}
       isDisabled={isDisabled}
       data-slot="segmented-control"
-      className={cn("inline-flex w-fit max-w-full self-start gap-0.5 overflow-x-auto rounded-ds-medium bg-ds-background-neutral p-0.5", "[scrollbar-width:none] [&::-webkit-scrollbar]:hidden")}
+      className={cn("inline-flex w-fit max-w-full self-start gap-0.5 overflow-x-auto rounded-ds-control-medium bg-ds-background-neutral p-0.5", "[scrollbar-width:none] [&::-webkit-scrollbar]:hidden")}
     >
       {items.map((item) => (
         <AriaToggleButton key={item.id} id={item.id} data-slot="segment" className={SEGMENT}>

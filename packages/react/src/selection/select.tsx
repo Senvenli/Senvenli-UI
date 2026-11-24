@@ -25,7 +25,7 @@ import { SelectPopover, type SelectItem } from "./listbox";
  * same in `ds-border-danger`.
  */
 export const SELECT_TRIGGER =
-  "relative flex w-full cursor-pointer items-center gap-ds-075 rounded-ds-medium border border-ds-border-bold bg-ds-background-input text-start text-body text-ds-text outline-hidden " +
+  "relative flex w-full cursor-pointer items-center gap-ds-075 rounded-ds-control-medium border border-ds-border-bold bg-ds-background-input text-start text-body text-ds-text outline-hidden " +
   "transition-colors duration-(--ds-duration-instant) ease-ds-standard " +
   "data-[hovered]:bg-ds-background-input-hovered " +
   "data-[focus-visible]:border-ds-border-focused data-[focus-visible]:outline-1 data-[focus-visible]:outline-solid data-[focus-visible]:-outline-offset-2 data-[focus-visible]:outline-ds-border-focused " +

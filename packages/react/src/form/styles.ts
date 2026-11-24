@@ -10,7 +10,7 @@
  * while the field is focused, so the error never disappears under the caret.
  */
 export const FIELD_FRAME =
-  "relative flex w-full items-center gap-ds-075 rounded-ds-medium border border-ds-border-bold bg-ds-background-input text-ds-text outline-hidden " +
+  "relative flex w-full items-center gap-ds-075 rounded-ds-control-medium border border-ds-border-bold bg-ds-background-input text-ds-text outline-hidden " +
   "transition-colors duration-(--ds-duration-instant) ease-ds-standard " +
   "data-[hovered]:bg-ds-background-input-hovered " +
   "data-[focus-within]:border-ds-border-focused data-[focus-within]:outline-1 data-[focus-within]:outline-solid data-[focus-within]:-outline-offset-2 data-[focus-within]:outline-ds-border-focused " +

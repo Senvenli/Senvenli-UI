@@ -27,6 +27,9 @@
   --ds-radius-large: 1rem;
   --ds-radius-xlarge: 1.25rem;
   --ds-radius-full: 9999px;
+  --ds-radius-control-xsmall: 0.125rem;
+  --ds-radius-control-small: 0.25rem;
+  --ds-radius-control-medium: 0.625rem;
   --ds-border-width: 1px;
   --font-sans: "Geist", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "Geist Mono", ui-monospace, SFMono-Regular, monospace;
@@ -346,6 +349,9 @@
   --radius-ds-large: var(--ds-radius-large);
   --radius-ds-xlarge: var(--ds-radius-xlarge);
   --radius-ds-full: var(--ds-radius-full);
+  --radius-ds-control-xsmall: var(--ds-radius-control-xsmall, var(--ds-radius-xsmall));
+  --radius-ds-control-small: var(--ds-radius-control-small, var(--ds-radius-small));
+  --radius-ds-control-medium: var(--ds-radius-control-medium, var(--ds-radius-medium));
   --font-ds-sans: var(--font-sans);
   --font-ds-mono: var(--font-mono);
 }
