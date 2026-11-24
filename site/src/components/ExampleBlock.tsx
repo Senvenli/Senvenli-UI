@@ -34,7 +34,7 @@ export function ExampleBlock({ slug, family, example, isHero = false }: { slug: 
         <div
           data-slot="example-stage"
           className={cn(
-            "flex min-h-40 overflow-x-auto rounded-ds-large bg-ds-surface-raised p-ds-250 sm:p-ds-500",
+            "flex min-h-40 overflow-x-auto rounded-[max(0px,calc(var(--ds-radius-xlarge)-var(--ds-space-100)))] bg-ds-surface-raised p-ds-250 sm:p-ds-500",
             stretch ? "items-center" : "items-center justify-center",
           )}
         >

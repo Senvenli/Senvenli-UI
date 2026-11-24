@@ -41,7 +41,7 @@ export function pageWindow(page: number, pages: number): (number | "gap")[] {
 }
 
 const PAGE =
-  "grid h-8 min-w-8 cursor-default place-items-center rounded-ds-medium px-ds-075 text-body tabular-nums text-ds-text outline-hidden " +
+  "grid h-8 min-w-8 cursor-default place-items-center rounded-ds-control-medium px-ds-075 text-body tabular-nums text-ds-text outline-hidden " +
   "data-[hovered]:bg-ds-background-neutral-subtle-hovered data-[pressed]:bg-ds-background-neutral-pressed " +
   "data-[focus-visible]:inset-ring-2 data-[focus-visible]:inset-ring-ds-border-focused " +
   // The current page: a soft neutral fill, the full text color and weight (not colour alone); no rim.

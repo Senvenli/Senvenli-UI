@@ -146,7 +146,7 @@ export function LanguageSwitcher<Locale extends string>({
         data-slot="language-switcher-popover"
         placement={sidebar ? "top start" : "bottom end"}
         offset={4}
-        className="flex min-w-44 flex-col overflow-hidden rounded-ds-large bg-ds-surface-overlay p-ds-050 text-ds-text shadow-ds-overlay outline-hidden"
+        className="flex min-w-44 flex-col overflow-hidden rounded-ds-large [--ds-surface-radius:var(--ds-radius-large)] bg-ds-surface-overlay p-ds-050 text-ds-text shadow-ds-overlay outline-hidden"
       >
         <ListBox data-slot="language-switcher-list" className={LISTBOX}>
           {options.map((option) => (

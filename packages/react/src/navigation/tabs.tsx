@@ -243,13 +243,16 @@ export type SegmentedControlProps = {
   isDisabled?: boolean;
 };
 
-/** The selected segment's lifted surface (surface and shadow, not only colour); it slides to the next segment. */
+/**
+ * The selected segment's lifted surface (surface and shadow, not only colour); it slides to the next segment. Segments
+ * sit in the 2px-padded track, so their corner is the track's minus that padding: concentric at every radius.
+ */
 const SEGMENT_INDICATOR =
-  "absolute inset-0 -z-10 rounded-ds-control-small bg-ds-background-segment-selected shadow-ds-raised " +
+  "absolute inset-0 -z-10 rounded-[max(0px,calc(var(--ds-radius-control-medium,var(--ds-radius-medium))-2px))] bg-ds-background-segment-selected shadow-ds-raised " +
   "transition-[translate,width] duration-(--ds-duration-medium) ease-ds-standard motion-reduce:transition-none";
 
 const SEGMENT =
-  "inline-flex h-7 cursor-default items-center rounded-ds-control-small px-ds-150 text-body font-[500] whitespace-nowrap text-ds-text-subtle outline-hidden " +
+  "inline-flex h-7 cursor-default items-center rounded-[max(0px,calc(var(--ds-radius-control-medium,var(--ds-radius-medium))-2px))] px-ds-150 text-body font-[500] whitespace-nowrap text-ds-text-subtle outline-hidden " +
   "transition-[background-color,color,box-shadow] duration-(--ds-duration-fast) motion-reduce:transition-none " +
   "data-[hovered]:text-ds-text " +
   "relative isolate data-[selected]:text-ds-text " +

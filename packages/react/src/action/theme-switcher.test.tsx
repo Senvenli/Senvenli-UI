@@ -286,9 +286,10 @@ describe("ThemeSwitcher", () => {
   it("has the design's look: neutral track, raised selected segment, inner focus border", () => {
     inProvider(<ThemeSwitcher />);
     const group = screen.getByRole("radiogroup");
-    expect(classesOf(group).split(/\s+/)).toEqual(expect.arrayContaining(["bg-ds-background-neutral", "rounded-ds-medium"]));
+    expect(classesOf(group).split(/\s+/)).toEqual(expect.arrayContaining(["bg-ds-background-neutral", "rounded-ds-control-medium"]));
+    // Options are concentric with the 2px-padded track at every radius, pill included.
     expect(classesOf(radio(DS_STRINGS.themeSystem.en)).split(/\s+/)).toEqual(
-      expect.arrayContaining(["size-7", "data-[selected]:bg-ds-background-segment-selected", "data-[selected]:shadow-ds-raised", "data-[focus-visible]:inset-ring-2"]),
+      expect.arrayContaining(["rounded-[max(0px,calc(var(--ds-radius-control-medium,var(--ds-radius-medium))-2px))]", "size-7", "data-[selected]:bg-ds-background-segment-selected", "data-[selected]:shadow-ds-raised", "data-[focus-visible]:inset-ring-2"]),
     );
   });
 

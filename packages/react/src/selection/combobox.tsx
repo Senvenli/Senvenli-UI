@@ -20,7 +20,7 @@ import {
 } from "react-aria-components";
 
 import { cn } from "../utils";
-import { ComponentDefaultsProvider, radiusClass, splitRadius, useFieldSize, useRadius, type WithRadius } from "../defaults";
+import { ComponentDefaultsProvider, fieldRadiusClass, splitRadius, useFieldSize, useRadius, type WithRadius } from "../defaults";
 import { IconGlyph } from "../display/icon";
 import { ControlFieldError, FieldDescription, FieldLabel, forwardedInvalid, useErrorRowLink, useFieldName } from "../form/field-parts";
 import { FIELD_FRAME, FIELD_ICON, FIELD_SIZE, FIELD_STACK, INLINE_ACTION, INPUT, type FieldSize } from "../form/styles";
@@ -652,7 +652,7 @@ function SingleComboBox({
         <>
           <StateBridge into={state} />
           {showLabel && <FieldLabel isRequired={rest.isRequired}>{label}</FieldLabel>}
-          <Group data-slot="combobox-field" isInvalid={isInvalid || forwarded.invalid} isDisabled={isDisabled} className={cn(FIELD_FRAME, FIELD_SIZE[size], "pe-ds-050", radiusClass(frameRadius))}>
+          <Group data-slot="combobox-field" isInvalid={isInvalid || forwarded.invalid} isDisabled={isDisabled} className={cn(FIELD_FRAME, FIELD_SIZE[size], "pe-ds-050", fieldRadiusClass(frameRadius))}>
             {/* The chosen item's mark while the field shows its label; typing other text hides it.
                 A press on it focuses the input, as a press on the label text would; dimmed with the field when disabled. */}
             {current && hasContent(current.icon) && input === current.label && (
@@ -803,7 +803,7 @@ function MultipleComboBox({
             data-slot="combobox-field"
             isInvalid={isInvalid || forwarded.invalid}
             isDisabled={isDisabled}
-            className={cn(FIELD_FRAME, FIELD_SIZE[size], "flex-wrap gap-ds-050 py-[3px] pe-ds-050", radiusClass(frameRadius))}
+            className={cn(FIELD_FRAME, FIELD_SIZE[size], "flex-wrap gap-ds-050 py-[3px] pe-ds-050", fieldRadiusClass(frameRadius))}
           >
             {chosen.map((item) => (
               <span key={String(item.id)} data-slot="combobox-tag" className={TAG}>

@@ -16,7 +16,7 @@ import { OverlayContents } from "./overlay-base";
  * off it. The surface itself does not clip, or it would hide the arrow React Aria places outside it.
  */
 export const SURFACE =
-  "flex flex-col rounded-ds-xlarge bg-ds-surface-overlay text-ds-text shadow-ds-overlay outline-hidden " +
+  "flex flex-col rounded-ds-large [--ds-surface-radius:var(--ds-radius-large)] bg-ds-surface-overlay text-ds-text shadow-ds-overlay outline-hidden " +
   "transition-[opacity,translate] duration-(--ds-duration-medium) ease-ds-enter data-[exiting]:ease-ds-exit motion-reduce:transition-none " +
   "data-[entering]:opacity-0 data-[exiting]:opacity-0 " +
   "data-[placement=bottom]:data-[entering]:-translate-y-1 data-[placement=top]:data-[entering]:translate-y-1";
@@ -276,7 +276,7 @@ export type MenuProps = {
 };
 
 const ITEM =
-  "group flex min-h-8 cursor-default items-center gap-ds-100 rounded-ds-small px-ds-100 text-body outline-hidden select-none " +
+  "group flex min-h-8 cursor-default items-center gap-ds-100 rounded-[max(var(--ds-radius-small),calc(var(--ds-surface-radius,var(--ds-radius-large))-var(--ds-space-050)))] px-ds-100 text-body outline-hidden select-none " +
   "data-[focused]:bg-ds-background-neutral-subtle-hovered data-[pressed]:bg-ds-background-neutral-pressed " +
   "data-[disabled]:cursor-not-allowed data-[disabled]:text-ds-text-disabled";
 

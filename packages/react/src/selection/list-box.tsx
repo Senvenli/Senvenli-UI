@@ -50,7 +50,7 @@ export function ListBox({ label, "aria-label": ariaLabel, items, selectionMode =
         disabledKeys={items.filter((item) => item.isDisabled).map((item) => item.id)}
         renderEmptyState={() => <span className="block px-ds-100 py-ds-150 text-body text-ds-text-subtle">{emptyState}</span>}
         data-slot="list-box-list"
-        className="flex flex-col gap-ds-025 rounded-ds-large border border-ds-border p-ds-050 outline-hidden data-[focus-visible]:inset-ring-2 data-[focus-visible]:inset-ring-ds-border-focused"
+        className="flex flex-col gap-ds-025 rounded-ds-large [--ds-surface-radius:calc(var(--ds-radius-large)-1px)] border border-ds-border p-ds-050 outline-hidden data-[focus-visible]:inset-ring-2 data-[focus-visible]:inset-ring-ds-border-focused"
       >
         {(item) => (
           <AriaListBoxItem id={item.id} textValue={item.label} data-slot="list-box-option" className={cn(OPTION, "min-h-9")}>

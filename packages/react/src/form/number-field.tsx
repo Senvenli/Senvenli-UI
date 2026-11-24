@@ -77,10 +77,10 @@ function Stepper() {
     "data-[disabled]:cursor-not-allowed data-[disabled]:text-ds-text-disabled";
   return (
     <span data-slot="number-field-stepper" className="-me-(--field-pad) flex flex-col self-stretch border-s border-ds-border">
-      <AriaButton slot="increment" aria-label={increaseLabel(locale)} className={cn(cell, "rounded-se-ds-medium border-b border-ds-border")}>
+      <AriaButton slot="increment" aria-label={increaseLabel(locale)} className={cn(cell, "rounded-se-[max(0px,calc(var(--ds-field-radius,var(--ds-radius-medium))-1px))] border-b border-ds-border")}>
         <IconGlyph name="chevron-up" size="small" data-slot="number-field-stepper-icon" />
       </AriaButton>
-      <AriaButton slot="decrement" aria-label={decreaseLabel(locale)} className={cn(cell, "rounded-ee-ds-medium")}>
+      <AriaButton slot="decrement" aria-label={decreaseLabel(locale)} className={cn(cell, "rounded-ee-[max(0px,calc(var(--ds-field-radius,var(--ds-radius-medium))-1px))]")}>
         <IconGlyph name="chevron-down" size="small" data-slot="number-field-stepper-icon" />
       </AriaButton>
     </span>

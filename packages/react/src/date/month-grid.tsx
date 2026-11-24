@@ -20,13 +20,13 @@ const toDate = (index: MonthIndex) => new CalendarDate(Math.floor(index / 12), (
 const COLUMNS = 3;
 
 const NAV =
-  "grid size-ds-control-compact cursor-pointer place-items-center rounded-ds-medium text-ds-icon outline-hidden " +
+  "grid size-ds-control-compact cursor-pointer place-items-center rounded-ds-control-medium text-ds-icon outline-hidden " +
   "data-[hovered]:bg-ds-background-neutral-subtle-hovered data-[focus-visible]:inset-ring-2 data-[focus-visible]:inset-ring-ds-border-focused " +
   "data-[disabled]:cursor-default data-[disabled]:opacity-40";
 
 /** A month tile: the Calendar's day cell, as wide as a third of the 252px grid. */
 const MONTH =
-  "grid h-ds-control w-full cursor-pointer place-items-center rounded-ds-medium px-ds-050 text-body text-ds-text outline-hidden select-none " +
+  "grid h-ds-control w-full cursor-pointer place-items-center rounded-ds-control-medium px-ds-050 text-body text-ds-text outline-hidden select-none " +
   "data-[hovered]:bg-ds-background-neutral-subtle-hovered " +
   "data-[focus-visible]:inset-ring-2 data-[focus-visible]:inset-ring-ds-border-focused " +
   "data-[disabled]:cursor-default data-[disabled]:text-ds-text-disabled";
