@@ -212,7 +212,7 @@ export function HomePage({ data }: { data: HomeData }) {
           </div>
           <div className="max-w-2xl">
             <Text size="body-large" tone="subtle" elementType="p">
-              {`Give it up to three colors, or none. Senvenli UI derives a full light and dark theme, checks every color pair against WCAG AA, and ships ${data.componentCount} accessible React components your coding agent can read.`}
+              Pick a color and ship. Senvenli UI gives you accessible React components that look right in light and dark, with readable contrast built in, and docs your coding agent can use.
             </Text>
           </div>
           <div className="flex w-full flex-col items-stretch justify-center gap-ds-150 pt-ds-100 sm:w-auto sm:flex-row sm:flex-wrap sm:items-center">

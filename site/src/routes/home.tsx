@@ -8,7 +8,7 @@ import type { Route } from "./+types/home";
 
 export const meta: Route.MetaFunction = () => [
   { title: "Senvenli UI: interfaces people trust" },
-  { name: "description", content: "An open-source React design system on React Aria. Pick up to three colors; every color pair is checked against WCAG AA." },
+  { name: "description", content: "Pick a color and ship: accessible React components on React Aria that look right in light and dark, with readable contrast built in." },
 ];
 
 export async function loader() {
