@@ -9,8 +9,8 @@
 
 <p align="center">
   <strong>Interfaces people trust.</strong><br>
-  An accessible React design system built on React Aria. Give it up to three colors, or none, and it themes itself<br>
-  in light and dark, with every color pair checked against WCAG AA.
+  Pick a color and ship. Senvenli UI gives you accessible React components that look right in light and dark,<br>
+  with readable contrast built in, and docs your coding agent can use.
 </p>
 
 <p align="center">
