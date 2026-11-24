@@ -49,6 +49,15 @@ html[data-preset-pending] .preview {
   line-height: var(--text-code--line-height, 20px);
 }
 
+/* A shell command (components/CodeBlock.tsx) starts with a prompt. It is generated content, so it is never selected
+   or copied with the command. */
+.code-prompt .line:not(:empty)::before {
+  content: "$";
+  margin-inline-end: 1ch;
+  color: var(--ds-text-subtlest);
+  user-select: none;
+}
+
 /* Doc prose (pages/DocPage.tsx): Markdown rendered at the docs scale, body 16px, headings on the type scale, the
    same gaps as component pages. Only elements Markdown produces are styled; components keep their own styles. */
 .doc-prose {
@@ -198,4 +207,72 @@ html[data-preset-pending] .preview {
 .home-wrap pre {
   white-space: pre-wrap;
   overflow-wrap: anywhere;
+}
+
+/* A family row (components/home/Families.tsx): the name is the link, stretched over the whole row, so the row is one
+   target with a short name. Hover and keyboard focus show on the row: a fill, and the focus color as an inner border. */
+.home-family {
+  transition: background-color var(--ds-duration-instant, 100ms);
+}
+.home-family h3 a {
+  color: inherit;
+  text-decoration: none;
+  box-shadow: none;
+}
+.home-family h3 a::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+}
+.home-family:hover {
+  background-color: var(--ds-surface-hovered);
+}
+.home-family:has(h3 a:focus-visible) {
+  box-shadow: inset 0 0 0 2px var(--ds-border-focused);
+}
+
+/* The connection picture (components/home/Connect.tsx): lines between tiles, and a short pulse of the brand color that
+   travels the trunk, then the fan. A wire stretches sideways to the room it has, so a line at rest keeps its width
+   whatever the stretch. One loop is eight of the theme's slow steps. */
+.home-wire {
+  overflow: visible;
+}
+.home-wire path {
+  fill: none;
+}
+.home-wire-line {
+  stroke: var(--ds-border-bold, var(--ds-border));
+  stroke-width: 1.5;
+  vector-effect: non-scaling-stroke;
+}
+.home-wire-pulse {
+  stroke: var(--ds-background-brand-bold);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-dasharray: 14 300;
+  stroke-dashoffset: 15;
+  animation: calc(var(--ds-duration-slow, 320ms) * 8) linear infinite;
+}
+.home-wire-pulse-trunk {
+  animation-name: home-wire-trunk;
+}
+.home-wire-pulse-fan {
+  animation-name: home-wire-fan;
+}
+@keyframes home-wire-trunk {
+  from { stroke-dashoffset: 15; }
+  45%, to { stroke-dashoffset: -101; }
+}
+@keyframes home-wire-fan {
+  from, 45% { stroke-dashoffset: 15; }
+  to { stroke-dashoffset: -101; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .home-wire-pulse {
+    display: none;
+  }
+}
+:root:is([data-ds-motion="reduce"], [data-ds-motion="none"]) .home-wire-pulse {
+  display: none;
 }
