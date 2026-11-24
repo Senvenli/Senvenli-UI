@@ -7,7 +7,7 @@ import { HomePage } from "../pages/HomePage";
 import type { Route } from "./+types/home";
 
 export const meta: Route.MetaFunction = () => [
-  { title: "Senvenli UI: a design system that themes itself" },
+  { title: "Senvenli UI: interfaces people trust" },
   { name: "description", content: "An open-source React design system on React Aria. Pick up to three colors; every color pair is checked against WCAG AA." },
 ];
 

@@ -206,7 +206,7 @@ export function HomePage({ data }: { data: HomeData }) {
           </div>
           <div className="home-title">
             <Heading id="home-title" level={1} size="display-large">
-              A design system <span className="home-title-accent">that themes itself.</span>
+              Interfaces <span className="home-title-accent">people trust.</span>
             </Heading>
           </div>
           <div className="max-w-2xl">
