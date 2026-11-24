@@ -15,6 +15,7 @@ import {
   toNative,
   type BorderWidth,
   type BrandRole,
+  type ControlShape,
   type Density,
   type Theme,
   type ThemeInput,
@@ -135,6 +136,20 @@ function Controls({ input, theme, setInput }: { input: ThemeInput; theme: Theme;
           value={Math.round(theme.layout.radius * 16)}
           onChange={(px) => set({ radius: (px as number) / 16 })}
         />
+        <div className="flex flex-col gap-ds-075">
+          <Text size="body-small" weight="medium" tone="subtle">
+            Controls
+          </Text>
+          <SegmentedControl
+            label="Controls"
+            items={[
+              { id: "rounded", label: "Rounded" },
+              { id: "pill", label: "Pill" },
+            ]}
+            value={theme.layout.controlShape}
+            onChange={(value) => set({ controlShape: value as ControlShape })}
+          />
+        </div>
         <div className="flex flex-col gap-ds-075">
           <Text size="body-small" weight="medium" tone="subtle">
             Density
