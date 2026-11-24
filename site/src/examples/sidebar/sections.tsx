@@ -1,17 +1,12 @@
 import { Avatar, Icon, Text } from "@senvenli/react/display";
-import { Stack } from "@senvenli/react/layout";
 import { Sidebar } from "@senvenli/react/navigation";
 
 export default function Example() {
   return (
     <div className="flex h-112 overflow-hidden rounded-ds-large border border-ds-border">
       <Sidebar
-        brand={
-          <>
-            <Icon name="hexagon" />
-            Acme
-          </>
-        }
+        logo={<Icon name="hexagon" />}
+        brand="Acme"
         brandHref="#"
         currentKey="orders"
         isFooterPinned
@@ -43,12 +38,8 @@ export default function Example() {
             ],
           },
         ]}
-        footer={
-          <Stack direction="horizontal" space="space-100" wrap={false}>
-            <Avatar name="Sofia Marin" src="/avatars/05.webp" size="small" />
-            <Text>Sofia Marin</Text>
-          </Stack>
-        }
+        avatar={<Avatar name="Sofia Marin" src="/avatars/05.webp" size="small" />}
+        footer={<Text>Sofia Marin</Text>}
       />
       <div className="min-w-0 flex-1 p-ds-300">
         <Text tone="subtle">Shown from 1024px up. Under that, the Sidebar is a panel behind the app's menu button.</Text>
