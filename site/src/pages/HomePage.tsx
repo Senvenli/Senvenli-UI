@@ -1,6 +1,6 @@
 import { Button, Link, Pressable, ThemeSwitcher } from "@senvenli/react/action";
 import { ColorSwatchPicker } from "@senvenli/react/color";
-import { Badge, Heading, Icon, Text } from "@senvenli/react/display";
+import { Heading, Icon, Text } from "@senvenli/react/display";
 import { SegmentedControl } from "@senvenli/react/navigation";
 import { Select } from "@senvenli/react/selection";
 import { createTheme, decodePreset, encodePreset, type Density, type ThemeInput } from "@senvenli/tokens";
@@ -24,7 +24,7 @@ export type HomeData = {
 
 /**
  * The value that stands for "no brand color"; picking it clears the brand color. The swatch itself is painted in the
- * neutral theme's ink (near black in light, near white in dark) by `.home-neutral-swatch` in styles.css, since a
+ * neutral theme's ink (near black in light, near white in dark) by the dock's Neutral rule in styles.css, since a
  * swatch's color is one value for both modes.
  */
 const NEUTRAL = "#85827c";
@@ -149,7 +149,7 @@ function Section({ id, title, lead, action, children }: { id: string; title: str
 
 /**
  * The home page, built from the library's own components. A centred hero; right under it, on the first screen, the
- * theme bar (a color, corners, density, light and dark, the AA count) over a stage of real components that the
+ * theme bar (a color, corners, density, light and dark) over a stage of real components that the
  * whole page re-themes with; then four proofs (the engine, agents, accessibility, languages), the families, and how
  * the library reaches an agent.
  */
@@ -171,10 +171,7 @@ export function HomePage({ data }: { data: HomeData }) {
     });
   const setDensity = (id: string) => setInput((prev) => tidy({ ...prev, density: DENSITIES.find((item) => item.id === id)?.id ?? prev.density }));
   const theme = useMemo(() => createTheme(input), [input]);
-  const passing = theme.checks.filter((check) => check.pass).length;
-  const allPass = passing === theme.checks.length;
   const applied = useRef(false);
-  const count = useRef<HTMLSpanElement>(null);
 
   useLayoutEffect(() => {
     const stored = readStoredPreset();
@@ -188,8 +185,6 @@ export function HomePage({ data }: { data: HomeData }) {
     // The first application restores what the visitor had: no transition for that.
     if (applied.current) {
       withTransition(() => applyTheme(theme, code));
-      // The count answers the change with a small nod.
-      if (!prefersReducedMotion()) count.current?.animate?.([{ scale: "1" }, { scale: "1.08" }, { scale: "1" }], { duration: 320, easing: "ease-out" });
     } else applyTheme(theme, code);
     applied.current = true;
   }, [theme, code, ready]);
@@ -235,21 +230,11 @@ export function HomePage({ data }: { data: HomeData }) {
             data-slot="home-theme-bar"
             className="home-dock z-10 flex flex-col gap-ds-200 rounded-ds-xlarge bg-ds-surface-raised p-ds-200 shadow-ds-overlay md:p-ds-250 xl:sticky xl:top-[4.25rem]"
           >
-            <div className="flex flex-wrap items-center justify-between gap-x-ds-300 gap-y-ds-100">
-              <div className="flex flex-wrap items-baseline gap-x-ds-150 gap-y-ds-025">
-                <h2 id="studio-title" className="m-0 text-body-large font-medium text-ds-text">
-                  Theme this page
-                </h2>
-                <Text tone="subtle">Color, corners and density change everywhere at once.</Text>
-              </div>
-              <div className="flex flex-wrap items-center gap-x-ds-200 gap-y-ds-100">
-                <span ref={count} className="inline-flex">
-                  <Badge tone={allPass ? "success" : "danger"} hasDot>
-                    <span aria-live="polite">{`${passing} / ${theme.checks.length} pairs pass AA`}</span>
-                  </Badge>
-                </span>
-                <Link href={code ? `/create?p=${code}` : "/create"}>Open in the builder</Link>
-              </div>
+            <div className="flex flex-wrap items-baseline gap-x-ds-150 gap-y-ds-025">
+              <h2 id="studio-title" className="m-0 text-body-large font-medium text-ds-text">
+                Theme this page
+              </h2>
+              <Text tone="subtle">Color, corners and density change everywhere at once.</Text>
             </div>
             <div className="flex flex-wrap items-start gap-x-ds-300 gap-y-ds-200 xl:gap-x-ds-400">
               {/* A color pick changes the color alone: corners and density stay as they are set beside it. */}
