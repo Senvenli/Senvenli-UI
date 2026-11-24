@@ -2,17 +2,21 @@ import { Button, Link } from "@senvenli/react/action";
 import { Heading, Text } from "@senvenli/react/display";
 import { EmptyState } from "@senvenli/react/feedback";
 import { Input } from "@senvenli/react/form";
-import { Pressable } from "@senvenli/react/action";
 import { useMemo, useState } from "react";
 import { DocsLayout } from "../components/DocsLayout";
+import { ComponentPreview } from "../components/previews";
 import { familyTitle, orderComponents, type ManifestIndexEntry } from "../lib/manifest";
 
 /** Case and accent insensitive, as the reader types it. */
 const fold = (text: string) => text.normalize("NFD").replace(/\p{M}/gu, "").toLowerCase();
 
 /**
- * Every component, grouped by family from the smallest pieces to the composed ones, as cards that are links. A filter
- * over title, family and description narrows the list; a row of family links jumps down the page.
+ * Every component, grouped by family from the smallest pieces to the composed ones, as preview cards: a small picture
+ * of the component over its name, so the page reads as pictures rather than text. The name is the link, stretched
+ * over the whole card (styles.css, .component-card), so a card is one target named after its component; the preview
+ * is inert. A filter over title, family and description narrows the list, and only then does a card show its
+ * description, in two quiet lines at most, so a match on the description explains itself. A row of family links jumps down
+ * the page.
  */
 export function ComponentsIndexPage({ components }: { components: ManifestIndexEntry[] }) {
   const ordered = useMemo(() => orderComponents(components), [components]);
@@ -26,7 +30,7 @@ export function ComponentsIndexPage({ components }: { components: ManifestIndexE
 
   return (
     <DocsLayout>
-      <main id="main" className="flex min-w-0 flex-col gap-ds-600 py-ds-600">
+      <main id="main" className="flex min-w-0 flex-col gap-ds-800 py-ds-600">
         <header className="flex flex-col gap-ds-150">
           <Heading level={1} size="heading-xxlarge">
             Components
@@ -71,7 +75,7 @@ export function ComponentsIndexPage({ components }: { components: ManifestIndexE
                 key={family}
                 id={`family-${family}`}
                 aria-labelledby={`family-${family}-title`}
-                className="flex scroll-mt-24 flex-col gap-ds-200"
+                className="flex scroll-mt-24 flex-col gap-ds-250"
               >
                 <div className="flex items-baseline gap-ds-150">
                   <Heading id={`family-${family}-title`} level={2} size="heading-large">
@@ -79,16 +83,18 @@ export function ComponentsIndexPage({ components }: { components: ManifestIndexE
                   </Heading>
                   <span className="text-body text-ds-text-subtlest">{items.length}</span>
                 </div>
-                {/* As shadcn's list: no card ground, a soft fill on hover; the name leads, one quiet line under it. */}
-                <ul className="m-0 grid list-none gap-ds-050 p-0 sm:grid-cols-2 xl:grid-cols-3">
+                <ul className="m-0 grid list-none grid-cols-2 gap-ds-150 p-0 sm:grid-cols-3 sm:gap-ds-200 xl:grid-cols-4">
                   {items.map((item) => (
-                    <li key={item.name} className="flex">
-                      <Pressable href={`/docs/components/${item.name}`} radius="large" paddingInline="space-150" paddingBlock="space-100">
-                        <span className="flex h-full flex-col gap-ds-025">
-                          <span className="text-body-large font-medium text-ds-text">{item.title}</span>
-                          <span className="line-clamp-2 text-body-small text-ds-text-subtle">{item.description}</span>
+                    <li key={item.name} className="component-card">
+                      <ComponentPreview name={item.name} />
+                      <div className="flex min-w-0 flex-col gap-ds-025 px-ds-100 pb-ds-075 pt-ds-150">
+                        <span className="component-card-name text-body font-medium text-ds-text [overflow-wrap:anywhere]">
+                          <Link href={`/docs/components/${item.name}`} variant="subtle">
+                            {item.title}
+                          </Link>
                         </span>
-                      </Pressable>
+                        {words.length > 0 && <span className="line-clamp-2 text-body-small text-ds-text-subtle">{item.description}</span>}
+                      </div>
                     </li>
                   ))}
                 </ul>
