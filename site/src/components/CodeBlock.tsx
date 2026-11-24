@@ -9,15 +9,21 @@ import { CopyButton } from "./CopyButton";
 const MAX_LINES = 18;
 
 /**
- * Source in the code face. `html` is the build-time highlight (lib/highlight.server.ts); without it the plain text
- * shows. Long lines scroll sideways (indentation keeps its meaning). The copy button sits in the header row when there
- * is a `label`, otherwise in its own end gutter, so it never covers code. `bare` is code inside an example block: no
- * background and no copy button of its own (the example's caption bar has both). With `variants` (one per package
- * manager) the header holds the npm / pnpm / yarn / bun switch instead of a label, and the choice holds page-wide.
+ * Source in the code face, drawn so it reads as code at a glance: a sunken frame, and on it the code as its own
+ * raised panel in the mono face; a `label` (a file name or language) or the package-manager switch sits on the frame
+ * above the panel, with the copy button at its end. `html` is the build-time highlight (lib/highlight.server.ts);
+ * without it the plain text shows. Long lines scroll sideways (indentation keeps its meaning). With no label the copy
+ * button has its own end gutter in the panel, so it never covers code. `bare` is code inside an example block: no
+ * frame and no copy button of its own (the example's caption bar has both). With `variants` (one per package manager)
+ * the header holds the npm / pnpm / yarn / bun switch, and the choice holds page-wide. Shell commands (`prompt`, and
+ * always with `variants`) start with a `$` that is drawn, not text: selecting or copying the command never includes
+ * it. A block with a comment or a command that runs over several lines has no prompt, since not every line is one.
  */
-export function CodeBlock({ variants, ...props }: CodeBlockProps & { variants?: CommandVariant[] }) {
+export function CodeBlock({ variants, prompt = false, ...props }: CodeBlockProps & { variants?: CommandVariant[] }) {
   const manager = useManager();
-  if (!variants?.length) return <Block {...props} />;
+  const lines = props.code.split("\n");
+  const commands = prompt && !lines.some((line) => /^\s*#|^\s+\S|\\$/.test(line));
+  if (!variants?.length) return <Block {...props} prompt={commands} />;
   const shown = variants.find((variant) => variant.id === manager) ?? variants[0]!;
   const header = (
     <SegmentedControl
@@ -27,7 +33,7 @@ export function CodeBlock({ variants, ...props }: CodeBlockProps & { variants?: 
       onChange={(id) => setManager(id as Manager)}
     />
   );
-  return <Block {...props} code={shown.code} html={shown.html} header={header} />;
+  return <Block {...props} code={shown.code} html={shown.html} header={header} prompt />;
 }
 
 type CodeBlockProps = {
@@ -37,9 +43,11 @@ type CodeBlockProps = {
   label?: string;
   copyLabel?: string;
   bare?: boolean;
+  /** The code is shell commands, one per line. */
+  prompt?: boolean;
 };
 
-function Block({ code, html, label, copyLabel = "Copy code", bare = false, header }: CodeBlockProps & { header?: ReactNode }) {
+function Block({ code, html, label, copyLabel = "Copy code", bare = false, header, prompt = false }: CodeBlockProps & { header?: ReactNode }) {
   const lines = code.split("\n").length;
   const long = lines > MAX_LINES;
   const [expanded, setExpanded] = useState(false);
@@ -47,18 +55,27 @@ function Block({ code, html, label, copyLabel = "Copy code", bare = false, heade
     <div className="code-html overflow-x-auto" dir="ltr" dangerouslySetInnerHTML={{ __html: html }} />
   ) : (
     <pre className="m-0 overflow-x-auto p-ds-200 font-ds-mono text-code text-ds-text" dir="ltr">
-      <code>{code}</code>
+      <code>
+        {prompt
+          ? code.split("\n").map((line, index, all) => (
+              <span key={index} className="line">
+                {line}
+                {index < all.length - 1 ? "\n" : ""}
+              </span>
+            ))
+          : code}
+      </code>
     </pre>
   );
   return (
-    <div data-slot="code-block" className={cn("overflow-hidden", !bare && "rounded-ds-xlarge bg-ds-surface-sunken")}>
+    <div data-slot="code-block" className={cn(!bare && "rounded-ds-xlarge bg-ds-surface-sunken p-ds-050", prompt && "code-prompt")}>
       {label || header ? (
-        <div className={cn("flex items-center justify-between pe-ds-075", header ? "min-h-10 ps-ds-075 pt-ds-075" : "h-9 ps-ds-200")}>
-          {header ?? <span className="text-body-small text-ds-text-subtle">{label}</span>}
+        <div className={cn("flex items-center justify-between gap-ds-100 pe-ds-025", header ? "min-h-10 pb-ds-050 ps-ds-025" : "h-9 ps-ds-150")}>
+          {header ?? <span className="min-w-0 truncate font-ds-mono text-code text-ds-text-subtle">{label}</span>}
           <CopyButton text={code} label={copyLabel} iconOnly />
         </div>
       ) : null}
-      <div className="relative">
+      <div className={cn("relative overflow-hidden", !bare && "rounded-ds-large bg-ds-surface-raised")}>
         {!label && !header && !bare && (
           <div className="absolute end-ds-075 top-ds-075 z-10">
             <CopyButton text={code} label={copyLabel} iconOnly />

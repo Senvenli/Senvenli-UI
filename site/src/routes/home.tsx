@@ -1,5 +1,4 @@
 import { highlight } from "../lib/highlight.server";
-import { commandVariants } from "../lib/package-managers.server";
 import { orderComponents } from "../lib/manifest";
 import { loadIndex, loadManifest } from "../lib/manifest.server";
 import { loadExamples } from "../lib/examples.server";
@@ -14,7 +13,10 @@ export const meta: Route.MetaFunction = () => [
 
 export async function loader() {
   const index = orderComponents(await loadIndex());
-  const families = [...new Set(index.map((item) => item.family))].map((family) => ({ family, count: index.filter((item) => item.family === family).length }));
+  const families = [...new Set(index.map((item) => item.family))].map((family) => {
+    const names = index.filter((item) => item.family === family).map((item) => item.title);
+    return { family, count: names.length, names };
+  });
   const button = await loadManifest("button");
   // The first lines of a real Markdown twin: what an agent reads.
   const agentCode = button ? manifestToMarkdown(button, await loadExamples("button")).split("\n").slice(0, 9).join("\n") : "";
@@ -31,13 +33,8 @@ export async function loader() {
         2,
       )
     : "";
-  const [installHtml, installVariants, agentHtml, agentJsonHtml] = await Promise.all([
-    highlight("npm i @senvenli/react", "bash"),
-    commandVariants("npm i @senvenli/react"),
-    highlight(agentCode, "md"),
-    highlight(agentJson, "json"),
-  ]);
-  return { data: { componentCount: index.length, families, installHtml, installVariants, agentHtml, agentCode, agentJson, agentJsonHtml } };
+  const [agentHtml, agentJsonHtml] = await Promise.all([highlight(agentCode, "md"), highlight(agentJson, "json")]);
+  return { data: { componentCount: index.length, families, agentHtml, agentCode, agentJson, agentJsonHtml } };
 }
 
 export default function HomeRoute({ loaderData }: Route.ComponentProps) {

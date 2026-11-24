@@ -1,33 +1,39 @@
-import { Button, CopyButton, Link, Pressable, ThemeSwitcher, ToggleButton, ToggleGroup } from "@senvenli/react/action";
+import { Button, Link, Pressable, ThemeSwitcher } from "@senvenli/react/action";
 import { ColorSwatchPicker } from "@senvenli/react/color";
 import { Badge, Heading, Icon, Text } from "@senvenli/react/display";
 import { SegmentedControl } from "@senvenli/react/navigation";
-import { createTheme, decodePreset, encodePreset, type ThemeInput } from "@senvenli/tokens";
+import { Select } from "@senvenli/react/selection";
+import { createTheme, decodePreset, encodePreset, type Density, type ThemeInput } from "@senvenli/tokens";
 import { useLayoutEffect, useMemo, useRef, useState } from "react";
-import { CodeBlock } from "../components/CodeBlock";
 import { Bento } from "../components/home/Bento";
-import { Families } from "../components/home/Families";
+import { Connect } from "../components/home/Connect";
+import { Families, type Family } from "../components/home/Families";
 import { Proofs } from "../components/home/Proofs";
-import type { CommandVariant } from "../lib/package-managers";
 import { SITE_CONTAINER } from "../lib/layout";
-import { applyTheme, PRESETS, readStoredPreset } from "../lib/preset";
+import { applyTheme, readStoredPreset } from "../lib/preset";
 
 export type HomeData = {
   componentCount: number;
-  families: { family: string; count: number }[];
+  families: Family[];
   /** Build-time highlighted snippets. */
-  installHtml?: string;
-  installVariants?: CommandVariant[];
   agentHtml?: string;
   agentCode: string;
   agentJson: string;
   agentJsonHtml?: string;
 };
 
-const INSTALL = "npm i @senvenli/react";
+/**
+ * The swatch that stands for "no brand color": a mid gray, since the neutral theme's own ink is near black in light and
+ * near white in dark, and a swatch has one color for both. Picking it clears the brand color.
+ */
+const NEUTRAL = "#85827c";
 
-/** A few brand colors to try. The checked one is always the page's real brand color, whichever way it was chosen. */
+/**
+ * The one color choice: no brand color, or a few to try (the plus takes any other). The checked one is always the
+ * page's real brand color, whichever way it was chosen.
+ */
 const COLORS = [
+  { value: NEUTRAL, name: "Neutral" },
   { value: "#996a00", name: "Gold" },
   { value: "#c2410c", name: "Orange" },
   { value: "#be123c", name: "Rose" },
@@ -37,19 +43,33 @@ const COLORS = [
   { value: "#2f6f4f", name: "Forest" },
 ];
 
-/** The base corner radius in rem; "Soft" is the engine's default, so it is left out of the input. */
-const SOFT = 0.625;
+/** The engine's default base corner radius in rem; it is left out of the input. */
+const MEDIUM = 0.625;
+/**
+ * The library's radius scale as theme inputs: each step is a base radius in rem (the theme derives every other radius
+ * from it). None is square; Large is clearly rounder than Medium while a 36px control still has straight sides; Full
+ * is the smallest base at which controls read as pills (20px on a 36px control), so cards stay cards. A stored theme
+ * with any other radius (the builder's slider, an older preset) shows as the nearest step.
+ */
 const CORNERS = [
-  { id: "0.375", label: "Sharp" },
-  { id: String(SOFT), label: "Soft" },
-  { id: "1", label: "Round" },
+  { id: "none", label: "None", radius: 0 },
+  { id: "small", label: "Small", radius: 0.3125 },
+  { id: "medium", label: "Medium", radius: MEDIUM },
+  { id: "large", label: "Large", radius: 0.8125 },
+  { id: "full", label: "Full", radius: 1.25 },
+];
+
+const DENSITIES: { id: Density; label: string }[] = [
+  { id: "compact", label: "Compact" },
+  { id: "default", label: "Default" },
+  { id: "comfortable", label: "Comfortable" },
 ];
 
 /** An input with nothing undefined and no default restated, so the neutral theme stays `{}` and a preset is recognized. */
 function tidy(input: ThemeInput): ThemeInput {
   const out: ThemeInput = {};
   for (const [key, value] of Object.entries(input)) if (value !== undefined) Object.assign(out, { [key]: value });
-  if (out.radius === SOFT) delete out.radius;
+  if (out.radius === MEDIUM) delete out.radius;
   if (out.density === "default") delete out.density;
   return out;
 }
@@ -126,17 +146,20 @@ function Section({ id, title, lead, action, children }: { id: string; title: str
 
 /**
  * The home page, built from the library's own components. A centred hero; right under it, on the first screen, the
- * theme bar (presets, a brand color, corners, light and dark, the AA count) over a stage of real components that the
- * whole page re-themes with; then four proofs (the engine, agents, accessibility, languages), the families, and one
- * command to start.
+ * theme bar (a color, corners, density, light and dark, the AA count) over a stage of real components that the
+ * whole page re-themes with; then four proofs (the engine, agents, accessibility, languages), the families, and how
+ * the library reaches an agent.
  */
 export function HomePage({ data }: { data: HomeData }) {
   // The prerender is the neutral theme; the visitor's stored theme is read after mount, before paint.
   const [input, setInput] = useState<ThemeInput>({});
   const [ready, setReady] = useState(false);
   const code = encodePreset(input);
-  const presetId = PRESETS.find((item) => encodePreset(item.input) === code)?.id;
-  const corner = String(input.radius ?? SOFT);
+  const radius = input.radius ?? MEDIUM;
+  const corner = CORNERS.reduce((near, item) => (Math.abs(item.radius - radius) < Math.abs(near.radius - radius) ? item : near)).id;
+  const density = input.density ?? "default";
+  const setCorner = (id: string) => setInput((prev) => tidy({ ...prev, radius: CORNERS.find((item) => item.id === id)?.radius ?? prev.radius }));
+  const setDensity = (id: string) => setInput((prev) => tidy({ ...prev, density: DENSITIES.find((item) => item.id === id)?.id ?? prev.density }));
   const theme = useMemo(() => createTheme(input), [input]);
   const passing = theme.checks.filter((check) => check.pass).length;
   const allPass = passing === theme.checks.length;
@@ -193,10 +216,6 @@ export function HomePage({ data }: { data: HomeData }) {
             <Button size="large" href="/docs/components">
               Browse components
             </Button>
-            <div className="flex h-ds-control-large min-w-0 items-center justify-between gap-ds-100 rounded-ds-medium bg-ds-surface-sunken ps-ds-200 pe-ds-050">
-              <code className="min-w-0 font-ds-mono text-code text-ds-text">{INSTALL}</code>
-              <CopyButton value={INSTALL} aria-label="Copy the install command" />
-            </div>
           </div>
         </section>
 
@@ -223,43 +242,33 @@ export function HomePage({ data }: { data: HomeData }) {
               </div>
             </div>
             <div className="flex flex-wrap items-start gap-x-ds-300 gap-y-ds-200 xl:gap-x-ds-400">
-              <Group label="Preset">
-                <ToggleGroup
-                  label="Theme preset"
-                  selectionMode="single"
-                  selectedKeys={presetId ? [presetId] : []}
-                  onSelectionChange={(keys) => {
-                    const preset = PRESETS.find((item) => keys.has(item.id));
-                    if (!preset) return;
-                    setInput(preset.input);
-                  }}
-                >
-                  {PRESETS.map((preset) => (
-                    <ToggleButton key={preset.id} id={preset.id}>
-                      {/* Illustrative: the preset's own brand color (the neutral one is ink on paper). */}
-                      <span aria-hidden className="size-3 shrink-0 rounded-ds-full bg-ds-text" style={preset.input.primary ? { backgroundColor: preset.input.primary } : undefined} />
-                      {preset.name}
-                    </ToggleButton>
-                  ))}
-                </ToggleGroup>
-              </Group>
+              {/* A color pick changes the color alone: corners and density stay as they are set beside it. */}
               <ColorSwatchPicker
-                label="Brand color"
+                label="Color"
                 items={COLORS}
                 allowsCustom
                 description="Any color works: use the plus"
-                // null, not undefined: no brand color means no swatch checked, and the picker stays controlled.
-                value={input.primary ?? null}
-                onChange={(value) => setInput((prev) => tidy({ primary: value.toLowerCase(), radius: prev.radius, density: prev.density }))}
+                value={input.primary ?? NEUTRAL}
+                onChange={(value) => {
+                  const primary = value.toLowerCase();
+                  setInput((prev) => tidy({ primary: primary === NEUTRAL ? undefined : primary, radius: prev.radius, density: prev.density }));
+                }}
               />
-              <Group label="Corners">
-                <SegmentedControl
-                  label="Corners"
-                  items={CORNERS}
-                  value={CORNERS.some((item) => item.id === corner) ? corner : ""}
-                  onChange={(id) => setInput((prev) => tidy({ ...prev, radius: Number(id) }))}
-                />
-              </Group>
+              {/* Five steps do not fit a phone as one segmented row: under 640px corners and density are two selects. */}
+              <div className="grid w-full gap-ds-150 min-[360px]:grid-cols-2 sm:hidden">
+                <Select label="Corners" items={CORNERS} selectedKey={corner} onSelectionChange={(id: unknown) => setCorner(String(id))} />
+                <Select label="Density" items={DENSITIES} selectedKey={density} onSelectionChange={(id: unknown) => setDensity(String(id))} />
+              </div>
+              <div className="max-sm:hidden">
+                <Group label="Corners">
+                  <SegmentedControl label="Corners" items={CORNERS} value={corner} onChange={(id) => setCorner(String(id))} />
+                </Group>
+              </div>
+              <div className="max-sm:hidden">
+                <Group label="Density">
+                  <SegmentedControl label="Density" items={DENSITIES} value={density} onChange={(id) => setDensity(String(id))} />
+                </Group>
+              </div>
               <Group label="Mode">
                 <ThemeSwitcher variant="segmented" />
               </Group>
@@ -302,23 +311,23 @@ export function HomePage({ data }: { data: HomeData }) {
           <div aria-hidden className="home-ambient home-ambient-cta" />
           <div className="lg:[&_h2]:text-display-medium">
             <Heading id="start-title" level={2} size="heading-xxlarge">
-              Start with one command.
+              Plug it into your agent.
             </Heading>
           </div>
           <div className="max-w-xl">
             <Text size="body-large" tone="subtle" elementType="p">
-              Install the package, add the stylesheet, wrap your app. Your agent can take it from there.
+              One MCP server and a manifest for every component: your editor or coding agent reads the real props, not a guess.
             </Text>
           </div>
-          <div className="w-full max-w-sm text-start">
-            <CodeBlock code={INSTALL} html={data.installHtml} variants={data.installVariants} copyLabel="Copy install command" />
+          <div className="w-full pt-ds-200">
+            <Connect />
           </div>
           <div className="flex flex-wrap justify-center gap-ds-150">
             <Button variant="primary" size="large" href="/docs/getting-started">
               Get started
             </Button>
             <Button size="large" href="/docs/agents">
-              Connect the MCP server
+              Connect MCP
             </Button>
           </div>
         </section>
