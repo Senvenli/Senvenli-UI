@@ -83,7 +83,7 @@ export type TileGridProps<T> = {
  * other's box. `relative` holds the target; the visible box is unchanged.
  */
 const TILE_ACTION =
-  "relative grid size-7 place-items-center rounded-ds-small bg-ds-surface-raised text-ds-text-subtle shadow-ds-raised outline-hidden cursor-pointer " +
+  "relative grid size-7 place-items-center rounded-ds-control-small bg-ds-surface-raised text-ds-text-subtle shadow-ds-raised outline-hidden cursor-pointer " +
   "pointer-coarse:size-10 data-[hovered]:bg-ds-surface-hovered data-[pressed]:bg-ds-surface-hovered " +
   "data-[focus-visible]:inset-ring-2 data-[focus-visible]:inset-ring-ds-border-focused " +
   "data-[disabled]:cursor-not-allowed data-[disabled]:text-ds-text-disabled";
@@ -165,7 +165,7 @@ export function TileGrid<T extends object>({
                   <AriaButton
                     slot="drag"
                     data-slot="grid-list-drag"
-                    className="absolute end-ds-100 top-ds-100 grid size-7 place-items-center rounded-ds-small bg-ds-surface-raised text-ds-text-subtle outline-hidden data-[focus-visible]:inset-ring-2 data-[focus-visible]:inset-ring-ds-border-focused"
+                    className="absolute end-ds-100 top-ds-100 grid size-7 place-items-center rounded-ds-control-small bg-ds-surface-raised text-ds-text-subtle outline-hidden data-[focus-visible]:inset-ring-2 data-[focus-visible]:inset-ring-ds-border-focused"
                   >
                     <IconGlyph name="grip-vertical" size="small" />
                   </AriaButton>

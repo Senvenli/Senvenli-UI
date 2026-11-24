@@ -41,7 +41,7 @@ export const ITEM_ICON = "inline-flex shrink-0 items-center";
  * border (owner rule), selected fills `ds-background-selected`.
  */
 export const OPTION =
-  "flex min-h-8 cursor-pointer items-center gap-ds-100 rounded-ds-small px-ds-100 text-body text-ds-text outline-hidden select-none " +
+  "flex min-h-8 cursor-pointer items-center gap-ds-100 rounded-[max(var(--ds-radius-small),calc(var(--ds-surface-radius,var(--ds-radius-large))-var(--ds-space-050)))] px-ds-100 text-body text-ds-text outline-hidden select-none " +
   "data-[hovered]:bg-ds-background-neutral-subtle-hovered data-[focused]:bg-ds-background-neutral-subtle-hovered " +
   "data-[selected]:bg-ds-background-selected data-[selected]:data-[focused]:bg-ds-background-selected-hovered " +
   "data-[focus-visible]:inset-ring-2 data-[focus-visible]:inset-ring-ds-border-focused " +
@@ -53,7 +53,7 @@ export const OPTION =
  * pinned at the bottom.
  */
 export const POPOVER =
-  "flex min-w-(--trigger-width) flex-col overflow-hidden rounded-ds-xlarge bg-ds-surface-overlay p-ds-050 shadow-ds-overlay outline-hidden";
+  "flex min-w-(--trigger-width) flex-col overflow-hidden rounded-ds-large [--ds-surface-radius:var(--ds-radius-large)] bg-ds-surface-overlay p-ds-050 shadow-ds-overlay outline-hidden";
 export const LISTBOX = "flex min-h-0 flex-col overflow-auto outline-hidden";
 
 /** The checkbox look inside a MultiSelect option (16px, 1.5px `ds-border-bold`, gold when selected). */

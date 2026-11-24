@@ -75,7 +75,7 @@ function Block({ code, html, label, copyLabel = "Copy code", bare = false, heade
           <CopyButton text={code} label={copyLabel} iconOnly />
         </div>
       ) : null}
-      <div className={cn("relative overflow-hidden", !bare && "rounded-ds-large bg-ds-surface-raised")}>
+      <div className={cn("relative overflow-hidden", !bare && "rounded-[max(0px,calc(var(--ds-radius-xlarge)-var(--ds-space-050)))] bg-ds-surface-raised")}>
         {!label && !header && !bare && (
           <div className="absolute end-ds-075 top-ds-075 z-10">
             <CopyButton text={code} label={copyLabel} iconOnly />

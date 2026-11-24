@@ -187,7 +187,7 @@ function CallingCode({ dial }: { dial: string }) {
 const digitsText = (shape: PhoneCountry) => (shape.min === shape.max ? String(shape.min) : `${shape.min}–${shape.max}`);
 
 const COUNTRY_BUTTON =
-  "-ms-(--field-pad) flex shrink-0 cursor-pointer items-center gap-ds-075 self-stretch rounded-s-ds-medium border-e border-ds-border px-ds-100 text-body outline-hidden " +
+  "-ms-(--field-pad) flex shrink-0 cursor-pointer items-center gap-ds-075 self-stretch rounded-s-[max(0px,calc(var(--ds-field-radius,var(--ds-radius-medium))-1px))] border-e border-ds-border px-ds-100 text-body outline-hidden " +
   "data-[hovered]:bg-ds-background-neutral-subtle-hovered data-[pressed]:bg-ds-background-neutral-pressed " +
   "data-[focus-visible]:inset-ring-2 data-[focus-visible]:inset-ring-ds-border-focused " +
   "data-[disabled]:cursor-not-allowed";

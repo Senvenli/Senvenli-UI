@@ -5,7 +5,7 @@ import { Button as AriaButton, Group, type ButtonProps as AriaButtonProps } from
 import { IconGlyph, type IconName } from "../display/icon";
 
 import { cn } from "../utils";
-import { radiusClass, useRadius, useFieldSize } from "../defaults";
+import { fieldRadiusClass, useRadius, useFieldSize } from "../defaults";
 import { ADDON, ADDON_END, ADDON_END_FLUSH, ADDON_START, FIELD_FRAME, FIELD_SIZE, INLINE_ACTION, INPUT, type FieldSize } from "./styles";
 
 /**
@@ -62,7 +62,7 @@ export function InputGroup({
       dir={dir}
       data-slot="input-group"
       data-size={size}
-      className={cn(FIELD_FRAME, FIELD_SIZE[size], multiline ? "items-start rounded-ds-medium py-ds-100" : "", radiusClass(frameRadius))}
+      className={cn(FIELD_FRAME, FIELD_SIZE[size], multiline ? "items-start rounded-ds-medium [--ds-field-radius:var(--ds-radius-medium)] py-ds-100" : "", fieldRadiusClass(frameRadius))}
       onMouseDown={(event) => {
         const target = event.target as HTMLElement;
         if (target.closest("input, textarea, select, button, a, label, [role='button'], [role='spinbutton'], [contenteditable], [data-slot='input-action']")) return;
