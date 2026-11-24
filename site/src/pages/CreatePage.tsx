@@ -26,7 +26,7 @@ import { CollectionPreview } from "../components/create/DataBoard";
 import { CodeBlock } from "../components/CodeBlock";
 import { CopyButton } from "../components/CopyButton";
 import { FormsBoard } from "../components/create/FormsBoard";
-import { HomeBoard } from "../components/HomeBoard";
+import { Bento } from "../components/home/Bento";
 import { applyTheme, PRESETS, readStoredPreset } from "../lib/preset";
 import { SITE_CONTAINER } from "../lib/layout";
 
@@ -299,7 +299,7 @@ export function CreatePage() {
           <Tabs
             aria-label="Preview"
             items={[
-              { id: "overview", label: "Overview", panel: <div className="pt-ds-200"><HomeBoard /></div> },
+              { id: "overview", label: "Overview", panel: <div className="pt-ds-200"><Bento /></div> },
               { id: "forms", label: "Forms", panel: <div className="pt-ds-200"><FormsBoard /></div> },
               { id: "data", label: "Data", panel: <div className="grid gap-ds-200 pt-ds-200"><CollectionPreview /></div> },
               { id: "charts", label: "Charts", panel: <div className="grid gap-ds-200 pt-ds-200 md:grid-cols-2"><ChartsPreview /></div> },
