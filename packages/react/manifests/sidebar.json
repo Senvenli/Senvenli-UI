@@ -45,7 +45,8 @@
     ],
     "builtIn": [
       "The current page is marked with aria-current.",
-      "Under 1024px it becomes a panel opened from the header."
+      "Under 1024px it becomes a panel opened from the header.",
+      "Collapsed, the rail shows the logo and the account's avatar alone; the brand name stays the link's accessible name."
     ],
     "youProvide": [
       "Section names.",
@@ -69,7 +70,14 @@
         "type": "React.ReactNode",
         "required": false,
         "origin": "own",
-        "description": "The logo and product name (the app's logo). It links to `brandHref`. Or a `SidebarHeader` child."
+        "description": "The product name, after `logo` (or the logo and name together). It links to `brandHref`. Or a `SidebarHeader` child."
+      },
+      {
+        "name": "logo",
+        "type": "React.ReactNode",
+        "required": false,
+        "origin": "own",
+        "description": "The app's mark (an Icon or an image) before `brand`. Collapsed, the rail shows it alone, centred; the\nname stays the link's accessible name. Without it, collapsed shows the start of `brand`."
       },
       {
         "name": "brandHref",
@@ -266,7 +274,14 @@
         "type": "React.ReactNode",
         "required": false,
         "origin": "own",
-        "description": "The account at the bottom: Avatar, name and role. Or a `SidebarFooter` child."
+        "description": "The account at the bottom: name and role after `avatar` (or Avatar, name and role together). Or a `SidebarFooter` child."
+      },
+      {
+        "name": "avatar",
+        "type": "React.ReactNode",
+        "required": false,
+        "origin": "own",
+        "description": "The account's Avatar before `footer`. Collapsed, the rail shows it alone, centred, and `footer` is hidden.\nWithout it, collapsed shows the start of `footer`."
       },
       {
         "name": "isFooterPinned",
@@ -359,9 +374,16 @@
       {
         "name": "children",
         "type": "React.ReactNode",
-        "required": true,
+        "required": false,
         "origin": "own",
-        "description": "The logo and product name; it links to the Sidebar's `brandHref`."
+        "description": "The product name (or the logo and name together); it links to the Sidebar's `brandHref`."
+      },
+      {
+        "name": "logo",
+        "type": "React.ReactNode",
+        "required": false,
+        "origin": "own",
+        "description": "The app's mark before the name; collapsed, the rail shows it alone. As the Sidebar's `logo`."
       }
     ],
     "SidebarItem": [
@@ -503,9 +525,16 @@
       {
         "name": "children",
         "type": "React.ReactNode",
-        "required": true,
+        "required": false,
         "origin": "own",
-        "description": "The account: Avatar, name and role."
+        "description": "The account's name and role (or Avatar, name and role together)."
+      },
+      {
+        "name": "avatar",
+        "type": "React.ReactNode",
+        "required": false,
+        "origin": "own",
+        "description": "The account's Avatar before the rest; collapsed, the rail shows it alone. As the Sidebar's `avatar`."
       }
     ]
   },

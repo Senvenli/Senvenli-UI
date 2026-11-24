@@ -45,7 +45,8 @@
     ],
     "builtIn": [
       "The current page is marked with aria-current.",
-      "Under 1024px it becomes a panel opened from the header."
+      "Under 1024px it becomes a panel opened from the header.",
+      "Collapsed, the rail shows the logo and the account's avatar alone; the brand name stays the link's accessible name."
     ],
     "youProvide": [
       "Section names.",

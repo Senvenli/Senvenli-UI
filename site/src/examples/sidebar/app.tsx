@@ -1,6 +1,5 @@
 import { Button } from "@senvenli/react/action";
 import { Avatar, Icon, Text } from "@senvenli/react/display";
-import { Stack } from "@senvenli/react/layout";
 import { Sidebar } from "@senvenli/react/navigation";
 import { useState } from "react";
 
@@ -10,12 +9,8 @@ export default function Example() {
     // The Sidebar is as tall as the viewport unless its parent has a height: this frame gives it one.
     <div className="flex h-112 overflow-hidden rounded-ds-large border border-ds-border">
       <Sidebar
-        brand={
-          <>
-            <Icon name="hexagon" />
-            Acme
-          </>
-        }
+        logo={<Icon name="hexagon" />}
+        brand="Acme"
         brandHref="#"
         currentKey="invoices"
         isMobileOpen={isMenuOpen}
@@ -34,12 +29,8 @@ export default function Example() {
             ],
           },
         ]}
-        footer={
-          <Stack direction="horizontal" space="space-100" wrap={false}>
-            <Avatar name="Sofia Marin" src="/avatars/05.webp" size="small" />
-            <Text>Sofia Marin</Text>
-          </Stack>
-        }
+        avatar={<Avatar name="Sofia Marin" src="/avatars/05.webp" size="small" />}
+        footer={<Text>Sofia Marin</Text>}
       />
       <div className="flex min-w-0 flex-1 flex-col items-start gap-ds-150 p-ds-300">
         <div className="lg:hidden">
