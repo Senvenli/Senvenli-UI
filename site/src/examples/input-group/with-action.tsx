@@ -1,7 +1,7 @@
 import { InputAction, InputGroup, InputGroupInput } from "@senvenli/react/form";
 import { useState } from "react";
 
-const API_KEY = "key_live_3f9a7c21";
+const API_KEY = "key_example_3f9a7c21";
 
 export default function Example() {
   const [copied, setCopied] = useState(false);
