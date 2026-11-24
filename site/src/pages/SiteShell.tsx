@@ -98,7 +98,7 @@ export function SiteShell({ children, section, components = [], docs = [], onNav
               </AriaLink>
               <div className="max-w-72">
                 <Text size="body-small" tone="subtle">
-                  Accessible React components that theme themselves, checked against WCAG AA.
+                  Accessible React components in your brand's colors, easy to read in light and dark.
                 </Text>
               </div>
             </div>
