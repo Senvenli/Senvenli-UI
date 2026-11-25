@@ -344,7 +344,9 @@ export function CreatePage() {
         </section>
       </div>
 
-      {/* Phones: the preview comes first; the controls open in a bottom drawer from a sticky button. */}
+      {/* Phones: the preview comes first; the controls open in a bottom drawer from a sticky button. The spacer before
+          it is as tall as the button, so at the end of the page the button never covers the last control. */}
+      <div aria-hidden className="h-ds-800 lg:hidden" />
       <div className="sticky bottom-ds-200 flex justify-center lg:hidden">
         <DialogTrigger>
           <Button variant="primary" iconBefore="palette">

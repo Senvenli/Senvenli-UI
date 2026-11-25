@@ -275,7 +275,7 @@ export function ComponentPage({ manifest, examples = [], components = [], import
         )}
 
         {(previous || next) && (
-          <nav aria-label="Previous and next" className="mt-ds-800 grid grid-cols-2 gap-ds-200">
+          <nav aria-label="Previous and next" className="mt-ds-800 grid grid-cols-1 gap-ds-200 sm:grid-cols-2">
             <div>{previous && <PageLink direction="previous" href={`/docs/components/${previous.name}`} title={previous.title} />}</div>
             <div>{next && <PageLink direction="next" href={`/docs/components/${next.name}`} title={next.title} />}</div>
           </nav>

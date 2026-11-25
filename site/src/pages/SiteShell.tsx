@@ -3,7 +3,7 @@ import { Link as AriaLink } from "react-aria-components";
 import { Text } from "@senvenli/react/display";
 import { Navbar, SkipLink } from "@senvenli/react/navigation";
 import type { ReactNode } from "react";
-import { SiteSearch } from "../components/SiteSearch";
+import { SearchTrigger, SiteSearch } from "../components/SiteSearch";
 import type { ManifestIndexEntry } from "../lib/manifest";
 import { SITE_CONTAINER, SITE_WIDTH } from "../lib/layout";
 
@@ -63,7 +63,7 @@ export function SiteShell({ children, section, components = [], docs = [], onNav
   docs?: { slug: string; title: string; description: string }[];
   onNavigate?: (href: string) => void;
 }) {
-  return (
+  const shell = (
     <div className="flex min-h-dvh flex-col">
       <SkipLink target="#main" />
       <Navbar
@@ -81,7 +81,7 @@ export function SiteShell({ children, section, components = [], docs = [], onNav
         maxWidth={SITE_WIDTH}
         actions={
           <span className="flex items-center gap-ds-100">
-            {onNavigate && <SiteSearch components={components} docs={docs} onNavigate={onNavigate} />}
+            <SearchTrigger />
             <ThemeSwitcher variant="menu" />
           </span>
         }
@@ -141,5 +141,12 @@ export function SiteShell({ children, section, components = [], docs = [], onNav
         </div>
       </footer>
     </div>
+  );
+  return onNavigate ? (
+    <SiteSearch components={components} docs={docs} onNavigate={onNavigate}>
+      {shell}
+    </SiteSearch>
+  ) : (
+    shell
   );
 }
