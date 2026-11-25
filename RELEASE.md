@@ -3,13 +3,12 @@
 All four packages share one version and are published together: `@senvenli/tokens`, `@senvenli/react`,
 `@senvenli/cli`, `@senvenli/mcp`. The docs site and the hosted MCP endpoint live on design.senvenli.com.
 
-## Before the first release (owner)
+## Publishing (owner)
 
-1. **npm organization.** Create the `senvenli` org on npmjs.com (free for public packages), with 2FA on the account
-   that publishes. None of the four names are taken today.
-2. **Log in** on the machine that publishes: `npm login`.
-3. **The repository.** Package pages link to github.com/Senvenli/Senvenli-UI, which is private. Make it public at
-   release (the packages are MIT), or the source links 404 for users.
+The packages are published under the `senvenli` npm org from the owner's account. The account uses 2FA with browser
+authentication, so `pnpm publish` must run in an interactive terminal; it asks to confirm each package in the browser.
+Right after a publish the registry and its CDN can answer 404 for a few minutes; check with
+`npm view @senvenli/react@<version> version --prefer-online`.
 
 ## Every release
 

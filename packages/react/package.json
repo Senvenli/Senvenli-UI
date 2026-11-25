@@ -1,6 +1,6 @@
 {
   "name": "@senvenli/react",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Senvenli UI web components (React Aria Components + Tailwind v4).",
   "license": "MIT",
   "author": "Senvenli",
