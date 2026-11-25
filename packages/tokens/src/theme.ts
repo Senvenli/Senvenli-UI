@@ -38,6 +38,12 @@ export interface ThemeInput {
   warning?: string;
   danger?: string;
   info?: string;
+  /**
+   * Hand-picked colors for dark mode, per role (`{ primary: "#c99a2e" }`). Without one, a role's dark color is
+   * derived from its light color (lifted so the fill stands out on the dark page). A given one is used as-is; it is
+   * only moved, like every color, if its label would fall below AA.
+   */
+  darkColors?: Partial<Record<Role, string>>;
   /** Base corner radius in rem (the "medium" radius). Default 0.625. */
   radius?: number;
   /** Single-line controls follow `radius` (`rounded`, the default) or are fully round (`pill`). */
@@ -232,7 +238,12 @@ const BRAND_DEFAULTS: Record<BrandRole, Record<Mode, OKLCH>> = {
   tertiary: { light: grey(0.55), dark: grey(0.68) },
 };
 
-function deriveMode(mode: Mode, colors: Partial<Record<Role, OKLCH>>, adjusted: Set<Role>): ModeTokens {
+function deriveMode(
+  mode: Mode,
+  colors: Partial<Record<Role, OKLCH>>,
+  adjusted: Set<Role>,
+  darkColors: Partial<Record<Role, OKLCH>> = {},
+): ModeTokens {
   const light = mode === "light";
   const t: ModeTokens = {};
 
@@ -262,6 +273,8 @@ function deriveMode(mode: Mode, colors: Partial<Record<Role, OKLCH>>, adjusted: 
 
   const surfaces = [t["ds-surface"], t["ds-surface-raised"]] as OKLCH[];
   const given = (role: Role): OKLCH | undefined => {
+    // A hand-picked dark color wins in dark mode and is taken as given (no lift).
+    if (!light && darkColors[role]) return darkColors[role];
     const c = colors[role];
     return c && givenTone(c, mode);
   };
@@ -269,6 +282,8 @@ function deriveMode(mode: Mode, colors: Partial<Record<Role, OKLCH>>, adjusted: 
   const flag = (role: Role, s: Scale, given: OKLCH | undefined) => {
     // Any lightness move by the solver (its step is 0.0025) counts as an adjustment.
     if (light && given && Math.abs(s.bold.l - toGamut(given).l) > 0.001) adjusted.add(role);
+    const pinned = !light ? darkColors[role] : undefined;
+    if (pinned && Math.abs(s.bold.l - toGamut(pinned).l) > 0.001) adjusted.add(role);
   };
 
   // Primary = the brand.
@@ -389,9 +404,14 @@ export function checkTokens(mode: Mode, t: ModeTokens, missing?: Set<string>): C
 }
 
 /** Normalize input: drop unknown or invalid values so the theme is always valid. */
-export function normalizeInput(input: ThemeInput = {}): { input: ThemeInput; colors: Partial<Record<Role, OKLCH>> } {
+export function normalizeInput(input: ThemeInput = {}): {
+  input: ThemeInput;
+  colors: Partial<Record<Role, OKLCH>>;
+  darkColors: Partial<Record<Role, OKLCH>>;
+} {
   const clean: ThemeInput = {};
   const colors: Partial<Record<Role, OKLCH>> = {};
+  const darkColors: Partial<Record<Role, OKLCH>> = {};
   for (const role of ROLES) {
     const raw = input[role];
     const parsed = parseColor(raw);
@@ -400,21 +420,33 @@ export function normalizeInput(input: ThemeInput = {}): { input: ThemeInput; col
       colors[role] = parsed;
     }
   }
+  if (input.darkColors && typeof input.darkColors === "object") {
+    const cleanDark: Partial<Record<Role, string>> = {};
+    for (const role of ROLES) {
+      const raw = input.darkColors[role];
+      const parsed = parseColor(raw);
+      if (raw && parsed) {
+        cleanDark[role] = raw.trim();
+        darkColors[role] = parsed;
+      }
+    }
+    if (Object.keys(cleanDark).length) clean.darkColors = cleanDark;
+  }
   if (typeof input.radius === "number" && Number.isFinite(input.radius)) clean.radius = clamp(input.radius, 0, 2);
   if (input.controlShape === "rounded" || input.controlShape === "pill") clean.controlShape = input.controlShape;
   if (input.density && input.density in DENSITY_SCALE) clean.density = input.density;
   if (input.borderWidth === 0 || input.borderWidth === 1 || input.borderWidth === 2) clean.borderWidth = input.borderWidth;
   if (input.fontSans?.trim()) clean.fontSans = input.fontSans.trim();
   if (input.fontMono?.trim()) clean.fontMono = input.fontMono.trim();
-  return { input: clean, colors };
+  return { input: clean, colors, darkColors };
 }
 
 /** Build a complete theme from (possibly empty) input. */
 export function createTheme(raw: ThemeInput = {}): Theme {
-  const { input, colors } = normalizeInput(raw);
+  const { input, colors, darkColors } = normalizeInput(raw);
   const adjusted = new Set<Role>();
   const light = deriveMode("light", colors, adjusted);
-  const dark = deriveMode("dark", colors, adjusted);
+  const dark = deriveMode("dark", colors, adjusted, darkColors);
   const density = input.density ?? DEFAULT_LAYOUT.density;
   const layout: Layout = {
     radius: input.radius ?? DEFAULT_LAYOUT.radius,

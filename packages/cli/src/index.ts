@@ -7,6 +7,7 @@ const USAGE = `Usage: npx @senvenli/cli theme [preset-code] [options]
 
 Options:
   --primary, --secondary, --tertiary <color>   Brand colors (#hex or oklch()); all optional
+  --primary-dark <color>                       A hand-picked primary for dark mode (default: derived)
   --radius <rem>                               Base radius, e.g. 0.5
   --control-shape <rounded|pill>               Single-line controls follow the radius, or are fully round
   --density <compact|default|comfortable>
@@ -23,6 +24,7 @@ function main(argv: string[]): number {
       primary: { type: "string" },
       secondary: { type: "string" },
       tertiary: { type: "string" },
+      "primary-dark": { type: "string" },
       radius: { type: "string" },
       "control-shape": { type: "string" },
       density: { type: "string" },
@@ -50,6 +52,7 @@ function main(argv: string[]): number {
   for (const role of ["primary", "secondary", "tertiary"] as const) {
     if (values[role]) input[role] = values[role];
   }
+  if (values["primary-dark"]) input.darkColors = { ...input.darkColors, primary: values["primary-dark"] };
   if (values.radius) input.radius = Number(values.radius);
   if (values["control-shape"]) input.controlShape = values["control-shape"] as ThemeInput["controlShape"];
   if (values.density) input.density = values.density as ThemeInput["density"];
