@@ -10,7 +10,7 @@ import { SITE_CONTAINER, SITE_WIDTH } from "../lib/layout";
 const LINKS = [
   { id: "docs", label: "Docs", href: "/docs" },
   { id: "components", label: "Components", href: "/docs/components" },
-  { id: "create", label: "Theme builder", href: "/create" },
+  { id: "create", label: "Create", href: "/create" },
 ];
 
 /** The footer's columns: where people go next from any page. */
@@ -29,7 +29,7 @@ const FOOTER: { title: string; links: { label: string; href: string }[] }[] = [
     title: "Build",
     links: [
       { label: "All components", href: "/docs/components" },
-      { label: "Theme builder", href: "/create" },
+      { label: "Create", href: "/create" },
       { label: "Native apps", href: "/docs/native-apps" },
     ],
   },
