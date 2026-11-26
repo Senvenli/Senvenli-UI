@@ -2,7 +2,7 @@ import { Button, useThemePreference } from "@senvenli/react/action";
 import { ColorField, ColorSwatch, ColorSwatchPicker } from "@senvenli/react/color";
 import { Heading, Text } from "@senvenli/react/display";
 import { Banner } from "@senvenli/react/feedback";
-import { SegmentedControl, Tabs } from "@senvenli/react/navigation";
+import { Accordion, Disclosure, SegmentedControl, Tabs } from "@senvenli/react/navigation";
 import { Dialog, DialogTrigger, Drawer } from "@senvenli/react/overlay";
 import { Slider } from "@senvenli/react/selection";
 import {
@@ -92,15 +92,13 @@ function Controls({ input, theme, setInput }: { input: ThemeInput; theme: Theme;
         }}
       />
 
-      <section aria-labelledby="colors-title" className="flex flex-col gap-ds-200">
-        <div className="flex flex-col gap-ds-050">
-          <Heading id="colors-title" level={2} size="heading-xsmall">
-            Colors
-          </Heading>
-          <Text size="body-small" tone="subtle">
-            All optional. Leave one empty to keep the neutral default.
-          </Text>
-        </div>
+      {/* Sections open and close, so the panel stays short and the preview beside it stays in view. */}
+      <Accordion allowsMultipleExpanded defaultExpandedKeys={["colors", "shape"]} headingLevel={2}>
+      <Disclosure id="colors" title="Colors">
+      <div className="flex flex-col gap-ds-200 pb-ds-200">
+        <Text size="body-small" tone="subtle">
+          All optional. Leave one empty to keep the neutral default.
+        </Text>
         {BRAND_ROLES.map((role) => {
           const adjusted = theme.adjusted.includes(role);
           const used = formatHex(theme.light[ROLE_TOKEN[role]]!).toUpperCase();
@@ -122,12 +120,11 @@ function Controls({ input, theme, setInput }: { input: ThemeInput; theme: Theme;
             </div>
           );
         })}
-      </section>
+      </div>
+      </Disclosure>
 
-      <section aria-labelledby="shape-title" className="flex flex-col gap-ds-300">
-        <Heading id="shape-title" level={2} size="heading-xsmall">
-          Shape
-        </Heading>
+      <Disclosure id="shape" title="Shape">
+      <div className="flex flex-col gap-ds-300 pb-ds-200">
         <Slider
           label="Radius (px)"
           minValue={0}
@@ -172,7 +169,9 @@ function Controls({ input, theme, setInput }: { input: ThemeInput; theme: Theme;
             onChange={(value) => set({ borderWidth: Number(value) as BorderWidth })}
           />
         </div>
-      </section>
+      </div>
+      </Disclosure>
+      </Accordion>
 
       <Banner
         tone={failing.length ? "warning" : "success"}
@@ -268,15 +267,33 @@ export function CreatePage() {
 
   const mode = dark ? theme.dark : theme.light;
   const controls = <Controls input={input} theme={theme} setInput={setInput} />;
+  const tokenList = (
+<ul className="m-0 grid list-none gap-ds-150 p-0 sm:grid-cols-2 xl:grid-cols-4">
+              {SWATCHES.map((token) => {
+                const hex = formatHex(mode[token]!).toUpperCase();
+                return (
+                  <li key={token} className="flex items-center gap-ds-150">
+                    <ColorSwatch color={hex} name={token} />
+                    <span className="flex min-w-0 flex-col">
+                      <code className="truncate font-ds-mono text-code text-ds-text">{token.replace(/^ds-/, "")}</code>
+                      <span className="font-ds-mono text-code text-ds-text-subtle">{hex}</span>
+                    </span>
+                  </li>
+                );
+              })}
+            </ul>
+  );
 
   return (
-    <main id="main" className={`${SITE_CONTAINER} flex flex-col gap-ds-500 py-ds-600`}>
+    // From lg up the page is an editor that fills the screen under the 57px navbar: the controls and the preview sit
+    // side by side, each scrolling on its own, so a change is visible next to the control that made it.
+    <main id="main" className={`${SITE_CONTAINER} flex flex-col gap-ds-500 py-ds-600 lg:h-[calc(100dvh-57px)] lg:gap-ds-300 lg:py-ds-300`}>
       <header className="flex flex-wrap items-end justify-between gap-ds-300">
-        <div className="flex max-w-2xl flex-col gap-ds-150">
-          <Heading level={1} size="heading-xxlarge">
+        <div className="flex max-w-2xl flex-col gap-ds-075">
+          <Heading level={1} size="heading-large">
             Create a theme
           </Heading>
-          <Text size="body-large" tone="subtle">
+          <Text tone="subtle">
             Pick up to three colors, or none. The engine derives the rest and checks every pair against WCAG AA in light and dark.
           </Text>
         </div>
@@ -304,13 +321,13 @@ export function CreatePage() {
         </div>
       </header>
 
-      <div className="grid gap-ds-500 lg:grid-cols-[360px_minmax(0,1fr)]">
-        <aside aria-label="Theme controls" className="hidden lg:block">
-          <div className="sticky top-20 max-h-[calc(100dvh-6rem)] overflow-y-auto rounded-ds-xlarge bg-ds-surface-sunken p-ds-300">{controls}</div>
+      <div className="grid gap-ds-500 lg:min-h-0 lg:flex-1 lg:grid-cols-[340px_minmax(0,1fr)] lg:gap-ds-300">
+        <aside aria-label="Theme controls" className="hidden min-h-0 lg:block">
+          <div className="h-full overflow-y-auto overscroll-contain rounded-ds-xlarge bg-ds-surface-sunken p-ds-300">{controls}</div>
         </aside>
 
         {/* data-preset-pending (set by the head script) keeps the preview hidden until a shared preset applies. */}
-        <section aria-label="Preview" className="preview flex min-w-0 flex-col gap-ds-400">
+        <section aria-label="Preview" className="preview flex min-w-0 flex-col gap-ds-400 lg:min-h-0 lg:overflow-y-auto lg:overscroll-contain lg:pe-ds-100">
           <Tabs
             aria-label="Preview"
             items={[
@@ -319,28 +336,10 @@ export function CreatePage() {
               { id: "data", label: "Data", panel: <div className="grid gap-ds-200 pt-ds-200"><CollectionPreview /></div> },
               { id: "charts", label: "Charts", panel: <div className="grid gap-ds-200 pt-ds-200 md:grid-cols-2"><ChartsPreview /></div> },
               { id: "auth", label: "Sign in", panel: <div className="grid gap-ds-200 pt-ds-200 md:grid-cols-2"><AuthPreview /></div> },
+              { id: "tokens", label: "Tokens", panel: <div className="pt-ds-200">{tokenList}</div> },
             ]}
           />
 
-          <section aria-labelledby="tokens-title" className="flex flex-col gap-ds-200">
-            <Heading id="tokens-title" level={2} size="heading-medium">
-              Tokens
-            </Heading>
-            <ul className="m-0 grid list-none gap-ds-150 p-0 sm:grid-cols-2 xl:grid-cols-4">
-              {SWATCHES.map((token) => {
-                const hex = formatHex(mode[token]!).toUpperCase();
-                return (
-                  <li key={token} className="flex items-center gap-ds-150">
-                    <ColorSwatch color={hex} name={token} />
-                    <span className="flex min-w-0 flex-col">
-                      <code className="truncate font-ds-mono text-code text-ds-text">{token.replace(/^ds-/, "")}</code>
-                      <span className="font-ds-mono text-code text-ds-text-subtle">{hex}</span>
-                    </span>
-                  </li>
-                );
-              })}
-            </ul>
-          </section>
         </section>
       </div>
 
