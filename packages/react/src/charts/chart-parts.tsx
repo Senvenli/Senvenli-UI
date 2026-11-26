@@ -4,6 +4,7 @@ import * as React from "react";
 import { Button as AriaButton, useLocale } from "react-aria-components";
 
 import { cn } from "../utils";
+import { TouchTarget } from "../action/touch-target";
 import { useMotionSetting } from "../defaults";
 /** The OS reduced-motion preference. */
 const REDUCED_MOTION_QUERY = "(prefers-reduced-motion: reduce)";
@@ -196,11 +197,13 @@ export function ChartLegend({ items, hidden, onToggle }: ChartLegendProps) {
             data-slot="chart-legend-item"
             onPress={() => onToggle(item.key)}
             className={cn(
-              "inline-flex cursor-pointer items-center gap-ds-075 rounded-ds-small outline-hidden data-[hovered]:text-ds-text",
+              "relative inline-flex cursor-pointer items-center gap-ds-075 rounded-ds-small outline-hidden data-[hovered]:text-ds-text",
               "data-[focus-visible]:inset-ring-2 data-[focus-visible]:inset-ring-ds-border-focused",
               isHidden && "opacity-45",
             )}
           >
+            {/* A 16px row of text: a 44px hit area under a coarse pointer, as compact Buttons have. */}
+            <TouchTarget />
             {key}
             {item.label}
           </AriaButton>
@@ -311,8 +314,10 @@ export function ChartFrame<T extends object>({ height, isLoading, emptyState, da
             aria-controls={tableId}
             data-slot="chart-table-toggle"
             onPress={() => setShowTable((value) => !value)}
-            className="w-max cursor-pointer rounded-ds-small text-body-small font-[500] text-ds-link outline-hidden data-[hovered]:underline data-[focus-visible]:inset-ring-2 data-[focus-visible]:inset-ring-ds-border-focused"
+            className="relative w-max cursor-pointer rounded-ds-small text-body-small font-[500] text-ds-link outline-hidden data-[hovered]:underline data-[focus-visible]:inset-ring-2 data-[focus-visible]:inset-ring-ds-border-focused"
           >
+            {/* 16px of text: a 44px hit area under a coarse pointer, as compact Buttons have. */}
+            <TouchTarget />
             {showTable ? hideDataTableLabel(locale) : showDataTableLabel(locale)}
           </AriaButton>
           {/* Collapsed, the box clips the visually hidden table: a table never shrinks below its content, so a

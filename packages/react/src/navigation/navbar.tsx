@@ -55,7 +55,7 @@ export type NavbarProps = {
 };
 
 const LINK =
-  "inline-flex h-8 items-center gap-ds-075 rounded-ds-control-medium px-ds-100 text-body font-[500] text-ds-text-subtle outline-hidden transition-colors duration-(--ds-duration-fast) motion-reduce:transition-none " +
+  "inline-flex h-8 items-center gap-ds-075 whitespace-nowrap rounded-ds-control-medium px-ds-100 text-body font-[500] text-ds-text-subtle outline-hidden transition-colors duration-(--ds-duration-fast) motion-reduce:transition-none " +
   "data-[hovered]:bg-ds-background-neutral-subtle-hovered data-[hovered]:text-ds-text data-[pressed]:bg-ds-background-neutral-pressed " +
   "data-[focus-visible]:inset-ring-2 data-[focus-visible]:inset-ring-ds-border-focused " +
   "aria-[current=page]:bg-ds-background-neutral aria-[current=page]:text-ds-text";
@@ -97,7 +97,8 @@ export function Navbar({
       href={brandHref}
       aria-label={brandLabel}
       data-slot="navbar-brand"
-      className="flex min-w-0 items-center gap-ds-100 rounded-ds-medium text-body-strong text-ds-text outline-hidden data-[focus-visible]:inset-ring-2 data-[focus-visible]:inset-ring-ds-border-focused"
+      // shrink-0: the brand keeps its size and the links give way, so a wide wordmark never runs under the first link.
+      className="flex shrink-0 items-center gap-ds-100 rounded-ds-medium text-body-strong text-ds-text outline-hidden data-[focus-visible]:inset-ring-2 data-[focus-visible]:inset-ring-ds-border-focused"
     >
       <BrandLinkContext.Provider value>{brand}</BrandLinkContext.Provider>
     </AriaLink>

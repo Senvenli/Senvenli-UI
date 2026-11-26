@@ -378,7 +378,9 @@ export function TableView<T extends object>({
                       "group/cell relative border-b border-ds-border px-ds-200 align-middle outline-hidden",
                       lastRow,
                       "data-[focus-visible]:inset-ring-2 data-[focus-visible]:inset-ring-ds-border-focused",
-                      column.align === "end" ? "whitespace-nowrap text-end tabular-nums" : "text-start",
+                      // One line per cell, as shadcn's tables: on a phone the table scrolls sideways instead of breaking
+                      // "SO-1081" or a name over two lines. `wrap` columns clamp to two lines; `width` columns truncate.
+                      column.align === "end" ? "whitespace-nowrap text-end tabular-nums" : cn("text-start", !column.wrap && !column.width && "whitespace-nowrap"),
                       cellBox,
                       virtual && column.align === "end" && "justify-end",
                       hiddenClass(column),
