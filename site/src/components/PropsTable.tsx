@@ -6,68 +6,47 @@ import { DocText } from "./DocText";
 const code = "font-ds-mono text-code";
 
 /**
- * Props as a table from 640px (Prop, Type, Default, Description at 14px), and as one stacked block per prop below it,
- * so a phone never scrolls sideways through a type. Code in the type and description cells may break anywhere, and a
- * prop name longer than its column scrolls inside the table, never the page.
+ * One row per prop, at every width: the name (and a Required badge) on the start side, and beside it the type as a
+ * chip with the default on the same line and the description in full below. Below 640px the two sides stack.
+ * Nothing is squeezed into a narrow column, so a type breaks only between its words (a union over two lines),
+ * never inside one, and a long description gets the page's measure.
  */
 function Rows({ props }: { props: ManifestProp[] }) {
   return (
-    <>
-      <div className="hidden overflow-x-auto sm:block">
-      <table className="w-full border-collapse text-start text-body">
-        <thead>
-          <tr className="text-ds-text-subtle">
-            <th scope="col" className="py-ds-100 pe-ds-300 text-start font-medium">Prop</th>
-            <th scope="col" className="py-ds-100 pe-ds-300 text-start font-medium">Type</th>
-            <th scope="col" className="py-ds-100 pe-ds-300 text-start font-medium">Default</th>
-            <th scope="col" className="py-ds-100 text-start font-medium">Description</th>
-          </tr>
-        </thead>
-        <tbody>
-          {props.map((prop) => (
-            <tr key={prop.name} className="border-t border-ds-border align-top">
-              <th scope="row" className="py-ds-150 pe-ds-300 text-start font-normal">
-                <span className="flex flex-col items-start gap-ds-050">
-                  <code className={`${code} text-ds-text`}>{prop.name}</code>
-                  {prop.required && <Badge>Required</Badge>}
-                </span>
-              </th>
-              <td className="max-w-60 py-ds-150 pe-ds-300">
-                <code className={`${code} [overflow-wrap:anywhere] text-ds-text-subtle`}>{prop.type}</code>
-              </td>
-              <td className="py-ds-150 pe-ds-300">
-                {prop.default !== undefined ? <code className={`${code} text-ds-text-subtle`}>{prop.default}</code> : <span className="text-ds-text-subtlest">–</span>}
-              </td>
-              <td className="py-ds-150 text-ds-text [&_code]:[overflow-wrap:anywhere]">{prop.description && <DocText text={prop.description} />}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      </div>
-      <dl className="m-0 flex flex-col sm:hidden">
-        {props.map((prop) => (
-          <div key={prop.name} className="flex flex-col gap-ds-075 border-t border-ds-border py-ds-200">
-            <dt className="flex items-center gap-ds-100">
-              <code className={`${code} text-ds-text`}>{prop.name}</code>
-              {prop.required && <Badge>Required</Badge>}
-            </dt>
-            <dd className="m-0 flex flex-col gap-ds-075 text-body">
-              <code className={`${code} [overflow-wrap:anywhere] text-ds-text-subtle`}>{prop.type}</code>
-              {prop.default !== undefined && (
-                <span className="text-ds-text-subtle">
-                  Default <code className={code}>{prop.default}</code>
-                </span>
-              )}
-              {prop.description && (
-                <span className="text-ds-text">
-                  <DocText text={prop.description} />
-                </span>
-              )}
-            </dd>
+    <ul className="m-0 flex list-none flex-col p-0">
+      {props.map((prop) => (
+        <li
+          key={prop.name}
+          data-slot="prop-row"
+          className="grid gap-ds-100 border-t border-ds-border py-ds-250 first:border-t-0 sm:grid-cols-[minmax(0,12rem)_minmax(0,1fr)] sm:gap-ds-400"
+        >
+          <div className="flex min-w-0 flex-wrap items-center gap-ds-100 sm:flex-col sm:items-start sm:gap-ds-075">
+            <code className={`${code} break-words font-medium text-ds-text`}>{prop.name}</code>
+            {prop.required && <Badge>Required</Badge>}
           </div>
-        ))}
-      </dl>
-    </>
+          <div className="flex min-w-0 flex-col gap-ds-100">
+            <div className="flex flex-wrap items-baseline gap-x-ds-200 gap-y-ds-075">
+              <code
+                data-slot="prop-type"
+                className={`${code} rounded-ds-small bg-ds-background-neutral px-ds-075 py-ds-025 break-words text-ds-text-subtle [box-decoration-break:clone]`}
+              >
+                {prop.type}
+              </code>
+              {prop.default !== undefined && (
+                <span className="text-body-small text-ds-text-subtle">
+                  Default <code className={`${code} text-ds-text`}>{prop.default}</code>
+                </span>
+              )}
+            </div>
+            {prop.description && (
+              <div className="text-body text-ds-text-subtle [&_code]:break-words">
+                <DocText text={prop.description} />
+              </div>
+            )}
+          </div>
+        </li>
+      ))}
+    </ul>
   );
 }
 
