@@ -10,6 +10,7 @@ export default function Example() {
         brandHref="#"
         currentKey="orders"
         defaultCollapsed
+        togglePlacement="header"
         items={[
           { id: "home", label: "Home", icon: "house", href: "#" },
           { id: "orders", label: "Orders", icon: "shopping-cart", href: "#", badge: { value: 4 } },

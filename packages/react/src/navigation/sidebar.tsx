@@ -96,6 +96,12 @@ export type SidebarProps = {
    * order, is the same as without it. Off by default: the whole sidebar scrolls as one, as before.
    */
   isFooterPinned?: boolean;
+  /**
+   * Where the collapse toggle sits on wide screens. `footer` (default): at the end of the bottom row, beside the
+   * account. `header`: beside the brand at the top; collapsed, it takes the brand's place, so the rail opens from
+   * where the eye starts. The phone panel has no toggle either way.
+   */
+  togglePlacement?: "header" | "footer";
   /** Icons only (56px), labels in tooltips. Controlled; or `defaultCollapsed` + `onCollapsedChange`. */
   isCollapsed?: boolean;
   defaultCollapsed?: boolean;
@@ -272,6 +278,7 @@ function SidebarBody({
   footer: footerProp,
   avatar: avatarProp,
   isFooterPinned = false,
+  togglePlacement = "footer",
   isCollapsed,
   defaultCollapsed = false,
   onCollapsedChange,
@@ -310,6 +317,24 @@ function SidebarBody({
   const shared: Shared = { currentKey, collapsed, expand: () => setCollapsed(false) };
   const labelled = sections && sections.length > 0 ? sections : undefined;
   useRepeatedIdWarning(items ?? [], labelled);
+  const toggle = (
+    <Tooltip content={toggleLabel} placement="end">
+      <Button
+        variant="subtle"
+        size="small"
+        iconOnly
+        // The panel edge is the inline start: left in LTR, right in RTL.
+        iconBefore={
+          direction === "rtl"
+            ? collapsed ? "panel-right-open" : "panel-right-close"
+            : collapsed ? "panel-left-open" : "panel-left-close"
+        }
+        aria-label={toggleLabel}
+        aria-expanded={!collapsed}
+        onPress={() => setCollapsed(!collapsed)}
+      />
+    </Tooltip>
+  );
 
   return (
     <>
@@ -327,7 +352,21 @@ function SidebarBody({
         )}
         data-footer-pinned={isFooterPinned ? "" : undefined}
       >
-        {hasBrand && <Brand brand={brand} logo={logo} href={brandHref} />}
+        {togglePlacement === "header" ? (
+          // The brand, then the toggle at the row's end; collapsed, the toggle alone takes the brand's place.
+          <div data-slot="sidebar-header" className={cn("flex min-h-8 shrink-0 items-center justify-between gap-ds-100", WHEN_COLLAPSED.centre)}>
+            {hasBrand && (
+              <div className={cn("flex min-w-0 flex-1", WHEN_COLLAPSED.hidden)}>
+                <Brand brand={brand} logo={logo} href={brandHref} />
+              </div>
+            )}
+            <div data-slot="sidebar-toggle" className="flex shrink-0">
+              {toggle}
+            </div>
+          </div>
+        ) : (
+          hasBrand && <Brand brand={brand} logo={logo} href={brandHref} />
+        )}
         {isFooterPinned ? (
           <div data-slot="sidebar-scroll" className={PINNED.scroll}>
             <Navigation items={items} nodes={nav} sections={labelled} shared={shared} />
@@ -335,38 +374,27 @@ function SidebarBody({
         ) : (
           <Navigation items={items} nodes={nav} sections={labelled} shared={shared} />
         )}
-        <div className={cn(BOTTOM, isFooterPinned ? "shrink-0" : "mt-auto")}>
-          {hasFooter && (
-            <SharedContext.Provider value={shared}>
-              <Account footer={footer} avatar={avatar} className={cn(FOOTER_RULE, WHEN_COLLAPSED.clip, avatar != null && WHEN_COLLAPSED.centre)} />
-            </SharedContext.Provider>
-          )}
-          <div
-            data-slot="sidebar-toggle"
-            className={cn(
-              "flex justify-end group-data-[collapsed]/sidebar:justify-center [:root[data-ds-sidebar=collapsed]_[data-slot=sidebar]_&]:justify-center",
-              // Beside the account, under the same divider; alone, it keeps the row's end.
-              hasFooter ? cn(FOOTER_RULE, "self-stretch items-center ps-ds-050 group-data-[collapsed]/sidebar:border-t-0 group-data-[collapsed]/sidebar:pt-0 [:root[data-ds-sidebar=collapsed]_[data-slot=sidebar]_&]:border-t-0 [:root[data-ds-sidebar=collapsed]_[data-slot=sidebar]_&]:pt-0") : "col-span-full",
+        {(hasFooter || togglePlacement === "footer") && (
+          <div className={cn(BOTTOM, isFooterPinned ? "shrink-0" : "mt-auto")}>
+            {hasFooter && (
+              <SharedContext.Provider value={shared}>
+                <Account footer={footer} avatar={avatar} className={cn(FOOTER_RULE, WHEN_COLLAPSED.clip, avatar != null && WHEN_COLLAPSED.centre)} />
+              </SharedContext.Provider>
             )}
-          >
-            <Tooltip content={toggleLabel} placement="end">
-              <Button
-                variant="subtle"
-                size="small"
-                iconOnly
-                // The panel edge is the inline start: left in LTR, right in RTL.
-                iconBefore={
-                  direction === "rtl"
-                    ? collapsed ? "panel-right-open" : "panel-right-close"
-                    : collapsed ? "panel-left-open" : "panel-left-close"
-                }
-                aria-label={toggleLabel}
-                aria-expanded={!collapsed}
-                onPress={() => setCollapsed(!collapsed)}
-              />
-            </Tooltip>
+            {togglePlacement === "footer" && (
+            <div
+              data-slot="sidebar-toggle"
+              className={cn(
+                "flex justify-end group-data-[collapsed]/sidebar:justify-center [:root[data-ds-sidebar=collapsed]_[data-slot=sidebar]_&]:justify-center",
+                // Beside the account, under the same divider; alone, it keeps the row's end.
+                hasFooter ? cn(FOOTER_RULE, "self-stretch items-center ps-ds-050 group-data-[collapsed]/sidebar:border-t-0 group-data-[collapsed]/sidebar:pt-0 [:root[data-ds-sidebar=collapsed]_[data-slot=sidebar]_&]:border-t-0 [:root[data-ds-sidebar=collapsed]_[data-slot=sidebar]_&]:pt-0") : "col-span-full",
+              )}
+            >
+              {toggle}
+            </div>
+            )}
           </div>
-        </div>
+        )}
       </nav>
       <NavPanel
         isOpen={isMobileOpen}
