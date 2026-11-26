@@ -1,0 +1,327 @@
+{
+  "$schema": "https://design.senvenli.com/schema/component.full.json",
+  "kind": "component",
+  "family": "overlay",
+  "status": "alpha",
+  "import": "@senvenli/react/overlay",
+  "name": "tour",
+  "title": "Tour",
+  "exports": [
+    "Tour"
+  ],
+  "description": "A guided tour: a short sequence of steps, each pointing at a part of the page with a title, a sentence and Back, Next and Done.",
+  "keywords": [
+    "tour",
+    "product tour",
+    "onboarding",
+    "walkthrough",
+    "coachmark",
+    "guided tour",
+    "spotlight"
+  ],
+  "usage": {
+    "when": [
+      "Introducing a screen's main parts to someone new, once, in three to seven steps.",
+      "Showing what changed after a redesign, pointing at each moved part."
+    ],
+    "instead": [
+      {
+        "use": "popover",
+        "when": "One hint about one control, opened on purpose."
+      },
+      {
+        "use": "empty-state",
+        "when": "Teaching the first action on an empty screen."
+      },
+      {
+        "use": "dialog",
+        "when": "A message that does not point at anything on the page."
+      }
+    ]
+  },
+  "guidance": [
+    {
+      "rule": "Keep it short: a few steps, a few words of title and one or two sentences each. Nobody reads a tenth step."
+    },
+    {
+      "rule": "Always let people leave. Skip, the close button and Esc call onSkip; Done calls onFinish, so the app can remember which."
+    },
+    {
+      "rule": "Point at things that are on the screen. A target on another route is waited for (targetTimeout), then shown centred or skipped (missingTarget)."
+    },
+    {
+      "rule": "The page is dimmed and the target cannot be pressed by default. Use mask={false} for a step that asks people to use the page."
+    }
+  ],
+  "a11y": {
+    "builtIn": [
+      "Each step is a dialog named by its title and described by its sentence; modal with the default mask (focus stays in the panel, the page is hidden from screen readers), non-modal with mask={false}.",
+      "The step's heading takes focus on every step and a status line announces \"Step 2 of 5\".",
+      "Left and Right arrows move between steps, mirrored right to left, and leave text fields alone; Esc skips.",
+      "Focus returns to where it was when the tour closes.",
+      "With reduced motion the panel and the lit area move without animation and scrolling to a target is instant."
+    ],
+    "youProvide": [
+      "A title that says what the step shows, not \"Step 1\".",
+      "A way to start the tour again later (a Help menu item), since a skipped tour is gone."
+    ]
+  },
+  "related": [
+    "popover",
+    "dialog",
+    "stepper"
+  ],
+  "genui": {
+    "expose": false
+  },
+  "source": [
+    "src/overlay/tour.tsx"
+  ],
+  "props": {
+    "Tour": [
+      {
+        "name": "steps",
+        "type": "readonly TourStep[]",
+        "required": true,
+        "origin": "own",
+        "schema": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "title": {
+                "type": "string"
+              },
+              "description": {
+                "type": "string"
+              },
+              "placement": {
+                "type": "string",
+                "enum": [
+                  "top",
+                  "bottom",
+                  "start",
+                  "end"
+                ]
+              }
+            },
+            "required": [
+              "title"
+            ]
+          }
+        }
+      },
+      {
+        "name": "isOpen",
+        "type": "boolean",
+        "required": false,
+        "origin": "own",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "defaultOpen",
+        "type": "boolean",
+        "required": false,
+        "origin": "own",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "onOpenChange",
+        "type": "(isOpen: boolean) => void",
+        "required": false,
+        "origin": "own"
+      },
+      {
+        "name": "step",
+        "type": "number",
+        "required": false,
+        "origin": "own",
+        "description": "The current step's index (0-based), controlled.",
+        "schema": {
+          "type": "number"
+        }
+      },
+      {
+        "name": "defaultStep",
+        "type": "number",
+        "required": false,
+        "origin": "own",
+        "description": "The step an uncontrolled tour starts at each time it opens; default 0.",
+        "schema": {
+          "type": "number"
+        }
+      },
+      {
+        "name": "onStepChange",
+        "type": "(step: number) => void",
+        "required": false,
+        "origin": "own"
+      },
+      {
+        "name": "onFinish",
+        "type": "() => void",
+        "required": false,
+        "origin": "own",
+        "description": "Done on the last step. The tour then closes."
+      },
+      {
+        "name": "onSkip",
+        "type": "() => void",
+        "required": false,
+        "origin": "own",
+        "description": "Skip, the close button or Esc. The tour then closes. Kept apart from `onFinish` so an app can tell them apart."
+      },
+      {
+        "name": "mask",
+        "type": "boolean",
+        "required": false,
+        "origin": "own",
+        "description": "`true` (default): the page is dimmed except the target, which cannot be pressed, and focus stays in the panel\n(a modal dialog). `false`: no dimming, the page stays usable and the panel is a non-modal dialog.",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "spotlightPadding",
+        "type": "number",
+        "required": false,
+        "origin": "own",
+        "description": "Room between the target and the edge of the lit area, in px; default 6.",
+        "schema": {
+          "type": "number"
+        }
+      },
+      {
+        "name": "placement",
+        "type": "TourPlacement",
+        "required": false,
+        "origin": "own",
+        "description": "The side of the target the panel prefers; default `bottom`. It flips when that side has no room.",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "top",
+            "bottom",
+            "start",
+            "end"
+          ]
+        }
+      },
+      {
+        "name": "showProgress",
+        "type": "boolean",
+        "required": false,
+        "origin": "own",
+        "description": "\"Step 2 of 5\" above the title; default true.",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "scrollIntoView",
+        "type": "boolean",
+        "required": false,
+        "origin": "own",
+        "description": "Scroll a target that is out of view to the middle of the screen; default true.",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "targetTimeout",
+        "type": "number",
+        "required": false,
+        "origin": "own",
+        "description": "How long to wait for a target that is not on the page yet (a route still loading), in ms; default 3000.",
+        "schema": {
+          "type": "number"
+        }
+      },
+      {
+        "name": "missingTarget",
+        "type": "\"center\" | \"skip\"",
+        "required": false,
+        "origin": "own",
+        "description": "When a target never appears: `center` (default) shows the step as a centred panel; `skip` moves on in the direction of travel.",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "center",
+            "skip"
+          ]
+        }
+      },
+      {
+        "name": "isKeyboardNavigationDisabled",
+        "type": "boolean",
+        "required": false,
+        "origin": "own",
+        "description": "Turn off the arrow keys moving between steps. Esc still skips.",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "motion",
+        "type": "ComponentMotion",
+        "required": false,
+        "origin": "own",
+        "description": "`auto` (follow the device), `reduce` or `none`, for this component; the provider's setting otherwise.",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "none",
+            "auto",
+            "reduce"
+          ]
+        }
+      }
+    ]
+  },
+  "tokens": [
+    "ds-blanket",
+    "ds-border-focused",
+    "ds-easing-enter",
+    "ds-easing-exit",
+    "ds-radius-large",
+    "ds-radius-medium",
+    "ds-radius-small",
+    "ds-radius-xlarge",
+    "ds-shadow-overlay",
+    "ds-space-050",
+    "ds-space-100",
+    "ds-space-150",
+    "ds-space-200",
+    "ds-space-300",
+    "ds-surface-overlay",
+    "ds-text",
+    "ds-text-subtle"
+  ],
+  "strings": [
+    "close",
+    "newTab",
+    "stepNOf",
+    "tourBack",
+    "tourFinish",
+    "tourNext",
+    "tourSkip"
+  ],
+  "quality": {
+    "tests": true,
+    "a11y": false,
+    "docs": false,
+    "visual": false,
+    "dark": false,
+    "rtl": false,
+    "mcp": true,
+    "generic": true
+  }
+}

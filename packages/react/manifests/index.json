@@ -1860,6 +1860,27 @@
     "genui": false
   },
   {
+    "name": "tour",
+    "title": "Tour",
+    "family": "overlay",
+    "status": "alpha",
+    "description": "A guided tour: a short sequence of steps, each pointing at a part of the page with a title, a sentence and Back, Next and Done.",
+    "keywords": [
+      "tour",
+      "product tour",
+      "onboarding",
+      "walkthrough",
+      "coachmark",
+      "guided tour",
+      "spotlight"
+    ],
+    "import": "@senvenli/react/overlay",
+    "exports": [
+      "Tour"
+    ],
+    "genui": false
+  },
+  {
     "name": "autocomplete",
     "title": "Autocomplete",
     "family": "selection",

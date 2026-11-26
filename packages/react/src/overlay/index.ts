@@ -1,5 +1,5 @@
 // @senvenli/react/overlay: Dialog, AlertDialog, Drawer and DialogTrigger; Popover, Tooltip, Menu, ContextMenu and HoverCard;
-// Command, Toaster and toast(). Each is built on React Aria Components.
+// Command, Toaster and toast(); Tour. Each is built on React Aria Components.
 export { DialogTrigger } from "./overlay-base";
 export type { OverlaySize } from "./overlay-base";
 export { Dialog, useDialogClose } from "./dialog";
@@ -18,3 +18,5 @@ export { Command } from "./command";
 export type { CommandGroup, CommandItem, CommandProps } from "./command";
 export { Toaster, toast } from "./toast";
 export type { ToastOptions, ToastPromiseMessages, ToastTone } from "./toast";
+export { Tour } from "./tour";
+export type { TourPlacement, TourProps, TourStep, TourTarget } from "./tour";
