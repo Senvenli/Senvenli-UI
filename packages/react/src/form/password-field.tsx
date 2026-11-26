@@ -30,8 +30,12 @@ const FILLED = { 1: 2, 2: 3, 3: 4 } as const;
 
 export type PasswordFieldProps = Omit<AriaTextFieldProps, "className" | "style" | "children" | "type"> & {
   label: React.ReactNode;
-  /** `current-password` to sign in, `new-password` to create or reset. */
-  autoComplete: "current-password" | "new-password";
+  /**
+   * `current-password` to sign in, `new-password` to create or reset. `off` for a masked secret that is not the
+   * person's password (a domain transfer code, an API key), so password managers do not offer to generate or save
+   * one there.
+   */
+  autoComplete: "current-password" | "new-password" | "off";
   /** The requirements, stated up front ("At least 10 characters"). */
   description?: React.ReactNode;
   errorMessage?: React.ReactNode;
