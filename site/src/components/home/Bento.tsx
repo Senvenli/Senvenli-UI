@@ -6,8 +6,6 @@ import { Badge, Stat, StatGroup } from "@senvenli/react/display";
 import { ProgressBar } from "@senvenli/react/feedback";
 import { Input } from "@senvenli/react/form";
 import { Checkbox, Select, Slider, Switch } from "@senvenli/react/selection";
-import { useRef } from "react";
-import { useOwnHeights } from "../../lib/own-heights";
 
 const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 const REVENUE = MONTHS.map((month, i) => ({ month, online: 32000 + i * 2400 + (i % 3) * 1800, retail: 18000 + i * 900 + (i % 2) * 1200 }));
@@ -26,18 +24,16 @@ function Cell({ children, className = "" }: { children: React.ReactNode; classNa
 /**
  * Real components with fixed data: what a theme changes, at a glance. Laid out by the bento's own width: twelve columns
  * from 64rem (8 + 4, then three cells of 4), two from 40rem (the chart across, then two rows of two), one below; cells
- * stretch to their row, so the grid has no gaps. A chart that opens its data table grows alone: the cards beside it
- * keep their height (useOwnHeights).
+ * stretch to their row, so the grid has no gaps. A chart shows its data table in place of the plot, so no card ever
+ * changes height.
  */
 export function Bento() {
-  const grid = useRef<HTMLDivElement>(null);
-  useOwnHeights(grid);
   return (
     // Laid out by its own width, not the viewport's: on the landing it spans the page, in the builder it shares the
     // row with the controls. Twelve columns wait for 64rem: below it a third of the row is too narrow for a calendar
     // at its own size, and the cells beside it wrap and grow tall.
     <div className="@container">
-    <div ref={grid} data-slot="home-bento" className="grid items-stretch gap-ds-200 @[40rem]:grid-cols-2 @5xl:grid-cols-12">
+    <div data-slot="home-bento" className="grid items-stretch gap-ds-200 @[40rem]:grid-cols-2 @5xl:grid-cols-12">
       <Cell className="@[40rem]:col-span-2 @5xl:col-span-8">
         <AreaChart
           title="Revenue"

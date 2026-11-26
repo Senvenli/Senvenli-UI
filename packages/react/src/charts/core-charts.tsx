@@ -32,8 +32,7 @@ import {
   useChartSeries,
   type ChartLegendItem,
   type ChartTooltipProps,
-  type ChartValueFormatter,
-} from "./chart-parts";
+  type ChartValueFormatter, type ChartTableProps } from "./chart-parts";
 import type { TableColumn } from "../collection/table";
 import { type FormattedValues, chartNumber, formattedValues, labelText, textLines, textWidth, tickAxisWidth, tickOverhang, tickWrapWidth, valueAxisTicks, valueAxisWidth } from "./axis-width";
 import { CategoryTick, LineSpan, NameTick, type PlacedLine, ValueTick, clippedLine, firstLineDy, isolatedLabel, placedLine } from "./value-tick";
@@ -43,7 +42,7 @@ import { EmptyState } from "../feedback/empty-state";
 
 type Row = Record<string, unknown>;
 
-export type ChartBaseProps<T extends Row> = {
+export type ChartBaseProps<T extends Row> = ChartTableProps & {
   /** What the chart shows ("Revenue"), over it; leave it out when a card or a heading already says so. */
   title?: string;
   /** Names the chart when it has no visible `title` (a card's heading already says what it shows). */
@@ -197,6 +196,10 @@ function Shell<T extends Row>({
         legendPlacement={legendPlacement}
         legend={showLegend ? <ChartLegend items={shell.legend} hidden={shell.series.hidden} onToggle={shell.series.toggle} /> : undefined}
         dataTable={{ caption: [props.title ?? props["aria-label"], props.period].filter(Boolean).join(" · "), columns: shell.columns, rows: props.data, rowKey: (row) => positions.get(row) ?? String(row[props.index]) }}
+        tableView={props.tableView}
+        isTableOpen={props.isTableOpen}
+        defaultTableOpen={props.defaultTableOpen}
+        onTableOpenChange={props.onTableOpenChange}
       >
         <ResponsiveContainer width="100%" height="100%" onResize={onResize ? (width) => onResize(Math.round(width)) : undefined}>
           {children}

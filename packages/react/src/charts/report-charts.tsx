@@ -185,7 +185,7 @@ type PlotRow = WaterfallRow & { band: [number, number] };
  * `ds-chart-1`, increases outlined with a 25% tint, decreases outlined and hatched, each labeled with its signed
  * value. The arrow keys move between bars with the tooltip (change and running total); the data table has them all.
  */
-export function WaterfallChart({ title, "aria-label": ariaLabel, period, start, steps, endLabel, valueFormatter = plain, isLoading, emptyState, height = 240 }: WaterfallChartProps) {
+export function WaterfallChart({ title, "aria-label": ariaLabel, period, start, steps, endLabel, valueFormatter = plain, isLoading, emptyState, height = 240, ...table }: WaterfallChartProps) {
   const { locale } = useLocale();
   const animate = useChartAnimation();
   const direction = useChartDirection();
@@ -227,7 +227,7 @@ export function WaterfallChart({ title, "aria-label": ariaLabel, period, start, 
     />
   );
   return (
-    <Shell title={title} aria-label={ariaLabel} period={period} isLoading={isLoading} emptyState={emptyState} isEmpty={isEmpty} height={height} legend={legend} columns={columns} rows={tableRows}>
+    <Shell table={table} title={title} aria-label={ariaLabel} period={period} isLoading={isLoading} emptyState={emptyState} isEmpty={isEmpty} height={height} legend={legend} columns={columns} rows={tableRows}>
       <div data-slot="waterfall" className="h-full min-w-0">
         <ResponsiveContainer width="100%" height="100%">
           <RechartsBarChart data={rows} barCategoryGap="20%" accessibilityLayer margin={{ top, right: 4, bottom: 0, left: 4 }}>
@@ -420,7 +420,7 @@ const hasDuplicates = (names: readonly string[]) => new Set(names).size !== name
  * and the focused cell otherwise; a key that moves focus hands the tooltip back to the focused cell until the
  * pointer enters another cell. Escape hides it.
  */
-export function Heatmap({ title, "aria-label": ariaLabel, period, rows, columns, data, rowHeader, thresholds, valueFormatter = plain, onCellPress, isLoading, emptyState }: HeatmapProps) {
+export function Heatmap({ title, "aria-label": ariaLabel, period, rows, columns, data, rowHeader, thresholds, valueFormatter = plain, onCellPress, isLoading, emptyState, ...table }: HeatmapProps) {
   const { locale } = useLocale();
   const { isRtl } = useChartDirection();
   const animate = useChartAnimation();
@@ -493,7 +493,7 @@ export function Heatmap({ title, "aria-label": ariaLabel, period, rows, columns,
   const tipSlot = tip.hover && hoveredSlot ? hoveredSlot : tip.focus ? focusedSlot : undefined;
 
   return (
-    <Shell
+    <Shell table={table}
       title={title}
       aria-label={ariaLabel}
       period={period}
