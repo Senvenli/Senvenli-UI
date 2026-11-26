@@ -3,6 +3,34 @@
 All four packages share one version and are published together: `@senvenli/tokens`, `@senvenli/react`,
 `@senvenli/cli`, `@senvenli/mcp`. The docs site and the hosted MCP endpoint live on design.senvenli.com.
 
+## Mandatory checklist
+
+Every release, in this order. No step is skipped or shortened: 0.3.1 to 0.3.3 shipped a stale build because the
+install and the check were left out of the publish steps.
+
+1. **Release PR** (maintainer): the version in all four `packages/*/package.json`, a dated `CHANGELOG.md` entry, CI
+   green. The owner merges it.
+2. **Publish** (owner, own interactive terminal, on a clean `main`):
+
+   ```sh
+   git checkout main && git pull
+   pnpm install --frozen-lockfile
+   pnpm release:check                          # must end with "types: ok"
+   npm whoami                                  # the owner's npm account; otherwise `npm login`
+   pnpm -r --filter "./packages/*" publish --access public --no-git-checks
+   sh scripts/verify-published.sh <version>    # must say "dist matches this checkout" four times
+   ```
+
+   If the last command prints `DIFFERS`, stop: the release is not done.
+3. **Verify again, tag, MCP** (maintainer): run `sh scripts/verify-published.sh <version>` on a fresh checkout of
+   `main`, then `git tag -a v<version> -m v<version>` and push it, and move the hosted MCP to `<version>` (below).
+4. **Announce** (maintainer): tell the apps that use Senvenli UI the version, only after step 3 passed.
+5. **Site** (maintainer): redeploy design.senvenli.com only when the owner asks for it.
+
+Guards that keep this honest: every package clears and rebuilds `dist/` in `prepack`, and
+`packages/tokens/src/release-guard.test.ts` (run in CI) fails if a package loses that `prepack`, if the versions
+drift apart, or if this checklist loses a step.
+
 ## Publishing (owner)
 
 The packages are published under the `senvenli` npm org from the owner's account. The account uses 2FA with browser
