@@ -94,28 +94,35 @@ const hex = (value: string): OKLCH => {
   return parsed;
 };
 
-/** The soft black and white the default theme is built on. Never pure #000/#fff. */
+/**
+ * A neutral with no hue: the lightness of the given color and zero chroma. The ramp keeps the lightness steps the
+ * warm ramp had (so contrast is unchanged), but menus, popovers, borders and hovers read as true grey in light and
+ * dark, never yellow-brown beside a brand color (owner 2026-11-27).
+ */
+const achromatic = (value: string): OKLCH => ({ l: hex(value).l, c: 0, h: 0 });
+
+/** The soft black and white the default theme is built on. Never pure #000/#fff; their trace of warmth is invisible at these lightnesses. */
 export const PAPER = hex("#fcfcfb");
 export const INK = hex("#0c0c0b");
 /** The lightest surface (cards, inputs): one step above the page, still not pure white. */
 const WHITE = hex("#fefefd");
 const DARKEST = hex("#070706");
 
-/** Warm neutral ramp (hue ~85, near-zero chroma). */
+/** Neutral ramp: pure grey (zero chroma), in the lightness steps of the earlier warm ramp. */
 const NEUTRAL = {
   50: PAPER,
-  100: hex("#f8f8f6"),
-  150: hex("#f4f3f1"),
-  200: hex("#ecebe8"),
-  300: hex("#e6e4e0"),
-  400: hex("#a09c95"),
-  500: hex("#8c8a86"),
-  600: hex("#6b6964"),
-  700: hex("#68645e"),
-  800: hex("#3a3834"),
-  850: hex("#2a2825"),
-  900: hex("#1f1e1c"),
-  950: hex("#161615"),
+  100: achromatic("#f8f8f6"),
+  150: achromatic("#f4f3f1"),
+  200: achromatic("#ecebe8"),
+  300: achromatic("#e6e4e0"),
+  400: achromatic("#a09c95"),
+  500: achromatic("#8c8a86"),
+  600: achromatic("#6b6964"),
+  700: achromatic("#68645e"),
+  800: achromatic("#3a3834"),
+  850: achromatic("#2a2825"),
+  900: achromatic("#1f1e1c"),
+  950: achromatic("#161615"),
   1000: INK,
   1100: DARKEST,
 } as const;
@@ -204,14 +211,19 @@ interface Scale {
   mark: OKLCH;
 }
 
-function scale(mode: Mode, base: OKLCH, surfaces: OKLCH[], prefer?: "paper" | "ink"): Scale {
+/**
+ * `quiet`: the brand roles. Their subtle fills (selection, brand-subtle) carry only a trace of the hue, in light
+ * and dark: a saturated tint reads cream or brown beside true-grey surfaces; the bold fill, text and marks carry the brand. Status
+ * roles keep a visible tint, which is what tells a warning from an error.
+ */
+function scale(mode: Mode, base: OKLCH, surfaces: OKLCH[], prefer?: "paper" | "ink", quiet = false): Scale {
   const light = mode === "light";
   const { fill: bold, on } = boldFill(base, prefer);
   const [boldHovered, boldPressed] = steps(bold, on);
   const tint = (l: number, cMax: number) => toGamut({ l, c: Math.min(base.c, cMax), h: base.h });
-  const subtle = light ? tint(0.965, 0.035) : tint(0.24, 0.05);
-  const subtleHovered = light ? tint(0.94, 0.04) : tint(0.28, 0.055);
-  const subtlePressed = light ? tint(0.915, 0.045) : tint(0.32, 0.06);
+  const subtle = light ? tint(0.965, quiet ? 0.015 : 0.035) : tint(0.24, quiet ? 0.012 : 0.05);
+  const subtleHovered = light ? tint(0.94, quiet ? 0.018 : 0.04) : tint(0.28, quiet ? 0.014 : 0.055);
+  const subtlePressed = light ? tint(0.915, quiet ? 0.02 : 0.045) : tint(0.32, quiet ? 0.016 : 0.06);
   const dir = light ? -1 : 1;
   const text = solve(tint(light ? 0.47 : 0.8, light ? 0.16 : 0.12), [subtlePressed, ...surfaces], AA_TEXT, dir);
   const textPressed = withL(text, text.l + dir * 0.08);
@@ -229,7 +241,7 @@ export function givenTone(color: OKLCH, mode: Mode): OKLCH {
 }
 
 const NEUTRAL_HUE = NEUTRAL[500].h;
-const grey = (l: number): OKLCH => ({ l, c: 0.002, h: NEUTRAL_HUE });
+const grey = (l: number): OKLCH => ({ l, c: 0, h: NEUTRAL_HUE });
 
 /** Default bases for brand roles when the project gives no color. */
 const BRAND_DEFAULTS: Record<BrandRole, Record<Mode, OKLCH>> = {
@@ -253,7 +265,7 @@ function deriveMode(
   t["ds-surface-raised"] = light ? WHITE : NEUTRAL[950];
   t["ds-surface-overlay"] = light ? WHITE : NEUTRAL[900];
   t["ds-surface-hovered"] = light ? NEUTRAL[100] : NEUTRAL[850];
-  t["ds-blanket"] = light ? rgba(20, 18, 15, 0.48) : rgba(7, 7, 6, 0.6);
+  t["ds-blanket"] = light ? rgba(18, 18, 18, 0.48) : rgba(7, 7, 7, 0.6);
   t["ds-text"] = light ? NEUTRAL[850] : NEUTRAL[300];
   t["ds-text-subtle"] = light ? NEUTRAL[700] : NEUTRAL[400];
   t["ds-text-subtlest"] = light ? NEUTRAL[600] : NEUTRAL[500];
@@ -262,11 +274,11 @@ function deriveMode(
   t["ds-background-segment-selected"] = light ? WHITE : NEUTRAL[700];
   t["ds-background-neutral-subtle-hovered"] = light ? NEUTRAL[150] : NEUTRAL[850];
   t["ds-background-neutral-bold"] = light ? NEUTRAL[900] : NEUTRAL[150];
-  t["ds-background-input"] = light ? WHITE : hex("#121211");
+  t["ds-background-input"] = light ? WHITE : achromatic("#121211");
   t["ds-background-input-hovered"] = light ? NEUTRAL[50] : NEUTRAL[1000];
   t["ds-background-disabled"] = light ? NEUTRAL[150] : NEUTRAL[900];
-  t["ds-border"] = light ? rgba(40, 32, 18, 0.08) : rgba(232, 228, 220, 0.07);
-  t["ds-border-bold"] = light ? rgba(40, 32, 18, 0.16) : rgba(232, 228, 220, 0.14);
+  t["ds-border"] = light ? rgba(32, 32, 32, 0.08) : rgba(228, 228, 228, 0.07);
+  t["ds-border-bold"] = light ? rgba(32, 32, 32, 0.16) : rgba(228, 228, 228, 0.14);
   t["ds-icon"] = light ? NEUTRAL[800] : NEUTRAL[300];
   t["ds-icon-subtle"] = light ? NEUTRAL[600] : NEUTRAL[500];
   t["ds-chart-neutral"] = light ? NEUTRAL[500] : NEUTRAL[600];
@@ -287,7 +299,7 @@ function deriveMode(
   };
 
   // Primary = the brand.
-  const brand = scale(mode, base("primary"), surfaces);
+  const brand = scale(mode, base("primary"), surfaces, undefined, true);
   flag("primary", brand, colors.primary);
   t["ds-background-brand-bold"] = brand.bold;
   t["ds-background-brand-bold-hovered"] = brand.boldHovered;
@@ -307,7 +319,7 @@ function deriveMode(
 
   // Secondary and tertiary: their own scales.
   for (const role of ["secondary", "tertiary"] as const) {
-    const s = scale(mode, base(role), surfaces);
+    const s = scale(mode, base(role), surfaces, undefined, true);
     flag(role, s, colors[role]);
     t[`ds-background-${role}-bold`] = s.bold;
     t[`ds-background-${role}-bold-hovered`] = s.boldHovered;
@@ -332,7 +344,7 @@ function deriveMode(
   } else {
     t["ds-background-neutral"] = light ? NEUTRAL[150] : NEUTRAL[850];
     t["ds-background-neutral-hovered"] = light ? NEUTRAL[200] : NEUTRAL[800];
-    t["ds-background-neutral-pressed"] = light ? NEUTRAL[300] : hex("#45433f");
+    t["ds-background-neutral-pressed"] = light ? NEUTRAL[300] : achromatic("#45433f");
   }
   // New-feature callouts follow the tertiary color.
   t["ds-background-discovery"] = t["ds-background-tertiary"] as OKLCH;
