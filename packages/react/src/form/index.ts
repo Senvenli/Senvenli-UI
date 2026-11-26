@@ -1,6 +1,7 @@
 // @senvenli/react/form:
-export { Form, FormSection, FormRow, FormFooter } from "./form";
-export type { FormProps, FormSectionProps } from "./form";
+export { Form, FormSection, FormGroup, FormRow, FormFooter } from "./form";
+export type { FormProps, FormSectionProps, FormGroupProps } from "./form";
+export type { FieldOrientation } from "./field-orientation";
 export { FieldLabel, FieldDescription, FieldError } from "./field-parts";
 // The app-composed field row (label, control, hint, error).
 export { Field } from "./field";

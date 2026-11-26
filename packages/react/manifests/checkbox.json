@@ -145,6 +145,20 @@
         "origin": "own"
       },
       {
+        "name": "controlPlacement",
+        "type": "\"start\" | \"end\"",
+        "required": false,
+        "origin": "own",
+        "description": "`start` (default): the box before its label. `end`: the label first and the box at the row's far end, as in a\nsettings list; a horizontal FormGroup or FormSection picks `end` itself.",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "start",
+            "end"
+          ]
+        }
+      },
+      {
         "name": "isInvalid",
         "type": "boolean",
         "required": false,

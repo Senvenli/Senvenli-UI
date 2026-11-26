@@ -9,6 +9,7 @@
   "exports": [
     "Form",
     "FormSection",
+    "FormGroup",
     "FormRow",
     "FormFooter"
   ],
@@ -40,6 +41,9 @@
     },
     {
       "rule": "Mark the exception: required when most fields are optional, optional when most are required."
+    },
+    {
+      "rule": "A settings page: Form width=\"wide\", FormSection layout=\"split\" with a description, and a FormGroup orientation=\"horizontal\" separated for rows with the control at the end. Rules between sections and rows are opt-in (separator, separated); space alone separates them otherwise."
     }
   ],
   "a11y": {
@@ -88,9 +92,10 @@
           "type": "string",
           "enum": [
             "full",
-            "narrow"
+            "narrow",
+            "wide"
           ],
-          "description": "`narrow` (default) caps single-column forms at 560px."
+          "description": "`narrow` (default) caps a single-column form at 560px; `wide` at 800px, for settings with split sections or\nhorizontal rows; `full` takes the container. All start-aligned."
         }
       }
     }
@@ -751,16 +756,17 @@
       },
       {
         "name": "width",
-        "type": "\"full\" | \"narrow\"",
+        "type": "\"full\" | \"narrow\" | \"wide\"",
         "required": false,
         "origin": "own",
         "default": "\"narrow\"",
-        "description": "`narrow` (default) caps single-column forms at 560px.",
+        "description": "`narrow` (default) caps a single-column form at 560px; `wide` at 800px, for settings with split sections or\nhorizontal rows; `full` takes the container. All start-aligned.",
         "schema": {
           "type": "string",
           "enum": [
             "full",
-            "narrow"
+            "narrow",
+            "wide"
           ]
         }
       }
@@ -774,6 +780,13 @@
         "description": "The section title (`heading-small`)."
       },
       {
+        "name": "description",
+        "type": "React.ReactNode",
+        "required": false,
+        "origin": "own",
+        "description": "One line under the title on what the section covers (\"How dates and numbers look\")."
+      },
+      {
         "name": "children",
         "type": "React.ReactNode",
         "required": true,
@@ -784,6 +797,81 @@
         "type": "boolean",
         "required": false,
         "origin": "own",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "layout",
+        "type": "\"split\" | \"stacked\"",
+        "required": false,
+        "origin": "own",
+        "default": "\"stacked\"",
+        "description": "`stacked` (default): the title over the fields. `split`: the title and description in a start column and the\nfields beside them (a settings page); it stacks when the section is narrower than 36rem.",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "split",
+            "stacked"
+          ]
+        }
+      },
+      {
+        "name": "separator",
+        "type": "boolean",
+        "required": false,
+        "origin": "own",
+        "default": "false",
+        "description": "A rule above the section, when it follows another. Space separates sections without it.",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "orientation",
+        "type": "FieldOrientation",
+        "required": false,
+        "origin": "own",
+        "default": "\"vertical\"",
+        "description": "`horizontal` lays every field in the section out as a row: label and description first, the control at the end.",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "horizontal",
+            "vertical"
+          ]
+        }
+      }
+    ],
+    "FormGroup": [
+      {
+        "name": "children",
+        "type": "React.ReactNode",
+        "required": true,
+        "origin": "own"
+      },
+      {
+        "name": "orientation",
+        "type": "FieldOrientation",
+        "required": false,
+        "origin": "own",
+        "default": "\"vertical\"",
+        "description": "`horizontal` lays each field out as a row: label and description first, the control at the end.",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "horizontal",
+            "vertical"
+          ]
+        }
+      },
+      {
+        "name": "separated",
+        "type": "boolean",
+        "required": false,
+        "origin": "own",
+        "default": "false",
+        "description": "A rule between the rows. Space alone separates them without it.",
         "schema": {
           "type": "boolean"
         }
@@ -808,10 +896,13 @@
   },
   "tokens": [
     "ds-border",
+    "ds-space-050",
     "ds-space-100",
     "ds-space-200",
     "ds-space-300",
-    "ds-text"
+    "ds-space-400",
+    "ds-text",
+    "ds-text-subtle"
   ],
   "strings": [
     "required"

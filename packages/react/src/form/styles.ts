@@ -35,7 +35,8 @@ export const REQUIRED_MARK = "text-ds-text-danger";
 export const OPTIONAL_MARK = "font-normal text-ds-text-subtlest";
 export const DESCRIPTION = "text-body-small text-ds-text-subtlest";
 export const ERROR = "flex items-center gap-ds-050 text-body-small text-ds-text-danger";
-export const FIELD_STACK = "flex min-w-0 flex-col gap-ds-050";
+/** A field's stack: label, control, description, error. `ds-field-stack` lets a horizontal FormGroup lay it out as a row. */
+export const FIELD_STACK = "ds-field-stack flex min-w-0 flex-col gap-ds-050";
 
 export const ADDON =
   "flex shrink-0 items-center self-stretch bg-ds-surface-sunken px-ds-100 text-body text-ds-text-subtle tabular-nums select-none";

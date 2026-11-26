@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { CONTROL_AT_END, useFieldOrientation } from "../form/field-orientation";
 import {
   Checkbox as AriaCheckbox,
   CheckboxGroup as AriaCheckboxGroup,
@@ -28,6 +29,11 @@ export type CheckboxProps = {
   isIndeterminate?: boolean;
   onChange?: (isSelected: boolean) => void;
   description?: React.ReactNode;
+  /**
+   * `start` (default): the box before its label. `end`: the label first and the box at the row's far end, as in a
+   * settings list; a horizontal FormGroup or FormSection picks `end` itself.
+   */
+  controlPlacement?: "start" | "end";
   isInvalid?: boolean;
   /** Shown under the label while the checkbox is invalid (`isInvalid` or failed native validation). */
   errorMessage?: React.ReactNode;
@@ -50,10 +56,12 @@ export type CheckboxProps = {
 
 /** One independent option, applied on submit (use Switch for settings that apply at once). */
 export const Checkbox = React.forwardRef<HTMLLabelElement, CheckboxProps>(function Checkbox(
-  { children, description, errorMessage: errorMessageProp, isInvalid: isInvalidProp, requiredValidation, size: ownSize, ...rest },
+  { children, description, errorMessage: errorMessageProp, isInvalid: isInvalidProp, requiredValidation, size: ownSize, controlPlacement, ...rest },
   ref,
 ) {
   const size = useChoiceSize(ownSize);
+  const orientation = useFieldOrientation();
+  const atEnd = (controlPlacement ?? (orientation === "horizontal" ? "end" : "start")) === "end";
   // React Aria never finds an unchecked required box missing under `aria` validation; the DS does.
   // In a CheckboxGroup the group holds the value and its own `isRequired`, so a box there is left to it.
   const inGroup = React.useContext(CheckboxGroupStateContext) != null;
@@ -79,7 +87,8 @@ export const Checkbox = React.forwardRef<HTMLLabelElement, CheckboxProps>(functi
       aria-labelledby={text.labelId}
       aria-describedby={text.describedBy}
       data-slot="checkbox"
-      className={cn(CHOICE_ROW, CHOICE_ROW_SIZE[size])}
+      data-control-placement={atEnd ? "end" : undefined}
+      className={cn(CHOICE_ROW, CHOICE_ROW_SIZE[size], atEnd && CONTROL_AT_END)}
     >
       {({ isIndeterminate, isSelected, isInvalid: invalid }) => (
         <>
