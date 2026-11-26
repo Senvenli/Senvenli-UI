@@ -67,7 +67,7 @@ export type TableProps<T> = {
   onSelectionChange?: (keys: Selection) => void;
   sortDescriptor?: SortDescriptor;
   onSortChange?: (descriptor: SortDescriptor) => void;
-  /** `compact` (36px rows) for dense working screens; `default` (48px) for public and content pages. */
+  /** `compact` (36px rows) for dense working screens; `default` (48px rows, 12px above and below a value, 24px at the edges) for public and content pages. */
   density?: Density;
   /** Shown when there are no rows: an `EmptyState`, or one sentence on why it is empty and the action that fills it. */
   emptyState?: React.ReactNode;
@@ -193,7 +193,7 @@ function useRepeatedKeyWarning(component: string, label: string, repeated: reado
 
 /**
  * Records the user scans, compares, sorts and acts on: orders, customers, invoices. On
- * `ds-surface-raised` with a raised shadow; a sunken header row; 48px rows (36px compact) divided by
+ * `ds-surface-raised` with a raised shadow; a sunken header row; rows of at least 48px (36px compact) divided by
  * `ds-border`; selection by checkbox with a 2px marker on the leading edge; the row opens the record.
  * Status is a Badge, money right-aligned and formatted by the locale ("$1,248.00"). Under 640px use a List.
  *
@@ -260,6 +260,14 @@ export function TableView<T extends object>({
   };
   const rowHeader = Math.max(0, columns.findIndex((column) => column.isRowHeader));
   const height = density === "compact" ? "h-ds-row-compact" : "h-ds-row";
+  // Room around the content. The row height is a minimum: a cell's padding keeps a two-line cell (a name over
+  // an email) off the dividers, so it grows the row instead of touching them. Virtualized rows have a fixed
+  // height the layout needs, so they keep the height alone.
+  const pad = virtual ? "" : density === "compact" ? "py-ds-100" : "py-ds-150";
+  // The table's outer edge gets more room than the gaps between columns (24px against 16px), so the first
+  // and last values do not sit against the card's corner.
+  const edge = density === "compact" ? "" : "first:ps-ds-300 last:pe-ds-300";
+  const headerHeight = density === "compact" ? "h-9" : "h-10";
   // Virtualized, cells are boxes the layout places; they centre their content themselves. Each row sits alone
   // in its own wrapper (so "last row" matches every row) and the header row has no box of its own: the
   // header cells carry the sunken fill and the scroll shadow, and every row keeps its divider.
@@ -294,7 +302,7 @@ export function TableView<T extends object>({
           )}
         >
           {selectable && (
-            <AriaColumn data-slot="table-selection-column" className={cn("w-10 border-b border-ds-border ps-ds-200 text-start", cellBox, headerCell)}>
+            <AriaColumn data-slot="table-selection-column" className={cn("w-10 border-b border-ds-border ps-ds-200 text-start", edge, cellBox, headerCell)}>
               {/* Select all only where several can be selected; single selection names the column for screen readers. */}
               {multiple ? <SelectionCheckbox /> : <span className="sr-only">{selectionLabel(locale)}</span>}
             </AriaColumn>
@@ -310,7 +318,9 @@ export function TableView<T extends object>({
               data-hide-below={hideBelow(column)}
               style={column.width ? { width: column.width } : undefined}
               className={cn(
-                "h-9 whitespace-nowrap border-b border-ds-border px-ds-200 align-middle text-body-small font-medium text-ds-text-subtle outline-hidden",
+                headerHeight,
+                "whitespace-nowrap border-b border-ds-border px-ds-200 align-middle text-body-small font-medium text-ds-text-subtle outline-hidden",
+                edge,
                 "data-[focus-visible]:inset-ring-2 data-[focus-visible]:inset-ring-ds-border-focused",
                 column.align === "end" ? "text-end" : "text-start",
                 column.isSortable && "cursor-pointer data-[hovered]:text-ds-text",
@@ -358,7 +368,7 @@ export function TableView<T extends object>({
               )}
             >
               {selectable && (
-                <AriaCell data-slot="table-cell" className={cn(height, "relative border-b border-ds-border ps-ds-200 align-middle", lastRow, cellBox)}>
+                <AriaCell data-slot="table-cell" className={cn(height, pad, "relative border-b border-ds-border ps-ds-200 align-middle", edge, lastRow, cellBox)}>
                   <SelectedMarker />
                   <SelectionCheckbox />
                 </AriaCell>
@@ -375,7 +385,9 @@ export function TableView<T extends object>({
                     data-hide-below={hideBelow(column)}
                     className={cn(
                       height,
+                      pad,
                       "group/cell relative border-b border-ds-border px-ds-200 align-middle outline-hidden",
+                      edge,
                       lastRow,
                       "data-[focus-visible]:inset-ring-2 data-[focus-visible]:inset-ring-ds-border-focused",
                       // One line per cell, as shadcn's tables: on a phone the table scrolls sideways instead of breaking
@@ -426,7 +438,7 @@ export function TableView<T extends object>({
       className={cn(virtual ? "overflow-hidden" : "overflow-auto", "rounded-ds-large bg-ds-surface-raised shadow-ds-raised", maxHeight && "overscroll-contain")}
     >
       {virtual ? (
-        <Virtualizer layout={TableLayout} layoutOptions={{ rowHeight, headingHeight: 36 }}>
+        <Virtualizer layout={TableLayout} layoutOptions={{ rowHeight, headingHeight: density === "compact" ? 36 : 40 }}>
           {table}
         </Virtualizer>
       ) : (
