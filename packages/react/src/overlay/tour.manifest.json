@@ -1,0 +1,77 @@
+{
+  "$schema": "../../manifest/component.schema.json",
+  "kind": "component",
+  "family": "overlay",
+  "status": "alpha",
+  "import": "@senvenli/react/overlay",
+  "name": "tour",
+  "title": "Tour",
+  "exports": [
+    "Tour"
+  ],
+  "description": "A guided tour: a short sequence of steps, each pointing at a part of the page with a title, a sentence and Back, Next and Done.",
+  "keywords": [
+    "tour",
+    "product tour",
+    "onboarding",
+    "walkthrough",
+    "coachmark",
+    "guided tour",
+    "spotlight"
+  ],
+  "usage": {
+    "when": [
+      "Introducing a screen's main parts to someone new, once, in three to seven steps.",
+      "Showing what changed after a redesign, pointing at each moved part."
+    ],
+    "instead": [
+      {
+        "use": "popover",
+        "when": "One hint about one control, opened on purpose."
+      },
+      {
+        "use": "empty-state",
+        "when": "Teaching the first action on an empty screen."
+      },
+      {
+        "use": "dialog",
+        "when": "A message that does not point at anything on the page."
+      }
+    ]
+  },
+  "guidance": [
+    {
+      "rule": "Keep it short: a few steps, a few words of title and one or two sentences each. Nobody reads a tenth step."
+    },
+    {
+      "rule": "Always let people leave. Skip, the close button and Esc call onSkip; Done calls onFinish, so the app can remember which."
+    },
+    {
+      "rule": "Point at things that are on the screen. A target on another route is waited for (targetTimeout), then shown centred or skipped (missingTarget)."
+    },
+    {
+      "rule": "The page is dimmed and the target cannot be pressed by default. Use mask={false} for a step that asks people to use the page."
+    }
+  ],
+  "a11y": {
+    "builtIn": [
+      "Each step is a dialog named by its title and described by its sentence; modal with the default mask (focus stays in the panel, the page is hidden from screen readers), non-modal with mask={false}.",
+      "The step's heading takes focus on every step and a status line announces \"Step 2 of 5\".",
+      "Left and Right arrows move between steps, mirrored right to left, and leave text fields alone; Esc skips.",
+      "Focus returns to where it was when the tour closes.",
+      "With reduced motion the panel and the lit area move without animation and scrolling to a target is instant."
+    ],
+    "youProvide": [
+      "A title that says what the step shows, not \"Step 1\".",
+      "A way to start the tour again later (a Help menu item), since a skipped tour is gone."
+    ]
+  },
+  "related": [
+    "popover",
+    "dialog",
+    "stepper"
+  ],
+  "genui": {
+    "expose": false
+  }
+}
