@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.3.1 (2026-11-26)
+
+- `@senvenli/react` Fab: `color` sets a fill outside the theme, such as a chat app's own green
+  (`color="#25d366"`). The label and icon pick ink or paper, whichever contrasts more with it; hover, press and focus
+  work on that fill. A color the engine cannot read is ignored and the brand fill stays.
+- `@senvenli/tokens`, `@senvenli/cli`, `@senvenli/mcp`: no change; released at the same version.
+
 ## 0.3.0 (2026-11-26)
 
 - `@senvenli/react` charts: the data table swaps in place of the plot. An icon toggle at the end of the chart's top
