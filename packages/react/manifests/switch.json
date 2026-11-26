@@ -146,6 +146,20 @@
         }
       },
       {
+        "name": "controlPlacement",
+        "type": "\"start\" | \"end\"",
+        "required": false,
+        "origin": "own",
+        "description": "`start` (default): the switch before its label. `end`: the label first and the switch at the row's far end, as\nin a settings list; a horizontal FormGroup or FormSection picks `end` itself.",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "start",
+            "end"
+          ]
+        }
+      },
+      {
         "name": "aria-busy",
         "type": "boolean | \"true\" | \"false\"",
         "required": false,

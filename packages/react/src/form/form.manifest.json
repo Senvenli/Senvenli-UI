@@ -9,6 +9,7 @@
   "exports": [
     "Form",
     "FormSection",
+    "FormGroup",
     "FormRow",
     "FormFooter"
   ],
@@ -40,6 +41,9 @@
     },
     {
       "rule": "Mark the exception: required when most fields are optional, optional when most are required."
+    },
+    {
+      "rule": "A settings page: Form width=\"wide\", FormSection layout=\"split\" with a description, and a FormGroup orientation=\"horizontal\" separated for rows with the control at the end. Rules between sections and rows are opt-in (separator, separated); space alone separates them otherwise."
     }
   ],
   "a11y": {
