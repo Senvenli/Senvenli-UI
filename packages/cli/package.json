@@ -1,6 +1,6 @@
 {
   "name": "@senvenli/cli",
-  "version": "0.3.3",
+  "version": "0.3.4",
   "description": "Write Senvenli UI theme files from a preset code or options.",
   "license": "MIT",
   "author": "Senvenli",
@@ -27,6 +27,7 @@
   ],
   "scripts": {
     "build": "tsc -p tsconfig.json",
+    "prepack": "node -e \"require('fs').rmSync('dist',{recursive:true,force:true})\" && pnpm run build",
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "dependencies": {

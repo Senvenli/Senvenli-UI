@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.3.4 (2026-11-27)
+
+- **Fix: 0.3.1, 0.3.2 and 0.3.3 were published without their build.** Their `dist/` was the 0.3.0 build, so none of
+  the changes listed under them reached npm (Fab `color`, Tour, roomier Table rows, the small radius scale, Table
+  `description`, comfortable DataTable, SidebarAccount, tooltip keycaps). 0.3.4 ships all of them; those three
+  versions are deprecated.
+- Every package now clears and rebuilds its `dist/` before it is packed or published (`prepack`), and `scripts/verify-published.sh`
+  compares the published `dist/` with a fresh build after each release.
+
 ## 0.3.3 (2026-11-27)
 
 - `@senvenli/tokens`: **smaller default corners.** The base radius is now `0.375rem` (6px) and the steps are 2 / 4 / 6 /
