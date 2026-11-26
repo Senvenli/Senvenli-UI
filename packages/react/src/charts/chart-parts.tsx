@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Button as AriaButton, useLocale } from "react-aria-components";
+import { Button as AriaButton, ToggleButton as AriaToggleButton, useLocale } from "react-aria-components";
 
 import { cn } from "../utils";
 import { TouchTarget } from "../action/touch-target";
@@ -11,6 +11,8 @@ const REDUCED_MOTION_QUERY = "(prefers-reduced-motion: reduce)";
 import { Table, type TableColumn } from "../collection/table";
 import { EmptyState } from "../feedback/empty-state";
 import { Skeleton } from "../feedback/skeleton";
+import { TooltipFor } from "../overlay/floating";
+import { IconGlyph } from "../display/icon";
 import { hideDataTableLabel, showDataTableLabel } from "../i18n";
 
 /* ── Colors ─────────────────────────────────────────────────────────────── */
@@ -230,7 +232,24 @@ export type ChartDataTable<T> = {
   onRowAction?: (row: T) => void;
 };
 
-export type ChartFrameProps<T> = {
+/** How a chart offers its data as a table. */
+export type ChartTableView = "swap" | "hidden" | "none";
+
+/** The data-table options every chart takes. */
+export type ChartTableProps = {
+  /**
+   * How the data is offered as a table. `swap` (default): a toggle at the end of the chart's top row turns the plot
+   * into the table at the same height, scrolling inside, so the card never grows. `hidden`: no toggle; the table is
+   * there for screen readers only. `none`: no table at all, for a chart that is already text (BarList).
+   */
+  tableView?: ChartTableView;
+  /** The table is showing (`swap`), controlled; or `defaultTableOpen` + `onTableOpenChange`. */
+  isTableOpen?: boolean;
+  defaultTableOpen?: boolean;
+  onTableOpenChange?: (isOpen: boolean) => void;
+};
+
+export type ChartFrameProps<T> = ChartTableProps & {
   /** The chart's height in px: loading, empty and the plot all keep it. */
   height: number;
   isLoading?: boolean;
@@ -253,16 +272,35 @@ export type ChartFrameProps<T> = {
 };
 
 /**
- * The frame every chart sits in. While loading, a Skeleton at the chart's real size; with nothing to
- * draw, a compact EmptyState in the same space; otherwise the plot. Under every chart a "Show the data
- * as a table" button shows the same data as a compact Table, which screen readers get by default.
+ * The frame every chart sits in. While loading, a Skeleton at the chart's real size; with nothing to draw, a compact
+ * EmptyState in the same space; otherwise the plot. The data as a table (`tableView`): by default a toggle at the end
+ * of the top row swaps the plot for the same data as a compact Table at the same height, scrolling inside, so the
+ * card never changes size; with the plot showing, screen readers still get the table (visually hidden).
  */
-export function ChartFrame<T extends object>({ height, isLoading, emptyState, dataTable, legend, legendPlacement = "top", children }: ChartFrameProps<T>) {
+export function ChartFrame<T extends object>({
+  height,
+  isLoading,
+  emptyState,
+  dataTable,
+  legend,
+  legendPlacement = "top",
+  tableView = "swap",
+  isTableOpen,
+  defaultTableOpen = false,
+  onTableOpenChange,
+  children,
+}: ChartFrameProps<T>) {
   const { locale } = useLocale();
-  const [showTable, setShowTable] = React.useState(false);
-  const tableId = React.useId();
+  const [ownOpen, setOwnOpen] = React.useState(defaultTableOpen);
+  const regionId = React.useId();
   const isEmpty = emptyState !== undefined && emptyState !== null && emptyState !== false;
   const hasData = !isLoading && !isEmpty;
+  const swaps = tableView === "swap";
+  const open = swaps && hasData && (isTableOpen ?? ownOpen);
+  const setOpen = (next: boolean) => {
+    if (isTableOpen === undefined) setOwnOpen(next);
+    onTableOpenChange?.(next);
+  };
   const { rows, rowKey = (row: T) => (row as { id: string | number }).id, onRowAction } = dataTable;
   const rowAction = onRowAction && ((key: React.Key) => {
     const row = rows.find((candidate) => String(rowKey(candidate)) === String(key));
@@ -278,8 +316,22 @@ export function ChartFrame<T extends object>({ height, isLoading, emptyState, da
     <div data-slot="chart-empty" style={{ minHeight: height }} className="grid place-items-center">
       {emptyState}
     </div>
+  ) : open ? (
+    // The table in the plot's place, at the plot's height: it scrolls inside, so nothing around it moves.
+    <div id={regionId} data-slot="chart-data-table" style={{ height }} className="flex min-w-0 flex-col">
+      <Table
+        aria-label={dataTable.caption}
+        density="compact"
+        maxHeight={`${height}px`}
+        columns={dataTable.columns}
+        rows={dataTable.rows}
+        rowKey={dataTable.rowKey}
+        onRowAction={rowAction}
+      />
+    </div>
   ) : (
     <div
+      id={regionId}
       role="group"
       aria-label={dataTable.caption}
       data-slot="chart-plot"
@@ -298,50 +350,56 @@ export function ChartFrame<T extends object>({ height, isLoading, emptyState, da
       )}
     >
       {children}
+      {/* With the plot showing, the same data as a plain table for screen readers only, inside the plot's box so it
+          adds no row (the card is the same height with the plot and with the table). Nothing in it takes focus, so
+          Tab never lands in something unseen; the box clips it, so a long caption never sticks out. */}
+      {tableView !== "none" && (
+        <div data-slot="chart-data-table" className="relative overflow-hidden">
+          <PlainTable caption={dataTable.caption} columns={dataTable.columns} rows={dataTable.rows} rowKey={dataTable.rowKey} />
+        </div>
+      )}
     </div>
   );
   const legendRow = legend && (hasData ? legend : <div aria-hidden inert className="invisible">{legend}</div>);
+  // The toggle: an icon button that stays where it is (focus stays on it) while the region beside it swaps. Loading
+  // and empty keep its place, invisible, so the row does not jump when data arrives.
+  const toggle = swaps ? (
+    hasData ? (
+      // TooltipFor: the toggle is itself a React Aria focusable, so it takes the trigger props directly.
+      <TooltipFor content={open ? hideDataTableLabel(locale) : showDataTableLabel(locale)}>
+        <AriaToggleButton
+          isSelected={open}
+          onChange={setOpen}
+          aria-label={showDataTableLabel(locale)}
+          aria-controls={regionId}
+          data-slot="chart-table-toggle"
+          className={cn(
+            "relative ms-auto grid size-7 shrink-0 cursor-pointer place-items-center rounded-ds-control-small text-ds-icon-subtle outline-hidden",
+            "data-[hovered]:bg-ds-background-neutral-subtle-hovered data-[hovered]:text-ds-icon",
+            "data-[selected]:bg-ds-background-selected data-[selected]:text-ds-icon-brand",
+            "data-[focus-visible]:inset-ring-2 data-[focus-visible]:inset-ring-ds-border-focused",
+          )}
+        >
+          {/* 28px: a 44px hit area under a coarse pointer, as compact Buttons have. */}
+          <TouchTarget />
+          <IconGlyph name={open ? "chart-column" : "table"} />
+        </AriaToggleButton>
+      </TooltipFor>
+    ) : (
+      <span aria-hidden data-slot="chart-table-toggle-space" className="ms-auto size-7 shrink-0" />
+    )
+  ) : null;
+  const topLegend = legendPlacement === "top" ? legendRow : null;
   return (
     <div data-slot="chart-frame" className="flex min-w-0 flex-col gap-ds-150">
-      {/* Loading and empty keep the legend's and the toggle's rows, so the frame does not jump when data arrives. */}
-      {legendPlacement === "top" && legendRow}
+      {(topLegend || toggle) && (
+        <div data-slot="chart-top" className="flex min-w-0 items-start gap-ds-200">
+          {topLegend && <div className="min-w-0 flex-1">{topLegend}</div>}
+          {toggle}
+        </div>
+      )}
       {plot}
       {legendPlacement === "bottom" && legendRow}
-      {hasData ? (
-        <>
-          <AriaButton
-            aria-expanded={showTable}
-            aria-controls={tableId}
-            data-slot="chart-table-toggle"
-            onPress={() => setShowTable((value) => !value)}
-            className="relative w-max cursor-pointer rounded-ds-small text-body-small font-[500] text-ds-link outline-hidden data-[hovered]:underline data-[focus-visible]:inset-ring-2 data-[focus-visible]:inset-ring-ds-border-focused"
-          >
-            {/* 16px of text: a 44px hit area under a coarse pointer, as compact Buttons have. */}
-            <TouchTarget />
-            {showTable ? hideDataTableLabel(locale) : showDataTableLabel(locale)}
-          </AriaButton>
-          {/* Collapsed, the box clips the visually hidden table: a table never shrinks below its content, so a
-              long caption would otherwise stick out past the page edge. */}
-          <div id={tableId} data-slot="chart-data-table" className={showTable ? undefined : "relative overflow-hidden"}>
-            {showTable ? (
-              <Table
-                aria-label={dataTable.caption}
-                density="compact"
-                columns={dataTable.columns}
-                rows={dataTable.rows}
-                rowKey={dataTable.rowKey}
-                onRowAction={rowAction}
-              />
-            ) : (
-              // Collapsed: the same data as a plain table, for screen readers only. Nothing in it takes focus,
-              // so Tab never lands in something unseen.
-              <PlainTable caption={dataTable.caption} columns={dataTable.columns} rows={dataTable.rows} rowKey={dataTable.rowKey} />
-            )}
-          </div>
-        </>
-      ) : (
-        <div aria-hidden className="h-4" data-slot="chart-table-toggle-space" />
-      )}
     </div>
   );
 }

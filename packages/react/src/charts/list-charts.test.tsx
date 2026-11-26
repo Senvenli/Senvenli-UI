@@ -55,9 +55,11 @@ describe("BarList", () => {
     expect(screen.getByRole("button", { name: "Show fewer" }).getAttribute("aria-expanded")).toBe("true");
   });
 
-  it("gives screen readers every item in the data table, and has loading and empty states", () => {
+  it("is its own text (no data table, no toggle), and has loading and empty states", () => {
     inLocale(<BarList title="Orders by region" data={REGIONS} />);
-    expect(within(screen.getByRole("table")).getAllByRole("rowheader")).toHaveLength(6);
+    // Each bar's name and value are text already: a table would say the same twice.
+    expect(screen.queryByRole("table")).toBeNull();
+    expect(screen.queryByRole("button", { name: "Show the data as a table" })).toBeNull();
     cleanup();
     inLocale(<BarList title="Orders by region" data={REGIONS} isLoading />);
     expect(document.querySelector("[data-slot='chart-loading']")).not.toBeNull();
@@ -199,8 +201,10 @@ describe("ChartFrame's hidden table", () => {
     const box = document.querySelector<HTMLElement>("[data-slot='chart-data-table']")!;
     expect(box.className).toContain("overflow-hidden");
     expect(box.className).toContain("relative");
+    // Shown, the table takes the plot's place (its own scrolling region), and the hidden copy goes.
     fireEvent.click(screen.getByRole("button", { name: "Show the data as a table" }));
-    expect(box.className).not.toContain("overflow-hidden");
+    expect(box.isConnected).toBe(false);
+    expect(screen.getByRole("grid")).toBeTruthy();
   });
 });
 

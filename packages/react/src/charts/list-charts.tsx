@@ -126,7 +126,7 @@ const BAR_GAP = 6;
  * top item; the name in `ds-text` (a link when it has `href`), the value at the end in medium tabular
  * figures. Sorted largest first; the rest behind "Show all".
  */
-export function BarList({ title, "aria-label": ariaLabel, period, data, valueFormatter = plain, limit = 5, isLoading, emptyState }: BarListProps) {
+export function BarList({ title, "aria-label": ariaLabel, period, data, valueFormatter = plain, limit = 5, isLoading, emptyState, ...table }: BarListProps) {
   const { locale } = useLocale();
   const [expanded, setExpanded] = React.useState(false);
   const rows = data.filter((item) => Number.isFinite(item.value)).sort((a, b) => b.value - a.value);
@@ -142,7 +142,7 @@ export function BarList({ title, "aria-label": ariaLabel, period, data, valueFor
     { key: "value", header: chartValueLabel(locale), align: "end", render: (row) => valueFormatter(row.value) },
   ];
   return (
-    <Shell title={title} aria-label={ariaLabel} period={period} isLoading={isLoading} emptyState={emptyState} isEmpty={rows.length === 0} height={height} columns={columns} rows={rows}>
+    <Shell table={{ tableView: "none", ...table }} title={title} aria-label={ariaLabel} period={period} isLoading={isLoading} emptyState={emptyState} isEmpty={rows.length === 0} height={height} columns={columns} rows={rows}>
       <div data-slot="barlist" className="flex flex-col gap-[6px]">
         <ul data-slot="barlist-list" className="m-0 flex list-none flex-col gap-[6px] p-0">
           {shown.map((item, index) => (
@@ -230,7 +230,7 @@ export const levelOf = (value: number | undefined, thresholds: readonly number[]
  * stop: the arrow keys move a day (up, down) or a week (start, end); every cell is named by its date and
  * value, and the active one is spelled out under the grid with its step's range.
  */
-export function CalendarHeatmap({ title, "aria-label": ariaLabel, period, data, start, end, thresholds, valueFormatter = plain, onDayPress, isLoading, emptyState }: CalendarHeatmapProps) {
+export function CalendarHeatmap({ title, "aria-label": ariaLabel, period, data, start, end, thresholds, valueFormatter = plain, onDayPress, isLoading, emptyState, ...table }: CalendarHeatmapProps) {
   const { locale } = useLocale();
   const { isRtl } = useChartDirection();
   const longDay = useDayFormat({ weekday: "long", day: "numeric", month: "long", year: "numeric" });
@@ -321,7 +321,7 @@ export function CalendarHeatmap({ title, "aria-label": ariaLabel, period, data, 
     );
   };
   return (
-    <Shell title={title} aria-label={ariaLabel} period={period} isLoading={isLoading} emptyState={emptyState} isEmpty={count === 0 || values.size === 0} height={height} columns={columns} rows={rows}>
+    <Shell table={table} title={title} aria-label={ariaLabel} period={period} isLoading={isLoading} emptyState={emptyState} isEmpty={count === 0 || values.size === 0} height={height} columns={columns} rows={rows}>
       <div data-slot="heatmap" className="flex min-w-0 flex-col gap-ds-100">
         <div className="flex min-w-0 gap-ds-100">
           {/* Weekday labels on alternate rows, from the locale's first day. */}
@@ -463,7 +463,7 @@ const TRACKER_TONE: Record<TrackerTone, string> = {
  * names every color, so color repeats the words and never carries them alone. One tab stop: the arrow
  * keys move along the strip, each block named by its date and status.
  */
-export function Tracker({ title, "aria-label": ariaLabel, period, data, statusMap, summary, isLoading, emptyState }: TrackerProps) {
+export function Tracker({ title, "aria-label": ariaLabel, period, data, statusMap, summary, isLoading, emptyState, ...table }: TrackerProps) {
   const { locale } = useLocale();
   const { isRtl } = useChartDirection();
   const longDay = useDayFormat({ weekday: "long", day: "numeric", month: "long", year: "numeric" });
@@ -488,7 +488,7 @@ export function Tracker({ title, "aria-label": ariaLabel, period, data, statusMa
     { key: "status", header: chartStatusLabel(locale) },
   ];
   return (
-    <Shell
+    <Shell table={table}
       title={title}
       aria-label={ariaLabel}
       period={period}
@@ -568,7 +568,7 @@ export type FunnelChartProps = FrameProps & {
  * name before the bar, the count after it and the conversion from the previous step in
  * `ds-text-subtlest`. The subtitle states the total conversion. Every figure is text.
  */
-export function FunnelChart({ title, "aria-label": ariaLabel, period, steps, valueFormatter = plain, showStepConversion = true, showTotalConversion = true, isLoading, emptyState }: FunnelChartProps) {
+export function FunnelChart({ title, "aria-label": ariaLabel, period, steps, valueFormatter = plain, showStepConversion = true, showTotalConversion = true, isLoading, emptyState, ...table }: FunnelChartProps) {
   const { locale } = useLocale();
   const valid = steps.filter((step) => Number.isFinite(step.value) && step.value >= 0);
   useOnce(valid.length < steps.length, "Funnel: steps without a finite, non-negative value are left out.");
@@ -587,7 +587,7 @@ export function FunnelChart({ title, "aria-label": ariaLabel, period, steps, val
   ];
   const height = Math.max(28, valid.length * 28 + Math.max(0, valid.length - 1) * 8);
   return (
-    <Shell title={title} aria-label={ariaLabel} period={subtitle} isLoading={isLoading} emptyState={emptyState} isEmpty={valid.length === 0 || head <= 0} height={height} columns={columns} rows={rows}>
+    <Shell table={table} title={title} aria-label={ariaLabel} period={subtitle} isLoading={isLoading} emptyState={emptyState} isEmpty={valid.length === 0 || head <= 0} height={height} columns={columns} rows={rows}>
       <ol data-slot="funnel" className="m-0 grid list-none grid-cols-[minmax(0,max-content)_minmax(0,1fr)] items-center gap-x-ds-150 gap-y-ds-100 p-0">
         {rows.map((step, index) => (
           <li key={index} data-slot="funnel-step" className="col-span-2 grid grid-cols-subgrid items-center">

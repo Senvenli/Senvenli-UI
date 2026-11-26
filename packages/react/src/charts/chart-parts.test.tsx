@@ -179,14 +179,19 @@ describe("ChartFrame", () => {
     expect(within(plain).getAllByRole("rowheader").map((cell) => cell.textContent)).toEqual(["July", "August", "September"]);
     expect(plain.querySelectorAll("[tabindex], a, button, input")).toHaveLength(0);
     expect(screen.queryByRole("grid")).toBeNull();
+    // The toggle is a pressed/unpressed icon button; it controls the region the plot sits in.
     const toggle = screen.getByRole("button", { name: "Show the data as a table" });
-    expect(toggle.getAttribute("aria-expanded")).toBe("false");
-    expect(toggle.getAttribute("aria-controls")).toBe(document.querySelector("[data-slot='chart-data-table']")!.id);
-    // Shown: the interactive compact Table, and the toggle says so.
+    expect(toggle.getAttribute("aria-pressed")).toBe("false");
+    expect(toggle.getAttribute("aria-controls")).toBe(plot.id);
+    // Shown: the interactive compact Table in the plot's place, at the plot's height; the toggle stays where it is.
     fireEvent.click(toggle);
     expect(screen.getByRole("grid", { name: "Monthly revenue" })).toBeTruthy();
     expect(screen.queryByRole("table")).toBeNull();
-    expect(screen.getByRole("button", { name: "Hide the table" }).getAttribute("aria-expanded")).toBe("true");
+    expect(screen.queryByRole("group", { name: "Monthly revenue" })).toBeNull();
+    const region = document.getElementById(toggle.getAttribute("aria-controls")!)!;
+    expect(region.getAttribute("data-slot")).toBe("chart-data-table");
+    expect(region.style.height).toBe("200px");
+    expect(toggle.getAttribute("aria-pressed")).toBe("true");
   });
 
   it("the hidden table follows Table's row-header rule and keeps only text from render", () => {
@@ -219,11 +224,11 @@ describe("ChartFrame", () => {
       </ChartFrame>,
     );
     const frame = document.querySelector("[data-slot='chart-frame']")!;
-    const reserved = frame.firstElementChild!;
-    expect(reserved.getAttribute("class")).toBe("invisible");
+    // The top row keeps the legend (invisible, inert) and the toggle's place, so nothing shifts when data arrives.
+    const reserved = frame.querySelector("[data-slot='chart-top'] .invisible")!;
     expect(reserved.getAttribute("aria-hidden")).toBe("true");
     expect(reserved.hasAttribute("inert")).toBe(true);
-    expect(frame.querySelector("[data-slot='chart-table-toggle-space']")!.getAttribute("class")).toBe("h-4");
+    expect(frame.querySelector("[data-slot='chart-table-toggle-space']")!.getAttribute("class")).toContain("size-7");
   });
 
   it("while loading: a Skeleton at the chart's real size, no table toggle", () => {

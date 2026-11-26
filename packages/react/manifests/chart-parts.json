@@ -56,6 +56,48 @@
   "props": {
     "ChartFrame": [
       {
+        "name": "tableView",
+        "type": "ChartTableView",
+        "required": false,
+        "origin": "own",
+        "default": "\"swap\"",
+        "description": "How the data is offered as a table. `swap` (default): a toggle at the end of the chart's top row turns the plot\ninto the table at the same height, scrolling inside, so the card never grows. `hidden`: no toggle; the table is\nthere for screen readers only. `none`: no table at all, for a chart that is already text (BarList).",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "hidden",
+            "none",
+            "swap"
+          ]
+        }
+      },
+      {
+        "name": "isTableOpen",
+        "type": "boolean",
+        "required": false,
+        "origin": "own",
+        "description": "The table is showing (`swap`), controlled; or `defaultTableOpen` + `onTableOpenChange`.",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "defaultTableOpen",
+        "type": "boolean",
+        "required": false,
+        "origin": "own",
+        "default": "false",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "onTableOpenChange",
+        "type": "(isOpen: boolean) => void",
+        "required": false,
+        "origin": "own"
+      },
+      {
         "name": "height",
         "type": "number",
         "required": true,
@@ -268,6 +310,8 @@
     ]
   },
   "tokens": [
+    "ds-background-neutral-subtle-hovered",
+    "ds-background-selected",
     "ds-border-focused",
     "ds-chart-1",
     "ds-chart-2",
@@ -275,7 +319,10 @@
     "ds-chart-4",
     "ds-chart-5",
     "ds-chart-neutral",
-    "ds-link",
+    "ds-icon",
+    "ds-icon-brand",
+    "ds-icon-subtle",
+    "ds-radius-control-small",
     "ds-radius-medium",
     "ds-radius-small",
     "ds-radius-xsmall",
