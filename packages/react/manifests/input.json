@@ -1136,7 +1136,7 @@
       },
       {
         "name": "autoComplete",
-        "type": "string | \"current-password\" | \"new-password\"",
+        "type": "string | \"off\" | \"current-password\" | \"new-password\"",
         "required": false,
         "origin": "aria",
         "description": "Describes the type of autocomplete functionality the input should provide if any. See\n[MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#htmlattrdefautocomplete).",
