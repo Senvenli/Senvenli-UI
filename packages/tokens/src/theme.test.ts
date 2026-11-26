@@ -80,8 +80,10 @@ describe("layout", () => {
   it("matches the existing scale at the default radius and density", () => {
     const l = Object.fromEntries(layoutTokens(createTheme().layout));
     expect(l["ds-radius-xsmall"]).toBe("0.125rem");
-    expect(l["ds-radius-medium"]).toBe("0.625rem");
-    expect(l["ds-radius-large"]).toBe("1rem");
+    expect(l["ds-radius-small"]).toBe("0.25rem");
+    expect(l["ds-radius-medium"]).toBe("0.375rem");
+    expect(l["ds-radius-large"]).toBe("0.5rem");
+    expect(l["ds-radius-xlarge"]).toBe("0.75rem");
     expect(l["ds-space-200"]).toBe("16px");
     expect(l["ds-size-control"]).toBe("36px");
     expect(l["ds-border-width"]).toBe("1px");

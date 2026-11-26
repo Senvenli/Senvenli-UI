@@ -46,7 +46,7 @@ const COLORS = [
 ];
 
 /** The engine's default base corner radius in rem; it is left out of the input. */
-const MEDIUM = 0.625;
+const MEDIUM = 0.375;
 /**
  * The library's radius scale as theme inputs: each step is a base radius in rem (the theme derives every other radius
  * from it). None is square; Large is clearly rounder than Medium while a 36px control still has straight sides; Full
@@ -56,10 +56,10 @@ const MEDIUM = 0.625;
  */
 const CORNERS = [
   { id: "none", label: "None", radius: 0 },
-  { id: "small", label: "Small", radius: 0.3125 },
+  { id: "small", label: "Small", radius: 0.25 },
   { id: "medium", label: "Medium", radius: MEDIUM },
-  { id: "large", label: "Large", radius: 0.8125 },
-  { id: "full", label: "Full", radius: 0.8125, controlShape: "pill" as const },
+  { id: "large", label: "Large", radius: 0.625 },
+  { id: "full", label: "Full", radius: 0.625, controlShape: "pill" as const },
 ];
 
 const DENSITIES: { id: Density; label: string }[] = [

@@ -23,7 +23,7 @@ const themeInputShape = {
   secondary: z.string().optional().describe("A second brand color, same formats."),
   tertiary: z.string().optional().describe("A third brand color, same formats."),
   primaryDark: z.string().optional().describe(`A hand-picked brand color for dark mode, same formats. Leave out to derive it from primary.`),
-  radius: z.number().min(0).max(2).optional().describe("Base corner radius in rem (default 0.625)."),
+  radius: z.number().min(0).max(2).optional().describe("Base corner radius in rem (default 0.375)."),
   controlShape: z.enum(["rounded", "pill"]).optional().describe('Single-line controls (buttons, fields, badges, segmented controls) follow the radius ("rounded", default) or are fully round ("pill"); cards keep the radius.'),
   density: z.enum(["compact", "default", "comfortable"]).optional(),
   borderWidth: z.union([z.literal(0), z.literal(1), z.literal(2)]).optional(),

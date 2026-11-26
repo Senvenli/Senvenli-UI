@@ -1600,7 +1600,8 @@
       "SidebarItem",
       "SidebarSubmenu",
       "SidebarSection",
-      "SidebarFooter"
+      "SidebarFooter",
+      "SidebarAccount"
     ],
     "genui": false
   },

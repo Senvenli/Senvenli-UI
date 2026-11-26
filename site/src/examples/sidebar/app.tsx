@@ -1,6 +1,6 @@
 import { Button } from "@senvenli/react/action";
-import { Avatar, Icon, Text } from "@senvenli/react/display";
-import { Sidebar } from "@senvenli/react/navigation";
+import { Icon, Text } from "@senvenli/react/display";
+import { Sidebar, SidebarAccount } from "@senvenli/react/navigation";
 import { useState } from "react";
 
 export default function Example() {
@@ -29,8 +29,18 @@ export default function Example() {
             ],
           },
         ]}
-        avatar={<Avatar name="Sofia Marin" src="/avatars/05.webp" size="small" />}
-        footer={<Text>Sofia Marin</Text>}
+        footer={
+          <SidebarAccount
+            name="Sofia Marin"
+            description="sofia@example.com"
+            avatarSrc="/avatars/05.webp"
+            items={[
+              { id: "profile", label: "Profile", icon: "user" },
+              { id: "settings", label: "Settings", icon: "settings" },
+              { id: "sign-out", label: "Sign out", icon: "log-out", tone: "danger" },
+            ]}
+          />
+        }
       />
       <div className="flex min-w-0 flex-1 flex-col items-start gap-ds-150 p-ds-300">
         <div className="lg:hidden">

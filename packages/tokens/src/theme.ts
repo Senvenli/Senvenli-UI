@@ -44,7 +44,7 @@ export interface ThemeInput {
    * only moved, like every color, if its label would fall below AA.
    */
   darkColors?: Partial<Record<Role, string>>;
-  /** Base corner radius in rem (the "medium" radius). Default 0.625. */
+  /** Base corner radius in rem (the "medium" radius). Default 0.375 (6px): steps of 2, 4, 6, 8 and 12px. */
   radius?: number;
   /** Single-line controls follow `radius` (`rounded`, the default) or are fully round (`pill`). */
   controlShape?: ControlShape;
@@ -143,7 +143,7 @@ const CHARTS: Record<Mode, OKLCH[]> = {
 };
 
 export const DEFAULT_LAYOUT: Layout = {
-  radius: 0.625,
+  radius: 0.375,
   controlShape: "rounded",
   density: "default",
   spacingScale: 1,

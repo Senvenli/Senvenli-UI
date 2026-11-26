@@ -23,13 +23,13 @@
   --ds-size-icon-large: 20px;
   --ds-radius-xsmall: 0.125rem;
   --ds-radius-small: 0.25rem;
-  --ds-radius-medium: 0.625rem;
-  --ds-radius-large: 1rem;
-  --ds-radius-xlarge: 1.25rem;
+  --ds-radius-medium: 0.375rem;
+  --ds-radius-large: 0.5rem;
+  --ds-radius-xlarge: 0.75rem;
   --ds-radius-full: 9999px;
   --ds-radius-control-xsmall: 0.125rem;
   --ds-radius-control-small: 0.25rem;
-  --ds-radius-control-medium: 0.625rem;
+  --ds-radius-control-medium: 0.375rem;
   --ds-border-width: 1px;
   --font-sans: "Geist", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "Geist Mono", ui-monospace, SFMono-Regular, monospace;

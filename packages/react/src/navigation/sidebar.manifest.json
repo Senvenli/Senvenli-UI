@@ -12,7 +12,8 @@
     "SidebarItem",
     "SidebarSubmenu",
     "SidebarSection",
-    "SidebarFooter"
+    "SidebarFooter",
+    "SidebarAccount"
   ],
   "description": "The main navigation of an app: brand, sections with nested items and badges, a pinned footer, collapsible to icons.",
   "keywords": [
@@ -59,5 +60,10 @@
   ],
   "genui": {
     "expose": false
-  }
+  },
+  "guidance": [
+    {
+      "rule": "Put the signed-in person in the footer with SidebarAccount (name, description, avatarSrc, items): a row that opens the account menu, and, collapsed, a square the size of a nav icon with the name as its tooltip, so sign-out stays reachable."
+    }
+  ]
 }
