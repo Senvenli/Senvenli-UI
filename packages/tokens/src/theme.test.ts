@@ -15,10 +15,11 @@ describe("default theme", () => {
     const t = toNative(createTheme());
     expect(t.light["ds-surface"]).toBe("#fcfcfb");
     expect(t.dark["ds-surface"]).toBe("#0c0c0b");
-    expect(t.light["ds-text"]).toBe("#2a2825");
-    expect(t.dark["ds-text"]).toBe("#e6e4e0");
-    expect(t.light["ds-background-neutral"]).toBe("#f4f3f1");
-    expect(t.light["ds-background-brand-bold"]).toBe("#1f1e1c");
+    // The neutral ramp is pure grey since 2026-11-27 (same lightness steps, zero chroma).
+    expect(t.light["ds-text"]).toBe("#282828");
+    expect(t.dark["ds-text"]).toBe("#e4e4e4");
+    expect(t.light["ds-background-neutral"]).toBe("#f3f3f3");
+    expect(t.light["ds-background-brand-bold"]).toBe("#1e1e1e");
   });
 
   it("never uses pure black or white", () => {

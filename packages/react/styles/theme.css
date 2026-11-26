@@ -25,17 +25,17 @@
 
 :root,
 [data-theme="light"] {
-  --ds-shadow-raised: 0 1px 2px rgba(60, 44, 16, 0.04), 0 2px 6px rgba(60, 44, 16, 0.04), 0 8px 24px rgba(60, 44, 16, 0.06);
-  --ds-shadow-overflow: 0 0 8px rgba(20, 18, 15, 0.12), 0 0 1px rgba(20, 18, 15, 0.16);
-  --ds-shadow-overlay: 0 2px 4px rgba(60, 44, 16, 0.05), 0 8px 16px rgba(60, 44, 16, 0.06), 0 24px 48px rgba(60, 44, 16, 0.1);
+  --ds-shadow-raised: 0 1px 2px rgba(24, 24, 24, 0.04), 0 2px 6px rgba(24, 24, 24, 0.04), 0 8px 24px rgba(24, 24, 24, 0.06);
+  --ds-shadow-overflow: 0 0 8px rgba(18, 18, 18, 0.12), 0 0 1px rgba(18, 18, 18, 0.16);
+  --ds-shadow-overlay: 0 2px 4px rgba(24, 24, 24, 0.05), 0 8px 16px rgba(24, 24, 24, 0.06), 0 24px 48px rgba(24, 24, 24, 0.1);
 }
 
 [data-theme="dark"],
 .dark {
   /* Soft black and white, never pure #000/#fff. */
-  --ds-shadow-raised: 0 0 0 1px rgba(252, 252, 251, 0.03), 0 8px 24px rgba(7, 7, 6, 0.18);
-  --ds-shadow-overflow: 0 0 12px rgba(7, 7, 6, 0.56), 0 0 1px rgba(7, 7, 6, 0.8);
-  --ds-shadow-overlay: 0 0 0 1px rgba(252, 252, 251, 0.05), 0 24px 48px rgba(7, 7, 6, 0.32);
+  --ds-shadow-raised: 0 0 0 1px rgba(252, 252, 252, 0.03), 0 8px 24px rgba(7, 7, 7, 0.18);
+  --ds-shadow-overflow: 0 0 12px rgba(7, 7, 7, 0.56), 0 0 1px rgba(7, 7, 7, 0.8);
+  --ds-shadow-overlay: 0 0 0 1px rgba(252, 252, 252, 0.05), 0 24px 48px rgba(7, 7, 7, 0.32);
 }
 
 :root {
