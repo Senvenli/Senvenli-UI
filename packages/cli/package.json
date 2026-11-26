@@ -1,6 +1,6 @@
 {
   "name": "@senvenli/cli",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "Write Senvenli UI theme files from a preset code or options.",
   "license": "MIT",
   "author": "Senvenli",

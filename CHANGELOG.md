@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.3.2 (2026-11-27)
+
+- `@senvenli/react` Tour (new, `@senvenli/react/overlay`): a guided tour of a few steps, each pointing at a part of the
+  page (a CSS selector, a ref or a function) with a title, a sentence and Back / Next / Done, plus Skip. By default
+  the page is dimmed except the target, which cannot be pressed, and the panel is a modal dialog; `mask={false}` keeps
+  the page usable. Done calls `onFinish`, Skip / close / Esc call `onSkip`. Targets that appear late are waited for
+  (`targetTimeout`), then centred or skipped (`missingTarget`). Arrow keys move between steps (mirrored right to
+  left); the step's heading takes focus and progress ("Step 2 of 5") is announced. New DS strings: `tourNext`,
+  `tourBack`, `tourSkip`, `tourFinish`.
+- `@senvenli/react` Table: roomier default density. Cells get 12px above and below the value (the 48px row stays the
+  minimum), the header row is 40px, and the first and last columns get 24px at the table's edge. Compact and
+  virtualized tables keep their fixed rows.
+- `@senvenli/tokens`, `@senvenli/cli`, `@senvenli/mcp`: no change; released at the same version.
+
 ## 0.3.1 (2026-11-26)
 
 - `@senvenli/react` Fab: `color` sets a fill outside the theme, such as a chat app's own green
