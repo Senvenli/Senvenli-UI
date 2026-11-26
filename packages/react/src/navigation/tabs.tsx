@@ -113,7 +113,7 @@ const TabsLook = React.createContext<{ variant: TabsVariant; orientation: TabsOr
 });
 
 const TAB =
-  "relative isolate inline-flex h-10 shrink-0 cursor-default items-center gap-ds-075 rounded-ds-small text-body font-[500] whitespace-nowrap text-ds-text-subtle outline-hidden " +
+  "relative isolate inline-flex h-10 shrink-0 cursor-pointer data-[disabled]:cursor-not-allowed items-center gap-ds-075 rounded-ds-small text-body font-[500] whitespace-nowrap text-ds-text-subtle outline-hidden " +
   "transition-colors duration-(--ds-duration-fast) motion-reduce:transition-none " +
   "data-[hovered]:text-ds-text data-[selected]:text-ds-text " +
   "data-[focus-visible]:inset-ring-2 data-[focus-visible]:inset-ring-ds-border-focused data-[disabled]:text-ds-text-disabled";
@@ -252,7 +252,7 @@ const SEGMENT_INDICATOR =
   "transition-[translate,width] duration-(--ds-duration-medium) ease-ds-standard motion-reduce:transition-none";
 
 const SEGMENT =
-  "inline-flex h-7 cursor-default items-center rounded-[max(0px,calc(var(--ds-radius-control-medium,var(--ds-radius-medium))-2px))] px-ds-150 text-body font-[500] whitespace-nowrap text-ds-text-subtle outline-hidden " +
+  "inline-flex h-7 cursor-pointer data-[disabled]:cursor-not-allowed items-center rounded-[max(0px,calc(var(--ds-radius-control-medium,var(--ds-radius-medium))-2px))] px-ds-150 text-body font-[500] whitespace-nowrap text-ds-text-subtle outline-hidden " +
   "transition-[background-color,color,box-shadow] duration-(--ds-duration-fast) motion-reduce:transition-none " +
   "data-[hovered]:text-ds-text " +
   "relative isolate data-[selected]:text-ds-text " +

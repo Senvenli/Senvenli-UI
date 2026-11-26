@@ -28,7 +28,7 @@ export type DisclosureProps = {
 };
 
 const TRIGGER =
-  "group flex min-h-12 w-full cursor-default items-center justify-between gap-ds-150 rounded-ds-small text-start text-body font-medium text-ds-text outline-hidden " +
+  "group flex min-h-12 w-full cursor-pointer data-[disabled]:cursor-not-allowed items-center justify-between gap-ds-150 rounded-ds-small text-start text-body font-medium text-ds-text outline-hidden " +
   "data-[focus-visible]:inset-ring-2 data-[focus-visible]:inset-ring-ds-border-focused";
 
 /**
