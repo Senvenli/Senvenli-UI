@@ -1,5 +1,21 @@
 # Changelog
 
+## 0.3.3 (2026-11-27)
+
+- `@senvenli/tokens`: **smaller default corners.** The base radius is now `0.375rem` (6px) and the steps are 2 / 4 / 6 /
+  8 / 12px: controls 6px; menus, popovers, listboxes, cards, table containers and toasts 8px, with their items at
+  4px so the corners are concentric; dialogs, drawers and the command palette 12px. **Changed:** themes without an
+  explicit `radius` get the smaller corners; pass `radius: 0.625` for the previous look.
+- `@senvenli/react` Table: a column's `description` renders a second, smaller line in the subtle tone under the
+  value (an email under a name); both lines truncate. Virtualized rows grow to fit it.
+- `@senvenli/react` DataTable: **changed:** density defaults to `comfortable` (rows of at least 48px); pass
+  `density="compact"` for the 36px rows.
+- `@senvenli/react` SidebarAccount (new, `@senvenli/react/navigation`): the signed-in person in the Sidebar footer, a
+  row that opens the account menu; collapsed, a square the size of a nav icon with the avatar centred and the name as
+  its tooltip.
+- `@senvenli/react` Tooltip: a shortcut's keycaps take the tooltip's colours instead of the page surface.
+- `@senvenli/cli`, `@senvenli/mcp`: the documented default radius is `0.375`; no other change.
+
 ## 0.3.2 (2026-11-27)
 
 - `@senvenli/react` Tour (new, `@senvenli/react/overlay`): a guided tour of a few steps, each pointing at a part of the
