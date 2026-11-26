@@ -162,28 +162,84 @@ html[data-preset-pending] .preview {
 }
 
 /*
- * The bento's calendar has a fixed width (about 284px). Its cell is a size container, so the calendar is scaled to the
- * cell's own width, wherever the bento sits (a phone, the landing's third column, the builder's narrower preview).
+ * The theme builder (pages/CreatePage.tsx). One scrollbar, the page's: from lg the toolbar sticks under the navbar and
+ * the control rail sticks under the toolbar, beside the preview. The rail is as tall as its controls and never scrolls
+ * on its own: the page marks it data-sticky only while the screen can show all of it (useStudioLayout), and sets the
+ * toolbar's real height for it to stick under.
  */
-.home-fit-cell {
+.create-studio {
+  --create-nav: 57px;
+  --create-toolbar: 4rem;
+}
+.create-rail {
+  margin-block-start: var(--ds-space-200);
+}
+@media (min-width: 64rem) {
+  .create-toolbar {
+    position: sticky;
+    z-index: 5;
+    top: var(--create-nav);
+    flex-wrap: nowrap;
+  }
+  /* In the toolbar the presets are one line: the name, the swatches, then which one is on. */
+  .create-toolbar [data-slot="color-swatch-picker"] {
+    flex-direction: row;
+    align-items: center;
+    gap: var(--ds-space-150);
+  }
+  .create-rail[data-sticky] {
+    position: sticky;
+    top: calc(var(--create-nav) + var(--create-toolbar) + var(--ds-space-200));
+  }
+}
+
+/*
+ * The bento's calendar. Calendar draws its own card; here the bento cell is that card, so the calendar gives up its
+ * surface, shadow and padding and fills the cell instead: the seven columns share the cell's width and the weeks share
+ * its height, each day staying its own size in the middle of its column. No card inside a card, no band around it.
+ */
+.home-calendar-cell {
   container-type: inline-size;
 }
-.home-fit-calendar {
-  zoom: 1;
+.home-calendar {
+  display: flex;
+  min-width: 0;
+  /* Room for a month of six weeks, so stepping to one does not change the height of the row. */
+  min-height: 18.5rem;
+  flex: 1;
+  flex-direction: column;
 }
-@container (max-width: 290px) {
-  .home-fit-calendar {
-    zoom: 0.9;
+.home-calendar [data-slot="calendar"] {
+  display: flex;
+  width: 100%;
+  max-width: none;
+  flex: 1;
+  padding: 0;
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+}
+.home-calendar [data-slot="calendar"] > div,
+.home-calendar [data-slot="calendar-month"] {
+  min-width: 0;
+  flex: 1;
+}
+.home-calendar [data-slot="calendar-month"] > table {
+  width: 100%;
+  flex: 1;
+}
+.home-calendar [data-slot="calendar-day"] {
+  margin-inline: auto;
+}
+/* Seven days take 252px. A cell with less room than that (a very narrow phone) shows the calendar smaller, never cut. */
+@container (max-width: 251px) {
+  .home-calendar {
+    zoom: 0.88;
   }
 }
-@container (max-width: 262px) {
-  .home-fit-calendar {
-    zoom: 0.82;
-  }
-}
-@container (max-width: 236px) {
-  .home-fit-calendar {
-    zoom: 0.74;
+@container (max-width: 222px) {
+  .home-calendar {
+    zoom: 0.76;
   }
 }
 
