@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.3.0 (2026-11-26)
+
+- `@senvenli/react` charts: the data table swaps in place of the plot. An icon toggle at the end of the chart's top
+  row (`aria-pressed`) turns the plot into the compact Table at the same height, scrolling inside, so a card never
+  changes size; screen readers still get the table while the plot shows. New on every chart (`ChartTableProps`):
+  `tableView` (`"swap"` by default, `"hidden"`, `"none"`), `isTableOpen` / `defaultTableOpen` / `onTableOpenChange`.
+  **Changed:** the "Show the data as a table" text button below the chart is gone; `BarList` has no data table by
+  default (`tableView="none"`; its names and values are text).
+- `@senvenli/react` Table: start-aligned cells stay on one line unless the column sets `wrap` or `width`, so on a
+  phone the table scrolls sideways instead of breaking values over two lines.
+- `@senvenli/react` touch and pointer: chart legend toggles get the 44px coarse-pointer hit area; Tabs,
+  SegmentedControl, Pagination and Accordion triggers show the pointer cursor (`not-allowed` when disabled).
+- `@senvenli/react` Navbar: the brand never shrinks and links stay on one line at md widths.
+- `@senvenli/tokens`, `@senvenli/cli`, `@senvenli/mcp`: no change; released at the same version.
+
 ## 0.2.0 (2026-11-25)
 
 - `@senvenli/tokens`: `darkColors`, hand-picked dark-mode colors per role (`{ primary: "#c99a2e" }`). A given color is
