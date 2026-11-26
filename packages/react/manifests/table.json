@@ -145,7 +145,7 @@
             "comfortable",
             "compact"
           ],
-          "description": "`compact` (36px rows) for dense working screens; `default` (48px) for public and content pages."
+          "description": "`compact` (36px rows) for dense working screens; `default` (48px rows, 12px above and below a value, 24px at the edges) for public and content pages."
         }
       },
       "required": [
@@ -299,7 +299,7 @@
         "type": "Density",
         "required": false,
         "origin": "own",
-        "description": "`compact` (36px rows) for dense working screens; `default` (48px) for public and content pages.",
+        "description": "`compact` (36px rows) for dense working screens; `default` (48px rows, 12px above and below a value, 24px at the edges) for public and content pages.",
         "schema": {
           "type": "string",
           "enum": [
@@ -347,6 +347,7 @@
     "ds-size-row",
     "ds-size-row-compact",
     "ds-space-050",
+    "ds-space-100",
     "ds-space-150",
     "ds-space-200",
     "ds-space-300",

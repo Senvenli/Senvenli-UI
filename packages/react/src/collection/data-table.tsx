@@ -401,7 +401,7 @@ export function DataTable<T extends object>(props: DataTableProps<T>) {
         </div>
       ) : showSkeleton ? (
         <div data-slot="data-table-loading" aria-hidden className="flex flex-col overflow-hidden rounded-ds-large bg-ds-surface-raised shadow-ds-raised">
-          <div className="h-9 border-b border-ds-border bg-ds-surface-sunken" />
+          <div className={cn("border-b border-ds-border bg-ds-surface-sunken", density === "compact" ? "h-9" : "h-10")} />
           {Array.from({ length: Math.min(pageSize, 8) }, (_, index) => (
             <div key={index} className={cn("flex items-center gap-ds-300 border-b border-ds-border px-ds-200 last:border-b-0", density === "compact" ? "h-ds-row-compact" : "h-ds-row")}>
               <Skeleton width="18%" height={12} />
