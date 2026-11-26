@@ -7,9 +7,10 @@ import { IconGlyph, type IconName } from "../display/icon";
 import { cn } from "../utils";
 import { newTabLabel } from "../i18n";
 import { LAYER } from "../layers";
+import { contrastRatio } from "../color/contrast";
 
 
-/** The brand fill: the one tone a Fab has. */
+/** The brand fill: a Fab's default. */
 const FILL =
   "bg-ds-background-brand-bold text-ds-text-on-brand data-[hovered]:bg-ds-background-brand-bold-hovered " +
   "data-[pressed]:bg-ds-background-brand-bold-pressed data-[focus-visible]:inset-ring-ds-text-on-brand";
@@ -33,7 +34,31 @@ export type FabProps = {
   collapseOnScroll?: boolean;
   /** Icon-only at every width, as Button's `iconOnly`: a round button; `label` stays its accessible name. */
   iconOnly?: boolean;
+  /**
+   * A fill other than the brand's, for a Fab that carries another identity (a messaging app's contact button):
+   * `#rgb`, `#rrggbb` or `oklch(…)`. The label and icon are the soft ink or paper, whichever reads better on it
+   * (as Mantine's `autoContrast`), so the pair keeps the most contrast the color allows; hover and press darken it
+   * slightly. A color the engine cannot read is ignored and the brand fill stays.
+   */
+  color?: string;
 };
+
+const INK = "#0c0c0b";
+const PAPER = "#fcfcfb";
+
+/** A custom fill and the label color that reads best on it; null when the color does not parse. */
+function customFill(color: string | undefined): { background: string; color: string } | null {
+  if (!color) return null;
+  const onPaper = contrastRatio(color, PAPER);
+  const onInk = contrastRatio(color, INK);
+  // contrastRatio answers 1 for a color it cannot read.
+  if (onPaper === 1 && onInk === 1) return null;
+  return { background: color, color: onPaper >= onInk ? PAPER : INK };
+}
+
+/** The custom fill's states: a slight darkening, and the focus border in the label's color. */
+const CUSTOM_STATES =
+  "data-[hovered]:brightness-95 data-[pressed]:brightness-90 data-[focus-visible]:inset-ring-current";
 
 const PHONE = "(max-width: 767px)";
 
@@ -61,7 +86,7 @@ function useCollapsed(enabled: boolean) {
  * never over a dialog, sheet or a sticky summary bar (the app decides).
  */
 export const Fab = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, FabProps>(function Fab(
-  { children: label, iconBefore: icon, onPress, href, target = "_blank", placement = "fixed", collapseOnScroll = true, iconOnly = false },
+  { children: label, iconBefore: icon, onPress, href, target = "_blank", placement = "fixed", collapseOnScroll = true, iconOnly = false, color },
   ref,
 ) {
   const { locale } = useLocale();
@@ -69,6 +94,7 @@ export const Fab = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, FabPr
   const external = opensNewTab ? ` ${newTabLabel(locale)}` : "";
   const scrolledAway = useCollapsed(!iconOnly && collapseOnScroll && placement === "fixed");
   const collapsed = iconOnly || scrolledAway;
+  const custom = customFill(color);
   const className = cn(
     "inline-flex h-12 shrink-0 items-center justify-center gap-ds-100 rounded-ds-full shadow-ds-overlay text-body-strong",
     "cursor-pointer select-none outline-hidden transition-[background-color,filter,padding] duration-(--ds-duration-fast) ease-ds-standard",
@@ -79,7 +105,7 @@ export const Fab = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, FabPr
     placement === "fixed" &&
       "fixed end-ds-300 bottom-[max(calc(var(--ds-space-300)+env(safe-area-inset-bottom,0px)),calc(var(--ds-floating-banner-offset,0px)+var(--ds-space-150)))]",
     placement === "fixed" && LAYER.fab,
-    FILL,
+    custom ? CUSTOM_STATES : FILL,
   );
   const content = (
     <>
@@ -92,6 +118,8 @@ export const Fab = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, FabPr
     "data-collapsed": collapsed || undefined,
     // Icon-only keeps its label as the accessible name; a new tab adds Link's words after the visible label.
     "aria-label": collapsed || external ? `${label}${external}` : undefined,
+    "data-color": custom ? "" : undefined,
+    style: custom ?? undefined,
     className,
   };
   return href ? (
