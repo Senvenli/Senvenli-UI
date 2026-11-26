@@ -18,10 +18,15 @@ const REGIONS = [
   { region: "West", orders: 198, returns: 12 },
 ];
 
-/** The charts family: area, bar, donut, bar list, gauge and sparkline. */
-export function ChartsPreview() {
+/**
+ * The charts family: area, bar, donut, bar list, gauge and sparkline. Two columns that are each their own stack (from
+ * 40rem of the preview's width), not rows of a grid: a chart that opens its data table pushes down only the cards
+ * under it, and no card is stretched to the height of the one beside it.
+ */
+export function ChartsBoard() {
   return (
-    <>
+    <div className="grid items-start gap-ds-200 @[40rem]:grid-cols-2">
+      <div className="flex min-w-0 flex-col gap-ds-200">
       <Card>
         <CardBody>
           <AreaChart
@@ -34,12 +39,6 @@ export function ChartsPreview() {
             labels={{ online: "Online", retail: "Retail" }}
             valueFormatter={formatMoney}
           />
-        </CardBody>
-      </Card>
-
-      <Card>
-        <CardBody>
-          <BarChart title="Orders by region" period="This quarter" data={REGIONS} index="region" categories={["orders", "returns"]} labels={{ orders: "Orders", returns: "Returns" }} allowDecimals={false} />
         </CardBody>
       </Card>
 
@@ -61,6 +60,22 @@ export function ChartsPreview() {
 
       <Card>
         <CardBody>
+          <div className="flex items-center gap-ds-200">
+            <Sparkline aria-label="Visitors, rising over 12 days" data={[12, 14, 11, 16, 18, 17, 21, 24, 22, 27, 29, 31]} />
+            <Sparkline type="bar" aria-label="Sign-ups per day" data={[3, 5, 2, 6, 4, 7, 5, 8]} />
+          </div>
+        </CardBody>
+      </Card>
+      </div>
+      <div className="flex min-w-0 flex-col gap-ds-200">
+      <Card>
+        <CardBody>
+          <BarChart title="Orders by region" period="This quarter" data={REGIONS} index="region" categories={["orders", "returns"]} labels={{ orders: "Orders", returns: "Returns" }} allowDecimals={false} />
+        </CardBody>
+      </Card>
+
+      <Card>
+        <CardBody>
           <BarList
             title="Top products"
             period="November"
@@ -77,18 +92,11 @@ export function ChartsPreview() {
 
       <Card>
         <CardBody>
-          <GaugeChart title="Quota" period="Q4" value={72} max={100} target={80} valueFormatter={(v) => `${v}%`} />
+          {/* The gauge is as wide as twice its height (less 32px) and does not shrink: 132px keeps it inside a 320px phone's card. */}
+          <GaugeChart title="Quota" period="Q4" value={72} max={100} target={80} valueFormatter={(v) => `${v}%`} height={132} />
         </CardBody>
       </Card>
-
-      <Card>
-        <CardBody>
-          <div className="flex items-center gap-ds-200">
-            <Sparkline aria-label="Visitors, rising over 12 days" data={[12, 14, 11, 16, 18, 17, 21, 24, 22, 27, 29, 31]} />
-            <Sparkline type="bar" aria-label="Sign-ups per day" data={[3, 5, 2, 6, 4, 7, 5, 8]} />
-          </div>
-        </CardBody>
-      </Card>
-    </>
+      </div>
+    </div>
   );
 }

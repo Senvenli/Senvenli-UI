@@ -8,14 +8,14 @@ import { Checkbox, RadioGroup, Select, Slider, Switch } from "@senvenli/react/se
 /** Forms, every state a theme touches: fields, a picker, choices, an error and the submit row. */
 export function FormsBoard() {
   return (
-    <div className="grid items-start gap-ds-200 md:grid-cols-2">
-      <div className="rounded-ds-large bg-ds-surface-raised p-ds-300">
+    <div className="grid items-start gap-ds-200 @[40rem]:grid-cols-2">
+      <div className="min-w-0 rounded-ds-xlarge bg-ds-surface-raised p-ds-200 sm:p-ds-300">
         <Form onSubmit={(event) => event.preventDefault()}>
           <Input label="Full name" defaultValue="Ada Lovelace" isRequired />
           <Input label="Email" type="email" defaultValue="ada@example" errorMessage="Enter an email like name@example.com." isInvalid />
           <Input type="password" label="Password" autoComplete="new-password" showStrength />
           <Select label="Role" defaultSelectedKey="admin" items={[{ id: "admin", label: "Admin" }, { id: "member", label: "Member" }, { id: "viewer", label: "Viewer" }]} />
-          <div className="flex gap-ds-100">
+          <div className="flex flex-wrap gap-ds-100">
             <Button type="submit" variant="primary">
               Create account
             </Button>
@@ -23,8 +23,8 @@ export function FormsBoard() {
           </div>
         </Form>
       </div>
-      <div className="flex flex-col gap-ds-200">
-        <div className="flex flex-col gap-ds-300 rounded-ds-large bg-ds-surface-raised p-ds-300">
+      <div className="flex min-w-0 flex-col gap-ds-200">
+        <div className="flex flex-col gap-ds-300 rounded-ds-xlarge bg-ds-surface-raised p-ds-200 sm:p-ds-300">
           <DatePicker label="Start date" defaultValue={new CalendarDate(2026, 3, 18)} />
           <RadioGroup
             label="Plan"

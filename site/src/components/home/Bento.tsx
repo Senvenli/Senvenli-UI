@@ -6,6 +6,8 @@ import { Badge, Stat, StatGroup } from "@senvenli/react/display";
 import { ProgressBar } from "@senvenli/react/feedback";
 import { Input } from "@senvenli/react/form";
 import { Checkbox, Select, Slider, Switch } from "@senvenli/react/selection";
+import { useRef } from "react";
+import { useOwnHeights } from "../../lib/own-heights";
 
 const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 const REVENUE = MONTHS.map((month, i) => ({ month, online: 32000 + i * 2400 + (i % 3) * 1800, retail: 18000 + i * 900 + (i % 2) * 1200 }));
@@ -22,17 +24,21 @@ function Cell({ children, className = "" }: { children: React.ReactNode; classNa
 }
 
 /**
- * Real components with fixed data: what a theme changes, at a glance. Twelve columns from 1024px (8 + 4, then three
- * cells of 4), two from 768px (the chart across, then two rows of two), one on phones; cells stretch to their row, so
- * the grid has no gaps.
+ * Real components with fixed data: what a theme changes, at a glance. Laid out by the bento's own width: twelve columns
+ * from 64rem (8 + 4, then three cells of 4), two from 40rem (the chart across, then two rows of two), one below; cells
+ * stretch to their row, so the grid has no gaps. A chart that opens its data table grows alone: the cards beside it
+ * keep their height (useOwnHeights).
  */
 export function Bento() {
+  const grid = useRef<HTMLDivElement>(null);
+  useOwnHeights(grid);
   return (
     // Laid out by its own width, not the viewport's: on the landing it spans the page, in the builder it shares the
-    // row with the controls, so the twelve-column layout waits until there is room for it (56rem).
+    // row with the controls. Twelve columns wait for 64rem: below it a third of the row is too narrow for a calendar
+    // at its own size, and the cells beside it wrap and grow tall.
     <div className="@container">
-    <div data-slot="home-bento" className="grid items-stretch gap-ds-200 @2xl:grid-cols-2 @4xl:grid-cols-12">
-      <Cell className="@2xl:col-span-2 @4xl:col-span-8">
+    <div ref={grid} data-slot="home-bento" className="grid items-stretch gap-ds-200 @[40rem]:grid-cols-2 @5xl:grid-cols-12">
+      <Cell className="@[40rem]:col-span-2 @5xl:col-span-8">
         <AreaChart
           title="Revenue"
           period="Jan–Dec 2026"
@@ -44,7 +50,7 @@ export function Bento() {
           height={220}
         />
       </Cell>
-      <Cell className="gap-ds-200 @4xl:col-span-4">
+      <Cell className="gap-ds-200 @5xl:col-span-4">
         <Input label="Workspace name" defaultValue="Acme" />
         <Input label="Billing email" type="email" defaultValue="ada@example.com" />
         <Select
@@ -62,13 +68,13 @@ export function Bento() {
           <Button>Cancel</Button>
         </div>
       </Cell>
-      <Cell className="home-fit-cell items-center justify-center @4xl:col-span-4">
-        {/* A calendar has a fixed width; in a narrow cell it is scaled to fit rather than cut (styles.css). */}
-        <div className="home-fit-calendar">
+      <Cell className="home-calendar-cell @5xl:col-span-4">
+        {/* The cell is the calendar's surface: the calendar gives up its own card and fills the cell (styles.css). */}
+        <div className="home-calendar">
           <Calendar aria-label="Delivery day" defaultValue={new CalendarDate(2026, 3, 18)} />
         </div>
       </Cell>
-      <div className="flex min-w-0 flex-col gap-ds-200 @4xl:col-span-4">
+      <div className="flex min-w-0 flex-col gap-ds-200 @5xl:col-span-4">
         <StatGroup aria-label="This month">
           <Stat label="Orders" value="1,204" delta={{ value: "12%", direction: "up", isPositive: true }} comparison="vs. February" />
           <Stat label="Refunds" value="18" delta={{ value: "3%", direction: "down", isPositive: true }} comparison="vs. February" />
@@ -77,7 +83,7 @@ export function Bento() {
           <BarList aria-label="Orders by channel" data={CHANNELS} />
         </Cell>
       </div>
-      <Cell className="gap-ds-300 @4xl:col-span-4">
+      <Cell className="gap-ds-300 @5xl:col-span-4">
         <div className="flex flex-wrap gap-ds-100">
           <Badge tone="success">Paid</Badge>
           <Badge tone="warning">Pending</Badge>
