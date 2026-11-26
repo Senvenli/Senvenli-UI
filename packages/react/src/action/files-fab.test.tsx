@@ -222,6 +222,24 @@ describe("FileRow and FileUploadList", () => {
 });
 
 describe("Fab", () => {
+  it("color: a fill of another identity, with the label in ink or paper, whichever reads better", () => {
+    inProvider(<Fab iconBefore="message-circle" placement="inline" color="#25d366" href="https://wa.me/1">Chat with us</Fab>);
+    const light = document.querySelector<HTMLElement>('[data-slot="fab"]')!;
+    expect(light.hasAttribute("data-color")).toBe(true);
+    expect(light.style.background || light.style.backgroundColor).toContain("rgb(37, 211, 102)");
+    expect(light.style.color).toBe("rgb(12, 12, 11)");
+    expect(light.className).not.toContain("bg-ds-background-brand-bold");
+    cleanup();
+    inProvider(<Fab iconBefore="plus" placement="inline" color="#1a1a6e" onPress={() => {}}>New order</Fab>);
+    expect(document.querySelector<HTMLElement>('[data-slot="fab"]')!.style.color).toBe("rgb(252, 252, 251)");
+    cleanup();
+    // A color the engine cannot read is ignored: the brand fill stays.
+    inProvider(<Fab iconBefore="plus" placement="inline" color="green-ish" onPress={() => {}}>New order</Fab>);
+    const fallback = document.querySelector<HTMLElement>('[data-slot="fab"]')!;
+    expect(fallback.hasAttribute("data-color")).toBe(false);
+    expect(fallback.className).toContain("bg-ds-background-brand-bold");
+  });
+
   it("iconOnly: a round icon button at every width, named by its label", () => {
     inProvider(<Fab iconBefore="plus" iconOnly placement="inline" onPress={() => {}}>New order</Fab>);
     const fab = screen.getByRole("button", { name: "New order" });

@@ -140,6 +140,16 @@
         "schema": {
           "type": "boolean"
         }
+      },
+      {
+        "name": "color",
+        "type": "string",
+        "required": false,
+        "origin": "own",
+        "description": "A fill other than the brand's, for a Fab that carries another identity (a messaging app's contact button):\n`#rgb`, `#rrggbb` or `oklch(…)`. The label and icon are the soft ink or paper, whichever reads better on it\n(as Mantine's `autoContrast`), so the pair keeps the most contrast the color allows; hover and press darken it\nslightly. A color the engine cannot read is ignored and the brand fill stays.",
+        "schema": {
+          "type": "string"
+        }
       }
     ]
   },
