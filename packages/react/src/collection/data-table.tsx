@@ -101,7 +101,7 @@ type DataTableBase<T> = {
   defaultView?: Partial<DataTableView>;
   /** Called with the whole next view on every change (a new sort, search, filter or page). */
   onViewChange?: (view: DataTableView) => void;
-  /** `compact` (36px rows) by default: DataTable is the dense working list of a back office. */
+  /** `comfortable` (default, rows of at least 48px) or `compact` (36px rows) for a dense screen that needs every row in view. */
   density?: Density;
 };
 
@@ -162,7 +162,7 @@ export function DataTable<T extends object>(props: DataTableProps<T>) {
     pageSize = 20,
     formatRange,
     emptyState,
-    density = "compact",
+    density = "comfortable",
   } = props;
   const { locale } = useLocale();
   // The view: the app's (`view`), or the table's own.

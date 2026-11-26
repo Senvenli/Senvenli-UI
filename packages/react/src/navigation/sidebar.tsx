@@ -15,7 +15,8 @@ import { Button } from "../action/button";
 import { Badge, type BadgeCountTone } from "../display/badge";
 import { IconGlyph, type IconName } from "../display/icon";
 import { collapseSidebarLabel, expandSidebarLabel, mainNavigationLabel } from "../i18n";
-import { Tooltip, TooltipFor } from "../overlay/floating";
+import { Menu, Tooltip, TooltipFor, type MenuEntry } from "../overlay/floating";
+import { Avatar } from "../display/avatar";
 import { NavPanel } from "./nav-panel";
 import { ROOT_ATTRIBUTE } from "./sidebar-script";
 
@@ -335,7 +336,11 @@ function SidebarBody({
           <Navigation items={items} nodes={nav} sections={labelled} shared={shared} />
         )}
         <div className={cn(BOTTOM, isFooterPinned ? "shrink-0" : "mt-auto")}>
-          {hasFooter && <Account footer={footer} avatar={avatar} className={cn(FOOTER_RULE, WHEN_COLLAPSED.clip, avatar != null && WHEN_COLLAPSED.centre)} />}
+          {hasFooter && (
+            <SharedContext.Provider value={shared}>
+              <Account footer={footer} avatar={avatar} className={cn(FOOTER_RULE, WHEN_COLLAPSED.clip, avatar != null && WHEN_COLLAPSED.centre)} />
+            </SharedContext.Provider>
+          )}
           <div
             data-slot="sidebar-toggle"
             className={cn(
@@ -615,6 +620,63 @@ export type SidebarHeaderProps = {
   /** The app's mark before the name; collapsed, the rail shows it alone. As the Sidebar's `logo`. */
   logo?: React.ReactNode;
 };
+
+/**
+ * The account row's trigger: the nav row's hover, press, focus and radius, so it reads as one of them. Expanded it is
+ * the avatar with the name over a second line; collapsed it is a 32px square, exactly a collapsed nav item, with the
+ * 24px avatar centred where an icon sits.
+ */
+const ACCOUNT_TRIGGER =
+  "relative flex min-h-8 w-full cursor-pointer items-center gap-ds-100 rounded-ds-medium px-ds-100 py-ds-050 text-start outline-hidden " +
+  "transition-colors duration-(--ds-duration-fast) motion-reduce:transition-none " +
+  "data-[hovered]:bg-ds-background-neutral-subtle-hovered data-[pressed]:bg-ds-background-neutral-pressed " +
+  "aria-expanded:bg-ds-background-neutral-hovered " +
+  "data-[focus-visible]:inset-ring-2 data-[focus-visible]:inset-ring-ds-border-focused " +
+  "group-data-[collapsed]/sidebar:size-8 group-data-[collapsed]/sidebar:min-h-0 group-data-[collapsed]/sidebar:justify-center group-data-[collapsed]/sidebar:p-0 " +
+  "[:root[data-ds-sidebar=collapsed]_[data-slot=sidebar]_&]:size-8 [:root[data-ds-sidebar=collapsed]_[data-slot=sidebar]_&]:min-h-0 [:root[data-ds-sidebar=collapsed]_[data-slot=sidebar]_&]:justify-center [:root[data-ds-sidebar=collapsed]_[data-slot=sidebar]_&]:p-0";
+
+export type SidebarAccountProps = {
+  /** The person's name: the row's first line, the trigger's name and, collapsed, its tooltip. */
+  name: string;
+  /** The second line: an email or a role. */
+  description?: string;
+  /** A photo; the name's initials otherwise. */
+  avatarSrc?: string;
+  /** The account menu: profile, settings, sign out (a `danger` item goes last). */
+  items: readonly MenuEntry[];
+  onAction?: (id: React.Key) => void;
+};
+
+/**
+ * The signed-in person at the bottom of the sidebar, as the `footer` (or in a `SidebarFooter`): a row that opens the
+ * account menu. Collapsed it stays reachable as a square the size of a nav icon, its avatar centred, with the name
+ * as its tooltip, so sign-out is never hidden behind expanding the sidebar.
+ */
+export function SidebarAccount({ name, description, avatarSrc, items, onAction }: SidebarAccountProps) {
+  // In the footer, outside the navigation's context; the phone panel never collapses.
+  const collapsed = React.useContext(SharedContext)?.collapsed ?? false;
+  const trigger = (
+    <AriaButton data-slot="sidebar-account" aria-label={name} className={ACCOUNT_TRIGGER}>
+      {/* The button is named by the person alone; the avatar's own name would say it twice. */}
+      <span aria-hidden className="flex shrink-0">
+        <Avatar name={name} src={avatarSrc} size="small" />
+      </span>
+      <span data-slot="sidebar-account-text" className={cn("flex min-w-0 flex-1 flex-col", WHEN_COLLAPSED.label)}>
+        <span className="truncate text-body font-medium text-ds-text">{name}</span>
+        {description && <span className="truncate text-body-small text-ds-text-subtle">{description}</span>}
+      </span>
+      <IconGlyph name="chevrons-up-down" size="small" className={cn("shrink-0 text-ds-icon-subtle", WHEN_COLLAPSED.hidden)} />
+    </AriaButton>
+  );
+  return (
+    <Menu
+      trigger={collapsed ? <TooltipFor content={name} placement="end">{trigger}</TooltipFor> : trigger}
+      items={items}
+      onAction={onAction && ((id) => onAction(id))}
+      placement={collapsed ? "end bottom" : "top start"}
+    />
+  );
+}
 
 /** The brand at the top, as a child instead of the `brand` prop. */
 export function SidebarHeader({ children }: SidebarHeaderProps) {

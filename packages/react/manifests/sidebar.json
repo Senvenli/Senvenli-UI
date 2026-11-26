@@ -12,7 +12,8 @@
     "SidebarItem",
     "SidebarSubmenu",
     "SidebarSection",
-    "SidebarFooter"
+    "SidebarFooter",
+    "SidebarAccount"
   ],
   "description": "The main navigation of an app: brand, sections with nested items and badges, a pinned footer, collapsible to icons.",
   "keywords": [
@@ -60,6 +61,11 @@
   "genui": {
     "expose": false
   },
+  "guidance": [
+    {
+      "rule": "Put the signed-in person in the footer with SidebarAccount (name, description, avatarSrc, items): a row that opens the account menu, and, collapsed, a square the size of a nav icon with the name as its tooltip, so sign-out stays reachable."
+    }
+  ],
   "source": [
     "src/navigation/sidebar.tsx"
   ],
@@ -536,6 +542,51 @@
         "origin": "own",
         "description": "The account's Avatar before the rest; collapsed, the rail shows it alone. As the Sidebar's `avatar`."
       }
+    ],
+    "SidebarAccount": [
+      {
+        "name": "name",
+        "type": "string",
+        "required": true,
+        "origin": "own",
+        "description": "The person's name: the row's first line, the trigger's name and, collapsed, its tooltip.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "description",
+        "type": "string",
+        "required": false,
+        "origin": "own",
+        "description": "The second line: an email or a role.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "avatarSrc",
+        "type": "string",
+        "required": false,
+        "origin": "own",
+        "description": "A photo; the name's initials otherwise.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "items",
+        "type": "readonly MenuEntry[]",
+        "required": true,
+        "origin": "own",
+        "description": "The account menu: profile, settings, sign out (a `danger` item goes last)."
+      },
+      {
+        "name": "onAction",
+        "type": "(id: Key) => void",
+        "required": false,
+        "origin": "own"
+      }
     ]
   },
   "tokens": [
@@ -569,7 +620,9 @@
     "collapseSidebar",
     "expandSidebar",
     "mainNavigation",
-    "newTab"
+    "morePeople",
+    "newTab",
+    "online"
   ],
   "quality": {
     "tests": true,

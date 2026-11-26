@@ -33,10 +33,10 @@ const SIZE: Array<[string, number, boolean]> = [
 
 /** Radius steps as multiples of the base ("medium") radius. */
 const RADIUS: Array<[string, number]> = [
-  ["xsmall", 0.2],
-  ["small", 0.4],
+  ["xsmall", 1 / 3],
+  ["small", 2 / 3],
   ["medium", 1],
-  ["large", 1.6],
+  ["large", 4 / 3],
   ["xlarge", 2],
 ];
 

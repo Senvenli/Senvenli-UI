@@ -161,6 +161,9 @@ const TooltipBubble = React.forwardRef<HTMLDivElement, Pick<TooltipProps, "conte
       offset={6}
       className={cn(
         "flex max-w-60 items-center gap-ds-075 rounded-ds-small bg-ds-background-neutral-bold px-ds-100 py-ds-050 text-body-small text-ds-text-inverse",
+        // A shortcut's keycaps take the bubble's colours (a clear cap with a faint edge), not the page's surface,
+        // which read as a loud white chip in the dark bubble.
+        "[&_[data-slot=kbd]]:border-current/30 [&_[data-slot=kbd]]:bg-transparent [&_[data-slot=kbd]]:text-ds-text-inverse",
         "transition-opacity duration-(--ds-duration-fast) data-[entering]:opacity-0 data-[exiting]:opacity-0 motion-reduce:transition-none",
       )}
     >

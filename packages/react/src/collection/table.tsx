@@ -35,6 +35,11 @@ export type TableColumn<T> = {
   render?: (row: T) => React.ReactNode;
   /** Long text: clamp to two lines with an ellipsis, the full text on hover and keyboard focus. */
   wrap?: boolean;
+  /**
+   * A second line under the value, smaller and in the subtle tone: a person's email under the name, a site's domain under
+   * its name, a date under a code. Both lines stay on one line each (truncated with a `width`).
+   */
+  description?: (row: T) => React.ReactNode;
   /** The row header: the value that names the row (an order number); the first column by default. */
   isRowHeader?: boolean;
   /**
@@ -67,7 +72,7 @@ export type TableProps<T> = {
   onSelectionChange?: (keys: Selection) => void;
   sortDescriptor?: SortDescriptor;
   onSortChange?: (descriptor: SortDescriptor) => void;
-  /** `compact` (36px rows) for dense working screens; `default` (48px rows, 12px above and below a value, 24px at the edges) for public and content pages. */
+  /** `comfortable` (default: rows of at least 48px, 12px above and below a value, 24px at the edges) or `compact` (36px rows) for dense working screens. */
   density?: Density;
   /** Shown when there are no rows: an `EmptyState`, or one sentence on why it is empty and the action that fills it. */
   emptyState?: React.ReactNode;
@@ -415,6 +420,13 @@ export function TableView<T extends object>({
                           {value as React.ReactNode}
                         </span>
                       </>
+                    ) : column.description ? (
+                      <span data-slot="table-cell-stack" className="flex min-w-0 flex-col">
+                        <span className="truncate">{value as React.ReactNode}</span>
+                        <span data-slot="table-cell-description" className="truncate text-body-small text-ds-text-subtle">
+                          {column.description(item.row)}
+                        </span>
+                      </span>
                     ) : (
                       (value as React.ReactNode)
                     )}
@@ -426,7 +438,9 @@ export function TableView<T extends object>({
         </AriaTableBody>
       </AriaTable>
   );
-  const rowHeight = density === "compact" ? 36 : 48;
+  // A virtualized row has a fixed height: with a two-line column it is tall enough for both lines and the padding.
+  const stacked = columns.some((column) => column.description);
+  const rowHeight = density === "compact" ? (stacked ? 52 : 36) : stacked ? 60 : 48;
   return (
     <div
       data-slot="table"

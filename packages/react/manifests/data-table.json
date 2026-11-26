@@ -211,7 +211,7 @@
         "type": "Density",
         "required": false,
         "origin": "own",
-        "description": "`compact` (36px rows) by default: DataTable is the dense working list of a back office.",
+        "description": "`comfortable` (default, rows of at least 48px) or `compact` (36px rows) for a dense screen that needs every row in view.",
         "schema": {
           "type": "string",
           "enum": [

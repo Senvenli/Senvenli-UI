@@ -17,7 +17,7 @@ All of them are optional.
 | `secondary`, `tertiary` | Two more brand roles, for secondary fills and accents. |
 | `success`, `warning`, `danger`, `info` | Status colors, if yours differ from the defaults. |
 | `darkColors` | Hand-picked colors for dark mode per role, such as `{ primary: "#c99a2e" }`. Without one, dark is derived from the light color. A given color is used as-is unless its label would fall below AA. |
-| `radius` | The base corner radius in rem (default `0.625`). Every radius steps from it. |
+| `radius` | The base corner radius in rem (default `0.375`, 6px). Every radius steps from it: 2, 4, 6, 8 and 12px by default. |
 | `controlShape` | `rounded` (default) or `pill`. With `pill`, single-line controls (buttons, fields, selects, badges, segmented controls, pill tabs, toggles) are fully round; cards, panels and multi-line fields keep `radius`. |
 | `density` | `compact`, `default` or `comfortable`: control heights and spacing. |
 | `borderWidth` | `0`, `1` or `2` pixels for field and card borders. |
