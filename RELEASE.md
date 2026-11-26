@@ -20,9 +20,12 @@ Right after a publish the registry and its CDN can answer 404 for a few minutes;
    pnpm release:check        # build, all tests, site tests, then pack + install + use the tarballs
    pnpm -r --filter './packages/**' publish --access public --dry-run   # read the file lists
    pnpm -r --filter './packages/**' publish --access public
+   sh scripts/verify-published.sh <version>   # the registry's dist/ must match this checkout's build
    ```
 
-   `pnpm publish` turns `workspace:^` into `^<version>` and publishes in dependency order (tokens first).
+   `pnpm publish` turns `workspace:^` into `^<version>` and publishes in dependency order (tokens first). Every
+   package also clears and rebuilds its `dist/` before it is packed (`prepack`), so a publish never ships a stale one: 0.3.1 to
+   0.3.3 went out from a `dist/` built before their changes because the build step was skipped.
 3. Tag it: `git tag v<version> && git push origin v<version>`.
 
 `scripts/smoke-pack.sh` (part of `release:check`, and of CI) is the check that matters most: it installs the packed
