@@ -5,5 +5,5 @@ export type { CalendarProps, CalendarRangeProps, CalendarSingleProps, DatePicker
 export type { DateMarker, DateRange, FirstDayOfWeek } from "./calendar";
 export { DateField, TimeField } from "./fields";
 export type { DateFieldProps, TimeFieldProps } from "./fields";
-export type { DateRangePickerValue } from "./pickers";
+export type { DateRangePickerValue, DateRangePreset } from "./pickers";
 export { parseDate, parseTime } from "@internationalized/date";

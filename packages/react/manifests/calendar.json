@@ -276,6 +276,7 @@
     "rangeCrossesClosed",
     "rangeEnd",
     "rangeEndTime",
+    "rangePresets",
     "rangeStart",
     "rangeStartTime",
     "rangeTooLong",

@@ -10,6 +10,8 @@ import {
   DateRangePickerStateContext,
   Dialog,
   Popover,
+  ToggleButton as AriaToggleButton,
+  ToggleButtonGroup as AriaToggleButtonGroup,
   useLocale,
   type DateValue,
   type TimeValue,
@@ -23,7 +25,7 @@ import { FieldDescription, FieldError, FieldLabel } from "../form/field-parts";
 import { InputGroup } from "../form/input-group";
 import type { RequiredValidation } from "../form/validation";
 import { FIELD_STACK, INLINE_ACTION } from "../form/styles";
-import { clearLabel, dateMaxLabel, formatDateTime, dateMinLabel, dateUnavailableLabel, hasDsStrings, rangeStartLabel, rangeStartTimeLabel, rangeEndLabel, rangeEndTimeLabel, thisMonthLabel, todayLabel } from "../i18n";
+import { clearLabel, dateMaxLabel, formatDateTime, dateMinLabel, dateUnavailableLabel, hasDsStrings, rangeStartLabel, rangeStartTimeLabel, rangeEndLabel, rangeEndTimeLabel, rangePresetsLabel, thisMonthLabel, todayLabel } from "../i18n";
 import { POPOVER } from "../selection/listbox";
 import { Calendar, CalendarInPopoverContext, RangeCalendar, type DateMarker, type FirstDayOfWeek } from "./calendar";
 import { TimeField, fixedSegments, formValue, invalidProps, useDateValidation, type DateFieldProps } from "./fields";
@@ -302,6 +304,25 @@ export type DateRangePickerProps = {
   endName?: string;
   validate?: (value: Span<DateValue> | null) => string | string[] | true | null | undefined;
   onBlur?: (event: React.FocusEvent) => void;
+  /**
+   * Quick ranges in the popover ("Last 7 days"), a column beside the calendar from 720px and a row of chips above it
+   * on phones. Picking one sets the dates (the field keeps showing dates), reports its `id` and closes the popover.
+   * `range` gets today in `timeZone` and is called at the moment of the pick.
+   */
+  presets?: readonly DateRangePreset[];
+  /** The chosen preset's id, controlled; `null` for dates set by hand. Keep it (not the dates) in the URL. */
+  presetId?: string | null;
+  defaultPresetId?: string | null;
+  /** A preset picked (its id), or the dates changed by hand (`null`). */
+  onPresetChange?: (id: string | null) => void;
+};
+
+export type DateRangePreset = {
+  /** Stable, never the label ("7d", "mtd"). */
+  id: string;
+  label: string;
+  /** The range for `today` (the location's today, in `timeZone`). */
+  range: (today: CalendarDate) => { start: DateValue; end: DateValue };
 };
 
 /** Two months from 720px, one on phones (after mount; the server renders one). */
@@ -362,6 +383,58 @@ function RangeTimes({ timeZone }: { timeZone?: string }) {
   );
 }
 
+/** The quick ranges: one is chosen (a radio group); picking applies it and closes the popover. */
+function RangePresets({ presets, selected, timeZone, onPick, wide }: {
+  presets: readonly DateRangePreset[]; selected: string | null; timeZone?: string; wide: boolean; onPick: (id: string, range: Span<DateValue>) => void;
+}) {
+  const state = React.useContext(DateRangePickerStateContext);
+  const { locale } = useLocale();
+  return (
+    <AriaToggleButtonGroup
+      aria-label={rangePresetsLabel(locale)}
+      selectionMode="single"
+      orientation={wide ? "vertical" : "horizontal"}
+      selectedKeys={selected ? [selected] : []}
+      onSelectionChange={(keys) => {
+        const id = [...keys][0];
+        const preset = presets.find((item) => item.id === id);
+        if (!preset || !state) return;
+        const range = preset.range(todayIn(timeZone ?? getLocalTimeZone()));
+        onPick(preset.id, range);
+        state.setValue(range as never);
+        state.setOpen(false);
+      }}
+      data-slot="date-range-presets"
+      className={cn(
+        "flex gap-ds-050",
+        // On phones a row that scrolls: width 0 with a full min-width, so the chips never widen the popover past the calendar.
+        wide ? "w-40 shrink-0 flex-col border-e border-ds-border pe-ds-150" : "w-0 min-w-full overflow-x-auto pb-ds-050",
+      )}
+    >
+      {presets.map((preset) => (
+        <AriaToggleButton
+          key={preset.id}
+          id={preset.id}
+          data-slot="date-range-preset"
+          className={cn(
+            "flex shrink-0 cursor-pointer items-center justify-between gap-ds-100 text-body-small text-ds-text outline-hidden",
+            "data-[hovered]:bg-ds-background-neutral-subtle-hovered data-[selected]:bg-ds-background-selected data-[selected]:font-medium",
+            "data-[focus-visible]:inset-ring-2 data-[focus-visible]:inset-ring-ds-border-focused",
+            wide ? "h-8 rounded-ds-small px-ds-100 text-start" : "h-8 whitespace-nowrap rounded-ds-full px-ds-150 inset-ring-1 inset-ring-ds-border data-[selected]:inset-ring-ds-border-selected",
+          )}
+        >
+          {({ isSelected }) => (
+            <>
+              <span className="truncate">{preset.label}</span>
+              {wide && isSelected && <IconGlyph name="check" size="small" />}
+            </>
+          )}
+        </AriaToggleButton>
+      ))}
+    </AriaToggleButtonGroup>
+  );
+}
+
 /** One half: its overline ("Start") over the typed date; the half being edited is underlined. */
 const HALF =
   // `flex-auto`, not `flex-1`: each half starts from its own content, so a field sized to its content never cuts the
@@ -380,13 +453,28 @@ const OVERLINE = "text-heading-xxsmall text-ds-text-subtle group-data-[disabled]
  */
 export function DateRangePicker({
   label, description, errorMessage, isOptional, granularity = "day", isDateUnavailable, unavailableReason, allowsNonContiguousRanges,
-  startLabel, endLabel, firstDayOfWeek, timeZone, footer, validate, onBlur, onChange, value, defaultValue, requiredValidation, id, ...rest
+  startLabel, endLabel, firstDayOfWeek, timeZone, footer, validate, onBlur, onChange, value, defaultValue, requiredValidation, id,
+  presets, presetId, defaultPresetId = null, onPresetChange, ...rest
 }: DateRangePickerProps) {
   const { locale } = useLocale();
   const wide = useWide();
+  // The chosen preset: the app's, or our own. A pick sets it; any other change to the dates clears it.
+  const [ownPreset, setOwnPreset] = React.useState<string | null>(defaultPresetId);
+  const preset = presetId !== undefined ? presetId : ownPreset;
+  const picking = React.useRef(false);
+  const choosePreset = (next: string | null) => {
+    if (next === preset) return;
+    setOwnPreset(next);
+    onPresetChange?.(next);
+  };
+  const changed = (next: Span<DateValue> | null) => {
+    if (picking.current) picking.current = false;
+    else if (preset !== null) choosePreset(null);
+    onChange?.(next as DateRangePickerValue | null);
+  };
   const { timing, reporter, emptyError, value: held, reported } = useDateValidation<Span<DateValue>>({
     validate, value: value as Span<DateValue> | null | undefined, defaultValue: defaultValue as Span<DateValue> | null | undefined,
-    isRequired: rest.isRequired, requiredValidation, onBlur, onChange: onChange as ((value: Span<DateValue> | null) => void) | undefined,
+    isRequired: rest.isRequired, requiredValidation, onBlur, onChange: changed,
   });
   const invalid = invalidProps(emptyError, rest.isInvalid, errorMessage);
   return (
@@ -426,7 +514,20 @@ export function DateRangePicker({
           {description && <FieldDescription>{description}</FieldDescription>}
           <FieldError>{invalid.errorMessage}</FieldError>
           <Popover data-slot="date-range-popover" placement="bottom start" offset={4} className={PICKER_POPOVER}>
-            <Dialog data-slot="date-range-dialog" className="flex flex-col gap-ds-150 outline-hidden">
+            <Dialog data-slot="date-range-dialog" className={cn("flex gap-ds-150 outline-hidden", presets?.length && wide ? "flex-row" : "flex-col")}>
+              {presets && presets.length > 0 && (
+                <RangePresets
+                  presets={presets}
+                  selected={preset}
+                  timeZone={timeZone}
+                  wide={wide}
+                  onPick={(id) => {
+                    picking.current = true;
+                    choosePreset(id);
+                  }}
+                />
+              )}
+              <div className="flex min-w-0 flex-col gap-ds-150">
               <CalendarInPopoverContext.Provider value>
                 <RangeCalendar
                   visibleMonths={wide ? 2 : 1}
@@ -439,6 +540,7 @@ export function DateRangePicker({
               </CalendarInPopoverContext.Provider>
               {granularity === "hour" && <RangeTimes timeZone={timeZone} />}
               <Duration footer={footer} />
+              </div>
             </Dialog>
           </Popover>
         </>

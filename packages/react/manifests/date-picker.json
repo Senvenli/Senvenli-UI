@@ -398,6 +398,39 @@
         "schema": {
           "type": "string"
         }
+      },
+      {
+        "name": "presets",
+        "type": "readonly DateRangePreset[]",
+        "required": false,
+        "origin": "own",
+        "description": "Quick ranges in the popover (\"Last 7 days\"), a column beside the calendar from 720px and a row of chips above it\non phones. Picking one sets the dates (the field keeps showing dates), reports its `id` and closes the popover.\n`range` gets today in `timeZone` and is called at the moment of the pick."
+      },
+      {
+        "name": "presetId",
+        "type": "string",
+        "required": false,
+        "origin": "own",
+        "description": "The chosen preset's id, controlled; `null` for dates set by hand. Keep it (not the dates) in the URL.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "defaultPresetId",
+        "type": "string",
+        "required": false,
+        "origin": "own",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "onPresetChange",
+        "type": "(id: string | null) => void",
+        "required": false,
+        "origin": "own",
+        "description": "A preset picked (its id), or the dates changed by hand (`null`)."
       }
     ]
   },
@@ -449,6 +482,7 @@
     "rangeCrossesClosed",
     "rangeEnd",
     "rangeEndTime",
+    "rangePresets",
     "rangeStart",
     "rangeStartTime",
     "rangeTooLong",
