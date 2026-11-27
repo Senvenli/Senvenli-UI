@@ -95,6 +95,7 @@ const PressButton = React.forwardRef<HTMLButtonElement, Omit<ButtonActionProps, 
       data-variant={variant}
       data-tone={tone}
       data-size={size}
+      data-icon-only={iconOnly || undefined}
       className={cn(
         BUTTON_BASE,
         fullWidth && "w-full",

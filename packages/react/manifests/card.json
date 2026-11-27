@@ -209,7 +209,7 @@
         "type": "React.ReactNode",
         "required": false,
         "origin": "own",
-        "description": "At the header's end: a subtle menu button (`Button variant=\"subtle\" iconOnly`); stays clickable above an interactive card."
+        "description": "At the header's end: one compact control. A subtle menu button (`Button variant=\"subtle\" iconOnly`), or a\n`SegmentedControl` or small `Select` that switches what the card shows (a metric, a dimension). On a narrow card it\nmoves under the title. Stays clickable above an interactive card, which takes only the menu."
       }
     ],
     "CardBody": [
