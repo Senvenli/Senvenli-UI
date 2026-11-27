@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.3.11 (2026-11-27)
+
+- `@senvenli/react` DatePicker (range): `presets` (`{ id, label, range(today) }`), quick ranges beside the calendar
+  (a row of chips on phones). Picking one sets the dates (the field keeps showing dates), reports
+  `onPresetChange(id)` and closes the popover; dates changed by hand report `null`. `presetId` / `defaultPresetId`
+  keep the choice; `range` gets today in `timeZone`. New DS string `rangePresets` ("Quick ranges").
+- `@senvenli/react` DatePicker (range): `dayCount="elapsed" | "inclusive"`. `elapsed` (default, unchanged) counts the
+  days between the dates (14 → 18 is 4 days); `inclusive` counts both ends, as a report period reads (21 → 27 is
+  7 days).
+- `@senvenli/react` Calendar: **fix**, the band between a range's ends was invisible in dark mode (the selected fill
+  matched the popover surface); it is now one step stronger in both modes.
+- Docs: a filter bar example on the Toolbar page (Toolbar, Menu, Select, ComboBox and TagGroup composed; value
+  `[{ field, op, value }]`).
+- `@senvenli/tokens`, `@senvenli/cli`, `@senvenli/mcp`: no change; released at the same version.
+
 ## 0.3.10 (2026-11-27)
 
 - `@senvenli/react` Table: `isLoading`. With no rows, skeleton lines shaped by the columns sit under the real header;
