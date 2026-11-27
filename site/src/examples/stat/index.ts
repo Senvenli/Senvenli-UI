@@ -5,5 +5,6 @@ export default [
   { id: "with-trend", title: "With a sparkline", description: "A short series under the figure shows the shape of the period." },
   { id: "select", title: "Choose the metric a chart shows", description: "selectionMode=\"single\" makes the tiles a radio group; \"multiple\" makes each a toggle. Each Stat needs an id." },
   { id: "compact", title: "Labelled rows and a compact row", description: "`label` names a row visibly; `density=\"compact\"` puts up to six secondary figures on one surface." },
+  { id: "help-period", title: "A definition and a period", description: "`help` opens what the figure means from an info button; `period` says what the value covers, beside the label. Works on selectable and link tiles too." },
   { id: "link", title: "A stat that is a link", description: "The whole tile opens the report behind the figure." },
 ] satisfies ExampleMeta[];
