@@ -121,7 +121,17 @@
         "type": "string",
         "required": false,
         "origin": "own",
-        "description": "Makes the whole tile a link to the report behind it.",
+        "description": "Makes the whole tile a link to the report behind it. Ignored inside a selectable StatGroup.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "id",
+        "type": "string",
+        "required": false,
+        "origin": "own",
+        "description": "Stable key for selection in a StatGroup with `selectionMode` (\"revenue\", not the label).",
         "schema": {
           "type": "string"
         }
@@ -139,15 +149,69 @@
         "type": "string",
         "required": false,
         "origin": "own",
+        "description": "Names the group; required with `selectionMode` so the choice has a visible or spoken name.",
         "schema": {
           "type": "string"
+        }
+      },
+      {
+        "name": "aria-labelledby",
+        "type": "string",
+        "required": false,
+        "origin": "own",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "selectionMode",
+        "type": "\"single\" | \"multiple\"",
+        "required": false,
+        "origin": "own",
+        "description": "Makes the tiles selectable, e.g. the metric a chart below shows. \"single\" is a radio\ngroup (arrow keys move, one is chosen); \"multiple\" makes each tile a pressed/not\npressed toggle. Each Stat needs an `id`.",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "single",
+            "multiple"
+          ]
+        }
+      },
+      {
+        "name": "selectedKeys",
+        "type": "Iterable<Key>",
+        "required": false,
+        "origin": "own"
+      },
+      {
+        "name": "defaultSelectedKeys",
+        "type": "Iterable<Key>",
+        "required": false,
+        "origin": "own"
+      },
+      {
+        "name": "onSelectionChange",
+        "type": "(keys: Set<Key>) => void",
+        "required": false,
+        "origin": "own"
+      },
+      {
+        "name": "disallowEmptySelection",
+        "type": "boolean",
+        "required": false,
+        "origin": "own",
+        "description": "Keeps at least one tile selected (a chart always shows a metric).",
+        "schema": {
+          "type": "boolean"
         }
       }
     ]
   },
   "tokens": [
     "ds-background-brand-subtle",
+    "ds-background-selected",
     "ds-border-focused",
+    "ds-border-selected",
     "ds-chart-1",
     "ds-easing-standard",
     "ds-icon",
