@@ -171,6 +171,18 @@ function arraySchemaOf(checker: ts.TypeChecker, t: ts.Type, depth: number): Json
   return { type: "array", items: { type: "object", additionalProperties: false, properties, ...(required.length ? { required } : {}) } };
 }
 
+/** An object whose fields are all optional plain values (a per-breakpoint map); null for anything else. */
+function plainObjectSchemaOf(checker: ts.TypeChecker, t: ts.Type, depth: number): JsonSchema | null {
+  const properties: Record<string, JsonSchema> = {};
+  for (const sym of checker.getPropertiesOfType(t)) {
+    if ((sym.flags & ts.SymbolFlags.Optional) === 0) return null;
+    const schema = schemaOf(checker, [checker.getNonNullableType(checker.getTypeOfSymbol(sym))], depth + 1);
+    if (!schema) return null;
+    properties[sym.name] = schema;
+  }
+  return Object.keys(properties).length ? { type: "object", additionalProperties: false, properties } : null;
+}
+
 /** JSON Schema for a prop type, or null when it is not plain data (nodes, functions, objects). */
 function schemaOf(checker: ts.TypeChecker, types: ts.Type[], depth = 0): JsonSchema | null {
   // The same array prop from several union arms (ComboBox single | multiple) is one array.
@@ -181,6 +193,14 @@ function schemaOf(checker: ts.TypeChecker, types: ts.Type[], depth = 0): JsonSch
     .flatMap((t) => (t.isUnion() ? t.types : [t]))
     .map((t) => (t.isIntersection() && t.types.some((x) => x.flags & ts.TypeFlags.String) ? checker.getStringType() : t));
   if (parts.length === 0) return null;
+  // A value or a plain object of the same values (Grid `columns={3}` or `{ base: 1, md: 2 }`): one of the two.
+  const isObject = (t: ts.Type) => (t.flags & (ts.TypeFlags.Object | ts.TypeFlags.Intersection)) !== 0;
+  const objects = parts.filter(isObject);
+  if (objects.length === 1 && objects.length < parts.length && depth === 0) {
+    const value = schemaOf(checker, parts.filter((t) => !isObject(t)), depth + 1);
+    const object = plainObjectSchemaOf(checker, objects[0]!, depth + 1);
+    return value && object ? { anyOf: [value, object] } : null;
+  }
   const all = (f: ts.TypeFlags) => parts.every((t) => (t.flags & f) !== 0);
   if (parts.some((t) => t.flags & ts.TypeFlags.String) && all(ts.TypeFlags.String | ts.TypeFlags.StringLiteral)) return { type: "string" };
   if (all(ts.TypeFlags.String)) return { type: "string" };
