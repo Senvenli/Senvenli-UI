@@ -23,6 +23,7 @@ import { Skeleton } from "../feedback/skeleton";
 import { Sweep } from "../feedback/progress";
 import { selectionLabel } from "../i18n";
 import { SelectionCheckbox } from "./selection-checkbox";
+import { TableCards } from "./table-cards";
 
 export type TableColumn<T> = {
   key: string;
@@ -88,6 +89,14 @@ export type TableProps<T> = {
    * The table is `aria-busy` meanwhile.
    */
   isLoading?: boolean;
+  /**
+   * Below this breakpoint (`sm` 640px, `md` 768px, `lg` 1024px of the viewport) the rows become cards in a list:
+   * the row header is each card's title, every other column a label–value line. Selection and `onRowAction` work
+   * the same; the header's sorting is not there, so the cards keep the order the rows have.
+   */
+  collapseBelow?: "sm" | "md" | "lg";
+  /** A collapsed row's own content, in place of the label–value lines (the card keeps its selection and action). */
+  renderCollapsedRow?: (row: T) => React.ReactNode;
 };
 
 const SORT_ICON = { ascending: "arrow-up", descending: "arrow-down" } as const;
@@ -238,6 +247,8 @@ export function TableView<T extends object>({
   onRowAction,
   maxHeight,
   isLoading = false,
+  collapseBelow,
+  renderCollapsedRow,
   virtual,
   component = "Table",
 }: TableProps<T> & {
@@ -259,7 +270,9 @@ export function TableView<T extends object>({
       console.warn(`Table: hideBelow="${ignoredHideBelow}" is ignored on the row header column "${String(rowHeaderKey)}", which names each row.`);
     }
   }, [ignoredHideBelow, rowHeaderKey]);
-  const wide = useWideEnough(allColumns.some((column) => hideBelow(column)));
+  const wide = useWideEnough(Boolean(collapseBelow) || allColumns.some((column) => hideBelow(column)));
+  // Cards below the breakpoint. The server (no viewport) renders the table; a phone then switches on hydration.
+  const collapsed = Boolean(collapseBelow) && !virtual && !wide.split(" ").includes(collapseBelow!);
   const columns = allColumns.filter((column) => {
     const breakpoint = hideBelow(column);
     return !breakpoint || wide.split(" ").includes(breakpoint);
@@ -461,6 +474,7 @@ export function TableView<T extends object>({
       data-scrolled={scrolled || undefined}
       data-virtual={virtual ? "" : undefined}
       data-loading={isLoading || undefined}
+      data-collapsed={collapsed || undefined}
       aria-busy={isLoading || undefined}
       onScroll={maxHeight && !virtual ? (event) => setScrolled(event.currentTarget.scrollTop > 0) : undefined}
       style={maxHeight && !virtual ? { maxHeight } : undefined}
@@ -474,7 +488,22 @@ export function TableView<T extends object>({
           </span>
         </div>
       )}
-      {virtual ? (
+      {collapsed ? (
+        <TableCards
+          aria-label={label}
+          columns={columns}
+          rowHeaderKey={rowHeaderKey}
+          items={rows.map((row, index) => ({ key: keys[index]!, row }))}
+          selectionMode={selectionMode}
+          selectedKeys={selectedKeys}
+          defaultSelectedKeys={defaultSelectedKeys}
+          onSelectionChange={onSelectionChange}
+          onRowAction={onRowAction}
+          emptyState={emptyState}
+          isLoading={isLoading}
+          renderCollapsedRow={renderCollapsedRow}
+        />
+      ) : virtual ? (
         <Virtualizer layout={TableLayout} layoutOptions={{ rowHeight, headingHeight: density === "compact" ? 36 : 40 }}>
           {table}
         </Virtualizer>

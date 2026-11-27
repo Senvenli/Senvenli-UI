@@ -105,6 +105,13 @@ type DataTableBase<T> = {
   onViewChange?: (view: DataTableView) => void;
   /** `comfortable` (default, rows of at least 48px) or `compact` (36px rows) for a dense screen that needs every row in view. */
   density?: Density;
+  /**
+   * Below this viewport breakpoint the rows become cards (row header as title, other shown columns as label–value
+   * lines); search, filters, selection, bulk actions and paging stay. Not for virtualized lists.
+   */
+  collapseBelow?: "sm" | "md" | "lg";
+  /** A collapsed row's own content, in place of the label–value lines. */
+  renderCollapsedRow?: (row: T) => React.ReactNode;
 };
 
 export type DataTableProps<T> = DataTableBase<T> &
@@ -171,6 +178,8 @@ export function DataTable<T extends object>(props: DataTableProps<T>) {
     formatRange,
     emptyState,
     density = "comfortable",
+    collapseBelow,
+    renderCollapsedRow,
   } = props;
   const { locale } = useLocale();
   // The view: the app's (`view`), or the table's own.
@@ -429,6 +438,8 @@ export function DataTable<T extends object>(props: DataTableProps<T>) {
         <TableView
           component="DataTable"
           isLoading={isLoading}
+          collapseBelow={collapseBelow}
+          renderCollapsedRow={renderCollapsedRow}
           aria-label={label}
           columns={shownColumns}
           rows={pageRows}
