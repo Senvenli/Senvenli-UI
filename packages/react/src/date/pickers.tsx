@@ -283,6 +283,12 @@ export type DateRangePickerProps = {
   timeZone?: string;
   /** Right of the duration under the calendar: the price total (`metric-small`). */
   footer?: React.ReactNode;
+  /**
+   * How the duration under the calendar counts dates. `elapsed` (default): the days between them, as a stay or a hire is
+   * charged (14 → 18 is 4 days). `inclusive`: both ends count, as a report period reads (21 → 27 is 7 days, "Last 7
+   * days"). Ranges with times always count started 24-hour blocks.
+   */
+  dayCount?: "elapsed" | "inclusive";
   isRequired?: boolean;
   /**
    * Who says an empty required field is missing: `field` (default) or `app`. With `app` a DS
@@ -343,19 +349,19 @@ function useWide() {
  * Duration in started 24-hour blocks: 14 Eki 10:00 → 18 Eki 10:00 is 4 days, 10:00 → 10:30 four days
  * later is 5. Dates alone count nights (14 → 18 is 4).
  */
-export function rangeDuration(start: DateValue, end: DateValue): { days: number; hours?: number } {
-  if (!("hour" in start) || !("hour" in end)) return { days: toCalendarDate(end).compare(toCalendarDate(start)) };
+export function rangeDuration(start: DateValue, end: DateValue, dayCount: "elapsed" | "inclusive" = "elapsed"): { days: number; hours?: number } {
+  if (!("hour" in start) || !("hour" in end)) return { days: toCalendarDate(end).compare(toCalendarDate(start)) + (dayCount === "inclusive" ? 1 : 0) };
   const hours = Math.ceil((end.toDate("UTC").getTime() - start.toDate("UTC").getTime()) / 3_600_000);
   return { days: Math.max(1, Math.ceil(hours / 24)), hours };
 }
 
-function Duration({ footer }: { footer?: React.ReactNode }) {
+function Duration({ footer, dayCount }: { footer?: React.ReactNode; dayCount: "elapsed" | "inclusive" }) {
   const state = React.useContext(DateRangePickerStateContext);
   const { locale } = useLocale();
   const range = state?.value;
   let text = "";
   if (range?.start && range.end) {
-    const { days, hours } = rangeDuration(range.start, range.end);
+    const { days, hours } = rangeDuration(range.start, range.end, dayCount);
     const unit = (n: number, u: "day" | "hour") => new Intl.NumberFormat(locale, { style: "unit", unit: u, unitDisplay: "long" }).format(n);
     text = hours === undefined ? unit(days, "day") : `${unit(days, "day")} · ${unit(hours, "hour")}`;
   }
@@ -454,7 +460,7 @@ const OVERLINE = "text-heading-xxsmall text-ds-text-subtle group-data-[disabled]
 export function DateRangePicker({
   label, description, errorMessage, isOptional, granularity = "day", isDateUnavailable, unavailableReason, allowsNonContiguousRanges,
   startLabel, endLabel, firstDayOfWeek, timeZone, footer, validate, onBlur, onChange, value, defaultValue, requiredValidation, id,
-  presets, presetId, defaultPresetId = null, onPresetChange, ...rest
+  presets, presetId, defaultPresetId = null, onPresetChange, dayCount = "elapsed", ...rest
 }: DateRangePickerProps) {
   const { locale } = useLocale();
   const wide = useWide();
@@ -539,7 +545,7 @@ export function DateRangePicker({
                 />
               </CalendarInPopoverContext.Provider>
               {granularity === "hour" && <RangeTimes timeZone={timeZone} />}
-              <Duration footer={footer} />
+              <Duration footer={footer} dayCount={dayCount} />
               </div>
             </Dialog>
           </Popover>

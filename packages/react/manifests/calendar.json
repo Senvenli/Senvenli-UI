@@ -234,6 +234,7 @@
     "ds-background-neutral-subtle-hovered",
     "ds-background-selected",
     "ds-background-selected-hovered",
+    "ds-background-selected-pressed",
     "ds-border",
     "ds-border-focused",
     "ds-border-selected",

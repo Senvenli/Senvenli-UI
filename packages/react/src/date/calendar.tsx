@@ -500,7 +500,8 @@ function RangeCalendarBody({
                           // Struck through only when the caller closed the day; length limits just dim it.
                           closed && "line-through",
                           // The band: square, so it reads as one shape across rows and months.
-                          band && !end && "rounded-none bg-ds-background-selected data-[hovered]:bg-ds-background-selected-hovered",
+                          // One step above `selected`: in dark mode `selected` is as light as the popover's surface and the band vanished.
+                          band && !end && "rounded-none bg-ds-background-selected-hovered data-[hovered]:bg-ds-background-selected-pressed",
                           // The ends: brand fill, rounded on the outer side only; the square inner side meets the band.
                           band && end && "bg-ds-background-brand-bold font-medium text-ds-text-on-brand data-[hovered]:bg-ds-background-brand-bold-hovered",
                           band && isSelectionStart && !isSelectionEnd && "rounded-e-none",

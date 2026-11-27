@@ -381,6 +381,20 @@
         "description": "Right of the duration under the calendar: the price total (`metric-small`)."
       },
       {
+        "name": "dayCount",
+        "type": "\"elapsed\" | \"inclusive\"",
+        "required": false,
+        "origin": "own",
+        "description": "How the duration under the calendar counts dates. `elapsed` (default): the days between them, as a stay or a hire is\ncharged (14 → 18 is 4 days). `inclusive`: both ends count, as a report period reads (21 → 27 is 7 days, \"Last 7\ndays\"). Ranges with times always count started 24-hour blocks.",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "elapsed",
+            "inclusive"
+          ]
+        }
+      },
+      {
         "name": "startName",
         "type": "string",
         "required": false,
@@ -440,6 +454,7 @@
     "ds-background-neutral-subtle-hovered",
     "ds-background-selected",
     "ds-background-selected-hovered",
+    "ds-background-selected-pressed",
     "ds-border",
     "ds-border-focused",
     "ds-border-selected",

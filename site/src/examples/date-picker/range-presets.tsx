@@ -22,6 +22,8 @@ export default function Example() {
         presetId={period}
         onPresetChange={setPeriod}
         timeZone="Europe/Berlin"
+        // A report period counts both ends: "Last 7 days" reads 7 days.
+        dayCount="inclusive"
       />
       <Text size="body-small" tone="subtle">period={period ?? "custom"}</Text>
     </div>
