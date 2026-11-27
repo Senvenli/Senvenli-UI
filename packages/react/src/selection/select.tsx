@@ -16,7 +16,7 @@ import { ControlFieldError, FieldDescription, FieldLabel, forwardedInvalid, useE
 import { FIELD_ICON, FIELD_SIZE, FIELD_STACK, type FieldSize } from "../form/styles";
 import { useRequiredChoice, type RequiredValidation } from "../form/validation";
 import { selectPlaceholder } from "../i18n";
-import { SelectPopover, type SelectItem } from "./listbox";
+import { ITEM_ICON, SelectPopover, type SelectItem } from "./listbox";
 
 /**
  * The trigger looks like a TextField frame. It is a button, so the field
@@ -122,6 +122,7 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
   // Keep the inner value in step with a controlled one, so dropping back to undefined keeps the last value.
   if (selectedKey !== undefined && selectedKey !== own) setOwn(selectedKey);
   const value = selectedKey !== undefined ? selectedKey : own;
+  const selectedIcon = value == null ? undefined : items.find((item) => item.id === value)?.icon;
   // React Aria never finds an empty Select missing under `aria` validation; the DS does.
   const required = useRequiredChoice({
     filled: value !== null, isRequired: rest.isRequired, requiredValidation, isInvalid: isInvalidProp, errorMessage: errorMessageProp,
@@ -149,6 +150,12 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
     >
       {showLabel && <FieldLabel isRequired={rest.isRequired}>{label}</FieldLabel>}
       <Button ref={ref} data-slot="select-trigger" className={cn(SELECT_TRIGGER, FIELD_SIZE[size], radiusClass(frameRadius))}>
+        {/* The selected option's icon (a flag) before its label, as in the option row; decorative, never read. */}
+        {selectedIcon != null && (
+          <span aria-hidden data-slot="select-value-icon" className={ITEM_ICON}>
+            {selectedIcon}
+          </span>
+        )}
         <SelectValue
           data-slot="select-value"
           className="min-w-0 flex-1 truncate data-[placeholder]:text-ds-text-subtlest"
