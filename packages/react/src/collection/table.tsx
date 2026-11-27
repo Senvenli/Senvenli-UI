@@ -19,6 +19,8 @@ import {
 
 import { cn } from "../utils";
 import { IconGlyph } from "../display/icon";
+import { Skeleton } from "../feedback/skeleton";
+import { Sweep } from "../feedback/progress";
 import { selectionLabel } from "../i18n";
 import { SelectionCheckbox } from "./selection-checkbox";
 
@@ -80,6 +82,12 @@ export type TableProps<T> = {
   onRowAction?: (key: Key) => void;
   /** A height for the scroll area: the header stays put and gets a shadow once rows scroll under it. */
   maxHeight?: string;
+  /**
+   * Rows are being fetched. With no rows yet: skeleton lines shaped by the columns under the real header. With
+   * rows (a page, sort or filter change): the rows stay, dimmed and still usable, under a sweeping bar at the top.
+   * The table is `aria-busy` meanwhile.
+   */
+  isLoading?: boolean;
 };
 
 const SORT_ICON = { ascending: "arrow-up", descending: "arrow-down" } as const;
@@ -229,6 +237,7 @@ export function TableView<T extends object>({
   emptyState,
   onRowAction,
   maxHeight,
+  isLoading = false,
   virtual,
   component = "Table",
 }: TableProps<T> & {
@@ -352,7 +361,9 @@ export function TableView<T extends object>({
           data-slot="table-body"
           items={rows.map((row, index) => ({ key: keys[index], row }))}
           renderEmptyState={
-            emptyState != null && emptyState !== false
+            isLoading
+              ? () => <TableSkeleton columns={columns} density={density} slot={component === "DataTable" ? "data-table-loading" : "table-loading"} />
+              : emptyState != null && emptyState !== false
               ? () => (
                   <div data-slot="table-empty" className="px-ds-300 py-ds-500 text-center text-body text-ds-text-subtle">
                     {emptyState}
@@ -367,6 +378,8 @@ export function TableView<T extends object>({
               data-slot="table-row"
               className={cn(
                 "group/row outline-hidden",
+                // Refetching: the rows stay usable, dimmed until the new ones arrive.
+                "transition-opacity duration-(--ds-duration-fast) in-data-[loading]:opacity-60 motion-reduce:transition-none",
                 (onRowAction || selectable) && "cursor-pointer",
                 "data-[hovered]:bg-ds-surface-hovered data-[selected]:bg-ds-background-selected",
                 "data-[focus-visible]:inset-ring-2 data-[focus-visible]:inset-ring-ds-border-focused",
@@ -447,10 +460,20 @@ export function TableView<T extends object>({
       data-density={density}
       data-scrolled={scrolled || undefined}
       data-virtual={virtual ? "" : undefined}
+      data-loading={isLoading || undefined}
+      aria-busy={isLoading || undefined}
       onScroll={maxHeight && !virtual ? (event) => setScrolled(event.currentTarget.scrollTop > 0) : undefined}
       style={maxHeight && !virtual ? { maxHeight } : undefined}
       className={cn(virtual ? "overflow-hidden" : "overflow-auto", "rounded-ds-large bg-ds-surface-raised shadow-ds-raised", maxHeight && "overscroll-contain")}
     >
+      {isLoading && rows.length > 0 && (
+        // Sticky and zero-high, so the bar stays at the top of the frame while the rows scroll under it.
+        <div aria-hidden data-slot="table-loading-bar" className="sticky top-0 z-[4] h-0">
+          <span className="absolute inset-x-0 top-0 h-0.5 overflow-hidden bg-ds-background-brand-subtle">
+            <Sweep tone="brand" />
+          </span>
+        </div>
+      )}
       {virtual ? (
         <Virtualizer layout={TableLayout} layoutOptions={{ rowHeight, headingHeight: density === "compact" ? 36 : 40 }}>
           {table}
@@ -458,6 +481,27 @@ export function TableView<T extends object>({
       ) : (
         table
       )}
+    </div>
+  );
+}
+
+/** Widths for the skeleton lines, varied so the block reads as rows of data, not stripes. */
+const SKELETON_WIDTHS = ["72%", "56%", "64%", "48%", "60%"];
+
+/** First load: lines shaped by the columns (end-aligned columns get end-aligned lines), under the real header. */
+function TableSkeleton<T>({ columns, density, slot }: { columns: readonly TableColumn<T>[]; density: Density; slot: string }) {
+  const height = density === "compact" ? "h-ds-row-compact" : "h-ds-row";
+  return (
+    <div data-slot={slot} aria-hidden className="flex flex-col">
+      {Array.from({ length: 5 }, (_, row) => (
+        <div key={row} className={cn("flex items-center gap-ds-400 border-b border-ds-border px-ds-200 last:border-b-0", height, density !== "compact" && "px-ds-300")}>
+          {columns.map((column, index) => (
+            <span key={column.key} className={cn("flex min-w-0 flex-1", column.align === "end" && "justify-end")}>
+              <Skeleton width={SKELETON_WIDTHS[(row + index) % SKELETON_WIDTHS.length]} height={12} />
+            </span>
+          ))}
+        </div>
+      ))}
     </div>
   );
 }

@@ -331,10 +331,21 @@
         "schema": {
           "type": "string"
         }
+      },
+      {
+        "name": "isLoading",
+        "type": "boolean",
+        "required": false,
+        "origin": "own",
+        "description": "Rows are being fetched. With no rows yet: skeleton lines shaped by the columns under the real header. With\nrows (a page, sort or filter change): the rows stay, dimmed and still usable, under a sweeping bar at the top.\nThe table is `aria-busy` meanwhile.",
+        "schema": {
+          "type": "boolean"
+        }
       }
     ]
   },
   "tokens": [
+    "ds-background-brand-subtle",
     "ds-background-selected",
     "ds-border",
     "ds-border-focused",
@@ -351,6 +362,7 @@
     "ds-space-150",
     "ds-space-200",
     "ds-space-300",
+    "ds-space-400",
     "ds-space-500",
     "ds-surface-hovered",
     "ds-surface-overlay",

@@ -7,7 +7,7 @@ import { useLocale, type Key, type Selection, type SortDescriptor } from "react-
 import { cn } from "../utils";
 import { Button } from "../action/button";
 import { EmptyState } from "../feedback/empty-state";
-import { Skeleton } from "../feedback/skeleton";
+import { Banner } from "../feedback/banner";
 import { SearchField } from "../form/search-field";
 import {
   intlLocale,
@@ -18,6 +18,8 @@ import {
   tableLoadFailedHintLabel,
   tableLoadFailedLabel,
   tableNoResultsLabel,
+  tableRefreshFailedHintLabel,
+  tableRefreshFailedLabel,
   tableSearchLabel,
   tableSelectedLabel,
   tableToolsLabel,
@@ -115,6 +117,7 @@ export type DataTableProps<T> = DataTableBase<T> &
          */
         query: (view: DataTableQuery, signal: AbortSignal) => Promise<DataTableResult<T>>;
         rows?: never;
+        isLoading?: never;
         virtualizeAbove?: never;
         height?: never;
       }
@@ -122,6 +125,11 @@ export type DataTableProps<T> = DataTableBase<T> &
         /** A client list: searched, filtered and sorted here; paged, or virtualized when long. */
         rows: readonly T[];
         query?: never;
+        /**
+         * The app is fetching `rows`: skeleton lines while there are none yet, the rows dimmed under a sweeping bar
+         * once there are. A `query` list tracks this itself.
+         */
+        isLoading?: boolean;
         /** Client lists longer than this render only the rows in view instead of pages. 200 by default. */
         virtualizeAbove?: number;
         /** The virtualized list's height in px. 480 by default. */
@@ -221,10 +229,10 @@ export function DataTable<T extends object>(props: DataTableProps<T>) {
   React.useEffect(() => {
     if (!isServer) return;
     const controller = new AbortController();
-    setServer((previous) => ({ status: "loading", result: previous.result }));
+    setServer((previous) => ({ ...previous, status: "loading" }));
     Promise.resolve(queryRef.current!({ ...view, pageSize }, controller.signal)).then(
       (result) => !controller.signal.aborted && setServer({ status: "ready", result, forView: viewKey }),
-      () => !controller.signal.aborted && setServer((previous) => ({ status: "error", result: previous.result })),
+      () => !controller.signal.aborted && setServer((previous) => ({ ...previous, status: "error" })),
     );
     return () => controller.abort();
     // `view` is read through `viewKey`.
@@ -305,7 +313,12 @@ export function DataTable<T extends object>(props: DataTableProps<T>) {
     setView({ search: "", filters: {} });
   };
   const status = isServer ? server.status : "ready";
-  const showSkeleton = status === "loading" && !(server.result && server.result.rows.length);
+  const isLoading = isServer ? status === "loading" : Boolean((props as { isLoading?: boolean }).isLoading);
+  // A refetch that failed while rows were showing keeps them, under a banner, instead of the full error state.
+  const refreshFailed = status === "error" && Boolean(server.result?.rows.length);
+  const retry = () => setReload((n) => n + 1);
+  // After a failed refresh the pager shows the page of the rows still on screen, so it can lead back from there.
+  const shownPage = refreshFailed && server.forView ? (JSON.parse(server.forView) as DataTableView).page : view.page;
 
   const empty = () =>
     isFiltered ? (
@@ -320,7 +333,7 @@ export function DataTable<T extends object>(props: DataTableProps<T>) {
     );
 
   return (
-    <section data-slot="data-table" aria-busy={status === "loading" || undefined} className="flex min-w-0 flex-col gap-ds-150">
+    <section data-slot="data-table" aria-busy={isLoading || undefined} className="flex min-w-0 flex-col gap-ds-150">
       {selected.size > 0 && bulkActions.length > 0 ? (
         <BulkBar
           aria-label={tableSelectedLabel(locale)}
@@ -383,7 +396,20 @@ export function DataTable<T extends object>(props: DataTableProps<T>) {
         </Toolbar>
       )}
 
-      {status === "error" ? (
+      {refreshFailed && (
+        <Banner
+          tone="danger"
+          title={tableRefreshFailedLabel(locale)}
+          actions={
+            <Button size="small" iconBefore="rotate-cw" onPress={retry}>
+              {retryLabel(locale)}
+            </Button>
+          }
+        >
+          {tableRefreshFailedHintLabel(locale)}
+        </Banner>
+      )}
+      {status === "error" && !refreshFailed ? (
         <div data-slot="data-table-error" className="rounded-ds-large bg-ds-surface-raised py-ds-400 shadow-ds-raised">
           <EmptyState
             size="small"
@@ -393,26 +419,16 @@ export function DataTable<T extends object>(props: DataTableProps<T>) {
             title={tableLoadFailedLabel(locale)}
             description={tableLoadFailedHintLabel(locale)}
             primaryAction={
-              <Button size="small" iconBefore="rotate-cw" onPress={() => setReload((n) => n + 1)}>
+              <Button size="small" iconBefore="rotate-cw" onPress={retry}>
                 {retryLabel(locale)}
               </Button>
             }
           />
         </div>
-      ) : showSkeleton ? (
-        <div data-slot="data-table-loading" aria-hidden className="flex flex-col overflow-hidden rounded-ds-large bg-ds-surface-raised shadow-ds-raised">
-          <div className={cn("border-b border-ds-border bg-ds-surface-sunken", density === "compact" ? "h-9" : "h-10")} />
-          {Array.from({ length: Math.min(pageSize, 8) }, (_, index) => (
-            <div key={index} className={cn("flex items-center gap-ds-300 border-b border-ds-border px-ds-200 last:border-b-0", density === "compact" ? "h-ds-row-compact" : "h-ds-row")}>
-              <Skeleton width="18%" height={12} />
-              <Skeleton width="30%" height={12} />
-              <Skeleton width="16%" height={12} />
-            </div>
-          ))}
-        </div>
       ) : (
         <TableView
           component="DataTable"
+          isLoading={isLoading}
           aria-label={label}
           columns={shownColumns}
           rows={pageRows}
@@ -429,8 +445,8 @@ export function DataTable<T extends object>(props: DataTableProps<T>) {
         />
       )}
 
-      {!virtual && status !== "error" && total > 0 && (
-        <Pagination page={view.page} pageSize={pageSize} total={total} onPageChange={(page) => setView({ page })} formatRange={formatRange} />
+      {!virtual && (status !== "error" || refreshFailed) && total > 0 && (
+        <Pagination page={shownPage} pageSize={pageSize} total={total} onPageChange={(page) => setView({ page })} formatRange={formatRange} />
       )}
     </section>
   );
