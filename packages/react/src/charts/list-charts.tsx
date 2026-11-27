@@ -16,6 +16,7 @@ import { cn } from "../utils";
 import type { TableColumn } from "../collection/table";
 import {
   chartBandLabel,
+  chartCategoryLabel,
   chartConversionLabel,
   chartNoDataLabel,
   chartPeriodLabel,
@@ -610,11 +611,24 @@ export function Tracker({ title, "aria-label": ariaLabel, period, data, statusMa
 
 /* ── Funnel ───────────────────────────────────────────────────────────────── */
 
-export type FunnelStep = { name: string; value: number };
+export type FunnelStep = {
+  name: string;
+  value: number;
+  /**
+   * The part of the journey the step belongs to ("Website", "Signups"). Consecutive steps with the same group sit
+   * under its name; between groups (often different sources) only counts show, no step conversion.
+   */
+  group?: string;
+};
 
 export type FunnelChartProps = FrameProps & {
-  /** Truly ordered steps, each a subset of the one before. */
+  /** Ordered steps. Without groups each is a subset of the one before (a warning says when one is larger). */
   steps: readonly FunnelStep[];
+  /**
+   * What the bar widths are measured against: `first` (default) the first step, as in a strict funnel; `max` the
+   * largest step, for steps that are not subsets (a later count from another source can be larger).
+   */
+  scale?: "first" | "max";
   valueFormatter?: ChartValueFormatter;
   /** The conversion from the previous step beside each count. On by default. */
   showStepConversion?: boolean;
@@ -628,28 +642,57 @@ export type FunnelChartProps = FrameProps & {
  * name before the bar, the count after it and the conversion from the previous step in
  * `ds-text-subtlest`. The subtitle states the total conversion. Every figure is text.
  */
-export function FunnelChart({ title, "aria-label": ariaLabel, period, steps, valueFormatter = plain, showStepConversion = true, showTotalConversion = true, isLoading, emptyState, ...table }: FunnelChartProps) {
+export function FunnelChart({ title, "aria-label": ariaLabel, period, steps, scale = "first", valueFormatter = plain, showStepConversion = true, showTotalConversion = true, isLoading, emptyState, ...table }: FunnelChartProps) {
   const { locale } = useLocale();
   const valid = steps.filter((step) => Number.isFinite(step.value) && step.value >= 0);
   useOnce(valid.length < steps.length, "Funnel: steps without a finite, non-negative value are left out.");
-  useOnce(valid.some((step, index) => index > 0 && step.value > valid[index - 1]!.value), "Funnel: each step should be a subset of the one before.");
+  const grouped = valid.some((step) => step.group !== undefined);
+  // A strict funnel only: groups and `scale="max"` say the steps need not be subsets.
+  useOnce(!grouped && scale === "first" && valid.some((step, index) => index > 0 && step.value > valid[index - 1]!.value), "Funnel: each step should be a subset of the one before.");
   const percent = React.useMemo(() => new Intl.NumberFormat(locale, { style: "percent", maximumFractionDigits: 0 }), [locale]);
   const percentFine = React.useMemo(() => new Intl.NumberFormat(locale, { style: "percent", maximumFractionDigits: 1 }), [locale]);
   const head = valid[0]?.value ?? 0;
+  const base = scale === "max" ? Math.max(0, ...valid.map((step) => step.value)) : head;
   const rate = (value: number, of: number) => (of > 0 ? value / of : undefined);
-  const rows = valid.map((step, index) => ({ ...step, conversion: index === 0 ? undefined : rate(step.value, valid[index - 1]!.value) }));
+  // No step conversion where a new group starts: the steps either side may count different things.
+  const startsGroup = (index: number) => index > 0 && grouped && valid[index]!.group !== valid[index - 1]!.group;
+  const rows = valid.map((step, index) => ({ ...step, conversion: index === 0 || startsGroup(index) ? undefined : rate(step.value, valid[index - 1]!.value) }));
   const total = valid.length > 1 ? rate(valid[valid.length - 1]!.value, head) : undefined;
   const subtitle = [period, showTotalConversion && total !== undefined ? `${chartConversionLabel(locale)} ${percentFine.format(total)}` : undefined].filter(Boolean).join(" · ") || undefined;
   const columns: TableColumn<(typeof rows)[number]>[] = [
+    ...(grouped ? [{ key: "group", header: chartCategoryLabel(locale), render: (row: (typeof rows)[number]) => row.group ?? "" }] : []),
     { key: "name", header: title ?? ariaLabel ?? "", isRowHeader: true },
     { key: "value", header: chartValueLabel(locale), align: "end", render: (row) => valueFormatter(row.value) },
     { key: "conversion", header: chartConversionLabel(locale), align: "end", render: (row) => (row.conversion === undefined ? "" : percent.format(row.conversion)) },
   ];
-  const height = Math.max(28, valid.length * 28 + Math.max(0, valid.length - 1) * 8);
+  const groupIdBase = React.useId();
+  // Groups add a 16px name and an 8px gap each, and every divider after the first group 29px (margin, line, padding).
+  const groupCount = grouped ? groupsOf(valid).length : 0;
+  const height = Math.max(28, valid.length * 28 + Math.max(0, valid.length - 1) * 8) + (grouped ? groupCount * 24 + (groupCount - 1) * 29 : 0);
   return (
     <Shell table={table} title={title} aria-label={ariaLabel} period={subtitle} isLoading={isLoading} emptyState={emptyState} isEmpty={valid.length === 0 || head <= 0} height={height} columns={columns} rows={rows}>
       <ol data-slot="funnel" className="m-0 grid list-none grid-cols-[minmax(0,max-content)_minmax(0,1fr)] items-center gap-x-ds-150 gap-y-ds-100 p-0">
-        {rows.map((step, index) => (
+        {grouped
+          ? groupsOf(rows).map((group, groupIndex) => (
+              // A named list per group, on the same columns as the steps (subgrid), so the bars stay aligned.
+              <li key={groupIndex} data-slot="funnel-group" className={cn("col-span-2 grid grid-cols-subgrid gap-y-ds-100", groupIndex > 0 && "mt-ds-100 border-t border-ds-border pt-ds-150")}>
+                {group.name !== undefined && (
+                  <span id={`${groupIdBase}-${groupIndex}`} data-slot="funnel-group-label" className="col-span-2 text-heading-xxsmall text-ds-text-subtle">
+                    {group.name}
+                  </span>
+                )}
+                <ol aria-labelledby={group.name !== undefined ? `${groupIdBase}-${groupIndex}` : undefined} className="col-span-2 m-0 grid list-none grid-cols-subgrid gap-y-ds-100 p-0">
+                  {group.rows.map(({ row, index }) => renderStep(row, index))}
+                </ol>
+              </li>
+            ))
+          : rows.map((step, index) => renderStep(step, index))}
+      </ol>
+    </Shell>
+  );
+
+  function renderStep(step: (typeof rows)[number], index: number) {
+    return (
           <li key={index} data-slot="funnel-step" className="col-span-2 grid grid-cols-subgrid items-center">
             <bdi data-slot="funnel-name" className="max-w-40 truncate text-end text-body-small text-ds-text-subtle">{step.name}</bdi>
             <span className="flex min-w-0 items-center gap-ds-100">
@@ -660,7 +703,7 @@ export function FunnelChart({ title, "aria-label": ariaLabel, period, steps, val
                 style={{
                   // Room after the longest bar for its count and conversion.
                   // A step larger than the first (warned) stays within the track.
-                  width: `calc((100% - 7.5rem) * ${head > 0 ? Math.min(1, step.value / head) : 0})`,
+                  width: `calc((100% - 7.5rem) * ${base > 0 ? Math.min(1, step.value / base) : 0})`,
                   minWidth: 2,
                   background: "var(--ds-chart-1)",
                   opacity: Math.max(0.2, 1 - 0.12 * index),
@@ -676,8 +719,17 @@ export function FunnelChart({ title, "aria-label": ariaLabel, period, steps, val
               )}
             </span>
           </li>
-        ))}
-      </ol>
-    </Shell>
-  );
+    );
+  }
+}
+
+/** Consecutive rows with the same group, keeping each row's index (for the fade and the keys). */
+function groupsOf<T extends { group?: string }>(rows: readonly T[]) {
+  const groups: { name: string | undefined; rows: { row: T; index: number }[] }[] = [];
+  rows.forEach((row, index) => {
+    const last = groups[groups.length - 1];
+    if (last && last.name === row.group) last.rows.push({ row, index });
+    else groups.push({ name: row.group, rows: [{ row, index }] });
+  });
+  return groups;
 }
