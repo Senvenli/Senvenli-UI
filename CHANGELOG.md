@@ -1,5 +1,21 @@
 # Changelog
 
+## 0.3.10 (2026-11-27)
+
+- `@senvenli/react` Table: `isLoading`. With no rows, skeleton lines shaped by the columns sit under the real header;
+  with rows (a page, sort or filter change), the rows stay usable, dimmed, under a sweeping bar at the top.
+  `aria-busy` meanwhile.
+- `@senvenli/react` DataTable: the same loading visuals for `query` lists, and `isLoading` for `rows` lists. A refresh
+  that fails while rows show keeps them under a danger Banner with Try again, and the pager stays on their page; a
+  failed first load still shows the full error state.
+- `@senvenli/react` Table and DataTable: `collapseBelow="sm" | "md" | "lg"` turns rows into cards below that viewport
+  width: the row header is the title, the other columns label–value lines; selection, row actions, loading, the
+  toolbar and paging keep working. `renderCollapsedRow` draws the app's own card content.
+- `@senvenli/react` Page and PageSection (new, `@senvenli/react/layout`): `Page width="default" | "narrow" | "full"`
+  (1200px, 800px, none) owns a panel page's width, gutters and the 32px between its header and sections;
+  `PageSection` takes a `title` (h2, names the region), `description` and `actions`.
+- `@senvenli/tokens`, `@senvenli/cli`, `@senvenli/mcp`: no change; released at the same version.
+
 ## 0.3.9 (2026-11-27)
 
 - `@senvenli/react` Select: **fix** for 0.3.8's `sizing="options"`, which put every option label in the trigger as

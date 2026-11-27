@@ -1,6 +1,6 @@
 {
   "name": "@senvenli/tokens",
-  "version": "0.3.9",
+  "version": "0.3.10",
   "description": "Platform-neutral theme engine for Senvenli UI: a few optional inputs to a full, WCAG AA token set for web (CSS) and native apps (hex).",
   "license": "MIT",
   "author": "Senvenli",
