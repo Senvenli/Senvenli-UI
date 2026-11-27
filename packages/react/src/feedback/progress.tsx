@@ -39,8 +39,8 @@ export type ProgressBarProps = {
   size?: "medium" | "large";
 };
 
-/** The sweeping segment of an indeterminate bar (Web Animations, so no global keyframes; off under reduced motion). */
-function Sweep({ tone }: { tone: ProgressTone }) {
+/** @internal The sweeping segment of an indeterminate bar (Web Animations, so no global keyframes; off under reduced motion). Table reuses it. */
+export function Sweep({ tone }: { tone: ProgressTone }) {
   const ref = React.useRef<HTMLSpanElement>(null);
   // The segment is 30% of the track, so translate percentages are of the segment: it starts fully off
   // the start edge (-100%) and leaves fully past the end edge (100 / 30 ≈ 333%); mirrored in RTL.
