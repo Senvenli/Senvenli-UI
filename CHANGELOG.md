@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.3.5 (2026-11-27)
+
+- `@senvenli/tokens`: **pure-grey neutrals.** The neutral ramp keeps its lightness steps at zero chroma, so surfaces,
+  menus, popovers, hovers, borders and shadows read as true grey in light and dark instead of warm brown; contrast is
+  unchanged (all 128 pairs pass AA). The brand's subtle fills (selection, `brand-subtle`) keep only a trace of the hue;
+  status tints are unchanged. **Changed:** every default theme's neutrals.
+- `@senvenli/react` forms: a settings layout. `Form width="wide"` (800px, start-aligned); `FormSection` takes a
+  `description`, a `separator` and `layout="split"` (title and description beside the fields); the new `FormGroup`
+  with `orientation="horizontal"` lays every field out as a row (label and description first, the control at the end)
+  and `separated` puts rules between rows; `Switch` and `Checkbox` take `controlPlacement`.
+- `@senvenli/react` Sidebar: `togglePlacement="header"` puts the collapse toggle beside the brand; collapsed, it takes
+  the brand's place. `footer` stays the default.
+- `@senvenli/react` Input `type="password"`: `autoComplete="off"` for a masked secret that is not a password.
+- `@senvenli/cli`, `@senvenli/mcp`: no change; released at the same version.
+
 ## 0.3.4 (2026-11-27)
 
 - **Fix: 0.3.1, 0.3.2 and 0.3.3 were published without their build.** Their `dist/` was the 0.3.0 build, so none of
