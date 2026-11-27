@@ -163,13 +163,18 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
           </span>
         )}
         {/* Every option label (and the placeholder) sits invisibly in the value's grid cell, so the field is as wide
-            as the longest one and keeps that width whatever is picked. Hidden from assistive tech and from view. */}
+            as the longest one and keeps that width whatever is picked. The text is drawn by ::before from an
+            attribute, never a text node: it stays out of textContent, find-in-page, copy and assistive tech. */}
         <span data-slot="select-value-frame" className="grid min-w-0 flex-1">
           {sizing === "options" &&
             [placeholder ?? selectPlaceholder(locale), ...items.map((item) => item.label)].map((text, index) => (
-              <span key={index} aria-hidden data-slot="select-value-sizer" className="invisible col-start-1 row-start-1 h-0 truncate">
-                {text}
-              </span>
+              <span
+                key={index}
+                aria-hidden
+                data-slot="select-value-sizer"
+                data-text={text}
+                className="invisible col-start-1 row-start-1 h-0 truncate before:content-[attr(data-text)]"
+              />
             ))}
           <SelectValue
             data-slot="select-value"

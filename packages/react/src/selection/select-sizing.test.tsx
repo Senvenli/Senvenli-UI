@@ -21,7 +21,7 @@ const ITEMS = [
 it("by default the field reserves every option label (and the placeholder), hidden, so its width never jumps", () => {
   inLocale(<Select aria-label="Status" items={ITEMS} defaultSelectedKey="all" />);
   const sizers = [...document.querySelectorAll('[data-slot="select-value-sizer"]')];
-  expect(sizers.map((s) => s.textContent)).toEqual(["Select", "All", "Partially refunded"]);
+  expect(sizers.map((s) => s.getAttribute("data-text"))).toEqual(["Select", "All", "Partially refunded"]);
   for (const sizer of sizers) {
     expect(sizer.getAttribute("aria-hidden")).toBe("true");
     expect(sizer.className).toContain("invisible");
