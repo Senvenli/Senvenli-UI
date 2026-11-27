@@ -39,8 +39,12 @@ export type StatProps = {
 
 /** True inside a StatGroup with `selectionMode`: each Stat renders as a toggle. */
 const SelectableContext = React.createContext(false);
+/** `compact` inside a dense StatGroup: tiles share one surface, divided by lines. */
+const DensityContext = React.createContext<"default" | "compact">("default");
 
 const TILE = "flex min-w-0 flex-col gap-ds-050 rounded-ds-large bg-ds-surface-raised p-ds-200 text-ds-text shadow-ds-raised";
+/** A compact tile: no card of its own; lines on its end and bottom edges divide it from the next (the group clips the outer ones). */
+const TILE_COMPACT = "flex min-w-0 flex-col gap-ds-025 border-e border-b border-ds-border bg-ds-surface-raised px-ds-200 py-ds-150 text-ds-text";
 
 function Sparkline({ values }: { values: number[] }) {
   if (values.length < 2) return null;
@@ -65,6 +69,8 @@ export function Stat({ label, value, delta, comparison, trend, href, id: key }: 
   const { locale } = useLocale();
   const id = React.useId();
   const selectable = React.useContext(SelectableContext);
+  const compact = React.useContext(DensityContext) === "compact";
+  const tile = compact ? TILE_COMPACT : TILE;
   const warned = React.useRef(false);
   React.useEffect(() => {
     if (warned.current || !selectable) return;
@@ -79,7 +85,7 @@ export function Stat({ label, value, delta, comparison, trend, href, id: key }: 
     <>
       <span id={`${id}-label`} lang={contentLang(locale)} data-slot="stat-label" className="text-body-small font-medium text-ds-text-subtle">{label}</span>
       {/* Figures are isolated so an RTL page keeps "$48,920" in the order it was formatted. */}
-      <span id={`${id}-value`} data-slot="stat-value" className="text-metric-large tabular-nums"><bdi>{value}</bdi></span>
+      <span id={`${id}-value`} data-slot="stat-value" className={cn(compact ? "text-metric-medium" : "text-metric-large", "tabular-nums")}><bdi>{value}</bdi></span>
       {(delta || comparison != null) && (
         <span id={`${id}-change`} data-slot="stat-change" className="flex flex-wrap items-center gap-ds-075">
           {delta && (
@@ -114,9 +120,9 @@ export function Stat({ label, value, delta, comparison, trend, href, id: key }: 
         aria-labelledby={`${id}-label ${id}-value`}
         aria-describedby={delta || comparison != null ? `${id}-change` : undefined}
         className={cn(
-          TILE,
+          tile,
           "cursor-pointer text-start outline-hidden transition-shadow duration-(--ds-duration-instant) ease-ds-standard",
-          "data-[hovered]:shadow-ds-overlay data-[pressed]:shadow-ds-raised",
+          compact ? "data-[hovered]:bg-ds-surface-hovered" : "data-[hovered]:shadow-ds-overlay data-[pressed]:shadow-ds-raised",
           // Selected is never colour alone: a ring as well as the selected fill.
           "data-[selected]:bg-ds-background-selected data-[selected]:inset-ring-2 data-[selected]:inset-ring-ds-border-selected",
           "data-[focus-visible]:inset-ring-2 data-[focus-visible]:inset-ring-ds-border-focused",
@@ -135,16 +141,17 @@ export function Stat({ label, value, delta, comparison, trend, href, id: key }: 
         aria-labelledby={`${id}-label ${id}-value`}
         aria-describedby={delta || comparison != null ? `${id}-change` : undefined}
         className={cn(
-          TILE,
+          tile,
           "cursor-pointer no-underline outline-hidden transition-shadow duration-(--ds-duration-instant) ease-ds-standard",
-          "data-[hovered]:shadow-ds-overlay data-[pressed]:shadow-ds-raised data-[focus-visible]:inset-ring-2 data-[focus-visible]:inset-ring-ds-border-focused",
+          compact ? "data-[hovered]:bg-ds-surface-hovered" : "data-[hovered]:shadow-ds-overlay data-[pressed]:shadow-ds-raised",
+          "data-[focus-visible]:inset-ring-2 data-[focus-visible]:inset-ring-ds-border-focused",
         )}
       >
         {content}
       </AriaLink>
     );
   }
-  return <div data-slot="stat" className={TILE}>{content}</div>;
+  return <div data-slot="stat" className={tile}>{content}</div>;
 }
 
 export type StatGroupProps = {
@@ -163,6 +170,13 @@ export type StatGroupProps = {
   onSelectionChange?: (keys: Set<Key>) => void;
   /** Keeps at least one tile selected (a chart always shows a metric). */
   disallowEmptySelection?: boolean;
+  /** A visible name over the group ("Business", "Website"); it also names the group for assistive tech. */
+  label?: React.ReactNode;
+  /**
+   * `default`: separate tiles, at most four in a row. `compact`: up to six in a row on one shared surface divided by
+   * lines, with a smaller figure, for a row of secondary figures.
+   */
+  density?: "default" | "compact";
 };
 
 const GROUP = "grid grid-cols-[repeat(auto-fill,minmax(max(170px,calc((100%_-_3_*_var(--ds-space-200))_/_4)),1fr))] gap-ds-200";
@@ -170,38 +184,63 @@ const GROUP = "grid grid-cols-[repeat(auto-fill,minmax(max(170px,calc((100%_-_3_
 /**
  * Stats in a row: at most four, each at least 170px; fewer than four keep their width
  * instead of stretching across the row. With `selectionMode` the tiles become a
- * selection (single: radio group; multiple: toggles).
+ * selection (single: radio group; multiple: toggles). `label` names the row visibly;
+ * `density="compact"` fits up to six on one shared surface.
  */
+/** Compact: as many as fit at 140px or more, at most six; they stretch to fill the shared surface. Shifted 1px past the
+ * surface's end and bottom so the outer lines of the last column and row are clipped and only the dividers show. */
+const GROUP_COMPACT = "-me-px -mb-px grid grid-cols-[repeat(auto-fit,minmax(max(140px,calc(100%_/_6)),1fr))]";
+const COMPACT_SURFACE = "overflow-hidden rounded-ds-large bg-ds-surface-raised shadow-ds-raised";
+
 export function StatGroup({
   children,
   "aria-label": ariaLabel,
-  "aria-labelledby": labelledBy,
+  "aria-labelledby": labelledByProp,
   selectionMode,
+  label,
+  density = "default",
   ...selection
 }: StatGroupProps) {
-  if (selectionMode) {
-    return (
-      <AriaToggleButtonGroup
-        {...selection}
-        selectionMode={selectionMode}
-        aria-label={ariaLabel}
-        aria-labelledby={labelledBy}
-        data-slot="stat-group"
-        className={GROUP}
-      >
-        <SelectableContext.Provider value={true}>{children}</SelectableContext.Provider>
-      </AriaToggleButtonGroup>
-    );
-  }
-  return (
+  const labelId = React.useId();
+  const labelledBy = labelledByProp ?? (label != null ? labelId : undefined);
+  const compact = density === "compact";
+  const className = compact ? GROUP_COMPACT : GROUP;
+  const group = selectionMode ? (
+    <AriaToggleButtonGroup
+      {...selection}
+      selectionMode={selectionMode}
+      aria-label={ariaLabel}
+      aria-labelledby={labelledBy}
+      data-slot="stat-group"
+      data-density={compact ? "compact" : undefined}
+      className={className}
+    >
+      <SelectableContext.Provider value={true}>{children}</SelectableContext.Provider>
+    </AriaToggleButtonGroup>
+  ) : (
     <div
       role={ariaLabel || labelledBy ? "group" : undefined}
       aria-label={ariaLabel}
       aria-labelledby={labelledBy}
       data-slot="stat-group"
-      className={GROUP}
+      data-density={compact ? "compact" : undefined}
+      className={className}
     >
       {children}
+    </div>
+  );
+  const body = compact ? (
+    <DensityContext.Provider value="compact">
+      <div data-slot="stat-group-surface" className={COMPACT_SURFACE}>{group}</div>
+    </DensityContext.Provider>
+  ) : (
+    group
+  );
+  if (label == null) return body;
+  return (
+    <div data-slot="stat-group-frame" className="flex min-w-0 flex-col gap-ds-100">
+      <span id={labelId} data-slot="stat-group-label" className="text-heading-xxsmall text-ds-text-subtle">{label}</span>
+      {body}
     </div>
   );
 }

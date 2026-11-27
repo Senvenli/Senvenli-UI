@@ -204,12 +204,35 @@
         "schema": {
           "type": "boolean"
         }
+      },
+      {
+        "name": "label",
+        "type": "React.ReactNode",
+        "required": false,
+        "origin": "own",
+        "description": "A visible name over the group (\"Business\", \"Website\"); it also names the group for assistive tech."
+      },
+      {
+        "name": "density",
+        "type": "\"default\" | \"compact\"",
+        "required": false,
+        "origin": "own",
+        "default": "\"default\"",
+        "description": "`default`: separate tiles, at most four in a row. `compact`: up to six in a row on one shared surface divided by\nlines, with a smaller figure, for a row of secondary figures.",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "default",
+            "compact"
+          ]
+        }
       }
     ]
   },
   "tokens": [
     "ds-background-brand-subtle",
     "ds-background-selected",
+    "ds-border",
     "ds-border-focused",
     "ds-border-selected",
     "ds-chart-1",
@@ -230,7 +253,10 @@
     "ds-space-025",
     "ds-space-050",
     "ds-space-075",
+    "ds-space-100",
+    "ds-space-150",
     "ds-space-200",
+    "ds-surface-hovered",
     "ds-surface-raised",
     "ds-text",
     "ds-text-danger",
