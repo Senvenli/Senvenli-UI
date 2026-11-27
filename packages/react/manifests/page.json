@@ -1,0 +1,139 @@
+{
+  "$schema": "https://design.senvenli.com/schema/component.full.json",
+  "kind": "component",
+  "family": "layout",
+  "status": "alpha",
+  "import": "@senvenli/react/layout",
+  "name": "page",
+  "title": "Page",
+  "exports": [
+    "Page",
+    "PageSection"
+  ],
+  "description": "A panel page's frame: its width, gutters and the rhythm between the header and its sections.",
+  "keywords": [
+    "page",
+    "layout",
+    "width",
+    "section",
+    "admin",
+    "panel"
+  ],
+  "usage": {
+    "when": [
+      "Laying out a page of an admin or back-office app: a PageHeader, then sections of tables, forms or cards.",
+      "Keeping every page at the same width and spacing instead of setting widths and gaps per page."
+    ],
+    "instead": [
+      {
+        "use": "section",
+        "when": "Full-width bands of a marketing or landing page."
+      },
+      {
+        "use": "form",
+        "when": "Grouping fields inside a settings form (FormSection)."
+      }
+    ]
+  },
+  "a11y": {
+    "builtIn": [
+      "A titled PageSection is a region named by its h2."
+    ],
+    "youProvide": [
+      "One PageHeader (the page's h1) before the sections."
+    ]
+  },
+  "related": [
+    "page-header",
+    "section"
+  ],
+  "genui": {
+    "expose": false
+  },
+  "source": [
+    "src/layout/page.tsx"
+  ],
+  "props": {
+    "Page": [
+      {
+        "name": "children",
+        "type": "React.ReactNode",
+        "required": true,
+        "origin": "own"
+      },
+      {
+        "name": "width",
+        "type": "\"default\" | \"full\" | \"narrow\"",
+        "required": false,
+        "origin": "own",
+        "default": "\"default\"",
+        "description": "The content's widest: `default` 1200px for most panel pages, `narrow` 800px for a form or settings page that\nreads as one column, `full` for wide tables and boards. Always centred; gutters included.",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "default",
+            "full",
+            "narrow"
+          ]
+        }
+      }
+    ],
+    "PageSection": [
+      {
+        "name": "children",
+        "type": "React.ReactNode",
+        "required": true,
+        "origin": "own"
+      },
+      {
+        "name": "title",
+        "type": "React.ReactNode",
+        "required": false,
+        "origin": "own",
+        "description": "The section's name, an h2 (\"Active customers\"); leave it out for a section the page header already names."
+      },
+      {
+        "name": "description",
+        "type": "React.ReactNode",
+        "required": false,
+        "origin": "own",
+        "description": "One line under the title."
+      },
+      {
+        "name": "actions",
+        "type": "React.ReactNode",
+        "required": false,
+        "origin": "own",
+        "description": "At the header's end: a link to everything, a small button, a filter."
+      },
+      {
+        "name": "id",
+        "type": "string",
+        "required": false,
+        "origin": "own",
+        "description": "An anchor for in-page links.",
+        "schema": {
+          "type": "string"
+        }
+      }
+    ]
+  },
+  "tokens": [
+    "ds-space-025",
+    "ds-space-100",
+    "ds-space-200",
+    "ds-space-300",
+    "ds-space-400"
+  ],
+  "strings": [],
+  "quality": {
+    "tests": true,
+    "a11y": false,
+    "docs": false,
+    "visual": false,
+    "dark": false,
+    "rtl": false,
+    "mcp": true,
+    "generic": true
+  }
+}

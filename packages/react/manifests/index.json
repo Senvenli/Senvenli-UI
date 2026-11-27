@@ -1352,6 +1352,27 @@
     "genui": true
   },
   {
+    "name": "page",
+    "title": "Page",
+    "family": "layout",
+    "status": "alpha",
+    "description": "A panel page's frame: its width, gutters and the rhythm between the header and its sections.",
+    "keywords": [
+      "page",
+      "layout",
+      "width",
+      "section",
+      "admin",
+      "panel"
+    ],
+    "import": "@senvenli/react/layout",
+    "exports": [
+      "Page",
+      "PageSection"
+    ],
+    "genui": false
+  },
+  {
     "name": "scroll-area",
     "title": "Scroll area",
     "family": "layout",
