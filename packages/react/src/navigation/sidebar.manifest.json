@@ -13,7 +13,8 @@
     "SidebarSubmenu",
     "SidebarSection",
     "SidebarFooter",
-    "SidebarAccount"
+    "SidebarAccount",
+    "SidebarTrigger"
   ],
   "description": "The main navigation of an app: brand, sections with nested items and badges, a pinned footer, collapsible to icons.",
   "keywords": [
@@ -64,6 +65,9 @@
   "guidance": [
     {
       "rule": "Put the signed-in person in the footer with SidebarAccount (name, description, avatarSrc, items): a row that opens the account menu, and, collapsed, a square the size of a nav icon with the name as its tooltip, so sign-out stays reachable."
+    },
+    {
+      "rule": "Pick how it collapses with collapsible: icon (default, a 56px rail), offcanvas (out of view; the app holds isCollapsed and puts a SidebarTrigger in its top bar) or none (static, always expanded, no toggle)."
     }
   ]
 }
