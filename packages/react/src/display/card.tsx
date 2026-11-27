@@ -132,23 +132,36 @@ export type CardHeaderProps = {
   subtitle?: React.ReactNode;
   /** Heading level of the title; default 3. */
   headingLevel?: CardHeadingLevel;
-  /** At the header's end: a subtle menu button (`Button variant="subtle" iconOnly`); stays clickable above an interactive card. */
+  /**
+   * At the header's end: one compact control. A subtle menu button (`Button variant="subtle" iconOnly`), or a
+   * `SegmentedControl` or small `Select` that switches what the card shows (a metric, a dimension). On a narrow card it
+   * moves under the title. Stays clickable above an interactive card, which takes only the menu.
+   */
   actions?: React.ReactNode;
 };
 
-/** Title in `heading-small`, an optional subtitle, and an optional trailing menu. */
+/** Title in `heading-small`, an optional subtitle, and an optional trailing menu or compact control. */
 export function CardHeader({ title, subtitle, headingLevel = 3, actions: menu }: CardHeaderProps) {
   const { isCompact, titleId, registerTitle } = React.useContext(CardContext);
   React.useLayoutEffect(registerTitle, [registerTitle]);
   const Heading = `h${headingLevel}` as const;
   const pad = isCompact ? "compact" : "default";
   return (
-    <div data-slot="card-header" className={cn("flex items-start justify-between gap-ds-150", PAD_X[pad], PAD_TOP[pad])}>
-      <div className="flex min-w-0 flex-col gap-ds-025">
+    <div data-slot="card-header" className={cn("flex flex-wrap items-start justify-between gap-x-ds-150 gap-y-ds-100", PAD_X[pad], PAD_TOP[pad])}>
+      {/* The title takes the row from 12rem; a control that no longer fits beside it wraps under it. */}
+      <div className="flex min-w-0 flex-[1_1_12rem] flex-col gap-ds-025">
         <Heading id={titleId} data-slot="card-title" className="m-0 text-heading-small">{title}</Heading>
         {subtitle != null && <span data-slot="card-subtitle" className="text-body-small text-ds-text-subtlest">{subtitle}</span>}
       </div>
-      {menu != null && <div data-slot="card-menu" className="relative z-[2] -me-ds-100 -mt-ds-050 shrink-0">{menu}</div>}
+      {menu != null && (
+        <div
+          data-slot="card-menu"
+          // An icon button sits into the corner (its own padding is the gap); a wider control lines up with the title.
+          className="relative z-[2] max-w-full shrink-0 has-[>[data-icon-only]]:-me-ds-100 has-[>[data-icon-only]]:-mt-ds-050"
+        >
+          {menu}
+        </div>
+      )}
     </div>
   );
 }
