@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.3.7 (2026-11-28)
+
+- `@senvenli/react` Select: the trigger shows the selected option's `icon` (a flag) before its label, as the option
+  row does; decorative, so the value's text and the accessible name are unchanged.
+- `@senvenli/react` SplitShow (new, `@senvenli/react/layout`): `<SplitShow when="stacked" | "side-by-side">` shows
+  content in one Split layout only, decided by the Split's own width (a compact brand above a form while the brand
+  pane is hidden). It adds no box; outside a Split it always shows.
+- `@senvenli/tokens`, `@senvenli/cli`, `@senvenli/mcp`: no change; released at the same version.
+
 ## 0.3.6 (2026-11-28)
 
 - `@senvenli/react` settings layout, Notion-style:
