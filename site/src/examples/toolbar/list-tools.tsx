@@ -6,15 +6,16 @@ import { Select } from "@senvenli/react/selection";
 export default function Example() {
   return (
     <Toolbar aria-label="Order tools">
-      <Input type="search" aria-label="Search orders" placeholder="Order number or customer" size="small" />
+      <Input type="search" aria-label="Search orders" placeholder="Search by order number or customer email" size="small" />
       <Select
         aria-label="Status"
         size="small"
-        placeholder="All statuses"
+        defaultSelectedKey="all"
         items={[
+          { id: "all", label: "All" },
           { id: "open", label: "Open" },
           { id: "paid", label: "Paid" },
-          { id: "overdue", label: "Overdue" },
+          { id: "refunded", label: "Partially refunded" },
         ]}
       />
       <ToolbarSpacer />

@@ -88,6 +88,12 @@ export type SelectProps = SelectLabelProps & {
   /** `compact` (32px) for table filters and toolbars. */
   size?: FieldSize;
   name?: string;
+  /**
+   * Where the field's width comes from when nothing sets it (in a Toolbar, a row of filters). `options` (default):
+   * the longest option label (or the placeholder), so the field never jumps as the value changes. `value`: the
+   * current value only. In a form the field fills its column either way.
+   */
+  sizing?: "options" | "value";
 };
 
 /**
@@ -102,7 +108,7 @@ export type SelectProps = SelectLabelProps & {
 export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function Select(
   {
     label, "aria-label": ariaLabel, items, selectedKey, defaultSelectedKey, onSelectionChange, placeholder, description, errorMessage: errorMessageProp,
-    size: fieldSize, "aria-invalid": ariaInvalid, requiredValidation, isInvalid: isInvalidProp, ...rest
+    size: fieldSize, "aria-invalid": ariaInvalid, requiredValidation, isInvalid: isInvalidProp, sizing = "options", ...rest
   },
   ref,
 ) {
@@ -156,13 +162,23 @@ export const Select = React.forwardRef<HTMLButtonElement, SelectProps>(function 
             {selectedIcon}
           </span>
         )}
-        <SelectValue
-          data-slot="select-value"
-          className="min-w-0 flex-1 truncate data-[placeholder]:text-ds-text-subtlest"
-        >
-          {/* The field shows the option's label only, never its description or meta. */}
-          {({ selectedText, defaultChildren, isPlaceholder }) => (isPlaceholder ? defaultChildren : selectedText)}
-        </SelectValue>
+        {/* Every option label (and the placeholder) sits invisibly in the value's grid cell, so the field is as wide
+            as the longest one and keeps that width whatever is picked. Hidden from assistive tech and from view. */}
+        <span data-slot="select-value-frame" className="grid min-w-0 flex-1">
+          {sizing === "options" &&
+            [placeholder ?? selectPlaceholder(locale), ...items.map((item) => item.label)].map((text, index) => (
+              <span key={index} aria-hidden data-slot="select-value-sizer" className="invisible col-start-1 row-start-1 h-0 truncate">
+                {text}
+              </span>
+            ))}
+          <SelectValue
+            data-slot="select-value"
+            className="col-start-1 row-start-1 min-w-0 truncate data-[placeholder]:text-ds-text-subtlest"
+          >
+            {/* The field shows the option's label only, never its description or meta. */}
+            {({ selectedText, defaultChildren, isPlaceholder }) => (isPlaceholder ? defaultChildren : selectedText)}
+          </SelectValue>
+        </span>
         <IconGlyph name="chevron-down" className={FIELD_ICON} data-slot="select-chevron" />
       </Button>
       {description && <FieldDescription>{description}</FieldDescription>}

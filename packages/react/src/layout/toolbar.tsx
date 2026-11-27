@@ -31,7 +31,9 @@ export function Toolbar({ children, "aria-label": label }: ToolbarProps) {
     <div
       ref={ref}
       data-slot="toolbar"
-      className="flex flex-wrap items-center gap-ds-100 rounded-ds-large bg-ds-surface-raised px-ds-150 py-ds-100 shadow-ds-raised"
+      // A search field takes the free space first, up to 28rem (before the spacer; its placeholder stays whole), and wraps to its own line on a narrow
+      // toolbar; filters keep their own width.
+      className="flex flex-wrap items-center gap-ds-100 rounded-ds-large bg-ds-surface-raised px-ds-150 py-ds-100 shadow-ds-raised [&>[data-slot=search-field]]:min-w-48 [&>[data-slot=search-field]]:max-w-[28rem] [&>[data-slot=search-field]]:grow-[100] [&>[data-slot=search-field]]:basis-48"
       data-rac=""
       aria-label={label}
       {...toolbarProps}
