@@ -103,6 +103,15 @@ export type SidebarProps = {
    */
   togglePlacement?: "header" | "footer";
   /** Icons only (56px), labels in tooltips. Controlled; or `defaultCollapsed` + `onCollapsedChange`. */
+  /**
+   * How the sidebar collapses on wide screens. `icon` (default): to a 56px rail of icons, with a toggle. `offcanvas`:
+   * out of view entirely, the page taking its width; the app reopens it with a `SidebarTrigger` (in its top bar),
+   * holding `isCollapsed` itself. `none`: static, always expanded, no toggle and nothing remembered. The phone panel
+   * is the same in every mode.
+   */
+  collapsible?: "icon" | "offcanvas" | "none";
+  /** The wide-screen `<nav>`'s id, for a SidebarTrigger's `aria-controls`. */
+  id?: string;
   isCollapsed?: boolean;
   defaultCollapsed?: boolean;
   onCollapsedChange?: (isCollapsed: boolean) => void;
@@ -164,6 +173,14 @@ const WHEN_COLLAPSED = {
   centre:
     "group-data-[collapsed]/sidebar:justify-center [:root[data-ds-sidebar=collapsed]_[data-slot=sidebar]_&]:justify-center",
 } as const;
+
+/**
+ * Offcanvas, collapsed: no width, no border or padding, and nothing visible, from either source (its own state or
+ * the remembered <html> attribute), so the page takes the whole width.
+ */
+const OFFCANVAS_COLLAPSED =
+  "data-[collapsed]:w-0 data-[collapsed]:border-e-0 data-[collapsed]:px-0 data-[collapsed]:invisible " +
+  "[:root[data-ds-sidebar=collapsed]_&]:w-0 [:root[data-ds-sidebar=collapsed]_&]:border-e-0 [:root[data-ds-sidebar=collapsed]_&]:px-0 [:root[data-ds-sidebar=collapsed]_&]:invisible";
 
 /**
  * The scrollbar on the sidebar's link list, as on ScrollArea: thin, no track, its thumb shown
@@ -279,6 +296,8 @@ function SidebarBody({
   avatar: avatarProp,
   isFooterPinned = false,
   togglePlacement = "footer",
+  collapsible = "icon",
+  id,
   isCollapsed,
   defaultCollapsed = false,
   onCollapsedChange,
@@ -297,20 +316,40 @@ function SidebarBody({
   const hasBrand = brand != null || logo != null;
   const hasFooter = footer != null || avatar != null;
   const name = label ?? mainNavigationLabel(locale);
+  const isStatic = collapsible === "none";
+  // Static: nothing collapses, nothing is remembered.
+  const remember = isStatic ? undefined : storageKey;
   const [own, setOwn] = React.useState(defaultCollapsed);
   // The remembered choice is read after hydration (the head script already painted it).
   React.useLayoutEffect(() => {
-    if (!storageKey) return;
-    const stored = readStored(storageKey);
+    if (!remember) return;
+    const stored = readStored(remember);
     if (stored !== undefined) setOwn(stored);
-  }, [storageKey]);
-  const collapsed = isCollapsed ?? own;
+  }, [remember]);
+  const collapsed = isStatic ? false : (isCollapsed ?? own);
   React.useLayoutEffect(() => {
-    if (storageKey) document.documentElement.setAttribute(ROOT_ATTRIBUTE, collapsed ? "collapsed" : "expanded");
-  }, [storageKey, collapsed]);
+    if (remember) document.documentElement.setAttribute(ROOT_ATTRIBUTE, collapsed ? "collapsed" : "expanded");
+  }, [remember, collapsed]);
+  // A controlled sidebar (offcanvas, reopened by a SidebarTrigger the app holds) still remembers its state: every change
+  // after the first render is written, so the stored value is never overwritten before it is read.
+  const firstRender = React.useRef(true);
+  React.useEffect(() => {
+    if (firstRender.current) {
+      firstRender.current = false;
+      return;
+    }
+    if (remember && isCollapsed !== undefined) writeStored(remember, isCollapsed);
+  }, [remember, isCollapsed]);
+  // Static under a leftover head script: the remembered "collapsed" must not shrink it.
+  React.useLayoutEffect(() => {
+    if (!isStatic || document.documentElement.getAttribute(ROOT_ATTRIBUTE) !== "collapsed") return;
+    document.documentElement.setAttribute(ROOT_ATTRIBUTE, "expanded");
+    if (process.env.NODE_ENV !== "production") console.warn('Sidebar: collapsible="none" ignores the remembered state; leave sidebarScript out of the page.');
+  }, [isStatic]);
   const setCollapsed = (next: boolean) => {
+    if (isStatic) return;
     if (isCollapsed === undefined) setOwn(next);
-    if (storageKey) writeStored(storageKey, next);
+    if (remember && isCollapsed === undefined) writeStored(remember, next);
     onCollapsedChange?.(next);
   };
   const toggleLabel = collapsed ? expandSidebarLabel(locale) : collapseSidebarLabel(locale);
@@ -339,20 +378,25 @@ function SidebarBody({
   return (
     <>
       <nav
+        id={id}
         aria-label={name}
         data-slot="sidebar"
         // Remembered choice: the <html> attribute styles it, so the server and first client render agree.
-        data-collapsed={!storageKey && collapsed ? "" : undefined}
+        data-collapsed={!remember && collapsed ? "" : undefined}
+        data-collapsible={collapsible}
+        // Offcanvas and collapsed: out of view and out of reach (no Tab stop, nothing read).
+        inert={collapsible === "offcanvas" && collapsed ? true : undefined}
         className={cn(
           "group/sidebar sticky top-0 hidden h-dvh max-h-full w-60 shrink-0 flex-col gap-ds-200 overflow-x-hidden overflow-y-auto border-e border-ds-border bg-ds-surface-sunken px-ds-150 py-ds-200 lg:flex",
           "transition-[width] duration-(--ds-duration-medium) ease-ds-standard motion-reduce:transition-none",
-          WHEN_COLLAPSED.root,
+          collapsible === "icon" && WHEN_COLLAPSED.root,
+          collapsible === "offcanvas" && OFFCANVAS_COLLAPSED,
           // Pinned: the nav no longer scrolls as one; its middle part does.
           isFooterPinned ? "overflow-y-hidden" : SCROLLBAR,
         )}
         data-footer-pinned={isFooterPinned ? "" : undefined}
       >
-        {togglePlacement === "header" ? (
+        {togglePlacement === "header" && !isStatic ? (
           // The brand, then the toggle at the row's end; collapsed, the toggle alone takes the brand's place.
           <div data-slot="sidebar-header" className={cn("flex min-h-8 shrink-0 items-center justify-between gap-ds-100", WHEN_COLLAPSED.centre)}>
             {hasBrand && (
@@ -374,14 +418,14 @@ function SidebarBody({
         ) : (
           <Navigation items={items} nodes={nav} sections={labelled} shared={shared} />
         )}
-        {(hasFooter || togglePlacement === "footer") && (
+        {(hasFooter || (togglePlacement === "footer" && !isStatic)) && (
           <div className={cn(BOTTOM, isFooterPinned ? "shrink-0" : "mt-auto")}>
             {hasFooter && (
               <SharedContext.Provider value={shared}>
                 <Account footer={footer} avatar={avatar} className={cn(FOOTER_RULE, WHEN_COLLAPSED.clip, avatar != null && WHEN_COLLAPSED.centre)} />
               </SharedContext.Provider>
             )}
-            {togglePlacement === "footer" && (
+            {togglePlacement === "footer" && !isStatic && (
             <div
               data-slot="sidebar-toggle"
               className={cn(
@@ -703,6 +747,40 @@ export function SidebarAccount({ name, description, avatarSrc, items, onAction }
       onAction={onAction && ((id) => onAction(id))}
       placement={collapsed ? "end bottom" : "top start"}
     />
+  );
+}
+
+export type SidebarTriggerProps = {
+  /** The sidebar's state, which the app holds (`isCollapsed` on the Sidebar). */
+  isCollapsed: boolean;
+  onCollapsedChange: (isCollapsed: boolean) => void;
+  /** The Sidebar's `id`, so assistive tech knows what the button opens. */
+  "aria-controls"?: string;
+};
+
+/**
+ * The button that brings an `offcanvas` Sidebar back (and puts it away), for the app's top bar: the panel icon,
+ * named "Expand menu" or "Collapse menu", with `aria-expanded`. Shown from 1024px, where the Sidebar is; on a phone
+ * the app's menu button opens the panel instead.
+ */
+export function SidebarTrigger({ isCollapsed, onCollapsedChange, "aria-controls": controls }: SidebarTriggerProps) {
+  const { locale, direction } = useLocale();
+  const label = isCollapsed ? expandSidebarLabel(locale) : collapseSidebarLabel(locale);
+  return (
+    <span data-slot="sidebar-trigger" className="hidden lg:inline-flex">
+      <Tooltip content={label} placement="bottom">
+        <Button
+          variant="subtle"
+          size="small"
+          iconOnly
+          iconBefore={direction === "rtl" ? (isCollapsed ? "panel-right-open" : "panel-right-close") : isCollapsed ? "panel-left-open" : "panel-left-close"}
+          aria-label={label}
+          aria-expanded={!isCollapsed}
+          aria-controls={controls}
+          onPress={() => onCollapsedChange(!isCollapsed)}
+        />
+      </Tooltip>
+    </span>
   );
 }
 

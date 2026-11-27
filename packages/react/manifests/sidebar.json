@@ -13,7 +13,8 @@
     "SidebarSubmenu",
     "SidebarSection",
     "SidebarFooter",
-    "SidebarAccount"
+    "SidebarAccount",
+    "SidebarTrigger"
   ],
   "description": "The main navigation of an app: brand, sections with nested items and badges, a pinned footer, collapsible to icons.",
   "keywords": [
@@ -64,6 +65,9 @@
   "guidance": [
     {
       "rule": "Put the signed-in person in the footer with SidebarAccount (name, description, avatarSrc, items): a row that opens the account menu, and, collapsed, a square the size of a nav icon with the name as its tooltip, so sign-out stays reachable."
+    },
+    {
+      "rule": "Pick how it collapses with collapsible: icon (default, a 56px rail), offcanvas (out of view; the app holds isCollapsed and puts a SidebarTrigger in its top bar) or none (static, always expanded, no toggle)."
     }
   ],
   "source": [
@@ -314,11 +318,35 @@
         }
       },
       {
+        "name": "collapsible",
+        "type": "\"none\" | \"icon\" | \"offcanvas\"",
+        "required": false,
+        "origin": "own",
+        "description": "How the sidebar collapses on wide screens. `icon` (default): to a 56px rail of icons, with a toggle. `offcanvas`:\nout of view entirely, the page taking its width; the app reopens it with a `SidebarTrigger` (in its top bar),\nholding `isCollapsed` itself. `none`: static, always expanded, no toggle and nothing remembered. The phone panel\nis the same in every mode.",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "none",
+            "icon",
+            "offcanvas"
+          ]
+        }
+      },
+      {
+        "name": "id",
+        "type": "string",
+        "required": false,
+        "origin": "own",
+        "description": "The wide-screen `<nav>`'s id, for a SidebarTrigger's `aria-controls`.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
         "name": "isCollapsed",
         "type": "boolean",
         "required": false,
         "origin": "own",
-        "description": "Icons only (56px), labels in tooltips. Controlled; or `defaultCollapsed` + `onCollapsedChange`.",
         "schema": {
           "type": "boolean"
         }
@@ -600,6 +628,34 @@
         "type": "(id: Key) => void",
         "required": false,
         "origin": "own"
+      }
+    ],
+    "SidebarTrigger": [
+      {
+        "name": "isCollapsed",
+        "type": "boolean",
+        "required": true,
+        "origin": "own",
+        "description": "The sidebar's state, which the app holds (`isCollapsed` on the Sidebar).",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "onCollapsedChange",
+        "type": "(isCollapsed: boolean) => void",
+        "required": true,
+        "origin": "own"
+      },
+      {
+        "name": "aria-controls",
+        "type": "string",
+        "required": false,
+        "origin": "own",
+        "description": "The Sidebar's `id`, so assistive tech knows what the button opens.",
+        "schema": {
+          "type": "string"
+        }
       }
     ]
   },

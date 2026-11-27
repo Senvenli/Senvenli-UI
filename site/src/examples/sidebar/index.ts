@@ -5,4 +5,6 @@ export default [
   { id: "sections", title: "Sections and a pinned account", description: "Labelled sections scroll between the brand and the account, which stay in view." },
   { id: "composed", title: "Composed from parts", description: "The same navigation built from `SidebarItem`, `SidebarSubmenu` and `SidebarSection`, with the brand and the account as `SidebarHeader` and `SidebarFooter`." },
   { id: "collapsed", title: "Collapsed to icons", description: "56px wide, labels in tooltips. With `togglePlacement` set to `header` the toggle sits beside the brand; collapsed, it takes the brand's place." },
+  { id: "static", title: "Static", description: "`collapsible=\"none\"`: always expanded, no toggle, nothing remembered." },
+  { id: "offcanvas", title: "Offcanvas", description: "`collapsible=\"offcanvas\"`: collapsed, it leaves the page its whole width; a `SidebarTrigger` in the top bar brings it back." },
 ] satisfies ExampleMeta[];
