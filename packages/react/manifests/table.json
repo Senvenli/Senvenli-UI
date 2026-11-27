@@ -341,6 +341,28 @@
         "schema": {
           "type": "boolean"
         }
+      },
+      {
+        "name": "collapseBelow",
+        "type": "\"sm\" | \"md\" | \"lg\"",
+        "required": false,
+        "origin": "own",
+        "description": "Below this breakpoint (`sm` 640px, `md` 768px, `lg` 1024px of the viewport) the rows become cards in a list:\nthe row header is each card's title, every other column a label–value line. Selection and `onRowAction` work\nthe same; the header's sorting is not there, so the cards keep the order the rows have.",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "sm",
+            "md",
+            "lg"
+          ]
+        }
+      },
+      {
+        "name": "renderCollapsedRow",
+        "type": "(row: T) => ReactNode",
+        "required": false,
+        "origin": "own",
+        "description": "A collapsed row's own content, in place of the label–value lines (the card keeps its selection and action)."
       }
     ]
   },
@@ -350,6 +372,7 @@
     "ds-border",
     "ds-border-focused",
     "ds-border-selected",
+    "ds-icon-subtle",
     "ds-radius-large",
     "ds-radius-medium",
     "ds-shadow-overflow",
@@ -358,6 +381,7 @@
     "ds-size-row",
     "ds-size-row-compact",
     "ds-space-050",
+    "ds-space-075",
     "ds-space-100",
     "ds-space-150",
     "ds-space-200",

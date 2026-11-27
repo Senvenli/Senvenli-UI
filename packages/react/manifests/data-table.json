@@ -221,6 +221,28 @@
         }
       },
       {
+        "name": "collapseBelow",
+        "type": "\"sm\" | \"md\" | \"lg\"",
+        "required": false,
+        "origin": "own",
+        "description": "Below this viewport breakpoint the rows become cards (row header as title, other shown columns as label–value\nlines); search, filters, selection, bulk actions and paging stay. Not for virtualized lists.",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "sm",
+            "md",
+            "lg"
+          ]
+        }
+      },
+      {
+        "name": "renderCollapsedRow",
+        "type": "(row: T) => ReactNode",
+        "required": false,
+        "origin": "own",
+        "description": "A collapsed row's own content, in place of the label–value lines."
+      },
+      {
         "name": "query",
         "type": "(view: DataTableQuery, signal: AbortSignal) => Promise<DataTableResult<T>>",
         "required": false,
@@ -286,6 +308,7 @@
     "ds-border",
     "ds-border-focused",
     "ds-border-selected",
+    "ds-icon-subtle",
     "ds-radius-large",
     "ds-radius-medium",
     "ds-shadow-overflow",
@@ -294,6 +317,7 @@
     "ds-size-row",
     "ds-size-row-compact",
     "ds-space-050",
+    "ds-space-075",
     "ds-space-100",
     "ds-space-150",
     "ds-space-200",
