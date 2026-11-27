@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.3.8 (2026-11-28)
+
+- `@senvenli/react` Sidebar: `collapsible="icon"` (default, the 56px rail as before), `"offcanvas"` (collapsed, out of
+  view and inert, the page taking its width; the app reopens it with the new `SidebarTrigger`) or `"none"` (static,
+  always expanded, no toggle, nothing remembered). `Sidebar` takes an `id` for the trigger's `aria-controls`.
+- `@senvenli/react` Select: `sizing="options"` (default) makes a field with no set width (a Toolbar filter) as wide
+  as its longest option, so it never jumps as the value changes; `sizing="value"` opts out.
+- `@senvenli/react` Toolbar: a search field that is a direct child takes the free space first (12rem to 28rem), so its
+  placeholder stays whole; filters keep their own width.
+- `@senvenli/tokens`, `@senvenli/cli`, `@senvenli/mcp`: no change; released at the same version.
+
 ## 0.3.7 (2026-11-28)
 
 - `@senvenli/react` Select: the trigger shows the selected option's `icon` (a flag) before its label, as the option
