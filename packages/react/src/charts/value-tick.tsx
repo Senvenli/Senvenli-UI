@@ -321,7 +321,7 @@ export function NameTick({ payload, index = 0, tickFormatter, textAnchor = "midd
 }
 
 /** Where Recharts anchors a cartesian label at these positions (its getCartesianPosition, for a box of positive width). */
-const LABEL_ANCHOR = { top: "middle", insideBottom: "middle", insideLeft: "start", insideBottomLeft: "start", insideRight: "end", insideBottomRight: "end" } as const;
+const LABEL_ANCHOR = { top: "middle", insideBottom: "middle", insideLeft: "start", insideBottomLeft: "start", insideTopLeft: "start", insideRight: "end", insideBottomRight: "end", insideTopRight: "end" } as const;
 
 /**
  * @internal The props that give a Recharts label (a ScatterChart's axis name, a reference line's label) its own isolated

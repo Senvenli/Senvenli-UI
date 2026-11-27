@@ -324,6 +324,32 @@
         "required": false,
         "origin": "own",
         "description": "A pointer press on the chart: the row under it (keyboard users read values in the tooltip and the table)."
+      },
+      {
+        "name": "referenceLines",
+        "type": "readonly ChartReferenceLine[]",
+        "required": false,
+        "origin": "own",
+        "description": "A target or an average (an MRR goal): dashed `ds-border-bold` with a label at its end; the axis reaches it.",
+        "schema": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "value": {
+                "type": "number"
+              },
+              "label": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "value",
+              "label"
+            ]
+          }
+        }
       }
     ]
   },

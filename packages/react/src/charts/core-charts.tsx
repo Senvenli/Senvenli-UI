@@ -305,6 +305,8 @@ export type AreaChartProps<T extends Row> = ChartBaseProps<T> & {
   yAxisWidth?: number;
   /** A pointer press on the chart: the row under it (keyboard users read values in the tooltip and the table). */
   onValueChange?: (row: T | null) => void;
+  /** A target or an average (an MRR goal): dashed `ds-border-bold` with a label at its end; the axis reaches it. */
+  referenceLines?: readonly ChartReferenceLine[];
 };
 
 /**
@@ -313,13 +315,13 @@ export type AreaChartProps<T extends Row> = ChartBaseProps<T> & {
  * zero; a vertical guide and a ringed point follow the pointer and the arrow keys.
  */
 export function AreaChart<T extends Row>(props: AreaChartProps<T>) {
-  const { data, index, categories, comparison, yAxisWidth, onValueChange, allowDecimals = true } = props;
+  const { data, index, categories, comparison, yAxisWidth, onValueChange, referenceLines, allowDecimals = true } = props;
   const keys = comparison ? [...categories, comparison] : [...categories];
   const shell = useShell(props, keys, Object.fromEntries(keys.map((key) => [key, key === comparison ? "line" : "area"])), {
     comparison,
     dashes: comparison ? { [comparison]: "6 4" } : undefined,
   });
-  const values = valuesOf(data, keys.filter((key) => !shell.series.isHidden(key)));
+  const values = withReferences(valuesOf(data, keys.filter((key) => !shell.series.isHidden(key))), referenceLines);
   const axisWidth = yAxisWidth ?? valueWidth(values, shell.valueFormatter, shell.locale, allowDecimals);
   const ticks = valueAxisTicks(values, VALUE_TICKS, allowDecimals);
   return (
@@ -337,6 +339,7 @@ export function AreaChart<T extends Row>(props: AreaChartProps<T>) {
         {GRID}
         <XAxis {...xAxisProps(index, shell)} />
         <YAxis {...yAxisProps(shell, axisWidth, true, ticks, allowDecimals)} domain={[0, "auto"]} />
+        {referenceLineElements(referenceLines, shell.direction.isRtl, false, ticks)}
         {categories
           .filter((key) => !shell.series.isHidden(key))
           .map((key) => (
@@ -366,6 +369,34 @@ export function AreaChart<T extends Row>(props: AreaChartProps<T>) {
 
 export type ChartReferenceLine = { value: number; label: string };
 
+/** Reference values the value axis must reach: a goal above (or below) the data is still drawn. */
+function withReferences<V>(values: readonly V[], lines: readonly ChartReferenceLine[] | undefined): (V | number)[] {
+  return lines?.length ? [...values, ...lines.map((line) => line.value).filter(Number.isFinite)] : [...values];
+}
+
+/** Targets and averages: dashed `ds-border-bold`, the label at the line's end (above a horizontal bar chart's line). */
+function referenceLineElements(lines: readonly ChartReferenceLine[] | undefined, isRtl: boolean, horizontal = false, ticks?: readonly number[]) {
+  // A line at the top of the axis (a goal the axis was extended to) labels below itself, or the plot's edge cuts it.
+  const top = ticks?.at(-1);
+  const step = ticks && ticks.length > 1 ? ticks.at(-1)! - ticks.at(-2)! : 0;
+  const nearTop = (value: number) => top !== undefined && step > 0 && value >= top - step / 4;
+  return lines?.map((line, index) => {
+    const position = horizontal ? "top" : nearTop(line.value) ? (isRtl ? "insideTopLeft" : "insideTopRight") : isRtl ? "insideBottomLeft" : "insideBottomRight";
+    return (
+    <ReferenceLine
+      // Two lines may share a label ("Target" for two series); the index keeps them apart.
+      key={`${line.label}-${index}`}
+      {...(horizontal ? { x: line.value } : { y: line.value })}
+      stroke="var(--ds-border-bold)"
+      strokeDasharray="4 4"
+      // Recharts drops a line outside the domain by default; the domain grows to it instead (the ticks already do).
+      ifOverflow="extendDomain"
+      label={{ value: line.label, position, fill: "var(--ds-text-subtle)", ...LABEL_SIZE, ...isolatedLabel(line.label, position) }}
+    />
+    );
+  });
+}
+
 export type LineChartProps<T extends Row> = ChartBaseProps<T> & {
   /** A target or an average: dashed `ds-border-bold` with a label at its end. */
   referenceLines?: readonly ChartReferenceLine[];
@@ -382,7 +413,7 @@ export function LineChart<T extends Row>(props: LineChartProps<T>) {
   const { data, index, categories, referenceLines, connectNulls, allowDecimals = true } = props;
   const shell = useShell(props, categories, Object.fromEntries(categories.map((key) => [key, "line"])));
   useOnce(categories.length > 5, "LineChart: at most five lines; filter (pick regions) instead of adding colors.");
-  const values = valuesOf(data, categories.filter((key) => !shell.series.isHidden(key)));
+  const values = withReferences(valuesOf(data, categories.filter((key) => !shell.series.isHidden(key))), referenceLines);
   const axisWidth = valueWidth(values, shell.valueFormatter, shell.locale, allowDecimals);
   const ticks = valueAxisTicks(values, VALUE_TICKS, allowDecimals);
   return (
@@ -391,16 +422,7 @@ export function LineChart<T extends Row>(props: LineChartProps<T>) {
         {GRID}
         <XAxis {...xAxisProps(index, shell)} />
         <YAxis {...yAxisProps(shell, axisWidth, true, ticks, allowDecimals)} />
-        {referenceLines?.map((line) => (
-          <ReferenceLine
-            key={line.label}
-            y={line.value}
-            stroke="var(--ds-border-bold)"
-            strokeDasharray="4 4"
-            // At the line's end, just above it.
-            label={{ value: line.label, position: shell.direction.isRtl ? "insideBottomLeft" : "insideBottomRight", fill: "var(--ds-text-subtle)", ...LABEL_SIZE, ...isolatedLabel(line.label, shell.direction.isRtl ? "insideBottomLeft" : "insideBottomRight") }}
-          />
-        ))}
+        {referenceLineElements(referenceLines, shell.direction.isRtl, false, ticks)}
         {categories
           .filter((key) => !shell.series.isHidden(key))
           .map((key) => (
@@ -647,9 +669,13 @@ export function BarChart<T extends Row>(props: BarChartProps<T>) {
   const parts = visible.filter((key) => key !== comparison);
   const stacks = new Map(stacked ? data.map((row) => [row, walkStack(row, parts)] as const) : []);
   // The value axis spans what is drawn: each stack's edges as Recharts stacks it, a comparison on its own.
-  const spans = stacked
-    ? data.flatMap((row) => [...stacks.get(row)!.ends, ...valuesOf([row], visible.filter((key) => key === comparison))])
-    : valuesOf(data, visible);
+  // Reference lines count too, so a target past every bar is still drawn (percent bars span 0–100% regardless).
+  const spans = withReferences(
+    stacked
+      ? data.flatMap((row) => [...stacks.get(row)!.ends, ...valuesOf([row], visible.filter((key) => key === comparison))])
+      : valuesOf(data, visible),
+    percent ? undefined : referenceLines,
+  );
   /**
    * The total a bar carries past its end, if any: a stack's total on the last part Recharts draws (a part left
    * empty or at zero passes it on to the one before, so every stack with a part shows its total); a grouped bar's
@@ -757,15 +783,7 @@ export function BarChart<T extends Row>(props: BarChartProps<T>) {
             <YAxis {...valueAxis} domain={domain as [number, number]} />
           </>
         )}
-        {referenceLines?.map((line) => (
-          <ReferenceLine
-            key={line.label}
-            {...(horizontal ? { x: line.value } : { y: line.value })}
-            stroke="var(--ds-border-bold)"
-            strokeDasharray="4 4"
-            label={{ value: line.label, position: horizontal ? "top" : shell.direction.isRtl ? "insideBottomLeft" : "insideBottomRight", fill: "var(--ds-text-subtle)", ...LABEL_SIZE, ...isolatedLabel(line.label, horizontal ? "top" : shell.direction.isRtl ? "insideBottomLeft" : "insideBottomRight") }}
-          />
-        ))}
+        {referenceLineElements(referenceLines, shell.direction.isRtl, horizontal, horizontal ? undefined : valueTicks)}
         {visible.map((key) => (
           <Bar
             key={key}
