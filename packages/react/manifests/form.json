@@ -822,7 +822,7 @@
         "required": false,
         "origin": "own",
         "default": "false",
-        "description": "A rule above the section, when it follows another. Space separates sections without it.",
+        "description": "A full-width rule under the title (and description), before the fields, as a settings page heads each group.",
         "schema": {
           "type": "boolean"
         }
@@ -898,6 +898,7 @@
     "ds-border",
     "ds-space-050",
     "ds-space-100",
+    "ds-space-150",
     "ds-space-200",
     "ds-space-300",
     "ds-space-400",

@@ -46,7 +46,8 @@ export function Form({ children, width = "narrow", validationBehavior = "aria", 
         onReset?.(event);
       }}
       data-width={width}
-      className={cn("flex w-full flex-col gap-ds-300", width === "narrow" && "max-w-[560px]", width === "wide" && "max-w-[800px]")}
+      // Sections sit further apart (48px) than a section's own parts, so each heading reads as the start of a group.
+      className={cn("flex w-full flex-col gap-ds-300 [&>[data-slot=form-section]+[data-slot=form-section]]:mt-ds-300", width === "narrow" && "max-w-[560px]", width === "wide" && "max-w-[800px]")}
       onSubmit={(event) => {
         // Every field shows its errors from the first submit on; render that before looking for them.
         flushSync(() => setState((current) => ({ ...current, submitted: true })));
@@ -102,7 +103,7 @@ export type FormSectionProps = {
    * fields beside them (a settings page); it stacks when the section is narrower than 36rem.
    */
   layout?: "stacked" | "split";
-  /** A rule above the section, when it follows another. Space separates sections without it. */
+  /** A full-width rule under the title (and description), before the fields, as a settings page heads each group. */
   separator?: boolean;
   /** `horizontal` lays every field in the section out as a row: label and description first, the control at the end. */
   orientation?: FieldOrientation;
@@ -110,15 +111,18 @@ export type FormSectionProps = {
 
 /**
  * Laid out as a settings row: from 28rem of the group's own width, each field is a grid with its label and
- * description in the start column and its control in the end column (at most 20rem), its error under the control.
+ * description in the start column and its control at the end at its own width (10rem to 20rem), its error under it.
  * The DOM order stays label, control, description, error, so the labelling React Aria wires is untouched. Below
  * 28rem the field stacks as usual. Written out in full so Tailwind finds the classes.
  */
 const HORIZONTAL =
   "@container " +
-  "@min-[28rem]:[&_.ds-field-stack]:grid @min-[28rem]:[&_.ds-field-stack]:grid-cols-[minmax(0,1fr)_minmax(0,20rem)] " +
+  "@min-[28rem]:[&_.ds-field-stack]:grid @min-[28rem]:[&_.ds-field-stack]:grid-cols-[minmax(0,1fr)_auto] " +
   "@min-[28rem]:[&_.ds-field-stack]:items-center @min-[28rem]:[&_.ds-field-stack]:gap-x-ds-300 @min-[28rem]:[&_.ds-field-stack]:gap-y-ds-050 " +
   "@min-[28rem]:[&_.ds-field-stack>*]:col-start-2 @min-[28rem]:[&_.ds-field-stack>*]:row-start-1 @min-[28rem]:[&_.ds-field-stack>*]:row-span-2 @min-[28rem]:[&_.ds-field-stack>*]:m-0 " +
+  // The control keeps its own width at the row's end (a compact select), between 10rem and 20rem.
+  "@min-[28rem]:[&_.ds-field-stack>*]:justify-self-end @min-[28rem]:[&_.ds-field-stack>*]:min-w-40 @min-[28rem]:[&_.ds-field-stack>*]:max-w-80 " +
+  "@min-[28rem]:[&_.ds-field-stack>:is([data-slot=field-label],[data-slot=field-description])]:justify-self-start @min-[28rem]:[&_.ds-field-stack>:is([data-slot=field-label],[data-slot=field-description])]:min-w-0 @min-[28rem]:[&_.ds-field-stack>:is([data-slot=field-label],[data-slot=field-description])]:max-w-none " +
   "@min-[28rem]:[&_.ds-field-stack>[data-slot=field-label]]:col-start-1 @min-[28rem]:[&_.ds-field-stack>[data-slot=field-label]]:row-span-1 @min-[28rem]:[&_.ds-field-stack>[data-slot=field-label]]:self-end " +
   "@min-[28rem]:[&_.ds-field-stack>[data-slot=field-description]]:col-start-1 @min-[28rem]:[&_.ds-field-stack>[data-slot=field-description]]:row-start-2 @min-[28rem]:[&_.ds-field-stack>[data-slot=field-description]]:row-span-1 @min-[28rem]:[&_.ds-field-stack>[data-slot=field-description]]:self-start " +
   "@min-[28rem]:[&_.ds-field-stack>[data-slot=field-error]]:col-start-2 @min-[28rem]:[&_.ds-field-stack>[data-slot=field-error]]:row-start-3 @min-[28rem]:[&_.ds-field-stack>[data-slot=field-error]]:row-span-1 " +
@@ -126,7 +130,9 @@ const HORIZONTAL =
   "@min-[28rem]:[&_.ds-field-stack:not(:has(>[data-slot=field-description]))>[data-slot=field-label]]:row-span-2 " +
   "@min-[28rem]:[&_.ds-field-stack:not(:has(>[data-slot=field-description]))>[data-slot=field-label]]:self-center " +
   // One label style for every row, as a settings list reads.
-  "@min-[28rem]:[&_.ds-field-stack>[data-slot=field-label]]:text-body @min-[28rem]:[&_.ds-field-stack>[data-slot=field-label]]:font-medium @min-[28rem]:[&_.ds-field-stack>[data-slot=field-label]]:text-ds-text";
+  "@min-[28rem]:[&_.ds-field-stack>[data-slot=field-label]]:text-body @min-[28rem]:[&_.ds-field-stack>[data-slot=field-label]]:font-medium @min-[28rem]:[&_.ds-field-stack>[data-slot=field-label]]:text-ds-text " +
+  // A custom control in a Field (a language switcher) keeps its own width at the row's end.
+  "@min-[28rem]:[&_[data-slot=field]>:not([data-slot=field-label],[data-slot=field-description],[data-slot=field-error])]:justify-self-end";
 
 /** Rows set off by a rule between them (a settings list); without it, space alone separates them. */
 const SEPARATED = "divide-y divide-ds-border [&>*]:py-ds-200 [&>*:first-child]:pt-0 [&>*:last-child]:pb-0";
@@ -155,14 +161,14 @@ export function FormSection({ legend, description, children, isDisabled, layout 
       aria-describedby={description != null ? descriptionId : undefined}
       data-slot="form-section"
       data-layout={layout}
-      className={cn("m-0 flex min-w-0 flex-col border-0 p-0", separator && "border-t border-ds-border pt-ds-300", layout === "split" && "@container")}
+      className={cn("m-0 flex min-w-0 flex-col border-0 p-0", layout === "split" && "@container")}
     >
       {layout === "split" ? (
         <>
           {/* A legend will not take a grid cell: it names the fieldset for screen readers, the heading beside it is seen. */}
           <legend className="sr-only">{legend}</legend>
           <div className="grid grid-cols-1 gap-ds-200 @min-[36rem]:grid-cols-[minmax(0,1fr)_minmax(0,2fr)] @min-[36rem]:gap-ds-400">
-            <div aria-hidden className="flex min-w-0 flex-col gap-ds-050">
+            <div aria-hidden className={cn("flex min-w-0 flex-col gap-ds-050 self-start", separator && "w-full border-b border-ds-border pb-ds-150")}>
               <span data-slot="form-section-legend" className="heading-small text-ds-text">{legend}</span>
               {description != null && <span className="text-body text-ds-text-subtle">{description}</span>}
             </div>
@@ -173,11 +179,13 @@ export function FormSection({ legend, description, children, isDisabled, layout 
         </>
       ) : (
         <>
-          <legend data-slot="form-section-legend" className={cn("heading-small p-0 text-ds-text", description != null ? "mb-ds-050" : "mb-ds-200")}>
+          {/* Floated, the legend leaves the fieldset's border alone (no notch in the separator) and sits under its padding. */}
+          <legend data-slot="form-section-legend" className={cn("heading-small float-left w-full p-0 text-ds-text", description != null ? "mb-ds-050" : separator ? "mb-ds-150" : "mb-ds-200")}>
             {legend}
           </legend>
-          {describe && <div className="mb-ds-200">{describe}</div>}
-          {fields}
+          {describe && <div className={cn("clear-both", separator ? "mb-ds-150" : "mb-ds-200")}>{describe}</div>}
+          {separator && <div aria-hidden data-slot="form-section-separator" className="clear-both mb-ds-150 border-t border-ds-border" />}
+          <div className="clear-both">{fields}</div>
         </>
       )}
     </fieldset>
