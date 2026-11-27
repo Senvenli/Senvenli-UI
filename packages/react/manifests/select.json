@@ -324,6 +324,20 @@
         }
       },
       {
+        "name": "sizing",
+        "type": "\"value\" | \"options\"",
+        "required": false,
+        "origin": "own",
+        "description": "Where the field's width comes from when nothing sets it (in a Toolbar, a row of filters). `options` (default):\nthe longest option label (or the placeholder), so the field never jumps as the value changes. `value`: the\ncurrent value only. In a form the field fills its column either way.",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "value",
+            "options"
+          ]
+        }
+      },
+      {
         "name": "selectionMode",
         "type": "\"single\" | \"multiple\"",
         "required": false,
