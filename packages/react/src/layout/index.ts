@@ -6,7 +6,7 @@ export type { BoxProps, BoxStyleProps } from "./box";
 export { Stack } from "./stack";
 export type { StackHorizontalProps, StackProps, StackVerticalProps } from "./stack";
 export { Grid } from "./grid";
-export type { GridProps } from "./grid";
+export type { GridProps, ResponsiveColumns } from "./grid";
 export { Container, Section } from "./section";
 export type { ContainerProps, SectionProps } from "./section";
 export { Page, PageSection } from "./page";

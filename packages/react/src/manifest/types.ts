@@ -11,6 +11,8 @@ export type JsonSchema = {
   properties?: Record<string, JsonSchema>;
   required?: string[];
   additionalProperties?: boolean;
+  /** One of these: a value or a per-breakpoint object (Grid `columns`). */
+  anyOf?: JsonSchema[];
 };
 
 export interface HandManifest {
