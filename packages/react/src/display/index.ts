@@ -15,7 +15,7 @@ export type { KbdProps } from "./kbd";
 export { Heading, Prose, Text } from "./typography";
 export type { HeadingLevel, HeadingProps, HeadingSize, TextProps, TextSize, TextTone } from "./typography";
 export { Stat, StatGroup } from "./stat";
-export type { StatDelta, StatProps } from "./stat";
+export type { StatDelta, StatGroupProps, StatProps } from "./stat";
 export { DescriptionList } from "./description-list";
 export type { DescriptionListItem, DescriptionListProps } from "./description-list";
 export { Timeline } from "./timeline";
