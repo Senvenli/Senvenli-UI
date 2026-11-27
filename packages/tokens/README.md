@@ -7,7 +7,7 @@ a full token set for light and dark, with every text and border pair checked aga
 import { createTheme, toCSS, toNative, checkThemeCss } from "@senvenli/tokens";
 
 const theme = createTheme({ primary: "#1268ae" });
-theme.checks.every((check) => check.pass); // true: 128 pairs, light and dark
+theme.checks.every((check) => check.pass); // true: 132 pairs, light and dark
 toCSS(theme, { tailwind: true }); // the theme.css an app imports
 toNative(theme); // hex colors for iOS and Android
 checkThemeCss(editedCss); // the same checks on a theme.css edited by hand

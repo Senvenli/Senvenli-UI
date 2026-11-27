@@ -1,4 +1,4 @@
-import { contrast, parseColor, rgba, toGamut, type OKLCH } from "./color.js";
+import { contrast, mixOklab, parseColor, rgba, toGamut, type OKLCH } from "./color.js";
 
 /**
  * The theme engine. A project gives a few optional inputs; the engine returns
@@ -370,7 +370,22 @@ function deriveMode(
   CHARTS[mode].forEach((c, i) => {
     t[`ds-chart-${i + 2}`] = c;
   });
+  // A heatmap's second-strongest step (chart-1 65% into the selected fill), and readable figures on it and on chart-1:
+  // the theme's own text ink when it reaches AA, else pure black or white (one of them always does).
+  t["ds-chart-heat"] = mixOklab(t["ds-chart-1"] as OKLCH, t["ds-background-selected-pressed"] as OKLCH, 0.65);
+  t["ds-text-on-chart"] = readableOn(t["ds-chart-1"] as OKLCH, [t["ds-text-on-brand"] as OKLCH, t["ds-text"] as OKLCH, t["ds-text-inverse"] as OKLCH]);
+  t["ds-text-on-chart-heat"] = readableOn(t["ds-chart-heat"] as OKLCH, [t["ds-text"] as OKLCH, t["ds-text-inverse"] as OKLCH]);
   return t;
+}
+
+const BLACK: OKLCH = { l: 0, c: 0, h: 0 };
+const WHITE_INK: OKLCH = { l: 1, c: 0, h: 0 };
+
+/** The first candidate that reads at AA on `background`; otherwise black or white, whichever reads better (always ≥ 4.58:1). */
+function readableOn(background: OKLCH, candidates: readonly OKLCH[]): OKLCH {
+  const best = [...candidates].sort((a, b) => contrast(b, background) - contrast(a, background))[0];
+  if (best && contrast(best, background) >= AA_TEXT) return best;
+  return contrast(BLACK, background) >= contrast(WHITE_INK, background) ? BLACK : WHITE_INK;
 }
 
 /** Every text pair (4.5:1) and non-text mark (3:1) the engine promises. */
@@ -400,6 +415,9 @@ export function checkTokens(mode: Mode, t: ModeTokens, missing?: Set<string>): C
     mark(`ds-icon-${n}`, "ds-surface");
   }
   text("ds-text-on-bold", "ds-background-success-bold", "ds-background-information-bold");
+  // Figures printed on a heatmap's strongest steps.
+  text("ds-text-on-chart", "ds-chart-1");
+  text("ds-text-on-chart-heat", "ds-chart-heat");
 
   // Supplied tokens (checkThemeCss) may lack one: that pair is skipped and the name reported in `missing`.
   return pairs.flatMap(([fg, bg, required]) => {

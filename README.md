@@ -41,7 +41,7 @@
 
 - **103 accessible components.** Built on React Aria and styled with Tailwind v4. Every component handles keyboard use, focus, screen readers and right-to-left layouts, and formats dates and numbers for the user's locale.
 - **A theme from a few inputs.** Give up to three brand colors, plus corners, density and border width. The engine derives everything else: hover and pressed states, text on colored fills, selection, links, charts and the whole dark theme.
-- **Contrast you don't have to check.** The engine measures all 128 text and border pairs in light and dark. When a color can't carry its label at AA, it changes the color's lightness until it does and keeps the hue.
+- **Contrast you don't have to check.** The engine measures all 132 text and border pairs in light and dark. When a color can't carry its label at AA, it changes the color's lightness until it does and keeps the hue.
 - **Neutral by default.** With no colors you get a calm, soft black and white (`#0c0c0b` / `#fcfcfb`), never pure.
 - **Ready for coding agents.** Every component ships a machine-readable manifest. A hosted MCP server lets Claude, ChatGPT, Cursor or any MCP client search components, read their real props and generate themes.
 - **Native apps share the palette.** The same theme is also available as plain hex values for iOS and Android.

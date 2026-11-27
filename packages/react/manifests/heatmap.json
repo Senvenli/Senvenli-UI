@@ -174,11 +174,25 @@
         "description": "Four strictly ascending lower bounds of the four intensity steps; from the positive values' quartiles by\ndefault. Bounds out of order still count each bound a value reaches, so the steps no longer follow the values\n(the chart warns)."
       },
       {
+        "name": "scale",
+        "type": "\"auto\" | \"percent\"",
+        "required": false,
+        "origin": "own",
+        "default": "\"auto\"",
+        "description": "`auto` (default): steps from the values' quartiles, no text over the cells. `percent`: values are ratios from 0 to 1\n(cohort retention) on fixed steps (above 0, 25%, 50%, 75%) that read the same across rows; each cell prints its\npercent in a color the theme checks for contrast on that step, and the scale reads \"0% … 100%\".",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "auto",
+            "percent"
+          ]
+        }
+      },
+      {
         "name": "valueFormatter",
         "type": "ChartValueFormatter",
         "required": false,
-        "origin": "own",
-        "default": "plain"
+        "origin": "own"
       },
       {
         "name": "onCellPress",
@@ -205,6 +219,7 @@
     "ds-chart-3",
     "ds-chart-4",
     "ds-chart-5",
+    "ds-chart-heat",
     "ds-chart-neutral",
     "ds-icon",
     "ds-icon-brand",
@@ -229,6 +244,8 @@
     "ds-surface-raised",
     "ds-text",
     "ds-text-danger",
+    "ds-text-on-chart",
+    "ds-text-on-chart-heat",
     "ds-text-subtle",
     "ds-text-subtlest",
     "ds-text-success"

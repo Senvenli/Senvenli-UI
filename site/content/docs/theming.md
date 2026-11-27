@@ -33,7 +33,7 @@ When a color cannot carry its label at AA, the engine moves its lightness until 
 
 ## Contrast
 
-Every theme reports its checks: 128 pairs, each with its ratio. The builder lists them under **See pairs**. A failing pair is a bug in the engine, not something to tune by hand.
+Every theme reports its checks: 132 pairs, each with its ratio. The builder lists them under **See pairs**. A failing pair is a bug in the engine, not something to tune by hand.
 
 ## Themes in code
 

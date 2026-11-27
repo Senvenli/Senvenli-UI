@@ -133,6 +133,18 @@ const round = (n: number, digits: number) => Number(n.toFixed(digits));
 
 const hasAlpha = (color: OKLCH) => color.alpha !== undefined && color.alpha < 1;
 
+/** CSS `color-mix(in oklab, a p, b)`: the same color the browser draws for that expression. */
+export function mixOklab(a: OKLCH, b: OKLCH, p: number): OKLCH {
+  const lab = (c: OKLCH) => [c.l, c.c * Math.cos((c.h * Math.PI) / 180), c.c * Math.sin((c.h * Math.PI) / 180)] as const;
+  const [la, aa, ba] = lab(a);
+  const [lb, ab, bb] = lab(b);
+  const l = la * p + lb * (1 - p);
+  const x = aa * p + ab * (1 - p);
+  const y = ba * p + bb * (1 - p);
+  const c = Math.hypot(x, y);
+  return { l, c, h: c < 1e-6 ? 0 : ((Math.atan2(y, x) * 180) / Math.PI + 360) % 360 };
+}
+
 export function formatOklch(color: OKLCH): string {
   const g = toGamut(color);
   const c = round(g.c, 4);

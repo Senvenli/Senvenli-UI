@@ -391,9 +391,20 @@ export type HeatmapProps = FrameProps & {
    * (the chart warns).
    */
   thresholds?: readonly [number, number, number, number];
+  /**
+   * `auto` (default): steps from the values' quartiles, no text over the cells. `percent`: values are ratios from 0 to 1
+   * (cohort retention) on fixed steps (above 0, 25%, 50%, 75%) that read the same across rows; each cell prints its
+   * percent in a color the theme checks for contrast on that step, and the scale reads "0% … 100%".
+   */
+  scale?: "auto" | "percent";
   valueFormatter?: ChartValueFormatter;
   onCellPress?: (cell: HeatmapCell) => void;
 };
+
+/** Figures over each step: the theme's ink on the light steps, its checked on-chart inks on the two strongest. */
+const HEAT_TEXT = ["text-ds-text", "text-ds-text", "text-ds-text", "text-ds-text-on-chart-heat", "text-ds-text-on-chart"] as const;
+/** Percent steps: above zero, then each quarter. */
+const PERCENT_BOUNDS = [Number.EPSILON, 0.25, 0.5, 0.75] as const;
 
 /** A cell with no data: hatched, so it never passes for zero's flat `ds-background-neutral`. */
 const HEAT_MISSING = "repeating-linear-gradient(135deg, var(--ds-background-neutral-pressed) 0 2px, transparent 2px 5px)";
@@ -420,8 +431,11 @@ const hasDuplicates = (names: readonly string[]) => new Set(names).size !== name
  * and the focused cell otherwise; a key that moves focus hands the tooltip back to the focused cell until the
  * pointer enters another cell. Escape hides it.
  */
-export function Heatmap({ title, "aria-label": ariaLabel, period, rows, columns, data, rowHeader, thresholds, valueFormatter = plain, onCellPress, isLoading, emptyState, ...table }: HeatmapProps) {
+export function Heatmap({ title, "aria-label": ariaLabel, period, rows, columns, data, rowHeader, thresholds, scale = "auto", valueFormatter: formatterProp, onCellPress, isLoading, emptyState, ...table }: HeatmapProps) {
   const { locale } = useLocale();
+  const percent = scale === "percent";
+  const percentFormat = React.useMemo(() => new Intl.NumberFormat(locale, { style: "percent", maximumFractionDigits: 0 }), [locale]);
+  const valueFormatter: ChartValueFormatter = formatterProp ?? (percent ? (value) => percentFormat.format(value) : plain);
   const { isRtl } = useChartDirection();
   const animate = useChartAnimation();
   const noValue = chartNoValueLabel(locale);
@@ -445,7 +459,7 @@ export function Heatmap({ title, "aria-label": ariaLabel, period, rows, columns,
     }),
   );
   const values = slots.map((slot) => slot.cell.value).filter((value): value is number => value !== null && Number.isFinite(value));
-  const bounds = thresholds ?? heatmapThresholds(values);
+  const bounds = thresholds ?? (percent ? PERCENT_BOUNDS : heatmapThresholds(values));
   const hasMissing = slots.some((slot) => slot.cell.value === null || !Number.isFinite(slot.cell.value));
   const format = (value: number | null) => (value === null || !Number.isFinite(value) ? noValue : valueFormatter(value));
   const nameOf = (cell: HeatmapCell) => cell.label ?? `${cell.row}, ${cell.column}: ${format(cell.value)}`;
@@ -511,7 +525,8 @@ export function Heatmap({ title, "aria-label": ariaLabel, period, rows, columns,
             aria-label={title ?? ariaLabel}
             data-slot="heatmap-grid"
             className="grid min-w-max gap-[3px]"
-            style={{ gridTemplateColumns: `max-content repeat(${columns.length}, minmax(1.5rem, 1fr))` }}
+            // Percent cells hold their figure ("100%"), so they are wider.
+            style={{ gridTemplateColumns: `max-content repeat(${columns.length}, minmax(${percent ? "2.75rem" : "1.5rem"}, 1fr))` }}
             onKeyDown={(event) => {
               // Every key acts on the focused cell, never on the one under the pointer.
               if (!focusedSlot) return;
@@ -584,9 +599,17 @@ export function Heatmap({ title, "aria-label": ariaLabel, period, rows, columns,
                         "h-7 rounded-[3px] outline-hidden focus-visible:inset-ring-2 focus-visible:inset-ring-ds-border-focused",
                         animate && "transition-[background-color] duration-150",
                         onCellPress && "cursor-pointer",
+                        percent && "flex items-center justify-center",
                       )}
                       style={{ background: fillOf(slot.cell) }}
-                    />
+                    >
+                      {percent && !missing && (
+                        // The cell's name already says the value; the figure is for the eye.
+                        <span aria-hidden data-slot="heatmap-figure" className={cn("text-[11px] font-medium leading-none tabular-nums", HEAT_TEXT[levelOf(slot.cell.value!, bounds)])}>
+                          {format(slot.cell.value)}
+                        </span>
+                      )}
+                    </span>
                   );
                 })}
               </div>
@@ -595,13 +618,13 @@ export function Heatmap({ title, "aria-label": ariaLabel, period, rows, columns,
         </div>
         <div data-slot="heatmap-scale" className="flex flex-wrap items-center gap-x-ds-200 gap-y-ds-050 text-body-small text-ds-text-subtle">
           <span className="flex items-center gap-ds-075">
-            <span>{heatmapLessLabel(locale)}</span>
+            <span>{percent ? valueFormatter(0) : heatmapLessLabel(locale)}</span>
             <span aria-hidden className="flex gap-[3px]">
               {HEAT_LEVELS.map((background, level) => (
                 <span key={level} data-level={level} className="size-3 rounded-[2px]" style={{ background }} />
               ))}
             </span>
-            <span>{heatmapMoreLabel(locale)}</span>
+            <span>{percent ? valueFormatter(1) : heatmapMoreLabel(locale)}</span>
           </span>
           {hasMissing && (
             <span data-slot="heatmap-missing-key" className="flex items-center gap-ds-075">

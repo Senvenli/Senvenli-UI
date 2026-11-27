@@ -268,7 +268,8 @@ export const HEAT_LEVELS = [
   "var(--ds-background-neutral)",
   "var(--ds-background-selected-hovered)",
   "var(--ds-background-selected-pressed)",
-  "color-mix(in oklab, var(--ds-chart-1) 65%, var(--ds-background-selected-pressed))",
+  // The engine's own mix (chart-1 65% into the selected fill), so its figure color is checked against it.
+  "var(--ds-chart-heat)",
   "var(--ds-chart-1)",
 ] as const;
 
