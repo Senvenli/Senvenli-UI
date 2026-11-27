@@ -1,6 +1,21 @@
 # Changelog
 
-## 0.3.8 (2026-11-28)
+## 0.3.9 (2026-11-27)
+
+- `@senvenli/react` Select: **fix** for 0.3.8's `sizing="options"`, which put every option label in the trigger as
+  hidden text (the trigger's text, find-in-page, copy and `getByText` saw all labels). The width is now reserved
+  without text nodes; the trigger's text is the selected value alone. Width unchanged.
+- `@senvenli/react` StatGroup: `selectionMode="single" | "multiple"` with `selectedKeys`, `defaultSelectedKeys`,
+  `onSelectionChange` and `disallowEmptySelection` makes the tiles a selection (the metric a chart shows). Single is a
+  named radio group with arrow keys; multiple makes each tile a pressed toggle. `Stat id` is the stable key; `href` is
+  ignored in a selectable group. Without `selectionMode` nothing changes.
+- `@senvenli/react` BarList: `onRowPress(datum)` makes rows toggle buttons (`datum.id` is the key, `name` the display
+  text); `selectedIds` marks pressed rows (a ring and a stronger fill; kept in view beyond `limit`); `secondaryValue`
+  shows a preformatted second figure (a share) before the value, named by `secondaryLabel` in the table view. A row is
+  a link or a press, not both: `href` is ignored with `onRowPress`.
+- `@senvenli/tokens`, `@senvenli/cli`, `@senvenli/mcp`: no change; released at the same version.
+
+## 0.3.8 (2026-11-27)
 
 - `@senvenli/react` Sidebar: `collapsible="icon"` (default, the 56px rail as before), `"offcanvas"` (collapsed, out of
   view and inert, the page taking its width; the app reopens it with the new `SidebarTrigger`) or `"none"` (static,
@@ -11,7 +26,7 @@
   placeholder stays whole; filters keep their own width.
 - `@senvenli/tokens`, `@senvenli/cli`, `@senvenli/mcp`: no change; released at the same version.
 
-## 0.3.7 (2026-11-28)
+## 0.3.7 (2026-11-27)
 
 - `@senvenli/react` Select: the trigger shows the selected option's `icon` (a flag) before its label, as the option
   row does; decorative, so the value's text and the accessible name are unchanged.
@@ -20,7 +35,7 @@
   pane is hidden). It adds no box; outside a Split it always shows.
 - `@senvenli/tokens`, `@senvenli/cli`, `@senvenli/mcp`: no change; released at the same version.
 
-## 0.3.6 (2026-11-28)
+## 0.3.6 (2026-11-27)
 
 - `@senvenli/react` settings layout, Notion-style:
   - **Changed:** `FormSection separator` is a full-width rule under the title and description, before the fields
