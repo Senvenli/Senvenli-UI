@@ -19,6 +19,19 @@ const HIDE: Record<SplitCollapse, Record<"start" | "end", string>> = {
   "80rem": { start: "@max-7xl:[&>[data-slot=split-pane]:first-child]:hidden", end: "@max-7xl:[&>[data-slot=split-pane]:last-child]:hidden" },
 };
 
+/**
+ * What a SplitShow shows in each layout, per collapse width, queried on the Split's own named container
+ * (container `split`) so a container inside a pane (a horizontal form group) never answers instead.
+ */
+const SHOW: Record<SplitCollapse, Record<"stacked" | "side-by-side", string>> = {
+  "48rem": { stacked: "contents @3xl/split:hidden", "side-by-side": "hidden @3xl/split:contents" },
+  "64rem": { stacked: "contents @5xl/split:hidden", "side-by-side": "hidden @5xl/split:contents" },
+  "80rem": { stacked: "contents @7xl/split:hidden", "side-by-side": "hidden @7xl/split:contents" },
+};
+
+/** The nearest Split's collapse width, for SplitShow. */
+const SplitContext = React.createContext<SplitCollapse | null>(null);
+
 export type SplitProps = LayoutHTMLProps & {
   as?: BoxProps["as"];
   /** The columns side by side, as a CSS grid template: `"1fr 1fr"` (default), `"1.05fr 1fr"`, `"20rem 1fr"`. */
@@ -72,14 +85,40 @@ export const Split = React.forwardRef<HTMLElement, SplitProps>(function Split(
   // The container is the outer box: an element cannot query its own width, so the grid is one level in.
   return React.createElement(
     as,
-    { ...rest, ref, "data-slot": "split", className: cn("@container", fullHeight && "min-h-svh") },
+    { ...rest, ref, "data-slot": "split", className: cn("@container [container-name:split]", fullHeight && "min-h-svh") },
+    <SplitContext.Provider value={collapseBelow}>
     <div
       data-slot="split-grid"
       className={cn("grid", fullHeight && "min-h-svh", COLUMNS[collapseBelow], hideOnNarrow && HIDE[collapseBelow][hideOnNarrow], space && GAP[space])}
       style={{ "--ds-split-columns": ratio } as React.CSSProperties}
     >
       {children}
-    </div>,
+    </div>
+    </SplitContext.Provider>,
   );
 });
+
+export type SplitShowProps = {
+  /**
+   * `stacked`: only while the Split's panes stack (a phone), as a compact brand above a form whose brand pane is
+   * hidden there. `side-by-side`: only while they sit side by side.
+   */
+  when: "stacked" | "side-by-side";
+  children: React.ReactNode;
+};
+
+/**
+ * Content shown in one of the Split's layouts only, decided by the Split's own width (the same container query
+ * that stacks it), not the viewport's. It adds no box of its own (`display: contents`). Outside a Split it always
+ * shows. Hidden content is `display: none`, so it is out of the accessibility tree too.
+ */
+export function SplitShow({ when, children }: SplitShowProps) {
+  const collapse = React.useContext(SplitContext);
+  if (collapse == null) return <>{children}</>;
+  return (
+    <div data-slot="split-show" data-when={when} className={SHOW[collapse][when]}>
+      {children}
+    </div>
+  );
+}
 

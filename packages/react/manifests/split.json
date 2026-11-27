@@ -8,7 +8,8 @@
   "title": "Split",
   "exports": [
     "Split",
-    "SplitPane"
+    "SplitPane",
+    "SplitShow"
   ],
   "description": "Panes side by side that stack below a width of the layout itself: split screens, list and detail, media and text.",
   "keywords": [
@@ -43,6 +44,9 @@
     },
     {
       "rule": "Put the page's one main landmark on the pane that holds the task (`as=\"main\"`) when the Split is the whole page."
+    },
+    {
+      "rule": "Content for one layout only (a compact brand above the form while the brand pane is hidden): SplitShow when=\"stacked\" or \"side-by-side\", decided by the Split's own width, not the viewport."
     }
   ],
   "a11y": {
@@ -6565,6 +6569,28 @@
             "stretch"
           ]
         }
+      }
+    ],
+    "SplitShow": [
+      {
+        "name": "when",
+        "type": "\"stacked\" | \"side-by-side\"",
+        "required": true,
+        "origin": "own",
+        "description": "`stacked`: only while the Split's panes stack (a phone), as a compact brand above a form whose brand pane is\nhidden there. `side-by-side`: only while they sit side by side.",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "stacked",
+            "side-by-side"
+          ]
+        }
+      },
+      {
+        "name": "children",
+        "type": "React.ReactNode",
+        "required": true,
+        "origin": "own"
       }
     ]
   },

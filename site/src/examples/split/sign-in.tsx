@@ -1,7 +1,7 @@
 import { Button, Link } from "@senvenli/react/action";
 import { Heading, Text } from "@senvenli/react/display";
 import { Form, Input } from "@senvenli/react/form";
-import { Split, SplitPane, Stack } from "@senvenli/react/layout";
+import { Split, SplitPane, SplitShow, Stack } from "@senvenli/react/layout";
 
 export default function Example() {
   return (
@@ -19,6 +19,10 @@ export default function Example() {
         </SplitPane>
         <SplitPane as="main" align="center" padding="space-600">
           <Stack space="space-300" as="div">
+            {/* The brand pane is left out when stacked; a compact brand takes its place there, and only there. */}
+            <SplitShow when="stacked">
+              <Text size="body-large" weight="medium">Acme</Text>
+            </SplitShow>
             <Stack space="space-075">
               <Heading level={1} size="heading-large">Sign in</Heading>
               <Text tone="subtle">Use your work email.</Text>
