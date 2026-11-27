@@ -162,6 +162,7 @@
     "ds-border",
     "ds-border-bold",
     "ds-border-focused",
+    "ds-border-selected",
     "ds-chart-1",
     "ds-chart-2",
     "ds-chart-3",

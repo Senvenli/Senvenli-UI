@@ -108,13 +108,28 @@ function Detail({ children }: { children?: React.ReactNode }) {
 
 /* ── BarList ──────────────────────────────────────────────────────────────── */
 
-export type BarListDatum = { name: string; value: number; href?: string };
+export type BarListDatum = {
+  /** A stable identity for `selectedIds` and `onRowPress`; the name by default (names may repeat, ids should not). */
+  id?: string;
+  name: string;
+  value: number;
+  /** A link for the name. Not with `onRowPress` on the list: a row is either a link or a press, never both. */
+  href?: string;
+  /** A second figure before the value, already formatted: a share ("38%") or a change ("+12%"). */
+  secondaryValue?: string;
+};
 
 export type BarListProps = FrameProps & {
   data: readonly BarListDatum[];
   valueFormatter?: ChartValueFormatter;
   /** The rows shown before "Show all": five by default, ten at most. */
   limit?: number;
+  /** Makes every row a button (filter by it, open it). With `selectedIds`, each row says whether it is pressed. */
+  onRowPress?: (datum: BarListDatum) => void;
+  /** The ids (or names) of the selected rows, held by the app; they stay in view behind "Show all". */
+  selectedIds?: readonly string[];
+  /** The heading of the `secondaryValue` column in the table view ("Share"). */
+  secondaryLabel?: string;
 };
 
 const BAR_ROW = 28;
@@ -126,34 +141,43 @@ const BAR_GAP = 6;
  * top item; the name in `ds-text` (a link when it has `href`), the value at the end in medium tabular
  * figures. Sorted largest first; the rest behind "Show all".
  */
-export function BarList({ title, "aria-label": ariaLabel, period, data, valueFormatter = plain, limit = 5, isLoading, emptyState, ...table }: BarListProps) {
+export function BarList({ title, "aria-label": ariaLabel, period, data, valueFormatter = plain, limit = 5, isLoading, emptyState, onRowPress, selectedIds, secondaryLabel, ...table }: BarListProps) {
   const { locale } = useLocale();
+  const keyOf = (item: BarListDatum) => item.id ?? item.name;
+  const selected = new Set(selectedIds ?? []);
+  useOnce(!!onRowPress && data.some((item) => item.href), "BarList: a row is a link or a press, not both; href is ignored with onRowPress.");
   const [expanded, setExpanded] = React.useState(false);
   const rows = data.filter((item) => Number.isFinite(item.value)).sort((a, b) => b.value - a.value);
   useOnce(rows.length < data.length, "BarList: items without a finite value are left out.");
   const top = Math.max(0, ...rows.map((item) => item.value));
   const cap = Number.isFinite(limit) ? Math.min(Math.max(1, Math.floor(limit)), 10) : 5;
-  const shown = expanded ? rows : rows.slice(0, cap);
+  // Collapsed, the selected rows still show, after the top ones: a filter in force never hides.
+  const shown = expanded ? rows : [...rows.slice(0, cap), ...rows.slice(cap).filter((item) => selected.has(keyOf(item)))];
   const canExpand = rows.length > cap;
   const lines = shown.length + (canExpand ? 1 : 0);
   const height = Math.max(BAR_ROW, lines * BAR_ROW + Math.max(0, lines - 1) * BAR_GAP);
+  const hasSecondary = rows.some((item) => item.secondaryValue != null);
   const columns: TableColumn<BarListDatum>[] = [
     { key: "name", header: title ?? ariaLabel ?? "", isRowHeader: true },
+    ...(hasSecondary ? [{ key: "secondaryValue", header: secondaryLabel ?? "", align: "end" as const }] : []),
     { key: "value", header: chartValueLabel(locale), align: "end", render: (row) => valueFormatter(row.value) },
   ];
   return (
     <Shell table={{ tableView: "none", ...table }} title={title} aria-label={ariaLabel} period={period} isLoading={isLoading} emptyState={emptyState} isEmpty={rows.length === 0} height={height} columns={columns} rows={rows}>
       <div data-slot="barlist" className="flex flex-col gap-[6px]">
         <ul data-slot="barlist-list" className="m-0 flex list-none flex-col gap-[6px] p-0">
-          {shown.map((item, index) => (
-            <li key={index} data-slot="barlist-row" className="relative flex h-7 items-center justify-between gap-ds-200 px-ds-100 text-body">
+          {shown.map((item, index) => {
+            const isSelected = selected.has(keyOf(item));
+            const bar = (
               <span
                 aria-hidden
                 data-slot="barlist-bar"
-                className="absolute inset-y-0 start-0 rounded-ds-small bg-ds-background-brand-subtle"
+                className={cn("absolute inset-y-0 start-0 rounded-ds-small", isSelected ? "bg-ds-background-selected-pressed" : "bg-ds-background-brand-subtle")}
                 style={{ width: top > 0 ? `${(Math.max(0, item.value) / top) * 100}%` : 0 }}
               />
-              {item.href ? (
+            );
+            const name =
+              item.href && !onRowPress ? (
                 <AriaLink
                   href={item.href}
                   data-slot="barlist-link"
@@ -163,10 +187,46 @@ export function BarList({ title, "aria-label": ariaLabel, period, data, valueFor
                 </AriaLink>
               ) : (
                 <bdi data-slot="barlist-name" className="relative min-w-0 truncate text-ds-text">{item.name}</bdi>
-              )}
-              <bdi data-slot="barlist-value" className="relative shrink-0 font-medium tabular-nums text-ds-text">{valueFormatter(item.value)}</bdi>
-            </li>
-          ))}
+              );
+            const figures = (
+              <span className="relative flex shrink-0 items-baseline gap-ds-100">
+                {item.secondaryValue != null && (
+                  <bdi data-slot="barlist-secondary" className="text-body-small tabular-nums text-ds-text-subtle">{item.secondaryValue}</bdi>
+                )}
+                <bdi data-slot="barlist-value" className="font-medium tabular-nums text-ds-text">{valueFormatter(item.value)}</bdi>
+              </span>
+            );
+            return (
+              <li key={`${keyOf(item)}-${index}`} data-slot="barlist-row" data-selected={isSelected || undefined} className="relative flex h-7 items-center text-body">
+                {onRowPress ? (
+                  <AriaButton
+                    data-slot="barlist-press"
+                    aria-pressed={selectedIds ? isSelected : undefined}
+                    onPress={() => onRowPress(item)}
+                    className={cn(
+                      "relative flex h-full w-full cursor-pointer items-center justify-between gap-ds-200 rounded-ds-small px-ds-100 text-start outline-hidden",
+                      "data-[hovered]:bg-ds-background-neutral-subtle-hovered",
+                      // Rings sit on an overlay painted after the bar; an inset shadow on the button itself is covered by it.
+                      "after:pointer-events-none after:absolute after:inset-0 after:rounded-ds-small after:content-['']",
+                      "data-[focus-visible]:after:inset-ring-2 data-[focus-visible]:after:inset-ring-ds-border-focused",
+                      // Pressed is never colour alone: a ring as well as the selected fill.
+                      isSelected && "after:inset-ring-1 after:inset-ring-ds-border-selected",
+                    )}
+                  >
+                    {bar}
+                    {name}
+                    {figures}
+                  </AriaButton>
+                ) : (
+                  <div className="relative flex h-full w-full items-center justify-between gap-ds-200 px-ds-100">
+                    {bar}
+                    {name}
+                    {figures}
+                  </div>
+                )}
+              </li>
+            );
+          })}
         </ul>
         {canExpand && (
           <AriaButton
