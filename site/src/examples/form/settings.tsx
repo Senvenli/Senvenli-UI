@@ -1,16 +1,20 @@
-import { Button, useThemePreference, type ThemeChoice } from "@senvenli/react/action";
-import { Form, FormFooter, FormGroup, FormSection, Input } from "@senvenli/react/form";
+import { Button, LanguageSwitcher, useThemePreference, type ThemeChoice } from "@senvenli/react/action";
+import { useState } from "react";
+import { Field, Form, FormFooter, FormGroup, FormSection, Input } from "@senvenli/react/form";
 import { Select, Switch } from "@senvenli/react/selection";
 
 export default function Example() {
   const theme = useThemePreference();
+  const [language, setLanguage] = useState<"en" | "de" | "fr">("en");
   return (
     <Form width="wide" onSubmit={(event) => event.preventDefault()}>
-      <FormSection legend="Workspace" description="How your workspace appears to the team." layout="split">
-        <Input label="Workspace name" defaultValue="Acme" />
-        <Input label="Support email" type="email" defaultValue="help@acme.example" description="Replies to customers come from this address." />
+      <FormSection legend="Workspace" description="How your workspace appears to the team." separator orientation="horizontal">
+        <FormGroup orientation="horizontal" separated>
+          <Input label="Workspace name" defaultValue="Acme" />
+          <Input label="Support email" type="email" defaultValue="help@acme.example" description="Replies to customers come from this address." />
+        </FormGroup>
       </FormSection>
-      <FormSection legend="Appearance" description="Applies to you on this device." layout="split" separator>
+      <FormSection legend="Appearance" description="Applies to you on this device." separator>
         <FormGroup orientation="horizontal" separated>
           <Select
             label="Theme"
@@ -32,10 +36,14 @@ export default function Example() {
               { id: "compact", label: "Compact" },
             ]}
           />
+          {/* A control that is not a field joins the rows inside a Field. */}
+          <Field label="Language" description="The interface language.">
+            <LanguageSwitcher label="Language" locales={["en", "de", "fr"]} value={language} onChange={setLanguage} />
+          </Field>
           <Switch description="Shorter animations across the app.">Reduce motion</Switch>
         </FormGroup>
       </FormSection>
-      <FormSection legend="Notifications" description="What we email you about." layout="split" separator>
+      <FormSection legend="Notifications" description="What we email you about." separator>
         <FormGroup orientation="horizontal" separated>
           <Switch defaultSelected description="Every morning, the day's new orders.">Daily summary</Switch>
           <Switch description="When someone mentions you in a note.">Mentions</Switch>

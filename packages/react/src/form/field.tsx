@@ -10,6 +10,7 @@ import {
   type ReactNode,
 } from "react";
 import { cn } from "../utils";
+import { useFieldOrientation } from "./field-orientation";
 
 /**
  * Form field wrapper: consistent label + control spacing, optional hint and
@@ -60,12 +61,16 @@ export function Field({
   const hintId = hint && !error ? `${autoId}-hint` : undefined;
   const errorId = error ? `${autoId}-error` : undefined;
   const describedBy = [hintId, errorId].filter(Boolean).join(" ") || undefined;
+  // In a horizontal FormGroup or FormSection the Field joins the settings rows: it marks its parts the way the
+  // library's fields do, so the group lays it out as label and description first, the control at the end. Outside
+  // one its markup is exactly as before.
+  const row = useFieldOrientation() === "horizontal";
 
   return (
-    <div className={cn("space-y-ds-075", className)}>
+    <div data-slot={row ? "field" : undefined} className={cn(row && "ds-field-stack", "space-y-ds-075", className)}>
       {label && (
         // `{controlId}-label`, so a control can name itself by the label with aria-labelledby.
-        <FieldRowLabel htmlFor={controlId} id={controlId ? `${controlId}-label` : undefined}>
+        <FieldRowLabel htmlFor={controlId} id={controlId ? `${controlId}-label` : undefined} slot={row ? "field-label" : undefined}>
           {label}
           {required && (
             <span className={cn("ms-0.5", requiredClassName ?? "text-ds-text-danger")}>*</span>
@@ -78,12 +83,12 @@ export function Field({
         invalid: Boolean(error),
       })}
       {hint && !error && hintId ? (
-        <p id={hintId} className="text-body-small text-ds-text-subtle">
+        <p id={hintId} data-slot={row ? "field-description" : undefined} className="text-body-small text-ds-text-subtle">
           {hint}
         </p>
       ) : null}
       {error && errorId ? (
-        <p id={errorId} className="text-body-small text-ds-text-danger">
+        <p id={errorId} data-slot={row ? "field-error" : undefined} className="text-body-small text-ds-text-danger">
           {error}
         </p>
       ) : null}
@@ -98,10 +103,10 @@ export function Field({
 const FIELD_LABEL_CLASS =
   "flex items-center gap-ds-100 text-body-strong text-ds-text select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50";
 
-function FieldRowLabel({ htmlFor, id, children }: { htmlFor?: string; id?: string; children: ReactNode }) {
+function FieldRowLabel({ htmlFor, id, slot = "label", children }: { htmlFor?: string; id?: string; slot?: string; children: ReactNode }) {
   return (
     <label
-      data-slot="label"
+      data-slot={slot}
       className={cn(FIELD_LABEL_CLASS)}
       htmlFor={htmlFor}
       id={id}

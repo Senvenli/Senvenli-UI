@@ -25,7 +25,9 @@ describe("settings layout", () => {
     );
     const fieldset = screen.getByRole("group", { name: "Language" });
     expect(document.getElementById(fieldset.getAttribute("aria-describedby")!)!.textContent).toBe("How dates and numbers look.");
-    expect(fieldset.className).toContain("border-t");
+    // The rule sits under the title and description (owner 2026-11-28), never above the section.
+    expect(fieldset.querySelector('[data-slot="form-section-separator"]')).not.toBeNull();
+    expect(fieldset.className).not.toContain("border-t");
   });
 
   it("FormSection split: the fieldset keeps its name; the title and description sit in a start column", () => {
