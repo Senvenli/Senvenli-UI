@@ -1,0 +1,53 @@
+{
+  "$schema": "../../manifest/component.schema.json",
+  "kind": "component",
+  "family": "layout",
+  "status": "alpha",
+  "import": "@senvenli/react/layout",
+  "name": "page",
+  "title": "Page",
+  "exports": [
+    "Page",
+    "PageSection"
+  ],
+  "description": "A panel page's frame: its width, gutters and the rhythm between the header and its sections.",
+  "keywords": [
+    "page",
+    "layout",
+    "width",
+    "section",
+    "admin",
+    "panel"
+  ],
+  "usage": {
+    "when": [
+      "Laying out a page of an admin or back-office app: a PageHeader, then sections of tables, forms or cards.",
+      "Keeping every page at the same width and spacing instead of setting widths and gaps per page."
+    ],
+    "instead": [
+      {
+        "use": "section",
+        "when": "Full-width bands of a marketing or landing page."
+      },
+      {
+        "use": "form",
+        "when": "Grouping fields inside a settings form (FormSection)."
+      }
+    ]
+  },
+  "a11y": {
+    "builtIn": [
+      "A titled PageSection is a region named by its h2."
+    ],
+    "youProvide": [
+      "One PageHeader (the page's h1) before the sections."
+    ]
+  },
+  "related": [
+    "page-header",
+    "section"
+  ],
+  "genui": {
+    "expose": false
+  }
+}
