@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.3.12 (2026-11-27)
+
+- `@senvenli/react` StatGroup: `label` shows a visible name over the row ("Business") and names the group;
+  `density="compact"` puts up to six tiles in a row on one shared surface divided by lines, with a smaller figure.
+- `@senvenli/react` Stat: `help` opens what the figure means from an info button ("About MRR") in a popover;
+  `period` says what the value covers beside the label ("MRR · now"). A selectable or link tile with help keeps its
+  press on a layer beside the help button. New DS string `about` ("About").
+- `@senvenli/react` FunnelChart: `step.group` puts consecutive steps under a named group, with no step conversion
+  where a group starts (only counts); `scale="first" | "max"` sets what bar widths are measured against. Strict
+  funnels are unchanged.
+- `@senvenli/react` Grid: `columns` also takes a count per viewport breakpoint (`{ base: 1, md: 2, xl: 4 }`); the type
+  `ResponsiveColumns` is exported. Its generative-UI schema allows both forms.
+- `@senvenli/tokens`, `@senvenli/cli`, `@senvenli/mcp`: no change; released at the same version.
+
 ## 0.3.11 (2026-11-27)
 
 - `@senvenli/react` DatePicker (range): `presets` (`{ id, label, range(today) }`), quick ranges beside the calendar
