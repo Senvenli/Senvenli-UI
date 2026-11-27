@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.3.6 (2026-11-28)
+
+- `@senvenli/react` settings layout, Notion-style:
+  - **Changed:** `FormSection separator` is a full-width rule under the title and description, before the fields
+    (it was a rule above the section). The legend no longer notches the fieldset border.
+  - Horizontal rows keep the control at its own width at the row's end (10rem to 20rem) instead of a wide column.
+  - Consecutive sections sit 48px apart, more than a section's heading is from its rows.
+  - `Field` joins a horizontal FormGroup or FormSection, so a custom control (a language switcher) lays out as a row.
+- `@senvenli/tokens`, `@senvenli/cli`, `@senvenli/mcp`: no change; released at the same version.
+
 ## 0.3.5 (2026-11-27)
 
 - `@senvenli/tokens`: **pure-grey neutrals.** The neutral ramp keeps its lightness steps at zero chroma, so surfaces,
