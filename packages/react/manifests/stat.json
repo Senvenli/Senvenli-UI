@@ -135,6 +135,20 @@
         "schema": {
           "type": "string"
         }
+      },
+      {
+        "name": "help",
+        "type": "React.ReactNode",
+        "required": false,
+        "origin": "own",
+        "description": "What the figure means and how it is counted, on demand: an info button after the label opens it in a\npopover (\"About MRR\"). A sentence or two; a link to the full definition may follow."
+      },
+      {
+        "name": "period",
+        "type": "React.ReactNode",
+        "required": false,
+        "origin": "own",
+        "description": "What the value covers, beside the label (\"now\", \"this month\"); `comparison` says what the change is against."
       }
     ],
     "StatGroup": [
@@ -265,8 +279,10 @@
     "ds-text-success"
   ],
   "strings": [
+    "about",
     "deltaDown",
     "deltaUp",
+    "newTab",
     "noChange"
   ],
   "quality": {

@@ -11,7 +11,9 @@ import {
 } from "react-aria-components";
 
 import { cn } from "../utils";
-import { contentLang, deltaLabel } from "../i18n";
+import { aboutLabel, contentLang, deltaLabel } from "../i18n";
+import { Button } from "../action/button";
+import { Popover } from "../overlay/floating";
 import { IconGlyph } from "./icon";
 
 export type StatDelta = {
@@ -35,6 +37,13 @@ export type StatProps = {
   href?: AriaLinkProps["href"];
   /** Stable key for selection in a StatGroup with `selectionMode` ("revenue", not the label). */
   id?: string;
+  /**
+   * What the figure means and how it is counted, on demand: an info button after the label opens it in a
+   * popover ("About MRR"). A sentence or two; a link to the full definition may follow.
+   */
+  help?: React.ReactNode;
+  /** What the value covers, beside the label ("now", "this month"); `comparison` says what the change is against. */
+  period?: React.ReactNode;
 };
 
 /** True inside a StatGroup with `selectionMode`: each Stat renders as a toggle. */
@@ -65,7 +74,7 @@ function Sparkline({ values }: { values: number[] }) {
  * optional sparkline. Three or four in a row (StatGroup). The change is said
  * in words to screen readers and shown with an arrow, never by colour alone.
  */
-export function Stat({ label, value, delta, comparison, trend, href, id: key }: StatProps) {
+export function Stat({ label, value, delta, comparison, trend, href, id: key, help, period }: StatProps) {
   const { locale } = useLocale();
   const id = React.useId();
   const selectable = React.useContext(SelectableContext);
@@ -81,9 +90,46 @@ export function Stat({ label, value, delta, comparison, trend, href, id: key }: 
   }, [selectable, key, href]);
   // Up is good unless the caller says otherwise (fewer damages going down is good).
   const good = delta ? (delta.isPositive ?? delta.direction === "up") : false;
+  const labelText = <span id={`${id}-label`} lang={contentLang(locale)} data-slot="stat-label" className="text-body-small font-medium text-ds-text-subtle">{label}</span>;
   const content = (
     <>
-      <span id={`${id}-label`} lang={contentLang(locale)} data-slot="stat-label" className="text-body-small font-medium text-ds-text-subtle">{label}</span>
+      {period != null || help != null ? (
+        <span data-slot="stat-head" className="flex min-w-0 items-start gap-ds-050">
+          {/* Label and period flow as text: in a narrow tile the period moves whole to the next line. */}
+          <span className="min-w-0 flex-1">
+            {labelText}
+            {period != null && (
+              <span data-slot="stat-period" className="whitespace-nowrap text-body-small text-ds-text-subtlest">
+                <span aria-hidden> · </span>
+                {period}
+              </span>
+            )}
+          </span>
+          {help != null && (
+            // Above a pressable tile's overlay, so it opens its popover instead of pressing the tile.
+            <span className="relative z-[1] -my-ds-050 flex shrink-0 pointer-events-auto">
+              <Popover
+                placement="bottom end"
+                aria-label={`${aboutLabel(locale)} ${typeof label === "string" ? label : ""}`.trim()}
+                trigger={
+                  <Button
+                    data-slot="stat-help"
+                    size="small"
+                    variant="subtle"
+                    iconOnly
+                    iconBefore="info"
+                    aria-label={`${aboutLabel(locale)} ${typeof label === "string" ? label : ""}`.trim()}
+                  />
+                }
+              >
+                <div data-slot="stat-help-content" className="text-body-small">{help}</div>
+              </Popover>
+            </span>
+          )}
+        </span>
+      ) : (
+        labelText
+      )}
       {/* Figures are isolated so an RTL page keeps "$48,920" in the order it was formatted. */}
       <span id={`${id}-value`} data-slot="stat-value" className={cn(compact ? "text-metric-medium" : "text-metric-large", "tabular-nums")}><bdi>{value}</bdi></span>
       {(delta || comparison != null) && (
@@ -112,6 +158,30 @@ export function Stat({ label, value, delta, comparison, trend, href, id: key }: 
       {trend && <Sparkline values={trend} />}
     </>
   );
+  // With help, a pressable tile cannot hold the help button (no button inside a button or link): the press target
+  // is a transparent layer over the tile, and the help button sits above it. The wrapper takes the tile's look.
+  if (help != null && (selectable || href !== undefined)) {
+    const named = { "aria-labelledby": `${id}-label ${id}-value`, "aria-describedby": delta || comparison != null ? `${id}-change` : undefined };
+    const layer = "absolute inset-0 z-0 cursor-pointer rounded-[inherit] outline-hidden data-[focus-visible]:inset-ring-2 data-[focus-visible]:inset-ring-ds-border-focused";
+    return (
+      <div
+        data-slot="stat"
+        className={cn(
+          tile,
+          "relative transition-shadow duration-(--ds-duration-instant) ease-ds-standard [&>*:not([data-slot=stat-press])]:pointer-events-none",
+          compact ? "has-[[data-slot=stat-press][data-hovered]]:bg-ds-surface-hovered" : "has-[[data-slot=stat-press][data-hovered]]:shadow-ds-overlay",
+          "has-[[data-slot=stat-press][data-selected]]:bg-ds-background-selected has-[[data-slot=stat-press][data-selected]]:inset-ring-2 has-[[data-slot=stat-press][data-selected]]:inset-ring-ds-border-selected",
+        )}
+      >
+        {selectable ? (
+          <AriaToggleButton id={key ?? id} data-slot="stat-press" {...named} className={layer} />
+        ) : (
+          <AriaLink data-slot="stat-press" href={href} {...named} className={layer} />
+        )}
+        {content}
+      </div>
+    );
+  }
   if (selectable) {
     return (
       <AriaToggleButton
