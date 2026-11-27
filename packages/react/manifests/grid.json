@@ -2742,6 +2742,15 @@
         }
       },
       {
+        "name": "max",
+        "type": "string | number",
+        "required": false,
+        "origin": "dom",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
         "name": "start",
         "type": "number",
         "required": false,
@@ -2849,15 +2858,6 @@
         "origin": "dom",
         "schema": {
           "type": "boolean"
-        }
-      },
-      {
-        "name": "max",
-        "type": "string | number",
-        "required": false,
-        "origin": "dom",
-        "schema": {
-          "type": "string"
         }
       },
       {

@@ -1047,6 +1047,15 @@
         "description": "Always given; the label sits above the field, never inside it."
       },
       {
+        "name": "max",
+        "type": "string | number",
+        "required": false,
+        "origin": "own",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
         "name": "description",
         "type": "React.ReactNode",
         "required": false,
@@ -1140,15 +1149,6 @@
         "required": false,
         "origin": "aria",
         "description": "Describes the type of autocomplete functionality the input should provide if any. See\n[MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#htmlattrdefautocomplete).",
-        "schema": {
-          "type": "string"
-        }
-      },
-      {
-        "name": "max",
-        "type": "string | number",
-        "required": false,
-        "origin": "own",
         "schema": {
           "type": "string"
         }

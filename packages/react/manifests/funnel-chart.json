@@ -99,7 +99,7 @@
         "type": "readonly FunnelStep[]",
         "required": true,
         "origin": "own",
-        "description": "Truly ordered steps, each a subset of the one before.",
+        "description": "Ordered steps. Without groups each is a subset of the one before (a warning says when one is larger).",
         "schema": {
           "type": "array",
           "items": {
@@ -111,6 +111,9 @@
               },
               "value": {
                 "type": "number"
+              },
+              "group": {
+                "type": "string"
               }
             },
             "required": [
@@ -118,6 +121,21 @@
               "value"
             ]
           }
+        }
+      },
+      {
+        "name": "scale",
+        "type": "\"first\" | \"max\"",
+        "required": false,
+        "origin": "own",
+        "default": "\"first\"",
+        "description": "What the bar widths are measured against: `first` (default) the first step, as in a strict funnel; `max` the\nlargest step, for steps that are not subsets (a later count from another source can be larger).",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "first",
+            "max"
+          ]
         }
       },
       {
