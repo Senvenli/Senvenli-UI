@@ -289,6 +289,13 @@
         "required": false,
         "origin": "own",
         "description": "An optional change row, colored by meaning (\"Change +11.8%\")."
+      },
+      {
+        "name": "notes",
+        "type": "(label: unknown) => readonly string[]",
+        "required": false,
+        "origin": "own",
+        "description": "Notes on this period (a release, a campaign start), under its values."
       }
     ],
     "ChartAnimation": [
@@ -312,6 +319,7 @@
   "tokens": [
     "ds-background-neutral-subtle-hovered",
     "ds-background-selected",
+    "ds-border",
     "ds-border-focused",
     "ds-chart-1",
     "ds-chart-2",
@@ -323,6 +331,7 @@
     "ds-icon-brand",
     "ds-icon-subtle",
     "ds-radius-control-small",
+    "ds-radius-full",
     "ds-radius-medium",
     "ds-radius-small",
     "ds-radius-xsmall",

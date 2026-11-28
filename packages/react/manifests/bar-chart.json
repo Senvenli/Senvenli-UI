@@ -414,6 +414,32 @@
             ]
           }
         }
+      },
+      {
+        "name": "annotations",
+        "type": "readonly ChartAnnotation[]",
+        "required": false,
+        "origin": "own",
+        "description": "Notes on periods of a vertical bar chart over time (a campaign start); not drawn on horizontal bars (a warning says so).",
+        "schema": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "at": {
+                "type": "string"
+              },
+              "label": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "at",
+              "label"
+            ]
+          }
+        }
       }
     ]
   },
@@ -444,6 +470,7 @@
     "ds-icon-warning",
     "ds-link",
     "ds-radius-control-small",
+    "ds-radius-full",
     "ds-radius-medium",
     "ds-radius-small",
     "ds-radius-xsmall",
@@ -474,6 +501,7 @@
     "chartIncrease",
     "chartNoData",
     "chartNoValue",
+    "chartNotes",
     "chartOther",
     "chartPeriod",
     "chartShare",

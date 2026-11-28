@@ -120,6 +120,8 @@ export type ChartTooltipProps = {
   labels?: Readonly<Record<string, string>>;
   /** An optional change row, colored by meaning ("Change +11.8%"). */
   change?: (payload: readonly ChartTooltipEntry[]) => { label: string; value: string; tone: "success" | "danger" | "neutral" } | null;
+  /** Notes on this period (a release, a campaign start), under its values. */
+  notes?: (label: unknown) => readonly string[];
 };
 
 const CHANGE_TONE = { success: "text-ds-text-success", danger: "text-ds-text-danger", neutral: "text-ds-text-subtle" } as const;
@@ -129,7 +131,7 @@ const CHANGE_TONE = { success: "text-ds-text-success", danger: "text-ds-text-dan
  * in tabular figures, and an optional change row. On `ds-surface-overlay`. It follows keyboard focus on
  * data points as well as the pointer (Recharts' accessibility layer moves it with the arrow keys).
  */
-export function ChartTooltip({ active, payload, label, valueFormatter = String, labelFormatter, labels, change }: ChartTooltipProps) {
+export function ChartTooltip({ active, payload, label, valueFormatter = String, labelFormatter, labels, change, notes }: ChartTooltipProps) {
   // Recharts draws the tooltip inside its wrapper, which the plot keeps left to right (ChartFrame): the tooltip takes the
   // page's direction back, so its rows read and align as the page does.
   const { direction } = useLocale();
@@ -155,6 +157,12 @@ export function ChartTooltip({ active, payload, label, valueFormatter = String, 
           <bdi className="ms-auto ps-ds-200 font-medium tabular-nums">{changeRow.value}</bdi>
         </span>
       )}
+      {notes?.(label).map((note, index) => (
+        <span key={index} data-slot="chart-tooltip-note" className="flex items-start gap-ds-100 border-t border-ds-border pt-ds-050 text-ds-text-subtle">
+          <span aria-hidden className="mt-[5px] size-1.5 shrink-0 rounded-ds-full bg-ds-icon-subtle" />
+          <bdi>{note}</bdi>
+        </span>
+      ))}
     </div>
   );
 }
