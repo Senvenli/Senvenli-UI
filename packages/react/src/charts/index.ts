@@ -27,6 +27,7 @@ export { BarChart } from "./bar-public";
 export type { BarChartProps, BarChartWaterfallProps } from "./bar-public";
 export type {
   AreaChartProps,
+  ChartAnnotation,
   ChartBaseProps,
   ChartReferenceLine,
   ComposedChartProps,

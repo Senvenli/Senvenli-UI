@@ -18,7 +18,7 @@ import {
 } from "recharts";
 import { useLocale } from "react-aria-components";
 
-import { chartCategoryLabel, chartNoDataLabel, chartPeriodLabel } from "../i18n";
+import { chartCategoryLabel, chartNoDataLabel, chartNotesLabel, chartPeriodLabel } from "../i18n";
 
 import {
   CHART_NEUTRAL,
@@ -41,6 +41,9 @@ import { EmptyState } from "../feedback/empty-state";
 /* ── Shared ───────────────────────────────────────────────────────────────── */
 
 type Row = Record<string, unknown>;
+
+/** A note on one period of a time chart: a release, a campaign start. `at` is a value of the chart's `index`. */
+export type ChartAnnotation = { at: string | number; label: string };
 
 export type ChartBaseProps<T extends Row> = ChartTableProps & {
   /** What the chart shows ("Revenue"), over it; leave it out when a card or a heading already says so. */
@@ -92,9 +95,9 @@ function useShell<T extends Row>(
   props: ChartBaseProps<T>,
   seriesKeys: readonly string[],
   kinds: Readonly<Record<string, ChartLegendItem["kind"]>>,
-  options: { comparison?: string; indexKind?: "period" | "category"; dashes?: Readonly<Record<string, string>> } = {},
+  options: { comparison?: string; indexKind?: "period" | "category"; dashes?: Readonly<Record<string, string>>; annotations?: readonly ChartAnnotation[] } = {},
 ) {
-  const { comparison, indexKind = "period", dashes } = options;
+  const { comparison, indexKind = "period", dashes, annotations } = options;
   const { data, index, labels, valueFormatter = plainNumber, indexFormatter = String } = props;
   const { locale } = useLocale();
   const series = useChartSeries();
@@ -129,12 +132,21 @@ function useShell<T extends Row>(
       align: "end" as const,
       render: (row: T) => shown(row, key, valueFormatter),
     })),
+    // Notes are always readable here, whatever the chart's width (the marker only says there is one).
+    ...(annotations?.length ? [{ key: "__notes", header: chartNotesLabel(locale), render: (row: T) => notesAt(annotations, row[index]).join("; ") }] : []),
   ];
   const tooltip = (
     <Tooltip
       cursor={{ stroke: "var(--ds-border-bold)", strokeWidth: 1 }}
       isAnimationActive={animate}
-      content={<PlottedTooltip valueFormatter={valueFormatter} labelFormatter={indexFormatter} labels={Object.fromEntries(seriesKeys.map((key) => [key, label(key)]))} />}
+      content={
+        <PlottedTooltip
+          valueFormatter={valueFormatter}
+          labelFormatter={indexFormatter}
+          labels={Object.fromEntries(seriesKeys.map((key) => [key, label(key)]))}
+          notes={annotations?.length ? (at) => notesAt(annotations, at) : undefined}
+        />
+      }
     />
   );
   return { series, animate, direction, styles, legend, columns, tooltip, label, valueFormatter, indexFormatter, locale, shown };
@@ -223,6 +235,45 @@ const VALUE_AXIS_MIN = 48;
 const valueWidth = (values: Iterable<unknown>, format: ChartValueFormatter, locale: string, allowDecimals = true) =>
   valueAxisWidth(values, format, { tickCount: VALUE_TICKS, min: VALUE_AXIS_MIN, locale, allowDecimals });
 
+/** The notes on one index value (the same value as text or number counts: "2026" and 2026). */
+function notesAt(annotations: readonly ChartAnnotation[], at: unknown) {
+  return annotations.filter((note) => String(note.at) === String(at)).map((note) => note.label);
+}
+
+/** Warns once per chart for notes that match no row: they would draw nothing. */
+function useAnnotationCheck<T extends Row>(component: string, data: readonly T[], index: string, annotations: readonly ChartAnnotation[] | undefined) {
+  const values = new Set(data.map((row) => String(row[index])));
+  const missing = annotations?.filter((note) => !values.has(String(note.at))).map((note) => String(note.at)) ?? [];
+  useOnce(missing.length > 0, `${component}: annotations at ${missing.join(", ")} match no row of \`index\` and are not drawn.`);
+}
+
+/**
+ * A note's mark: a thin dashed rule across the plot at its period and a dot on the time axis. Its text is in the
+ * tooltip of that period (pointer and arrow keys) and in the data table, never over the plot, so notes never collide.
+ */
+function annotationElements(annotations: readonly ChartAnnotation[] | undefined) {
+  const drawn = new Set<string>();
+  return annotations?.flatMap((note, position) => {
+    // One mark per period, however many notes it has.
+    if (drawn.has(String(note.at))) return [];
+    drawn.add(String(note.at));
+    return [
+      <ReferenceLine
+        key={`note-${String(note.at)}-${position}`}
+        x={note.at}
+        stroke="var(--ds-border-bold)"
+        strokeDasharray="2 3"
+        ifOverflow="visible"
+        className="ds-chart-annotation"
+        label={(props: { viewBox?: { x?: number; y?: number; height?: number } }) => {
+          const { x = 0, y = 0, height = 0 } = props.viewBox ?? {};
+          return <circle data-slot="chart-annotation-mark" cx={x} cy={y + height} r={3.5} fill="var(--ds-icon-subtle)" stroke="var(--ds-surface-raised)" strokeWidth={1.5} />;
+        }}
+      />,
+    ];
+  });
+}
+
 /** The values of these keys in every row: what a `[0, "auto"]` value axis spans. */
 function valuesOf<T extends Row>(data: readonly T[], keys: readonly string[]): unknown[] {
   return data.flatMap((row) => keys.map((key) => row[key]));
@@ -306,7 +357,8 @@ export type AreaChartProps<T extends Row> = ChartBaseProps<T> & {
   /** A pointer press on the chart: the row under it (keyboard users read values in the tooltip and the table). */
   onValueChange?: (row: T | null) => void;
   /** A target or an average (an MRR goal): dashed `ds-border-bold` with a label at its end; the axis reaches it. */
-  referenceLines?: readonly ChartReferenceLine[];
+  referenceLines?: readonly ChartReferenceLine[];  /** Notes on periods (a release, a campaign start): a dashed rule with a dot on the time axis; the text shows in that period's tooltip and in the data table. */
+  annotations?: readonly ChartAnnotation[];
 };
 
 /**
@@ -315,12 +367,14 @@ export type AreaChartProps<T extends Row> = ChartBaseProps<T> & {
  * zero; a vertical guide and a ringed point follow the pointer and the arrow keys.
  */
 export function AreaChart<T extends Row>(props: AreaChartProps<T>) {
-  const { data, index, categories, comparison, yAxisWidth, onValueChange, referenceLines, allowDecimals = true } = props;
+  const { data, index, categories, comparison, yAxisWidth, onValueChange, referenceLines, annotations, allowDecimals = true } = props;
   const keys = comparison ? [...categories, comparison] : [...categories];
   const shell = useShell(props, keys, Object.fromEntries(keys.map((key) => [key, key === comparison ? "line" : "area"])), {
     comparison,
     dashes: comparison ? { [comparison]: "6 4" } : undefined,
+    annotations,
   });
+  useAnnotationCheck("AreaChart", data, index, annotations);
   const values = withReferences(valuesOf(data, keys.filter((key) => !shell.series.isHidden(key))), referenceLines);
   const axisWidth = yAxisWidth ?? valueWidth(values, shell.valueFormatter, shell.locale, allowDecimals);
   const ticks = valueAxisTicks(values, VALUE_TICKS, allowDecimals);
@@ -340,6 +394,7 @@ export function AreaChart<T extends Row>(props: AreaChartProps<T>) {
         <XAxis {...xAxisProps(index, shell)} />
         <YAxis {...yAxisProps(shell, axisWidth, true, ticks, allowDecimals)} domain={[0, "auto"]} />
         {referenceLineElements(referenceLines, shell.direction.isRtl, false, ticks)}
+        {annotationElements(annotations)}
         {categories
           .filter((key) => !shell.series.isHidden(key))
           .map((key) => (
@@ -401,7 +456,8 @@ export type LineChartProps<T extends Row> = ChartBaseProps<T> & {
   /** A target or an average: dashed `ds-border-bold` with a label at its end. */
   referenceLines?: readonly ChartReferenceLine[];
   /** Join across missing values; gaps stay gaps by default. */
-  connectNulls?: boolean;
+  connectNulls?: boolean;  /** Notes on periods (a release, a campaign start): a dashed rule with a dot on the time axis; the text shows in that period's tooltip and in the data table. */
+  annotations?: readonly ChartAnnotation[];
 };
 
 /**
@@ -410,8 +466,9 @@ export type LineChartProps<T extends Row> = ChartBaseProps<T> & {
  * Up to five lines; more needs filtering, not more colors.
  */
 export function LineChart<T extends Row>(props: LineChartProps<T>) {
-  const { data, index, categories, referenceLines, connectNulls, allowDecimals = true } = props;
-  const shell = useShell(props, categories, Object.fromEntries(categories.map((key) => [key, "line"])));
+  const { data, index, categories, referenceLines, annotations, connectNulls, allowDecimals = true } = props;
+  const shell = useShell(props, categories, Object.fromEntries(categories.map((key) => [key, "line"])), { annotations });
+  useAnnotationCheck("LineChart", data, index, annotations);
   useOnce(categories.length > 5, "LineChart: at most five lines; filter (pick regions) instead of adding colors.");
   const values = withReferences(valuesOf(data, categories.filter((key) => !shell.series.isHidden(key))), referenceLines);
   const axisWidth = valueWidth(values, shell.valueFormatter, shell.locale, allowDecimals);
@@ -423,6 +480,7 @@ export function LineChart<T extends Row>(props: LineChartProps<T>) {
         <XAxis {...xAxisProps(index, shell)} />
         <YAxis {...yAxisProps(shell, axisWidth, true, ticks, allowDecimals)} />
         {referenceLineElements(referenceLines, shell.direction.isRtl, false, ticks)}
+        {annotationElements(annotations)}
         {categories
           .filter((key) => !shell.series.isHidden(key))
           .map((key) => (
@@ -636,6 +694,8 @@ export type BarChartProps<T extends Row> = ChartBaseProps<T> & {
   sortBy?: "value" | "none";
   /** An average or target line. */
   referenceLines?: readonly ChartReferenceLine[];
+  /** Notes on periods of a vertical bar chart over time (a campaign start); not drawn on horizontal bars (a warning says so). */
+  annotations?: readonly ChartAnnotation[];
 };
 
 /**
@@ -645,11 +705,15 @@ export type BarChartProps<T extends Row> = ChartBaseProps<T> & {
  */
 export function BarChart<T extends Row>(props: BarChartProps<T>) {
   const { index, categories, type = "grouped", layout = "vertical", sortBy, referenceLines } = props;
+  // Notes mark periods along a time axis: horizontal bars have none, so they are left out there.
+  const annotations = layout === "horizontal" ? undefined : props.annotations;
+  useOnce(layout === "horizontal" && Boolean(props.annotations?.length), "BarChart: annotations are for vertical bars over time; horizontal bars leave them out.");
+  useAnnotationCheck("BarChart", props.data, index, annotations);
   // A comparison has no meaning on a share axis: percent bars leave it out.
   const comparison = type === "percent" ? undefined : props.comparison;
   useOnce(type === "percent" && props.comparison !== undefined, "BarChart: a comparison is left out of percent bars; show it in a grouped chart.");
   const keys = comparison ? [...categories, comparison] : [...categories];
-  const shell = useShell(props, keys, Object.fromEntries(keys.map((key) => [key, "bar"])), { comparison, indexKind: "category" });
+  const shell = useShell(props, keys, Object.fromEntries(keys.map((key) => [key, "bar"])), { comparison, indexKind: "category", annotations });
   const horizontal = layout === "horizontal";
   const stacked = type !== "grouped";
   // The chart's measured width (horizontal bars only): none on the server and in the first render.
@@ -784,6 +848,7 @@ export function BarChart<T extends Row>(props: BarChartProps<T>) {
           </>
         )}
         {referenceLineElements(referenceLines, shell.direction.isRtl, horizontal, horizontal ? undefined : valueTicks)}
+        {annotationElements(annotations)}
         {visible.map((key) => (
           <Bar
             key={key}

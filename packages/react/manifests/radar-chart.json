@@ -228,6 +228,7 @@
     "ds-icon-brand",
     "ds-icon-subtle",
     "ds-radius-control-small",
+    "ds-radius-full",
     "ds-radius-medium",
     "ds-radius-small",
     "ds-radius-xsmall",
@@ -250,6 +251,7 @@
   "strings": [
     "chartCategory",
     "chartNoData",
+    "chartNotes",
     "chartOther",
     "chartPeriod",
     "chartShare",
