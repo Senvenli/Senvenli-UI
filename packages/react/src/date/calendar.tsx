@@ -6,6 +6,7 @@ import {
   ButtonContext,
   Calendar as AriaCalendar,
   CalendarCell,
+  CalendarContext,
   CalendarGrid,
   CalendarGridBody,
   CalendarGridHeader,
@@ -267,6 +268,8 @@ function CalendarBody({
   const today = useToday(timeZone);
   const weekdayStyle = useWeekdayStyle();
   const inPopover = React.useContext(CalendarInPopoverContext);
+  // Inside DatePicker the picker owns the value: the calendar opens on its month, not on today's.
+  const picker = useSlottedContext(CalendarContext) as { value?: DateValue | null } | null;
   const dir = useLtrDir();
   const { locale } = useLocale();
   const root = React.useRef<HTMLDivElement>(null);
@@ -279,7 +282,7 @@ function CalendarBody({
       value={value}
       defaultValue={defaultValue}
       // With a time zone and no date yet, open on that zone's month, the one "today" is underlined in.
-      defaultFocusedValue={value || defaultValue ? undefined : (defaultFocusedValue ?? (timeZone ? todayIn(timeZone) : undefined))}
+      defaultFocusedValue={value || defaultValue || picker?.value ? undefined : (defaultFocusedValue ?? (timeZone ? todayIn(timeZone) : undefined))}
       onChange={onChange}
       minValue={minValue}
       maxValue={maxValue}
