@@ -1,0 +1,52 @@
+{
+  "$schema": "../../manifest/component.schema.json",
+  "kind": "component",
+  "family": "charts",
+  "status": "alpha",
+  "import": "@senvenli/react/charts",
+  "name": "flow-chart",
+  "title": "Flow chart",
+  "exports": [
+    "FlowChart"
+  ],
+  "description": "How many move from step to step: nodes in columns and links as bands as wide as their count (a Sankey diagram).",
+  "keywords": [
+    "flow-chart",
+    "sankey",
+    "journey",
+    "paths",
+    "flow"
+  ],
+  "usage": {
+    "when": [
+      "Paths people take between pages or states, where flows split and join.",
+      "Where a total goes, broken down over several steps."
+    ],
+    "instead": [
+      {
+        "use": "funnel-chart",
+        "when": "One ordered path where each step is a subset of the one before."
+      },
+      {
+        "use": "bar-list",
+        "when": "Only the counts per step matter, not where they go next."
+      }
+    ]
+  },
+  "a11y": {
+    "builtIn": [
+      "One tab stop: arrow keys move along a column and to the next column (mirrored in RTL); each node is named with its count and where it leads.",
+      "A \"Show as table\" button lists every flow with its from, to and value."
+    ],
+    "youProvide": [
+      "A title that says what flows."
+    ]
+  },
+  "related": [
+    "funnel-chart",
+    "bar-list"
+  ],
+  "genui": {
+    "expose": false
+  }
+}

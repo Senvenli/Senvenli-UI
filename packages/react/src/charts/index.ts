@@ -57,5 +57,7 @@ export type {
   TrackerProps,
   TrackerTone,
 } from "./list-charts";
+export { FlowChart } from "./flow-chart";
+export type { FlowChartProps, FlowLink, FlowNode } from "./flow-chart";
 export { Heatmap } from "./report-charts";
 export type { HeatmapCell, HeatmapProps, WaterfallChartStep } from "./report-charts";
