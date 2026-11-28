@@ -434,6 +434,7 @@
     "ds-chart-3",
     "ds-chart-4",
     "ds-chart-5",
+    "ds-chart-heat",
     "ds-chart-neutral",
     "ds-icon",
     "ds-icon-brand",
@@ -458,6 +459,8 @@
     "ds-surface-raised",
     "ds-text",
     "ds-text-danger",
+    "ds-text-on-chart",
+    "ds-text-on-chart-heat",
     "ds-text-subtle",
     "ds-text-subtlest",
     "ds-text-success"

@@ -127,6 +127,9 @@
   --ds-chart-3: oklch(0.6213 0.1061 194.77);
   --ds-chart-4: oklch(0.62 0.14 300.22);
   --ds-chart-5: oklch(0.6191 0.1518 55.02);
+  --ds-chart-heat: oklch(0.4732 0 0);
+  --ds-text-on-chart: oklch(0.9967 0.0013 106.42);
+  --ds-text-on-chart-heat: oklch(0.9967 0.0013 106.42);
 }
 
 [data-theme="dark"], .dark {
@@ -224,6 +227,9 @@
   --ds-chart-3: oklch(0.8009 0.0771 194.68);
   --ds-chart-4: oklch(0.8006 0.0975 299.72);
   --ds-chart-5: oklch(0.801 0.1188 55.14);
+  --ds-chart-heat: oklch(0.7388 0 0);
+  --ds-text-on-chart: oklch(0.128 0.0028 106.79);
+  --ds-text-on-chart-heat: oklch(0.128 0.0028 106.79);
 }
 
 @theme inline {
@@ -321,6 +327,9 @@
   --color-ds-chart-3: var(--ds-chart-3);
   --color-ds-chart-4: var(--ds-chart-4);
   --color-ds-chart-5: var(--ds-chart-5);
+  --color-ds-chart-heat: var(--ds-chart-heat);
+  --color-ds-text-on-chart: var(--ds-text-on-chart);
+  --color-ds-text-on-chart-heat: var(--ds-text-on-chart-heat);
   --spacing-ds-0: var(--ds-space-0);
   --spacing-ds-025: var(--ds-space-025);
   --spacing-ds-050: var(--ds-space-050);
