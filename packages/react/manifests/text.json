@@ -64,11 +64,13 @@
         "size": {
           "type": "string",
           "enum": [
+            "inherit",
             "code",
             "body-large",
             "body",
             "body-small"
-          ]
+          ],
+          "description": "The step on the type scale; `body` by default. `inherit` takes the parent's size, line height, weight and letter\nspacing, for a run that only changes tone: an accent inside a Heading (`<Text tone=\"brand\" size=\"inherit\">`)."
         },
         "tone": {
           "type": "string",
@@ -88,7 +90,8 @@
           "enum": [
             "medium",
             "regular"
-          ]
+          ],
+          "description": "`medium` sets medium; `regular` (the default) adds nothing, so with `size=\"inherit\"` the parent's weight shows."
         },
         "elementType": {
           "type": "string",
@@ -112,10 +115,11 @@
         "type": "TextSize",
         "required": false,
         "origin": "own",
-        "default": "\"body\"",
+        "description": "The step on the type scale; `body` by default. `inherit` takes the parent's size, line height, weight and letter\nspacing, for a run that only changes tone: an accent inside a Heading (`<Text tone=\"brand\" size=\"inherit\">`).",
         "schema": {
           "type": "string",
           "enum": [
+            "inherit",
             "code",
             "body-large",
             "body",
@@ -149,6 +153,7 @@
         "required": false,
         "origin": "own",
         "default": "\"regular\"",
+        "description": "`medium` sets medium; `regular` (the default) adds nothing, so with `size=\"inherit\"` the parent's weight shows.",
         "schema": {
           "type": "string",
           "enum": [

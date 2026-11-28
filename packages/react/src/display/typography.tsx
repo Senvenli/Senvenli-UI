@@ -32,17 +32,20 @@ export type HeadingProps = {
   id?: string;
 };
 
+/** Set inside a Heading, so a Text there that keeps its own body size can say so. */
+const InHeadingContext = React.createContext(false);
+
 /** A heading whose semantic level and visual size are set separately; wraps balanced. */
 export function Heading({ level, size, children, id }: HeadingProps) {
   const Element = `h${level}` as const;
   return (
     <Element id={id} data-slot="heading" data-size={size ?? DEFAULT_SIZE[level]} className={cn("m-0 text-ds-text text-balance", HEADING_SIZE[size ?? DEFAULT_SIZE[level]])}>
-      {children}
+      <InHeadingContext.Provider value>{children}</InHeadingContext.Provider>
     </Element>
   );
 }
 
-export type TextSize = "body-large" | "body" | "body-small" | "code";
+export type TextSize = "body-large" | "body" | "body-small" | "code" | "inherit";
 export type TextTone = "default" | "subtle" | "subtlest" | "brand" | "information" | "success" | "warning" | "danger";
 
 const TEXT_SIZE: Record<TextSize, string> = {
@@ -50,6 +53,8 @@ const TEXT_SIZE: Record<TextSize, string> = {
   body: "text-body",
   "body-small": "text-body-small",
   code: "text-code font-ds-mono",
+  // No type step: size, line height, weight and letter spacing come from the parent (a toned run inside a heading).
+  inherit: "",
 };
 const TEXT_TONE: Record<TextTone, string> = {
   default: "text-ds-text",
@@ -63,8 +68,13 @@ const TEXT_TONE: Record<TextTone, string> = {
 };
 
 export type TextProps = {
+  /**
+   * The step on the type scale; `body` by default. `inherit` takes the parent's size, line height, weight and letter
+   * spacing, for a run that only changes tone: an accent inside a Heading (`<Text tone="brand" size="inherit">`).
+   */
   size?: TextSize;
   tone?: TextTone;
+  /** `medium` sets medium; `regular` (the default) adds nothing, so with `size="inherit"` the parent's weight shows. */
   weight?: "regular" | "medium";
   /** `p` for a paragraph (kept under ~70 characters a line), `span` inline, `div` for a block. */
   elementType?: "span" | "p" | "div";
@@ -76,8 +86,19 @@ export type TextProps = {
 };
 
 /** One run of app text on the type scale. Legal text keeps `body`; never smaller. */
-export function Text({ size = "body", tone = "default", weight = "regular", elementType = "span", isNumeric, truncate, children }: TextProps) {
+export function Text({ size: sizeProp, tone = "default", weight = "regular", elementType = "span", isNumeric, truncate, children }: TextProps) {
   const Element = elementType;
+  const size = sizeProp ?? "body";
+  const inHeading = React.useContext(InHeadingContext);
+  const warned = React.useRef(false);
+  React.useEffect(() => {
+    if (!inHeading || sizeProp !== undefined || warned.current) return;
+    warned.current = true;
+    console.warn(
+      'Senvenli Text: a Text inside a Heading keeps the body size. Pass size="inherit" to take the heading\'s size ' +
+        '(for a toned run such as an accent), or set the size you mean.',
+    );
+  }, [inHeading, sizeProp]);
   return (
     <Element
       data-slot="text"
