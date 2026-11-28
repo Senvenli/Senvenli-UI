@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.3.14 (2026-11-28)
+
+- `@senvenli/react` Text: `size="inherit"` for a run that only changes tone, such as a brand accent inside a Heading.
+  It sets no type step, so the size, line height, weight and letter spacing come from the parent. **Fix** for an
+  accent that dropped to body size inside a display heading. A Text inside a Heading that keeps the default size
+  warns once in the console. Docs: "Accent in a heading".
+- `@senvenli/tokens`, `@senvenli/cli`, `@senvenli/mcp`: no change; released at the same version.
+
 ## 0.3.13 (2026-11-28)
 
 - `@senvenli/tokens`: three new tokens. `ds-chart-heat` is a heatmap's second-strongest step (chart-1 65% into the
