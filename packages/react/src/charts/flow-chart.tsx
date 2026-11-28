@@ -7,7 +7,7 @@ import { ResponsiveContainer, Sankey, type SankeyLinkProps, type SankeyNodeProps
 import { cn } from "../utils";
 import { chartFromLabel, chartToLabel, chartValueLabel } from "../i18n";
 import type { TableColumn } from "../collection/table";
-import { useChartDirection, type ChartTableProps, type ChartValueFormatter } from "./chart-parts";
+import { chartColor, useChartDirection, type ChartTableProps, type ChartValueFormatter } from "./chart-parts";
 import { Shell, useOnce } from "./more-charts";
 
 export type FlowNode = {
@@ -136,13 +136,21 @@ export function FlowChart({
     return undefined;
   };
 
+  // Each node keeps one palette color (the brand first); its outgoing flows take it, so a source's flows read together.
+  const colorOf = (position: number) => chartColor(position);
+  const related = (position: number) =>
+    lit === null || position === lit || data.links.some((link) => (link.source === lit && link.target === position) || (link.target === lit && link.source === position));
+
   const renderNode = (props: SankeyNodeProps) => {
     const { x, y, width, height: h, index } = props;
     placed.current[index] = { index, x, y, height: h };
-    // Labels outside the bar: after it, or before it for the last column (it has no room after).
-    // From our own links: a node with nothing going out ends a path (Recharts' own link lists are named the other way round).
+    // Labels outside the bar: after it, or before it for the last column (from our own links: a node with nothing
+    // going out ends a path; Recharts' own link lists are named the other way round).
     const last = outOf(index).length === 0;
-    const tx = last ? x - 6 : x + width + 6;
+    const tx = last ? x - 8 : x + width + 8;
+    const twoLines = h >= 30;
+    const mirror = isRtl ? `translate(${2 * tx},0) scale(-1,1)` : undefined;
+    const halo = { stroke: "var(--ds-surface-raised)", strokeWidth: 2, strokeOpacity: 0.7, strokeLinejoin: "round" as const, paintOrder: "stroke" as const };
     return (
       <g
         key={`node-${index}`}
@@ -154,7 +162,7 @@ export function FlowChart({
         tabIndex={index === current ? 0 : -1}
         data-slot="flow-node"
         data-active={lit === index || undefined}
-        className="outline-hidden [&:focus-visible>rect]:stroke-ds-border-focused [&:focus-visible>rect]:[stroke-width:2]"
+        className="group/node outline-hidden"
         onFocus={() => {
           setFocused(index);
           setActive(index);
@@ -163,25 +171,35 @@ export function FlowChart({
         onMouseEnter={() => setActive(index)}
         onMouseLeave={() => setActive(null)}
       >
-        <rect x={x} y={y} width={width} height={Math.max(1, h)} rx={2} fill="var(--ds-chart-1)" />
-        <text
-          x={tx}
-          y={y + h / 2}
-          dy="0.35em"
-          textAnchor={last ? "end" : "start"}
-          fontSize={11}
-          fill="var(--ds-text-subtle)"
-          // A halo in the card's color keeps the label readable over any band, lit or not.
-          stroke="var(--ds-surface-raised)"
-          strokeWidth={3}
-          strokeLinejoin="round"
-          paintOrder="stroke"
-          // Mirrored with the plot in RTL, then turned back so it reads the right way round.
-          transform={isRtl ? `translate(${2 * tx},0) scale(-1,1)` : undefined}
-          style={{ fontVariantNumeric: "tabular-nums" }}
-        >
-          <tspan fill="var(--ds-text)">{data.nodes[index]!.name}</tspan>
-          <tspan dx={4}>{valueFormatter(totalOf(index))}</tspan>
+        {/* The focus ring stands 2px off the thin bar, so it reads on a 6px pill. */}
+        <rect
+          aria-hidden
+          x={x - 3}
+          y={y - 3}
+          width={width + 6}
+          height={Math.max(1, h) + 6}
+          rx={6}
+          fill="none"
+          className="stroke-transparent [stroke-width:2] group-focus-visible/node:stroke-ds-border-focused"
+        />
+        <rect
+          x={x}
+          y={y}
+          width={width}
+          height={Math.max(1, h)}
+          rx={Math.min(3, width / 2)}
+          fill={colorOf(index)}
+          opacity={related(index) ? 1 : 0.4}
+          className="transition-opacity duration-(--ds-duration-fast) motion-reduce:transition-none"
+        />
+        {/* The label is never dimmed: it stays readable while another step is lit. */}
+        <text x={tx} y={y + h / 2} textAnchor={last ? "end" : "start"} transform={mirror} style={{ fontVariantNumeric: "tabular-nums" }}>
+          <tspan x={tx} dy={twoLines ? "-0.25em" : "0.35em"} fontSize={12} fontWeight={500} fill="var(--ds-text)" {...halo}>
+            {data.nodes[index]!.name}
+          </tspan>
+          <tspan x={twoLines ? tx : undefined} dx={twoLines ? undefined : 6} dy={twoLines ? "1.25em" : undefined} fontSize={11} fill="var(--ds-text-subtle)" {...halo}>
+            {valueFormatter(totalOf(index))}
+          </tspan>
         </text>
       </g>
     );
@@ -192,17 +210,29 @@ export function FlowChart({
     // The link's own entry gives its two ends by position (Recharts' node objects carry no index).
     const ends = data.links[index];
     const touchesLit = lit !== null && ends !== undefined && (ends.source === lit || ends.target === lit);
+    const state = lit === null ? "rest" : touchesLit ? "lit" : "dim";
+    // A filled ribbon (top edge out, bottom edge back) 2px off each node, so bands never butt into the bars.
+    const half = Math.max(0.5, linkWidth / 2);
+    const x0 = sourceX + 2;
+    const x1 = targetX - 2;
+    const d =
+      `M${x0},${sourceY - half} C${sourceControlX},${sourceY - half} ${targetControlX},${targetY - half} ${x1},${targetY - half}` +
+      ` L${x1},${targetY + half} C${targetControlX},${targetY + half} ${sourceControlX},${sourceY + half} ${x0},${sourceY + half} Z`;
     return (
       <path
         key={`link-${index}`}
         data-slot="flow-link"
         data-lit={touchesLit || undefined}
-        d={`M${sourceX},${sourceY} C${sourceControlX},${sourceY} ${targetControlX},${targetY} ${targetX},${targetY}`}
-        fill="none"
-        stroke="var(--ds-chart-1)"
-        strokeWidth={Math.max(1, linkWidth)}
-        strokeOpacity={lit === null ? 0.22 : touchesLit ? 0.5 : 0.08}
-        className="transition-[stroke-opacity] duration-(--ds-duration-fast) motion-reduce:transition-none"
+        data-state={state}
+        d={d}
+        fill={ends ? colorOf(ends.source) : "var(--ds-chart-1)"}
+        stroke="none"
+        className={cn(
+          "transition-[fill-opacity] duration-(--ds-duration-fast) motion-reduce:transition-none",
+          "[fill-opacity:0.16] dark:[fill-opacity:0.22]",
+          "data-[state=lit]:[fill-opacity:0.4] dark:data-[state=lit]:[fill-opacity:0.45]",
+          "data-[state=dim]:[fill-opacity:0.06] dark:data-[state=dim]:[fill-opacity:0.06]",
+        )}
       />
     );
   };
@@ -232,12 +262,12 @@ export function FlowChart({
         <ResponsiveContainer width="100%" height={height}>
           <Sankey
             data={data}
-            nodeWidth={10}
-            nodePadding={18}
+            nodeWidth={6}
+            nodePadding={24}
             linkCurvature={0.5}
             iterations={32}
             // Labels stand inside the plot (after a bar, or before the last column's), so the edges need no room.
-            margin={{ top: 8, bottom: 8, left: 8, right: 8 }}
+            margin={{ top: 12, bottom: 12, left: 8, right: 8 }}
             node={renderNode}
             link={renderLink}
           />
