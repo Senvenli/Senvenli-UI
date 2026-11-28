@@ -1,5 +1,25 @@
 # Changelog
 
+## 0.3.13 (2026-11-28)
+
+- `@senvenli/tokens`: three new tokens. `ds-chart-heat` is a heatmap's second-strongest step (chart-1 65% into the
+  selected fill, as `color-mix(in oklab)` draws it). `ds-text-on-chart` and `ds-text-on-chart-heat` are figures on
+  chart-1 and on that step: the theme's own ink when it reaches AA, else pure black or white. Both pairs join the
+  checks (128 → 132, all pass). Regenerate a static theme CSS made with the CLI to use them.
+- `@senvenli/react` Heatmap: `scale="percent"` for 0–1 ratios (cohort retention): fixed steps (above 0, 25%, 50%,
+  75%), a percent formatter, a "0% … 100%" scale and each cell printing its percent in the step's checked ink.
+- `@senvenli/react` charts: `annotations` on AreaChart, LineChart and vertical BarChart: a dashed rule and a dot on
+  the time axis; the text shows in that period's tooltip and in a "Notes" column of the table.
+- `@senvenli/react` FlowChart (new): a Sankey for journeys, `nodes` and `links` by id. Recharts lays it out; one tab
+  stop, arrow keys along and across columns (mirrored in RTL), the focused node lights its flows, and the table lists
+  From / To / Value. Links are filled ribbons in their source node's color, nodes are slim pills in their own color,
+  and a tall node's label shows the name over the value.
+- `@senvenli/react` AreaChart: `referenceLines`, as LineChart and BarChart. **Fix** on all three: a reference value
+  above (or below) the data was dropped; the value axis now reaches it, and a line at the top labels below itself.
+- `@senvenli/react` CardHeader: `actions` takes one compact control (a SegmentedControl or small Select) besides the
+  menu button, and the header wraps it under the title on narrow cards. `Button` marks itself `data-icon-only`.
+- `@senvenli/cli`, `@senvenli/mcp`: no change; released at the same version.
+
 ## 0.3.12 (2026-11-27)
 
 - `@senvenli/react` StatGroup: `label` shows a visible name over the row ("Business") and names the group;
