@@ -328,6 +328,31 @@
         "schema": {
           "type": "boolean"
         }
+      },
+      {
+        "name": "annotations",
+        "type": "readonly ChartAnnotation[]",
+        "required": false,
+        "origin": "own",
+        "schema": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "at": {
+                "type": "string"
+              },
+              "label": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "at",
+              "label"
+            ]
+          }
+        }
       }
     ]
   },
@@ -348,6 +373,7 @@
     "ds-icon-brand",
     "ds-icon-subtle",
     "ds-radius-control-small",
+    "ds-radius-full",
     "ds-radius-medium",
     "ds-radius-small",
     "ds-radius-xsmall",
@@ -369,6 +395,7 @@
   "strings": [
     "chartCategory",
     "chartNoData",
+    "chartNotes",
     "chartPeriod",
     "hideDataTable",
     "selection",
