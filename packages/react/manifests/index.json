@@ -319,6 +319,25 @@
     "genui": true
   },
   {
+    "name": "flow-chart",
+    "title": "Flow chart",
+    "family": "charts",
+    "status": "alpha",
+    "description": "How many move from step to step: nodes in columns and links as bands as wide as their count (a Sankey diagram).",
+    "keywords": [
+      "flow-chart",
+      "sankey",
+      "journey",
+      "paths",
+      "flow"
+    ],
+    "import": "@senvenli/react/charts",
+    "exports": [
+      "FlowChart"
+    ],
+    "genui": false
+  },
+  {
     "name": "funnel-chart",
     "title": "Funnel chart",
     "family": "charts",

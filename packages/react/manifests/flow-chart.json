@@ -1,0 +1,280 @@
+{
+  "$schema": "https://design.senvenli.com/schema/component.full.json",
+  "kind": "component",
+  "family": "charts",
+  "status": "alpha",
+  "import": "@senvenli/react/charts",
+  "name": "flow-chart",
+  "title": "Flow chart",
+  "exports": [
+    "FlowChart"
+  ],
+  "description": "How many move from step to step: nodes in columns and links as bands as wide as their count (a Sankey diagram).",
+  "keywords": [
+    "flow-chart",
+    "sankey",
+    "journey",
+    "paths",
+    "flow"
+  ],
+  "usage": {
+    "when": [
+      "Paths people take between pages or states, where flows split and join.",
+      "Where a total goes, broken down over several steps."
+    ],
+    "instead": [
+      {
+        "use": "funnel-chart",
+        "when": "One ordered path where each step is a subset of the one before."
+      },
+      {
+        "use": "bar-list",
+        "when": "Only the counts per step matter, not where they go next."
+      }
+    ]
+  },
+  "a11y": {
+    "builtIn": [
+      "One tab stop: arrow keys move along a column and to the next column (mirrored in RTL); each node is named with its count and where it leads.",
+      "A \"Show as table\" button lists every flow with its from, to and value."
+    ],
+    "youProvide": [
+      "A title that says what flows."
+    ]
+  },
+  "related": [
+    "funnel-chart",
+    "bar-list"
+  ],
+  "genui": {
+    "expose": false
+  },
+  "source": [
+    "src/charts/flow-chart.tsx"
+  ],
+  "props": {
+    "FlowChart": [
+      {
+        "name": "tableView",
+        "type": "ChartTableView",
+        "required": false,
+        "origin": "own",
+        "description": "How the data is offered as a table. `swap` (default): a toggle at the end of the chart's top row turns the plot\ninto the table at the same height, scrolling inside, so the card never grows. `hidden`: no toggle; the table is\nthere for screen readers only. `none`: no table at all, for a chart that is already text (BarList).",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "hidden",
+            "none",
+            "swap"
+          ]
+        }
+      },
+      {
+        "name": "isTableOpen",
+        "type": "boolean",
+        "required": false,
+        "origin": "own",
+        "description": "The table is showing (`swap`), controlled; or `defaultTableOpen` + `onTableOpenChange`.",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "defaultTableOpen",
+        "type": "boolean",
+        "required": false,
+        "origin": "own",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "onTableOpenChange",
+        "type": "(isOpen: boolean) => void",
+        "required": false,
+        "origin": "own"
+      },
+      {
+        "name": "title",
+        "type": "string",
+        "required": false,
+        "origin": "own",
+        "description": "What the chart shows, over it; leave it out when a card or a heading already says so.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "aria-label",
+        "type": "string",
+        "required": false,
+        "origin": "own",
+        "description": "Names the chart when it has no visible `title`.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "period",
+        "type": "string",
+        "required": false,
+        "origin": "own",
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "isLoading",
+        "type": "boolean",
+        "required": false,
+        "origin": "own",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      {
+        "name": "emptyState",
+        "type": "React.ReactNode",
+        "required": false,
+        "origin": "own"
+      },
+      {
+        "name": "height",
+        "type": "number",
+        "required": false,
+        "origin": "own",
+        "default": "320",
+        "description": "The plot's height in px; 320 by default.",
+        "schema": {
+          "type": "number"
+        }
+      },
+      {
+        "name": "nodes",
+        "type": "readonly FlowNode[]",
+        "required": true,
+        "origin": "own",
+        "description": "The steps of the journey; a node no link reaches is left out.",
+        "schema": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "label": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "id",
+              "label"
+            ]
+          }
+        }
+      },
+      {
+        "name": "links",
+        "type": "readonly FlowLink[]",
+        "required": true,
+        "origin": "own",
+        "description": "The flows between steps. They must not loop back (a node never leads to itself through others).",
+        "schema": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "source": {
+                "type": "string"
+              },
+              "target": {
+                "type": "string"
+              },
+              "value": {
+                "type": "number"
+              }
+            },
+            "required": [
+              "source",
+              "target",
+              "value"
+            ]
+          }
+        }
+      },
+      {
+        "name": "valueFormatter",
+        "type": "ChartValueFormatter",
+        "required": false,
+        "origin": "own",
+        "default": "plain"
+      }
+    ]
+  },
+  "tokens": [
+    "ds-background-neutral",
+    "ds-background-neutral-pressed",
+    "ds-background-neutral-subtle-hovered",
+    "ds-background-selected",
+    "ds-border",
+    "ds-border-bold",
+    "ds-border-focused",
+    "ds-chart-1",
+    "ds-chart-2",
+    "ds-chart-3",
+    "ds-chart-4",
+    "ds-chart-5",
+    "ds-chart-neutral",
+    "ds-icon",
+    "ds-icon-brand",
+    "ds-icon-subtle",
+    "ds-radius-control-small",
+    "ds-radius-medium",
+    "ds-radius-small",
+    "ds-radius-xsmall",
+    "ds-shadow-overlay",
+    "ds-space-050",
+    "ds-space-075",
+    "ds-space-100",
+    "ds-space-150",
+    "ds-space-200",
+    "ds-space-300",
+    "ds-space-400",
+    "ds-surface-overlay",
+    "ds-surface-raised",
+    "ds-text",
+    "ds-text-danger",
+    "ds-text-subtle",
+    "ds-text-subtlest",
+    "ds-text-success"
+  ],
+  "strings": [
+    "chartCategory",
+    "chartFrom",
+    "chartNoData",
+    "chartOther",
+    "chartPeriod",
+    "chartShare",
+    "chartTo",
+    "chartTrend",
+    "chartValue",
+    "gaugeTarget",
+    "hideDataTable",
+    "selection",
+    "showDataTable",
+    "sparklineSummary"
+  ],
+  "quality": {
+    "tests": true,
+    "a11y": false,
+    "docs": false,
+    "visual": false,
+    "dark": false,
+    "rtl": false,
+    "mcp": true,
+    "generic": true
+  }
+}
